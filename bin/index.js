@@ -18,7 +18,8 @@ if (options.source && fs.lstatSync(options.source).isDirectory()) {
                 fs.readdir(course_path, function(err, files) {
                     files.forEach(file => {
                         if (file.indexOf("_master.json") > -1) {
-                            course_data = JSON.parse(fs.readFileSync(course_path + "/" + file))
+                            course_data = JSON.parse(fs.readFileSync(course_path + "/" + file));
+                            process_json(course_data);
                         }
                     });
                 });
@@ -28,4 +29,8 @@ if (options.source && fs.lstatSync(options.source).isDirectory()) {
 }
 else {
     console.log("Invalid source directory");
+}
+
+function process_json(course_data) {
+    // TODO: process the master JSON and generate markdown
 }
