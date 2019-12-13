@@ -2,7 +2,10 @@
   "name": "ocw-hugo-markdown-generator",
   "version": "1.0.0",
   "description": "A command line utility for taking master.json output from ocw-data-parser and producing markdown for use with hugo-course-publisher",
-  "main": "index.js",
+  "main": "bin/index.js",
+  "bin": {
+    "ocw-to-hugo": "./bin/index.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
