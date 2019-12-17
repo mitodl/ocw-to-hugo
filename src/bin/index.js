@@ -94,7 +94,7 @@ if (options.source && fs.lstatSync(options.source).isDirectory()) {
   console.log("Invalid source directory")
 }
 
-function processJson(courseData) {
+const processJson = courseData => {
   /*
     This function takes JSON data parsed from a master.json file and returns markdown data
     */
