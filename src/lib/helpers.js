@@ -35,33 +35,7 @@ const getCourseImageUrl = courseData => {
   return "images/course_image.jpg"
 }
 
-const writeMarkdownFiles = (courseId, markdownData, destination) => {
-  /*
-    For a given course identifier string and array of objects with properties 
-    name and data, write Hugo markdown files
-    */
-  if (destination && fs.lstatSync(destination).isDirectory()) {
-    fs.mkdirSync(
-      `${destination + courseId}/sections`,
-      {
-        recursive: true
-      },
-      err => {
-        if (err) throw err
-      }
-    )
-    markdownData.forEach(file => {
-      const filePath = `${destination + courseId}/${file["name"]}`
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath)
-      }
-      fs.writeFileSync(filePath, file["data"])
-    })
-  }
-}
-
 module.exports = {
   addTrailingSlash,
-  getCourseImageUrl,
-  writeMarkdownFiles
+  getCourseImageUrl
 }

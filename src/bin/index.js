@@ -3,15 +3,10 @@
 
 const fs = require("fs")
 const yargs = require("yargs")
-const cliProgress = require("cli-progress")
-const { addTrailingSlash, writeMarkdownFiles } = require("../lib/helpers")
-const { generateMarkdownFromJson } = require("../lib/markdown_generators")
+const { addTrailingSlash } = require("../lib/helpers")
+const { scanCourses } = require("../lib/file_operations")
 
-// Init progress bar and gather arguments
-const progressBar = new cliProgress.SingleBar(
-  {},
-  cliProgress.Presets.shades_classic
-)
+// Gather arguments
 const options = yargs
   .usage("Usage: -s <path>")
   .option("s", {
@@ -29,62 +24,10 @@ const options = yargs
 // Ensure that there is a trailing slash on the source and destination paths
 options.source = addTrailingSlash(options.source)
 options.destination = addTrailingSlash(options.destination)
-let totalDirectories = 0
-let directoriesScanned = 0
-let filesProcessed = 0
 
 // Make sure that the source argument has been passed and it is a directory
 if (options.source && fs.lstatSync(options.source).isDirectory()) {
-  fs.readdir(options.source, (err, directories) => {
-    // Count the total amount of directories and start the progress bar
-    directories.forEach(directory => {
-      const coursePath = options.source + directory
-      if (fs.lstatSync(coursePath).isDirectory()) {
-        totalDirectories++
-      }
-    })
-    console.log(
-      `Scanning ${totalDirectories} subdirectories under ${options.source}`
-    )
-    progressBar.start(totalDirectories, directoriesScanned)
-    // Iterate all subdirectories under source
-    directories.forEach(directory => {
-      const coursePath = options.source + directory
-      if (fs.lstatSync(coursePath).isDirectory()) {
-        // If the item is indeed a directory, read all files in it
-        fs.readdir(coursePath, (err, files) => {
-          files.forEach(file => {
-            // If the item is a master json file, parse it and process into hugo markdown
-            if (file.indexOf("_master.json") > -1) {
-              const courseData = JSON.parse(
-                fs.readFileSync(`${coursePath}/${file}`)
-              )
-              const markdownData = generateMarkdownFromJson(courseData)
-              writeMarkdownFiles(
-                courseData["short_url"],
-                markdownData,
-                options.destination
-              )
-              filesProcessed++
-            }
-          })
-          directoriesScanned++
-          progressBar.update(directoriesScanned)
-        })
-      }
-    })
-    // After the process is finished, deliver a report to the console
-    ;(function waitForScan() {
-      if (directoriesScanned === totalDirectories) {
-        progressBar.stop()
-        console.log(
-          `${directoriesScanned} directories scanned, ${filesProcessed} master JSON files processed`
-        )
-      } else {
-        setTimeout(waitForScan, 30)
-      }
-    })()
-  })
+  scanCourses(options.source, options.destination)
 } else {
   console.log("Invalid source directory")
 }
