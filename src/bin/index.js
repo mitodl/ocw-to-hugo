@@ -5,13 +5,7 @@ const fs = require("fs")
 const yargs = require("yargs")
 const cliProgress = require("cli-progress")
 const { addTrailingSlash, writeMarkdownFiles } = require("../lib/helpers")
-const {
-  generateCourseHomeFrontMatter,
-  generateCourseSectionFrontMatter,
-  generateCourseFeatures,
-  generateCourseCollections,
-  generateCourseSectionMarkdown
-} = require("../lib/markdown_generators")
+const { generateMarkdownFromJson } = require("../lib/markdown_generators")
 
 // Init progress bar and gather arguments
 const progressBar = new cliProgress.SingleBar(
@@ -65,12 +59,13 @@ if (options.source && fs.lstatSync(options.source).isDirectory()) {
               const courseData = JSON.parse(
                 fs.readFileSync(`${coursePath}/${file}`)
               )
-              const markdownData = processJson(courseData)
+              const markdownData = generateMarkdownFromJson(courseData)
               writeMarkdownFiles(
                 courseData["short_url"],
                 markdownData,
                 options.destination
               )
+              filesProcessed++
             }
           })
           directoriesScanned++
@@ -92,37 +87,4 @@ if (options.source && fs.lstatSync(options.source).isDirectory()) {
   })
 } else {
   console.log("Invalid source directory")
-}
-
-const processJson = courseData => {
-  /*
-    This function takes JSON data parsed from a master.json file and returns markdown data
-    */
-  const markdownData = []
-  let courseHomeMarkdown = generateCourseHomeFrontMatter(courseData)
-  courseHomeMarkdown += generateCourseFeatures(courseData)
-  courseHomeMarkdown += generateCourseCollections(courseData)
-  markdownData.push({
-    name: "_index.md",
-    data: courseHomeMarkdown
-  })
-  let menuIndex = 10
-  courseData["course_pages"].forEach(page => {
-    if (page["text"]) {
-      const pageName = page["short_url"]
-      let courseSectionMarkdown = generateCourseSectionFrontMatter(
-        page["title"],
-        menuIndex
-      )
-      courseSectionMarkdown += generateCourseSectionMarkdown(page, courseData)
-      const sectionData = {
-        name: `sections/${pageName}.md`,
-        data: courseSectionMarkdown
-      }
-      markdownData.push(sectionData)
-      menuIndex += 10
-    }
-  })
-  filesProcessed++
-  return markdownData
 }
