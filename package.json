@@ -2,12 +2,15 @@
   "name": "ocw-hugo-markdown-generator",
   "version": "1.0.0",
   "description": "A command line utility for taking master.json output from ocw-data-parser and producing markdown for use with hugo-course-publisher",
-  "main": "bin/index.js",
+  "main": "src/bin/index.js",
   "bin": {
-    "ocw-to-hugo": "./bin/index.js"
+    "ocw-to-hugo": "./src/bin/index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint src",
+    "fmt": "LOG_LEVEL= prettier-eslint --write --no-semi 'src/**/*.js'",
+    "fmt:check": "LOG_LEVEL= prettier-eslint --list-different --no-semi 'src/**/*.js'",
+    "test": "./scripts/js_test.sh"
   },
   "repository": {
     "type": "git",
@@ -23,5 +26,23 @@
     "turndown": "^5.0.3",
     "turndown-plugin-gfm": "^1.0.2",
     "yargs": "^15.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.4",
+    "@babel/preset-env": "^7.5.4",
+    "@babel/register": "^7.4.4",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^5.0.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-mitodl": "^0.0.7",
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-flow-vars": "^0.5.0",
+    "eslint-plugin-flowtype": "^4.4.1",
+    "eslint-plugin-import": "^2.18.1",
+    "eslint-plugin-mocha": "^6.2.1",
+    "eslint-plugin-react": "^7.16.0",
+    "mocha": "^6.2.2",
+    "prettier-eslint": "^9.0.1",
+    "prettier-eslint-cli": "^5.0.0"
   }
 }

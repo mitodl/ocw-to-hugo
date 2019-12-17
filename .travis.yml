@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - 12.13.0
+install:
+  - yarn install
+script:
+  - npm test
+  - npm run lint
+  - npm run fmt:check

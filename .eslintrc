@@ -1,0 +1,6 @@
+{
+  "extends": "eslint-config-mitodl",
+  rules: {
+      "no-unused-vars": 0
+  }
+}
