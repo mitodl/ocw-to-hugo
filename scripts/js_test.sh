@@ -15,7 +15,7 @@ else
 fi
 
 export FILE_PATTERN=${1:-'"src/**/*_test.js"'}
-CMD_ARGS="--require ./src/babelhook.js $FILE_PATTERN"
+CMD_ARGS="$FILE_PATTERN"
 
 # Second argument (if specified) should be a string that will match specific test case descriptions
 #
