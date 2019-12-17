@@ -2,15 +2,15 @@
   "name": "ocw-hugo-markdown-generator",
   "version": "1.0.0",
   "description": "A command line utility for taking master.json output from ocw-data-parser and producing markdown for use with hugo-course-publisher",
-  "main": "bin/index.js",
+  "main": "src/bin/index.js",
   "bin": {
-    "ocw-to-hugo": "./bin/index.js"
+    "ocw-to-hugo": "./src/bin/index.js"
   },
   "scripts": {
     "lint": "eslint src",
     "fmt": "LOG_LEVEL= prettier-eslint --write --no-semi 'src/**/*.js'",
     "fmt:check": "LOG_LEVEL= prettier-eslint --list-different --no-semi 'src/**/*.js'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./scripts/js_test.sh"
   },
   "repository": {
     "type": "git",
