@@ -32,7 +32,7 @@ const options = yargs
     type:         "string",
     demandOption: true
   }).argv
-// Ensure that there is a trailing slash on the soure and destination paths
+// Ensure that there is a trailing slash on the source and destination paths
 options.source = addTrailingSlash(options.source)
 options.destination = addTrailingSlash(options.destination)
 let totalDirectories = 0
