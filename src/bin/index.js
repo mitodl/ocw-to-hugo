@@ -73,7 +73,7 @@ if (options.source && fs.lstatSync(options.source).isDirectory()) {
       }
     })
     // After the process is finished, deliver a report to the console
-    ;(function waitForScan() {
+    const waitForScan = () => {
       if (directoriesScanned === totalDirectories) {
         progressBar.stop()
         console.log(
@@ -82,7 +82,7 @@ if (options.source && fs.lstatSync(options.source).isDirectory()) {
       } else {
         setTimeout(waitForScan, 30)
       }
-    })()
+    }
   })
 } else {
   console.log("Invalid source directory")
