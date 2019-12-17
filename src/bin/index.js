@@ -4,8 +4,14 @@
 const fs = require("fs")
 const yargs = require("yargs")
 const cliProgress = require("cli-progress")
-const helpers = require("../lib/helpers")
-const markdownGenerators = require("../lib/markdown_generators")
+const { addTrailingSlash, writeMarkdownFiles } = require("../lib/helpers")
+const {
+  generateCourseHomeFrontMatter,
+  generateCourseSectionFrontMatter,
+  generateCourseFeatures,
+  generateCourseCollections,
+  generateCourseSectionMarkdown
+} = require("../lib/markdown_generators")
 
 // Init progress bar and gather arguments
 const progressBar = new cliProgress.SingleBar(
@@ -27,8 +33,8 @@ const options = yargs
     demandOption: true
   }).argv
 // Ensure that there is a trailing slash on the soure and destination paths
-options.source = helpers.addTrailingSlash(options.source)
-options.destination = helpers.addTrailingSlash(options.destination)
+options.source = addTrailingSlash(options.source)
+options.destination = addTrailingSlash(options.destination)
 let totalDirectories = 0
 let directoriesScanned = 0
 let filesProcessed = 0
@@ -60,7 +66,7 @@ if (options.source && fs.lstatSync(options.source).isDirectory()) {
                 fs.readFileSync(`${coursePath}/${file}`)
               )
               const markdownData = processJson(courseData)
-              helpers.writeMarkdownFiles(
+              writeMarkdownFiles(
                 courseData["short_url"],
                 markdownData,
                 options.destination
@@ -93,11 +99,9 @@ function processJson(courseData) {
     This function takes JSON data parsed from a master.json file and returns markdown data
     */
   const markdownData = []
-  let courseHomeMarkdown = markdownGenerators.generateCourseHomeFrontMatter(
-    courseData
-  )
-  courseHomeMarkdown += markdownGenerators.generateCourseFeatures(courseData)
-  courseHomeMarkdown += markdownGenerators.generateCourseCollections(courseData)
+  let courseHomeMarkdown = generateCourseHomeFrontMatter(courseData)
+  courseHomeMarkdown += generateCourseFeatures(courseData)
+  courseHomeMarkdown += generateCourseCollections(courseData)
   markdownData.push({
     name: "_index.md",
     data: courseHomeMarkdown
@@ -106,14 +110,11 @@ function processJson(courseData) {
   courseData["course_pages"].forEach(page => {
     if (page["text"]) {
       const pageName = page["short_url"]
-      let courseSectionMarkdown = markdownGenerators.generateCourseSectionFrontMatter(
+      let courseSectionMarkdown = generateCourseSectionFrontMatter(
         page["title"],
         menuIndex
       )
-      courseSectionMarkdown += markdownGenerators.generateCourseSectionMarkdown(
-        page,
-        courseData
-      )
+      courseSectionMarkdown += generateCourseSectionMarkdown(page, courseData)
       const sectionData = {
         name: `sections/${pageName}.md`,
         data: courseSectionMarkdown
