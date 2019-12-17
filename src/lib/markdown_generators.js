@@ -14,23 +14,14 @@ class MarkdownGenerators {
     /*
         Generate the front matter metadata for the course home page given course_data JSON
         */
-    const frontMatter = {}
-    frontMatter["title"] = "Course Home"
-    frontMatter["course_title"] = courseData["title"]
-    frontMatter["course_image_url"] = helpers.getCourseImageUrl(courseData)
-    frontMatter["course_description"] = courseData["description"]
-    frontMatter["course_info"] = {}
-    frontMatter["course_info"]["instructors"] = []
-    courseData["instructors"].forEach(instructor => {
-      frontMatter["course_info"]["instructors"].push(
-        `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`
-      )
-    })
-    frontMatter["course_info"]["department"] = titleCase.titleCase(
-      courseData["url"].split("/")[2].replace(/-/g, " ")
-    )
-    frontMatter["course_info"]["topics"] = []
-    courseData["course_collections"].forEach(feature => {
+
+    let courseNumber = courseData["sort_as"]
+    if (courseData["extra_course_number"]) {
+      if (courseData["extra_course_number"]["sort_as_col"]) {
+        courseNumber += ` / ${courseData["extra_course_number"]["sort_as_col"]}`
+      }
+    }
+    const makeTopic = feature => {
       let topic = ""
       if (feature["ocw_feature"]) {
         topic += feature["ocw_feature"]
@@ -38,22 +29,32 @@ class MarkdownGenerators {
       if (feature["ocw_subfeature"]) {
         topic += ` - ${feature["ocw_subfeature"]}`
       }
-      frontMatter["course_info"]["topics"].push(topic)
-    })
-    let courseNumber = courseData["sort_as"]
-    if (courseData["extra_course_number"]) {
-      if (courseData["extra_course_number"]["sort_as_col"]) {
-        courseNumber += ` / ${courseData["extra_course_number"]["sort_as_col"]}`
+      return topic
+    }
+    const frontMatter = {
+      title:              "Course Home",
+      course_title:       courseData["title"],
+      course_image_url:   helpers.getCourseImageUrl(courseData),
+      course_description: courseData["description"],
+      course_info:        {
+        instructors: courseData["instructors"].map(
+          instructor =>
+            `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`
+        ),
+        department: titleCase.titleCase(
+          courseData["url"].split("/")[2].replace(/-/g, " ")
+        ),
+        topics:        courseData["course_collections"].map(makeTopic),
+        course_number: courseNumber,
+        term:          `${courseData["from_semester"]} ${courseData["from_year"]}`,
+        level:         courseData["course_level"],
+        menu:          {
+          main: {
+            weight: -10
+          }
+        }
       }
     }
-    frontMatter["course_info"]["course_number"] = courseNumber
-    frontMatter["course_info"][
-      "term"
-    ] = `${courseData["from_semester"]} ${courseData["from_year"]}`
-    frontMatter["course_info"]["level"] = courseData["course_level"]
-    frontMatter["menu"] = {}
-    frontMatter["menu"]["main"] = {}
-    frontMatter["menu"]["main"]["weight"] = -10
     return `---\n${yaml.safeDump(frontMatter)}---\n`
   }
 
@@ -61,12 +62,14 @@ class MarkdownGenerators {
     /*
         Generate the front matter metadata for a course section given a title and menu index
         */
-    const frontMatter = {}
-    frontMatter["title"] = title
-    frontMatter["menu"] = {}
-    frontMatter["menu"]["main"] = {}
-    frontMatter["menu"]["main"]["weight"] = menuIndex
-    return `---\n${yaml.safeDump(frontMatter)}---\n`
+    return `---\n${yaml.safeDump({
+      title: title,
+      menu:  {
+        main: {
+          weight: menuIndex
+        }
+      }
+    })}---\n`
   }
 
   static generateCourseFeatures(courseData) {
