@@ -51,15 +51,17 @@ yarn-error.log*
 # Unit test / coverage reports
 htmlcov/
 .tox/
+coverage/
 .coverage
 .coverage.*
 .cache
 nosetests.xml
+.nyc_output/
 coverage.xml
 *.cover
 .hypothesis/
 .pytest_cache/
-ocw_data_parser/test_json/destination_dir/
+test_output/
 
 # Environments
 .env

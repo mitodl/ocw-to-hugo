@@ -12,6 +12,16 @@
     "fmt:check": "LOG_LEVEL= prettier-eslint --list-different --no-semi 'src/**/*.js'",
     "test": "./scripts/js_test.sh"
   },
+  "nyc": {
+    "all": true,
+    "include": [
+      "src/**/*.js"
+    ],
+    "exclude": [
+      "src/bin/index.js",
+      "src/**/*_test.js"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/mitodl/ocw-to-hugo.git"
@@ -36,6 +46,7 @@
     "@babel/preset-env": "^7.5.4",
     "@babel/register": "^7.4.4",
     "babel-eslint": "^10.0.3",
+    "codecov": "^3.6.1",
     "eslint": "^5.0.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-mitodl": "^0.0.7",
@@ -46,6 +57,7 @@
     "eslint-plugin-mocha": "^6.2.1",
     "eslint-plugin-react": "^7.16.0",
     "mocha": "^6.2.2",
+    "nyc": "^14.1.1",
     "prettier-eslint": "^9.0.1",
     "prettier-eslint-cli": "^5.0.0"
   }

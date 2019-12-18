@@ -8,6 +8,7 @@ const progressBar = new cliProgress.SingleBar(
   {},
   cliProgress.Presets.shades_classic
 )
+const { addTrailingSlash } = require("../lib/helpers")
 let totalDirectories = 0
 let directoriesScanned = 0
 let filesProcessed = 0
@@ -16,6 +17,24 @@ const scanCourses = (source, destination) => {
   /*
     This function scans the source directory for course folders
   */
+  // Make sure that the source argument has been passed and it is a directory
+  let error = "Invalid "
+  if (!source || !fs.lstatSync(source).isDirectory()) {
+    error += "source directory "
+  }
+  if (!destination || !fs.lstatSync(destination).isDirectory()) {
+    if (error === "Invalid ") {
+      error += "destination directory"
+    } else {
+      error += "and destination directory"
+    }
+  }
+  if (error !== "Invalid ") {
+    throw new Error(error.trim())
+  }
+  // Ensure that there is a trailing slash on the source and destination paths
+  source = addTrailingSlash(source)
+  destination = addTrailingSlash(destination)
   fs.readdir(source, (err, directories) => {
     // Count the total amount of directories and start the progress bar
     directories.forEach(directory => {

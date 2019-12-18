@@ -3,7 +3,6 @@
 
 const fs = require("fs")
 const yargs = require("yargs")
-const { addTrailingSlash } = require("../lib/helpers")
 const { scanCourses } = require("../lib/file_operations")
 
 // Gather arguments
@@ -21,13 +20,4 @@ const options = yargs
     type:         "string",
     demandOption: true
   }).argv
-// Ensure that there is a trailing slash on the source and destination paths
-options.source = addTrailingSlash(options.source)
-options.destination = addTrailingSlash(options.destination)
-
-// Make sure that the source argument has been passed and it is a directory
-if (options.source && fs.lstatSync(options.source).isDirectory()) {
-  scanCourses(options.source, options.destination)
-} else {
-  console.log("Invalid source directory")
-}
+scanCourses(options.source, options.destination)
