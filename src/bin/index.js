@@ -8,7 +8,7 @@ const { scanCourses } = require("../lib/file_operations")
 
 // Gather arguments
 const options = yargs
-  .usage("Usage: -s <path>")
+  .usage("Usage: -s <path> -d <path>")
   .option("s", {
     alias:        "source",
     describe:     "Source directory of courses",
