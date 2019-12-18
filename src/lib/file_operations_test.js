@@ -12,7 +12,10 @@ describe("scanCourses no arguments", () => {
       if (e instanceof AssertionError) {
         throw e
       }
-      assert.equal(e.message, "Invalid source directory and destination directory")
+      assert.equal(
+        e.message,
+        "Invalid source directory and destination directory"
+      )
     }
   })
 })
@@ -20,7 +23,7 @@ describe("scanCourses no arguments", () => {
 describe("scanCourses no source", () => {
   it("test that calling scanCourses with no source throws an error", () => {
     try {
-      scanCourses(null, "./test_output")
+      scanCourses(null, "./")
       assert.fail("Expected exception not thrown")
     } catch (e) {
       if (e instanceof AssertionError) {

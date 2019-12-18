@@ -19,10 +19,18 @@ const scanCourses = (source, destination) => {
   */
   // Make sure that the source argument has been passed and it is a directory
   let error = "Invalid "
-  if (!source || !fs.lstatSync(source).isDirectory()) {
+  if (
+    !source ||
+    !fs.existsSync(source) ||
+    !fs.lstatSync(source).isDirectory()
+  ) {
     error += "source directory "
   }
-  if (!destination || !fs.lstatSync(destination).isDirectory()) {
+  if (
+    !destination ||
+    !fs.existsSync(destination) ||
+    !fs.lstatSync(destination).isDirectory()
+  ) {
     if (error === "Invalid ") {
       error += "destination directory"
     } else {
