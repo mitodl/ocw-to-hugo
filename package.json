@@ -1,5 +1,5 @@
 {
-  "name": "ocw-hugo-markdown-generator",
+  "name": "ocw-to-hugo",
   "version": "1.0.0",
   "description": "A command line utility for taking master.json output from ocw-data-parser and producing markdown for use with hugo-course-publisher",
   "main": "src/bin/index.js",
@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/mitodl/ocw-hugo-markdown-generator.git"
+    "url": "git+ssh://git@github.com/mitodl/ocw-to-hugo.git"
   },
   "author": "Carey Gumaer",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mitodl/ocw-hugo-markdown-generator/issues"
+    "url": "https://github.com/mitodl/ocw-to-hugo/issues"
   },
-  "homepage": "https://github.com/mitodl/ocw-hugo-markdown-generator#readme",
+  "homepage": "https://github.com/mitodl/ocw-to-hugo#readme",
   "dependencies": {
     "cli-progress": "^3.4.0",
     "js-yaml": "^3.13.1",
