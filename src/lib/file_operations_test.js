@@ -47,3 +47,18 @@ describe("scanCourses no destination", () => {
     }
   })
 })
+
+describe("scanCourses with test data", () => {
+  it("test that calling scanCourses on proper test data does not throw an error", () => {
+    try {
+      const output = "./test_output/"
+      if (!fs.existsSync(output)) {
+        fs.mkdirSync(output)
+      }
+      scanCourses("./test_data/", output)
+      assert.equal(true, true)
+    } catch (e) {
+      assert.fail(e.message)
+    }
+  })
+})
