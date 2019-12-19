@@ -75,18 +75,16 @@ const writeMarkdownFiles = (courseId, markdownData, destination) => {
     For a given course identifier string and array of objects with properties
     name and data, write Hugo markdown files
     */
-  if (destination && fs.lstatSync(destination).isDirectory()) {
-    fs.mkdirSync(path.join(destination, courseId, "sections"), {
-      recursive: true
-    })
-    markdownData.forEach(file => {
-      const filePath = path.join(destination, courseId, file["name"])
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath)
-      }
-      fs.writeFileSync(filePath, file["data"])
-    })
-  }
+  fs.mkdirSync(path.join(destination, courseId, "sections"), {
+    recursive: true
+  })
+  markdownData.forEach(file => {
+    const filePath = path.join(destination, courseId, file["name"])
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath)
+    }
+    fs.writeFileSync(filePath, file["data"])
+  })
 }
 
 module.exports = {
