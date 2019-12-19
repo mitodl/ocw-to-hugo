@@ -9,7 +9,6 @@ const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
   cliProgress.Presets.shades_classic
 )
-let totalDirectories = 0
 let directoriesScanned = 0
 
 const directoryExists = directory => {
@@ -35,7 +34,7 @@ const scanCourses = (source, destination) => {
   }
   // Iterate all subdirectories under source
   fs.readdir(source, (err, contents) => {
-    totalDirectories = contents.filter(file =>
+    const totalDirectories = contents.filter(file =>
       directoryExists(path.join(source, file))
     ).length
     console.log(`Scanning ${totalDirectories} subdirectories under ${source}`)
