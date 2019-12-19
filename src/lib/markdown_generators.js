@@ -110,9 +110,10 @@ const generateCourseFeatures = courseData => {
   let courseFeaturesMarkdown = markdown.headers.hX(5, "Course Features")
   const courseFeatures = []
   courseData["course_features"].forEach(courseFeature => {
-    const url = courseFeature["ocw_feature_url"]
+    const urlParts = courseFeature["ocw_feature_url"]
       .replace("/index.htm", "/")
-      .split("/")[-1]
+      .split("/")
+    const url = urlParts[urlParts.length - 1]
     courseFeatures.push(markdown.misc.link(courseFeature["ocw_feature"], url))
   })
   courseFeaturesMarkdown += `\n${markdown.lists.ul(courseFeatures)}`
