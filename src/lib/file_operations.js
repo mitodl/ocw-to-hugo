@@ -55,7 +55,7 @@ const scanCourse = (coursePath, destination) => {
   fs.readdir(coursePath, (err, contents) => {
     contents.forEach(file => {
       // If the item is a master json file, parse it and process into hugo markdown
-      if (file.indexOf("_master.json") > -1) {
+      if (file.endsWith("_master.json")) {
         const courseData = JSON.parse(
           fs.readFileSync(path.join(coursePath, file))
         )
