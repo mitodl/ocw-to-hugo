@@ -1,15 +1,5 @@
 #!/usr/bin/env node
 
-const addTrailingSlash = path => {
-  /*
-    Adds a trailing slash to a path if it doesn't have one
-    */
-  const lastChar = path.substr(path.length - 1)
-  if (lastChar !== "/") {
-    return `${path}/`
-  } else return path
-}
-
 const getCourseImageUrl = courseData => {
   /*
     Constructs the course image filename using parts of the course short_url
@@ -35,6 +25,5 @@ const getCourseImageUrl = courseData => {
 }
 
 module.exports = {
-  addTrailingSlash,
   getCourseImageUrl
 }
