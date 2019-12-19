@@ -111,7 +111,7 @@ const generateCourseFeatures = courseData => {
   const courseFeaturesHeader = markdown.headers.hX(5, "Course Features")
   const courseFeatures = courseData["course_features"].map(courseFeature => {
     const urlParts = courseFeature["ocw_feature_url"]
-      .replace("/index.htm", "/")
+      .replace(/\/index.htm?l/, "/")
       .split("/")
     const url = urlParts[urlParts.length - 1]
     return markdown.misc.link(courseFeature["ocw_feature"], url)
