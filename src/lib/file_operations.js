@@ -6,12 +6,11 @@ const path = require("path")
 const { generateMarkdownFromJson } = require("./markdown_generators")
 const cliProgress = require("cli-progress")
 const progressBar = new cliProgress.SingleBar(
-  {},
+  {stopOnComplete: true},
   cliProgress.Presets.shades_classic
 )
 let totalDirectories = 0
 let directoriesScanned = 0
-let filesProcessed = 0
 
 const directoryExists = directory => {
   if (
@@ -34,48 +33,44 @@ const scanCourses = (source, destination) => {
   if (!directoryExists(destination)) {
     throw new Error("Invalid destination directory")
   }
-  // Read the contents of the directory and continue
-  const contents = fs.readdirSync(source)
-  totalDirectories = contents.length
-  console.log(`Scanning ${totalDirectories} subdirectories under ${source}`)
-  progressBar.start(totalDirectories, directoriesScanned)
   // Iterate all subdirectories under source
-  contents.forEach(file => {
-    const coursePath = path.join(source, file)
-    if (fs.lstatSync(coursePath).isDirectory()) {
-      // If the item is indeed a directory, read all files in it
-      scanCourse(coursePath, destination)
-    }
+  fs.readdir(source, (err, contents) => {
+    totalDirectories = contents.filter(file => directoryExists(path.join(source, file))).length
+    console.log(`Scanning ${totalDirectories} subdirectories under ${source}`)
+    progressBar.start(totalDirectories, directoriesScanned)
+    contents.forEach(file => {
+      const coursePath = path.join(source, file)
+      if (fs.lstatSync(coursePath).isDirectory()) {
+        // If the item is indeed a directory, read all files in it
+        scanCourse(coursePath, destination)
+      }
+    })
   })
-  progressBar.stop()
-  console.log(
-    `${directoriesScanned} directories scanned, ${filesProcessed} master JSON files processed`
-  )
 }
 
 const scanCourse = (coursePath, destination) => {
   /*
     This function scans a course directory for a master json file and processes it
   */
-  const contents = fs.readdirSync(coursePath)
-  contents.forEach(file => {
-    // If the item is a master json file, parse it and process into hugo markdown
-    if (file.indexOf("_master.json") > -1) {
-      const courseData = JSON.parse(
-        fs.readFileSync(path.join(coursePath, file))
-      )
-      const markdownData = generateMarkdownFromJson(courseData)
-      writeMarkdownFiles(courseData["short_url"], markdownData, destination)
-      filesProcessed++
-    }
+  fs.readdir(coursePath, (err, contents) => {
+    contents.forEach(file => {
+      // If the item is a master json file, parse it and process into hugo markdown
+      if (file.indexOf("_master.json") > -1) {
+        const courseData = JSON.parse(
+          fs.readFileSync(path.join(coursePath, file))
+        )
+        const markdownData = generateMarkdownFromJson(courseData)
+        writeMarkdownFiles(courseData["short_url"], markdownData, destination)
+      }
+    })
+    directoriesScanned++
+    progressBar.update(directoriesScanned)
   })
-  directoriesScanned++
-  progressBar.update(directoriesScanned)
 }
 
 const writeMarkdownFiles = (courseId, markdownData, destination) => {
   /*
-    For a given course identifier string and array of objects with properties 
+    For a given course identifier string and array of objects with properties
     name and data, write Hugo markdown files
     */
   if (destination && fs.lstatSync(destination).isDirectory()) {
