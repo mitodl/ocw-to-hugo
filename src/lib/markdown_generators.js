@@ -107,45 +107,43 @@ const generateCourseFeatures = courseData => {
   /*
       Generate markdown for the "Course Features" section of the home page
       */
-  let courseFeaturesMarkdown = markdown.headers.hX(5, "Course Features")
-  const courseFeatures = []
-  courseData["course_features"].forEach(courseFeature => {
+  const courseFeaturesHeader = markdown.headers.hX(5, "Course Features")
+  const courseFeatures = courseData["course_features"].map(courseFeature => {
     const urlParts = courseFeature["ocw_feature_url"]
       .replace("/index.htm", "/")
       .split("/")
     const url = urlParts[urlParts.length - 1]
-    courseFeatures.push(markdown.misc.link(courseFeature["ocw_feature"], url))
+    return markdown.misc.link(courseFeature["ocw_feature"], url)
   })
-  courseFeaturesMarkdown += `\n${markdown.lists.ul(courseFeatures)}`
-  return courseFeaturesMarkdown
+  return `${courseFeaturesHeader}\n${markdown.lists.ul(courseFeatures)}`
 }
 
 const generateCourseCollections = courseData => {
   /*
       Generate markdown for the "Course Collections" section of the home page
       */
-  let courseCollectionsMarkdown = markdown.headers.hX(5, "Course Collections")
-  courseCollectionsMarkdown +=
-    "\nSee related courses in the following collections:\n"
-  courseCollectionsMarkdown += `\n${markdown.emphasis.i(
+  const courseCollectionsHeader = markdown.headers.hX(5, "Course Collections")
+  const courseCollectionsSubHeader = `\nSee related courses in the following collections:\n\n${markdown.emphasis.i(
     "Find Courses by Topic"
   )}\n\n`
-  const courseCollections = []
-  courseData["course_collections"].forEach(courseCollection => {
-    const feature = courseCollection["ocw_feature"]
-    const subfeature = courseCollection["ocw_subfeature"]
-    const specialty = courseCollection["ocw_specialty"]
-    let collection = feature
-    if (subfeature) {
-      collection += ` > ${subfeature}`
+  const courseCollections = courseData["course_collections"].map(
+    courseCollection => {
+      const feature = courseCollection["ocw_feature"]
+      const subfeature = courseCollection["ocw_subfeature"]
+      const specialty = courseCollection["ocw_specialty"]
+      let collection = feature
+      if (subfeature) {
+        collection = `${collection} > ${subfeature}`
+      }
+      if (specialty) {
+        collection = `${collection} > ${specialty}`
+      }
+      return markdown.misc.link(collection, "#")
     }
-    if (specialty) {
-      collection += ` > ${specialty}`
-    }
-    courseCollections.push(markdown.misc.link(collection, "#"))
-  })
-  courseCollectionsMarkdown += markdown.lists.ul(courseCollections)
-  return courseCollectionsMarkdown
+  )
+  return `${courseCollectionsHeader}${courseCollectionsSubHeader}${markdown.lists.ul(
+    courseCollections
+  )}`
 }
 
 const generateCourseSectionMarkdown = (page, courseData) => {
