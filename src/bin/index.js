@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
 
-const fs = require("fs")
 const yargs = require("yargs")
 const { scanCourses } = require("../lib/file_operations")
 
@@ -21,9 +20,4 @@ const options = yargs
     demandOption: true
   }).argv
 
-// Make sure that the source argument has been passed and it is a directory
-if (options.source && fs.lstatSync(options.source).isDirectory()) {
-  scanCourses(options.source, options.destination)
-} else {
-  console.log("Invalid source directory")
-}
+scanCourses(options.source, options.destination)
