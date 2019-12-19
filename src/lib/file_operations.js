@@ -6,7 +6,7 @@ const path = require("path")
 const { generateMarkdownFromJson } = require("./markdown_generators")
 const cliProgress = require("cli-progress")
 const progressBar = new cliProgress.SingleBar(
-  {stopOnComplete: true},
+  { stopOnComplete: true },
   cliProgress.Presets.shades_classic
 )
 let totalDirectories = 0
@@ -35,7 +35,9 @@ const scanCourses = (source, destination) => {
   }
   // Iterate all subdirectories under source
   fs.readdir(source, (err, contents) => {
-    totalDirectories = contents.filter(file => directoryExists(path.join(source, file))).length
+    totalDirectories = contents.filter(file =>
+      directoryExists(path.join(source, file))
+    ).length
     console.log(`Scanning ${totalDirectories} subdirectories under ${source}`)
     progressBar.start(totalDirectories, directoriesScanned)
     contents.forEach(file => {
@@ -74,15 +76,9 @@ const writeMarkdownFiles = (courseId, markdownData, destination) => {
     name and data, write Hugo markdown files
     */
   if (destination && fs.lstatSync(destination).isDirectory()) {
-    fs.mkdirSync(
-      path.join(destination, courseId, "sections"),
-      {
-        recursive: true
-      },
-      err => {
-        if (err) throw err
-      }
-    )
+    fs.mkdirSync(path.join(destination, courseId, "sections"), {
+      recursive: true
+    })
     markdownData.forEach(file => {
       const filePath = path.join(destination, courseId, file["name"])
       if (fs.existsSync(filePath)) {
