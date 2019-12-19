@@ -1,4 +1,4 @@
-import assert from "assert"
+const assert = require("assert")
 
 describe("index", () => {
   it("is a useless test", () => {
