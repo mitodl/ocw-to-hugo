@@ -12,13 +12,7 @@ const progressBar = new cliProgress.SingleBar(
 let directoriesScanned = 0
 
 const directoryExists = directory => {
-  if (
-    directory &&
-    fs.existsSync(directory) &&
-    fs.lstatSync(directory).isDirectory()
-  ) {
-    return true
-  } else return false
+  directory && fs.existsSync(directory) && fs.lstatSync(directory).isDirectory()
 }
 
 const scanCourses = (source, destination) => {
