@@ -153,9 +153,8 @@ const generateCourseSectionMarkdown = (page, courseData) => {
   let htmlStr = page["text"]
   courseData["course_pages"].forEach(coursePage => {
     const placeholder = `./resolveuid/${coursePage["uid"]}`
-    const pageName = coursePage["short_url"].replace(".html", "")
-    if (htmlStr.indexOf(placeholder) > -1) {
-      htmlStr = htmlStr.replace(placeholder, `/sections/${pageName}`)
+    if (htmlStr.includes(placeholder)) {
+      htmlStr = htmlStr.replace(placeholder, `/sections/${coursePage["short_url"]}`)
     }
   })
   courseData["course_files"].forEach(media => {
