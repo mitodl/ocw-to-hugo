@@ -9,6 +9,17 @@ const turndownService = new TurndownService()
 turndownService.use(tables)
 const { getCourseImageUrl } = require("./helpers")
 
+const makeTopic = feature => {
+  let topic = ""
+  if (feature["ocw_feature"]) {
+    topic += feature["ocw_feature"]
+  }
+  if (feature["ocw_subfeature"]) {
+    topic += ` - ${feature["ocw_subfeature"]}`
+  }
+  return topic
+}
+
 const generateMarkdownFromJson = courseData => {
   /*
     This function takes JSON data parsed from a master.json file and returns markdown data
@@ -51,16 +62,6 @@ const generateCourseHomeFrontMatter = courseData => {
     if (courseData["extra_course_number"]["sort_as_col"]) {
       courseNumber += ` / ${courseData["extra_course_number"]["sort_as_col"]}`
     }
-  }
-  const makeTopic = feature => {
-    let topic = ""
-    if (feature["ocw_feature"]) {
-      topic += feature["ocw_feature"]
-    }
-    if (feature["ocw_subfeature"]) {
-      topic += ` - ${feature["ocw_subfeature"]}`
-    }
-    return topic
   }
   const frontMatter = {
     title:              "Course Home",
