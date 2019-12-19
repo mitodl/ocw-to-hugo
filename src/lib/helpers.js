@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-const fs = require("fs")
-
 const addTrailingSlash = path => {
   /*
     Adds a trailing slash to a path if it doesn't have one
