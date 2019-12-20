@@ -33,22 +33,23 @@ const generateMarkdownFromJson = courseData => {
     data: courseHomeMarkdown
   })
   let menuIndex = 10
-  courseData["course_pages"].forEach(page => {
-    if (page["text"]) {
-      const pageName = page["short_url"]
-      let courseSectionMarkdown = generateCourseSectionFrontMatter(
-        page["title"],
-        menuIndex
-      )
-      courseSectionMarkdown += generateCourseSectionMarkdown(page, courseData)
-      const sectionData = {
-        name: `sections/${pageName}.md`,
-        data: courseSectionMarkdown
+  markdownData.concat(
+    courseData["course_pages"].filter(page => {
+      if (page["text"]) {
+        const pageName = page["short_url"]
+        let courseSectionMarkdown = generateCourseSectionFrontMatter(
+          page["title"],
+          menuIndex
+        )
+        courseSectionMarkdown += generateCourseSectionMarkdown(page, courseData)
+        menuIndex += 10
+        return {
+          name: `sections/${pageName}.md`,
+          data: courseSectionMarkdown
+        }
       }
-      markdownData.push(sectionData)
-      menuIndex += 10
-    }
-  })
+    })
+  )
   return markdownData
 }
 
