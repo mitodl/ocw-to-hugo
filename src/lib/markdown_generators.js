@@ -22,19 +22,18 @@ const generateMarkdownFromJson = courseData => {
   /*
     This function takes JSON data parsed from a master.json file and returns markdown data
     */
-  const markdownData = []
   let courseHomeMarkdown = generateCourseHomeFrontMatter(courseData)
   courseHomeMarkdown += generateCourseFeatures(courseData)
   courseHomeMarkdown += generateCourseCollections(courseData)
-  markdownData.push({
-    name: "_index.md",
-    data: courseHomeMarkdown
-  })
   const coursePagesWithText = courseData["course_pages"].filter(
     page => page["text"]
   )
-  markdownData.concat(
-    coursePagesWithText.map((page, menuIndex) => {
+  return [
+    {
+      name: "_index.md",
+      data: courseHomeMarkdown
+    },
+    ...coursePagesWithText.map((page, menuIndex) => {
       const pageName = page["short_url"]
       let courseSectionMarkdown = generateCourseSectionFrontMatter(
         page["title"],
@@ -46,8 +45,7 @@ const generateMarkdownFromJson = courseData => {
         data: courseSectionMarkdown
       }
     })
-  )
-  return markdownData
+  ]
 }
 
 const generateCourseHomeFrontMatter = courseData => {
