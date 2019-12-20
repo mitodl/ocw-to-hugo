@@ -31,6 +31,7 @@ const scanCourses = (source, destination) => {
     throw new Error("Invalid destination directory")
   }
   // Iterate all subdirectories under source
+  directoriesScanned = 0
   fs.readdir(source, (err, contents) => {
     const totalDirectories = contents.filter(file =>
       directoryExists(path.join(source, file))
