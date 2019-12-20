@@ -4,9 +4,7 @@ const yaml = require("js-yaml")
 const markdown = require("markdown-builder")
 const titleCase = require("title-case")
 const TurndownService = require("turndown")
-const tables = require("turndown-plugin-gfm").tables
 const turndownService = new TurndownService()
-turndownService.use(tables)
 const { getCourseImageUrl } = require("./helpers")
 
 const makeTopic = feature => {
