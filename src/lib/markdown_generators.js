@@ -32,21 +32,20 @@ const generateMarkdownFromJson = courseData => {
     name: "_index.md",
     data: courseHomeMarkdown
   })
-  let menuIndex = 10
+  const coursePagesWithText = courseData["course_pages"].filter(
+    page => page["text"]
+  )
   markdownData.concat(
-    courseData["course_pages"].filter(page => {
-      if (page["text"]) {
-        const pageName = page["short_url"]
-        let courseSectionMarkdown = generateCourseSectionFrontMatter(
-          page["title"],
-          menuIndex
-        )
-        courseSectionMarkdown += generateCourseSectionMarkdown(page, courseData)
-        menuIndex += 10
-        return {
-          name: `sections/${pageName}.md`,
-          data: courseSectionMarkdown
-        }
+    coursePagesWithText.map((page, menuIndex) => {
+      const pageName = page["short_url"]
+      let courseSectionMarkdown = generateCourseSectionFrontMatter(
+        page["title"],
+        (menuIndex + 1) * 10
+      )
+      courseSectionMarkdown += generateCourseSectionMarkdown(page, courseData)
+      return {
+        name: `sections/${pageName}.md`,
+        data: courseSectionMarkdown
       }
     })
   )
