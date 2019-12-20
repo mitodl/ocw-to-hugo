@@ -10,7 +10,7 @@ const getCourseImageUrl = courseData => {
   }${courseNameParts[courseNameParts.length - 2].charAt(0)}${courseNameParts[
     courseNameParts.length - 1
   ].slice(2)}.jpg`
-  const courseImageMedia = courseData["course_files"].filter(media => {
+  const courseImageMedia = courseData["course_files"].find(media => {
     if (media["parent_uid"] === courseData["uid"]) {
       const fileLocationParts = media["file_location"].split("/")
       const jsonFile = fileLocationParts[fileLocationParts.length - 1]
@@ -18,8 +18,8 @@ const getCourseImageUrl = courseData => {
       return jsonFile === imageFile
     }
   })
-  return courseImageMedia.length > 0
-    ? courseImageMedia[0]["file_location"]
+  return courseImageMedia
+    ? courseImageMedia["file_location"]
     : "images/course_image.jpg"
 }
 
