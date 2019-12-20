@@ -12,7 +12,7 @@ const progressBar = new cliProgress.SingleBar(
 let directoriesScanned = 0
 
 const directoryExists = directory => {
-  directory && fs.existsSync(directory) && fs.lstatSync(directory).isDirectory()
+  return directory && fs.existsSync(directory) && fs.lstatSync(directory).isDirectory()
 }
 
 const scanCourses = (source, destination) => {
@@ -20,6 +20,7 @@ const scanCourses = (source, destination) => {
     This function scans the source directory for course folders
   */
   // Make sure that the source and destination arguments have been passed and they are directories
+  console.log(directoryExists(source))
   if (!directoryExists(source)) {
     throw new Error("Invalid source directory")
   }
