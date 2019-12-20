@@ -20,7 +20,6 @@ const scanCourses = (source, destination) => {
     This function scans the source directory for course folders
   */
   // Make sure that the source and destination arguments have been passed and they are directories
-  console.log(directoryExists(source))
   if (!directoryExists(source)) {
     throw new Error("Invalid source directory")
   }
