@@ -161,12 +161,6 @@ const generateCourseSectionMarkdown = (page, courseData) => {
       )
     }
   })
-  courseData["course_files"].forEach(media => {
-    const placeholder = `./resolveuid/${media["uid"]}`
-    if (htmlStr.indexOf(placeholder) > -1) {
-      // TODO: Add option to change links to media to be at root of site for const copy
-    }
-  })
   try {
     return turndownService.turndown(htmlStr)
   } catch (err) {
