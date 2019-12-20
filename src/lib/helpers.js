@@ -10,18 +10,17 @@ const getCourseImageUrl = courseData => {
   }${courseNameParts[courseNameParts.length - 2].charAt(0)}${courseNameParts[
     courseNameParts.length - 1
   ].slice(2)}.jpg`
-  let courseImageUrl = "images/course_image.jpg"
-  courseData["course_files"].forEach(media => {
+  const courseImageMedia = courseData["course_files"].filter(media => {
     if (media["parent_uid"] === courseData["uid"]) {
       const fileLocationParts = media["file_location"].split("/")
       const jsonFile = fileLocationParts[fileLocationParts.length - 1]
       const imageFile = `${media["uid"]}_${imageName}`
-      if (jsonFile === imageFile) {
-        courseImageUrl = media["file_location"]
-      }
+      return jsonFile === imageFile
     }
   })
-  return courseImageUrl
+  return courseImageMedia.length > 0
+    ? courseImageMedia[0]["file_location"]
+    : "images/course_image.jpg"
 }
 
 module.exports = {
