@@ -5,6 +5,30 @@ const markdown = require("markdown-builder")
 const titleCase = require("title-case")
 const TurndownService = require("turndown")
 const turndownService = new TurndownService()
+turndownService.addRule("table", {
+  filter:      ["table"],
+  replacement: content => {
+    return `{{< rawhtml >}}<table>${content}</table>{{< /rawhtml >}}`
+  }
+})
+turndownService.addRule("th", {
+  filter:      ["th"],
+  replacement: content => {
+    return `<th>${content}</th>`
+  }
+})
+turndownService.addRule("tr", {
+  filter:      ["tr"],
+  replacement: content => {
+    return `<tr>${content}</tr>`
+  }
+})
+turndownService.addRule("td", {
+  filter:      ["td"],
+  replacement: content => {
+    return `<td>${content}</td>`
+  }
+})
 const { getCourseImageUrl } = require("./helpers")
 
 const makeTopic = feature => {
