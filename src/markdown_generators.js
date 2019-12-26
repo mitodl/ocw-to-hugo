@@ -4,7 +4,7 @@ const yaml = require("js-yaml")
 const markdown = require("markdown-builder")
 const titleCase = require("title-case")
 const TurndownService = require("turndown")
-const turndownPluginGfm = require('turndown-plugin-gfm')
+const turndownPluginGfm = require("turndown-plugin-gfm")
 const gfm = turndownPluginGfm.gfm
 const tables = turndownPluginGfm.tables
 const turndownService = new TurndownService()
@@ -14,9 +14,9 @@ turndownService.use(tables)
 turndownService.addRule("table", {
   filter:      ["table"],
   replacement: content => {
-    content = content.replace('\n', '<br>')
+    content = content.replace("\n", "<br>")
     table = content.substring(content.indexOf("|"), content.lastIndexOf("|"))
-    return table;
+    return table
   }
 })
 const helpers = require("./helpers")
