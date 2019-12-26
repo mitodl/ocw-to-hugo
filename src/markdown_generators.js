@@ -15,8 +15,7 @@ turndownService.addRule("table", {
   filter:      ["table"],
   replacement: content => {
     content = content.replace("\n", "<br>")
-    table = content.substring(content.indexOf("|"), content.lastIndexOf("|"))
-    return table
+    return content.substring(content.indexOf("|"), content.lastIndexOf("|"))
   }
 })
 const helpers = require("./helpers")
