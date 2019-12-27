@@ -14,8 +14,10 @@ turndownService.use(tables)
 turndownService.addRule("table", {
   filter:      ["table"],
   replacement: content => {
-    content = content.replace("\n", "<br>")
-    return content.substring(content.indexOf("|"), content.lastIndexOf("|"))
+    return content
+      .substring(content.indexOf("|"), content.lastIndexOf("|"))
+      .replace(/\r?\n|\r/g, "")
+      .replace(/\|\|/g, "|\n|")
   }
 })
 const helpers = require("./helpers")
