@@ -5,6 +5,7 @@ const markdown = require("markdown-builder")
 const titleCase = require("title-case")
 const TurndownService = require("turndown")
 const turndownPluginGfm = require("turndown-plugin-gfm")
+const { getCourseImageUrl } = require("./helpers")
 const gfm = turndownPluginGfm.gfm
 const tables = turndownPluginGfm.tables
 const turndownService = new TurndownService()
@@ -20,7 +21,6 @@ turndownService.addRule("table", {
       .replace(/\|\|/g, "|\n|")
   }
 })
-const { getCourseImageUrl } = require("./helpers")
 
 const makeTopic = feature => {
   let topic = ""
