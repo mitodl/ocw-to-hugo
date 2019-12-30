@@ -26,7 +26,7 @@ turndownService.addRule("table", {
       .replace(/\r?\n|\r/g, "")
       .replace(/\|\|/g, "|\r\n|")
     // Only do this if header lines are found
-    if (content.match(/(?<=\| \*\*)(.*?)(?=\*\* \|\r?\n)/g || []).length > 0) {
+    if (content.match(/(?<=\| \*\*)(.*?)(?=\*\* \|\r?\n)/g)) {
       // Get the amount of columns
       content.split("\n").forEach(line => {
         if (line.indexOf("---") !== -1) {
