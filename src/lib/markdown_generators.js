@@ -12,13 +12,32 @@ const turndownService = new TurndownService()
 turndownService.use(gfm)
 turndownService.use(tables)
 
+/**
+ * Sanitize markdown table content
+**/
 turndownService.addRule("table", {
   filter:      ["table"],
   replacement: content => {
-    return content
+    let columns = 0
+    // Get the bounds of the table, remove all line breaks, 
+    // then reintroduce them between rows
+    content = content
       .substring(content.indexOf("|"), content.lastIndexOf("|"))
       .replace(/\r?\n|\r/g, "")
       .replace(/\|\|/g, "|\n|")
+    // Get the amount of columns
+    content.split("\n").forEach(line => {
+      if (line.indexOf("---") !== -1) {
+        columns = line.match(/---/g || []).length
+      }
+    })
+    // Split headers out on their own so they aren't in one cell
+    return content
+      .replace(/\| \*\*/g, "\n**")
+      .replace(
+        /\*\* \|/g,
+        `**\n\n${"| ".repeat(columns)}|\n${"| --- ".repeat(columns)}|`
+      )
   }
 })
 
