@@ -99,11 +99,11 @@ const generateCourseHomeFrontMatter = courseData => {
       topics:        courseData["course_collections"].map(makeTopic),
       course_number: courseNumber,
       term:          `${courseData["from_semester"]} ${courseData["from_year"]}`,
-      level:         courseData["course_level"],
-      menu:          {
-        main: {
-          weight: -10
-        }
+      level:         courseData["course_level"]
+    },
+    menu: {
+      main: {
+        weight: -10
       }
     }
   }
