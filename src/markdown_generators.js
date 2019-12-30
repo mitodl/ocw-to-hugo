@@ -23,10 +23,10 @@ turndownService.addRule("table", {
     // then reintroduce them between rows
     content = content
       .substring(content.indexOf("|"), content.lastIndexOf("|"))
-      .replace(/\r?\n|\r/g, "")
-      .replace(/\|\|/g, "|\r\n|")
+      .replace(/\r?\n|\r/g, "{{<br>}}")
+      .replace(/\|{{<br>}}\|/g, "|\r\n|")
     // Only do this if header lines are found
-    if (content.match(/(?<=\| \*\*)(.*?)(?=\*\* \|\r?\n)/g)) {
+    if (content.match(/(?<=\| \*\*)(.*?)(?=\*\* \|\r?\n|\r)/g)) {
       // Get the amount of columns
       content.split("\n").forEach(line => {
         if (line.indexOf("---") !== -1) {
@@ -37,7 +37,7 @@ turndownService.addRule("table", {
       return content
         .replace(/\| \*\*/g, "\r\n**")
         .replace(
-          /\*\* \|\r?\n/g,
+          /\*\* \|\r?\n|\r/g,
           `**\r\n\r\n${"| ".repeat(columns)}|\n${"| --- ".repeat(columns)}|`
         )
         .replace(/\|\|/g, "|\r\n|")
