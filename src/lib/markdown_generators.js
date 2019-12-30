@@ -25,19 +25,23 @@ turndownService.addRule("table", {
       .substring(content.indexOf("|"), content.lastIndexOf("|"))
       .replace(/\r?\n|\r/g, "")
       .replace(/\|\|/g, "|\n|")
-    // Get the amount of columns
-    content.split("\n").forEach(line => {
-      if (line.indexOf("---") !== -1) {
-        columns = line.match(/---/g || []).length
-      }
-    })
-    // Split headers out on their own so they aren't in one cell
-    return content
-      .replace(/\| \*\*/g, "\n**")
-      .replace(
-        /\*\* \|/g,
-        `**\n\n${"| ".repeat(columns)}|\n${"| --- ".repeat(columns)}|`
-      )
+    // Only do this if header lines are found
+    if (content.indexOf(/(?<=\| \*\*)(.*?)(?=\*\* \|\n])/g) !== -1) {
+      // Get the amount of columns
+      content.split("\n").forEach(line => {
+        if (line.indexOf("---") !== -1) {
+          columns = line.match(/---/g || []).length
+        }
+      })
+      // Split headers out on their own so they aren't in one cell
+      return content
+        .replace(/\| \*\*/g, "\n**")
+        .replace(
+          /\*\* \|\n/g,
+          `**\n\n${"| ".repeat(columns)}|\n${"| --- ".repeat(columns)}|`
+        )
+    }
+    else return content
   }
 })
 
