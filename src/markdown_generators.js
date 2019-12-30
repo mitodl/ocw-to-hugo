@@ -14,12 +14,12 @@ turndownService.use(tables)
 
 /**
  * Sanitize markdown table content
-**/
+ **/
 turndownService.addRule("table", {
   filter:      ["table"],
   replacement: content => {
     let columns = 0
-    // Get the bounds of the table, remove all line breaks, 
+    // Get the bounds of the table, remove all line breaks,
     // then reintroduce them between rows
     content = content
       .substring(content.indexOf("|"), content.lastIndexOf("|"))
