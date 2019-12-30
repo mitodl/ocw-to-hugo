@@ -40,8 +40,7 @@ turndownService.addRule("table", {
           /\*\* \|\n/g,
           `**\n\n${"| ".repeat(columns)}|\n${"| --- ".repeat(columns)}|`
         )
-    }
-    else return content
+    } else return content
   }
 })
 
