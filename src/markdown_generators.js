@@ -24,9 +24,9 @@ turndownService.addRule("table", {
     content = content
       .substring(content.indexOf("|"), content.lastIndexOf("|"))
       .replace(/\r?\n|\r/g, "")
-      .replace(/\|\|/g, "|\n|")
+      .replace(/\|\|/g, "|\r\n|")
     // Only do this if header lines are found
-    if (content.indexOf(/(?<=\| \*\*)(.*?)(?=\*\* \|\n])/g) !== -1) {
+    if (content.match(/(?<=\| \*\*)(.*?)(?=\*\* \|\r?\n)/g || []).length > 0) {
       // Get the amount of columns
       content.split("\n").forEach(line => {
         if (line.indexOf("---") !== -1) {
@@ -35,11 +35,12 @@ turndownService.addRule("table", {
       })
       // Split headers out on their own so they aren't in one cell
       return content
-        .replace(/\| \*\*/g, "\n**")
+        .replace(/\| \*\*/g, "\r\n**")
         .replace(
-          /\*\* \|\n/g,
-          `**\n\n${"| ".repeat(columns)}|\n${"| --- ".repeat(columns)}|`
+          /\*\* \|\r?\n/g,
+          `**\r\n\r\n${"| ".repeat(columns)}|\n${"| --- ".repeat(columns)}|`
         )
+        .replace(/\|\|/g, "|\r\n|")
     } else return content
   }
 })
