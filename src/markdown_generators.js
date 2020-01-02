@@ -33,7 +33,9 @@ turndownService.addRule("table", {
         .replace(/\| \*\*/g, "\n**")
         .replace(
           /\*\* \|\r?\n|\r/g,
-          `**\n\n${"| ".repeat(totalColumns)}|\n${"| --- ".repeat(totalColumns)}|`
+          `**\n\n${"| ".repeat(totalColumns)}|\n${"| --- ".repeat(
+            totalColumns
+          )}|`
         )
         .replace(/\|\|/g, "|\n|")
     } else return content
