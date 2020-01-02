@@ -18,29 +18,24 @@ turndownService.use(tables)
 turndownService.addRule("table", {
   filter:      ["table"],
   replacement: content => {
-    let columns = 0
     // Get the bounds of the table, remove all line breaks,
     // then reintroduce them between rows
     content = content
       .substring(content.indexOf("|"), content.lastIndexOf("|"))
-      .replace(/\r?\n|\r/g, "{{<br>}}")
-      .replace(/\|{{<br>}}\|/g, "|\r\n|")
+      .replace(/\r?\n|\r/g, "<br>")
+      .replace(/\|<br>\|/g, "|\n|")
     // Only do this if header lines are found
     if (content.match(/(?<=\| \*\*)(.*?)(?=\*\* \|\r?\n|\r)/g)) {
       // Get the amount of columns
-      content.split("\n").forEach(line => {
-        if (line.indexOf("---") !== -1) {
-          columns = line.match(/---/g || []).length
-        }
-      })
+      const totalColumns = content.match(/---/g || []).length
       // Split headers out on their own so they aren't in one cell
       return content
-        .replace(/\| \*\*/g, "\r\n**")
+        .replace(/\| \*\*/g, "\n**")
         .replace(
           /\*\* \|\r?\n|\r/g,
-          `**\r\n\r\n${"| ".repeat(columns)}|\n${"| --- ".repeat(columns)}|`
+          `**\n\n${"| ".repeat(totalColumns)}|\n${"| --- ".repeat(totalColumns)}|`
         )
-        .replace(/\|\|/g, "|\r\n|")
+        .replace(/\|\|/g, "|\n|")
     } else return content
   }
 })
