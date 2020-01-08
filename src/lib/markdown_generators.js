@@ -42,6 +42,41 @@ const makeTopic = feature => {
   return topic
 }
 
+const getYoutubeEmbedHtml = media => {
+  const youTubeMedia = media["embedded_media"].filter(embeddedMedia => {
+    return embeddedMedia["id"] === "Video-YouTube-Stream"
+  })
+  return youTubeMedia.map(embeddedMedia => {
+    return `<div class="text-center"><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${embeddedMedia["media_info"]}" frameborder="0" allow="encrypted-media; picture-in-picture"></iframe></div>`
+  }).join("")
+}
+
+const fixLinks = (htmlStr, courseData) => {
+  if (htmlStr) {
+    courseData["course_pages"].forEach(page => {
+      const placeholder = `resolveuid/${page["uid"]}`
+      htmlStr = htmlStr.replace(
+        placeholder,
+        `{{<ref "sections/${page["short_url"]}">}}`
+      )
+    })
+    courseData["course_files"].forEach(media => {
+      const placeholder = `resolveuid/${media["uid"]}`
+      htmlStr = htmlStr.replace(placeholder, `${media["file_location"]}`)
+    })
+    Object.keys(courseData["course_embedded_media"]).forEach(key => {
+      if (htmlStr.indexOf(key) !== -1) {
+        htmlStr = htmlStr.replace(
+          key,
+          getYoutubeEmbedHtml(courseData["course_embedded_media"][key])
+        )
+      }
+    })
+
+    return htmlStr
+  }
+}
+
 const generateMarkdownFromJson = courseData => {
   /*
     This function takes JSON data parsed from a master.json file and returns markdown data
@@ -182,7 +217,7 @@ const generateCourseSectionMarkdown = (page, courseData) => {
     }
   })
   try {
-    return turndownService.turndown(htmlStr)
+    return turndownService.turndown(fixLinks(htmlStr, courseData))
   } catch (err) {
     return htmlStr
   }
