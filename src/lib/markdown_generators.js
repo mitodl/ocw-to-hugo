@@ -54,14 +54,14 @@ const getYoutubeEmbedHtml = media => {
 const fixLinks = (htmlStr, courseData) => {
   if (htmlStr) {
     courseData["course_pages"].forEach(page => {
-      const placeholder = `resolveuid/${page["uid"]}`
+      const placeholder = new RegExp(`\\.?\\/?resolveuid\\/${page["uid"]}`)
       htmlStr = htmlStr.replace(
         placeholder,
         `{{<ref "sections/${page["short_url"]}">}}`
       )
     })
     courseData["course_files"].forEach(media => {
-      const placeholder = `resolveuid/${media["uid"]}`
+      const placeholder = new RegExp(`\\.?\\/?resolveuid\\/${media["uid"]}`)
       htmlStr = htmlStr.replace(placeholder, `${media["file_location"]}`)
     })
     Object.keys(courseData["course_embedded_media"]).forEach(key => {
