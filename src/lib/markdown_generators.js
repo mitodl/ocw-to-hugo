@@ -46,9 +46,11 @@ const getYoutubeEmbedHtml = media => {
   const youTubeMedia = media["embedded_media"].filter(embeddedMedia => {
     return embeddedMedia["id"] === "Video-YouTube-Stream"
   })
-  return youTubeMedia.map(embeddedMedia => {
-    return `<div class="text-center"><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${embeddedMedia["media_info"]}" frameborder="0" allow="encrypted-media; picture-in-picture"></iframe></div>`
-  }).join("")
+  return youTubeMedia
+    .map(embeddedMedia => {
+      return `<div class="text-center"><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${embeddedMedia["media_info"]}" frameborder="0" allow="encrypted-media; picture-in-picture"></iframe></div>`
+    })
+    .join("")
 }
 
 const fixLinks = (htmlStr, courseData) => {
@@ -160,15 +162,18 @@ const generateCourseSectionFrontMatter = (title, menuIndex) => {
 }
 
 const generateCourseFeatures = courseData => {
-  /*
-      Generate markdown for the "Course Features" section of the home page
-      */
+  /**
+    Generate markdown for the "Course Features" section of the home page
+    */
   const courseFeaturesHeader = markdown.headers.hX(5, "Course Features")
   const courseFeatures = courseData["course_features"].map(courseFeature => {
     const urlParts = courseFeature["ocw_feature_url"]
-      .replace(/\/index.htm?l/, "/")
+      .replace(/\/index.html?/, "/")
       .split("/")
-    const url = urlParts[urlParts.length - 1]
+    const sectionName = urlParts[urlParts.length - 1]
+      ? urlParts[urlParts.length - 1]
+      : urlParts[urlParts.length - 2]
+    const url = `sections/${sectionName}`
     return markdown.misc.link(courseFeature["ocw_feature"], url)
   })
   return `${courseFeaturesHeader}\n${markdown.lists.ul(courseFeatures)}`
