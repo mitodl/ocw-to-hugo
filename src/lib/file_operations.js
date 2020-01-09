@@ -2,7 +2,11 @@
 /* eslint-disable no-console */
 
 const fs = require("fs")
+const fse = require("fs-extra")
+const os = require("os")
+const cp = require("child_process")
 const path = require("path")
+const git = require("nodegit")
 const { generateMarkdownFromJson } = require("./markdown_generators")
 const cliProgress = require("cli-progress")
 const progressBar = new cliProgress.SingleBar(
@@ -85,8 +89,64 @@ const writeMarkdownFiles = (courseId, markdownData, destination) => {
   })
 }
 
+const generateSites = (
+  coursePublisherRepoUrl,
+  coursePublisherBranch,
+  markdownLocation,
+  hugoDestination
+) => {
+  const coursePublisherDir = "./private/hugo-course-publisher"
+  fse.emptyDirSync(coursePublisherDir)
+  git.Clone.clone(coursePublisherRepoUrl, coursePublisherDir, {
+    checkoutBranch: coursePublisherBranch
+  }).then(repository => {
+    const cpOptions = {
+      cwd:   path.join(coursePublisherDir, "app"),
+      stdio: "inherit",
+      shell: true
+    }
+    fse.emptyDirSync(hugoDestination)
+    cp.execSync("yarn install", cpOptions)
+    cp.execSync("npm run build", cpOptions)
+    directoriesScanned = 0
+    const directories = fs.readdirSync(markdownLocation)
+    const totalDirectories = directories.length
+    progressBar.start(totalDirectories, directoriesScanned)
+    directories.forEach(file => {
+      const coursePath = path.join(markdownLocation, file)
+      if (fs.lstatSync(coursePath).isDirectory()) {
+        // If the item is indeed a directory, read all files in it
+        generateSite(file, coursePath, coursePublisherDir, hugoDestination)
+      }
+    })
+  })
+}
+
+const generateSite = (
+  courseId,
+  coursePath,
+  coursePublisherDir,
+  destination
+) => {
+  const contentDir = path.join(coursePublisherDir, "app", "site", "content")
+  const appDir = path.join(coursePublisherDir, "app")
+  const distDir = path.join(coursePublisherDir, "app", "dist")
+  const outputDir = path.join(destination, courseId)
+  fse.emptyDirSync(contentDir)
+  fse.copySync(coursePath, contentDir)
+  try {
+    cp.execSync("npm run build:hugo", { cwd: appDir })
+  } catch (ex) {
+    // eslint-disable-next-line no-empty
+  }
+  fse.copySync(distDir, outputDir)
+  directoriesScanned++
+  progressBar.update(directoriesScanned)
+}
+
 module.exports = {
   scanCourses,
   scanCourse,
-  writeMarkdownFiles
+  writeMarkdownFiles,
+  generateSites
 }

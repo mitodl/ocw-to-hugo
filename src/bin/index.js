@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
 
+require("dotenv").config()
 const yargs = require("yargs")
-const { scanCourses } = require("../lib/file_operations")
+const { scanCourses, generateSites } = require("../lib/file_operations")
 
 // Gather arguments
 const options = yargs
@@ -18,6 +19,21 @@ const options = yargs
     describe:     "Destination directory for Hugo markdown",
     type:         "string",
     demandOption: true
+  })
+  .option("h", {
+    alias:    "hugo_destination",
+    describe:
+      "Destination directory to generate hugo sites using hugo-course-publisher",
+    type:         "string",
+    demandOption: false
   }).argv
 
-scanCourses(options.source, options.destination)
+// scanCourses(options.source, options.destination)
+if (options.hugo_destination) {
+  generateSites(
+    process.env.COURSE_PUBLISHER_REPO_URL,
+    process.env.COURSE_PUBLISHER_BRANCH,
+    options.destination,
+    options.hugo_destination
+  )
+}
