@@ -53,6 +53,43 @@ const makeTopic = feature => {
   return topic
 }
 
+const getYoutubeEmbedHtml = media => {
+  const youTubeMedia = media["embedded_media"].filter(embeddedMedia => {
+    return embeddedMedia["id"] === "Video-YouTube-Stream"
+  })
+  return youTubeMedia
+    .map(embeddedMedia => {
+      return `<div class="text-center"><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${embeddedMedia["media_info"]}" frameborder="0" allow="encrypted-media; picture-in-picture"></iframe></div>`
+    })
+    .join("")
+}
+
+const fixLinks = (htmlStr, courseData) => {
+  if (htmlStr) {
+    courseData["course_pages"].forEach(page => {
+      const placeholder = new RegExp(`\\.?\\/?resolveuid\\/${page["uid"]}`)
+      htmlStr = htmlStr.replace(
+        placeholder,
+        `{{<ref "sections/${page["short_url"]}">}}`
+      )
+    })
+    courseData["course_files"].forEach(media => {
+      const placeholder = new RegExp(`\\.?\\/?resolveuid\\/${media["uid"]}`)
+      htmlStr = htmlStr.replace(placeholder, `${media["file_location"]}`)
+    })
+    Object.keys(courseData["course_embedded_media"]).forEach(key => {
+      if (htmlStr.indexOf(key) !== -1) {
+        htmlStr = htmlStr.replace(
+          key,
+          getYoutubeEmbedHtml(courseData["course_embedded_media"][key])
+        )
+      }
+    })
+
+    return htmlStr
+  }
+}
+
 const generateMarkdownFromJson = courseData => {
   /*
     This function takes JSON data parsed from a master.json file and returns markdown data
@@ -110,11 +147,11 @@ const generateCourseHomeFrontMatter = courseData => {
       topics:        courseData["course_collections"].map(makeTopic),
       course_number: courseNumber,
       term:          `${courseData["from_semester"]} ${courseData["from_year"]}`,
-      level:         courseData["course_level"],
-      menu:          {
-        main: {
-          weight: -10
-        }
+      level:         courseData["course_level"]
+    },
+    menu: {
+      main: {
+        weight: -10
       }
     }
   }
@@ -136,15 +173,18 @@ const generateCourseSectionFrontMatter = (title, menuIndex) => {
 }
 
 const generateCourseFeatures = courseData => {
-  /*
-      Generate markdown for the "Course Features" section of the home page
-      */
+  /**
+    Generate markdown for the "Course Features" section of the home page
+    */
   const courseFeaturesHeader = markdown.headers.hX(5, "Course Features")
   const courseFeatures = courseData["course_features"].map(courseFeature => {
     const urlParts = courseFeature["ocw_feature_url"]
-      .replace(/\/index.htm?l/, "/")
+      .replace(/\/index.html?/, "/")
       .split("/")
-    const url = urlParts[urlParts.length - 1]
+    const sectionName = urlParts[urlParts.length - 1]
+      ? urlParts[urlParts.length - 1]
+      : urlParts[urlParts.length - 2]
+    const url = `sections/${sectionName}`
     return markdown.misc.link(courseFeature["ocw_feature"], url)
   })
   return `${courseFeaturesHeader}\n${markdown.lists.ul(courseFeatures)}`
@@ -193,7 +233,7 @@ const generateCourseSectionMarkdown = (page, courseData) => {
     }
   })
   try {
-    return turndownService.turndown(htmlStr)
+    return turndownService.turndown(fixLinks(htmlStr, courseData))
   } catch (err) {
     return htmlStr
   }
