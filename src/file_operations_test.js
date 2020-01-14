@@ -1,40 +1,70 @@
 const assert = require("assert")
 const expect = require("expect.js")
-const { scanCourses } = require("./file_operations")
+const fileOperations = require("./file_operations")
 const fs = require("fs")
 const sinon = require("sinon")
 
-describe("scan_courses", () => {
-  let readdir, consoleLog
+describe("scanCourses", () => {
+  let readdir, consoleLog, scanCourseStub
+  const sourcePath = "test_data/source"
+  const destinationPath = "test_data/destination"
 
   beforeEach(() => {
     readdir = sinon.stub(fs, "readdir").returns({})
     consoleLog = sinon.stub(console, "log").returns({})
+    scanCourseStub = sinon.stub(fileOperations, "scanCourse").returns({})
   })
   afterEach(() => {
     readdir.restore()
     consoleLog.restore()
+    scanCourseStub.restore()
   })
 
   it("throws an error when you call it with no source directory", () => {
-    expect(scanCourses)
-      .withArgs(null, "test_data/destination")
+    expect(fileOperations.scanCourses)
+      .withArgs(null, destinationPath)
       .to.throwError(Error, "Invalid source directory")
   })
 
   it("throws an error when you call it with no destination directory", () => {
-    expect(scanCourses)
-      .withArgs("test_data/source", null)
+    expect(fileOperations.scanCourses)
+      .withArgs(sourcePath, null)
       .to.throwError(Error, "Invalid source directory")
   })
 
   it("calls readdir once", () => {
-    scanCourses("test_data/source", "test_data/destination")
-    expect(readdir.calledOnceWith("test_data/source")).to.be(true)
+    fileOperations.scanCourses(sourcePath, destinationPath)
+    expect(readdir.calledOnceWith(sourcePath)).to.be(true)
   })
 
   it("scans the three test courses and reports to console", () => {
-    scanCourses("test_data/source", "test_data/destination")
-    expect(consoleLog.calledOnceWith("Scanning 3 subdirectories under test_data/source"))
+    fileOperations.scanCourses(sourcePath, destinationPath)
+    expect(
+      consoleLog.calledOnceWith(
+        "Scanning 3 subdirectories under test_data/source"
+      )
+    )
+  })
+
+  it("calls scanCourse for each test course", () => {
+    fileOperations.scanCourses(sourcePath, destinationPath)
+    expect(
+      scanCourseStub.calledOnceWith(
+        "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012",
+        destinationPath
+      )
+    )
+    expect(
+      scanCourseStub.calledOnceWith(
+        "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009",
+        destinationPath
+      )
+    )
+    expect(
+      scanCourseStub.calledOnceWith(
+        "3-00-thermodynamics-of-materials-fall-2002",
+        destinationPath
+      )
+    )
   })
 })
