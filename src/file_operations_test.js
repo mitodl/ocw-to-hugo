@@ -2,6 +2,7 @@ const assert = require("assert")
 const path = require("path")
 const expect = require("expect.js")
 const fileOperations = require("./file_operations")
+const markdownGenerators = require("./markdown_generators")
 const fs = require("fs")
 const sinon = require("sinon")
 
@@ -11,9 +12,9 @@ describe("scanCourses", () => {
   const destinationPath = "test_data/destination"
 
   beforeEach(() => {
-    readdir = sinon.stub(fs, "readdir").returns({})
+    readdir = sinon.stub(fs, "readdir")
     consoleLog = sinon.spy(console, "log")
-    scanCourseStub = sinon.stub(fileOperations, "scanCourse").returns({})
+    scanCourseStub = sinon.stub(fileOperations, "scanCourse")
   })
 
   afterEach(() => {
@@ -72,36 +73,45 @@ describe("scanCourses", () => {
 })
 
 describe("scanCourse", () => {
-  let readdir, readFileSync, writeFileSync
+  let readdir, readFileSync, writeFileSync, writeMarkdownFiles
   const sourcePath =
     "test_data/source/1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
   const masterJsonPath = path.join(
     sourcePath,
     "bb55dad7f4888f0a1ad004600c5fb1f1_master.json"
   )
+  const masterJsonCourseData = fs.readFileSync(masterJsonPath)
   const destinationPath = "test_data/destination"
 
   beforeEach(() => {
-    readdir = sinon.stub(fs, "readdir").returns({})
-    readFileSync = sinon
-      .stub(fs, "readFileSync")
-      .returns(fs.readFileSync(masterJsonPath))
+    readFileSync = sinon.stub(fs, "readFileSync").returns(masterJsonCourseData)
     writeFileSync = sinon.stub(fs, "writeFileSync")
+    writeMarkdownFiles = sinon.stub(fileOperations, "writeMarkdownFiles")
   })
 
   afterEach(() => {
-    readdir.restore()
     readFileSync.restore()
     writeFileSync.restore()
+    writeMarkdownFiles.restore()
   })
 
   it("calls readdir once", () => {
+    readdir = sinon.stub(fs, "readdir").returns({})
     fileOperations.scanCourse(sourcePath, destinationPath)
     expect(readdir.calledOnceWith(sourcePath)).to.be(true)
+    readdir.restore()
   })
 
-  it("calls fs.readFileSync for the master.json file", () => {
+  it("calls writeMarkdownFiles for the master.json file", () => {
     fileOperations.scanCourse(sourcePath, destinationPath)
-    expect(readFileSync.calledOnceWith(masterJsonPath)).to.be(true)
+    expect(
+      writeMarkdownFiles.calledOnceWith(
+        masterJsonCourseData["short_url"],
+        markdownGenerators.generateMarkdownFromJson(
+          JSON.parse(masterJsonCourseData)
+        ),
+        destinationPath
+      )
+    )
   })
 })
