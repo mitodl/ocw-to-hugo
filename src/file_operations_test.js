@@ -83,7 +83,9 @@ describe("scanCourse", () => {
 
   beforeEach(() => {
     readdir = sinon.stub(fs, "readdir").returns({})
-    readFileSync = sinon.stub(fs, "readFileSync").returns(fs.readFileSync(masterJsonPath))
+    readFileSync = sinon
+      .stub(fs, "readFileSync")
+      .returns(fs.readFileSync(masterJsonPath))
     writeFileSync = sinon.stub(fs, "writeFileSync")
   })
 
