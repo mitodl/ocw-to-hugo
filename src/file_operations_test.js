@@ -1,4 +1,5 @@
 const assert = require("assert")
+const path = require("path")
 const expect = require("expect.js")
 const fileOperations = require("./file_operations")
 const fs = require("fs")
@@ -11,9 +12,10 @@ describe("scanCourses", () => {
 
   beforeEach(() => {
     readdir = sinon.stub(fs, "readdir").returns({})
-    consoleLog = sinon.stub(console, "log").returns({})
+    consoleLog = sinon.spy(console, "log")
     scanCourseStub = sinon.stub(fileOperations, "scanCourse").returns({})
   })
+
   afterEach(() => {
     readdir.restore()
     consoleLog.restore()
@@ -66,5 +68,39 @@ describe("scanCourses", () => {
         destinationPath
       )
     )
+  })
+})
+
+describe("scanCourse", () => {
+  let readdir, readFileSync, writeFileSync
+  const sourcePath =
+    "test_data/source/1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
+  const masterJsonPath = path.join(
+    sourcePath,
+    "bb55dad7f4888f0a1ad004600c5fb1f1_master.json"
+  )
+  const masterJsonContents = fs.readFileSync(masterJsonPath)
+  const destinationPath = "test_data/destination"
+
+  beforeEach(() => {
+    readdir = sinon.stub(fs, "readdir").returns({})
+    readFileSync = sinon.stub(fs, "readFileSync").returns(masterJsonContents)
+    writeFileSync = sinon.stub(fs, "writeFileSync")
+  })
+
+  afterEach(() => {
+    readdir.restore()
+    readFileSync.restore()
+    writeFileSync.restore()
+  })
+
+  it("calls readdir once", () => {
+    fileOperations.scanCourse(sourcePath, destinationPath)
+    expect(readdir.calledOnceWith(sourcePath)).to.be(true)
+  })
+
+  it("calls fs.readFileSync for the master.json file", () => {
+    fileOperations.scanCourse(sourcePath, destinationPath)
+    expect(readFileSync.calledOnceWith(masterJsonPath)).to.be(true)
   })
 })
