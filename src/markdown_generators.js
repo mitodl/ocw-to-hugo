@@ -17,13 +17,30 @@ turndownService.use(tables)
  **/
 turndownService.addRule("table", {
   filter:      ["table"],
-  replacement: content => {
-    // Get the bounds of the table, remove all line breaks,
-    // then reintroduce them between rows
+  replacement: (content, node, options) => {
+    // Interate the HTML node and replace all pipes inside table
+    // cells with a marker we'll use later
+    for (let i = 0; i < node.rows.length; i++) {
+      const cells = node.rows[i].cells
+      for (let j = 0; j < cells.length; j++) {
+        cells[j].innerHTML = cells[j].innerHTML.replace(
+          /\|/g,
+          "REPLACETHISWITHAPIPE"
+        )
+      }
+    }
+    // Regenerate markdown for this table with cell edits
+    content = turndownService.turndown(node)
+    /**
+     * Get the bounds of the table, remove all line breaks, then
+     * from earlier with the HTML character entity for a pipe
+     * reintroduce them between rows, replacing our pipe marker
+     */
     content = content
       .substring(content.indexOf("|"), content.lastIndexOf("|"))
       .replace(/\r?\n|\r/g, "<br>")
       .replace(/\|<br>\|/g, "|\n|")
+      .replace(/REPLACETHISWITHAPIPE/g, "&#124;")
     // Only do this if header lines are found
     if (content.match(/(?<=\| \*\*)(.*?)(?=\*\* \|\r?\n|\r)/g)) {
       // Get the amount of columns
