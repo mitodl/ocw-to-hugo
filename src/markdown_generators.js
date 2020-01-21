@@ -18,8 +18,10 @@ turndownService.use(tables)
 turndownService.addRule("table", {
   filter:      ["table"],
   replacement: (content, node, options) => {
-    // Interate the HTML node and replace all pipes inside table
-    // cells with a marker we'll use later
+    /**
+     * Interate the HTML node and replace all pipes inside table
+     * cells with a marker we'll use later
+     */
     for (let i = 0; i < node.rows.length; i++) {
       const cells = node.rows[i].cells
       for (let j = 0; j < cells.length; j++) {
