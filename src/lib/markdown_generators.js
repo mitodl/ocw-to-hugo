@@ -17,13 +17,32 @@ turndownService.use(tables)
  **/
 turndownService.addRule("table", {
   filter:      ["table"],
-  replacement: content => {
-    // Get the bounds of the table, remove all line breaks,
-    // then reintroduce them between rows
+  replacement: (content, node, options) => {
+    /**
+     * Interate the HTML node and replace all pipes inside table
+     * cells with a marker we'll use later
+     */
+    for (let i = 0; i < node.rows.length; i++) {
+      const cells = node.rows[i].cells
+      for (let j = 0; j < cells.length; j++) {
+        cells[j].innerHTML = cells[j].innerHTML.replace(
+          /\|/g,
+          "REPLACETHISWITHAPIPE"
+        )
+      }
+    }
+    // Regenerate markdown for this table with cell edits
+    content = turndownService.turndown(node)
+    /**
+     * Get the bounds of the table, remove all line breaks, then
+     * from earlier with the HTML character entity for a pipe
+     * reintroduce them between rows, replacing our pipe marker
+     */
     content = content
       .substring(content.indexOf("|"), content.lastIndexOf("|"))
       .replace(/\r?\n|\r/g, "<br>")
       .replace(/\|<br>\|/g, "|\n|")
+      .replace(/REPLACETHISWITHAPIPE/g, "&#124;")
     // Only do this if header lines are found
     if (content.match(/(?<=\| \*\*)(.*?)(?=\*\* \|\r?\n|\r)/g)) {
       // Get the amount of columns
@@ -39,6 +58,28 @@ turndownService.addRule("table", {
         )
         .replace(/\|\|/g, "|\n|")
     } else return content
+  }
+})
+
+
+/**
+ * Build links with Hugo shortcodes to course sections
+ **/
+turndownService.addRule("refshortcode", {
+  filter: (node, options) => {
+    if (node.nodeName === "A" && node.getAttribute("href")) {
+      if (node.getAttribute("href").indexOf("REFSHORTCODESTART") !== -1) {
+        return true
+      }
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    content = turndownService.escape(content)
+    const ref = turndownService.escape(node.getAttribute("href")
+      .replace("REFSHORTCODESTART", "{{< ref \"")
+      .replace("REFSHORTCODEEND", "\" >}}"))
+    return `[${content}](${ref})`
   }
 })
 
@@ -67,14 +108,17 @@ const getYoutubeEmbedHtml = media => {
 const fixLinks = (htmlStr, courseData) => {
   if (htmlStr) {
     courseData["course_pages"].forEach(page => {
-      const placeholder = new RegExp(`\\.?\\/?resolveuid\\/${page["uid"]}`)
+      const placeholder = new RegExp(`\\.?\\/?resolveuid\\/${page["uid"]}`, "g")
       htmlStr = htmlStr.replace(
         placeholder,
-        `{{<ref "sections/${page["short_url"]}">}}`
+        `REFSHORTCODESTARTsections/${page["short_url"]}REFSHORTCODEEND`
       )
     })
     courseData["course_files"].forEach(media => {
-      const placeholder = new RegExp(`\\.?\\/?resolveuid\\/${media["uid"]}`)
+      const placeholder = new RegExp(
+        `\\.?\\/?resolveuid\\/${media["uid"]}`,
+        "g"
+      )
       htmlStr = htmlStr.replace(placeholder, `${media["file_location"]}`)
     })
     Object.keys(courseData["course_embedded_media"]).forEach(key => {
@@ -184,7 +228,7 @@ const generateCourseFeatures = courseData => {
     const sectionName = urlParts[urlParts.length - 1]
       ? urlParts[urlParts.length - 1]
       : urlParts[urlParts.length - 2]
-    const url = `sections/${sectionName}`
+    const url = `{{< ref "sections/${sectionName}" >}}`
     return markdown.misc.link(courseFeature["ocw_feature"], url)
   })
   return `${courseFeaturesHeader}\n${markdown.lists.ul(courseFeatures)}`
@@ -222,20 +266,11 @@ const generateCourseSectionMarkdown = (page, courseData) => {
   /*
       Generate markdown a given course section page
       */
-  let htmlStr = page["text"]
-  courseData["course_pages"].forEach(coursePage => {
-    const placeholder = `./resolveuid/${coursePage["uid"]}`
-    if (htmlStr.includes(placeholder)) {
-      htmlStr = htmlStr.replace(
-        placeholder,
-        `/sections/${coursePage["short_url"]}`
-      )
-    }
-  })
   try {
-    return turndownService.turndown(fixLinks(htmlStr, courseData))
+    return turndownService.turndown(fixLinks(page["text"], courseData))
   } catch (err) {
-    return htmlStr
+    console.log(err)
+    return page["text"]
   }
 }
 

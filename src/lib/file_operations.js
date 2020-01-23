@@ -106,9 +106,21 @@ const generateSites = (
       shell: true
     }
     fse.emptyDirSync(hugoDestination)
-    fse.removeSync(path.join(coursePublisherDir, "app", "site", "static", "assignments"))
-    fse.removeSync(path.join(coursePublisherDir, "app", "site", "static", "exams"))
-    fse.removeSync(path.join(coursePublisherDir, "app", "site", "static", "related-resources"))
+    fse.removeSync(
+      path.join(coursePublisherDir, "app", "site", "static", "assignments")
+    )
+    fse.removeSync(
+      path.join(coursePublisherDir, "app", "site", "static", "exams")
+    )
+    fse.removeSync(
+      path.join(
+        coursePublisherDir,
+        "app",
+        "site",
+        "static",
+        "related-resources"
+      )
+    )
     cp.execSync("yarn install", cpOptions)
     cp.execSync("npm run build", cpOptions)
     directoriesScanned = 0

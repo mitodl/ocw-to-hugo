@@ -28,12 +28,12 @@ const options = yargs
     demandOption: false
   }).argv
 
-// scanCourses(options.source, options.destination)
-if (options.hugo_destination) {
-  generateSites(
-    process.env.COURSE_PUBLISHER_REPO_URL,
-    process.env.COURSE_PUBLISHER_BRANCH,
-    options.destination,
-    options.hugo_destination
-  )
-}
+scanCourses(options.source, options.destination)
+// if (options.hugo_destination) {
+//   generateSites(
+//     process.env.COURSE_PUBLISHER_REPO_URL,
+//     process.env.COURSE_PUBLISHER_BRANCH,
+//     options.destination,
+//     options.hugo_destination
+//   )
+// }
