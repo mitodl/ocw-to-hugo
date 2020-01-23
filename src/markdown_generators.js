@@ -31,6 +31,41 @@ turndownService.addRule("td", {
 })
 const helpers = require("./helpers")
 
+/**
+ * Build links with Hugo shortcodes to course sections
+ **/
+turndownService.addRule("refshortcode", {
+  filter: (node, options) => {
+    if (node.nodeName === "A" && node.getAttribute("href")) {
+      if (node.getAttribute("href").indexOf("REFSHORTCODESTART") !== -1) {
+        return true
+      }
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    content = turndownService.escape(content)
+    const ref = turndownService.escape(
+      node
+        .getAttribute("href")
+        .replace("REFSHORTCODESTART", '{{< ref "')
+        .replace("REFSHORTCODEEND", '" >}}')
+    )
+    return `[${content}](${ref})`
+  }
+})
+
+const makeTopic = feature => {
+  let topic = ""
+  if (feature["ocw_feature"]) {
+    topic += feature["ocw_feature"]
+  }
+  if (feature["ocw_subfeature"]) {
+    topic += ` - ${feature["ocw_subfeature"]}`
+  }
+  return topic
+}
+
 const getYoutubeEmbedHtml = media => {
   const youTubeMedia = media["embedded_media"].filter(embeddedMedia => {
     return embeddedMedia["id"] === "Video-YouTube-Stream"
@@ -45,14 +80,17 @@ const getYoutubeEmbedHtml = media => {
 const fixLinks = (htmlStr, courseData) => {
   if (htmlStr) {
     courseData["course_pages"].forEach(page => {
-      const placeholder = new RegExp(`\\.?\\/?resolveuid\\/${page["uid"]}`)
+      const placeholder = new RegExp(`\\.?\\/?resolveuid\\/${page["uid"]}`, "g")
       htmlStr = htmlStr.replace(
         placeholder,
-        `{{<ref "sections/${page["short_url"]}">}}`
+        `REFSHORTCODESTARTsections/${page["short_url"]}REFSHORTCODEEND`
       )
     })
     courseData["course_files"].forEach(media => {
-      const placeholder = new RegExp(`\\.?\\/?resolveuid\\/${media["uid"]}`)
+      const placeholder = new RegExp(
+        `\\.?\\/?resolveuid\\/${media["uid"]}`,
+        "g"
+      )
       htmlStr = htmlStr.replace(placeholder, `${media["file_location"]}`)
     })
     Object.keys(courseData["course_embedded_media"]).forEach(key => {
@@ -183,20 +221,11 @@ const generateCourseSectionMarkdown = (page, courseData) => {
   /**
     Generate markdown a given course section page
     */
-  let htmlStr = page["text"]
-  courseData["course_pages"].forEach(coursePage => {
-    const placeholder = `./resolveuid/${coursePage["uid"]}`
-    if (htmlStr.includes(placeholder)) {
-      htmlStr = htmlStr.replace(
-        placeholder,
-        `/sections/${coursePage["short_url"]}`
-      )
-    }
-  })
   try {
-    return turndownService.turndown(fixLinks(htmlStr, courseData))
+    return turndownService.turndown(fixLinks(page["text"], courseData))
   } catch (err) {
-    return htmlStr
+    console.log(err)
+    return page["text"]
   }
 }
 
