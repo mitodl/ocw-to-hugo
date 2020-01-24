@@ -224,7 +224,6 @@ const generateCourseSectionMarkdown = (page, courseData) => {
   try {
     return turndownService.turndown(fixLinks(page["text"], courseData))
   } catch (err) {
-    console.log(err)
     return page["text"]
   }
 }
