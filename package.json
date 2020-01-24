@@ -46,6 +46,7 @@
     "mocha": "^6.2.2",
     "prettier-eslint": "^9.0.1",
     "prettier-eslint-cli": "^5.0.0",
-    "sinon": "^8.0.4"
+    "sinon": "^8.0.4",
+    "tmp": "^0.1.0"
   }
 }

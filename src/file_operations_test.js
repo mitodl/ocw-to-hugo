@@ -5,11 +5,13 @@ const fileOperations = require("./file_operations")
 const markdownGenerators = require("./markdown_generators")
 const fs = require("fs")
 const sinon = require("sinon")
+const tmp = require("tmp")
+tmp.setGracefulCleanup()
 
 describe("scanCourses", () => {
   let readdir, consoleLog, scanCourseStub
-  const sourcePath = "test_data/source"
-  const destinationPath = "test_data/destination"
+  const sourcePath = "test_data"
+  const destinationPath = tmp.dirSync({prefix: "destination"}).name
 
   beforeEach(() => {
     readdir = sinon.stub(fs, "readdir")
@@ -44,7 +46,7 @@ describe("scanCourses", () => {
     fileOperations.scanCourses(sourcePath, destinationPath)
     expect(
       consoleLog.calledOnceWith(
-        "Scanning 3 subdirectories under test_data/source"
+        "Scanning 3 subdirectories under test_data"
       )
     )
   })
@@ -75,13 +77,13 @@ describe("scanCourses", () => {
 describe("scanCourse", () => {
   let readdir, readFileSync, writeFileSync, writeMarkdownFiles
   const sourcePath =
-    "test_data/source/1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
+    "test_data/1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
   const masterJsonPath = path.join(
     sourcePath,
     "bb55dad7f4888f0a1ad004600c5fb1f1_master.json"
   )
   const masterJsonCourseData = fs.readFileSync(masterJsonPath)
-  const destinationPath = "test_data/destination"
+  const destinationPath = tmp.dirSync({prefix: "destination"}).name
 
   beforeEach(() => {
     readFileSync = sinon.stub(fs, "readFileSync").returns(masterJsonCourseData)
