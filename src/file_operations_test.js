@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const path = require("path")
 const expect = require("expect.js")
 const fileOperations = require("./file_operations")
