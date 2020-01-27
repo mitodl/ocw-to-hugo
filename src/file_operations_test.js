@@ -1,4 +1,3 @@
-const assert = require("assert")
 const path = require("path")
 const expect = require("expect.js")
 const fileOperations = require("./file_operations")
@@ -11,7 +10,7 @@ tmp.setGracefulCleanup()
 describe("scanCourses", () => {
   let readdir, consoleLog, scanCourseStub
   const sourcePath = "test_data"
-  const destinationPath = tmp.dirSync({prefix: "destination"}).name
+  const destinationPath = tmp.dirSync({ prefix: "destination" }).name
 
   beforeEach(() => {
     readdir = sinon.stub(fs, "readdir")
@@ -45,9 +44,7 @@ describe("scanCourses", () => {
   it("scans the three test courses and reports to console", () => {
     fileOperations.scanCourses(sourcePath, destinationPath)
     expect(
-      consoleLog.calledOnceWith(
-        "Scanning 3 subdirectories under test_data"
-      )
+      consoleLog.calledOnceWith("Scanning 3 subdirectories under test_data")
     )
   })
 
@@ -83,7 +80,7 @@ describe("scanCourse", () => {
     "bb55dad7f4888f0a1ad004600c5fb1f1_master.json"
   )
   const masterJsonCourseData = fs.readFileSync(masterJsonPath)
-  const destinationPath = tmp.dirSync({prefix: "destination"}).name
+  const destinationPath = tmp.dirSync({ prefix: "destination" }).name
 
   beforeEach(() => {
     readFileSync = sinon.stub(fs, "readFileSync").returns(masterJsonCourseData)
