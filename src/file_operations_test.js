@@ -81,6 +81,17 @@ describe("scanCourse", () => {
   )
   const masterJsonCourseData = fs.readFileSync(masterJsonPath)
   const destinationPath = tmp.dirSync({ prefix: "destination" }).name
+  const expectedSections = [
+    "syllabus",
+    "instructor-insights",
+    "readings",
+    "lecture-notes",
+    "recitations",
+    "assignments",
+    "exams",
+    "tools",
+    "download-course-materials"
+  ]
 
   beforeEach(() => {
     readFileSync = sinon.stub(fs, "readFileSync").returns(masterJsonCourseData)
@@ -112,5 +123,15 @@ describe("scanCourse", () => {
         destinationPath
       )
     )
+  })
+
+  it("creates an _index.md file and a markdown file for every section of this course", () => {
+    fileOperations.scanCourse(sourcePath, destinationPath)
+    expect(fs.existsSync(path.join(destinationPath, "_index.md")))
+    expectedSections.forEach(section => {
+      expect(
+        fs.existsSync(path.join(destinationPath, "sections", `${section}.md`))
+      )
+    })
   })
 })
