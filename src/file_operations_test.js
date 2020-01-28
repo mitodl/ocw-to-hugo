@@ -81,31 +81,18 @@ describe("scanCourses", () => {
 })
 
 describe("scanCourse", () => {
-  let readdir, readFileSync, writeFileSync, writeMarkdownFiles
+  let readFileSync, writeFileSync, writeMarkdownFiles
   const sourcePath =
     "test_data/1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
   const masterJsonPath = path.join(
     sourcePath,
     "bb55dad7f4888f0a1ad004600c5fb1f1_master.json"
   )
-  const masterJsonCourseData = fs.readFileSync(masterJsonPath)
   const destinationPath = tmp.dirSync({ prefix: "destination" }).name
-  const expectedSections = [
-    "syllabus",
-    "instructor-insights",
-    "readings",
-    "lecture-notes",
-    "recitations",
-    "assignments",
-    "exams",
-    "tools",
-    "download-course-materials"
-  ]
 
   beforeEach(() => {
-    readFileSync = sinon.stub(fs, "readFileSync").returns(masterJsonCourseData)
+    readFileSync = sinon.stub(fs, "readFileSync")
     writeFileSync = sinon.stub(fs, "writeFileSync")
-    writeMarkdownFiles = sinon.stub(fileOperations, "writeMarkdownFiles")
   })
 
   afterEach(() => {
