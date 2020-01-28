@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
+    "chai": "^4.2.0",
     "eslint": "^5.0.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-mitodl": "^0.0.7",

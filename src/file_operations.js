@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 
 const fs = require("fs")
+const util = require("util")
 const path = require("path")
 const { generateMarkdownFromJson } = require("./markdown_generators")
 const cliProgress = require("cli-progress")
@@ -9,6 +10,7 @@ const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
   cliProgress.Presets.shades_classic
 )
+const readdir = util.promisify(fs.readdir)
 let directoriesScanned = 0
 
 const directoryExists = directory => {
@@ -25,47 +27,47 @@ const scanCourses = (source, destination) => {
   */
   // Make sure that the source and destination arguments have been passed and they are directories
   if (!directoryExists(source)) {
-    throw new Error("Invalid source directory")
+    return new Error("Invalid source directory")
   }
   if (!directoryExists(destination)) {
-    throw new Error("Invalid destination directory")
+    return new Error("Invalid destination directory")
   }
   // Iterate all subdirectories under source
   directoriesScanned = 0
-  fs.readdir(source, (err, contents) => {
-    const totalDirectories = contents.filter(file =>
-      directoryExists(path.join(source, file))
-    ).length
-    console.log(`Scanning ${totalDirectories} subdirectories under ${source}`)
-    progressBar.start(totalDirectories, directoriesScanned)
-    contents.forEach(file => {
-      const coursePath = path.join(source, file)
-      if (fs.lstatSync(coursePath).isDirectory()) {
-        // If the item is indeed a directory, read all files in it
-        scanCourse(coursePath, destination)
-      }
-    })
+  const contents = fs.readdirSync(source)
+  // console.log("readdir called")
+  const totalDirectories = contents.filter(file =>
+    directoryExists(path.join(source, file))
+  ).length
+  console.log(`Scanning ${totalDirectories} subdirectories under ${source}`)
+  progressBar.start(totalDirectories, directoriesScanned)
+  contents.forEach(file => {
+    const coursePath = path.join(source, file)
+    if (fs.lstatSync(coursePath).isDirectory()) {
+      // If the item is indeed a directory, read all files in it
+      scanCourse(coursePath, destination).then(() => {
+        directoriesScanned++
+        progressBar.update(directoriesScanned)
+      })
+    }
   })
 }
 
-const scanCourse = (coursePath, destination) => {
+const scanCourse = async (coursePath, destination) => {
   /*
     This function scans a course directory for a master json file and processes it
   */
-  fs.readdir(coursePath, (err, contents) => {
-    contents.forEach(file => {
-      // If the item is a master json file, parse it and process into hugo markdown
-      if (file.endsWith("_master.json")) {
-        const courseData = JSON.parse(
-          fs.readFileSync(path.join(coursePath, file))
-        )
-        const markdownData = generateMarkdownFromJson(courseData)
-        writeMarkdownFiles(courseData["short_url"], markdownData, destination)
-      }
-    })
-    directoriesScanned++
-    progressBar.update(directoriesScanned)
-  })
+  const contents = await readdir(coursePath)
+  for (const file of contents) {
+    // If the item is a master json file, parse it and process into hugo markdown
+    if (file.endsWith("_master.json")) {
+      const courseData = JSON.parse(
+        fs.readFileSync(path.join(coursePath, file))
+      )
+      const markdownData = generateMarkdownFromJson(courseData)
+      writeMarkdownFiles(courseData["short_url"], markdownData, destination)
+    }
+  }
 }
 
 const writeMarkdownFiles = (courseId, markdownData, destination) => {

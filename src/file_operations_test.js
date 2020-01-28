@@ -1,73 +1,80 @@
 #!/usr/bin/env node
 
 const path = require("path")
-const expect = require("expect.js")
+const chai = require("chai")
+const assert = chai.assert
 const fileOperations = require("./file_operations")
-const markdownGenerators = require("./markdown_generators")
 const fs = require("fs")
 const sinon = require("sinon")
 const tmp = require("tmp")
 tmp.setGracefulCleanup()
 
 describe("scanCourses", () => {
-  let readdir, consoleLog, scanCourseStub
+  let readdirSyncSpy, lstatSyncSpy, consoleLogStub, scanCourseSpy
+  const sandbox = sinon.createSandbox()
   const sourcePath = "test_data"
   const destinationPath = tmp.dirSync({ prefix: "destination" }).name
 
   beforeEach(() => {
-    readdir = sinon.stub(fs, "readdir")
-    consoleLog = sinon.spy(console, "log")
-    scanCourseStub = sinon.stub(fileOperations, "scanCourse")
+    readdirSyncSpy = sandbox.spy(fs, "readdirSync")
+    lstatSyncSpy = sandbox.spy(fs, "lstatSync")
+    consoleLogStub = sandbox.spy(console, "log")
+    scanCourseSpy = sandbox.spy(fileOperations, "scanCourse")
   })
 
   afterEach(() => {
-    readdir.restore()
-    consoleLog.restore()
-    scanCourseStub.restore()
+    sandbox.restore()
   })
 
   it("throws an error when you call it with no source directory", () => {
-    expect(fileOperations.scanCourses)
-      .withArgs(null, destinationPath)
-      .to.throwError(Error, "Invalid source directory")
+    try {
+      fileOperations.scanCourses(null, destinationPath)
+    } catch (err) {
+      assert.equal(err.message, "Invalid source directory")
+    }
   })
 
   it("throws an error when you call it with no destination directory", () => {
-    expect(fileOperations.scanCourses)
-      .withArgs(sourcePath, null)
-      .to.throwError(Error, "Invalid source directory")
+    try {
+      fileOperations.scanCourses(sourcePath, null)
+    } catch (err) {
+      assert.equal(err.message, "Invalid destination directory")
+    }
   })
 
-  it("calls readdir once", () => {
+  it("calls readdirSync once", () => {
     fileOperations.scanCourses(sourcePath, destinationPath)
-    expect(readdir.calledOnceWith(sourcePath)).to.be(true)
+    assert(readdirSyncSpy.calledOnce)
   })
 
   it("scans the three test courses and reports to console", () => {
     fileOperations.scanCourses(sourcePath, destinationPath)
-    expect(
-      consoleLog.calledOnceWith("Scanning 3 subdirectories under test_data")
+    assert(
+      consoleLogStub.calledOnceWith("Scanning 3 subdirectories under test_data")
     )
   })
 
-  it("calls scanCourse for each test course", () => {
+  it("calls lstatSync for each test course", () => {
     fileOperations.scanCourses(sourcePath, destinationPath)
-    expect(
-      scanCourseStub.calledOnceWith(
-        "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012",
-        destinationPath
+    assert(
+      lstatSyncSpy.calledWithExactly(
+        path.join(
+          sourcePath,
+          "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
+        )
       )
     )
-    expect(
-      scanCourseStub.calledOnceWith(
-        "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009",
-        destinationPath
+    assert(
+      lstatSyncSpy.calledWithExactly(
+        path.join(
+          sourcePath,
+          "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
+        )
       )
     )
-    expect(
-      scanCourseStub.calledOnceWith(
-        "3-00-thermodynamics-of-materials-fall-2002",
-        destinationPath
+    assert(
+      lstatSyncSpy.calledWithExactly(
+        path.join(sourcePath, "3-00-thermodynamics-of-materials-fall-2002")
       )
     )
   })
@@ -107,33 +114,8 @@ describe("scanCourse", () => {
     writeMarkdownFiles.restore()
   })
 
-  it("calls readdir once", () => {
-    readdir = sinon.stub(fs, "readdir").returns({})
-    fileOperations.scanCourse(sourcePath, destinationPath)
-    expect(readdir.calledOnceWith(sourcePath)).to.be(true)
-    readdir.restore()
-  })
-
-  it("calls writeMarkdownFiles for the master.json file", () => {
-    fileOperations.scanCourse(sourcePath, destinationPath)
-    expect(
-      writeMarkdownFiles.calledOnceWith(
-        masterJsonCourseData["short_url"],
-        markdownGenerators.generateMarkdownFromJson(
-          JSON.parse(masterJsonCourseData)
-        ),
-        destinationPath
-      )
-    )
-  })
-
-  it("creates an _index.md file and a markdown file for every section of this course", () => {
-    fileOperations.scanCourse(sourcePath, destinationPath)
-    expect(fs.existsSync(path.join(destinationPath, "_index.md")))
-    expectedSections.forEach(section => {
-      expect(
-        fs.existsSync(path.join(destinationPath, "sections", `${section}.md`))
-      )
-    })
+  it("calls readFileSync on the master json file", async () => {
+    await fileOperations.scanCourse(sourcePath, destinationPath)
+    assert(readFileSync.calledWithExactly(masterJsonPath))
   })
 })
