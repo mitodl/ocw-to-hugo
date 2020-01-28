@@ -64,7 +64,9 @@ const scanCourse = async (coursePath, destination) => {
       const courseData = JSON.parse(
         fs.readFileSync(path.join(coursePath, file))
       )
-      const markdownData = markdownGenerators.generateMarkdownFromJson(courseData)
+      const markdownData = markdownGenerators.generateMarkdownFromJson(
+        courseData
+      )
       writeMarkdownFiles(courseData["short_url"], markdownData, destination)
     }
   }
@@ -78,13 +80,13 @@ const writeMarkdownFiles = (courseId, markdownData, destination) => {
   fs.mkdirSync(path.join(destination, courseId, "sections"), {
     recursive: true
   })
-  markdownData.forEach(file => {
+  for (const file of markdownData) {
     const filePath = path.join(destination, courseId, file["name"])
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath)
     }
     fs.writeFileSync(filePath, file["data"])
-  })
+  }
 }
 
 module.exports = {
