@@ -98,7 +98,6 @@ describe("scanCourse", () => {
   afterEach(() => {
     readFileSync.restore()
     writeFileSync.restore()
-    writeMarkdownFiles.restore()
   })
 
   it("calls readFileSync on the master json file", async () => {
