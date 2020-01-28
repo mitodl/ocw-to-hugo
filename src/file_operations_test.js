@@ -4,6 +4,7 @@ const path = require("path")
 const chai = require("chai")
 const assert = chai.assert
 const fileOperations = require("./file_operations")
+const markdownGenerators = require("./markdown_generators")
 const fs = require("fs")
 const sinon = require("sinon")
 const tmp = require("tmp")
@@ -81,27 +82,33 @@ describe("scanCourses", () => {
 })
 
 describe("scanCourse", () => {
-  let readFileSync, writeFileSync, writeMarkdownFiles
+  let readFileSync, generateMarkdownFromJson
+  const sandbox = sinon.createSandbox()
   const sourcePath =
     "test_data/1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
   const masterJsonPath = path.join(
     sourcePath,
     "bb55dad7f4888f0a1ad004600c5fb1f1_master.json"
   )
+  const masterJsonCourseData = fs.readFileSync(masterJsonPath)
   const destinationPath = tmp.dirSync({ prefix: "destination" }).name
 
   beforeEach(() => {
-    readFileSync = sinon.stub(fs, "readFileSync")
-    writeFileSync = sinon.stub(fs, "writeFileSync")
+    readFileSync = sandbox.stub(fs, "readFileSync").returns(masterJsonCourseData)
+    generateMarkdownFromJson = sandbox.spy(markdownGenerators, "generateMarkdownFromJson")
   })
 
   afterEach(() => {
-    readFileSync.restore()
-    writeFileSync.restore()
+    sandbox.restore()
   })
 
   it("calls readFileSync on the master json file", async () => {
     await fileOperations.scanCourse(sourcePath, destinationPath)
     assert(readFileSync.calledWithExactly(masterJsonPath))
+  })
+
+  it("calls generateMarkdownFromJson on the course data", async () => {
+    await fileOperations.scanCourse(sourcePath, destinationPath)
+    assert(generateMarkdownFromJson.calledOnce)
   })
 })

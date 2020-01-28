@@ -4,7 +4,7 @@
 const fs = require("fs")
 const util = require("util")
 const path = require("path")
-const { generateMarkdownFromJson } = require("./markdown_generators")
+const markdownGenerators = require("./markdown_generators")
 const cliProgress = require("cli-progress")
 const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
@@ -64,7 +64,7 @@ const scanCourse = async (coursePath, destination) => {
       const courseData = JSON.parse(
         fs.readFileSync(path.join(coursePath, file))
       )
-      const markdownData = generateMarkdownFromJson(courseData)
+      const markdownData = markdownGenerators.generateMarkdownFromJson(courseData)
       writeMarkdownFiles(courseData["short_url"], markdownData, destination)
     }
   }
