@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
 const path = require("path")
-const chai = require("chai")
-const assert = chai.assert
+const { assert } = require("chai")
 const fileOperations = require("./file_operations")
 const markdownGenerators = require("./markdown_generators")
 const fs = require("fs")
