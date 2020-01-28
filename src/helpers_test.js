@@ -1,5 +1,5 @@
 const path = require("path")
-const expect = require("expect.js")
+const { assert } = require("chai")
 const helpers = require("./helpers")
 const fs = require("fs")
 const sinon = require("sinon")
@@ -28,7 +28,8 @@ describe("getCourseImageUrl", () => {
     const returnedUrl = helpers.getCourseImageUrl(
       JSON.parse(fs.readFileSync(masterJsonPath))
     )
-    expect(returnedUrl).to.be.equal(
+    assert.equal(
+      returnedUrl,
       "https://open-learning-course-data.s3.amazonaws.com/1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012/457598d84426c61f83ab06ad2aa39c04_1-00s12.jpg"
     )
   })
