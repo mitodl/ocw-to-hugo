@@ -105,28 +105,27 @@ describe("scanCourse", () => {
   const sandbox = sinon.createSandbox()
   const destinationPath = tmp.dirSync({ prefix: "destination" }).name
 
-  beforeEach(() => {
+  beforeEach(async () => {
     readFileSync = sandbox.stub(fs, "readFileSync").returns(singleCourseRawData)
     generateMarkdownFromJson = sandbox.spy(
       markdownGenerators,
       "generateMarkdownFromJson"
     )
+    await fileOperations.scanCourse(singleCourseSourcePath, destinationPath)
   })
 
   afterEach(() => {
     sandbox.restore()
   })
 
-  it("calls readFileSync on the master json file", async () => {
-    await fileOperations.scanCourse(singleCourseSourcePath, destinationPath)
+  it("calls readFileSync on the master json file", () => {
     assert(
       readFileSync.calledWithExactly(singleCourseMasterJsonPath),
       `Expected readFileSync to be called with ${singleCourseMasterJsonPath}`
     )
   })
 
-  it("calls generateMarkdownFromJson on the course data", async () => {
-    await fileOperations.scanCourse(singleCourseSourcePath, destinationPath)
+  it("calls generateMarkdownFromJson on the course data", () => {
     assert(
       generateMarkdownFromJson.calledWithExactly(singleCourseJsonData),
       "Expected generateMarkdownFromJson to be called with test course JSON data"
