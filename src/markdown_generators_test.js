@@ -66,7 +66,7 @@ describe("generateCourseHomeFrontMatter", () => {
     assert.equal(
       courseHomeFrontMatter["title"],
       "Course Home",
-      `expected the page title to be "Course Home"`
+      'expected "title" front matter property to be "Course Home"'
     )
   })
 
@@ -74,7 +74,7 @@ describe("generateCourseHomeFrontMatter", () => {
     assert.equal(
       courseHomeFrontMatter["course_title"],
       singleCourseJsonData["title"],
-      `expected "course_title" front matter property to equal the json property "title"`
+      'expected "course_title" front matter property to equal the json property "title"'
     )
   })
 
@@ -82,6 +82,15 @@ describe("generateCourseHomeFrontMatter", () => {
     assert(
       getCourseImageUrl.calledWithExactly(singleCourseJsonData),
       "expected getCourseImageUrl to be called with the course json data"
+    )
+  })
+
+  it("sets the course_image_url property to the value returned from helpers.getCourseImageUrl", () => {
+    const courseImageUrl = helpers.getCourseImageUrl(singleCourseJsonData)
+    assert.equal(
+      courseHomeFrontMatter["course_image_url"],
+      courseImageUrl,
+      `expected "course_image_url" front matter property to be ${courseImageUrl}`
     )
   })
 })
