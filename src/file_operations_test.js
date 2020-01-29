@@ -143,6 +143,11 @@ describe("writeMarkdownFiles", () => {
     mkDirSync = sandbox.spy(fs, "mkdirSync")
     writeFileSync = sandbox.spy(fs, "writeFileSync")
     unlinkSync = sandbox.spy(fs, "unlinkSync")
+    fileOperations.writeMarkdownFiles(
+      singleCourseId,
+      singleCourseMarkdownData,
+      destinationPath
+    )
   })
 
   afterEach(() => {
@@ -150,22 +155,12 @@ describe("writeMarkdownFiles", () => {
   })
 
   it("calls mkDirSync to create sections folder", () => {
-    fileOperations.writeMarkdownFiles(
-      singleCourseId,
-      singleCourseMarkdownData,
-      destinationPath
-    )
     mkDirSync.calledWithExactly(
       path.join(destinationPath, singleCourseId, "sections")
     )
   })
 
   it("calls writeFileSync to create the course section markdown files", () => {
-    fileOperations.writeMarkdownFiles(
-      singleCourseId,
-      singleCourseMarkdownData,
-      destinationPath
-    )
     for (const file of singleCourseMarkdownData) {
       assert(
         writeFileSync.calledWithExactly(
@@ -178,11 +173,6 @@ describe("writeMarkdownFiles", () => {
   })
 
   it("calls unlinkSync to remove files if they already exist", () => {
-    fileOperations.writeMarkdownFiles(
-      singleCourseId,
-      singleCourseMarkdownData,
-      destinationPath
-    )
     fileOperations.writeMarkdownFiles(
       singleCourseId,
       singleCourseMarkdownData,
