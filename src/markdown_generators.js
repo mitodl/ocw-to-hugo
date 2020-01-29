@@ -29,7 +29,7 @@ turndownService.addRule("td", {
     return `<td>${content}</td>`
   }
 })
-const { getCourseImageUrl } = require("./helpers")
+const helpers = require("./helpers")
 
 const makeTopic = feature => {
   let topic = ""
@@ -86,7 +86,7 @@ const generateCourseHomeFrontMatter = courseData => {
   const frontMatter = {
     title:              "Course Home",
     course_title:       courseData["title"],
-    course_image_url:   getCourseImageUrl(courseData),
+    course_image_url:   helpers.getCourseImageUrl(courseData),
     course_description: courseData["description"],
     course_info:        {
       instructors: courseData["instructors"].map(

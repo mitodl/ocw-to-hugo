@@ -3,6 +3,7 @@
 const path = require("path")
 const { assert } = require("chai")
 const markdownGenerators = require("./markdown_generators")
+const helpers = require("./helpers")
 const fs = require("fs")
 const sinon = require("sinon")
 const tmp = require("tmp")
@@ -40,5 +41,28 @@ describe("generateMarkdownFromJson", () => {
         `expected ${fileName} to be in the markdown data`
       )
     })
+  })
+})
+
+describe("generateCourseHomeFrontMatter", () => {
+  let courseHomeFrontMatter, getCourseImageUrl
+  const sandbox = sinon.createSandbox()
+
+  beforeEach(() => {
+    getCourseImageUrl = sandbox.spy(helpers, "getCourseImageUrl")
+    courseHomeFrontMatter = markdownGenerators.generateCourseHomeFrontMatter(
+      singleCourseJsonData
+    )
+  })
+
+  afterEach(() => {
+    sandbox.restore()
+  })
+
+  it("calls getCourseImageUrl with the course json data", () => {
+    assert(
+      getCourseImageUrl.calledWithExactly(singleCourseJsonData),
+      "expected getCourseImageUrl to be called with the course json data"
+    )
   })
 })
