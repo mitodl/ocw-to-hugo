@@ -93,4 +93,12 @@ describe("generateCourseHomeFrontMatter", () => {
       `expected "course_image_url" front matter property to be ${courseImageUrl}`
     )
   })
+
+  it(`sets the course_description property to the description property of the course json data`, () => {
+    assert.equal(
+      courseHomeFrontMatter["course_description"],
+      singleCourseJsonData["description"],
+      'expected "course_description" front matter property to equal the json property "description"'
+    )
+  })
 })
