@@ -6,6 +6,7 @@ const markdownGenerators = require("./markdown_generators")
 const helpers = require("./helpers")
 const fs = require("fs")
 const yaml = require("js-yaml")
+const titleCase = require("title-case")
 const sinon = require("sinon")
 const tmp = require("tmp")
 tmp.setGracefulCleanup()
@@ -63,18 +64,22 @@ describe("generateCourseHomeFrontMatter", () => {
   })
 
   it(`sets the title of the page to "Course Home"`, () => {
+    const expectedValue = "Course Home"
+    const foundValue = courseHomeFrontMatter["title"]
     assert.equal(
-      courseHomeFrontMatter["title"],
-      "Course Home",
-      'expected "title" front matter property to be "Course Home"'
+      expectedValue,
+      foundValue,
+      `expected ${expectedValue} to equal ${foundValue}`
     )
   })
 
-  it(`sets the course_title property to the title property of the course json data`, () => {
+  it("sets the course_title property to the title property of the course json data", () => {
+    const expectedValue = singleCourseJsonData["title"]
+    const foundValue = courseHomeFrontMatter["course_title"]
     assert.equal(
-      courseHomeFrontMatter["course_title"],
-      singleCourseJsonData["title"],
-      'expected "course_title" front matter property to equal the json property "title"'
+      expectedValue,
+      foundValue,
+      `expected ${expectedValue} to equal ${foundValue}`
     )
   })
 
@@ -86,19 +91,46 @@ describe("generateCourseHomeFrontMatter", () => {
   })
 
   it("sets the course_image_url property to the value returned from helpers.getCourseImageUrl", () => {
-    const courseImageUrl = helpers.getCourseImageUrl(singleCourseJsonData)
+    const expectedValue = helpers.getCourseImageUrl(singleCourseJsonData)
+    const foundValue = courseHomeFrontMatter["course_image_url"]
     assert.equal(
-      courseHomeFrontMatter["course_image_url"],
-      courseImageUrl,
-      `expected "course_image_url" front matter property to be ${courseImageUrl}`
+      expectedValue,
+      foundValue,
+      `expected ${expectedValue} to equal ${foundValue}`
     )
   })
 
-  it(`sets the course_description property to the description property of the course json data`, () => {
+  it("sets the course_description property to the description property of the course json data", () => {
+    const expectedValue = singleCourseJsonData["description"]
+    const foundValue = courseHomeFrontMatter["course_description"]
     assert.equal(
-      courseHomeFrontMatter["course_description"],
-      singleCourseJsonData["description"],
-      'expected "course_description" front matter property to equal the json property "description"'
+      expectedValue,
+      foundValue,
+      `expected ${expectedValue} to equal ${foundValue}`
+    )
+  })
+
+  it("sets the instructors property on the course_info node to the instructors found in the instuctors node of the course json data", () => {
+    singleCourseJsonData["instructors"].forEach((instructor, index) => {
+      const expectedValue = `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`
+      const foundValue =
+        courseHomeFrontMatter["course_info"]["instructors"][index]
+      assert(
+        expectedValue === foundValue,
+        `expected ${expectedValue} to equal ${foundValue}`
+      )
+    })
+  })
+
+  it("sets the department property on the course_info node to the deparentment found on the url property of the course json data, title cased with hyphens replaced with spaces", () => {
+    const expectedValue = titleCase.titleCase(
+      singleCourseJsonData["url"].split("/")[2].replace(/-/g, " ")
+    )
+    const foundValue = courseHomeFrontMatter["course_info"]["department"]
+    assert.equal(
+      expectedValue,
+      foundValue,
+      `expected ${expectedValue} to equal ${foundValue}`
     )
   })
 })
