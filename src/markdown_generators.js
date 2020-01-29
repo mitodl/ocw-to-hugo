@@ -43,7 +43,7 @@ const makeTopic = feature => {
 }
 
 const generateMarkdownFromJson = courseData => {
-  /*
+  /**
     This function takes JSON data parsed from a master.json file and returns markdown data
     */
   let courseHomeMarkdown = generateCourseHomeFrontMatter(courseData)
@@ -73,9 +73,9 @@ const generateMarkdownFromJson = courseData => {
 }
 
 const generateCourseHomeFrontMatter = courseData => {
-  /*
-      Generate the front matter metadata for the course home page given course_data JSON
-      */
+  /**
+    Generate the front matter metadata for the course home page given course_data JSON
+    */
 
   let courseNumber = courseData["sort_as"]
   if (courseData["extra_course_number"]) {
@@ -111,9 +111,9 @@ const generateCourseHomeFrontMatter = courseData => {
 }
 
 const generateCourseSectionFrontMatter = (title, menuIndex) => {
-  /*
-      Generate the front matter metadata for a course section given a title and menu index
-      */
+  /**
+    Generate the front matter metadata for a course section given a title and menu index
+    */
   return `---\n${yaml.safeDump({
     title: title,
     menu:  {
@@ -125,9 +125,9 @@ const generateCourseSectionFrontMatter = (title, menuIndex) => {
 }
 
 const generateCourseFeatures = courseData => {
-  /*
-      Generate markdown for the "Course Features" section of the home page
-      */
+  /**
+    Generate markdown for the "Course Features" section of the home page
+    */
   const courseFeaturesHeader = markdown.headers.hX(5, "Course Features")
   const courseFeatures = courseData["course_features"].map(courseFeature => {
     const urlParts = courseFeature["ocw_feature_url"]
@@ -140,9 +140,9 @@ const generateCourseFeatures = courseData => {
 }
 
 const generateCourseCollections = courseData => {
-  /*
-      Generate markdown for the "Course Collections" section of the home page
-      */
+  /**
+    Generate markdown for the "Course Collections" section of the home page
+    */
   const courseCollectionsHeader = markdown.headers.hX(5, "Course Collections")
   const courseCollectionsSubHeader = `\nSee related courses in the following collections:\n\n${markdown.emphasis.i(
     "Find Courses by Topic"
@@ -168,9 +168,9 @@ const generateCourseCollections = courseData => {
 }
 
 const generateCourseSectionMarkdown = (page, courseData) => {
-  /*
-      Generate markdown a given course section page
-      */
+  /**
+    Generate markdown a given course section page
+    */
   let htmlStr = page["text"]
   courseData["course_pages"].forEach(coursePage => {
     const placeholder = `./resolveuid/${coursePage["uid"]}`
