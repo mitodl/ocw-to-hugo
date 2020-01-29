@@ -5,6 +5,7 @@ const { assert } = require("chai")
 const markdownGenerators = require("./markdown_generators")
 const helpers = require("./helpers")
 const fs = require("fs")
+const yaml = require("js-yaml")
 const sinon = require("sinon")
 const tmp = require("tmp")
 tmp.setGracefulCleanup()
@@ -50,8 +51,10 @@ describe("generateCourseHomeFrontMatter", () => {
 
   beforeEach(() => {
     getCourseImageUrl = sandbox.spy(helpers, "getCourseImageUrl")
-    courseHomeFrontMatter = markdownGenerators.generateCourseHomeFrontMatter(
-      singleCourseJsonData
+    courseHomeFrontMatter = yaml.safeLoad(
+      markdownGenerators
+        .generateCourseHomeFrontMatter(singleCourseJsonData)
+        .replace(/---\n/g, "")
     )
   })
 
@@ -60,10 +63,19 @@ describe("generateCourseHomeFrontMatter", () => {
   })
 
   it(`sets the title of the page to "Course Home"`, () => {
+    console.log(courseHomeFrontMatter)
     assert.equal(
       courseHomeFrontMatter["title"],
       "Course Home",
       `expected the page title to be "Course Home"`
+    )
+  })
+
+  it(`sets the course_title property to the title property of the course json data`, () => {
+    assert.equal(
+      courseHomeFrontMatter["course_title"],
+      singleCourseJsonData["title"],
+      `expected "course_title" front matter property to equal the json property "title"`
     )
   })
 
