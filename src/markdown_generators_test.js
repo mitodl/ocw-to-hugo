@@ -63,7 +63,6 @@ describe("generateCourseHomeFrontMatter", () => {
   })
 
   it(`sets the title of the page to "Course Home"`, () => {
-    console.log(courseHomeFrontMatter)
     assert.equal(
       courseHomeFrontMatter["title"],
       "Course Home",
