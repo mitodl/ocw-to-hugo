@@ -59,6 +59,14 @@ describe("generateCourseHomeFrontMatter", () => {
     sandbox.restore()
   })
 
+  it(`sets the title of the page to "Course Home"`, () => {
+    assert.equal(
+      courseHomeFrontMatter["title"],
+      "Course Home",
+      `expected the page title to be "Course Home"`
+    )
+  })
+
   it("calls getCourseImageUrl with the course json data", () => {
     assert(
       getCourseImageUrl.calledWithExactly(singleCourseJsonData),
