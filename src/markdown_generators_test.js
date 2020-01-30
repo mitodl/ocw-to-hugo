@@ -8,6 +8,8 @@ const fs = require("fs")
 const yaml = require("js-yaml")
 const markdown = require("markdown-builder")
 const titleCase = require("title-case")
+const TurndownService = require("turndown")
+const turndownService = new TurndownService()
 const sinon = require("sinon")
 const tmp = require("tmp")
 tmp.setGracefulCleanup()
@@ -329,5 +331,20 @@ describe("generateCourseCollections", () => {
 
   it("calls markdown.lists.ul to create the Course Features list", () => {
     assert(ul.calledOnce, "expected markdown.lists.ul to be called")
+  })
+})
+
+describe("generateCourseSectionMarkdown", () => {
+  it("can be called without generating an error and returns something", () => {
+    const coursePagesWithText = singleCourseJsonData["course_pages"].filter(
+      page => page["text"]
+    )
+    assert(
+      markdownGenerators.generateCourseSectionMarkdown(
+        coursePagesWithText[0],
+        singleCourseJsonData
+      ),
+      "expected generateCourseSectionMarkdown to run without errors and return a value"
+    )
   })
 })
