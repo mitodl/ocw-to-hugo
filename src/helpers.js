@@ -33,6 +33,13 @@ const getCourseNumber = courseData => {
   return courseNumber
 }
 
+const getCourseSectionFromFeatureUrl = courseFeature => {
+  const urlParts = courseFeature["ocw_feature_url"]
+    .replace(/\/index.htm?l/, "/")
+    .split("/")
+  return urlParts[urlParts.length - 1]
+}
+
 const makeTopic = feature => {
   let topic = ""
   if (feature["ocw_feature"]) {
@@ -47,5 +54,6 @@ const makeTopic = feature => {
 module.exports = {
   getCourseImageUrl,
   getCourseNumber,
+  getCourseSectionFromFeatureUrl,
   makeTopic
 }

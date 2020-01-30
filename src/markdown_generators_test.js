@@ -6,6 +6,7 @@ const markdownGenerators = require("./markdown_generators")
 const helpers = require("./helpers")
 const fs = require("fs")
 const yaml = require("js-yaml")
+const markdown = require("markdown-builder")
 const titleCase = require("title-case")
 const sinon = require("sinon")
 const tmp = require("tmp")
@@ -250,5 +251,44 @@ describe("generateCourseSectionFrontMatter", () => {
 
   it("calls yaml.safeDump once", () => {
     assert(safeDump.calledOnce, "expected yaml.safeDump to be called once")
+  })
+})
+
+describe("generateCourseFeatures", () => {
+  let courseFeatures, hX, link, ul
+  const sandbox = sinon.createSandbox()
+
+  beforeEach(() => {
+    hX = sandbox.spy(markdown.headers, "hX")
+    link = sandbox.spy(markdown.misc, "link")
+    ul = sandbox.spy(markdown.lists, "ul")
+    courseFeatures = markdownGenerators.generateCourseFeatures(
+      singleCourseJsonData
+    )
+  })
+
+  afterEach(() => {
+    sandbox.restore()
+  })
+
+  it("calls markdown.headers.hx to create the Course Features header", () => {
+    assert(
+      hX.calledWithExactly(5, "Course Features"),
+      "expected markdown.headers.hX to be called"
+    )
+  })
+
+  it("calls markdown.misc.link for each item in course_features", () => {
+    singleCourseJsonData["course_features"].forEach(courseFeature => {
+      const url = helpers.getCourseSectionFromFeatureUrl(courseFeature)
+      assert(
+        link.calledWithExactly(courseFeature["ocw_feature"], url),
+        `expected markdown.misc.link to be called with ${courseFeature["ocw_feature"]} and ${url}`
+      )
+    })
+  })
+
+  it("calls markdown.lists.ul to create the Course Features list", () => {
+    assert(ul.calledOnce, "expected markdown.lists.ul to be called")
   })
 })
