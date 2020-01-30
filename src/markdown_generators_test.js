@@ -47,11 +47,12 @@ describe("generateMarkdownFromJson", () => {
 })
 
 describe("generateCourseHomeFrontMatter", () => {
-  let courseHomeFrontMatter, getCourseImageUrl
+  let courseHomeFrontMatter, getCourseImageUrl, getCourseNumber
   const sandbox = sinon.createSandbox()
 
   beforeEach(() => {
     getCourseImageUrl = sandbox.spy(helpers, "getCourseImageUrl")
+    getCourseNumber = sandbox.spy(helpers, "getCourseNumber")
     courseHomeFrontMatter = yaml.safeLoad(
       markdownGenerators
         .generateCourseHomeFrontMatter(singleCourseJsonData)
@@ -127,6 +128,37 @@ describe("generateCourseHomeFrontMatter", () => {
       singleCourseJsonData["url"].split("/")[2].replace(/-/g, " ")
     )
     const foundValue = courseHomeFrontMatter["course_info"]["department"]
+    assert.equal(
+      expectedValue,
+      foundValue,
+      `expected ${expectedValue} to equal ${foundValue}`
+    )
+  })
+
+  it("sets the topics property on the course info object to data parsed from course_collections in the course json data", () => {
+    const expectedValues = singleCourseJsonData["course_collections"].map(
+      helpers.makeTopic
+    )
+    const foundValues = courseHomeFrontMatter["course_info"]["topics"]
+    expectedValues.forEach((expectedValue, index) => {
+      assert.equal(
+        expectedValue,
+        foundValues[index],
+        `expected ${expectedValue} to equal ${foundValues[index]}`
+      )
+    })
+  })
+
+  it("calls getCourseNumber with the course json data", () => {
+    assert(
+      getCourseNumber.calledWithExactly(singleCourseJsonData),
+      "expected getCourseNumber to be called with the course json data"
+    )
+  })
+
+  it("sets the course_number property on the course info object to data parsed from sort_as and extra_course_number properties in the course json data", () => {
+    const expectedValue = helpers.getCourseNumber(singleCourseJsonData)
+    const foundValue = courseHomeFrontMatter["course_info"]["course_number"]
     assert.equal(
       expectedValue,
       foundValue,

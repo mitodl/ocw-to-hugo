@@ -31,17 +31,6 @@ turndownService.addRule("td", {
 })
 const helpers = require("./helpers")
 
-const makeTopic = feature => {
-  let topic = ""
-  if (feature["ocw_feature"]) {
-    topic += feature["ocw_feature"]
-  }
-  if (feature["ocw_subfeature"]) {
-    topic += ` - ${feature["ocw_subfeature"]}`
-  }
-  return topic
-}
-
 const generateMarkdownFromJson = courseData => {
   /**
     This function takes JSON data parsed from a master.json file and returns markdown data
@@ -77,12 +66,6 @@ const generateCourseHomeFrontMatter = courseData => {
     Generate the front matter metadata for the course home page given course_data JSON
     */
 
-  let courseNumber = courseData["sort_as"]
-  if (courseData["extra_course_number"]) {
-    if (courseData["extra_course_number"]["sort_as_col"]) {
-      courseNumber += ` / ${courseData["extra_course_number"]["sort_as_col"]}`
-    }
-  }
   const frontMatter = {
     title:              "Course Home",
     course_title:       courseData["title"],
@@ -96,8 +79,8 @@ const generateCourseHomeFrontMatter = courseData => {
       department: titleCase.titleCase(
         courseData["url"].split("/")[2].replace(/-/g, " ")
       ),
-      topics:        courseData["course_collections"].map(makeTopic),
-      course_number: courseNumber,
+      topics:        courseData["course_collections"].map(helpers.makeTopic),
+      course_number: helpers.getCourseNumber(courseData),
       term:          `${courseData["from_semester"]} ${courseData["from_year"]}`,
       level:         courseData["course_level"]
     },

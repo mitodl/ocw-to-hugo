@@ -23,6 +23,29 @@ const getCourseImageUrl = courseData => {
     : "images/course_image.jpg"
 }
 
+const getCourseNumber = courseData => {
+  let courseNumber = courseData["sort_as"]
+  if (courseData["extra_course_number"]) {
+    if (courseData["extra_course_number"]["sort_as_col"]) {
+      courseNumber = `${courseNumber} / ${courseData["extra_course_number"]["sort_as_col"]}`
+    }
+  }
+  return courseNumber
+}
+
+const makeTopic = feature => {
+  let topic = ""
+  if (feature["ocw_feature"]) {
+    topic = feature["ocw_feature"]
+  }
+  if (feature["ocw_subfeature"]) {
+    topic = `${topic} - ${feature["ocw_subfeature"]}`
+  }
+  return topic
+}
+
 module.exports = {
-  getCourseImageUrl
+  getCourseImageUrl,
+  getCourseNumber,
+  makeTopic
 }
