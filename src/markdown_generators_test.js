@@ -47,13 +47,18 @@ describe("generateMarkdownFromJson", () => {
 })
 
 describe("generateCourseHomeFrontMatter", () => {
-  let courseHomeFrontMatter, getCourseImageUrl, getCourseNumber, makeTopic
+  let courseHomeFrontMatter,
+    getCourseImageUrl,
+    getCourseNumber,
+    makeTopic,
+    safeDump
   const sandbox = sinon.createSandbox()
 
   beforeEach(() => {
     getCourseImageUrl = sandbox.spy(helpers, "getCourseImageUrl")
     getCourseNumber = sandbox.spy(helpers, "getCourseNumber")
     makeTopic = sandbox.spy(helpers, "makeTopic")
+    safeDump = sandbox.spy(yaml, "safeDump")
     courseHomeFrontMatter = yaml.safeLoad(
       markdownGenerators
         .generateCourseHomeFrontMatter(singleCourseJsonData)
@@ -203,5 +208,47 @@ describe("generateCourseHomeFrontMatter", () => {
       courseHomeFrontMatter["menu"]["main"]["weight"],
       "expected main menu weight to be -10"
     )
+  })
+
+  it("calls yaml.safeDump once", () => {
+    assert(safeDump.calledOnce, "expected yaml.safeDump to be called once")
+  })
+})
+
+describe("generateCourseSectionFrontMatter", () => {
+  let courseSectionFrontMatter, safeDump
+  const sandbox = sinon.createSandbox()
+
+  beforeEach(() => {
+    safeDump = sandbox.spy(yaml, "safeDump")
+    courseSectionFrontMatter = yaml.safeLoad(
+      markdownGenerators
+        .generateCourseSectionFrontMatter("Syllabus", 10)
+        .replace(/---\n/g, "")
+    )
+  })
+
+  afterEach(() => {
+    sandbox.restore()
+  })
+
+  it("sets the title property to the title passed in", () => {
+    assert.equal(
+      "Syllabus",
+      courseSectionFrontMatter["title"],
+      "expected the title property to be Syllabus"
+    )
+  })
+
+  it("sets the menu index to 10", () => {
+    assert.equal(
+      10,
+      courseSectionFrontMatter["menu"]["main"]["weight"],
+      "expected main menu weight to be 10"
+    )
+  })
+
+  it("calls yaml.safeDump once", () => {
+    assert(safeDump.calledOnce, "expected yaml.safeDump to be called once")
   })
 })
