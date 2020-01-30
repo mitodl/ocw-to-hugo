@@ -47,12 +47,13 @@ describe("generateMarkdownFromJson", () => {
 })
 
 describe("generateCourseHomeFrontMatter", () => {
-  let courseHomeFrontMatter, getCourseImageUrl, getCourseNumber
+  let courseHomeFrontMatter, getCourseImageUrl, getCourseNumber, makeTopic
   const sandbox = sinon.createSandbox()
 
   beforeEach(() => {
     getCourseImageUrl = sandbox.spy(helpers, "getCourseImageUrl")
     getCourseNumber = sandbox.spy(helpers, "getCourseNumber")
+    makeTopic = sandbox.spy(helpers, "makeTopic")
     courseHomeFrontMatter = yaml.safeLoad(
       markdownGenerators
         .generateCourseHomeFrontMatter(singleCourseJsonData)
@@ -132,6 +133,16 @@ describe("generateCourseHomeFrontMatter", () => {
       expectedValue,
       foundValue,
       `expected ${expectedValue} to equal ${foundValue}`
+    )
+  })
+
+  it("calls makeTopic with each of the elements in course_collections", () => {
+    const courseCollectionsLength =
+      singleCourseJsonData["course_collections"].length
+    assert.equal(
+      makeTopic.callCount,
+      courseCollectionsLength,
+      `expected makeTopic to be called ${courseCollectionsLength} times`
     )
   })
 
