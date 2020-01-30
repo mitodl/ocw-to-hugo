@@ -196,4 +196,12 @@ describe("generateCourseHomeFrontMatter", () => {
       `expected ${expectedValue} to equal ${foundValue}`
     )
   })
+
+  it("sets the menu index of the course home page to -10 to ensure it is at the top", () => {
+    assert.equal(
+      -10,
+      courseHomeFrontMatter["menu"]["main"]["weight"],
+      "expected main menu weight to be -10"
+    )
+  })
 })
