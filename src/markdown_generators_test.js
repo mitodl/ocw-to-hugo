@@ -176,4 +176,24 @@ describe("generateCourseHomeFrontMatter", () => {
       `expected ${expectedValue} to equal ${foundValue}`
     )
   })
+
+  it("sets the term property on the course info object to from_semester and from_year in the course json data", () => {
+    const expectedValue = `${singleCourseJsonData["from_semester"]} ${singleCourseJsonData["from_year"]}`
+    const foundValue = courseHomeFrontMatter["course_info"]["term"]
+    assert.equal(
+      expectedValue,
+      foundValue,
+      `expected ${expectedValue} to equal ${foundValue}`
+    )
+  })
+
+  it("sets the level property on the course info object to course_level in the course json data", () => {
+    const expectedValue = singleCourseJsonData["course_level"]
+    const foundValue = courseHomeFrontMatter["course_info"]["level"]
+    assert.equal(
+      expectedValue,
+      foundValue,
+      `expected ${expectedValue} to equal ${foundValue}`
+    )
+  })
 })
