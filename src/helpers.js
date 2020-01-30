@@ -40,6 +40,20 @@ const getCourseSectionFromFeatureUrl = courseFeature => {
   return urlParts[urlParts.length - 1]
 }
 
+const getCourseCollectionText = courseCollection => {
+  const feature = courseCollection["ocw_feature"]
+  const subfeature = courseCollection["ocw_subfeature"]
+  const specialty = courseCollection["ocw_specialty"]
+  let collection = feature
+  if (subfeature) {
+    collection = `${collection} > ${subfeature}`
+  }
+  if (specialty) {
+    collection = `${collection} > ${specialty}`
+  }
+  return collection
+}
+
 const makeTopic = feature => {
   let topic = ""
   if (feature["ocw_feature"]) {
@@ -55,5 +69,6 @@ module.exports = {
   getCourseImageUrl,
   getCourseNumber,
   getCourseSectionFromFeatureUrl,
+  getCourseCollectionText,
   makeTopic
 }

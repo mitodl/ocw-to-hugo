@@ -131,17 +131,10 @@ const generateCourseCollections = courseData => {
   )}\n\n`
   const courseCollections = courseData["course_collections"].map(
     courseCollection => {
-      const feature = courseCollection["ocw_feature"]
-      const subfeature = courseCollection["ocw_subfeature"]
-      const specialty = courseCollection["ocw_specialty"]
-      let collection = feature
-      if (subfeature) {
-        collection = `${collection} > ${subfeature}`
-      }
-      if (specialty) {
-        collection = `${collection} > ${specialty}`
-      }
-      return markdown.misc.link(collection, "#")
+      return markdown.misc.link(
+        helpers.getCourseCollectionText(courseCollection),
+        "#"
+      )
     }
   )
   return `${courseCollectionsHeader}${courseCollectionsSubHeader}${markdown.lists.ul(
