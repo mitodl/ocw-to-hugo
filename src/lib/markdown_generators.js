@@ -61,7 +61,6 @@ turndownService.addRule("table", {
   }
 })
 
-
 /**
  * Build links with Hugo shortcodes to course sections
  **/
@@ -76,9 +75,12 @@ turndownService.addRule("refshortcode", {
   },
   replacement: (content, node, options) => {
     content = turndownService.escape(content)
-    const ref = turndownService.escape(node.getAttribute("href")
-      .replace("REFSHORTCODESTART", "{{< ref \"")
-      .replace("REFSHORTCODEEND", "\" >}}"))
+    const ref = turndownService.escape(
+      node
+        .getAttribute("href")
+        .replace("REFSHORTCODESTART", '{{< ref "')
+        .replace("REFSHORTCODEEND", '" >}}')
+    )
     return `[${content}](${ref})`
   }
 })
@@ -105,13 +107,24 @@ const getYoutubeEmbedHtml = media => {
     .join("")
 }
 
-const fixLinks = (htmlStr, courseData) => {
+const fixLinks = (page, courseData) => {
+  let htmlStr = page["text"]
   if (htmlStr) {
-    courseData["course_pages"].forEach(page => {
-      const placeholder = new RegExp(`\\.?\\/?resolveuid\\/${page["uid"]}`, "g")
+    const coursePagesWithText = courseData["course_pages"].filter(
+      page => page["text"]
+    )
+    coursePagesWithText.forEach(coursePage => {
+      const placeholder = new RegExp(
+        `\\.?\\/?resolveuid\\/${coursePage["uid"]}`,
+        "g"
+      )
+      const prefix =
+        page["title"] === "Course Home" && coursePage["title"] !== "Course Home"
+          ? "sections/"
+          : ""
       htmlStr = htmlStr.replace(
         placeholder,
-        `REFSHORTCODESTARTsections/${page["short_url"]}REFSHORTCODEEND`
+        `REFSHORTCODESTART${prefix}${coursePage["short_url"]}REFSHORTCODEEND`
       )
     })
     courseData["course_files"].forEach(media => {
@@ -153,7 +166,9 @@ const generateMarkdownFromJson = courseData => {
       const pageName = page["short_url"]
       let courseSectionMarkdown = generateCourseSectionFrontMatter(
         page["title"],
-        (menuIndex + 1) * 10
+        page["short_url"],
+        (menuIndex + 1) * 10,
+        courseData["short_url"]
       )
       courseSectionMarkdown += generateCourseSectionMarkdown(page, courseData)
       return {
@@ -177,6 +192,7 @@ const generateCourseHomeFrontMatter = courseData => {
   }
   const frontMatter = {
     title:              "Course Home",
+    course_id:          courseData["short_url"],
     course_title:       courseData["title"],
     course_image_url:   getCourseImageUrl(courseData),
     course_description: courseData["description"],
@@ -194,23 +210,30 @@ const generateCourseHomeFrontMatter = courseData => {
       level:         courseData["course_level"]
     },
     menu: {
-      main: {
-        weight: -10
+      [courseData["short_url"]]: {
+        identifier: "course-home",
+        weight:     -10
       }
     }
   }
   return `---\n${yaml.safeDump(frontMatter)}---\n`
 }
 
-const generateCourseSectionFrontMatter = (title, menuIndex) => {
+const generateCourseSectionFrontMatter = (
+  title,
+  pageId,
+  menuIndex,
+  courseId
+) => {
   /*
       Generate the front matter metadata for a course section given a title and menu index
       */
   return `---\n${yaml.safeDump({
     title: title,
     menu:  {
-      main: {
-        weight: menuIndex
+      [courseId]: {
+        identifier: pageId,
+        weight:     menuIndex
       }
     }
   })}---\n`
@@ -221,16 +244,22 @@ const generateCourseFeatures = courseData => {
     Generate markdown for the "Course Features" section of the home page
     */
   const courseFeaturesHeader = markdown.headers.hX(5, "Course Features")
-  const courseFeatures = courseData["course_features"].map(courseFeature => {
-    const urlParts = courseFeature["ocw_feature_url"]
-      .replace(/\/index.html?/, "/")
-      .split("/")
-    const sectionName = urlParts[urlParts.length - 1]
-      ? urlParts[urlParts.length - 1]
-      : urlParts[urlParts.length - 2]
-    const url = `{{< ref "sections/${sectionName}" >}}`
-    return markdown.misc.link(courseFeature["ocw_feature"], url)
-  })
+  const courseFeatures = courseData["course_features"]
+    .map(courseFeature => {
+      const urlParts = courseFeature["ocw_feature_url"]
+        .replace(/\/index.html?/, "/")
+        .split("/")
+      const coursePageResults = courseData["course_pages"]
+        .filter(page => page["text"])
+        .filter(page => page["short_url"] === urlParts[urlParts.length - 1])
+      if (coursePageResults.length > 0) {
+        const url = `{{< ref "sections/${urlParts[urlParts.length - 1]}" >}}`
+        return markdown.misc.link(courseFeature["ocw_feature"], url)
+      } else {
+        return null
+      }
+    })
+    .filter(courseFeature => courseFeature)
   return `${courseFeaturesHeader}\n${markdown.lists.ul(courseFeatures)}`
 }
 
@@ -267,7 +296,7 @@ const generateCourseSectionMarkdown = (page, courseData) => {
       Generate markdown a given course section page
       */
   try {
-    return turndownService.turndown(fixLinks(page["text"], courseData))
+    return turndownService.turndown(fixLinks(page, courseData))
   } catch (err) {
     console.log(err)
     return page["text"]
