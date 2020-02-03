@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
 const path = require("path")
-const { assert } = require("chai")
+const sinon = require("sinon")
+const { assert, expect } = require("chai").use(require("sinon-chai"))
 const fileOperations = require("./file_operations")
 const markdownGenerators = require("./markdown_generators")
 const fs = require("fs")
-const sinon = require("sinon")
 const tmp = require("tmp")
 tmp.setGracefulCleanup()
 
@@ -61,34 +61,19 @@ describe("scanCourses", () => {
 
   it("calls readdirSync once", () => {
     fileOperations.scanCourses(sourcePath, destinationPath)
-    assert(
-      readdirSync.calledOnce,
-      "Expected readdirSync to be called once on the source path"
-    )
+    expect(readdirSync).to.be.calledOnce
   })
 
   it("scans the three test courses and reports to console", () => {
     fileOperations.scanCourses(sourcePath, destinationPath)
-    assert(
-      consoleLog.calledOnceWith(logMessage),
-      `Expected a console.log call saying "${logMessage}"`
-    )
+    expect(consoleLog).calledWithExactly(logMessage)
   })
 
   it("calls lstatSync for each test course", () => {
     fileOperations.scanCourses(sourcePath, destinationPath)
-    assert(
-      lstatSync.calledWithExactly(course1Path),
-      `Expected lstatSync to be called with ${course1Path}`
-    )
-    assert(
-      lstatSync.calledWithExactly(course2Path),
-      `Expected lstatSync to be called with ${course2Path}`
-    )
-    assert(
-      lstatSync.calledWithExactly(course3Path),
-      `Expected lstatSync to be called with ${course3Path}`
-    )
+    expect(lstatSync).to.be.calledWithExactly(course1Path)
+    expect(lstatSync).to.be.calledWithExactly(course2Path)
+    expect(lstatSync).to.be.calledWithExactly(course3Path)
   })
 })
 
@@ -111,16 +96,12 @@ describe("scanCourse", () => {
   })
 
   it("calls readFileSync on the master json file", () => {
-    assert(
-      readFileSync.calledWithExactly(singleCourseMasterJsonPath),
-      `Expected readFileSync to be called with ${singleCourseMasterJsonPath}`
-    )
+    expect(readFileSync).to.be.calledWithExactly(singleCourseMasterJsonPath)
   })
 
   it("calls generateMarkdownFromJson on the course data", () => {
-    assert(
-      generateMarkdownFromJson.calledWithExactly(singleCourseJsonData),
-      "Expected generateMarkdownFromJson to be called with test course JSON data"
+    expect(generateMarkdownFromJson).to.be.calledOnceWithExactly(
+      singleCourseJsonData
     )
   })
 })
@@ -146,19 +127,16 @@ describe("writeMarkdownFiles", () => {
   })
 
   it("calls mkDirSync to create sections folder", () => {
-    mkDirSync.calledWithExactly(
+    expect(mkDirSync).to.be.calledWith(
       path.join(destinationPath, singleCourseId, "sections")
     )
   })
 
   it("calls writeFileSync to create the course section markdown files", () => {
     for (const file of singleCourseMarkdownData) {
-      assert(
-        writeFileSync.calledWithExactly(
-          path.join(destinationPath, singleCourseId, file["name"]),
-          file["data"]
-        ),
-        `Expected writeFileSync for ${file["name"]} not found`
+      expect(writeFileSync).to.be.calledWithExactly(
+        path.join(destinationPath, singleCourseId, file["name"]),
+        file["data"]
       )
     }
   })
@@ -170,11 +148,8 @@ describe("writeMarkdownFiles", () => {
       destinationPath
     )
     for (const file of singleCourseMarkdownData) {
-      assert(
-        unlinkSync.calledWithExactly(
-          path.join(destinationPath, singleCourseId, file["name"])
-        ),
-        `Expected unlinkSync for ${file["name"]} not found`
+      expect(unlinkSync).to.be.calledWithExactly(
+        path.join(destinationPath, singleCourseId, file["name"])
       )
     }
   })

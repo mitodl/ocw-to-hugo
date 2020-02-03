@@ -1,16 +1,14 @@
 #!/usr/bin/env node
 
 const path = require("path")
-const { assert } = require("chai")
+const sinon = require("sinon")
+const { assert, expect } = require("chai").use(require("sinon-chai"))
 const markdownGenerators = require("./markdown_generators")
 const helpers = require("./helpers")
 const fs = require("fs")
 const yaml = require("js-yaml")
 const markdown = require("markdown-builder")
 const titleCase = require("title-case")
-const TurndownService = require("turndown")
-const turndownService = new TurndownService()
-const sinon = require("sinon")
 const tmp = require("tmp")
 tmp.setGracefulCleanup()
 
@@ -94,10 +92,7 @@ describe("generateCourseHomeFrontMatter", () => {
   })
 
   it("calls getCourseImageUrl with the course json data", () => {
-    assert(
-      getCourseImageUrl.calledWithExactly(singleCourseJsonData),
-      "expected getCourseImageUrl to be called with the course json data"
-    )
+    expect(getCourseImageUrl).to.be.calledWithExactly(singleCourseJsonData)
   })
 
   it("sets the course_image_url property to the value returned from helpers.getCourseImageUrl", () => {
@@ -169,10 +164,7 @@ describe("generateCourseHomeFrontMatter", () => {
   })
 
   it("calls getCourseNumber with the course json data", () => {
-    assert(
-      getCourseNumber.calledWithExactly(singleCourseJsonData),
-      "expected getCourseNumber to be called with the course json data"
-    )
+    expect(getCourseNumber).to.be.calledWithExactly(singleCourseJsonData)
   })
 
   it("sets the course_number property on the course info object to data parsed from sort_as and extra_course_number properties in the course json data", () => {
@@ -214,7 +206,7 @@ describe("generateCourseHomeFrontMatter", () => {
   })
 
   it("calls yaml.safeDump once", () => {
-    assert(safeDump.calledOnce, "expected yaml.safeDump to be called once")
+    expect(safeDump).to.be.calledOnce
   })
 })
 
@@ -252,7 +244,7 @@ describe("generateCourseSectionFrontMatter", () => {
   })
 
   it("calls yaml.safeDump once", () => {
-    assert(safeDump.calledOnce, "expected yaml.safeDump to be called once")
+    expect(safeDump).to.be.calledOnce
   })
 })
 
@@ -274,24 +266,18 @@ describe("generateCourseFeatures", () => {
   })
 
   it("calls markdown.headers.hx to create the Course Features header", () => {
-    assert(
-      hX.calledWithExactly(5, "Course Features"),
-      "expected markdown.headers.hX to be called"
-    )
+    expect(hX).to.be.calledWithExactly(5, "Course Features")
   })
 
   it("calls markdown.misc.link for each item in course_features", () => {
     singleCourseJsonData["course_features"].forEach(courseFeature => {
       const url = helpers.getCourseSectionFromFeatureUrl(courseFeature)
-      assert(
-        link.calledWithExactly(courseFeature["ocw_feature"], url),
-        `expected markdown.misc.link to be called with ${courseFeature["ocw_feature"]} and ${url}`
-      )
+      expect(link).to.be.calledWithExactly(courseFeature["ocw_feature"], url)
     })
   })
 
   it("calls markdown.lists.ul to create the Course Features list", () => {
-    assert(ul.calledOnce, "expected markdown.lists.ul to be called")
+    expect(ul).to.be.calledOnce
   })
 })
 
@@ -313,24 +299,18 @@ describe("generateCourseCollections", () => {
   })
 
   it("calls markdown.headers.hx to create the Course Collections header", () => {
-    assert(
-      hX.calledWithExactly(5, "Course Collections"),
-      "expected markdown.headers.hX to be called"
-    )
+    expect(hX).to.be.calledWithExactly(5, "Course Collections")
   })
 
   it("calls markdown.misc.link for each item in course_collections", () => {
     singleCourseJsonData["course_collections"].forEach(courseCollection => {
       const collection = helpers.getCourseCollectionText(courseCollection)
-      assert(
-        link.calledWithExactly(collection, "#"),
-        `expected markdown.misc.link to be called with ${collection} and #`
-      )
+      expect(link).to.be.calledWithExactly(collection, "#")
     })
   })
 
   it("calls markdown.lists.ul to create the Course Features list", () => {
-    assert(ul.calledOnce, "expected markdown.lists.ul to be called")
+    expect(ul).to.be.calledOnce
   })
 })
 
