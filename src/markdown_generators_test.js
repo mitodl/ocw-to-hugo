@@ -33,16 +33,9 @@ describe("generateMarkdownFromJson", () => {
     const sections = singleCourseMarkdownData.map(section => {
       return section["name"]
     })
-    assert(
-      sections.includes("_index.md"),
-      "expected _index.md to be in the markdown data"
-    )
+    assert.include(sections, "_index.md")
     expectedSections.forEach(expectedSection => {
-      const fileName = `sections/${expectedSection}.md`
-      assert(
-        sections.includes(fileName),
-        `expected ${fileName} to be in the markdown data`
-      )
+      assert.include(sections, `sections/${expectedSection}.md`)
     })
   })
 })
