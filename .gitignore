@@ -59,7 +59,6 @@ coverage.xml
 *.cover
 .hypothesis/
 .pytest_cache/
-ocw_data_parser/test_json/destination_dir/
 
 # Environments
 .env

@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 
 const yargs = require("yargs")
-const { scanCourses } = require("../lib/file_operations")
+const { scanCourses } = require("../file_operations")
 
 // Gather arguments
 const options = yargs

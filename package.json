@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
+    "chai": "^4.2.0",
     "eslint": "^5.0.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-mitodl": "^0.0.7",
@@ -44,6 +45,9 @@
     "eslint-plugin-react": "^7.17.0",
     "mocha": "^6.2.2",
     "prettier-eslint": "^9.0.1",
-    "prettier-eslint-cli": "^5.0.0"
+    "prettier-eslint-cli": "^5.0.0",
+    "sinon": "^8.0.4",
+    "sinon-chai": "^3.4.0",
+    "tmp": "^0.1.0"
   }
 }
