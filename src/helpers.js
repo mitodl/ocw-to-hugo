@@ -65,10 +65,22 @@ const makeTopic = feature => {
   return topic
 }
 
+const getYoutubeEmbedHtml = media => {
+  const youTubeMedia = media["embedded_media"].filter(embeddedMedia => {
+    return embeddedMedia["id"] === "Video-YouTube-Stream"
+  })
+  return youTubeMedia
+    .map(embeddedMedia => {
+      return `<div class="text-center"><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${embeddedMedia["media_info"]}" frameborder="0" allow="encrypted-media; picture-in-picture"></iframe></div>`
+    })
+    .join("")
+}
+
 module.exports = {
   getCourseImageUrl,
   getCourseNumber,
   getCourseSectionFromFeatureUrl,
   getCourseCollectionText,
-  makeTopic
+  makeTopic,
+  getYoutubeEmbedHtml
 }

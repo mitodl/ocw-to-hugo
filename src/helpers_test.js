@@ -59,3 +59,24 @@ describe("makeTopic", () => {
     )
   })
 })
+
+describe("getYoutubeEmbedHtml", () => {
+  it("returned html strings contain the youtube media url for each embedded media", () => {
+    let html = ""
+    Object.keys(singleCourseJsonData["course_embedded_media"]).forEach(key => {
+      html = `${html}${helpers.getYoutubeEmbedHtml(
+        singleCourseJsonData["course_embedded_media"][key]
+      )}`
+    })
+    Object.keys(singleCourseJsonData["course_embedded_media"]).forEach(key => {
+      const youTubeMedia = singleCourseJsonData["course_embedded_media"][
+        key
+      ].filter(embeddedMedia => {
+        return embeddedMedia["id"] === "Video-YouTube-Stream"
+      })
+      youTubeMedia.forEach(embeddedMedia => {
+        assert(html.includes(embeddedMedia["media_info"]))
+      })
+    })
+  })
+})

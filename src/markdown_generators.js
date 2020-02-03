@@ -55,28 +55,6 @@ turndownService.addRule("refshortcode", {
   }
 })
 
-const makeTopic = feature => {
-  let topic = ""
-  if (feature["ocw_feature"]) {
-    topic += feature["ocw_feature"]
-  }
-  if (feature["ocw_subfeature"]) {
-    topic += ` - ${feature["ocw_subfeature"]}`
-  }
-  return topic
-}
-
-const getYoutubeEmbedHtml = media => {
-  const youTubeMedia = media["embedded_media"].filter(embeddedMedia => {
-    return embeddedMedia["id"] === "Video-YouTube-Stream"
-  })
-  return youTubeMedia
-    .map(embeddedMedia => {
-      return `<div class="text-center"><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${embeddedMedia["media_info"]}" frameborder="0" allow="encrypted-media; picture-in-picture"></iframe></div>`
-    })
-    .join("")
-}
-
 const fixLinks = (page, courseData) => {
   let htmlStr = page["text"]
   if (htmlStr) {
@@ -108,7 +86,7 @@ const fixLinks = (page, courseData) => {
       if (htmlStr.indexOf(key) !== -1) {
         htmlStr = htmlStr.replace(
           key,
-          getYoutubeEmbedHtml(courseData["course_embedded_media"][key])
+          helpers.getYoutubeEmbedHtml(courseData["course_embedded_media"][key])
         )
       }
     })
