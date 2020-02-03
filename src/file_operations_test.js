@@ -52,19 +52,11 @@ describe("scanCourses", () => {
   })
 
   it("throws an error when you call it with no source directory", () => {
-    try {
-      fileOperations.scanCourses(null, destinationPath)
-    } catch (err) {
-      assert.equal(err.message, "Invalid source directory")
-    }
+    assert.throws(() => fileOperations.scanCourses(null, destinationPath))
   })
 
   it("throws an error when you call it with no destination directory", () => {
-    try {
-      fileOperations.scanCourses(sourcePath, null)
-    } catch (err) {
-      assert.equal(err.message, "Invalid destination directory")
-    }
+    assert.throws(() => fileOperations.scanCourses(sourcePath, null))
   })
 
   it("calls readdirSync once", () => {

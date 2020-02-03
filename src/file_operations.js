@@ -27,10 +27,10 @@ const scanCourses = (source, destination) => {
   */
   // Make sure that the source and destination arguments have been passed and they are directories
   if (!directoryExists(source)) {
-    return new Error("Invalid source directory")
+    throw new Error("Invalid source directory")
   }
   if (!directoryExists(destination)) {
-    return new Error("Invalid destination directory")
+    throw new Error("Invalid destination directory")
   }
   // Iterate all subdirectories under source
   directoriesScanned = 0
