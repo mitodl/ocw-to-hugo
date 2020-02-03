@@ -148,7 +148,10 @@ describe("generateCourseHomeFrontMatter", () => {
   })
 
   it("sets the menu index of the course home page to -10 to ensure it is at the top", () => {
-    assert.equal(-10, courseHomeFrontMatter["menu"]["main"]["weight"])
+    assert.equal(
+      -10,
+      courseHomeFrontMatter["menu"][singleCourseJsonData["short_url"]]["weight"]
+    )
   })
 
   it("calls yaml.safeDump once", () => {
@@ -164,7 +167,12 @@ describe("generateCourseSectionFrontMatter", () => {
     safeDump = sandbox.spy(yaml, "safeDump")
     courseSectionFrontMatter = yaml.safeLoad(
       markdownGenerators
-        .generateCourseSectionFrontMatter("Syllabus", 10)
+        .generateCourseSectionFrontMatter(
+          "Syllabus",
+          "syllabus",
+          10,
+          singleCourseJsonData["short_url"]
+        )
         .replace(/---\n/g, "")
     )
   })
@@ -178,7 +186,7 @@ describe("generateCourseSectionFrontMatter", () => {
   })
 
   it("sets the menu index to 10", () => {
-    assert.equal(10, courseSectionFrontMatter["menu"]["main"]["weight"])
+    assert.equal(10, courseSectionFrontMatter["menu"][singleCourseJsonData["short_url"]]["weight"])
   })
 
   it("calls yaml.safeDump once", () => {
