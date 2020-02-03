@@ -6,7 +6,7 @@ const tmp = require("tmp")
 tmp.setGracefulCleanup()
 
 const singleCourseSourcePath =
-"test_data/1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
+  "test_data/1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
 const singleCourseMasterJsonPath = path.join(
   singleCourseSourcePath,
   "bb55dad7f4888f0a1ad004600c5fb1f1_master.json"
@@ -25,17 +25,16 @@ describe("getCourseImageUrl", () => {
 
 describe("getCourseNumber", () => {
   it("returns the expected course number for a given course json input", () => {
-    assert.equal(
-      helpers.getCourseNumber(singleCourseJsonData),
-      "1.00"
-    )
+    assert.equal(helpers.getCourseNumber(singleCourseJsonData), "1.00")
   })
 })
 
 describe("getCourseSectionFromFeatureUrl", () => {
   it("returns the expected course section from a course feature object", () => {
     assert.equal(
-      helpers.getCourseSectionFromFeatureUrl(singleCourseJsonData["course_features"][2]),
+      helpers.getCourseSectionFromFeatureUrl(
+        singleCourseJsonData["course_features"][2]
+      ),
       "instructor-insights"
     )
   })
@@ -44,7 +43,9 @@ describe("getCourseSectionFromFeatureUrl", () => {
 describe("getCourseCollectionText", () => {
   it("returns the expected course collection from a course collection object", () => {
     assert.equal(
-      helpers.getCourseCollectionText(singleCourseJsonData["course_collections"][0]),
+      helpers.getCourseCollectionText(
+        singleCourseJsonData["course_collections"][0]
+      ),
       "Engineering > Systems Engineering"
     )
   })
