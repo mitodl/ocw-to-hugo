@@ -186,7 +186,12 @@ describe("generateCourseSectionFrontMatter", () => {
   })
 
   it("sets the menu index to 10", () => {
-    assert.equal(10, courseSectionFrontMatter["menu"][singleCourseJsonData["short_url"]]["weight"])
+    assert.equal(
+      10,
+      courseSectionFrontMatter["menu"][singleCourseJsonData["short_url"]][
+        "weight"
+      ]
+    )
   })
 
   it("calls yaml.safeDump once", () => {
