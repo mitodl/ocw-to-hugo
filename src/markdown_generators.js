@@ -12,6 +12,10 @@ const turndownService = new TurndownService()
 turndownService.use(gfm)
 turndownService.use(tables)
 
+const REPLACETHISWITHAPIPE = "REPLACETHISWITHAPIPE"
+const REFSHORTCODESTART = "REFSHORTCODESTART"
+const REFSHORTCODEEND = "REFSHORTCODEEND"
+
 /**
  * Sanitize markdown table content
  **/
@@ -27,7 +31,7 @@ turndownService.addRule("table", {
       for (let j = 0; j < cells.length; j++) {
         cells[j].innerHTML = cells[j].innerHTML.replace(
           /\|/g,
-          "REPLACETHISWITHAPIPE"
+          REPLACETHISWITHAPIPE
         )
       }
     }
@@ -60,9 +64,6 @@ turndownService.addRule("table", {
     } else return content
   }
 })
-
-const REFSHORTCODESTART = "REFSHORTCODESTART"
-const REFSHORTCODEEND = "REFSHORTCODEEND"
 
 /**
  * Build links with Hugo shortcodes to course sections
