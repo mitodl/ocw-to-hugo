@@ -31,6 +31,73 @@ turndownService.addRule("td", {
 })
 const helpers = require("./helpers")
 
+const REFSHORTCODESTART = "REFSHORTCODESTART"
+const REFSHORTCODEEND = "REFSHORTCODEEND"
+
+/**
+ * Build links with Hugo shortcodes to course sections
+ **/
+turndownService.addRule("refshortcode", {
+  filter: (node, options) => {
+    if (node.nodeName === "A" && node.getAttribute("href")) {
+      if (node.getAttribute("href").includes(REFSHORTCODESTART)) {
+        return true
+      }
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    content = turndownService.escape(content)
+    const ref = turndownService.escape(
+      node
+        .getAttribute("href")
+        .replace(REFSHORTCODESTART, '{{< ref "')
+        .replace(REFSHORTCODEEND, '" >}}')
+    )
+    return `[${content}](${ref})`
+  }
+})
+
+const fixLinks = (page, courseData) => {
+  let htmlStr = page["text"]
+  if (htmlStr) {
+    const coursePagesWithText = courseData["course_pages"].filter(
+      page => page["text"]
+    )
+    coursePagesWithText.forEach(coursePage => {
+      const placeholder = new RegExp(
+        `\\.?\\/?resolveuid\\/${coursePage["uid"]}`,
+        "g"
+      )
+      const prefix =
+        page["title"] === "Course Home" && coursePage["title"] !== "Course Home"
+          ? "sections/"
+          : ""
+      htmlStr = htmlStr.replace(
+        placeholder,
+        `REFSHORTCODESTART${prefix}${coursePage["short_url"]}REFSHORTCODEEND`
+      )
+    })
+    courseData["course_files"].forEach(media => {
+      const placeholder = new RegExp(
+        `\\.?\\/?resolveuid\\/${media["uid"]}`,
+        "g"
+      )
+      htmlStr = htmlStr.replace(placeholder, `${media["file_location"]}`)
+    })
+    Object.keys(courseData["course_embedded_media"]).forEach(key => {
+      if (htmlStr.includes(key)) {
+        htmlStr = htmlStr.replace(
+          key,
+          helpers.getYoutubeEmbedHtml(courseData["course_embedded_media"][key])
+        )
+      }
+    })
+
+    return htmlStr
+  }
+}
+
 const generateMarkdownFromJson = courseData => {
   /**
     This function takes JSON data parsed from a master.json file and returns markdown data
@@ -50,7 +117,9 @@ const generateMarkdownFromJson = courseData => {
       const pageName = page["short_url"]
       let courseSectionMarkdown = generateCourseSectionFrontMatter(
         page["title"],
-        (menuIndex + 1) * 10
+        page["short_url"],
+        (menuIndex + 1) * 10,
+        courseData["short_url"]
       )
       courseSectionMarkdown += generateCourseSectionMarkdown(page, courseData)
       return {
@@ -68,6 +137,7 @@ const generateCourseHomeFrontMatter = courseData => {
 
   const frontMatter = {
     title:              "Course Home",
+    course_id:          courseData["short_url"],
     course_title:       courseData["title"],
     course_image_url:   helpers.getCourseImageUrl(courseData),
     course_description: courseData["description"],
@@ -85,23 +155,30 @@ const generateCourseHomeFrontMatter = courseData => {
       level:         courseData["course_level"]
     },
     menu: {
-      main: {
-        weight: -10
+      [courseData["short_url"]]: {
+        identifier: "course-home",
+        weight:     -10
       }
     }
   }
   return `---\n${yaml.safeDump(frontMatter)}---\n`
 }
 
-const generateCourseSectionFrontMatter = (title, menuIndex) => {
+const generateCourseSectionFrontMatter = (
+  title,
+  pageId,
+  menuIndex,
+  courseId
+) => {
   /**
     Generate the front matter metadata for a course section given a title and menu index
     */
   return `---\n${yaml.safeDump({
     title: title,
     menu:  {
-      main: {
-        weight: menuIndex
+      [courseId]: {
+        identifier: pageId,
+        weight:     menuIndex
       }
     }
   })}---\n`
@@ -146,20 +223,10 @@ const generateCourseSectionMarkdown = (page, courseData) => {
   /**
     Generate markdown a given course section page
     */
-  let htmlStr = page["text"]
-  courseData["course_pages"].forEach(coursePage => {
-    const placeholder = `./resolveuid/${coursePage["uid"]}`
-    if (htmlStr.includes(placeholder)) {
-      htmlStr = htmlStr.replace(
-        placeholder,
-        `/sections/${coursePage["short_url"]}`
-      )
-    }
-  })
   try {
-    return turndownService.turndown(htmlStr)
+    return turndownService.turndown(fixLinks(page, courseData))
   } catch (err) {
-    return htmlStr
+    return page["text"]
   }
 }
 
