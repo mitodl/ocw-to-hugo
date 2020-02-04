@@ -31,13 +31,16 @@ turndownService.addRule("td", {
 })
 const helpers = require("./helpers")
 
+const REFSHORTCODESTART = "REFSHORTCODESTART"
+const REFSHORTCODEEND = "REFSHORTCODEEND"
+
 /**
  * Build links with Hugo shortcodes to course sections
  **/
 turndownService.addRule("refshortcode", {
   filter: (node, options) => {
     if (node.nodeName === "A" && node.getAttribute("href")) {
-      if (node.getAttribute("href").includes("REFSHORTCODESTART")) {
+      if (node.getAttribute("href").includes(REFSHORTCODESTART)) {
         return true
       }
     }
@@ -48,8 +51,8 @@ turndownService.addRule("refshortcode", {
     const ref = turndownService.escape(
       node
         .getAttribute("href")
-        .replace("REFSHORTCODESTART", '{{< ref "')
-        .replace("REFSHORTCODEEND", '" >}}')
+        .replace(REFSHORTCODESTART, '{{< ref "')
+        .replace(REFSHORTCODEEND, '" >}}')
     )
     return `[${content}](${ref})`
   }
