@@ -37,7 +37,7 @@ const helpers = require("./helpers")
 turndownService.addRule("refshortcode", {
   filter: (node, options) => {
     if (node.nodeName === "A" && node.getAttribute("href")) {
-      if (node.getAttribute("href").indexOf("REFSHORTCODESTART") !== -1) {
+      if (node.getAttribute("href").includes("REFSHORTCODESTART")) {
         return true
       }
     }
@@ -83,7 +83,7 @@ const fixLinks = (page, courseData) => {
       htmlStr = htmlStr.replace(placeholder, `${media["file_location"]}`)
     })
     Object.keys(courseData["course_embedded_media"]).forEach(key => {
-      if (htmlStr.indexOf(key) !== -1) {
+      if (htmlStr.includes(key)) {
         htmlStr = htmlStr.replace(
           key,
           helpers.getYoutubeEmbedHtml(courseData["course_embedded_media"][key])
