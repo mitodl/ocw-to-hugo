@@ -44,8 +44,8 @@ turndownService.addRule("table", {
      */
     content = content
       .substring(content.indexOf("|"), content.lastIndexOf("|"))
-      .replace(/\r?\n|\r/g, "<br>")
-      .replace(/\|<br>\|/g, "|\n|")
+      .replace(/\r?\n|\r/g, "{{< br >}}")
+      .replace(/\|{{< br >}}\|/g, "|\n|")
       .replace(/REPLACETHISWITHAPIPE/g, "&#124;")
     // Only do this if header lines are found
     if (content.match(/(?<=\| \*\*)(.*?)(?=\*\* \|\r?\n|\r)/g)) {
