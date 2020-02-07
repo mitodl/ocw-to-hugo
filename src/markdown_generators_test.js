@@ -222,8 +222,16 @@ describe("generateCourseFeatures", () => {
 
   it("calls markdown.misc.link for each item in course_features", () => {
     singleCourseJsonData["course_features"].forEach(courseFeature => {
-      const url = helpers.getCourseSectionFromFeatureUrl(courseFeature)
-      expect(link).to.be.calledWithExactly(courseFeature["ocw_feature"], url)
+      const section = helpers.getCourseSectionFromFeatureUrl(courseFeature)
+      const matchingSectionsWithText = singleCourseJsonData["course_pages"].filter(
+        coursePage => coursePage["text"] && coursePage["short_url"] == section
+      )
+      if (section && matchingSectionsWithText.length > 0) {
+        expect(link).to.be.calledWithExactly(
+          courseFeature["ocw_feature"],
+          `{{% ref "sections/${section}" %}}`
+        )
+      }
     })
   })
 

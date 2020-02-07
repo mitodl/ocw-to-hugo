@@ -82,8 +82,8 @@ turndownService.addRule("refshortcode", {
     const ref = turndownService.escape(
       node
         .getAttribute("href")
-        .replace(REFSHORTCODESTART, '{{< ref "')
-        .replace(REFSHORTCODEEND, '" >}}')
+        .replace(REFSHORTCODESTART, '{{% ref "')
+        .replace(REFSHORTCODEEND, '" %}}')
     )
     return `[${content}](${ref})`
   }
@@ -220,12 +220,20 @@ const generateCourseFeatures = courseData => {
     Generate markdown for the "Course Features" section of the home page
     */
   const courseFeaturesHeader = markdown.headers.hX(5, "Course Features")
-  const courseFeatures = courseData["course_features"].map(courseFeature => {
-    return markdown.misc.link(
-      courseFeature["ocw_feature"],
-      helpers.getCourseSectionFromFeatureUrl(courseFeature)
-    )
-  })
+  const courseFeatures = courseData["course_features"]
+    .map(courseFeature => {
+      const section = helpers.getCourseSectionFromFeatureUrl(courseFeature)
+      const matchingSectionsWithText = courseData["course_pages"].filter(
+        coursePage => coursePage["text"] && coursePage["short_url"] == section
+      )
+      if (section && matchingSectionsWithText.length > 0) {
+        return markdown.misc.link(
+          courseFeature["ocw_feature"],
+          `{{% ref "sections/${section}" %}}`
+        )
+      } else return null
+    })
+    .filter(courseFeature => courseFeature)
   return `${courseFeaturesHeader}\n${markdown.lists.ul(courseFeatures)}`
 }
 

@@ -37,7 +37,7 @@ const getCourseSectionFromFeatureUrl = courseFeature => {
   const urlParts = courseFeature["ocw_feature_url"]
     .replace(/\/index.htm?l/, "/")
     .split("/")
-  return urlParts[urlParts.length - 1]
+  return urlParts[urlParts.length - 1].split("#")[0]
 }
 
 const getCourseCollectionText = courseCollection => {
