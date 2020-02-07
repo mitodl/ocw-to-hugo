@@ -4,35 +4,92 @@ const yaml = require("js-yaml")
 const markdown = require("markdown-builder")
 const titleCase = require("title-case")
 const TurndownService = require("turndown")
-const turndownService = new TurndownService()
-turndownService.addRule("table", {
-  filter:      ["table"],
-  replacement: content => {
-    return `{{< rawhtml >}}<table>${content}</table>{{< /rawhtml >}}`
-  }
-})
-turndownService.addRule("th", {
-  filter:      ["th"],
-  replacement: content => {
-    return `<th>${content}</th>`
-  }
-})
-turndownService.addRule("tr", {
-  filter:      ["tr"],
-  replacement: content => {
-    return `<tr>${content}</tr>`
-  }
-})
-turndownService.addRule("td", {
-  filter:      ["td"],
-  replacement: content => {
-    return `<td>${content}</td>`
-  }
-})
+const turndownPluginGfm = require("turndown-plugin-gfm")
 const helpers = require("./helpers")
+const { gfm, tables } = turndownPluginGfm
+const turndownService = new TurndownService()
+turndownService.use(gfm)
+turndownService.use(tables)
 
+const REPLACETHISWITHAPIPE = "REPLACETHISWITHAPIPE"
 const REFSHORTCODESTART = "REFSHORTCODESTART"
 const REFSHORTCODEEND = "REFSHORTCODEEND"
+
+/**
+ * Sanitize markdown table content
+ **/
+turndownService.addRule("table", {
+  filter:      ["table"],
+  replacement: (content, node, options) => {
+    /**
+     * Interate the HTML node and replace all pipes inside table
+     * cells with a marker we'll use later
+     */
+    for (let i = 0; i < node.rows.length; i++) {
+      const cells = node.rows[i].cells
+      for (let j = 0; j < cells.length; j++) {
+        cells[j].innerHTML = cells[j].innerHTML.replace(
+          /\|/g,
+          REPLACETHISWITHAPIPE
+        )
+      }
+    }
+    // Regenerate markdown for this table with cell edits
+    content = turndownService.turndown(node)
+    content = content
+      // First, isolate the table by getting the contents between the first and last pipe
+      .substring(content.indexOf("|"), content.lastIndexOf("|"))
+      // Second, replace all newlines and carriage returns with line break shortcodes
+      .replace(/\r?\n|\r/g, "{{< br >}}")
+      /**
+       * Third, replace all line break shortcodes in between two pipes with a newline
+       * character between two pipes to recreate the rows
+       */
+      .replace(/\|{{< br >}}\|/g, "|\n|")
+      // Fourth, replace the pipe marker we added earlier with the HTML character entity for a pipe
+      .replace(/REPLACETHISWITHAPIPE/g, "&#124;")
+    /**
+     * This finds table header rows by matching a cell with only one bold string.
+     * Regex breakdown by capturing group:
+     * 1. Positive lookbehind that finds a pipe followed by a space and two asterisks
+     * 2. Matches any amount of alphanumeric characters
+     * 3. Positive lookahead that matches two asterisks followed by a space, a pipe and
+     * a newline or carriage return
+     */
+    if (content.match(/(?<=\| \*\*)(.*?)(?=\*\* \|\r?\n|\r)/g)) {
+      // Get the amount of columns by matching three hyphens and counting
+      const totalColumns = content.match(/---/g || []).length
+      // Split headers out on their own so they aren't in one cell
+      return (
+        content
+        /**
+           * First, replace pipe space and double asterisk with a newline
+           * followed by double asterisk
+           */
+
+          .replace(/\| \*\*/g, "\n**")
+          /**
+           * Second, replace double asterisk space pipe followed by a newline
+           * or carriage return with double asterisk double newline.  After the
+           * second newline, re-initialize the table by iterating a pipe followed
+           * by a space and three hyphens for the total amount of columns, finally
+           * closing it out with a single pipe at the end
+           */
+          .replace(
+            /\*\* \|\r?\n|\r/g,
+            `**\n\n${"| ".repeat(totalColumns)}|\n${"| --- ".repeat(
+              totalColumns
+            )}|`
+          )
+          /**
+           * Finally, reconstruct the table by inserting line breaks in between
+           * back-to-back pipes to re-create rows
+           */
+          .replace(/\|\|/g, "|\n|")
+      )
+    } else return content
+  }
+})
 
 /**
  * Build links with Hugo shortcodes to course sections
@@ -51,8 +108,8 @@ turndownService.addRule("refshortcode", {
     const ref = turndownService.escape(
       node
         .getAttribute("href")
-        .replace(REFSHORTCODESTART, '{{< ref "')
-        .replace(REFSHORTCODEEND, '" >}}')
+        .replace(REFSHORTCODESTART, '{{% ref "')
+        .replace(REFSHORTCODEEND, '" %}}')
     )
     return `[${content}](${ref})`
   }
@@ -189,12 +246,20 @@ const generateCourseFeatures = courseData => {
     Generate markdown for the "Course Features" section of the home page
     */
   const courseFeaturesHeader = markdown.headers.hX(5, "Course Features")
-  const courseFeatures = courseData["course_features"].map(courseFeature => {
-    return markdown.misc.link(
-      courseFeature["ocw_feature"],
-      helpers.getCourseSectionFromFeatureUrl(courseFeature)
-    )
-  })
+  const courseFeatures = courseData["course_features"]
+    .map(courseFeature => {
+      const section = helpers.getCourseSectionFromFeatureUrl(courseFeature)
+      const matchingSectionsWithText = courseData["course_pages"].filter(
+        coursePage => coursePage["text"] && coursePage["short_url"] === section
+      )
+      if (section && matchingSectionsWithText.length > 0) {
+        return markdown.misc.link(
+          courseFeature["ocw_feature"],
+          `{{% ref "sections/${section}" %}}`
+        )
+      } else return null
+    })
+    .filter(courseFeature => courseFeature)
   return `${courseFeaturesHeader}\n${markdown.lists.ul(courseFeatures)}`
 }
 
