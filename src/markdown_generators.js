@@ -6,8 +6,7 @@ const titleCase = require("title-case")
 const TurndownService = require("turndown")
 const turndownPluginGfm = require("turndown-plugin-gfm")
 const helpers = require("./helpers")
-const gfm = turndownPluginGfm.gfm
-const tables = turndownPluginGfm.tables
+const { gfm, tables } = turndownPluginGfm
 const turndownService = new TurndownService()
 turndownService.use(gfm)
 turndownService.use(tables)
