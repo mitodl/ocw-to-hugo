@@ -226,7 +226,7 @@ describe("generateCourseFeatures", () => {
       const matchingSectionsWithText = singleCourseJsonData[
         "course_pages"
       ].filter(
-        coursePage => coursePage["text"] && coursePage["short_url"] == section
+        coursePage => coursePage["text"] && coursePage["short_url"] === section
       )
       if (section && matchingSectionsWithText.length > 0) {
         expect(link).to.be.calledWithExactly(

@@ -250,7 +250,7 @@ const generateCourseFeatures = courseData => {
     .map(courseFeature => {
       const section = helpers.getCourseSectionFromFeatureUrl(courseFeature)
       const matchingSectionsWithText = courseData["course_pages"].filter(
-        coursePage => coursePage["text"] && coursePage["short_url"] == section
+        coursePage => coursePage["text"] && coursePage["short_url"] === section
       )
       if (section && matchingSectionsWithText.length > 0) {
         return markdown.misc.link(
