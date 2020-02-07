@@ -223,7 +223,9 @@ describe("generateCourseFeatures", () => {
   it("calls markdown.misc.link for each item in course_features", () => {
     singleCourseJsonData["course_features"].forEach(courseFeature => {
       const section = helpers.getCourseSectionFromFeatureUrl(courseFeature)
-      const matchingSectionsWithText = singleCourseJsonData["course_pages"].filter(
+      const matchingSectionsWithText = singleCourseJsonData[
+        "course_pages"
+      ].filter(
         coursePage => coursePage["text"] && coursePage["short_url"] == section
       )
       if (section && matchingSectionsWithText.length > 0) {
