@@ -36,30 +36,57 @@ turndownService.addRule("table", {
     }
     // Regenerate markdown for this table with cell edits
     content = turndownService.turndown(node)
-    /**
-     * Get the bounds of the table, remove all line breaks, then
-     * from earlier with the HTML character entity for a pipe
-     * reintroduce them between rows, replacing our pipe marker
-     */
     content = content
+      // First, isolate the table by getting the contents between the first and last pipe
       .substring(content.indexOf("|"), content.lastIndexOf("|"))
+      // Second, replace all newlines and carriage returns with line break shortcodes
       .replace(/\r?\n|\r/g, "{{< br >}}")
+      /**
+       * Third, replace all line break shortcodes in between two pipes with a newline
+       * character between two pipes to recreate the rows
+       */
       .replace(/\|{{< br >}}\|/g, "|\n|")
+      // Fourth, replace the pipe marker we added earlier with the HTML character entity for a pipe
       .replace(/REPLACETHISWITHAPIPE/g, "&#124;")
-    // Only do this if header lines are found
+    /**
+     * This finds table header rows by matching a cell with only one bold string.
+     * Regex breakdown by capturing group:
+     * 1. Positive lookbehind that finds a pipe followed by a space and two asterisks
+     * 2. Matches any amount of alphanumeric characters
+     * 3. Positive lookahead that matches two asterisks followed by a space, a pipe and
+     * a newline or carriage return
+     */
     if (content.match(/(?<=\| \*\*)(.*?)(?=\*\* \|\r?\n|\r)/g)) {
-      // Get the amount of columns
+      // Get the amount of columns by matching three hyphens and counting
       const totalColumns = content.match(/---/g || []).length
       // Split headers out on their own so they aren't in one cell
-      return content
-        .replace(/\| \*\*/g, "\n**")
-        .replace(
-          /\*\* \|\r?\n|\r/g,
-          `**\n\n${"| ".repeat(totalColumns)}|\n${"| --- ".repeat(
-            totalColumns
-          )}|`
-        )
-        .replace(/\|\|/g, "|\n|")
+      return (
+        content
+        /**
+           * First, replace pipe space and double asterisk with a newline
+           * followed by double asterisk
+           */
+
+          .replace(/\| \*\*/g, "\n**")
+          /**
+           * Second, replace double asterisk space pipe followed by a newline
+           * or carriage return with double asterisk double newline.  After the
+           * second newline, re-initialize the table by iterating a pipe followed
+           * by a space and three hyphens for the total amount of columns, finally
+           * closing it out with a single pipe at the end
+           */
+          .replace(
+            /\*\* \|\r?\n|\r/g,
+            `**\n\n${"| ".repeat(totalColumns)}|\n${"| --- ".repeat(
+              totalColumns
+            )}|`
+          )
+          /**
+           * Finally, reconstruct the table by inserting line breaks in between
+           * back-to-back pipes to re-create rows
+           */
+          .replace(/\|\|/g, "|\n|")
+      )
     } else return content
   }
 })
