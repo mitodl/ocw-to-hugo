@@ -116,9 +116,8 @@ describe("writeMarkdownFiles", () => {
     writeFileSync = sandbox.spy(fs, "writeFileSync")
     unlinkSync = sandbox.spy(fs, "unlinkSync")
     fileOperations.writeMarkdownFiles(
-      singleCourseId,
-      singleCourseMarkdownData,
-      destinationPath
+      path.join(destinationPath, singleCourseId),
+      singleCourseMarkdownData
     )
   })
 
@@ -143,9 +142,8 @@ describe("writeMarkdownFiles", () => {
 
   it("calls unlinkSync to remove files if they already exist", () => {
     fileOperations.writeMarkdownFiles(
-      singleCourseId,
-      singleCourseMarkdownData,
-      destinationPath
+      path.join(destinationPath, singleCourseId),
+      singleCourseMarkdownData
     )
     for (const file of singleCourseMarkdownData) {
       expect(unlinkSync).to.be.calledWithExactly(

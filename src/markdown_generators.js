@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const path = require("path")
 const yaml = require("js-yaml")
 const markdown = require("markdown-builder")
 const titleCase = require("title-case")
@@ -162,15 +163,16 @@ const generateMarkdownFromJson = courseData => {
   let courseHomeMarkdown = generateCourseHomeFrontMatter(courseData)
   courseHomeMarkdown += generateCourseFeatures(courseData)
   courseHomeMarkdown += generateCourseCollections(courseData)
-  const coursePagesWithText = courseData["course_pages"].filter(
-    page => page["text"]
+  const rootSections = courseData["course_pages"].filter(
+    page => page["parent_uid"] === courseData["uid"]
   )
+  let menuIndex = 0
   return [
     {
       name: "_index.md",
       data: courseHomeMarkdown
     },
-    ...coursePagesWithText.map((page, menuIndex) => {
+    ...rootSections.map(page => {
       const pageName = page["short_url"]
       let courseSectionMarkdown = generateCourseSectionFrontMatter(
         page["title"],
@@ -178,13 +180,65 @@ const generateMarkdownFromJson = courseData => {
         (menuIndex + 1) * 10,
         courseData["short_url"]
       )
+      menuIndex++
       courseSectionMarkdown += generateCourseSectionMarkdown(page, courseData)
+      const children = courseData["course_pages"].filter(
+        childPage => childPage["parent_uid"] === page["uid"]
+      )
       return {
-        name: `sections/${pageName}.md`,
-        data: courseSectionMarkdown
+        name:
+          children.length > 0
+            ? `sections/${pageName}/_index.md`
+            : `sections/${pageName}.md`,
+        data:     courseSectionMarkdown,
+        children: generateChildMarkdownRecursive(
+          page,
+          children,
+          menuIndex,
+          courseData
+        )
       }
     })
   ]
+}
+
+const generateChildMarkdownRecursive = (
+  parent,
+  children,
+  menuIndex,
+  courseData
+) => {
+  return children.map(child => {
+    let courseSectionMarkdown = generateCourseSectionFrontMatter(
+      child["title"],
+      child["short_url"],
+      (menuIndex + 1) * 10,
+      courseData["short_url"]
+    )
+    menuIndex++
+    courseSectionMarkdown += generateCourseSectionMarkdown(child, courseData)
+    const grandChildren = courseData["course_pages"].filter(
+      grandChild => grandChild["parent_uid"] === child["uid"]
+    )
+    const pathToChild = `${helpers.pathToChildRecursive(
+      "sections/",
+      child,
+      courseData
+    )}`
+    return {
+      name:
+        grandChildren.length > 0
+          ? path.join(pathToChild, "_index.md")
+          : `${pathToChild}.md`,
+      data:     courseSectionMarkdown,
+      children: generateChildMarkdownRecursive(
+        child,
+        grandChildren,
+        menuIndex,
+        courseData
+      )
+    }
+  })
 }
 
 const generateCourseHomeFrontMatter = courseData => {
