@@ -37,7 +37,7 @@ const getCourseNumber = courseData => {
 
 const getCourseSectionFromFeatureUrl = courseFeature => {
   const urlParts = courseFeature["ocw_feature_url"]
-    .replace(/\/index.htm?l/, "/")
+    .replace(/\/index.html?/g, "")
     .split("/")
   return urlParts[urlParts.length - 1].split("#")[0]
 }
