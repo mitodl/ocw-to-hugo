@@ -119,21 +119,21 @@ turndownService.addRule("refshortcode", {
 const fixLinks = (page, courseData) => {
   let htmlStr = page["text"]
   if (htmlStr) {
-    const coursePagesWithText = courseData["course_pages"].filter(
-      page => page["text"]
+    const coursePages = courseData["course_pages"].filter(
+      page => page["type"] !== "CourseHomeSection"
     )
-    coursePagesWithText.forEach(coursePage => {
+    coursePages.forEach(coursePage => {
       const placeholder = new RegExp(
         `\\.?\\/?resolveuid\\/${coursePage["uid"]}`,
         "g"
       )
-      const prefix =
-        page["title"] === "Course Home" && coursePage["title"] !== "Course Home"
-          ? "sections/"
-          : ""
       htmlStr = htmlStr.replace(
         placeholder,
-        `REFSHORTCODESTART${prefix}${coursePage["short_url"]}REFSHORTCODEEND`
+        `REFSHORTCODESTART${helpers.pathToChildRecursive(
+          path.join("courses", courseData["short_url"], "sections"),
+          coursePage,
+          courseData
+        )}REFSHORTCODEEND`
       )
     })
     courseData["course_files"].forEach(media => {
@@ -164,7 +164,9 @@ const generateMarkdownFromJson = courseData => {
   courseHomeMarkdown += generateCourseFeatures(courseData)
   courseHomeMarkdown += generateCourseCollections(courseData)
   const rootSections = courseData["course_pages"].filter(
-    page => page["parent_uid"] === courseData["uid"]
+    page =>
+      page["parent_uid"] === courseData["uid"] &&
+      page["type"] !== "CourseHomeSection"
   )
   let menuIndex = 0
   return [
@@ -176,7 +178,7 @@ const generateMarkdownFromJson = courseData => {
       const pageName = page["short_url"]
       let courseSectionMarkdown = generateCourseSectionFrontMatter(
         page["title"],
-        page["short_url"],
+        `${page["uid"]}_${page["short_url"]}`,
         (menuIndex + 1) * 10,
         courseData["short_url"]
       )
@@ -211,7 +213,7 @@ const generateChildMarkdownRecursive = (
   return children.map(child => {
     let courseSectionMarkdown = generateCourseSectionFrontMatter(
       child["title"],
-      child["short_url"],
+      `${child["uid"]}_${child["short_url"]}`,
       (menuIndex + 1) * 10,
       courseData["short_url"]
     )
@@ -285,8 +287,9 @@ const generateCourseSectionFrontMatter = (
     Generate the front matter metadata for a course section given a title and menu index
     */
   return `---\n${yaml.safeDump({
-    title: title,
-    menu:  {
+    title:     title,
+    course_id: courseId,
+    menu:      {
       [courseId]: {
         identifier: pageId,
         weight:     menuIndex
@@ -303,13 +306,17 @@ const generateCourseFeatures = courseData => {
   const courseFeatures = courseData["course_features"]
     .map(courseFeature => {
       const section = helpers.getCourseSectionFromFeatureUrl(courseFeature)
-      const matchingSectionsWithText = courseData["course_pages"].filter(
-        coursePage => coursePage["text"] && coursePage["short_url"] === section
+      const matchingSections = courseData["course_pages"].filter(
+        coursePage => coursePage["short_url"] === section
       )
-      if (section && matchingSectionsWithText.length > 0) {
+      if (section && matchingSections.length > 0) {
         return markdown.misc.link(
           courseFeature["ocw_feature"],
-          `{{% ref "sections/${section}" %}}`
+          `{{% ref "${helpers.pathToChildRecursive(
+            path.join("courses", courseData["short_url"], "sections"),
+            matchingSections[0],
+            courseData
+          )}" %}}`
         )
       } else return null
     })
