@@ -179,6 +179,7 @@ const generateMarkdownFromJson = courseData => {
       let courseSectionMarkdown = generateCourseSectionFrontMatter(
         page["title"],
         `${page["uid"]}_${page["short_url"]}`,
+        null,
         (menuIndex + 1) * 10,
         courseData["short_url"]
       )
@@ -214,6 +215,7 @@ const generateChildMarkdownRecursive = (
     let courseSectionMarkdown = generateCourseSectionFrontMatter(
       child["title"],
       `${child["uid"]}_${child["short_url"]}`,
+      `${parent["uid"]}_${parent["short_url"]}`,
       (menuIndex + 1) * 10,
       courseData["short_url"]
     )
@@ -280,13 +282,14 @@ const generateCourseHomeFrontMatter = courseData => {
 const generateCourseSectionFrontMatter = (
   title,
   pageId,
+  parentId,
   menuIndex,
   courseId
 ) => {
   /**
     Generate the front matter metadata for a course section given a title and menu index
     */
-  return `---\n${yaml.safeDump({
+  const courseSectionFrontMatter = {
     title:     title,
     course_id: courseId,
     menu:      {
@@ -295,7 +298,11 @@ const generateCourseSectionFrontMatter = (
         weight:     menuIndex
       }
     }
-  })}---\n`
+  }
+  if (parentId) {
+    courseSectionFrontMatter["menu"][courseId]["parent"] = parentId
+  }
+  return `---\n${yaml.safeDump(courseSectionFrontMatter)}---\n`
 }
 
 const generateCourseFeatures = courseData => {

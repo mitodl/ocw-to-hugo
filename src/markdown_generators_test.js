@@ -170,6 +170,7 @@ describe("generateCourseSectionFrontMatter", () => {
         .generateCourseSectionFrontMatter(
           "Syllabus",
           "syllabus",
+          null,
           10,
           singleCourseJsonData["short_url"]
         )
