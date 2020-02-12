@@ -10,11 +10,11 @@ const tmp = require("tmp")
 tmp.setGracefulCleanup()
 
 const singleCourseId =
-  "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
+  "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
 const singleCourseSourcePath = `test_data/${singleCourseId}`
 const singleCourseMasterJsonPath = path.join(
   singleCourseSourcePath,
-  "bb55dad7f4888f0a1ad004600c5fb1f1_master.json"
+  "e395587c58555f1fe564e8afd75899e6_master.json"
 )
 const singleCourseRawData = fs.readFileSync(singleCourseMasterJsonPath)
 const singleCourseJsonData = JSON.parse(singleCourseRawData)

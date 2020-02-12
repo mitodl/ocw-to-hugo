@@ -13,11 +13,11 @@ const tmp = require("tmp")
 tmp.setGracefulCleanup()
 
 const singleCourseId =
-  "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
+  "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
 const singleCourseSourcePath = `test_data/${singleCourseId}`
 const singleCourseMasterJsonPath = path.join(
   singleCourseSourcePath,
-  "bb55dad7f4888f0a1ad004600c5fb1f1_master.json"
+  "e395587c58555f1fe564e8afd75899e6_master.json"
 )
 const singleCourseRawData = fs.readFileSync(singleCourseMasterJsonPath)
 const singleCourseJsonData = JSON.parse(singleCourseRawData)
@@ -28,14 +28,47 @@ describe("generateMarkdownFromJson", () => {
       singleCourseJsonData
     )
     const expectedSections = singleCourseJsonData["course_pages"]
-      .filter(page => page["text"])
+      .filter(
+        page =>
+          page["parent_uid"] === singleCourseJsonData["uid"] &&
+          page["type"] !== "CourseHomeSection"
+      )
       .map(page => page["short_url"])
-    const sections = singleCourseMarkdownData.map(section => {
-      return section["name"]
+    const markdownFileNames = singleCourseMarkdownData.map(markdownData => {
+      return markdownData["name"]
     })
-    assert.include(sections, "_index.md")
+    assert.include(markdownFileNames, "_index.md")
     expectedSections.forEach(expectedSection => {
-      assert.include(sections, `sections/${expectedSection}.md`)
+      let filename = `sections/${expectedSection}`
+      const sectionMarkdownData = singleCourseMarkdownData.filter(
+        section =>
+          section["name"] === `${filename}.md` ||
+          section["name"] === `${filename}/_index.md`
+      )[0]
+      const hasChildren = sectionMarkdownData["children"].length > 0
+      filename = hasChildren ? `${filename}/_index.md` : `${filename}.md`
+      assert.include(markdownFileNames, filename)
+      if (hasChildren) {
+        const sectionUid = singleCourseJsonData["course_pages"].filter(
+          page => page["short_url"] === expectedSection
+        )[0]["uid"]
+        const childMarkdownFileNames = sectionMarkdownData["children"].map(
+          markdownData => {
+            return markdownData["name"]
+          }
+        )
+        const expectedChildren = singleCourseJsonData["course_pages"].filter(
+          page => page["parent_uid"] === sectionUid
+        )
+        expectedChildren.forEach(expectedChild => {
+          const childFilename = `${helpers.pathToChildRecursive(
+            "sections/",
+            expectedChild,
+            singleCourseJsonData
+          )}.md`
+          assert.include(childMarkdownFileNames, childFilename)
+        })
+      }
     })
   })
 })
@@ -224,15 +257,18 @@ describe("generateCourseFeatures", () => {
   it("calls markdown.misc.link for each item in course_features", () => {
     singleCourseJsonData["course_features"].forEach(courseFeature => {
       const section = helpers.getCourseSectionFromFeatureUrl(courseFeature)
-      const matchingSectionsWithText = singleCourseJsonData[
-        "course_pages"
-      ].filter(
-        coursePage => coursePage["text"] && coursePage["short_url"] === section
-      )
-      if (section && matchingSectionsWithText.length > 0) {
+      const matchingSection = singleCourseJsonData["course_pages"].filter(
+        coursePage => coursePage["short_url"] === section
+      )[0]
+      if (section && matchingSection) {
+        const sectionPath = helpers.pathToChildRecursive(
+          `courses/${singleCourseJsonData["short_url"]}/sections/`,
+          matchingSection,
+          singleCourseJsonData
+        )
         expect(link).to.be.calledWithExactly(
           courseFeature["ocw_feature"],
-          `{{% ref "sections/${section}" %}}`
+          `{{% ref "${sectionPath}" %}}`
         )
       }
     })
