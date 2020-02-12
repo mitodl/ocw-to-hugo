@@ -106,7 +106,7 @@ describe("scanCourse", () => {
   })
 })
 
-describe("writeMarkdownFiles", () => {
+describe("writeMarkdownFilesRecursive", () => {
   let mkDirSync, writeFileSync, unlinkSync
   const sandbox = sinon.createSandbox()
   const destinationPath = tmp.dirSync({ prefix: "destination" }).name
@@ -115,7 +115,7 @@ describe("writeMarkdownFiles", () => {
     mkDirSync = sandbox.spy(fs, "mkdirSync")
     writeFileSync = sandbox.spy(fs, "writeFileSync")
     unlinkSync = sandbox.spy(fs, "unlinkSync")
-    fileOperations.writeMarkdownFiles(
+    fileOperations.writeMarkdownFilesRecursive(
       path.join(destinationPath, singleCourseId),
       singleCourseMarkdownData
     )
@@ -141,7 +141,7 @@ describe("writeMarkdownFiles", () => {
   })
 
   it("calls unlinkSync to remove files if they already exist", () => {
-    fileOperations.writeMarkdownFiles(
+    fileOperations.writeMarkdownFilesRecursive (
       path.join(destinationPath, singleCourseId),
       singleCourseMarkdownData
     )

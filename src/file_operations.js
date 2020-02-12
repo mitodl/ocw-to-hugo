@@ -99,5 +99,5 @@ const writeMarkdownFilesRecursive = (destination, markdownData) => {
 module.exports = {
   scanCourses,
   scanCourse,
-  writeMarkdownFiles: writeMarkdownFilesRecursive
+  writeMarkdownFilesRecursive
 }
