@@ -141,7 +141,7 @@ describe("writeMarkdownFilesRecursive", () => {
   })
 
   it("calls unlinkSync to remove files if they already exist", () => {
-    fileOperations.writeMarkdownFilesRecursive (
+    fileOperations.writeMarkdownFilesRecursive(
       path.join(destinationPath, singleCourseId),
       singleCourseMarkdownData
     )
