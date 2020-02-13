@@ -166,11 +166,12 @@ describe("writeMarkdownFilesRecursive", () => {
         if (file["children"].length > 0) {
           file["children"].forEach(child => {
             const childJson = singleCourseJsonData["course_pages"].filter(
-              page => `${helpers.pathToChildRecursive(
-                "sections",
-                page,
-                singleCourseJsonData
-              )}.md` === child["name"]  
+              page =>
+                `${helpers.pathToChildRecursive(
+                  "sections",
+                  page,
+                  singleCourseJsonData
+                )}.md` === child["name"]
             )[0]
             expect(writeFileSync).to.be.calledWithExactly(
               `${helpers.pathToChildRecursive(
