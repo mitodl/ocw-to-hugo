@@ -136,13 +136,13 @@ describe("writeMarkdownFilesRecursive", () => {
 
   it("calls mkDirSync to create subfolders for sections with children", () => {
     singleCourseMarkdownData
-      .filter(section => section["name"] !== "_index.md")
-      .forEach(section => {
-        if (section["children"].length > 0) {
+      .filter(file => file["name"] !== "_index.md")
+      .forEach(file => {
+        if (file["children"].length > 0) {
           const child = singleCourseJsonData["course_pages"].filter(
             page =>
               path.join("sections", page["short_url"], "_index.md") ===
-              section["name"]
+              file["name"]
           )[0]
           expect(mkDirSync).to.be.calledWith(
             helpers.pathToChildRecursive(
@@ -156,12 +156,33 @@ describe("writeMarkdownFilesRecursive", () => {
   })
 
   it("calls writeFileSync to create the course section markdown files", () => {
-    for (const file of singleCourseMarkdownData) {
-      expect(writeFileSync).to.be.calledWithExactly(
-        path.join(destinationPath, singleCourseId, file["name"]),
-        file["data"]
-      )
-    }
+    singleCourseMarkdownData
+      .filter(file => file["name"] !== "_index.md")
+      .forEach(file => {
+        expect(writeFileSync).to.be.calledWithExactly(
+          path.join(destinationPath, singleCourseId, file["name"]),
+          file["data"]
+        )
+        if (file["children"].length > 0) {
+          file["children"].forEach(child => {
+            const childJson = singleCourseJsonData["course_pages"].filter(
+              page => `${helpers.pathToChildRecursive(
+                "sections",
+                page,
+                singleCourseJsonData
+              )}.md` === child["name"]  
+            )[0]
+            expect(writeFileSync).to.be.calledWithExactly(
+              `${helpers.pathToChildRecursive(
+                path.join(destinationPath, singleCourseId, "sections"),
+                childJson,
+                singleCourseJsonData
+              )}.md`,
+              child["data"]
+            )
+          })
+        }
+      })
   })
 
   it("calls unlinkSync to remove files if they already exist", () => {
