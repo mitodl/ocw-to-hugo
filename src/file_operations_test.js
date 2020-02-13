@@ -3,10 +3,12 @@
 const path = require("path")
 const sinon = require("sinon")
 const { assert, expect } = require("chai").use(require("sinon-chai"))
+const helpers = require("./helpers")
 const fileOperations = require("./file_operations")
 const markdownGenerators = require("./markdown_generators")
 const fs = require("fs")
 const tmp = require("tmp")
+const rimraf = require("rimraf")
 tmp.setGracefulCleanup()
 
 const singleCourseId =
@@ -123,12 +125,34 @@ describe("writeMarkdownFilesRecursive", () => {
 
   afterEach(() => {
     sandbox.restore()
+    rimraf.sync(path.join(destinationPath, "*"))
   })
 
   it("calls mkDirSync to create sections folder", () => {
     expect(mkDirSync).to.be.calledWith(
       path.join(destinationPath, singleCourseId, "sections")
     )
+  })
+
+  it("calls mkDirSync to create subfolders for sections with children", () => {
+    singleCourseMarkdownData
+      .filter(section => section["name"] !== "_index.md")
+      .forEach(section => {
+        if (section["children"].length > 0) {
+          const child = singleCourseJsonData["course_pages"].filter(
+            page =>
+              path.join("sections", page["short_url"], "_index.md") ===
+              section["name"]
+          )[0]
+          expect(mkDirSync).to.be.calledWith(
+            helpers.pathToChildRecursive(
+              path.join(destinationPath, singleCourseId, "sections"),
+              child,
+              singleCourseJsonData
+            )
+          )
+        }
+      })
   })
 
   it("calls writeFileSync to create the course section markdown files", () => {
