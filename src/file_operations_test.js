@@ -191,10 +191,31 @@ describe("writeMarkdownFilesRecursive", () => {
       path.join(destinationPath, singleCourseId),
       singleCourseMarkdownData
     )
-    for (const file of singleCourseMarkdownData) {
-      expect(unlinkSync).to.be.calledWithExactly(
-        path.join(destinationPath, singleCourseId, file["name"])
-      )
-    }
+    singleCourseMarkdownData
+      .filter(file => file["name"] !== "_index.md")
+      .forEach(file => {
+        expect(unlinkSync).to.be.calledWithExactly(
+          path.join(destinationPath, singleCourseId, file["name"])
+        )
+        if (file["children"].length > 0) {
+          file["children"].forEach(child => {
+            const childJson = singleCourseJsonData["course_pages"].filter(
+              page =>
+                `${helpers.pathToChildRecursive(
+                  "sections",
+                  page,
+                  singleCourseJsonData
+                )}.md` === child["name"]
+            )[0]
+            expect(unlinkSync).to.be.calledWithExactly(
+              `${helpers.pathToChildRecursive(
+                path.join(destinationPath, singleCourseId, "sections"),
+                childJson,
+                singleCourseJsonData
+              )}.md`
+            )
+          })
+        }
+      })
   })
 })
