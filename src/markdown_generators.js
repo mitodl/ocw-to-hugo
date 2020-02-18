@@ -129,11 +129,11 @@ const fixLinks = (page, courseData) => {
       )
       htmlStr = htmlStr.replace(
         placeholder,
-        `REFSHORTCODESTART${helpers.pathToChildRecursive(
+        `${REFSHORTCODESTART}${helpers.pathToChildRecursive(
           path.join("courses", courseData["short_url"], "sections"),
           coursePage,
           courseData
-        )}REFSHORTCODEEND`
+        )}${REFSHORTCODEEND}`
       )
     })
     courseData["course_files"].forEach(media => {
