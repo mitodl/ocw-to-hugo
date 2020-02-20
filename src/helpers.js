@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+const path = require("path")
+
 const getCourseImageUrl = courseData => {
   /*
     Constructs the course image filename using parts of the course short_url
@@ -35,7 +37,7 @@ const getCourseNumber = courseData => {
 
 const getCourseSectionFromFeatureUrl = courseFeature => {
   const urlParts = courseFeature["ocw_feature_url"]
-    .replace(/\/index.htm?l/, "/")
+    .replace(/\/index.html?/g, "")
     .split("/")
   return urlParts[urlParts.length - 1].split("#")[0]
 }
@@ -77,11 +79,27 @@ const getYoutubeEmbedHtml = media => {
     .join("")
 }
 
+const pathToChildRecursive = (basePath, child, courseData) => {
+  const parents = courseData["course_pages"].filter(
+    page =>
+      page["uid"] === child["parent_uid"] &&
+      courseData["uid"] !== child["parent_uid"]
+  )
+  if (parents.length > 0) {
+    return path.join(
+      basePath,
+      pathToChildRecursive("", parents[0], courseData),
+      child["short_url"]
+    )
+  } else return path.join(basePath, child["short_url"])
+}
+
 module.exports = {
   getCourseImageUrl,
   getCourseNumber,
   getCourseSectionFromFeatureUrl,
   getCourseCollectionText,
   makeTopic,
-  getYoutubeEmbedHtml
+  getYoutubeEmbedHtml,
+  pathToChildRecursive
 }

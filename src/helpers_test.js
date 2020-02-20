@@ -6,10 +6,10 @@ const tmp = require("tmp")
 tmp.setGracefulCleanup()
 
 const singleCourseSourcePath =
-  "test_data/1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
+  "test_data/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
 const singleCourseMasterJsonPath = path.join(
   singleCourseSourcePath,
-  "bb55dad7f4888f0a1ad004600c5fb1f1_master.json"
+  "e395587c58555f1fe564e8afd75899e6_master.json"
 )
 const singleCourseRawData = fs.readFileSync(singleCourseMasterJsonPath)
 const singleCourseJsonData = JSON.parse(singleCourseRawData)
@@ -18,14 +18,14 @@ describe("getCourseImageUrl", () => {
   it("returns the expected course image file name for a given course json input", () => {
     assert.equal(
       helpers.getCourseImageUrl(singleCourseJsonData),
-      "https://open-learning-course-data.s3.amazonaws.com/1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012/457598d84426c61f83ab06ad2aa39c04_1-00s12.jpg"
+      "https://open-learning-course-data.s3.amazonaws.com/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/b6a31a6a85998d664ea826a766d9032b_2-00ajs09.jpg"
     )
   })
 })
 
 describe("getCourseNumber", () => {
   it("returns the expected course number for a given course json input", () => {
-    assert.equal(helpers.getCourseNumber(singleCourseJsonData), "1.00")
+    assert.equal(helpers.getCourseNumber(singleCourseJsonData), "2.00 A")
   })
 })
 
@@ -35,7 +35,7 @@ describe("getCourseSectionFromFeatureUrl", () => {
       helpers.getCourseSectionFromFeatureUrl(
         singleCourseJsonData["course_features"][2]
       ),
-      "instructor-insights"
+      "projects"
     )
   })
 })
@@ -78,5 +78,21 @@ describe("getYoutubeEmbedHtml", () => {
         assert(html.includes(embeddedMedia["media_info"]))
       })
     })
+  })
+})
+
+describe("pathToChildRecursive", () => {
+  it("returns the expected path to a child section", () => {
+    const expectedChild = singleCourseJsonData["course_pages"].filter(
+      page => page["uid"] === "0aee0583c6aac4a87ddefb73319a8f26"
+    )[0]
+    assert.equal(
+      helpers.pathToChildRecursive(
+        "sections/",
+        expectedChild,
+        singleCourseJsonData
+      ),
+      "sections/labs/river-testing-photos"
+    )
   })
 })

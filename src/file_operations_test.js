@@ -3,18 +3,20 @@
 const path = require("path")
 const sinon = require("sinon")
 const { assert, expect } = require("chai").use(require("sinon-chai"))
+const helpers = require("./helpers")
 const fileOperations = require("./file_operations")
 const markdownGenerators = require("./markdown_generators")
 const fs = require("fs")
 const tmp = require("tmp")
+const rimraf = require("rimraf")
 tmp.setGracefulCleanup()
 
 const singleCourseId =
-  "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
+  "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
 const singleCourseSourcePath = `test_data/${singleCourseId}`
 const singleCourseMasterJsonPath = path.join(
   singleCourseSourcePath,
-  "bb55dad7f4888f0a1ad004600c5fb1f1_master.json"
+  "e395587c58555f1fe564e8afd75899e6_master.json"
 )
 const singleCourseRawData = fs.readFileSync(singleCourseMasterJsonPath)
 const singleCourseJsonData = JSON.parse(singleCourseRawData)
@@ -106,7 +108,7 @@ describe("scanCourse", () => {
   })
 })
 
-describe("writeMarkdownFiles", () => {
+describe("writeMarkdownFilesRecursive", () => {
   let mkDirSync, writeFileSync, unlinkSync
   const sandbox = sinon.createSandbox()
   const destinationPath = tmp.dirSync({ prefix: "destination" }).name
@@ -115,15 +117,15 @@ describe("writeMarkdownFiles", () => {
     mkDirSync = sandbox.spy(fs, "mkdirSync")
     writeFileSync = sandbox.spy(fs, "writeFileSync")
     unlinkSync = sandbox.spy(fs, "unlinkSync")
-    fileOperations.writeMarkdownFiles(
-      singleCourseId,
-      singleCourseMarkdownData,
-      destinationPath
+    fileOperations.writeMarkdownFilesRecursive(
+      path.join(destinationPath, singleCourseId),
+      singleCourseMarkdownData
     )
   })
 
   afterEach(() => {
     sandbox.restore()
+    rimraf.sync(path.join(destinationPath, "*"))
   })
 
   it("calls mkDirSync to create sections folder", () => {
@@ -132,25 +134,88 @@ describe("writeMarkdownFiles", () => {
     )
   })
 
+  it("calls mkDirSync to create subfolders for sections with children", () => {
+    singleCourseMarkdownData
+      .filter(file => file["name"] !== "_index.md")
+      .forEach(file => {
+        if (file["children"].length > 0) {
+          const child = singleCourseJsonData["course_pages"].filter(
+            page =>
+              path.join("sections", page["short_url"], "_index.md") ===
+              file["name"]
+          )[0]
+          expect(mkDirSync).to.be.calledWith(
+            helpers.pathToChildRecursive(
+              path.join(destinationPath, singleCourseId, "sections"),
+              child,
+              singleCourseJsonData
+            )
+          )
+        }
+      })
+  })
+
   it("calls writeFileSync to create the course section markdown files", () => {
-    for (const file of singleCourseMarkdownData) {
-      expect(writeFileSync).to.be.calledWithExactly(
-        path.join(destinationPath, singleCourseId, file["name"]),
-        file["data"]
-      )
-    }
+    singleCourseMarkdownData
+      .filter(file => file["name"] !== "_index.md")
+      .forEach(file => {
+        expect(writeFileSync).to.be.calledWithExactly(
+          path.join(destinationPath, singleCourseId, file["name"]),
+          file["data"]
+        )
+        if (file["children"].length > 0) {
+          file["children"].forEach(child => {
+            const childJson = singleCourseJsonData["course_pages"].filter(
+              page =>
+                `${helpers.pathToChildRecursive(
+                  "sections",
+                  page,
+                  singleCourseJsonData
+                )}.md` === child["name"]
+            )[0]
+            expect(writeFileSync).to.be.calledWithExactly(
+              `${helpers.pathToChildRecursive(
+                path.join(destinationPath, singleCourseId, "sections"),
+                childJson,
+                singleCourseJsonData
+              )}.md`,
+              child["data"]
+            )
+          })
+        }
+      })
   })
 
   it("calls unlinkSync to remove files if they already exist", () => {
-    fileOperations.writeMarkdownFiles(
-      singleCourseId,
-      singleCourseMarkdownData,
-      destinationPath
+    fileOperations.writeMarkdownFilesRecursive(
+      path.join(destinationPath, singleCourseId),
+      singleCourseMarkdownData
     )
-    for (const file of singleCourseMarkdownData) {
-      expect(unlinkSync).to.be.calledWithExactly(
-        path.join(destinationPath, singleCourseId, file["name"])
-      )
-    }
+    singleCourseMarkdownData
+      .filter(file => file["name"] !== "_index.md")
+      .forEach(file => {
+        expect(unlinkSync).to.be.calledWithExactly(
+          path.join(destinationPath, singleCourseId, file["name"])
+        )
+        if (file["children"].length > 0) {
+          file["children"].forEach(child => {
+            const childJson = singleCourseJsonData["course_pages"].filter(
+              page =>
+                `${helpers.pathToChildRecursive(
+                  "sections",
+                  page,
+                  singleCourseJsonData
+                )}.md` === child["name"]
+            )[0]
+            expect(unlinkSync).to.be.calledWithExactly(
+              `${helpers.pathToChildRecursive(
+                path.join(destinationPath, singleCourseId, "sections"),
+                childJson,
+                singleCourseJsonData
+              )}.md`
+            )
+          })
+        }
+      })
   })
 })

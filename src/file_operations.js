@@ -67,30 +67,37 @@ const scanCourse = async (coursePath, destination) => {
       const markdownData = markdownGenerators.generateMarkdownFromJson(
         courseData
       )
-      writeMarkdownFiles(courseData["short_url"], markdownData, destination)
+      writeMarkdownFilesRecursive(
+        path.join(destination, courseData["short_url"]),
+        markdownData
+      )
     }
   }
 }
 
-const writeMarkdownFiles = (courseId, markdownData, destination) => {
+const writeMarkdownFilesRecursive = (destination, markdownData) => {
   /*
     For a given course identifier string and array of objects with properties
     name and data, write Hugo markdown files
     */
-  fs.mkdirSync(path.join(destination, courseId, "sections"), {
-    recursive: true
-  })
   for (const file of markdownData) {
-    const filePath = path.join(destination, courseId, file["name"])
+    const filePath = path.join(destination, file["name"])
+    const dirPath = path.dirname(filePath)
+    if (!directoryExists(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true })
+    }
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath)
     }
     fs.writeFileSync(filePath, file["data"])
+    if (file.hasOwnProperty("children")) {
+      writeMarkdownFilesRecursive(destination, file["children"])
+    }
   }
 }
 
 module.exports = {
   scanCourses,
   scanCourse,
-  writeMarkdownFiles
+  writeMarkdownFilesRecursive
 }
