@@ -149,8 +149,10 @@ describe("generateCourseHomeFrontMatter", () => {
   })
 
   it("sets the topics property on the course info object to data parsed from course_collections in the course json data", () => {
-    const expectedValues = singleCourseJsonData["course_collections"].map(
-      courseCollection => helpers.getCourseCollectionText(courseCollection, ">")
+    const expectedValues = singleCourseJsonData[
+      "course_collections"
+    ].map(courseCollection =>
+      helpers.getCourseCollectionText(courseCollection, ">")
     )
     const foundValues = courseHomeFrontMatter["course_info"]["topics"]
     console.log(expectedValues)

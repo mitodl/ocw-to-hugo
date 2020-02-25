@@ -44,7 +44,8 @@ describe("getCourseCollectionText", () => {
   it("returns the expected course collection from a course collection object", () => {
     assert.equal(
       helpers.getCourseCollectionText(
-        singleCourseJsonData["course_collections"][0], ">"
+        singleCourseJsonData["course_collections"][0],
+        ">"
       ),
       "Engineering > Systems Engineering > Systems Design"
     )
