@@ -77,14 +77,14 @@ describe("generateCourseHomeFrontMatter", () => {
   let courseHomeFrontMatter,
     getCourseImageUrl,
     getCourseNumber,
-    getCourseCollectionText,
+    getCourseCollectionObject,
     safeDump
   const sandbox = sinon.createSandbox()
 
   beforeEach(() => {
     getCourseImageUrl = sandbox.spy(helpers, "getCourseImageUrl")
     getCourseNumber = sandbox.spy(helpers, "getCourseNumber")
-    getCourseCollectionText = sandbox.spy(helpers, "getCourseCollectionText")
+    getCourseCollectionObject = sandbox.spy(helpers, "getCourseCollectionObject")
     safeDump = sandbox.spy(yaml, "safeDump")
     courseHomeFrontMatter = yaml.safeLoad(
       markdownGenerators
@@ -142,9 +142,9 @@ describe("generateCourseHomeFrontMatter", () => {
     assert.equal(expectedValue, foundValue)
   })
 
-  it("calls getCourseCollectionText with each of the elements in course_collections", () => {
+  it("calls getCourseCollectionObject with each of the elements in course_collections", () => {
     singleCourseJsonData["course_collections"].forEach(courseCollection => {
-      expect(getCourseCollectionText).to.be.calledWith(courseCollection, ">")
+      expect(getCourseCollectionObject).to.be.calledWith(courseCollection)
     })
   })
 
@@ -152,11 +152,13 @@ describe("generateCourseHomeFrontMatter", () => {
     const expectedValues = singleCourseJsonData[
       "course_collections"
     ].map(courseCollection =>
-      helpers.getCourseCollectionText(courseCollection, ">")
+      helpers.getCourseCollectionObject(courseCollection)
     )
     const foundValues = courseHomeFrontMatter["course_info"]["topics"]
     expectedValues.forEach((expectedValue, index) => {
-      assert.equal(expectedValue, foundValues[index])
+      Object.keys(foundValues[index]).forEach(property => {
+        assert.equal(expectedValue[property], foundValues[index][property])
+      })
     })
   })
 

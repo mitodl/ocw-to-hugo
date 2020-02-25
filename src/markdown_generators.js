@@ -231,7 +231,7 @@ const generateCourseHomeFrontMatter = courseData => {
         courseData["url"].split("/")[2].replace(/-/g, " ")
       ),
       topics: courseData["course_collections"].map(courseCollection =>
-        helpers.getCourseCollectionText(courseCollection, ">")
+        helpers.getCourseCollectionObject(courseCollection)
       ),
       course_number: helpers.getCourseNumber(courseData),
       term:          `${courseData["from_semester"]} ${courseData["from_year"]}`,
