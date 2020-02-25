@@ -45,8 +45,8 @@ describe("getCourseCollectionObject", () => {
     const collection = helpers.getCourseCollectionObject(
       singleCourseJsonData["course_collections"][0]
     )
-    assert.equal(collection["feature"], "Engineering")
-    assert.equal(collection["subfeature"], "Systems Engineering")
+    assert.equal(collection["topic"], "Engineering")
+    assert.equal(collection["subtopic"], "Systems Engineering")
     assert.equal(collection["speciality"], "Systems Design")
   })
 })

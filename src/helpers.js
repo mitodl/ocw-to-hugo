@@ -48,10 +48,10 @@ const getCourseCollectionObject = courseCollection => {
   const speciality = courseCollection["ocw_speciality"]
   const collection = {}
   if (feature) {
-    collection["feature"] = feature
+    collection["topic"] = feature
   }
   if (subfeature) {
-    collection["subfeature"] = subfeature
+    collection["subtopic"] = subfeature
   }
   if (speciality) {
     collection["speciality"] = speciality
