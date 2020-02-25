@@ -155,8 +155,6 @@ describe("generateCourseHomeFrontMatter", () => {
       helpers.getCourseCollectionText(courseCollection, ">")
     )
     const foundValues = courseHomeFrontMatter["course_info"]["topics"]
-    console.log(expectedValues)
-    console.log(foundValues)
     expectedValues.forEach((expectedValue, index) => {
       assert.equal(expectedValue, foundValues[index])
     })

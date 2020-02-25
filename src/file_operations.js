@@ -35,7 +35,6 @@ const scanCourses = (source, destination) => {
   // Iterate all subdirectories under source
   directoriesScanned = 0
   const contents = fs.readdirSync(source)
-  // console.log("readdir called")
   const totalDirectories = contents.filter(file =>
     directoryExists(path.join(source, file))
   ).length
