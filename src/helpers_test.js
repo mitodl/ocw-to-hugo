@@ -42,7 +42,9 @@ describe("getCourseSectionFromFeatureUrl", () => {
 
 describe("getCourseCollectionObject", () => {
   it("returns a course collection object with the expected keys", () => {
-    const collection = helpers.getCourseCollectionObject(singleCourseJsonData["course_collections"][0])
+    const collection = helpers.getCourseCollectionObject(
+      singleCourseJsonData["course_collections"][0]
+    )
     assert.equal(collection["feature"], "Engineering")
     assert.equal(collection["subfeature"], "Systems Engineering")
     assert.equal(collection["speciality"], "Systems Design")

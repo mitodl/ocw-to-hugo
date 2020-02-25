@@ -84,7 +84,10 @@ describe("generateCourseHomeFrontMatter", () => {
   beforeEach(() => {
     getCourseImageUrl = sandbox.spy(helpers, "getCourseImageUrl")
     getCourseNumber = sandbox.spy(helpers, "getCourseNumber")
-    getCourseCollectionObject = sandbox.spy(helpers, "getCourseCollectionObject")
+    getCourseCollectionObject = sandbox.spy(
+      helpers,
+      "getCourseCollectionObject"
+    )
     safeDump = sandbox.spy(yaml, "safeDump")
     courseHomeFrontMatter = yaml.safeLoad(
       markdownGenerators
