@@ -77,14 +77,14 @@ describe("generateCourseHomeFrontMatter", () => {
   let courseHomeFrontMatter,
     getCourseImageUrl,
     getCourseNumber,
-    makeTopic,
+    getCourseCollectionText,
     safeDump
   const sandbox = sinon.createSandbox()
 
   beforeEach(() => {
     getCourseImageUrl = sandbox.spy(helpers, "getCourseImageUrl")
     getCourseNumber = sandbox.spy(helpers, "getCourseNumber")
-    makeTopic = sandbox.spy(helpers, "makeTopic")
+    getCourseCollectionText = sandbox.spy(helpers, "getCourseCollectionText")
     safeDump = sandbox.spy(yaml, "safeDump")
     courseHomeFrontMatter = yaml.safeLoad(
       markdownGenerators
@@ -142,17 +142,19 @@ describe("generateCourseHomeFrontMatter", () => {
     assert.equal(expectedValue, foundValue)
   })
 
-  it("calls makeTopic with each of the elements in course_collections", () => {
+  it("calls getCourseCollectionText with each of the elements in course_collections", () => {
     singleCourseJsonData["course_collections"].forEach(courseCollection => {
-      expect(makeTopic).to.be.calledWith(courseCollection)
+      expect(getCourseCollectionText).to.be.calledWith(courseCollection, ">")
     })
   })
 
   it("sets the topics property on the course info object to data parsed from course_collections in the course json data", () => {
     const expectedValues = singleCourseJsonData["course_collections"].map(
-      helpers.makeTopic
+      courseCollection => helpers.getCourseCollectionText(courseCollection, ">")
     )
     const foundValues = courseHomeFrontMatter["course_info"]["topics"]
+    console.log(expectedValues)
+    console.log(foundValues)
     expectedValues.forEach((expectedValue, index) => {
       assert.equal(expectedValue, foundValues[index])
     })
@@ -302,7 +304,7 @@ describe("generateCourseCollections", () => {
 
   it("calls markdown.misc.link for each item in course_collections", () => {
     singleCourseJsonData["course_collections"].forEach(courseCollection => {
-      const collection = helpers.getCourseCollectionText(courseCollection)
+      const collection = helpers.getCourseCollectionText(courseCollection, ">")
       expect(link).to.be.calledWithExactly(collection, "#")
     })
   })

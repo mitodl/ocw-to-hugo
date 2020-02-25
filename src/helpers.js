@@ -42,29 +42,18 @@ const getCourseSectionFromFeatureUrl = courseFeature => {
   return urlParts[urlParts.length - 1].split("#")[0]
 }
 
-const getCourseCollectionText = courseCollection => {
+const getCourseCollectionText = (courseCollection, separator) => {
   const feature = courseCollection["ocw_feature"]
   const subfeature = courseCollection["ocw_subfeature"]
-  const specialty = courseCollection["ocw_specialty"]
+  const speciality = courseCollection["ocw_speciality"]
   let collection = feature
   if (subfeature) {
-    collection = `${collection} > ${subfeature}`
+    collection = `${collection} ${separator} ${subfeature}`
   }
-  if (specialty) {
-    collection = `${collection} > ${specialty}`
+  if (speciality) {
+    collection = `${collection} ${separator} ${speciality}`
   }
   return collection
-}
-
-const makeTopic = feature => {
-  let topic = ""
-  if (feature["ocw_feature"]) {
-    topic = feature["ocw_feature"]
-  }
-  if (feature["ocw_subfeature"]) {
-    topic = `${topic} - ${feature["ocw_subfeature"]}`
-  }
-  return topic
 }
 
 const getYoutubeEmbedHtml = media => {
@@ -99,7 +88,6 @@ module.exports = {
   getCourseNumber,
   getCourseSectionFromFeatureUrl,
   getCourseCollectionText,
-  makeTopic,
   getYoutubeEmbedHtml,
   pathToChildRecursive
 }
