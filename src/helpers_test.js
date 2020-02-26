@@ -40,22 +40,25 @@ describe("getCourseSectionFromFeatureUrl", () => {
   })
 })
 
-describe("getCourseCollectionText", () => {
-  it("returns the expected course collection from a course collection object", () => {
-    assert.equal(
-      helpers.getCourseCollectionText(
-        singleCourseJsonData["course_collections"][0]
-      ),
-      "Engineering > Systems Engineering"
+describe("getCourseCollectionObject", () => {
+  it("returns a course collection object with the expected keys", () => {
+    const collection = helpers.getCourseCollectionObject(
+      singleCourseJsonData["course_collections"][0]
     )
+    assert.equal(collection["topic"], "Engineering")
+    assert.equal(collection["subtopic"], "Systems Engineering")
+    assert.equal(collection["speciality"], "Systems Design")
   })
 })
 
-describe("makeTopic", () => {
-  it("returns the expected topic from a course collection object", () => {
+describe("getCourseCollectionText", () => {
+  it("returns the expected course collection text from a course collection object and a separator", () => {
     assert.equal(
-      helpers.makeTopic(singleCourseJsonData["course_collections"][0]),
-      "Engineering - Systems Engineering"
+      helpers.getCourseCollectionText(
+        singleCourseJsonData["course_collections"][0],
+        ">"
+      ),
+      "Engineering > Systems Engineering > Systems Design"
     )
   })
 })
