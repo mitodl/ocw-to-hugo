@@ -35,23 +35,21 @@ const getDepartments = courseData => {
     let departments = [department["title"]]
     if (courseData["extra_course_number"]) {
       departments = departments.concat(
-        courseData["extra_course_number"].map(
-          extraCourseNumber =>  {
-            const extraDepartmentNumber = extraCourseNumber["linked_course_number_col"].split(".")[0]
-            const department = departmentsJson.find(departmentObject => {
-              return (departmentObject["depNo"] === extraDepartmentNumber)
-            })
-            if (department) {
-              return department["title"]
-            }
-            else return null
-          }
-        )
+        courseData["extra_course_number"].map(extraCourseNumber => {
+          const extraDepartmentNumber = extraCourseNumber[
+            "linked_course_number_col"
+          ].split(".")[0]
+          const department = departmentsJson.find(departmentObject => {
+            return departmentObject["depNo"] === extraDepartmentNumber
+          })
+          if (department) {
+            return department["title"]
+          } else return null
+        })
       )
     }
     return [...new Set(departments)].filter(Boolean)
-  }
-  else return []
+  } else return []
 }
 
 const getCourseNumbers = courseData => {

@@ -25,8 +25,14 @@ describe("getCourseImageUrl", () => {
 
 describe("getDepartments", () => {
   it("returns the expected departments for a given course json input", () => {
-    assert.equal(helpers.getDepartments(singleCourseJsonData)[0], "Mechanical Engineering")
-    assert.equal(helpers.getDepartments(singleCourseJsonData)[1], "Aeronautics and Astronautics")
+    assert.equal(
+      helpers.getDepartments(singleCourseJsonData)[0],
+      "Mechanical Engineering"
+    )
+    assert.equal(
+      helpers.getDepartments(singleCourseJsonData)[1],
+      "Aeronautics and Astronautics"
+    )
   })
 })
 

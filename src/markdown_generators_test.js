@@ -138,8 +138,14 @@ describe("generateCourseHomeFrontMatter", () => {
   })
 
   it("sets the department property on the course_info node to the deparentment found on the url property of the course json data, title cased with hyphens replaced with spaces", () => {
-    assert.equal("Mechanical Engineering", courseHomeFrontMatter["course_info"]["departments"][0])
-    assert.equal("Aeronautics and Astronautics", courseHomeFrontMatter["course_info"]["departments"][1])
+    assert.equal(
+      "Mechanical Engineering",
+      courseHomeFrontMatter["course_info"]["departments"][0]
+    )
+    assert.equal(
+      "Aeronautics and Astronautics",
+      courseHomeFrontMatter["course_info"]["departments"][1]
+    )
   })
 
   it("calls getCourseCollectionObject with each of the elements in course_collections", () => {
