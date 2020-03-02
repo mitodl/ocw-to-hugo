@@ -23,9 +23,33 @@ describe("getCourseImageUrl", () => {
   })
 })
 
-describe("getCourseNumber", () => {
-  it("returns the expected course number for a given course json input", () => {
-    assert.equal(helpers.getCourseNumber(singleCourseJsonData), "2.00 A")
+describe("findDepartmentByNumber", () => {
+  it("returns the expected department for a given department number integer", () => {
+    assert.equal(helpers.findDepartmentByNumber(18)["title"], "Mathematics")
+  })
+
+  it("returns the expected department for a given department number string", () => {
+    assert.equal(helpers.findDepartmentByNumber("18")["title"], "Mathematics")
+  })
+})
+
+describe("getDepartments", () => {
+  it("returns the expected departments for a given course json input", () => {
+    assert.equal(
+      helpers.getDepartments(singleCourseJsonData)[0],
+      "Mechanical Engineering"
+    )
+    assert.equal(
+      helpers.getDepartments(singleCourseJsonData)[1],
+      "Aeronautics and Astronautics"
+    )
+  })
+})
+
+describe("getCourseNumbers", () => {
+  it("returns the expected course numbers for a given course json input", () => {
+    assert.equal(helpers.getCourseNumbers(singleCourseJsonData)[0], "2.00 A")
+    assert.equal(helpers.getCourseNumbers(singleCourseJsonData)[1], "16.00AJ")
   })
 })
 

@@ -1,6 +1,13 @@
 #!/usr/bin/env node
 
 const path = require("path")
+const departmentsJson = require("./departments.json")
+
+const findDepartmentByNumber = departmentNumber => {
+  return departmentsJson.find(department => {
+    return department["depNo"] === departmentNumber.toString()
+  })
+}
 
 const getCourseImageUrl = courseData => {
   /*
@@ -25,14 +32,38 @@ const getCourseImageUrl = courseData => {
     : "images/course_image.jpg"
 }
 
-const getCourseNumber = courseData => {
-  let courseNumber = courseData["sort_as"]
-  if (courseData["extra_course_number"]) {
-    if (courseData["extra_course_number"]["sort_as_col"]) {
-      courseNumber = `${courseNumber} / ${courseData["extra_course_number"]["sort_as_col"]}`
+const getDepartments = courseData => {
+  const primaryDepartmentNumber = courseData["sort_as"].split(".")[0]
+  const department = findDepartmentByNumber(primaryDepartmentNumber)
+  if (department) {
+    let departments = [department["title"]]
+    if (courseData["extra_course_number"]) {
+      departments = departments.concat(
+        courseData["extra_course_number"].map(extraCourseNumber => {
+          const extraDepartmentNumber = extraCourseNumber[
+            "linked_course_number_col"
+          ].split(".")[0]
+          const department = findDepartmentByNumber(extraDepartmentNumber)
+          if (department) {
+            return department["title"]
+          } else return null
+        })
+      )
     }
+    return [...new Set(departments)].filter(Boolean)
+  } else return []
+}
+
+const getCourseNumbers = courseData => {
+  let courseNumbers = [courseData["sort_as"]]
+  if (courseData["extra_course_number"]) {
+    courseNumbers = courseNumbers.concat(
+      courseData["extra_course_number"].map(
+        extraCourseNumber => extraCourseNumber["linked_course_number_col"]
+      )
+    )
   }
-  return courseNumber
+  return courseNumbers
 }
 
 const getCourseSectionFromFeatureUrl = courseFeature => {
@@ -95,7 +126,9 @@ const pathToChildRecursive = (basePath, child, courseData) => {
 
 module.exports = {
   getCourseImageUrl,
-  getCourseNumber,
+  findDepartmentByNumber,
+  getDepartments,
+  getCourseNumbers,
   getCourseSectionFromFeatureUrl,
   getCourseCollectionObject,
   getCourseCollectionText,

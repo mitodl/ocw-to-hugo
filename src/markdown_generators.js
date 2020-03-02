@@ -227,15 +227,13 @@ const generateCourseHomeFrontMatter = courseData => {
         instructor =>
           `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`
       ),
-      department: titleCase.titleCase(
-        courseData["url"].split("/")[2].replace(/-/g, " ")
-      ),
-      topics: courseData["course_collections"].map(courseCollection =>
+      departments: helpers.getDepartments(courseData),
+      topics:      courseData["course_collections"].map(courseCollection =>
         helpers.getCourseCollectionObject(courseCollection)
       ),
-      course_number: helpers.getCourseNumber(courseData),
-      term:          `${courseData["from_semester"]} ${courseData["from_year"]}`,
-      level:         courseData["course_level"]
+      course_numbers: helpers.getCourseNumbers(courseData),
+      term:           `${courseData["from_semester"]} ${courseData["from_year"]}`,
+      level:          courseData["course_level"]
     },
     menu: {
       [courseData["short_url"]]: {

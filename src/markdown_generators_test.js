@@ -76,14 +76,14 @@ describe("generateMarkdownFromJson", () => {
 describe("generateCourseHomeFrontMatter", () => {
   let courseHomeFrontMatter,
     getCourseImageUrl,
-    getCourseNumber,
+    getCourseNumbers,
     getCourseCollectionObject,
     safeDump
   const sandbox = sinon.createSandbox()
 
   beforeEach(() => {
     getCourseImageUrl = sandbox.spy(helpers, "getCourseImageUrl")
-    getCourseNumber = sandbox.spy(helpers, "getCourseNumber")
+    getCourseNumbers = sandbox.spy(helpers, "getCourseNumbers")
     getCourseCollectionObject = sandbox.spy(
       helpers,
       "getCourseCollectionObject"
@@ -138,11 +138,14 @@ describe("generateCourseHomeFrontMatter", () => {
   })
 
   it("sets the department property on the course_info node to the deparentment found on the url property of the course json data, title cased with hyphens replaced with spaces", () => {
-    const expectedValue = titleCase.titleCase(
-      singleCourseJsonData["url"].split("/")[2].replace(/-/g, " ")
+    assert.equal(
+      "Mechanical Engineering",
+      courseHomeFrontMatter["course_info"]["departments"][0]
     )
-    const foundValue = courseHomeFrontMatter["course_info"]["department"]
-    assert.equal(expectedValue, foundValue)
+    assert.equal(
+      "Aeronautics and Astronautics",
+      courseHomeFrontMatter["course_info"]["departments"][1]
+    )
   })
 
   it("calls getCourseCollectionObject with each of the elements in course_collections", () => {
@@ -165,13 +168,13 @@ describe("generateCourseHomeFrontMatter", () => {
     })
   })
 
-  it("calls getCourseNumber with the course json data", () => {
-    expect(getCourseNumber).to.be.calledWithExactly(singleCourseJsonData)
+  it("calls getCourseNumbers with the course json data", () => {
+    expect(getCourseNumbers).to.be.calledWithExactly(singleCourseJsonData)
   })
 
   it("sets the course_number property on the course info object to data parsed from sort_as and extra_course_number properties in the course json data", () => {
-    const expectedValue = helpers.getCourseNumber(singleCourseJsonData)
-    const foundValue = courseHomeFrontMatter["course_info"]["course_number"]
+    const expectedValue = helpers.getCourseNumbers(singleCourseJsonData)[0]
+    const foundValue = courseHomeFrontMatter["course_info"]["course_numbers"][0]
     assert.equal(expectedValue, foundValue)
   })
 
