@@ -23,6 +23,16 @@ describe("getCourseImageUrl", () => {
   })
 })
 
+describe("findDepartmentByNumber", () => {
+  it("returns the expected department for a given department number integer", () => {
+    assert.equal(helpers.findDepartmentByNumber(18)["title"], "Mathematics")
+  })
+
+  it("returns the expected department for a given department number string", () => {
+    assert.equal(helpers.findDepartmentByNumber("18")["title"], "Mathematics")
+  })
+})
+
 describe("getDepartments", () => {
   it("returns the expected departments for a given course json input", () => {
     assert.equal(

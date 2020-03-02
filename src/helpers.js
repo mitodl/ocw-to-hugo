@@ -3,6 +3,12 @@
 const path = require("path")
 const departmentsJson = require("./departments.json")
 
+const findDepartmentByNumber = departmentNumber => {
+  return departmentsJson.find(department => {
+    return department["depNo"] === departmentNumber.toString()
+  })
+}
+
 const getCourseImageUrl = courseData => {
   /*
     Constructs the course image filename using parts of the course short_url
@@ -28,9 +34,7 @@ const getCourseImageUrl = courseData => {
 
 const getDepartments = courseData => {
   const primaryDepartmentNumber = courseData["sort_as"].split(".")[0]
-  const department = departmentsJson.find(departmentObject => {
-    return departmentObject["depNo"] === primaryDepartmentNumber
-  })
+  const department = findDepartmentByNumber(primaryDepartmentNumber)
   if (department) {
     let departments = [department["title"]]
     if (courseData["extra_course_number"]) {
@@ -39,9 +43,7 @@ const getDepartments = courseData => {
           const extraDepartmentNumber = extraCourseNumber[
             "linked_course_number_col"
           ].split(".")[0]
-          const department = departmentsJson.find(departmentObject => {
-            return departmentObject["depNo"] === extraDepartmentNumber
-          })
+          const department = findDepartmentByNumber(extraDepartmentNumber)
           if (department) {
             return department["title"]
           } else return null
@@ -124,6 +126,7 @@ const pathToChildRecursive = (basePath, child, courseData) => {
 
 module.exports = {
   getCourseImageUrl,
+  findDepartmentByNumber,
   getDepartments,
   getCourseNumbers,
   getCourseSectionFromFeatureUrl,
