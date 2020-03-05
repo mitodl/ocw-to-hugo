@@ -226,8 +226,11 @@ const generateCourseHomeFrontMatter = courseData => {
         instructor =>
           `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`
       ),
-      departments: helpers.getDepartments(courseData),
-      topics:      courseData["course_collections"].map(courseCollection =>
+      departments:     helpers.getDepartments(courseData),
+      course_features: courseData["course_features"].map(courseFeature =>
+        helpers.getCourseFeatureObject(courseFeature)
+      ),
+      topics: courseData["course_collections"].map(courseCollection =>
         helpers.getCourseCollectionObject(courseCollection)
       ),
       course_numbers: helpers.getCourseNumbers(courseData),

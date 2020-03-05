@@ -66,6 +66,19 @@ const getCourseNumbers = courseData => {
   return courseNumbers
 }
 
+const getCourseFeatureObject = courseFeature => {
+  const feature = courseFeature["ocw_feature"]
+  const subfeature = courseFeature["ocw_subfeature"]
+  const featureObject = {}
+  if (feature) {
+    featureObject["feature"] = feature
+  }
+  if (subfeature) {
+    featureObject["subfeature"] = subfeature
+  }
+  return featureObject
+}
+
 const getCourseSectionFromFeatureUrl = courseFeature => {
   const featureUrl = courseFeature["ocw_feature_url"]
   if (!featureUrl.includes("resolveuid")) {
@@ -130,6 +143,7 @@ module.exports = {
   findDepartmentByNumber,
   getDepartments,
   getCourseNumbers,
+  getCourseFeatureObject,
   getCourseSectionFromFeatureUrl,
   getCourseCollectionObject,
   getCourseCollectionText,
