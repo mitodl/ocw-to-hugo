@@ -67,10 +67,11 @@ const getCourseNumbers = courseData => {
 }
 
 const getCourseSectionFromFeatureUrl = courseFeature => {
-  const urlParts = courseFeature["ocw_feature_url"]
-    .replace(/\/index.html?/g, "")
-    .split("/")
-  return urlParts[urlParts.length - 1].split("#")[0]
+  const featureUrl = courseFeature["ocw_feature_url"]
+  if (!featureUrl.includes("resolveuid")) {
+    const urlParts = featureUrl.replace(/\/index.html?/g, "").split("/")
+    return urlParts[urlParts.length - 1].split("#")[0]
+  } else return featureUrl
 }
 
 const getCourseCollectionObject = courseCollection => {
