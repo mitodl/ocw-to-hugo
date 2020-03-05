@@ -214,12 +214,14 @@ const generateCourseHomeFrontMatter = courseData => {
     */
 
   const frontMatter = {
-    title:              "Course Home",
-    course_id:          courseData["short_url"],
-    course_title:       courseData["title"],
-    course_image_url:   helpers.getCourseImageUrl(courseData),
-    course_description: courseData["description"],
-    course_info:        {
+    title:                       "Course Home",
+    course_id:                   courseData["short_url"],
+    course_title:                courseData["title"],
+    course_image_url:            helpers.getCourseImageUrl(courseData),
+    course_image_alternate_text: courseData["image_alternate_text"],
+    course_image_caption_text:   courseData["image_caption_text"],
+    course_description:          courseData["description"],
+    course_info:                 {
       instructors: courseData["instructors"].map(
         instructor =>
           `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`
