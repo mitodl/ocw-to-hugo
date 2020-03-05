@@ -162,9 +162,6 @@ const generateMarkdownFromJson = courseData => {
     */
   this["courseData"] = courseData
   this["menuIndex"] = 0
-  let courseHomeMarkdown = generateCourseHomeFrontMatter(courseData)
-  courseHomeMarkdown += generateCourseFeatures(courseData)
-  courseHomeMarkdown += generateCourseCollections(courseData)
   const rootSections = courseData["course_pages"].filter(
     page =>
       page["parent_uid"] === courseData["uid"] &&
@@ -173,7 +170,7 @@ const generateMarkdownFromJson = courseData => {
   return [
     {
       name: "_index.md",
-      data: courseHomeMarkdown
+      data: generateCourseHomeFrontMatter(courseData)
     },
     ...rootSections.map(generateMarkdownRecursive, this)
   ]
