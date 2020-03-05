@@ -59,7 +59,7 @@ describe("getCourseSectionFromFeatureUrl", () => {
       helpers.getCourseSectionFromFeatureUrl(
         singleCourseJsonData["course_features"][2]
       ),
-      "projects"
+      "./resolveuid/293500564c0073c5971dfc2bbf334afc"
     )
   })
 })
