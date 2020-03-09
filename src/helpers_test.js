@@ -53,6 +53,24 @@ describe("getCourseNumbers", () => {
   })
 })
 
+describe("getCourseFeatureObject", () => {
+  it("returns the expected object from a course feature object", () => {
+    const featureObject = helpers.getCourseFeatureObject(
+      singleCourseJsonData["course_features"][2]
+    )
+    assert.equal(featureObject["feature"], "Assignments")
+    assert.equal(featureObject["subfeature"], "design with examples")
+  })
+
+  it("subfeature is undefined on the course feature object if it's blank in the source data", () => {
+    const featureObject = helpers.getCourseFeatureObject(
+      singleCourseJsonData["course_features"][0]
+    )
+    assert.equal(featureObject["feature"], "Image Gallery")
+    assert.equal(featureObject["subfeature"], undefined)
+  })
+})
+
 describe("getCourseSectionFromFeatureUrl", () => {
   it("returns the expected course section from a course feature object", () => {
     assert.equal(
