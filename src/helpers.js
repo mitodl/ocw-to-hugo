@@ -87,21 +87,36 @@ const getCourseSectionFromFeatureUrl = courseFeature => {
   } else return featureUrl
 }
 
-const getCourseCollectionObject = courseCollection => {
-  const feature = courseCollection["ocw_feature"]
-  const subfeature = courseCollection["ocw_subfeature"]
-  const speciality = courseCollection["ocw_speciality"]
-  const collection = {}
-  if (feature) {
-    collection["topic"] = feature
-  }
-  if (subfeature) {
-    collection["subtopic"] = subfeature
-  }
-  if (speciality) {
-    collection["speciality"] = speciality
-  }
-  return collection
+const getConsolidatedTopics = courseCollections => {
+  const topics = {}
+  courseCollections.forEach(courseCollection => {
+    if (!topics.hasOwnProperty(courseCollection["ocw_feature"])) {
+      topics[courseCollection["ocw_feature"]] = {}
+      if (courseCollection["ocw_subfeature"]) {
+        if (
+          !topics[courseCollection["ocw_feature"]].hasOwnProperty(
+            courseCollection["ocw_subfeature"]
+          )
+        ) {
+          topics[courseCollection["ocw_feature"]][
+            courseCollection["ocw_subfeature"]
+          ] = []
+        }
+        if (courseCollection["ocw_speciality"]) {
+          if (
+            !topics[courseCollection["ocw_feature"]][
+              courseCollection["ocw_subfeature"]
+            ].includes(courseCollection["ocw_speciality"])
+          ) {
+            topics[courseCollection["ocw_feature"]][
+              courseCollection["ocw_subfeature"]
+            ].push(courseCollection["ocw_speciality"])
+          }
+        }
+      }
+    }
+  })
+  return topics
 }
 
 const getCourseCollectionText = (courseCollection, separator) => {
@@ -145,7 +160,7 @@ module.exports = {
   getCourseNumbers,
   getCourseFeatureObject,
   getCourseSectionFromFeatureUrl,
-  getCourseCollectionObject,
+  getConsolidatedTopics,
   getCourseCollectionText,
   getYoutubeEmbedHtml,
   pathToChildRecursive

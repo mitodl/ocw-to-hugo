@@ -230,9 +230,7 @@ const generateCourseHomeFrontMatter = courseData => {
       course_features: courseData["course_features"].map(courseFeature =>
         helpers.getCourseFeatureObject(courseFeature)
       ),
-      topics: courseData["course_collections"].map(courseCollection =>
-        helpers.getCourseCollectionObject(courseCollection)
-      ),
+      topics:         helpers.getConsolidatedTopics(courseData["course_collections"]),
       course_numbers: helpers.getCourseNumbers(courseData),
       term:           `${courseData["from_semester"]} ${courseData["from_year"]}`,
       level:          courseData["course_level"]
