@@ -91,7 +91,9 @@ const getConsolidatedTopics = courseCollections => {
   const topics = {}
   courseCollections.forEach(courseCollection => {
     if (!topics.hasOwnProperty(courseCollection["ocw_feature"])) {
-      topics[courseCollection["ocw_feature"]] = {}
+      if (!topics.hasOwnProperty(courseCollection["ocw_feature"])) {
+        topics[courseCollection["ocw_feature"]] = {}
+      }
       if (courseCollection["ocw_subfeature"]) {
         if (
           !topics[courseCollection["ocw_feature"]].hasOwnProperty(
@@ -117,13 +119,6 @@ const getConsolidatedTopics = courseCollections => {
     }
   })
   return topics
-}
-
-const getCourseCollectionText = (courseCollection, separator) => {
-  const collection = getCourseCollectionObject(courseCollection)
-  return Object.keys(collection)
-    .map(property => collection[property])
-    .join(` ${separator} `)
 }
 
 const getYoutubeEmbedHtml = media => {
@@ -161,7 +156,6 @@ module.exports = {
   getCourseFeatureObject,
   getCourseSectionFromFeatureUrl,
   getConsolidatedTopics,
-  getCourseCollectionText,
   getYoutubeEmbedHtml,
   pathToChildRecursive
 }

@@ -297,27 +297,6 @@ const generateCourseFeatures = courseData => {
   return `${courseFeaturesHeader}\n${markdown.lists.ul(courseFeatures)}`
 }
 
-const generateCourseCollections = courseData => {
-  /**
-    Generate markdown for the "Course Collections" section of the home page
-    */
-  const courseCollectionsHeader = markdown.headers.hX(5, "Course Collections")
-  const courseCollectionsSubHeader = `\nSee related courses in the following collections:\n\n${markdown.emphasis.i(
-    "Find Courses by Topic"
-  )}\n\n`
-  const courseCollections = courseData["course_collections"].map(
-    courseCollection => {
-      return markdown.misc.link(
-        helpers.getCourseCollectionText(courseCollection, ">"),
-        "#"
-      )
-    }
-  )
-  return `${courseCollectionsHeader}${courseCollectionsSubHeader}${markdown.lists.ul(
-    courseCollections
-  )}`
-}
-
 const generateCourseSectionMarkdown = (page, courseData) => {
   /**
     Generate markdown a given course section page
@@ -334,6 +313,5 @@ module.exports = {
   generateCourseHomeFrontMatter,
   generateCourseSectionFrontMatter,
   generateCourseFeatures,
-  generateCourseCollections,
   generateCourseSectionMarkdown
 }

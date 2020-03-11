@@ -297,39 +297,6 @@ describe("generateCourseFeatures", () => {
   })
 })
 
-describe("generateCourseCollections", () => {
-  let courseCollections, hX, link, ul
-  const sandbox = sinon.createSandbox()
-
-  beforeEach(() => {
-    hX = sandbox.spy(markdown.headers, "hX")
-    link = sandbox.spy(markdown.misc, "link")
-    ul = sandbox.spy(markdown.lists, "ul")
-    courseCollections = markdownGenerators.generateCourseCollections(
-      singleCourseJsonData
-    )
-  })
-
-  afterEach(() => {
-    sandbox.restore()
-  })
-
-  it("calls markdown.headers.hx to create the Course Collections header", () => {
-    expect(hX).to.be.calledWithExactly(5, "Course Collections")
-  })
-
-  it("calls markdown.misc.link for each item in course_collections", () => {
-    singleCourseJsonData["course_collections"].forEach(courseCollection => {
-      const collection = helpers.getCourseCollectionText(courseCollection, ">")
-      expect(link).to.be.calledWithExactly(collection, "#")
-    })
-  })
-
-  it("calls markdown.lists.ul to create the Course Features list", () => {
-    expect(ul).to.be.calledOnce
-  })
-})
-
 describe("generateCourseSectionMarkdown", () => {
   it("can be called without generating an error and returns something", () => {
     const coursePagesWithText = singleCourseJsonData["course_pages"].filter(
