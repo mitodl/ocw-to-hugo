@@ -91,29 +91,27 @@ const getConsolidatedTopics = courseCollections => {
   const topics = {}
   courseCollections.forEach(courseCollection => {
     if (!topics.hasOwnProperty(courseCollection["ocw_feature"])) {
-      if (!topics.hasOwnProperty(courseCollection["ocw_feature"])) {
-        topics[courseCollection["ocw_feature"]] = {}
+      topics[courseCollection["ocw_feature"]] = {}
+    }
+    if (courseCollection["ocw_subfeature"]) {
+      if (
+        !topics[courseCollection["ocw_feature"]].hasOwnProperty(
+          courseCollection["ocw_subfeature"]
+        )
+      ) {
+        topics[courseCollection["ocw_feature"]][
+          courseCollection["ocw_subfeature"]
+        ] = []
       }
-      if (courseCollection["ocw_subfeature"]) {
+      if (courseCollection["ocw_speciality"]) {
         if (
-          !topics[courseCollection["ocw_feature"]].hasOwnProperty(
+          !topics[courseCollection["ocw_feature"]][
             courseCollection["ocw_subfeature"]
-          )
+          ].includes(courseCollection["ocw_speciality"])
         ) {
           topics[courseCollection["ocw_feature"]][
             courseCollection["ocw_subfeature"]
-          ] = []
-        }
-        if (courseCollection["ocw_speciality"]) {
-          if (
-            !topics[courseCollection["ocw_feature"]][
-              courseCollection["ocw_subfeature"]
-            ].includes(courseCollection["ocw_speciality"])
-          ) {
-            topics[courseCollection["ocw_feature"]][
-              courseCollection["ocw_subfeature"]
-            ].push(courseCollection["ocw_speciality"])
-          }
+          ].push(courseCollection["ocw_speciality"])
         }
       }
     }
