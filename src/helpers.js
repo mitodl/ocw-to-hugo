@@ -102,7 +102,7 @@ const getConsolidatedTopics = courseCollections => {
         Boolean
       )
     }
-    
+
     topics = _.mergeWith(topics, collectionTopic, (objValue, srcValue) => {
       if (_.isArray(objValue)) {
         return objValue.concat(srcValue)
