@@ -88,33 +88,19 @@ const getCourseSectionFromFeatureUrl = courseFeature => {
 }
 
 const getConsolidatedTopics = courseCollections => {
-  const topics = {}
+  let topics = {}
   courseCollections.forEach(courseCollection => {
-    if (!topics.hasOwnProperty(courseCollection["ocw_feature"])) {
-      topics[courseCollection["ocw_feature"]] = {}
+    const { ocw_feature, ocw_subfeature, ocw_speciality } = courseCollection
+
+    const collectionTopic = {
+      [ ocw_feature ]: {}
     }
-    if (courseCollection["ocw_subfeature"]) {
-      if (
-        !topics[courseCollection["ocw_feature"]].hasOwnProperty(
-          courseCollection["ocw_subfeature"]
-        )
-      ) {
-        topics[courseCollection["ocw_feature"]][
-          courseCollection["ocw_subfeature"]
-        ] = []
-      }
-      if (courseCollection["ocw_speciality"]) {
-        if (
-          !topics[courseCollection["ocw_feature"]][
-            courseCollection["ocw_subfeature"]
-          ].includes(courseCollection["ocw_speciality"])
-        ) {
-          topics[courseCollection["ocw_feature"]][
-            courseCollection["ocw_subfeature"]
-          ].push(courseCollection["ocw_speciality"])
-        }
-      }
+    if (ocw_subfeature) {
+      collectionTopic[ocw_feature][ocw_subfeature] = [ocw_speciality].filter(
+        Boolean
+      )
     }
+    topics = _.merge(topics, collectionTopic)
   })
   return topics
 }
