@@ -95,7 +95,7 @@ const getConsolidatedTopics = courseCollections => {
     const { ocw_feature, ocw_subfeature, ocw_speciality } = courseCollection
 
     const collectionTopic = {
-      [ ocw_feature ]: {}
+      [ocw_feature]: {}
     }
     if (ocw_subfeature) {
       collectionTopic[ocw_feature][ocw_subfeature] = [ocw_speciality].filter(
