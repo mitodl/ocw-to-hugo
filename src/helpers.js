@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const _ = require("lodash")
 const path = require("path")
 const departmentsJson = require("./departments.json")
 
@@ -87,29 +88,30 @@ const getCourseSectionFromFeatureUrl = courseFeature => {
   } else return featureUrl
 }
 
-const getCourseCollectionObject = courseCollection => {
-  const feature = courseCollection["ocw_feature"]
-  const subfeature = courseCollection["ocw_subfeature"]
-  const speciality = courseCollection["ocw_speciality"]
-  const collection = {}
-  if (feature) {
-    collection["topic"] = feature
-  }
-  if (subfeature) {
-    collection["subtopic"] = subfeature
-  }
-  if (speciality) {
-    collection["speciality"] = speciality
-  }
-  return collection
-}
+/* eslint-disable camelcase */
+const getConsolidatedTopics = courseCollections => {
+  let topics = {}
+  courseCollections.forEach(courseCollection => {
+    const { ocw_feature, ocw_subfeature, ocw_speciality } = courseCollection
 
-const getCourseCollectionText = (courseCollection, separator) => {
-  const collection = getCourseCollectionObject(courseCollection)
-  return Object.keys(collection)
-    .map(property => collection[property])
-    .join(` ${separator} `)
+    const collectionTopic = {
+      [ocw_feature]: {}
+    }
+    if (ocw_subfeature) {
+      collectionTopic[ocw_feature][ocw_subfeature] = [ocw_speciality].filter(
+        Boolean
+      )
+    }
+
+    topics = _.mergeWith(topics, collectionTopic, (objValue, srcValue) => {
+      if (_.isArray(objValue)) {
+        return objValue.concat(srcValue)
+      }
+    })
+  })
+  return topics
 }
+/* eslint-disable camelcase */
 
 const getYoutubeEmbedHtml = media => {
   const youTubeMedia = media["embedded_media"].filter(embeddedMedia => {
@@ -145,8 +147,7 @@ module.exports = {
   getCourseNumbers,
   getCourseFeatureObject,
   getCourseSectionFromFeatureUrl,
-  getCourseCollectionObject,
-  getCourseCollectionText,
+  getConsolidatedTopics,
   getYoutubeEmbedHtml,
   pathToChildRecursive
 }

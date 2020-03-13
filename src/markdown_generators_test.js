@@ -77,17 +77,14 @@ describe("generateCourseHomeFrontMatter", () => {
   let courseHomeFrontMatter,
     getCourseImageUrl,
     getCourseNumbers,
-    getCourseCollectionObject,
+    getConsolidatedTopics,
     safeDump
   const sandbox = sinon.createSandbox()
 
   beforeEach(() => {
     getCourseImageUrl = sandbox.spy(helpers, "getCourseImageUrl")
     getCourseNumbers = sandbox.spy(helpers, "getCourseNumbers")
-    getCourseCollectionObject = sandbox.spy(
-      helpers,
-      "getCourseCollectionObject"
-    )
+    getConsolidatedTopics = sandbox.spy(helpers, "getConsolidatedTopics")
     safeDump = sandbox.spy(yaml, "safeDump")
     courseHomeFrontMatter = yaml.safeLoad(
       markdownGenerators
@@ -148,23 +145,34 @@ describe("generateCourseHomeFrontMatter", () => {
     )
   })
 
-  it("calls getCourseCollectionObject with each of the elements in course_collections", () => {
-    singleCourseJsonData["course_collections"].forEach(courseCollection => {
-      expect(getCourseCollectionObject).to.be.calledWith(courseCollection)
-    })
+  it("calls getConsolidatedTopics with course_collections", () => {
+    expect(getConsolidatedTopics).to.be.calledWith(
+      singleCourseJsonData["course_collections"]
+    )
   })
 
   it("sets the topics property on the course info object to data parsed from course_collections in the course json data", () => {
-    const expectedValues = singleCourseJsonData[
-      "course_collections"
-    ].map(courseCollection =>
-      helpers.getCourseCollectionObject(courseCollection)
+    const expectedValues = helpers.getConsolidatedTopics(
+      singleCourseJsonData["course_collections"]
     )
     const foundValues = courseHomeFrontMatter["course_info"]["topics"]
-    expectedValues.forEach((expectedValue, index) => {
-      Object.keys(foundValues[index]).forEach(property => {
-        assert.equal(expectedValue[property], foundValues[index][property])
-      })
+    Object.keys(expectedValues).forEach(expectedTopicKey => {
+      assert.isTrue(foundValues.hasOwnProperty(expectedTopicKey))
+      Object.keys(expectedValues[expectedTopicKey]).forEach(
+        expectedSubTopicKey => {
+          assert.isTrue(
+            foundValues[expectedTopicKey].hasOwnProperty(expectedSubTopicKey)
+          )
+          expectedValues[expectedTopicKey][expectedSubTopicKey].forEach(
+            (expectedSpeciality, index) => {
+              assert.equal(
+                expectedSpeciality,
+                foundValues[expectedTopicKey][expectedSubTopicKey][index]
+              )
+            }
+          )
+        }
+      )
     })
   })
 
@@ -281,39 +289,6 @@ describe("generateCourseFeatures", () => {
           `{{% ref "${sectionPath}" %}}`
         )
       }
-    })
-  })
-
-  it("calls markdown.lists.ul to create the Course Features list", () => {
-    expect(ul).to.be.calledOnce
-  })
-})
-
-describe("generateCourseCollections", () => {
-  let courseCollections, hX, link, ul
-  const sandbox = sinon.createSandbox()
-
-  beforeEach(() => {
-    hX = sandbox.spy(markdown.headers, "hX")
-    link = sandbox.spy(markdown.misc, "link")
-    ul = sandbox.spy(markdown.lists, "ul")
-    courseCollections = markdownGenerators.generateCourseCollections(
-      singleCourseJsonData
-    )
-  })
-
-  afterEach(() => {
-    sandbox.restore()
-  })
-
-  it("calls markdown.headers.hx to create the Course Collections header", () => {
-    expect(hX).to.be.calledWithExactly(5, "Course Collections")
-  })
-
-  it("calls markdown.misc.link for each item in course_collections", () => {
-    singleCourseJsonData["course_collections"].forEach(courseCollection => {
-      const collection = helpers.getCourseCollectionText(courseCollection, ">")
-      expect(link).to.be.calledWithExactly(collection, "#")
     })
   })
 

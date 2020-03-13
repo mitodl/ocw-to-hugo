@@ -82,29 +82,6 @@ describe("getCourseSectionFromFeatureUrl", () => {
   })
 })
 
-describe("getCourseCollectionObject", () => {
-  it("returns a course collection object with the expected keys", () => {
-    const collection = helpers.getCourseCollectionObject(
-      singleCourseJsonData["course_collections"][0]
-    )
-    assert.equal(collection["topic"], "Engineering")
-    assert.equal(collection["subtopic"], "Systems Engineering")
-    assert.equal(collection["speciality"], "Systems Design")
-  })
-})
-
-describe("getCourseCollectionText", () => {
-  it("returns the expected course collection text from a course collection object and a separator", () => {
-    assert.equal(
-      helpers.getCourseCollectionText(
-        singleCourseJsonData["course_collections"][0],
-        ">"
-      ),
-      "Engineering > Systems Engineering > Systems Design"
-    )
-  })
-})
-
 describe("getYoutubeEmbedHtml", () => {
   it("returned html strings contain the youtube media url for each embedded media", () => {
     let html = ""
