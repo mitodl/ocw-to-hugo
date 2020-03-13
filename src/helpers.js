@@ -88,6 +88,7 @@ const getCourseSectionFromFeatureUrl = courseFeature => {
   } else return featureUrl
 }
 
+/* eslint-disable camelcase */
 const getConsolidatedTopics = courseCollections => {
   let topics = {}
   courseCollections.forEach(courseCollection => {
@@ -105,6 +106,7 @@ const getConsolidatedTopics = courseCollections => {
   })
   return topics
 }
+/* eslint-disable camelcase */
 
 const getYoutubeEmbedHtml = media => {
   const youTubeMedia = media["embedded_media"].filter(embeddedMedia => {
