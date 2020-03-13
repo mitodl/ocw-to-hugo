@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const _ = require("lodash")
+const url = require("url")
 const path = require("path")
 const departmentsJson = require("./departments.json")
 
