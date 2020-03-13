@@ -181,10 +181,16 @@ const generateMarkdownRecursive = page => {
   const children = courseData["course_pages"].filter(
     coursePage => coursePage["parent_uid"] === page["uid"]
   )
+  const pdfFiles = courseData["course_files"].filter(
+    file =>
+      file["file_type"] === "application/pdf" &&
+      file["parent_uid"] === page["uid"]
+  )
   const parents = courseData["course_pages"].filter(
     coursePage => coursePage["uid"] === page["parent_uid"]
   )
   const isParent = children.length > 0
+  const hasFiles = pdfFiles.length > 0
   const hasParent = parents.length > 0
   const parent = hasParent ? parents[0] : null
   let courseSectionMarkdown = generateCourseSectionFrontMatter(
@@ -202,9 +208,18 @@ const generateMarkdownRecursive = page => {
     courseData
   )}`
   return {
-    name:     isParent ? path.join(pathToChild, "_index.md") : `${pathToChild}.md`,
+    name:
+      isParent || hasFiles
+        ? path.join(pathToChild, "_index.md")
+        : `${pathToChild}.md`,
     data:     courseSectionMarkdown,
-    children: children.map(generateMarkdownRecursive, this)
+    children: children.map(generateMarkdownRecursive, this),
+    files:    pdfFiles.map(file => {
+      return {
+        name: `${helpers.getFilenameFromUrl(file["file_location"])}.md`,
+        data: generatePdfMarkdown(file, courseData)
+      }
+    })
   }
 }
 
@@ -329,6 +344,21 @@ const generateCourseSectionMarkdown = (page, courseData) => {
   } catch (err) {
     return page["text"]
   }
+}
+
+const generatePdfMarkdown = (file, courseData) => {
+  /**
+  Generate the front matter metadata for a PDF file
+  */
+  const pdfFrontMatter = {
+    title:         file["title"],
+    description:   file["description"],
+    type:          "file",
+    file_type:     file["file_type"],
+    file_location: file["file_location"],
+    course_id:     courseData["short_url"]
+  }
+  return `---\n${yaml.safeDump(pdfFrontMatter)}---\n`
 }
 
 module.exports = {
