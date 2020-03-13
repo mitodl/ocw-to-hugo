@@ -45,7 +45,9 @@ describe("generateMarkdownFromJson", () => {
           section["name"] === `${filename}.md` ||
           section["name"] === `${filename}/_index.md`
       )[0]
-      const hasChildren = sectionMarkdownData["children"].length > 0
+      const hasChildren =
+        sectionMarkdownData["children"].length > 0 ||
+        sectionMarkdownData["files"].length > 0
       filename = hasChildren ? `${filename}/_index.md` : `${filename}.md`
       assert.include(markdownFileNames, filename)
       if (hasChildren) {

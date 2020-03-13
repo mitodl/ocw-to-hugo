@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const _ = require("lodash")
+const url = require("url")
 const path = require("path")
 const departmentsJson = require("./departments.json")
 
@@ -8,6 +9,11 @@ const findDepartmentByNumber = departmentNumber => {
   return departmentsJson.find(department => {
     return department["depNo"] === departmentNumber.toString()
   })
+}
+
+const getFilenameFromUrl = urlString => {
+  const parsed = url.parse(urlString)
+  return path.basename(parsed.pathname)
 }
 
 const getCourseImageUrl = courseData => {
@@ -142,6 +148,7 @@ const pathToChildRecursive = (basePath, child, courseData) => {
 
 module.exports = {
   getCourseImageUrl,
+  getFilenameFromUrl,
   findDepartmentByNumber,
   getDepartments,
   getCourseNumbers,
