@@ -330,7 +330,7 @@ const generatePdfMarkdown = (file, courseData) => {
   const pdfFrontMatter = {
     title:         file["title"],
     description:   file["description"],
-    type:          "file",
+    type:          "courses",
     layout:        "pdf",
     file_type:     file["file_type"],
     file_location: file["file_location"],
