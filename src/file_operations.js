@@ -91,7 +91,11 @@ const writeMarkdownFilesRecursive = (destination, markdownData) => {
     fs.writeFileSync(sectionPath, section["data"])
     if (section.hasOwnProperty("files")) {
       section["files"].forEach(file => {
-        const filePath = path.join(destination, section["name"].replace("/_index.md", ""), file["name"])
+        const filePath = path.join(
+          destination,
+          section["name"].replace("/_index.md", ""),
+          file["name"]
+        )
         const fileDirPath = path.dirname(filePath)
         if (!directoryExists(fileDirPath)) {
           console.log(fileDirPath)
