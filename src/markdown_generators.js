@@ -331,6 +331,7 @@ const generatePdfMarkdown = (file, courseData) => {
     title:         file["title"],
     description:   file["description"],
     type:          "file",
+    layout:        "pdf",
     file_type:     file["file_type"],
     file_location: file["file_location"],
     course_id:     courseData["short_url"]
