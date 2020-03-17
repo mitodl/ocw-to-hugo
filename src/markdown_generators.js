@@ -210,7 +210,7 @@ const generateMarkdownRecursive = page => {
   return {
     name:
       isParent || hasFiles
-        ? path.join(pathToChild, "_index.md")
+        ? path.join(pathToChild, "index.md")
         : `${pathToChild}.md`,
     data:     courseSectionMarkdown,
     children: children.map(generateMarkdownRecursive, this),
