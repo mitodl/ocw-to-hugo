@@ -74,15 +74,10 @@ describe("generateMarkdownFromJson", () => {
 })
 
 describe("generateCourseHomeFrontMatter", () => {
-  let courseHomeFrontMatter,
-    getCourseImageUrl,
-    getCourseNumbers,
-    getConsolidatedTopics,
-    safeDump
+  let courseHomeFrontMatter, getCourseNumbers, getConsolidatedTopics, safeDump
   const sandbox = sinon.createSandbox()
 
   beforeEach(() => {
-    getCourseImageUrl = sandbox.spy(helpers, "getCourseImageUrl")
     getCourseNumbers = sandbox.spy(helpers, "getCourseNumbers")
     getConsolidatedTopics = sandbox.spy(helpers, "getConsolidatedTopics")
     safeDump = sandbox.spy(yaml, "safeDump")
@@ -109,12 +104,8 @@ describe("generateCourseHomeFrontMatter", () => {
     assert.equal(expectedValue, foundValue)
   })
 
-  it("calls getCourseImageUrl with the course json data", () => {
-    expect(getCourseImageUrl).to.be.calledWithExactly(singleCourseJsonData)
-  })
-
-  it("sets the course_image_url property to the value returned from helpers.getCourseImageUrl", () => {
-    const expectedValue = helpers.getCourseImageUrl(singleCourseJsonData)
+  it("sets the course_image_url property to the image_src of the course json data", () => {
+    const expectedValue = singleCourseJsonData["image_src"]
     const foundValue = courseHomeFrontMatter["course_image_url"]
     assert.equal(expectedValue, foundValue)
   })

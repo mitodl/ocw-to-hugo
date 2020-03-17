@@ -14,15 +14,6 @@ const singleCourseMasterJsonPath = path.join(
 const singleCourseRawData = fs.readFileSync(singleCourseMasterJsonPath)
 const singleCourseJsonData = JSON.parse(singleCourseRawData)
 
-describe("getCourseImageUrl", () => {
-  it("returns the expected course image file name for a given course json input", () => {
-    assert.equal(
-      helpers.getCourseImageUrl(singleCourseJsonData),
-      "https://open-learning-course-data.s3.amazonaws.com/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/b6a31a6a85998d664ea826a766d9032b_2-00ajs09.jpg"
-    )
-  })
-})
-
 describe("findDepartmentByNumber", () => {
   it("returns the expected department for a given department number integer", () => {
     assert.equal(helpers.findDepartmentByNumber(18)["title"], "Mathematics")
