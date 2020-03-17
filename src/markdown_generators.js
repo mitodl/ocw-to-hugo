@@ -13,8 +13,8 @@ turndownService.use(gfm)
 turndownService.use(tables)
 
 const REPLACETHISWITHAPIPE = "REPLACETHISWITHAPIPE"
-const REFSHORTCODESTART = "REFSHORTCODESTART"
-const REFSHORTCODEEND = "REFSHORTCODEEND"
+const GETPAGESHORTCODESTART = "GETPAGESHORTCODESTART"
+const GETPAGESHORTCODEEND = "GETPAGESHORTCODEEND"
 
 /**
  * Sanitize markdown table content
@@ -98,7 +98,7 @@ turndownService.addRule("table", {
 turndownService.addRule("refshortcode", {
   filter: (node, options) => {
     if (node.nodeName === "A" && node.getAttribute("href")) {
-      if (node.getAttribute("href").includes(REFSHORTCODESTART)) {
+      if (node.getAttribute("href").includes(GETPAGESHORTCODESTART)) {
         return true
       }
     }
@@ -106,12 +106,13 @@ turndownService.addRule("refshortcode", {
   },
   replacement: (content, node, options) => {
     content = turndownService.escape(content)
-    const ref = turndownService.escape(
+    let ref = turndownService.escape(
       node
         .getAttribute("href")
-        .replace(REFSHORTCODESTART, '{{% ref "')
-        .replace(REFSHORTCODEEND, '" %}}')
+        .replace(GETPAGESHORTCODESTART, '{{% getpage "')
+        .replace(GETPAGESHORTCODEEND, '" %}}')
     )
+    ref = ref.replace("\\_index.md", "_index.md")
     return `[${content}](${ref})`
   }
 })
@@ -123,17 +124,29 @@ const fixLinks = (page, courseData) => {
       page => page["type"] !== "CourseHomeSection"
     )
     coursePages.forEach(coursePage => {
+      const children = courseData["course_pages"].filter(
+        coursePage => coursePage["parent_uid"] === page["uid"]
+      )
+      const pdfFiles = courseData["course_files"].filter(
+        file =>
+          file["file_type"] === "application/pdf" &&
+          file["parent_uid"] === coursePage["uid"]
+      )
+      const isParent = children.length > 0
+      const hasFiles = pdfFiles.length > 0
+      const suffix = (isParent || hasFiles) ? "/_index.md" : ""
+      const pagePath = `${helpers.pathToChildRecursive(
+        path.join("courses", courseData["short_url"], "sections"),
+        coursePage,
+        courseData
+      )}${suffix}`
       const placeholder = new RegExp(
         `\\.?\\/?resolveuid\\/${coursePage["uid"]}`,
         "g"
       )
       htmlStr = htmlStr.replace(
         placeholder,
-        `${REFSHORTCODESTART}${helpers.pathToChildRecursive(
-          path.join("courses", courseData["short_url"], "sections"),
-          coursePage,
-          courseData
-        )}${REFSHORTCODEEND}`
+        `${GETPAGESHORTCODESTART}${pagePath}${GETPAGESHORTCODEEND}`
       )
     })
     courseData["course_files"].forEach(media => {
@@ -210,13 +223,13 @@ const generateMarkdownRecursive = page => {
   return {
     name:
       isParent || hasFiles
-        ? path.join(pathToChild, "index.md")
+        ? path.join(pathToChild, "_index.md")
         : `${pathToChild}.md`,
     data:     courseSectionMarkdown,
     children: children.map(generateMarkdownRecursive, this),
     files:    pdfFiles.map(file => {
       return {
-        name: `${helpers.getFilenameFromUrl(file["file_location"])}.md`,
+        name: `${file["uid"]}.md`,
         data: generatePdfMarkdown(file, courseData)
       }
     })
