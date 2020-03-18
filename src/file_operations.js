@@ -98,7 +98,6 @@ const writeMarkdownFilesRecursive = (destination, markdownData) => {
         )
         const fileDirPath = path.dirname(filePath)
         if (!directoryExists(fileDirPath)) {
-          console.log(fileDirPath)
           fs.mkdirSync(fileDirPath)
         }
         if (fs.existsSync(filePath)) {
