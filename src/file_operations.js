@@ -89,26 +89,30 @@ const writeMarkdownFilesRecursive = (destination, markdownData) => {
       fs.unlinkSync(sectionPath)
     }
     fs.writeFileSync(sectionPath, section["data"])
-    if (section.hasOwnProperty("files")) {
-      section["files"].forEach(file => {
-        const filePath = path.join(
-          destination,
-          section["name"].replace("/_index.md", ""),
-          file["name"]
-        )
-        const fileDirPath = path.dirname(filePath)
-        if (!directoryExists(fileDirPath)) {
-          fs.mkdirSync(fileDirPath)
-        }
-        if (fs.existsSync(filePath)) {
-          fs.unlinkSync(filePath)
-        }
-        fs.writeFileSync(filePath, file["data"])
-      })
-    }
+    writeSectionFiles(section, destination)
     if (section.hasOwnProperty("children")) {
       writeMarkdownFilesRecursive(destination, section["children"])
     }
+  }
+}
+
+const writeSectionFiles = (section, destination) => {
+  if (section.hasOwnProperty("files")) {
+    section["files"].forEach(file => {
+      const filePath = path.join(
+        destination,
+        section["name"].replace("/_index.md", ""),
+        file["name"]
+      )
+      const fileDirPath = path.dirname(filePath)
+      if (!directoryExists(fileDirPath)) {
+        fs.mkdirSync(fileDirPath)
+      }
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath)
+      }
+      fs.writeFileSync(filePath, file["data"])
+    })
   }
 }
 
