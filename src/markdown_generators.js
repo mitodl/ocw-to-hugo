@@ -134,7 +134,7 @@ const fixLinks = (page, courseData) => {
       )
       const isParent = children.length > 0
       const hasFiles = pdfFiles.length > 0
-      const suffix = (isParent || hasFiles) ? "/_index.md" : ""
+      const suffix = isParent || hasFiles ? "/_index.md" : ""
       const pagePath = `${helpers.pathToChildRecursive(
         path.join("courses", courseData["short_url"], "sections"),
         coursePage,
