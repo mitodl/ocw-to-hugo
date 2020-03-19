@@ -229,7 +229,7 @@ const generateMarkdownRecursive = page => {
     children: children.map(generateMarkdownRecursive, this),
     files:    pdfFiles.map(file => {
       return {
-        name: `${file["uid"]}.md`,
+        name: `${file["id"]}.md`,
         data: generatePdfMarkdown(file, courseData)
       }
     })
@@ -345,6 +345,7 @@ const generatePdfMarkdown = (file, courseData) => {
     description:   file["description"],
     type:          "courses",
     layout:        "pdf",
+    uid:           file["uid"],
     file_type:     file["file_type"],
     file_location: file["file_location"],
     course_id:     courseData["short_url"]
