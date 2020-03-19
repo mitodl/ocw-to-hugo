@@ -106,13 +106,12 @@ turndownService.addRule("refshortcode", {
   },
   replacement: (content, node, options) => {
     content = turndownService.escape(content)
-    let ref = turndownService.escape(
+    const ref = turndownService.escape(
       node
         .getAttribute("href")
         .replace(GETPAGESHORTCODESTART, '{{% getpage "')
         .replace(GETPAGESHORTCODEEND, '" %}}')
-    )
-    ref = ref.replace("\\_index.md", "_index.md")
+    ).split("\\_").join("_")
     return `[${content}](${ref})`
   }
 })
@@ -148,13 +147,26 @@ const fixLinks = (page, courseData) => {
         placeholder,
         `${GETPAGESHORTCODESTART}${pagePath}${GETPAGESHORTCODEEND}`
       )
+      pdfFiles.forEach(pdfFile => {
+        const placeholder = new RegExp(
+          `\\.?\\/?resolveuid\\/${pdfFile["uid"]}`,
+          "g"
+        )
+        const pdfPath = `${pagePath.replace("/_index.md", "/")}${pdfFile["id"]}`
+        htmlStr = htmlStr.replace(
+          placeholder,
+          `${GETPAGESHORTCODESTART}${pdfPath.replace(".pdf", "")}${GETPAGESHORTCODEEND}`
+        )
+      })
     })
     courseData["course_files"].forEach(media => {
-      const placeholder = new RegExp(
-        `\\.?\\/?resolveuid\\/${media["uid"]}`,
-        "g"
-      )
-      htmlStr = htmlStr.replace(placeholder, `${media["file_location"]}`)
+      if (media["file_type"] !== "application/pdf") {
+        const placeholder = new RegExp(
+          `\\.?\\/?resolveuid\\/${media["uid"]}`,
+          "g"
+        )
+        htmlStr = htmlStr.replace(placeholder, `${media["file_location"]}`)
+      }
     })
     Object.keys(courseData["course_embedded_media"]).forEach(key => {
       if (htmlStr.includes(key)) {
@@ -229,7 +241,7 @@ const generateMarkdownRecursive = page => {
     children: children.map(generateMarkdownRecursive, this),
     files:    pdfFiles.map(file => {
       return {
-        name: `${file["id"]}.md`,
+        name: `${file["id"].replace(".pdf", "")}.md`,
         data: generatePdfMarkdown(file, courseData)
       }
     })
