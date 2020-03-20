@@ -106,12 +106,15 @@ turndownService.addRule("refshortcode", {
   },
   replacement: (content, node, options) => {
     content = turndownService.escape(content)
-    const ref = turndownService.escape(
-      node
-        .getAttribute("href")
-        .replace(GETPAGESHORTCODESTART, '{{% getpage "')
-        .replace(GETPAGESHORTCODEEND, '" %}}')
-    ).split("\\_").join("_")
+    const ref = turndownService
+      .escape(
+        node
+          .getAttribute("href")
+          .replace(GETPAGESHORTCODESTART, '{{% getpage "')
+          .replace(GETPAGESHORTCODEEND, '" %}}')
+      )
+      .split("\\_")
+      .join("_")
     return `[${content}](${ref})`
   }
 })
@@ -155,7 +158,10 @@ const fixLinks = (page, courseData) => {
         const pdfPath = `${pagePath.replace("/_index.md", "/")}${pdfFile["id"]}`
         htmlStr = htmlStr.replace(
           placeholder,
-          `${GETPAGESHORTCODESTART}${pdfPath.replace(".pdf", "")}${GETPAGESHORTCODEEND}`
+          `${GETPAGESHORTCODESTART}${pdfPath.replace(
+            ".pdf",
+            ""
+          )}${GETPAGESHORTCODEEND}`
         )
       })
     })
