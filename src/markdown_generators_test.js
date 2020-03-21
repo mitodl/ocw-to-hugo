@@ -135,6 +135,12 @@ describe("generateCourseHomeFrontMatter", () => {
     assert.equal(expectedValue, foundValue)
   })
 
+  it("sets the course_thumbnail_image_url property to the thumbnail_image_src of the course json data", () => {
+    const expectedValue = singleCourseJsonData["thumbnail_image_src"]
+    const foundValue = courseHomeFrontMatter["course_thumbnail_image_url"]
+    assert.equal(expectedValue, foundValue)
+  })
+
   it("sets the course_description property to the description property of the course json data", () => {
     const expectedValue = singleCourseJsonData["description"]
     const foundValue = courseHomeFrontMatter["course_description"]
