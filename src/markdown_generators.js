@@ -262,6 +262,7 @@ const generateCourseHomeFrontMatter = courseData => {
     course_id:                   courseData["short_url"],
     course_title:                courseData["title"],
     course_image_url:            courseData["image_src"],
+    course_thumbnail_image_url:  courseData["thumbnail_image_src"],
     course_image_alternate_text: courseData["image_alternate_text"],
     course_image_caption_text:   courseData["image_caption_text"],
     course_description:          courseData["description"],
