@@ -245,12 +245,10 @@ const generateMarkdownRecursive = page => {
         : `${pathToChild}.md`,
     data:     courseSectionMarkdown,
     children: children.map(generateMarkdownRecursive, this),
-    files:    pdfFiles.map(file => {
-      return {
-        name: `${path.join(pathToChild, file["id"].replace(".pdf", ""))}.md`,
-        data: generatePdfMarkdown(file, courseData)
-      }
-    })
+    files:    pdfFiles.map(file => ({
+      name: `${path.join(pathToChild, file["id"].replace(".pdf", ""))}.md`,
+      data: generatePdfMarkdown(file, courseData)
+    }))
   }
 }
 
