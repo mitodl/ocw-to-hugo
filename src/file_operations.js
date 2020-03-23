@@ -79,19 +79,36 @@ const writeMarkdownFilesRecursive = (destination, markdownData) => {
     For a given course identifier string and array of objects with properties
     name and data, write Hugo markdown files
     */
-  for (const file of markdownData) {
-    const filePath = path.join(destination, file["name"])
-    const dirPath = path.dirname(filePath)
-    if (!directoryExists(dirPath)) {
-      fs.mkdirSync(dirPath, { recursive: true })
+  for (const section of markdownData) {
+    const sectionPath = path.join(destination, section["name"])
+    const sectionDirPath = path.dirname(sectionPath)
+    if (!directoryExists(sectionDirPath)) {
+      fs.mkdirSync(sectionDirPath, { recursive: true })
     }
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath)
+    if (fs.existsSync(sectionPath)) {
+      fs.unlinkSync(sectionPath)
     }
-    fs.writeFileSync(filePath, file["data"])
-    if (file.hasOwnProperty("children")) {
-      writeMarkdownFilesRecursive(destination, file["children"])
+    fs.writeFileSync(sectionPath, section["data"])
+    writeSectionFiles(section, destination)
+    if (section.hasOwnProperty("children")) {
+      writeMarkdownFilesRecursive(destination, section["children"])
     }
+  }
+}
+
+const writeSectionFiles = (section, destination) => {
+  if (section.hasOwnProperty("files")) {
+    section["files"].forEach(file => {
+      const filePath = path.join(destination, file["name"])
+      const fileDirPath = path.dirname(filePath)
+      if (!directoryExists(fileDirPath)) {
+        fs.mkdirSync(fileDirPath, { recursive: true })
+      }
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath)
+      }
+      fs.writeFileSync(filePath, file["data"])
+    })
   }
 }
 

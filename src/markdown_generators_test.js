@@ -45,7 +45,9 @@ describe("generateMarkdownFromJson", () => {
           section["name"] === `${filename}.md` ||
           section["name"] === `${filename}/_index.md`
       )[0]
-      const hasChildren = sectionMarkdownData["children"].length > 0
+      const hasChildren =
+        sectionMarkdownData["children"].length > 0 ||
+        sectionMarkdownData["files"].length > 0
       filename = hasChildren ? `${filename}/_index.md` : `${filename}.md`
       assert.include(markdownFileNames, filename)
       if (hasChildren) {
@@ -57,8 +59,18 @@ describe("generateMarkdownFromJson", () => {
             return markdownData["name"]
           }
         )
+        const fileMarkdownFileNames = sectionMarkdownData["files"].map(
+          markdownData => {
+            return markdownData["name"]
+          }
+        )
         const expectedChildren = singleCourseJsonData["course_pages"].filter(
           page => page["parent_uid"] === sectionUid
+        )
+        const expectedFiles = singleCourseJsonData["course_files"].filter(
+          file =>
+            file["parent_uid"] === sectionUid &&
+            file["file_type"] === "application/pdf"
         )
         expectedChildren.forEach(expectedChild => {
           const childFilename = `${helpers.pathToChildRecursive(
@@ -67,6 +79,19 @@ describe("generateMarkdownFromJson", () => {
             singleCourseJsonData
           )}.md`
           assert.include(childMarkdownFileNames, childFilename)
+        })
+        expectedFiles.forEach(expectedFile => {
+          const fileFilename = `${path.join(
+            helpers.pathToChildRecursive(
+              "sections/",
+              singleCourseJsonData["course_pages"].filter(
+                coursePage => coursePage["short_url"] === expectedSection
+              )[0],
+              singleCourseJsonData
+            ),
+            expectedFile["id"].replace(".pdf", "")
+          )}.md`
+          assert.include(fileMarkdownFileNames, fileFilename)
         })
       }
     })
