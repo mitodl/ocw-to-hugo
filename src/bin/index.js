@@ -2,12 +2,8 @@
 /* eslint-disable no-console */
 
 const yargs = require("yargs")
-const { downloadCourses } = require("../aws_sync")
-const { writeBoilerplate, scanCourses } = require("../file_operations")
-
-const { MISSING_JSON_ERROR_MESSAGE } = require("../constants")
-const loggers = require("../loggers")
-const helpers = require("../helpers")
+const stats = require("../stats")
+const { scanCourses } = require("../file_operations")
 
 // Gather arguments
 const options = yargs
@@ -24,70 +20,22 @@ const options = yargs
     type:         "string",
     demandOption: true
   })
-  .option("c", {
-    alias:        "courses",
-    describe:     "A JSON file describing courses to process",
-    type:         "string",
-    demandOption: false
-  })
-  .option("download", {
-    describe:
-      "A flag that if set to true to will download courses passed in from AWS",
-    type:         "boolean",
-    demandOption: false
-  })
-  .option("strips3", {
-    describe:
-      "A flag that tells ocw-to-hugo to strip the s3 base url from OCW resources",
-    type:         "boolean",
-    demandOption: false
-  })
-  .option("staticPrefix", {
-    describe:
-      "When strips3 is set to true, the value passed into this argument will replace the s3 prefix on static assets",
-    type:         "string",
-    demandOption: false
-  })
-  .option("verbose", {
-    describe:     "Write error logging and other extra output",
-    type:         "boolean",
-    demandOption: false
-  })
-  .option("rm", {
-    describe:
-      "Recursively remove the contents of the destination directory before conversion",
+  .option("v", {
+    alias:        "verbose",
+    describe:     "Enable verbose mode",
     type:         "boolean",
     demandOption: false
   }).argv
 
-Object.keys(options).forEach(key => {
-  helpers.runOptions[key] = options[key]
-})
-
-const run = async () => {
-  if (options.courses && options.download) {
-    await downloadCourses(options.courses, options.input)
-  } else if (options.download && !options.courses) {
-    throw new Error(MISSING_JSON_ERROR_MESSAGE)
+const exitHandler = (exitOptions, exitCode) => {
+  if (options.verbose) {
+    stats.print()
   }
-  await writeBoilerplate(options.output, options.rm)
-  await scanCourses(options.input, options.output)
+  if (exitOptions.exit) {
+    process.exit()
+  }
 }
 
-run()
-  .catch(err => {
-    console.error("Error:", err)
-    loggers.fileLogger.error(err)
-    process.exit(1)
-  })
-  .then(() => {
-    if (loggers.memoryTransport.logs.length) {
-      if (options.verbose) {
-        console.error(
-          "Found errors which were logged: ",
-          loggers.memoryTransport.logs
-        )
-        process.exit(1)
-      }
-    }
-  })
+process.on("exit", exitHandler.bind(null, { exit: true }))
+
+scanCourses(options.source, options.destination, options.verbose)

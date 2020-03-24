@@ -2,7 +2,8 @@
 
 const fsPromises = require("./fsPromises")
 const path = require("path")
-const yaml = require("js-yaml")
+const stats = require("./stats")
+const markdownGenerators = require("./markdown_generators")
 const cliProgress = require("cli-progress")
 
 const {
@@ -108,32 +109,36 @@ const buildPathsForAllCourses = async (inputPath, courseList) => {
   return { byUid: pathLookup, byCourse: courseLookup }
 }
 
-const scanCourses = async (inputPath, outputPath) => {
+const scanCourses = (source, destination, verbose = false) => {
   /*
     This function scans the input directory for course folders
   */
-  // Make sure that the input and output arguments have been passed and they are directories
-  if (!(await directoryExists(inputPath))) {
-    throw new Error("Invalid input directory")
+  // Make sure that the source and destination arguments have been passed and they are directories
+  if (!directoryExists(source)) {
+    throw new Error("Invalid source directory")
   }
-  if (!(await directoryExists(outputPath))) {
-    throw new Error("Invalid output directory")
+  if (!directoryExists(destination)) {
+    throw new Error("Invalid destination directory")
   }
-
-  const jsonPath = helpers.runOptions.courses
-  let courseList
-  if (jsonPath) {
-    courseList = JSON.parse(await fsPromises.readFile(jsonPath))["courses"]
-  } else {
-    const courseDirectories = (await fsPromises.readdir(inputPath)).filter(
-      course => !course.startsWith(".")
-    )
-    courseList = []
-    for (const directory of courseDirectories) {
-      const absPath = path.join(inputPath, directory)
-      if (await directoryExists(absPath)) {
-        courseList.push(directory)
-      }
+  // Iterate all subdirectories under source
+  directoriesScanned = 0
+  const contents = fs.readdirSync(source)
+  const totalDirectories = contents.filter(file =>
+    directoryExists(path.join(source, file))
+  ).length
+  if (verbose) {
+    stats.init()
+  }
+  console.log(`Scanning ${totalDirectories} subdirectories under ${source}`)
+  progressBar.start(totalDirectories, directoriesScanned)
+  contents.forEach(file => {
+    const coursePath = path.join(source, file)
+    if (fs.lstatSync(coursePath).isDirectory()) {
+      // If the item is indeed a directory, read all files in it
+      scanCourse(coursePath, destination, verbose).then(() => {
+        directoriesScanned++
+        progressBar.update(directoriesScanned)
+      })
     }
   }
   const numCourses = courseList.length
@@ -154,7 +159,7 @@ const scanCourses = async (inputPath, outputPath) => {
   }
 }
 
-const scanCourse = async (inputPath, outputPath, course, pathLookup) => {
+const scanCourse = async (coursePath, destination, verbose = false) => {
   /*
     This function scans a course directory for a master json file and processes it
   */
@@ -166,10 +171,7 @@ const scanCourse = async (inputPath, outputPath, course, pathLookup) => {
     if (helpers.isCoursePublished(courseData)) {
       const markdownData = markdownGenerators.generateMarkdownFromJson(
         courseData,
-        pathLookup
-      )
-      const dataTemplate = dataTemplateGenerators.generateDataTemplate(
-        courseData
+        verbose
       )
       await writeMarkdownFilesRecursive(
         path.join(markdownPath, courseData["short_url"]),
@@ -222,19 +224,21 @@ const writeMarkdownFilesRecursive = async (outputPath, markdownData) => {
   }
 }
 
-const writeDataTemplate = async (outputPath, dataTemplate) => {
-  await helpers.createOrOverwriteFile(
-    path.join(outputPath, `${dataTemplate["course_id"]}.json`),
-    JSON.stringify(dataTemplate)
-  )
-}
-
-const writeSectionFiles = async (key, section, outputPath) => {
-  if (section.hasOwnProperty(key)) {
-    for (const file of section[key]) {
-      const filePath = path.join(outputPath, file["name"])
-      await helpers.createOrOverwriteFile(filePath, file["data"])
-    }
+const writeSectionFiles = (section, destination) => {
+  if (section.hasOwnProperty("files")) {
+    section["files"].forEach(file => {
+      if (file) {
+        const filePath = path.join(destination, file["name"])
+        const fileDirPath = path.dirname(filePath)
+        if (!directoryExists(fileDirPath)) {
+          fs.mkdirSync(fileDirPath, { recursive: true })
+        }
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath)
+        }
+        fs.writeFileSync(filePath, file["data"])
+      }
+    })
   }
 }
 

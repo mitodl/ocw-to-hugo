@@ -1,6 +1,95 @@
 const path = require("path")
 const yaml = require("js-yaml")
-const stripHtml = require("string-strip-html")
+const markdown = require("markdown-builder")
+const titleCase = require("title-case")
+const TurndownService = require("turndown")
+const turndownPluginGfm = require("turndown-plugin-gfm")
+const helpers = require("./helpers")
+const stats = require("./stats")
+const { gfm, tables } = turndownPluginGfm
+const turndownService = new TurndownService()
+turndownService.use(gfm)
+turndownService.use(tables)
+
+const REPLACETHISWITHAPIPE = "REPLACETHISWITHAPIPE"
+const GETPAGESHORTCODESTART = "GETPAGESHORTCODESTART"
+const GETPAGESHORTCODEEND = "GETPAGESHORTCODEEND"
+
+/**
+ * Sanitize markdown table content
+ **/
+turndownService.addRule("table", {
+  filter:      ["table"],
+  replacement: (content, node, options) => {
+    /**
+     * Interate the HTML node and replace all pipes inside table
+     * cells with a marker we'll use later
+     */
+    for (let i = 0; i < node.rows.length; i++) {
+      const cells = node.rows[i].cells
+      for (let j = 0; j < cells.length; j++) {
+        cells[j].innerHTML = cells[j].innerHTML.replace(
+          /\|/g,
+          REPLACETHISWITHAPIPE
+        )
+      }
+    }
+    // Regenerate markdown for this table with cell edits
+    content = turndownService.turndown(node)
+    content = content
+      // First, isolate the table by getting the contents between the first and last pipe
+      .substring(content.indexOf("|"), content.lastIndexOf("|"))
+      // Second, replace all newlines and carriage returns with line break shortcodes
+      .replace(/\r?\n|\r/g, "{{< br >}}")
+      /**
+       * Third, replace all line break shortcodes in between two pipes with a newline
+       * character between two pipes to recreate the rows
+       */
+      .replace(/\|{{< br >}}\|/g, "|\n|")
+      // Fourth, replace the pipe marker we added earlier with the HTML character entity for a pipe
+      .replace(/REPLACETHISWITHAPIPE/g, "&#124;")
+    /**
+     * This finds table header rows by matching a cell with only one bold string.
+     * Regex breakdown by capturing group:
+     * 1. Positive lookbehind that finds a pipe followed by a space and two asterisks
+     * 2. Matches any amount of alphanumeric characters
+     * 3. Positive lookahead that matches two asterisks followed by a space, a pipe and
+     * a newline or carriage return
+     */
+    if (content.match(/(?<=\| \*\*)(.*?)(?=\*\* \|\r?\n|\r)/g)) {
+      // Get the amount of columns by matching three hyphens and counting
+      const totalColumns = content.match(/---/g || []).length
+      // Split headers out on their own so they aren't in one cell
+      return (
+        content
+        /**
+           * First, replace pipe space and double asterisk with a newline
+           * followed by double asterisk
+           */
+
+          .replace(/\| \*\*/g, "\n**")
+          /**
+           * Second, replace double asterisk space pipe followed by a newline
+           * or carriage return with double asterisk double newline.  After the
+           * second newline, re-initialize the table by iterating a pipe followed
+           * by a space and three hyphens for the total amount of columns, finally
+           * closing it out with a single pipe at the end
+           */
+          .replace(
+            /\*\* \|\r?\n|\r/g,
+            `**\n\n${"| ".repeat(totalColumns)}|\n${"| --- ".repeat(
+              totalColumns
+            )}|`
+          )
+          /**
+           * Finally, reconstruct the table by inserting line breaks in between
+           * back-to-back pipes to re-create rows
+           */
+          .replace(/\|\|/g, "|\n|")
+      )
+    } else return content
+  }
+})
 
 const helpers = require("./helpers")
 const loggers = require("./loggers")
@@ -21,11 +110,23 @@ const fixLinks = (htmlStr, page, courseData, pathLookup) => {
   return htmlStr
 }
 
-const generateMarkdownFromJson = (courseData, pathLookup) => {
+const generateMarkdownFromJson = (courseData, verbose = false) => {
   /**
     This function takes JSON data parsed from a parsed.json file and returns markdown data
     */
   this["menuIndex"] = 0
+  this["verbose"] = verbose
+  if (this["verbose"]) {
+    const titleLength = courseData["title"].length
+    if (titleLength > stats.get("longest-course-title")) {
+      stats.set("longest-course-title", titleLength)
+    } else if (
+      titleLength < stats.get("shortest-course-title") ||
+      stats.get("shortest-course-title") === 0
+    ) {
+      stats.set("shortest-course-title", titleLength)
+    }
+  }
   const rootSections = courseData["course_pages"].filter(
     page =>
       page["parent_uid"] === courseData["uid"] &&
@@ -74,15 +175,17 @@ const generateMarkdownRecursive = (page, courseData, pathLookup) => {
   const hasMedia = coursePageEmbeddedMedia.length > 0
   const hasParent = parents.length > 0
   const parent = hasParent ? parents[0] : null
-  const inRootNav = page["parent_uid"] === courseData["uid"]
-  const isInstructorInsightsSection =
-    page["type"] === "ThisCourseAtMITSection" ||
-    page["short_url"] === "instructor-insights" ||
-    (hasParent && parent["type"] === "ThisCourseAtMITSection") ||
-    (hasParent && parent["short_url"] === "instructor-insights")
-  const layout = isInstructorInsightsSection
-    ? "instructor_insights"
-    : "course_section"
+  if (this["verbose"]) {
+    const titleLength = page["title"].length
+    if (titleLength > stats.get("longest-section-title")) {
+      stats.set("longest-section-title", titleLength)
+    } else if (
+      titleLength < stats.get("shortest-section-title") ||
+      stats.get("shortest-section-title") === 0
+    ) {
+      stats.set("shortest-section-title", titleLength)
+    }
+  }
   let courseSectionMarkdown = generateCourseSectionFrontMatter(
     page["title"],
     hasParent ? parent["title"] : null,
@@ -110,43 +213,27 @@ const generateMarkdownRecursive = (page, courseData, pathLookup) => {
         ? path.join(pathToChild, "_index.md")
         : `${pathToChild}.md`,
     data:     courseSectionMarkdown,
-    children: children.map(
-      page => generateMarkdownRecursive(page, courseData, pathLookup),
-      this
-    ),
-    files: pdfFiles
-      .map(file => {
-        try {
-          if (file["id"]) {
-            return {
-              name: `${path.join(
-                pathToChild,
-                helpers.stripPdfSuffix(file["id"])
-              )}.md`,
-              data: generatePdfMarkdown(file, courseData)
-            }
-          }
-        } catch (err) {
-          loggers.fileLogger.error(err)
-          return null
+    children: children.map(generateMarkdownRecursive, this),
+    files:    pdfFiles.map(file => {
+      if (this["verbose"] && file["title"]) {
+        const titleLength = file["title"].length
+        if (titleLength > stats.get("longest-pdf-title")) {
+          stats.set("longest-pdf-title", titleLength)
+        } else if (
+          titleLength < stats.get("shortest-pdf-title") ||
+          stats.get("shortest-pdf-title") === 0
+        ) {
+          stats.set("shortest-pdf-title", titleLength)
         }
-      })
-      .filter(file => file),
-    media: coursePageEmbeddedMedia
-      .map(media => {
-        try {
-          if (media["short_url"]) {
-            return {
-              name: `${path.join(pathToChild, media["short_url"])}.md`,
-              data: `---\n${yaml.safeDump(media)}---\n`
-            }
-          }
-        } catch (err) {
-          loggers.fileLogger.error(err)
-          return null
-        }
-      })
-      .filter(media => media)
+      }
+      return {
+        name: `${path.join(
+          pathToChild,
+          helpers.fileNameFromUrl(file["file_location"]).replace(".pdf", "")
+        )}.md`,
+        data: generatePdfMarkdown(file, courseData)
+      }
+    }, this)
   }
 }
 
@@ -182,40 +269,44 @@ const generateCourseHomeMarkdown = (courseData, pathLookup) => {
 
   const pageId = courseHomePage ? courseHomePage["uid"] : ""
   const frontMatter = {
-    uid:       pageId,
-    title:     "",
-    type:      "course",
-    layout:    "course_home",
-    course_id: courseData["short_url"]
+    title:                       "Course Home",
+    course_id:                   courseData["short_url"],
+    course_title:                courseData["title"],
+    course_image_url:            courseData["image_src"],
+    course_image_alternate_text: courseData["image_alternate_text"]
+      ? courseData["image_alternate_text"]
+      : "",
+    course_image_caption_text: courseData["image_caption_text"]
+      ? courseData["image_caption_text"]
+      : "",
+    course_description: courseData["description"],
+    course_info:        {
+      instructors: courseData["instructors"].map(
+        instructor =>
+          `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`
+      ),
+      departments:     helpers.getDepartments(courseData),
+      course_features: courseData["course_features"].map(courseFeature =>
+        helpers.getCourseFeatureObject(courseFeature)
+      ),
+      topics:         helpers.getConsolidatedTopics(courseData["course_collections"]),
+      course_numbers: helpers.getCourseNumbers(courseData),
+      term:           `${courseData["from_semester"]} ${courseData["from_year"]}`,
+      level:          courseData["course_level"]
+    },
+    menu: {
+      [courseData["short_url"]]: {
+        identifier: "course-home",
+        weight:     -10
+      }
+    }
   }
   try {
-    return `---\n${yaml.safeDump(
-      frontMatter
-    )}---\n${courseDescription}\n${otherInformationText}`
+    return `---\n${yaml.safeDump(frontMatter)}---\n`
   } catch (err) {
-    loggers.fileLogger.error(err)
-    return null
+    console.log(err)
+    console.log(frontMatter)
   }
-}
-
-const generateCourseHomePdfMarkdown = (courseData, pathLookup) => {
-  /**
-   * Generate markdown files representing PDF viewer pages for PDF's mentioned on the course home page
-   */
-
-  return courseData["course_files"]
-    .filter(
-      file =>
-        file["file_type"] === "application/pdf" &&
-        file["parent_uid"] === courseData["uid"]
-    )
-    .map(file => {
-      const { path: parentPath } = pathLookup.byUid[file["parent_uid"]]
-      return {
-        name: `${path.join(parentPath, helpers.stripPdfSuffix(file["id"]))}.md`,
-        data: generatePdfMarkdown(file, courseData)
-      }
-    })
 }
 
 const generateCourseSectionFrontMatter = (

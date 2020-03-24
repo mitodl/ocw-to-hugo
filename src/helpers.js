@@ -2,53 +2,15 @@ const _ = require("lodash")
 const path = require("path")
 const moment = require("moment")
 
-const fsPromises = require("./fsPromises")
-const DEPARTMENTS_JSON = require("./departments.json")
-const {
-  AWS_REGEX,
-  BASEURL_SHORTCODE,
-  FILE_TYPE,
-  INPUT_COURSE_DATE_FORMAT,
-  YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS
-} = require("./constants")
-const loggers = require("./loggers")
-const runOptions = {}
-
-const makeCourseUrlPrefix = (courseId, otherCourseId) => {
-  if (!courseId) {
-    throw new Error(`Missing course id ${courseId}`)
-  }
-  if (!otherCourseId) {
-    throw new Error(`Missing other course id ${otherCourseId}`)
-  }
-
-  if (courseId === otherCourseId) {
-    return BASEURL_SHORTCODE
-  } else {
-    return `/courses/${courseId}`
-  }
+const fileNameFromUrl = fullUrl => {
+  const parsed = url.parse(fullUrl)
+  return path.basename(parsed.pathname)
 }
 
-const distinct = (value, index, self) => {
-  return self.indexOf(value) === index
-}
-
-const directoryExists = async directory => {
-  try {
-    return (await fsPromises.lstat(directory)).isDirectory()
-  } catch (err) {
-    // this will happen if we don't have access to the directory or if it doesn't exist
-    return false
-  }
-}
-
-const fileExists = async path => {
-  try {
-    return (await fsPromises.lstat(path)).isFile()
-  } catch (err) {
-    // this will happen if we don't have access to the file or if it doesn't exist
-    return false
-  }
+const findDepartmentByNumber = departmentNumber => {
+  return departmentsJson.find(department => {
+    return department["depNo"] === departmentNumber.toString()
+  })
 }
 
 const createOrOverwriteFile = async (file, body) => {
@@ -543,10 +505,7 @@ const replaceSubstring = (text, index, length, substring) =>
   `${text.substring(0, index)}${substring}${text.substring(index + length)}`
 
 module.exports = {
-  distinct,
-  directoryExists,
-  createOrOverwriteFile,
-  fileExists,
+  fileNameFromUrl,
   findDepartmentByNumber,
   getDepartments,
   getCourseNumbers,
