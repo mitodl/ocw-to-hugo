@@ -217,6 +217,13 @@ const generateMarkdownRecursive = page => {
       file["file_type"] === "application/pdf" &&
       file["parent_uid"] === page["uid"]
   )
+  const coursePageEmbeddedMedia = Object.keys(courseData["course_embedded_media"]).map(key => {
+    const embeddedMedia = courseData["course_embedded_media"][key]
+    // this currently causes a memory overflow
+    // embeddedMedia["about_this_resource_text"] = turndownService.turndown(embeddedMedia["about_this_resource_text"])
+    // embeddedMedia["transcript"] = turndownService.turndown(embeddedMedia["transcript"])
+    return embeddedMedia["parent_uid"] === page["uid"] ? embeddedMedia : null
+  }).filter(embeddedMedia => embeddedMedia)
   const parents = courseData["course_pages"].filter(
     coursePage => coursePage["uid"] === page["parent_uid"]
   )
@@ -248,6 +255,10 @@ const generateMarkdownRecursive = page => {
     files:    pdfFiles.map(file => ({
       name: `${path.join(pathToChild, file["id"].replace(".pdf", ""))}.md`,
       data: generatePdfMarkdown(file, courseData)
+    })),
+    media:  coursePageEmbeddedMedia.map(media => ({
+      name: `${path.join(pathToChild, media["short_url"])}.md`,
+      data: `---\n${yaml.safeDump(media)}---\n`
     }))
   }
 }
