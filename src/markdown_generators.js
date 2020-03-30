@@ -3,6 +3,7 @@
 const path = require("path")
 const yaml = require("js-yaml")
 const markdown = require("markdown-builder")
+const JSSoup = require("jssoup").default
 const titleCase = require("title-case")
 const TurndownService = require("turndown")
 const turndownPluginGfm = require("turndown-plugin-gfm")
@@ -222,9 +223,6 @@ const generateMarkdownRecursive = page => {
   )
     .map(key => {
       const embeddedMedia = courseData["course_embedded_media"][key]
-      // this currently causes a memory overflow
-      // embeddedMedia["about_this_resource_text"] = turndownService.turndown(embeddedMedia["about_this_resource_text"])
-      // embeddedMedia["transcript"] = turndownService.turndown(embeddedMedia["transcript"])
       return embeddedMedia["parent_uid"] === page["uid"] ? embeddedMedia : null
     })
     .filter(embeddedMedia => embeddedMedia)
