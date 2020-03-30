@@ -81,8 +81,8 @@ describe("generateMarkdownFromJson", () => {
           singleCourseJsonData["course_embedded_media"]
         )
           .map(key => {
-            const embeddedMedia = courseData["course_embedded_media"][key]
-            return embeddedMedia["parent_uid"] === page["uid"]
+            const embeddedMedia = singleCourseJsonData["course_embedded_media"][key]
+            return embeddedMedia["parent_uid"] === sectionUid
               ? embeddedMedia
               : null
           })
