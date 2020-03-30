@@ -64,6 +64,11 @@ describe("generateMarkdownFromJson", () => {
             return markdownData["name"]
           }
         )
+        const mediaMarkdownFileNames = sectionMarkdownData["media"].map(
+          markdownData => {
+            return markdownData["name"]
+          }
+        )
         const expectedChildren = singleCourseJsonData["course_pages"].filter(
           page => page["parent_uid"] === sectionUid
         )
@@ -72,6 +77,16 @@ describe("generateMarkdownFromJson", () => {
             file["parent_uid"] === sectionUid &&
             file["file_type"] === "application/pdf"
         )
+        const expectedMedia = Object.keys(
+          singleCourseJsonData["course_embedded_media"]
+        )
+          .map(key => {
+            const embeddedMedia = courseData["course_embedded_media"][key]
+            return embeddedMedia["parent_uid"] === page["uid"]
+              ? embeddedMedia
+              : null
+          })
+          .filter(embeddedMedia => embeddedMedia)
         expectedChildren.forEach(expectedChild => {
           const childFilename = `${helpers.pathToChildRecursive(
             "sections/",
@@ -92,6 +107,19 @@ describe("generateMarkdownFromJson", () => {
             expectedFile["id"].replace(".pdf", "")
           )}.md`
           assert.include(fileMarkdownFileNames, fileFilename)
+        })
+        expectedMedia.forEach(expectedFile => {
+          const mediaFilename = `${path.join(
+            helpers.pathToChildRecursive(
+              "sections/",
+              singleCourseJsonData["course_pages"].filter(
+                coursePage => coursePage["short_url"] === expectedSection
+              )[0],
+              singleCourseJsonData
+            ),
+            expectedFile["short_url"]
+          )}.md`
+          assert.include(mediaMarkdownFileNames, mediaFilename)
         })
       }
     })
