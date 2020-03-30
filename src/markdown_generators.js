@@ -231,6 +231,7 @@ const generateMarkdownRecursive = page => {
   )
   const isParent = children.length > 0
   const hasFiles = pdfFiles.length > 0
+  const hasMedia = coursePageEmbeddedMedia.length > 0
   const hasParent = parents.length > 0
   const parent = hasParent ? parents[0] : null
   let courseSectionMarkdown = generateCourseSectionFrontMatter(
@@ -249,7 +250,7 @@ const generateMarkdownRecursive = page => {
   )}`
   return {
     name:
-      isParent || hasFiles
+      isParent || hasFiles || hasMedia
         ? path.join(pathToChild, "_index.md")
         : `${pathToChild}.md`,
     data:     courseSectionMarkdown,
