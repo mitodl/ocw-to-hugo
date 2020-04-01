@@ -56,19 +56,13 @@ describe("generateMarkdownFromJson", () => {
           page => page["short_url"] === expectedSection
         )[0]["uid"]
         const childMarkdownFileNames = sectionMarkdownData["children"].map(
-          markdownData => {
-            return markdownData["name"]
-          }
+          markdownData => markdownData["name"]
         )
         const fileMarkdownFileNames = sectionMarkdownData["files"].map(
-          markdownData => {
-            return markdownData["name"]
-          }
+          markdownData => markdownData["name"]
         )
         const mediaMarkdownFileNames = sectionMarkdownData["media"].map(
-          markdownData => {
-            return markdownData["name"]
-          }
+          markdownData => markdownData["name"]
         )
         const expectedChildren = singleCourseJsonData["course_pages"].filter(
           page => page["parent_uid"] === sectionUid
