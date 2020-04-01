@@ -3,7 +3,6 @@
 const path = require("path")
 const yaml = require("js-yaml")
 const markdown = require("markdown-builder")
-const titleCase = require("title-case")
 const TurndownService = require("turndown")
 const turndownPluginGfm = require("turndown-plugin-gfm")
 const helpers = require("./helpers")
@@ -217,11 +216,21 @@ const generateMarkdownRecursive = page => {
       file["file_type"] === "application/pdf" &&
       file["parent_uid"] === page["uid"]
   )
+  const coursePageEmbeddedMedia = Object.values(
+    courseData["course_embedded_media"]
+  )
+    .map(embeddedMedia => {
+      embeddedMedia["type"] = "courses"
+      embeddedMedia["layout"] = "video"
+      return embeddedMedia
+    })
+    .filter(embeddedMedia => embeddedMedia["parent_uid"] === page["uid"])
   const parents = courseData["course_pages"].filter(
     coursePage => coursePage["uid"] === page["parent_uid"]
   )
   const isParent = children.length > 0
   const hasFiles = pdfFiles.length > 0
+  const hasMedia = coursePageEmbeddedMedia.length > 0
   const hasParent = parents.length > 0
   const parent = hasParent ? parents[0] : null
   let courseSectionMarkdown = generateCourseSectionFrontMatter(
@@ -240,7 +249,7 @@ const generateMarkdownRecursive = page => {
   )}`
   return {
     name:
-      isParent || hasFiles
+      isParent || hasFiles || hasMedia
         ? path.join(pathToChild, "_index.md")
         : `${pathToChild}.md`,
     data:     courseSectionMarkdown,
@@ -248,6 +257,10 @@ const generateMarkdownRecursive = page => {
     files:    pdfFiles.map(file => ({
       name: `${path.join(pathToChild, file["id"].replace(".pdf", ""))}.md`,
       data: generatePdfMarkdown(file, courseData)
+    })),
+    media: coursePageEmbeddedMedia.map(media => ({
+      name: `${path.join(pathToChild, media["short_url"])}.md`,
+      data: `---\n${yaml.safeDump(media)}---\n`
     }))
   }
 }

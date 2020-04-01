@@ -47,7 +47,8 @@ describe("generateMarkdownFromJson", () => {
       )[0]
       const hasChildren =
         sectionMarkdownData["children"].length > 0 ||
-        sectionMarkdownData["files"].length > 0
+        sectionMarkdownData["files"].length > 0 ||
+        sectionMarkdownData["media"].length > 0
       filename = hasChildren ? `${filename}/_index.md` : `${filename}.md`
       assert.include(markdownFileNames, filename)
       if (hasChildren) {
@@ -55,14 +56,13 @@ describe("generateMarkdownFromJson", () => {
           page => page["short_url"] === expectedSection
         )[0]["uid"]
         const childMarkdownFileNames = sectionMarkdownData["children"].map(
-          markdownData => {
-            return markdownData["name"]
-          }
+          markdownData => markdownData["name"]
         )
         const fileMarkdownFileNames = sectionMarkdownData["files"].map(
-          markdownData => {
-            return markdownData["name"]
-          }
+          markdownData => markdownData["name"]
+        )
+        const mediaMarkdownFileNames = sectionMarkdownData["media"].map(
+          markdownData => markdownData["name"]
         )
         const expectedChildren = singleCourseJsonData["course_pages"].filter(
           page => page["parent_uid"] === sectionUid
@@ -72,6 +72,9 @@ describe("generateMarkdownFromJson", () => {
             file["parent_uid"] === sectionUid &&
             file["file_type"] === "application/pdf"
         )
+        const expectedMedia = Object.values(
+          singleCourseJsonData["course_embedded_media"]
+        ).filter(embeddedMedia => embeddedMedia["parent_uid"] === sectionUid)
         expectedChildren.forEach(expectedChild => {
           const childFilename = `${helpers.pathToChildRecursive(
             "sections/",
@@ -92,6 +95,19 @@ describe("generateMarkdownFromJson", () => {
             expectedFile["id"].replace(".pdf", "")
           )}.md`
           assert.include(fileMarkdownFileNames, fileFilename)
+        })
+        expectedMedia.forEach(expectedFile => {
+          const mediaFilename = `${path.join(
+            helpers.pathToChildRecursive(
+              "sections/",
+              singleCourseJsonData["course_pages"].filter(
+                coursePage => coursePage["short_url"] === expectedSection
+              )[0],
+              singleCourseJsonData
+            ),
+            expectedFile["short_url"]
+          )}.md`
+          assert.include(mediaMarkdownFileNames, mediaFilename)
         })
       }
     })

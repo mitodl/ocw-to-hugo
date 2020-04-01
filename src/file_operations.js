@@ -89,16 +89,17 @@ const writeMarkdownFilesRecursive = (destination, markdownData) => {
       fs.unlinkSync(sectionPath)
     }
     fs.writeFileSync(sectionPath, section["data"])
-    writeSectionFiles(section, destination)
+    writeSectionFiles("files", section, destination)
+    writeSectionFiles("media", section, destination)
     if (section.hasOwnProperty("children")) {
       writeMarkdownFilesRecursive(destination, section["children"])
     }
   }
 }
 
-const writeSectionFiles = (section, destination) => {
-  if (section.hasOwnProperty("files")) {
-    section["files"].forEach(file => {
+const writeSectionFiles = (key, section, destination) => {
+  if (section.hasOwnProperty(key)) {
+    section[key].forEach(file => {
       const filePath = path.join(destination, file["name"])
       const fileDirPath = path.dirname(filePath)
       if (!directoryExists(fileDirPath)) {
