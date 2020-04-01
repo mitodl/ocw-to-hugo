@@ -72,17 +72,9 @@ describe("generateMarkdownFromJson", () => {
             file["parent_uid"] === sectionUid &&
             file["file_type"] === "application/pdf"
         )
-        const expectedMedia = Object.keys(
+        const expectedMedia = Object.values(
           singleCourseJsonData["course_embedded_media"]
-        )
-          .map(key => {
-            const embeddedMedia =
-              singleCourseJsonData["course_embedded_media"][key]
-            return embeddedMedia["parent_uid"] === sectionUid
-              ? embeddedMedia
-              : null
-          })
-          .filter(embeddedMedia => embeddedMedia)
+        ).filter(embeddedMedia => embeddedMedia["parent_uid"] === sectionUid)
         expectedChildren.forEach(expectedChild => {
           const childFilename = `${helpers.pathToChildRecursive(
             "sections/",
