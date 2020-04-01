@@ -216,16 +216,15 @@ const generateMarkdownRecursive = page => {
       file["file_type"] === "application/pdf" &&
       file["parent_uid"] === page["uid"]
   )
-  const coursePageEmbeddedMedia = Object.keys(
+  const coursePageEmbeddedMedia = Object.values(
     courseData["course_embedded_media"]
   )
-    .map(key => {
-      const embeddedMedia = courseData["course_embedded_media"][key]
+    .map(embeddedMedia => {
       embeddedMedia["type"] = "courses"
       embeddedMedia["layout"] = "video"
-      return embeddedMedia["parent_uid"] === page["uid"] ? embeddedMedia : null
+      return embeddedMedia
     })
-    .filter(embeddedMedia => embeddedMedia)
+    .filter(embeddedMedia => embeddedMedia["parent_uid"] === page["uid"])
   const parents = courseData["course_pages"].filter(
     coursePage => coursePage["uid"] === page["parent_uid"]
   )
