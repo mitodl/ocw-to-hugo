@@ -235,8 +235,8 @@ const generateMarkdownRecursive = page => {
   const parent = hasParent ? parents[0] : null
   let courseSectionMarkdown = generateCourseSectionFrontMatter(
     page["title"],
-    `${page["uid"]}_${page["short_url"]}`,
-    hasParent ? `${parent["uid"]}_${parent["short_url"]}` : null,
+    `${page["uid"]}`,
+    hasParent ? `${parent["uid"]}` : null,
     (this["menuIndex"] + 1) * 10,
     courseData["short_url"]
   )
