@@ -237,6 +237,8 @@ const generateMarkdownRecursive = page => {
     page["title"],
     `${page["uid"]}`,
     hasParent ? `${parent["uid"]}` : null,
+    hasMedia,
+    page["is_media_gallery"],
     (this["menuIndex"] + 1) * 10,
     courseData["short_url"]
   )
@@ -307,6 +309,8 @@ const generateCourseSectionFrontMatter = (
   title,
   pageId,
   parentId,
+  hasMedia,
+  isMediaGallery,
   menuIndex,
   courseId
 ) => {
@@ -325,6 +329,13 @@ const generateCourseSectionFrontMatter = (
   }
   if (parentId) {
     courseSectionFrontMatter["menu"][courseId]["parent"] = parentId
+  }
+  if (hasMedia) {
+    courseSectionFrontMatter["type"] = "courses"
+    courseSectionFrontMatter["layout"] = "videogallery"
+  }
+  if (isMediaGallery) {
+    courseSectionFrontMatter["is_media_gallery"] = true
   }
   return `---\n${yaml.safeDump(courseSectionFrontMatter)}---\n`
 }
