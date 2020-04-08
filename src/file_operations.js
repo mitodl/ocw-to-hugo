@@ -59,7 +59,7 @@ const scanCourse = async (coursePath, destination) => {
   const contents = await readdir(coursePath)
   for (const file of contents) {
     // If the item is a master json file, parse it and process into hugo markdown
-    if (file.endsWith("_master.json")) {
+    if (RegExp("^[0-9a-f]{32}_master.json").test(file)) {
       const courseData = JSON.parse(
         fs.readFileSync(path.join(coursePath, file))
       )
