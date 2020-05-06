@@ -183,7 +183,7 @@ const fixLinks = (page, courseData) => {
     })
 
     return htmlStr
-  }
+  } else return ""
 }
 
 const generateMarkdownFromJson = courseData => {
@@ -256,14 +256,37 @@ const generateMarkdownRecursive = page => {
         : `${pathToChild}.md`,
     data:     courseSectionMarkdown,
     children: children.map(generateMarkdownRecursive, this),
-    files:    pdfFiles.map(file => ({
-      name: `${path.join(pathToChild, file["id"].replace(".pdf", ""))}.md`,
-      data: generatePdfMarkdown(file, courseData)
-    })),
-    media: coursePageEmbeddedMedia.map(media => ({
-      name: `${path.join(pathToChild, media["short_url"])}.md`,
-      data: `---\n${yaml.safeDump(media)}---\n`
-    }))
+    files:    pdfFiles.map(file => {
+      try {
+        if (file["id"]) {
+          return {
+            name: `${path.join(
+              pathToChild,
+              file["id"].replace(".pdf", "")
+            )}.md`,
+            data: generatePdfMarkdown(file, courseData)
+          }
+        }
+      } catch (err) {
+        console.log(err)
+        return null
+      }
+    }),
+    media: coursePageEmbeddedMedia.map(media => {
+      try {
+        if (media["short_url"]) {
+          return {
+            name: `${path.join(pathToChild, media["short_url"])}.md`,
+            data: `---\n${yaml.safeDump(media)}---\n`
+          }
+        }
+      } catch (err) {
+        console.log(err)
+        console.log(pathToChild)
+        console.log(media["short_url"])
+        return null
+      }
+    })
   }
 }
 
@@ -273,15 +296,21 @@ const generateCourseHomeFrontMatter = courseData => {
     */
 
   const frontMatter = {
-    title:                       "Course Home",
-    course_id:                   courseData["short_url"],
-    course_title:                courseData["title"],
-    course_image_url:            courseData["image_src"],
-    course_thumbnail_image_url:  courseData["thumbnail_image_src"],
-    course_image_alternate_text: courseData["image_alternate_text"],
-    course_image_caption_text:   courseData["image_caption_text"],
-    course_description:          courseData["description"],
-    course_info:                 {
+    title:                      "Course Home",
+    course_id:                  courseData["short_url"],
+    course_title:               courseData["title"],
+    course_image_url:           courseData["image_src"] ? courseData["image_src"] : "",
+    course_thumbnail_image_url: courseData["thumbnail_image_src"]
+      ? courseData["thumbnail_image_src"]
+      : "",
+    course_image_alternate_text: courseData["image_alternate_text"]
+      ? courseData["image_alternate_text"]
+      : "",
+    course_image_caption_text: courseData["image_caption_text"]
+      ? courseData["image_caption_text"]
+      : "",
+    course_description: courseData["description"],
+    course_info:        {
       instructors: courseData["instructors"].map(
         instructor =>
           `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`
@@ -302,7 +331,13 @@ const generateCourseHomeFrontMatter = courseData => {
       }
     }
   }
-  return `---\n${yaml.safeDump(frontMatter)}---\n`
+  try {
+    return `---\n${yaml.safeDump(frontMatter)}---\n`
+  } catch (err) {
+    console.log(err)
+    console.log(frontMatter)
+    return null
+  }
 }
 
 const generateCourseSectionFrontMatter = (
@@ -373,6 +408,8 @@ const generateCourseSectionMarkdown = (page, courseData) => {
   try {
     return turndownService.turndown(fixLinks(page, courseData))
   } catch (err) {
+    console.log(err)
+    console.log(fixLinks(page, courseData))
     return page["text"]
   }
 }
