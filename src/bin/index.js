@@ -28,7 +28,6 @@ const options = yargs
 
 if (options.courses) {
   downloadCourses(options.courses, options.source).then(() => {
-    console.log("test")
     scanCourses(options.source, options.destination)
   })
 } else {

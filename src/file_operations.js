@@ -59,14 +59,8 @@ const downloadCourses = async (coursesJson, coursesDir) => {
   const courses = JSON.parse(fs.readFileSync(coursesJson))["courses"]
   const totalCourses = courses.length
   console.log(`Downloading ${totalCourses} courses from AWS...`)
-  const multibar = new cliProgress.MultiBar({
-    stopOnComplete: true,
-    hideCursor:     true,
-    forceRedraw:    true,
-    format:         multiBarFormatter
-  })
-  const promises = []
-  courses.forEach(async course => {
+  progressBar.start(totalCourses, 0)
+  return Promise.all(courses.map(async course => {
     const courseDir = path.join(coursesDir, course)
     if (directoryExists(courseDir)) {
       rimraf.sync(courseDir)
@@ -76,58 +70,46 @@ const downloadCourses = async (coursesJson, coursesDir) => {
       Bucket: env["AWS_BUCKET_NAME"],
       Prefix: course
     }
-    promises.push(
-      downloadCourseRecursive(s3, bucketParams, coursesDir, multibar)
-    )
-  })
-  return Promise.all(promises)
+    return new Promise(resolve => {
+      downloadCourseRecursive(s3, bucketParams, coursesDir).then(() => {
+        progressBar.increment()
+        resolve()
+      })
+    })
+  }))
 }
 
 const downloadCourseRecursive = (
   s3,
   bucketParams,
   destination,
-  multibar,
-  resolveParent = null
+  multibar
 ) => {
-  return new Promise(resolveOuter => {
+  return new Promise(resolve => {
     s3.listObjectsV2(bucketParams)
       .promise()
       .then(listData => {
-        const totalFiles = listData.Contents.length
-        const bar = multibar.create(totalFiles, 0, {
-          prefix: bucketParams.Prefix
-        })
-        new Promise(resolveInner => {
-          listData.Contents.forEach(content => {
-            s3.getObject({
-              Bucket: bucketParams.Bucket,
-              Key:    content.Key
-            })
-              .promise()
-              .then(data => {
-                fs.writeFileSync(path.join(destination, content.Key), data.Body)
-                bar.increment()
-                if (bar.value === bar.total) {
-                  resolveInner()
-                }
-              })
+        Promise.all(listData.Contents.map(content => {
+          return s3.getObject({
+            Bucket: bucketParams.Bucket,
+            Key:    content.Key
+          }).promise()
+        })).then(data => {
+          data.forEach(file => {
+            const key = listData.Contents.find(content => content.ETag === file.ETag).Key
+            fs.writeFileSync(path.join(destination, key), file.Body)
           })
-        }).then(() => {
           if (listData.IsTruncated) {
             bucketParams.ContinuationToken = listData.NextContinuationToken
             downloadCourseRecursive(
               s3,
               bucketParams,
               destination,
-              multibar,
-              resolveOuter
-            )
+              multibar
+            ).then(resolve)
           }
-          if (resolveParent) {
-            resolveParent()
-          } else {
-            resolveOuter()
+          else {
+            resolve()
           }
         })
       })
@@ -146,20 +128,18 @@ const scanCourses = (source, destination) => {
     throw new Error("Invalid destination directory")
   }
   // Iterate all subdirectories under source
-  directoriesScanned = 0
   const contents = fs.readdirSync(source)
   const totalDirectories = contents.filter(file =>
     directoryExists(path.join(source, file))
   ).length
-  console.log(`Scanning ${totalDirectories} subdirectories under ${source}`)
+  console.log(`Converting ${totalDirectories} courses to Hugo markdown...`)
   progressBar.start(totalDirectories, directoriesScanned)
   contents.forEach(file => {
     const coursePath = path.join(source, file)
     if (fs.lstatSync(coursePath).isDirectory()) {
       // If the item is indeed a directory, read all files in it
       scanCourse(coursePath, destination).then(() => {
-        directoriesScanned++
-        progressBar.update(directoriesScanned)
+        progressBar.increment()
       })
     }
   })

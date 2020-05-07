@@ -29,7 +29,7 @@ describe("scanCourses", () => {
   const sandbox = sinon.createSandbox()
   const sourcePath = "test_data"
   const destinationPath = tmp.dirSync({ prefix: "destination" }).name
-  const logMessage = "Scanning 3 subdirectories under test_data"
+  const logMessage = "Converting 3 courses to Hugo markdown..."
   const course1Path = path.join(
     sourcePath,
     "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
