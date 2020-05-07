@@ -34,31 +34,35 @@ describe("downloadCourses", () => {
   beforeEach(() => {
     AWS.mock("S3", "listObjectsV2", {
       IsTruncated: false,
-      Contents: [
+      Contents:    [
         {
-          Key: "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012/bb55dad7f4888f0a1ad004600c5fb1f1_master.json",
+          Key:
+            "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012/bb55dad7f4888f0a1ad004600c5fb1f1_master.json",
           LastModified: "2020-03-21T00:47:13.000Z",
-          ETag: 'a629d97165f6920838085eeddfccd228',
-          Size: 144523,
+          ETag:         "a629d97165f6920838085eeddfccd228",
+          Size:         144523,
           StorageClass: "STANDARD"
         }
       ],
-      Name: "open-learning-course-data-ci",
-      Prefix: "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012",
-      MaxKeys: 1000,
+      Name:   "open-learning-course-data-ci",
+      Prefix:
+        "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012",
+      MaxKeys:        1000,
       CommonPrefixes: [],
-      KeyCount: 1
+      KeyCount:       1
     })
-    
+
     AWS.mock("S3", "getObject", {
-      AcceptRanges: 'bytes',
-      LastModified: "2020-03-21T00:47:13.000Z",
+      AcceptRanges:  "bytes",
+      LastModified:  "2020-03-21T00:47:13.000Z",
       ContentLength: 144523,
-      ETag: '"a629d97165f6920838085eeddfccd228"',
-      VersionId: 'mt5F9IP6xviS16.n.HwOFkldmQGRJb87',
-      ContentType: 'binary/octet-stream',
-      Metadata: {},
-      Body: fs.readFileSync("test_data/1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012/bb55dad7f4888f0a1ad004600c5fb1f1_master.json")
+      ETag:          '"a629d97165f6920838085eeddfccd228"',
+      VersionId:     "mt5F9IP6xviS16.n.HwOFkldmQGRJb87",
+      ContentType:   "binary/octet-stream",
+      Metadata:      {},
+      Body:          fs.readFileSync(
+        "test_data/1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012/bb55dad7f4888f0a1ad004600c5fb1f1_master.json"
+      )
     })
   })
 
