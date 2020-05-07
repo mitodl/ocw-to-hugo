@@ -5,8 +5,11 @@ const yaml = require("js-yaml")
 const markdown = require("markdown-builder")
 const TurndownService = require("turndown")
 const turndownPluginGfm = require("turndown-plugin-gfm")
-const helpers = require("./helpers")
 const { gfm, tables } = turndownPluginGfm
+
+const helpers = require("./helpers")
+const loggers = require("./loggers")
+
 const turndownService = new TurndownService()
 turndownService.use(gfm)
 turndownService.use(tables)
@@ -268,10 +271,13 @@ const generateMarkdownRecursive = page => {
           }
         }
       } catch (err) {
-        console.log(err)
+        loggers.errorLogger.log({
+          level: "error",
+          message: err
+        })
         return null
       }
-    }),
+    }).filter(file => file),
     media: coursePageEmbeddedMedia.map(media => {
       try {
         if (media["short_url"]) {
@@ -281,12 +287,13 @@ const generateMarkdownRecursive = page => {
           }
         }
       } catch (err) {
-        console.log(err)
-        console.log(pathToChild)
-        console.log(media["short_url"])
+        loggers.errorLogger.log({
+          level: "error",
+          message: err
+        })
         return null
       }
-    })
+    }).filter(media => media)
   }
 }
 
@@ -334,8 +341,10 @@ const generateCourseHomeFrontMatter = courseData => {
   try {
     return `---\n${yaml.safeDump(frontMatter)}---\n`
   } catch (err) {
-    console.log(err)
-    console.log(frontMatter)
+    loggers.errorLogger.log({
+      level: "error",
+      message: err
+    })
     return null
   }
 }
@@ -408,8 +417,10 @@ const generateCourseSectionMarkdown = (page, courseData) => {
   try {
     return turndownService.turndown(fixLinks(page, courseData))
   } catch (err) {
-    console.log(err)
-    console.log(fixLinks(page, courseData))
+    loggers.errorLogger.log({
+      level: "error",
+      message: err
+    })
     return page["text"]
   }
 }

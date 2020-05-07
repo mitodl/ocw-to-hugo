@@ -32,6 +32,7 @@
     "title-case": "^3.0.2",
     "turndown": "^6.0.0",
     "turndown-plugin-gfm": "^1.0.2",
+    "winston": "^3.2.1",
     "yargs": "^15.0.2"
   },
   "devDependencies": {

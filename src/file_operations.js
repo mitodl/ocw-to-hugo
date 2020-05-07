@@ -10,13 +10,13 @@ const AWS = require("aws-sdk")
 const cliProgress = require("cli-progress")
 
 const markdownGenerators = require("./markdown_generators")
+const loggers = require("./loggers")
 
 const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
   cliProgress.Presets.shades_classic
 )
 const readdir = util.promisify(fs.readdir)
-let directoriesScanned = 0
 
 const directoryExists = directory => {
   return (
@@ -133,7 +133,7 @@ const scanCourses = (source, destination) => {
     directoryExists(path.join(source, file))
   ).length
   console.log(`Converting ${totalDirectories} courses to Hugo markdown...`)
-  progressBar.start(totalDirectories, directoriesScanned)
+  progressBar.start(totalDirectories, 0)
   contents.forEach(file => {
     const coursePath = path.join(source, file)
     if (fs.lstatSync(coursePath).isDirectory()) {
@@ -203,7 +203,12 @@ const writeSectionFiles = (key, section, destination) => {
           fs.unlinkSync(filePath)
         }
         fs.writeFileSync(filePath, file["data"])
-      } catch (err) {}
+      } catch (err) {
+        loggers.errorLogger.log({
+          level: "error",
+          message: err
+        })
+      }
     })
   }
 }
