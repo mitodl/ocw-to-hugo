@@ -1,14 +1,17 @@
 #!/usr/bin/env node
 
+const fs = require("fs")
 const path = require("path")
 const sinon = require("sinon")
 const { assert, expect } = require("chai").use(require("sinon-chai"))
+const tmp = require("tmp")
+const rimraf = require("rimraf")
+const AWS = require("aws-sdk-mock")
+
 const helpers = require("./helpers")
 const fileOperations = require("./file_operations")
 const markdownGenerators = require("./markdown_generators")
-const fs = require("fs")
-const tmp = require("tmp")
-const rimraf = require("rimraf")
+
 tmp.setGracefulCleanup()
 
 const singleCourseId =
@@ -23,6 +26,54 @@ const singleCourseJsonData = JSON.parse(singleCourseRawData)
 const singleCourseMarkdownData = markdownGenerators.generateMarkdownFromJson(
   singleCourseJsonData
 )
+
+describe("downloadCourses", () => {
+  const testCoursesJson = "test_data/courses.json"
+  const sourcePath = tmp.dirSync({ prefix: "source" }).name
+
+  beforeEach(() => {
+    AWS.mock("S3", "listObjectsV2", {
+      IsTruncated: false,
+      Contents: [
+        {
+          Key: "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012/bb55dad7f4888f0a1ad004600c5fb1f1_master.json",
+          LastModified: "2020-03-21T00:47:13.000Z",
+          ETag: 'a629d97165f6920838085eeddfccd228',
+          Size: 144523,
+          StorageClass: "STANDARD"
+        }
+      ],
+      Name: "open-learning-course-data-ci",
+      Prefix: "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012",
+      MaxKeys: 1000,
+      CommonPrefixes: [],
+      KeyCount: 1
+    })
+    
+    AWS.mock("S3", "getObject", {
+      AcceptRanges: 'bytes',
+      LastModified: "2020-03-21T00:47:13.000Z",
+      ContentLength: 144523,
+      ETag: '"a629d97165f6920838085eeddfccd228"',
+      VersionId: 'mt5F9IP6xviS16.n.HwOFkldmQGRJb87',
+      ContentType: 'binary/octet-stream',
+      Metadata: {},
+      Body: fs.readFileSync("test_data/1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012/bb55dad7f4888f0a1ad004600c5fb1f1_master.json")
+    })
+  })
+
+  afterEach(() => {
+    AWS.restore("S3")
+  })
+
+  it("throws an error when you call it with no courses.json", () => {
+    assert.throws(() => fileOperations.downloadCourses(null, sourcePath))
+  })
+
+  it("runs without error using the test data", () => {
+    fileOperations.downloadCourses(testCoursesJson, sourcePath)
+  })
+})
 
 describe("scanCourses", () => {
   let readdirSync, lstatSync, consoleLog
