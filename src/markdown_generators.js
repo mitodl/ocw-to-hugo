@@ -259,41 +259,45 @@ const generateMarkdownRecursive = page => {
         : `${pathToChild}.md`,
     data:     courseSectionMarkdown,
     children: children.map(generateMarkdownRecursive, this),
-    files:    pdfFiles.map(file => {
-      try {
-        if (file["id"]) {
-          return {
-            name: `${path.join(
-              pathToChild,
-              file["id"].replace(".pdf", "")
-            )}.md`,
-            data: generatePdfMarkdown(file, courseData)
+    files:    pdfFiles
+      .map(file => {
+        try {
+          if (file["id"]) {
+            return {
+              name: `${path.join(
+                pathToChild,
+                file["id"].replace(".pdf", "")
+              )}.md`,
+              data: generatePdfMarkdown(file, courseData)
+            }
           }
+        } catch (err) {
+          loggers.errorLogger.log({
+            level:   "error",
+            message: err
+          })
+          return null
         }
-      } catch (err) {
-        loggers.errorLogger.log({
-          level: "error",
-          message: err
-        })
-        return null
-      }
-    }).filter(file => file),
-    media: coursePageEmbeddedMedia.map(media => {
-      try {
-        if (media["short_url"]) {
-          return {
-            name: `${path.join(pathToChild, media["short_url"])}.md`,
-            data: `---\n${yaml.safeDump(media)}---\n`
+      })
+      .filter(file => file),
+    media: coursePageEmbeddedMedia
+      .map(media => {
+        try {
+          if (media["short_url"]) {
+            return {
+              name: `${path.join(pathToChild, media["short_url"])}.md`,
+              data: `---\n${yaml.safeDump(media)}---\n`
+            }
           }
+        } catch (err) {
+          loggers.errorLogger.log({
+            level:   "error",
+            message: err
+          })
+          return null
         }
-      } catch (err) {
-        loggers.errorLogger.log({
-          level: "error",
-          message: err
-        })
-        return null
-      }
-    }).filter(media => media)
+      })
+      .filter(media => media)
   }
 }
 
@@ -342,7 +346,7 @@ const generateCourseHomeFrontMatter = courseData => {
     return `---\n${yaml.safeDump(frontMatter)}---\n`
   } catch (err) {
     loggers.errorLogger.log({
-      level: "error",
+      level:   "error",
       message: err
     })
     return null
@@ -418,7 +422,7 @@ const generateCourseSectionMarkdown = (page, courseData) => {
     return turndownService.turndown(fixLinks(page, courseData))
   } catch (err) {
     loggers.errorLogger.log({
-      level: "error",
+      level:   "error",
       message: err
     })
     return page["text"]

@@ -60,43 +60,46 @@ const downloadCourses = async (coursesJson, coursesDir) => {
   const totalCourses = courses.length
   console.log(`Downloading ${totalCourses} courses from AWS...`)
   progressBar.start(totalCourses, 0)
-  return Promise.all(courses.map(async course => {
-    const courseDir = path.join(coursesDir, course)
-    if (directoryExists(courseDir)) {
-      rimraf.sync(courseDir)
-    }
-    fs.mkdirSync(courseDir, { recursive: true })
-    const bucketParams = {
-      Bucket: env["AWS_BUCKET_NAME"],
-      Prefix: course
-    }
-    return new Promise(resolve => {
-      downloadCourseRecursive(s3, bucketParams, coursesDir).then(() => {
-        progressBar.increment()
-        resolve()
+  return Promise.all(
+    courses.map(async course => {
+      const courseDir = path.join(coursesDir, course)
+      if (directoryExists(courseDir)) {
+        rimraf.sync(courseDir)
+      }
+      fs.mkdirSync(courseDir, { recursive: true })
+      const bucketParams = {
+        Bucket: env["AWS_BUCKET_NAME"],
+        Prefix: course
+      }
+      return new Promise(resolve => {
+        downloadCourseRecursive(s3, bucketParams, coursesDir).then(() => {
+          progressBar.increment()
+          resolve()
+        })
       })
     })
-  }))
+  )
 }
 
-const downloadCourseRecursive = (
-  s3,
-  bucketParams,
-  destination,
-  multibar
-) => {
+const downloadCourseRecursive = (s3, bucketParams, destination, multibar) => {
   return new Promise(resolve => {
     s3.listObjectsV2(bucketParams)
       .promise()
       .then(listData => {
-        Promise.all(listData.Contents.map(content => {
-          return s3.getObject({
-            Bucket: bucketParams.Bucket,
-            Key:    content.Key
-          }).promise()
-        })).then(data => {
+        Promise.all(
+          listData.Contents.map(content => {
+            return s3
+              .getObject({
+                Bucket: bucketParams.Bucket,
+                Key:    content.Key
+              })
+              .promise()
+          })
+        ).then(data => {
           data.forEach(file => {
-            const key = listData.Contents.find(content => content.ETag === file.ETag).Key
+            const key = listData.Contents.find(
+              content => content.ETag === file.ETag
+            ).Key
             fs.writeFileSync(path.join(destination, key), file.Body)
           })
           if (listData.IsTruncated) {
@@ -107,8 +110,7 @@ const downloadCourseRecursive = (
               destination,
               multibar
             ).then(resolve)
-          }
-          else {
+          } else {
             resolve()
           }
         })
@@ -205,7 +207,7 @@ const writeSectionFiles = (key, section, destination) => {
         fs.writeFileSync(filePath, file["data"])
       } catch (err) {
         loggers.errorLogger.log({
-          level: "error",
+          level:   "error",
           message: err
         })
       }
