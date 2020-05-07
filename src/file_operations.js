@@ -26,16 +26,6 @@ const directoryExists = directory => {
   )
 }
 
-const multiBarFormatter = (options, params, payload) => {
-  const bar = options.barCompleteString.substr(
-    0,
-    Math.round(params.progress * options.barsize)
-  )
-  return `${payload.prefix.substr(0, 30)}... ${bar} | ETA: ${params.eta}s | ${
-    params.value
-  }/${params.total}`
-}
-
 const downloadCourses = async (coursesJson, coursesDir) => {
   if (!fs.existsSync(coursesJson)) {
     throw new Error("Invalid courses JSON")
