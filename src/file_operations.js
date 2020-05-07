@@ -26,7 +26,7 @@ const directoryExists = directory => {
   )
 }
 
-const downloadCourses = async (coursesJson, coursesDir) => {
+const downloadCourses = (coursesJson, coursesDir) => {
   if (!fs.existsSync(coursesJson)) {
     throw new Error("Invalid courses JSON")
   }
