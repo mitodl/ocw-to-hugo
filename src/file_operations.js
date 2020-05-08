@@ -71,7 +71,7 @@ const downloadCourses = (coursesJson, coursesDir) => {
   )
 }
 
-const downloadCourseRecursive = (s3, bucketParams, destination, multibar) => {
+const downloadCourseRecursive = (s3, bucketParams, destination) => {
   return new Promise(resolve => {
     s3.listObjectsV2(bucketParams)
       .promise()
@@ -97,8 +97,7 @@ const downloadCourseRecursive = (s3, bucketParams, destination, multibar) => {
             downloadCourseRecursive(
               s3,
               bucketParams,
-              destination,
-              multibar
+              destination
             ).then(resolve)
           } else {
             resolve()
