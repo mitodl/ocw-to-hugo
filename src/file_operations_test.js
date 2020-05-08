@@ -43,10 +43,13 @@ describe("downloadCourses", () => {
 
 describe("downloadCourseRecursive", () => {
   const sandbox = sinon.createSandbox()
-  const testCourse = "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
+  const testCourse =
+    "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
   const testJson = "bb55dad7f4888f0a1ad004600c5fb1f1_master.json"
   const testJsonKey = path.join(testCourse, testJson)
-  const testJsonContents = fs.readFileSync(path.join("test_data", testCourse, testJson))
+  const testJsonContents = fs.readFileSync(
+    path.join("test_data", testCourse, testJson)
+  )
   const coursesDir = tmp.dirSync({ prefix: "source" }).name
   const destinationPath = tmp.dirSync({ prefix: "destination" }).name
   const outputJsonPath = path.join(coursesDir, testCourse, testJson)
@@ -59,15 +62,15 @@ describe("downloadCourseRecursive", () => {
     IsTruncated: false,
     Contents:    [
       {
-        Key: testJsonKey,
+        Key:          testJsonKey,
         LastModified: "2020-03-21T00:47:13.000Z",
         ETag:         "a629d97165f6920838085eeddfccd228",
         Size:         144523,
         StorageClass: "STANDARD"
       }
     ],
-    Name:   "open-learning-course-data-ci",
-    Prefix: testCourse,
+    Name:           "open-learning-course-data-ci",
+    Prefix:         testCourse,
     MaxKeys:        1000,
     CommonPrefixes: [],
     KeyCount:       1
@@ -93,7 +96,11 @@ describe("downloadCourseRecursive", () => {
     AWSMock.mock("S3", "getObject", getObjectOutput)
 
     mockS3 = new AWS.S3()
-    await fileOperations.downloadCourseRecursive(mockS3, bucketParams, coursesDir)
+    await fileOperations.downloadCourseRecursive(
+      mockS3,
+      bucketParams,
+      coursesDir
+    )
   })
 
   afterEach(() => {
@@ -122,7 +129,7 @@ describe("downloadCourseRecursive", () => {
   it("calls getObject with the bucket and key", () => {
     expect(mockS3.getObject).to.be.calledWithExactly({
       Bucket: bucket,
-      Key: testJsonKey
+      Key:    testJsonKey
     })
   })
 })

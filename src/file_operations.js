@@ -94,11 +94,7 @@ const downloadCourseRecursive = (s3, bucketParams, destination) => {
           })
           if (listData.IsTruncated) {
             bucketParams.ContinuationToken = listData.NextContinuationToken
-            downloadCourseRecursive(
-              s3,
-              bucketParams,
-              destination
-            ).then(resolve)
+            downloadCourseRecursive(s3, bucketParams, destination).then(resolve)
           } else {
             resolve()
           }
