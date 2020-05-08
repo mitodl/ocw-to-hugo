@@ -36,3 +36,11 @@ These courses will be downloaded to the specified source directory, and converte
 | `c`      | No  | `/path/to/courses.json` |
 | `s`      | Yes | `/path/to/open-learning-course-data` |
 | `d`      | Yes | `/path/to/hugo-markdown-output` |
+
+## Environment Variables
+| Variable | Description  |
+| :------- | :------------ |
+| `AWS_REGION` | The AWS region to connect to, i.e. `us-east-1` |
+| `AWS_BUCKET_NAME` | The bucket to use, i.e. `open-learning-course-data-ci` |
+| `AWS_ACCESS_KEY` | Your AWS Access Key with access to said bucket |
+| `AWS_SECRET_ACCESS_KEY` | The secret access key that pairs with your access key |
