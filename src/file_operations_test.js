@@ -86,7 +86,7 @@ describe("downloadCourseRecursive", () => {
     Body:          testJsonContents
   }
   fs.mkdirSync(path.join(coursesDir, testCourse), { recursive: true })
-  let mockS3, listObjectsV2Spy, getObjectSpy
+  let mockS3
 
   beforeEach(async () => {
     consoleLog = sandbox.stub(console, "log")
