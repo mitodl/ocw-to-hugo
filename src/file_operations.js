@@ -206,6 +206,7 @@ const writeSectionFiles = (key, section, destination) => {
 
 module.exports = {
   downloadCourses,
+  downloadCourseRecursive,
   scanCourses,
   scanCourse,
   writeMarkdownFilesRecursive
