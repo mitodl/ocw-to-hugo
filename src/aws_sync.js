@@ -71,13 +71,11 @@ const downloadCourseRecursive = async (s3, bucketParams, destination) => {
         .promise()
     })
   )
-  await Promise.all(
-    allFiles.map(async file => {
-      const key = listData.Contents.find(content => content.ETag === file.ETag)
-        .Key
-      fs.writeFileSync(path.join(destination, key), file.Body)
-    })
-  )
+  allFiles.forEach(file => {
+    const key = listData.Contents.find(content => content.ETag === file.ETag)
+      .Key
+    fs.writeFileSync(path.join(destination, key), file.Body)
+  })
   if (listData.IsTruncated) {
     bucketParams.ContinuationToken = listData.NextContinuationToken
     await downloadCourseRecursive(s3, bucketParams, destination)
