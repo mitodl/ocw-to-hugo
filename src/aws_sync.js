@@ -5,7 +5,6 @@ const fs = require("fs")
 const path = require("path")
 const AWS = require("aws-sdk")
 const env = require("dotenv").config().parsed
-const rimraf = require("rimraf")
 const cliProgress = require("cli-progress")
 
 const { directoryExists, createOrOverwriteFile } = require("./helpers")
