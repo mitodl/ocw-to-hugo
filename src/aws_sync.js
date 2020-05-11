@@ -8,7 +8,7 @@ const env = require("dotenv").config().parsed
 const rimraf = require("rimraf")
 const cliProgress = require("cli-progress")
 
-const { directoryExists } = require("./helpers")
+const { directoryExists, createOrOverwriteFile } = require("./helpers")
 
 const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
@@ -44,11 +44,6 @@ const downloadCourses = async (coursesJson, coursesDir) => {
   progressBar.start(totalCourses, 0)
   return await Promise.all(
     courses.map(async course => {
-      const courseDir = path.join(coursesDir, course)
-      if (directoryExists(courseDir)) {
-        rimraf.sync(courseDir)
-      }
-      fs.mkdirSync(courseDir, { recursive: true })
       const bucketParams = {
         Bucket: env["AWS_BUCKET_NAME"],
         Prefix: course
@@ -61,21 +56,35 @@ const downloadCourses = async (coursesJson, coursesDir) => {
 
 const downloadCourseRecursive = async (s3, bucketParams, destination) => {
   const listData = await s3.listObjectsV2(bucketParams).promise()
-  const allFiles = await Promise.all(
+  const newFiles = []
+  let modifiedFiles = await Promise.all(
     listData.Contents.map(async content => {
-      return await s3
-        .getObject({
-          Bucket: bucketParams.Bucket,
-          Key:    content.Key
-        })
-        .promise()
+      const filePath = path.join(destination, content.Key)
+      const getObjectParams = {
+        Bucket: bucketParams.Bucket,
+        Key:    content.Key
+      }
+      if (fs.existsSync(filePath)) {
+        const mtime = fs.statSync(filePath).mtime
+        if (content.LastModified > mtime) {
+          return await s3.getObject(getObjectParams).promise()
+        }
+      } else {
+        newFiles.push(await s3.getObject(getObjectParams).promise())
+      }
+      return null
     })
   )
-  allFiles.forEach(file => {
-    const key = listData.Contents.find(content => content.ETag === file.ETag)
-      .Key
-    fs.writeFileSync(path.join(destination, key), file.Body)
-  })
+  modifiedFiles = modifiedFiles.filter(file => file)
+
+  const writeS3Object = file => {
+    const key = listData.Contents.find(content => content.ETag === file.ETag).Key
+    createOrOverwriteFile(path.join(destination, key), file.Body)
+  }
+
+  modifiedFiles.forEach(writeS3Object)
+  newFiles.forEach(writeS3Object)
+
   if (listData.IsTruncated) {
     bucketParams.ContinuationToken = listData.NextContinuationToken
     await downloadCourseRecursive(s3, bucketParams, destination)
