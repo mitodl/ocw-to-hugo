@@ -2,7 +2,8 @@
 /* eslint-disable no-console */
 
 const yargs = require("yargs")
-const { downloadCourses, scanCourses } = require("../file_operations")
+const { downloadCourses } = require("../aws_sync")
+const { scanCourses } = require("../file_operations")
 
 // Gather arguments
 const options = yargs
