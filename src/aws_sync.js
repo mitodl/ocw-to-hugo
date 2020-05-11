@@ -15,7 +15,7 @@ const progressBar = new cliProgress.SingleBar(
   cliProgress.Presets.shades_classic
 )
 
-const downloadCourses = (coursesJson, coursesDir) => {
+const downloadCourses = async (coursesJson, coursesDir) => {
   if (!fs.existsSync(coursesJson)) {
     throw new Error("Invalid courses JSON")
   }
@@ -42,7 +42,7 @@ const downloadCourses = (coursesJson, coursesDir) => {
   const totalCourses = courses.length
   console.log(`Downloading ${totalCourses} courses from AWS...`)
   progressBar.start(totalCourses, 0)
-  return Promise.all(
+  return await Promise.all(
     courses.map(async course => {
       const courseDir = path.join(coursesDir, course)
       if (directoryExists(courseDir)) {
@@ -53,46 +53,35 @@ const downloadCourses = (coursesJson, coursesDir) => {
         Bucket: env["AWS_BUCKET_NAME"],
         Prefix: course
       }
-      return new Promise(resolve => {
-        downloadCourseRecursive(s3, bucketParams, coursesDir).then(() => {
-          progressBar.increment()
-          resolve()
-        })
-      })
+      await downloadCourseRecursive(s3, bucketParams, coursesDir)
+      progressBar.increment()
     })
   )
 }
 
-const downloadCourseRecursive = (s3, bucketParams, destination) => {
-  return new Promise(resolve => {
-    s3.listObjectsV2(bucketParams)
-      .promise()
-      .then(listData => {
-        Promise.all(
-          listData.Contents.map(content => {
-            return s3
-              .getObject({
-                Bucket: bucketParams.Bucket,
-                Key:    content.Key
-              })
-              .promise()
-          })
-        ).then(data => {
-          data.forEach(file => {
-            const key = listData.Contents.find(
-              content => content.ETag === file.ETag
-            ).Key
-            fs.writeFileSync(path.join(destination, key), file.Body)
-          })
-          if (listData.IsTruncated) {
-            bucketParams.ContinuationToken = listData.NextContinuationToken
-            downloadCourseRecursive(s3, bucketParams, destination).then(resolve)
-          } else {
-            resolve()
-          }
+const downloadCourseRecursive = async (s3, bucketParams, destination) => {
+  const listData = await s3.listObjectsV2(bucketParams).promise()
+  const allFiles = await Promise.all(
+    listData.Contents.map(async content => {
+      return await s3
+        .getObject({
+          Bucket: bucketParams.Bucket,
+          Key:    content.Key
         })
-      })
-  })
+        .promise()
+    })
+  )
+  await Promise.all(
+    allFiles.map(async file => {
+      const key = listData.Contents.find(content => content.ETag === file.ETag)
+        .Key
+      fs.writeFileSync(path.join(destination, key), file.Body)
+    })
+  )
+  if (listData.IsTruncated) {
+    bucketParams.ContinuationToken = listData.NextContinuationToken
+    await downloadCourseRecursive(s3, bucketParams, destination)
+  }
 }
 
 module.exports = {

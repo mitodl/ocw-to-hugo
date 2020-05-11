@@ -4,7 +4,9 @@ const fs = require("fs")
 const tmp = require("tmp")
 const rimraf = require("rimraf")
 const sinon = require("sinon")
-const { assert, expect } = require("chai").use(require("sinon-chai"))
+const { assert, expect } = require("chai")
+  .use(require("sinon-chai"))
+  .use(require("chai-as-promised"))
 const path = require("path")
 const AWSMock = require("aws-sdk-mock")
 const AWS = require("aws-sdk")
@@ -30,11 +32,15 @@ describe("downloadCourses", () => {
   })
 
   it("throws an error when you call it with no courses.json", () => {
-    assert.throws(() => awsSync.downloadCourses(null, coursesDir))
+    expect(
+      awsSync.downloadCourses(null, coursesDir)
+    ).to.eventually.be.rejectedWith("Invalid courses JSON")
   })
 
   it("throws an error when you call it with no coursesDir", () => {
-    assert.throws(() => awsSync.downloadCourses(testCoursesJson, null))
+    expect(
+      awsSync.downloadCourses(testCoursesJson, null)
+    ).to.eventually.be.rejectedWith("Invalid courses directory")
   })
 })
 

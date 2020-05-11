@@ -27,10 +27,11 @@ const options = yargs
     demandOption: true
   }).argv
 
-if (options.courses) {
-  downloadCourses(options.courses, options.source).then(() => {
-    scanCourses(options.source, options.destination)
-  })
-} else {
+const run = async () => {
+  if (options.courses) {
+    await downloadCourses(options.courses, options.source)
+  }
   scanCourses(options.source, options.destination)
 }
+
+run()
