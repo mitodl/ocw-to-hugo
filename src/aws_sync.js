@@ -78,7 +78,8 @@ const downloadCourseRecursive = async (s3, bucketParams, destination) => {
   modifiedFiles = modifiedFiles.filter(file => file)
 
   const writeS3Object = file => {
-    const key = listData.Contents.find(content => content.ETag === file.ETag).Key
+    const key = listData.Contents.find(content => content.ETag === file.ETag)
+      .Key
     createOrOverwriteFile(path.join(destination, key), file.Body)
   }
 

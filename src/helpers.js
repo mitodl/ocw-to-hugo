@@ -16,13 +16,12 @@ const directoryExists = directory => {
 
 const createOrOverwriteFile = (file, body) => {
   const dirName = path.dirname(file)
-    if (!directoryExists(dirName)) {
-      fs.mkdirSync(dirName, { recursive: true })
-    }
-    else if (fs.existsSync(file)) {
-      fs.unlinkSync(file)
-    }
-    fs.writeFileSync(file, body)
+  if (!directoryExists(dirName)) {
+    fs.mkdirSync(dirName, { recursive: true })
+  } else if (fs.existsSync(file)) {
+    fs.unlinkSync(file)
+  }
+  fs.writeFileSync(file, body)
 }
 
 const findDepartmentByNumber = departmentNumber => {
