@@ -1,16 +1,15 @@
-#!/usr/bin/env node
-
+const fs = require("fs")
 const path = require("path")
 const sinon = require("sinon")
 const { assert, expect } = require("chai").use(require("sinon-chai"))
+const tmp = require("tmp")
+const rimraf = require("rimraf")
+
 const helpers = require("./helpers")
 const fileOperations = require("./file_operations")
 const markdownGenerators = require("./markdown_generators")
-const fs = require("fs")
-const tmp = require("tmp")
-const rimraf = require("rimraf")
-tmp.setGracefulCleanup()
 
+tmp.setGracefulCleanup()
 const singleCourseId =
   "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
 const singleCourseSourcePath = `test_data/${singleCourseId}`
@@ -29,7 +28,7 @@ describe("scanCourses", () => {
   const sandbox = sinon.createSandbox()
   const sourcePath = "test_data"
   const destinationPath = tmp.dirSync({ prefix: "destination" }).name
-  const logMessage = "Scanning 3 subdirectories under test_data"
+  const logMessage = "Converting 3 courses to Hugo markdown..."
   const course1Path = path.join(
     sourcePath,
     "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"

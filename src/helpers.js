@@ -1,9 +1,26 @@
-#!/usr/bin/env node
-
 const _ = require("lodash")
+const fs = require("fs")
 const url = require("url")
 const path = require("path")
 const departmentsJson = require("./departments.json")
+
+const directoryExists = directory => {
+  return (
+    directory &&
+    fs.existsSync(directory) &&
+    fs.lstatSync(directory).isDirectory()
+  )
+}
+
+const createOrOverwriteFile = (file, body) => {
+  const dirName = path.dirname(file)
+  if (!directoryExists(dirName)) {
+    fs.mkdirSync(dirName, { recursive: true })
+  } else if (fs.existsSync(file)) {
+    fs.unlinkSync(file)
+  }
+  fs.writeFileSync(file, body)
+}
 
 const findDepartmentByNumber = departmentNumber => {
   return departmentsJson.find(department => {
@@ -119,6 +136,8 @@ const pathToChildRecursive = (basePath, child, courseData) => {
 }
 
 module.exports = {
+  directoryExists,
+  createOrOverwriteFile,
   findDepartmentByNumber,
   getDepartments,
   getCourseNumbers,

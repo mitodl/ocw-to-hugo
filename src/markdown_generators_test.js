@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const path = require("path")
 const sinon = require("sinon")
 const { assert, expect } = require("chai").use(require("sinon-chai"))

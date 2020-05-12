@@ -1,25 +1,19 @@
-#!/usr/bin/env node
 /* eslint-disable no-console */
 
 const fs = require("fs")
 const util = require("util")
 const path = require("path")
-const markdownGenerators = require("./markdown_generators")
 const cliProgress = require("cli-progress")
+
+const { directoryExists } = require("./helpers")
+const markdownGenerators = require("./markdown_generators")
+const loggers = require("./loggers")
+
 const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
   cliProgress.Presets.shades_classic
 )
 const readdir = util.promisify(fs.readdir)
-let directoriesScanned = 0
-
-const directoryExists = directory => {
-  return (
-    directory &&
-    fs.existsSync(directory) &&
-    fs.lstatSync(directory).isDirectory()
-  )
-}
 
 const scanCourses = (source, destination) => {
   /*
@@ -33,20 +27,18 @@ const scanCourses = (source, destination) => {
     throw new Error("Invalid destination directory")
   }
   // Iterate all subdirectories under source
-  directoriesScanned = 0
   const contents = fs.readdirSync(source)
   const totalDirectories = contents.filter(file =>
     directoryExists(path.join(source, file))
   ).length
-  console.log(`Scanning ${totalDirectories} subdirectories under ${source}`)
-  progressBar.start(totalDirectories, directoriesScanned)
+  console.log(`Converting ${totalDirectories} courses to Hugo markdown...`)
+  progressBar.start(totalDirectories, 0)
   contents.forEach(file => {
     const coursePath = path.join(source, file)
     if (fs.lstatSync(coursePath).isDirectory()) {
       // If the item is indeed a directory, read all files in it
       scanCourse(coursePath, destination).then(() => {
-        directoriesScanned++
-        progressBar.update(directoriesScanned)
+        progressBar.increment()
       })
     }
   })
@@ -100,15 +92,22 @@ const writeMarkdownFilesRecursive = (destination, markdownData) => {
 const writeSectionFiles = (key, section, destination) => {
   if (section.hasOwnProperty(key)) {
     section[key].forEach(file => {
-      const filePath = path.join(destination, file["name"])
-      const fileDirPath = path.dirname(filePath)
-      if (!directoryExists(fileDirPath)) {
-        fs.mkdirSync(fileDirPath, { recursive: true })
+      try {
+        const filePath = path.join(destination, file["name"])
+        const fileDirPath = path.dirname(filePath)
+        if (!directoryExists(fileDirPath)) {
+          fs.mkdirSync(fileDirPath, { recursive: true })
+        }
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath)
+        }
+        fs.writeFileSync(filePath, file["data"])
+      } catch (err) {
+        loggers.errorLogger.log({
+          level:   "error",
+          message: err
+        })
       }
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath)
-      }
-      fs.writeFileSync(filePath, file["data"])
     })
   }
 }

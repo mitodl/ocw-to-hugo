@@ -13,7 +13,7 @@ private/*
 *.DS_Store
 *~
 *.pem
-
+*.log
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
