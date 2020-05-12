@@ -27,7 +27,7 @@ This utility optionally takes a JSON file of OCW course ID's, formatted as:
 }
 ```
 
-These courses will be downloaded to the specified source directory, and converted to the Hugo markdown structure used by hugo-course-publisher.  If no courses JSON is specified, ocw-to-hugo assumes you have already downloaded your courses and placed them in your source directory.
+If the `-c` option has been specified, these courses will be downloaded to the specified source directory and converted to the Hugo markdown structure used by hugo-course-publisher.  It will use your AWS credentials defined in the environment as detailed below.  If no courses JSON is specified, ocw-to-hugo assumes you have already downloaded your courses and placed them in your source directory.
 
 ## Arguments
 
