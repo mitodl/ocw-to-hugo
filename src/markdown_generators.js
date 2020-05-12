@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const path = require("path")
 const yaml = require("js-yaml")
 const markdown = require("markdown-builder")

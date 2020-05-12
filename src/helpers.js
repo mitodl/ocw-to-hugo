@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const _ = require("lodash")
 const fs = require("fs")
 const url = require("url")

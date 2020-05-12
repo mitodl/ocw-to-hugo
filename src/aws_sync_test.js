@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const fs = require("fs")
 const tmp = require("tmp")
 const rimraf = require("rimraf")
