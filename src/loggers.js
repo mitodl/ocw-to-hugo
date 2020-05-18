@@ -1,6 +1,6 @@
 const winston = require("winston")
 
-const errorLogger = winston.createLogger({
+const fileLogger = winston.createLogger({
   level:       "error",
   format:      winston.format.json(),
   defaultMeta: { service: "user-service" },
@@ -8,10 +8,14 @@ const errorLogger = winston.createLogger({
     new winston.transports.File({
       filename: "ocw-to-hugo.error.log",
       level:    "error"
+    }),
+    new winston.transports.File({
+      filename: "ocw-to-hugo.info.log",
+      level:    "info"
     })
   ]
 })
 
 module.exports = {
-  errorLogger
+  fileLogger
 }

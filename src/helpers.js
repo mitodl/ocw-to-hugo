@@ -1,8 +1,11 @@
 const _ = require("lodash")
 const fs = require("fs")
-const url = require("url")
 const path = require("path")
 const departmentsJson = require("./departments.json")
+
+const distinct = (value, index, self) => {
+  return self.indexOf(value) === index
+}
 
 const directoryExists = directory => {
   return (
@@ -136,6 +139,7 @@ const pathToChildRecursive = (basePath, child, courseData) => {
 }
 
 module.exports = {
+  distinct,
   directoryExists,
   createOrOverwriteFile,
   findDepartmentByNumber,

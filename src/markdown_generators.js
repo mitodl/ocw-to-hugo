@@ -182,7 +182,53 @@ const fixLinks = (page, courseData) => {
         )
       }
     })
-
+    // process relative urls
+    Array.from(htmlStr.matchAll(/href="([^"]*)"/g)).forEach(match => {
+      const url = match[0].replace(`href="`, "").replace(`"`, "")
+      if (!url.includes("resolveuid") && url[0] === "/") {
+        const parts = url.split("/")
+        const courseId = parts[3]
+        const layers = parts.length - 4
+        const sections = []
+        let page = null
+        if (layers === 1) {
+          page = parts[4]
+        } else {
+          for (let i = parts.length - layers; i < parts.length; i++) {
+            const section = parts[i]
+            if (i + 1 === parts.length) {
+              page = section
+            } else {
+              sections.push(section)
+            }
+          }
+        }
+        let suffix = page === "index.htm" ? "/_index.md" : ""
+        const newUrlBase = path.join(
+          "courses",
+          courseId,
+          "sections",
+          ...sections
+        )
+        if (page.includes(".")) {
+          courseData["course_files"].forEach(media => {
+            if (
+              media["file_type"] === "application/pdf" &&
+              media["file_location"].includes(page)
+            ) {
+              const newUrl = `${GETPAGESHORTCODESTART}${path.join(
+                newUrlBase,
+                page.replace(".pdf", "")
+              )}${suffix}${GETPAGESHORTCODEEND}`
+              htmlStr = htmlStr.replace(url, newUrl)
+            }
+            else if (media["file_location"].includes(page)) {
+              htmlStr = htmlStr.replace(url, media["file_location"])
+            }
+          })
+        }
+      }
+    })
     return htmlStr
   } else return ""
 }
@@ -270,7 +316,7 @@ const generateMarkdownRecursive = page => {
             }
           }
         } catch (err) {
-          loggers.errorLogger.log({
+          loggers.fileLogger.log({
             level:   "error",
             message: err
           })
@@ -288,7 +334,7 @@ const generateMarkdownRecursive = page => {
             }
           }
         } catch (err) {
-          loggers.errorLogger.log({
+          loggers.fileLogger.log({
             level:   "error",
             message: err
           })
@@ -343,7 +389,7 @@ const generateCourseHomeFrontMatter = courseData => {
   try {
     return `---\n${yaml.safeDump(frontMatter)}---\n`
   } catch (err) {
-    loggers.errorLogger.log({
+    loggers.fileLogger.log({
       level:   "error",
       message: err
     })
@@ -419,7 +465,7 @@ const generateCourseSectionMarkdown = (page, courseData) => {
   try {
     return turndownService.turndown(fixLinks(page, courseData))
   } catch (err) {
-    loggers.errorLogger.log({
+    loggers.fileLogger.log({
       level:   "error",
       message: err
     })
