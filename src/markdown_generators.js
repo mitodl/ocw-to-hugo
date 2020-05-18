@@ -5,16 +5,17 @@ const TurndownService = require("turndown")
 const turndownPluginGfm = require("turndown-plugin-gfm")
 const { gfm, tables } = turndownPluginGfm
 
+const {
+  REPLACETHISWITHAPIPE,
+  GETPAGESHORTCODESTART,
+  GETPAGESHORTCODEEND
+} = require("./constants")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
 
 const turndownService = new TurndownService()
 turndownService.use(gfm)
 turndownService.use(tables)
-
-const REPLACETHISWITHAPIPE = "REPLACETHISWITHAPIPE"
-const GETPAGESHORTCODESTART = "GETPAGESHORTCODESTART"
-const GETPAGESHORTCODEEND = "GETPAGESHORTCODEEND"
 
 /**
  * Sanitize markdown table content
@@ -122,124 +123,9 @@ turndownService.addRule("refshortcode", {
 const fixLinks = (page, courseData) => {
   let htmlStr = page["text"]
   if (htmlStr) {
-    const coursePages = courseData["course_pages"].filter(
-      page => page["type"] !== "CourseHomeSection"
-    )
-    coursePages.forEach(coursePage => {
-      const children = courseData["course_pages"].filter(
-        coursePage => coursePage["parent_uid"] === page["uid"]
-      )
-      const pdfFiles = courseData["course_files"].filter(
-        file =>
-          file["file_type"] === "application/pdf" &&
-          file["parent_uid"] === coursePage["uid"]
-      )
-      const isParent = children.length > 0
-      const hasFiles = pdfFiles.length > 0
-      const suffix = isParent || hasFiles ? "/_index.md" : ""
-      const pagePath = `${helpers.pathToChildRecursive(
-        path.join("courses", courseData["short_url"], "sections"),
-        coursePage,
-        courseData
-      )}${suffix}`
-      const placeholder = new RegExp(
-        `\\.?\\/?resolveuid\\/${coursePage["uid"]}`,
-        "g"
-      )
-      htmlStr = htmlStr.replace(
-        placeholder,
-        `${GETPAGESHORTCODESTART}${pagePath}${GETPAGESHORTCODEEND}`
-      )
-      pdfFiles.forEach(pdfFile => {
-        const placeholder = new RegExp(
-          `\\.?\\/?resolveuid\\/${pdfFile["uid"]}`,
-          "g"
-        )
-        const pdfPath = `${pagePath.replace("/_index.md", "/")}${pdfFile["id"]}`
-        htmlStr = htmlStr.replace(
-          placeholder,
-          `${GETPAGESHORTCODESTART}${pdfPath.replace(
-            ".pdf",
-            ""
-          )}${GETPAGESHORTCODEEND}`
-        )
-      })
-    })
-    courseData["course_files"].forEach(media => {
-      if (media["file_type"] !== "application/pdf") {
-        const placeholder = new RegExp(
-          `\\.?\\/?resolveuid\\/${media["uid"]}`,
-          "g"
-        )
-        htmlStr = htmlStr.replace(placeholder, `${media["file_location"]}`)
-      }
-    })
-    Object.keys(courseData["course_embedded_media"]).forEach(key => {
-      if (htmlStr.includes(key)) {
-        htmlStr = htmlStr.replace(
-          key,
-          helpers.getYoutubeEmbedHtml(courseData["course_embedded_media"][key])
-        )
-      }
-    })
-    htmlStr = fixRelativeLinks(htmlStr, courseData)
-    return htmlStr
-  } else return ""
-}
-
-const fixRelativeLinks = (htmlStr, courseData) => {
-  try {
-    Array.from(htmlStr.matchAll(/href="([^"]*)"/g)).forEach(match => {
-      const url = match[0].replace(`href="`, "").replace(`"`, "")
-      if (!url.includes("resolveuid") && url[0] === "/") {
-        const parts = url.split("/")
-        const courseId = parts[3]
-        if (courseId) {
-          const layers = parts.length - 4
-          const sections = []
-          let page = null
-          if (layers === 0) {
-            page = "index.htm"
-          } else if (layers === 1) {
-            page = parts[4]
-          } else {
-            for (let i = parts.length - layers; i < parts.length; i++) {
-              const section = parts[i]
-              if (i + 1 === parts.length) {
-                page = section
-              } else {
-                sections.push(section)
-              }
-            }
-          }
-          const suffix = page === "index.htm" ? "/_index.md" : ""
-          const newUrlBase = path.join(
-            "courses",
-            courseId,
-            "sections",
-            ...sections
-          )
-          if (page.includes(".") && page !== "index.htm") {
-            courseData["course_files"].forEach(media => {
-              if (
-                media["file_type"] === "application/pdf" &&
-                media["file_location"].includes(page)
-              ) {
-                const newUrl = `${GETPAGESHORTCODESTART}${path.join(
-                  newUrlBase,
-                  page.replace(".pdf", "")
-                )}${suffix}${GETPAGESHORTCODEEND}`
-                htmlStr = htmlStr.replace(url, newUrl)
-              } else if (media["file_location"].includes(page)) {
-                htmlStr = htmlStr.replace(url, media["file_location"])
-              }
-            })
-          }
-        }
-      }
-    })
-  } catch (err) {
-    loggers.fileLogger.error(err.message)
+    htmlStr = helpers.resolveUids(htmlStr, page, courseData)
+    htmlStr = helpers.resolveRelativeLinks(htmlStr, courseData)
+    htmlStr = helpers.resolveYouTubeEmbed(htmlStr, courseData)
   }
   return htmlStr
 }

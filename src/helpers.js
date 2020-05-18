@@ -3,6 +3,9 @@ const fs = require("fs")
 const path = require("path")
 const departmentsJson = require("./departments.json")
 
+const { GETPAGESHORTCODESTART, GETPAGESHORTCODEEND } = require("./constants")
+const loggers = require("./loggers")
+
 const distinct = (value, index, self) => {
   return self.indexOf(value) === index
 }
@@ -138,6 +141,140 @@ const pathToChildRecursive = (basePath, child, courseData) => {
   } else return path.join(basePath, child["short_url"])
 }
 
+const getHugoPathSuffix = (page, courseData) => {
+  const children = courseData["course_pages"].filter(
+    coursePage => coursePage["parent_uid"] === page["uid"]
+  )
+  const files = courseData["course_files"].filter(
+    file => file["parent_uid"] === page["uid"]
+  )
+  const isParent = children.length > 0
+  const hasFiles = files.length > 0
+  return isParent || hasFiles ? "/_index.md" : ""
+}
+
+const resolveUids = (htmlStr, page, courseData) => {
+  try {
+    const pagePath = `${pathToChildRecursive(
+      path.join("courses", courseData["short_url"], "sections"),
+      page,
+      courseData
+    )}${getHugoPathSuffix(page, courseData)}`
+    Array.from(htmlStr.matchAll(/\.?\/?resolveuid\/.{0,32}/g)).forEach(
+      match => {
+        const url = match[0]
+        const urlParts = url.split("/")
+        const uid = urlParts[urlParts.length - 1]
+        const linkedPage = courseData["course_pages"].find(
+          coursePage => coursePage["uid"] === uid
+        )
+        const linkedFile = courseData["course_files"].find(
+          file => file["uid"] === uid
+        )
+        if (linkedPage) {
+          const linkPagePath = `${pathToChildRecursive(
+            path.join("courses", courseData["short_url"], "sections"),
+            linkedPage,
+            courseData
+          )}${getHugoPathSuffix(linkedPage, courseData)}`
+          htmlStr = htmlStr.replace(
+            url,
+            `${GETPAGESHORTCODESTART}${linkPagePath}${GETPAGESHORTCODEEND}`
+          )
+        }
+        if (linkedFile) {
+          if (linkedFile["file_type"] === "application/pdf") {
+            const pdfPath = `${pagePath.replace("/_index.md", "/")}${
+              linkedFile["id"]
+            }`
+            htmlStr = htmlStr.replace(
+              url,
+              `${GETPAGESHORTCODESTART}${pdfPath.replace(
+                ".pdf",
+                ""
+              )}${GETPAGESHORTCODEEND}`
+            )
+          } else {
+            htmlStr = htmlStr.replace(url, linkedFile["file_location"])
+          }
+        }
+      }
+    )
+  } catch (err) {
+    loggers.fileLogger.error(err.message)
+  }
+  return htmlStr
+}
+
+const resolveRelativeLinks = (htmlStr, courseData) => {
+  try {
+    Array.from(htmlStr.matchAll(/href="([^"]*)"/g)).forEach(match => {
+      const url = match[0].replace(`href="`, "").replace(`"`, "")
+      if (!url.includes("resolveuid") && url[0] === "/") {
+        const parts = url.split("/")
+        const courseId = parts[3]
+        if (courseId) {
+          const layers = parts.length - 4
+          const sections = []
+          let page = null
+          if (layers === 0) {
+            page = "index.htm"
+          } else if (layers === 1) {
+            page = parts[4]
+          } else {
+            for (let i = parts.length - layers; i < parts.length; i++) {
+              const section = parts[i]
+              if (i + 1 === parts.length) {
+                page = section
+              } else {
+                sections.push(section)
+              }
+            }
+          }
+          const suffix = page === "index.htm" ? "/_index.md" : ""
+          const newUrlBase = path.join(
+            "courses",
+            courseId,
+            "sections",
+            ...sections
+          )
+          if (page.includes(".") && page !== "index.htm") {
+            courseData["course_files"].forEach(media => {
+              if (
+                media["file_type"] === "application/pdf" &&
+                media["file_location"].includes(page)
+              ) {
+                const newUrl = `${GETPAGESHORTCODESTART}${path.join(
+                  newUrlBase,
+                  page.replace(".pdf", "")
+                )}${suffix}${GETPAGESHORTCODEEND}`
+                htmlStr = htmlStr.replace(url, newUrl)
+              } else if (media["file_location"].includes(page)) {
+                htmlStr = htmlStr.replace(url, media["file_location"])
+              }
+            })
+          }
+        }
+      }
+    })
+  } catch (err) {
+    loggers.fileLogger.error(err.message)
+  }
+  return htmlStr
+}
+
+const resolveYouTubeEmbed = (htmlStr, courseData) => {
+  Object.keys(courseData["course_embedded_media"]).forEach(key => {
+    if (htmlStr.includes(key)) {
+      htmlStr = htmlStr.replace(
+        key,
+        getYoutubeEmbedHtml(courseData["course_embedded_media"][key])
+      )
+    }
+  })
+  return htmlStr
+}
+
 module.exports = {
   distinct,
   directoryExists,
@@ -149,5 +286,9 @@ module.exports = {
   getCourseSectionFromFeatureUrl,
   getConsolidatedTopics,
   getYoutubeEmbedHtml,
-  pathToChildRecursive
+  pathToChildRecursive,
+  getHugoPathSuffix,
+  resolveUids,
+  resolveRelativeLinks,
+  resolveYouTubeEmbed
 }
