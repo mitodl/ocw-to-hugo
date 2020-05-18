@@ -182,58 +182,68 @@ const fixLinks = (page, courseData) => {
         )
       }
     })
-    htmlStr = fixRelativeLinks(htmlStr)
+    htmlStr = fixRelativeLinks(htmlStr, courseData)
     return htmlStr
   } else return ""
 }
 
-const fixRelativeLinks = htmlStr => {
-  Array.from(htmlStr.matchAll(/href="([^"]*)"/g)).forEach(match => {
-    const url = match[0].replace(`href="`, "").replace(`"`, "")
-    if (!url.includes("resolveuid") && url[0] === "/") {
-      const parts = url.split("/")
-      const courseId = parts[3]
-      const layers = parts.length - 4
-      const sections = []
-      let page = null
-      if (layers === 1) {
-        page = parts[4]
-      } else {
-        for (let i = parts.length - layers; i < parts.length; i++) {
-          const section = parts[i]
-          if (i + 1 === parts.length) {
-            page = section
+const fixRelativeLinks = (htmlStr, courseData) => {
+  try {
+    Array.from(htmlStr.matchAll(/href="([^"]*)"/g)).forEach(match => {
+      const url = match[0].replace(`href="`, "").replace(`"`, "")
+      if (!url.includes("resolveuid") && url[0] === "/") {
+        const parts = url.split("/")
+        const courseId = parts[3]
+        if (courseId) {
+          const layers = parts.length - 4
+          const sections = []
+          let page = null
+          if (layers === 0) {
+            page = "index.htm"
+          }
+          else if (layers === 1) {
+            page = parts[4]
           } else {
-            sections.push(section)
+            for (let i = parts.length - layers; i < parts.length; i++) {
+              const section = parts[i]
+              if (i + 1 === parts.length) {
+                page = section
+              } else {
+                sections.push(section)
+              }
+            }
+          }
+          let suffix = page === "index.htm" ? "/_index.md" : ""
+          const newUrlBase = path.join(
+            "courses",
+            courseId,
+            "sections",
+            ...sections
+          )
+          if (page.includes(".") && page !== "index.htm") {
+            courseData["course_files"].forEach(media => {
+              if (
+                media["file_type"] === "application/pdf" &&
+                media["file_location"].includes(page)
+              ) {
+                const newUrl = `${GETPAGESHORTCODESTART}${path.join(
+                  newUrlBase,
+                  page.replace(".pdf", "")
+                )}${suffix}${GETPAGESHORTCODEEND}`
+                htmlStr = htmlStr.replace(url, newUrl)
+              }
+              else if (media["file_location"].includes(page)) {
+                htmlStr = htmlStr.replace(url, media["file_location"])
+              }
+            })
           }
         }
       }
-      let suffix = page === "index.htm" ? "/_index.md" : ""
-      const newUrlBase = path.join(
-        "courses",
-        courseId,
-        "sections",
-        ...sections
-      )
-      if (page.includes(".")) {
-        courseData["course_files"].forEach(media => {
-          if (
-            media["file_type"] === "application/pdf" &&
-            media["file_location"].includes(page)
-          ) {
-            const newUrl = `${GETPAGESHORTCODESTART}${path.join(
-              newUrlBase,
-              page.replace(".pdf", "")
-            )}${suffix}${GETPAGESHORTCODEEND}`
-            htmlStr = htmlStr.replace(url, newUrl)
-          }
-          else if (media["file_location"].includes(page)) {
-            htmlStr = htmlStr.replace(url, media["file_location"])
-          }
-        })
-      }
-    }
-  })
+    })
+  }
+  catch (err) {
+    loggers.fileLogger.error(err.message)
+  }
   return htmlStr
 }
 
