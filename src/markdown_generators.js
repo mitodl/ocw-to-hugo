@@ -213,7 +213,7 @@ const fixRelativeLinks = (htmlStr, courseData) => {
               }
             }
           }
-          let suffix = page === "index.htm" ? "/_index.md" : ""
+          const suffix = page === "index.htm" ? "/_index.md" : ""
           const newUrlBase = path.join(
             "courses",
             courseId,
