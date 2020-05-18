@@ -200,8 +200,7 @@ const fixRelativeLinks = (htmlStr, courseData) => {
           let page = null
           if (layers === 0) {
             page = "index.htm"
-          }
-          else if (layers === 1) {
+          } else if (layers === 1) {
             page = parts[4]
           } else {
             for (let i = parts.length - layers; i < parts.length; i++) {
@@ -231,8 +230,7 @@ const fixRelativeLinks = (htmlStr, courseData) => {
                   page.replace(".pdf", "")
                 )}${suffix}${GETPAGESHORTCODEEND}`
                 htmlStr = htmlStr.replace(url, newUrl)
-              }
-              else if (media["file_location"].includes(page)) {
+              } else if (media["file_location"].includes(page)) {
                 htmlStr = htmlStr.replace(url, media["file_location"])
               }
             })
@@ -240,8 +238,7 @@ const fixRelativeLinks = (htmlStr, courseData) => {
         }
       }
     })
-  }
-  catch (err) {
+  } catch (err) {
     loggers.fileLogger.error(err.message)
   }
   return htmlStr
