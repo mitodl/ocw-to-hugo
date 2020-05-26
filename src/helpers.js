@@ -206,7 +206,7 @@ const resolveUids = (htmlStr, page, courseData) => {
   return htmlStr
 }
 
-const resolveRelativeLinks = (htmlStr, courseData) => {
+const resolveRelativeLinks = (htmlStr, courseData, log = false) => {
   try {
     Array.from(htmlStr.matchAll(/href="([^"]*)"/g)).forEach(match => {
       const url = match[0].replace(`href="`, "").replace(`"`, "")
@@ -238,7 +238,7 @@ const resolveRelativeLinks = (htmlStr, courseData) => {
             "sections",
             ...sections
           )
-          if (page.includes(".") && page !== "index.htm") {
+          if (page.includes(".") && !page.includes(".htm")) {
             courseData["course_files"].forEach(media => {
               if (
                 media["file_type"] === "application/pdf" &&
@@ -251,6 +251,17 @@ const resolveRelativeLinks = (htmlStr, courseData) => {
                 htmlStr = htmlStr.replace(url, newUrl)
               } else if (media["file_location"].includes(page)) {
                 htmlStr = htmlStr.replace(url, media["file_location"])
+              }
+            })
+          } else {
+            courseData["course_pages"].forEach(coursePage => {
+              if (coursePage["short_url"] === page) {
+                const pageName = page.replace(/(index)?\.html?/g, "")
+                const newUrl = `${GETPAGESHORTCODESTART}${path.join(
+                  newUrlBase,
+                  pageName === "" ? "_index.md" : pageName
+                )}${suffix}${GETPAGESHORTCODEEND}`
+                htmlStr = htmlStr.replace(url, newUrl)
               }
             })
           }

@@ -1,9 +1,11 @@
 const path = require("path")
 const { assert } = require("chai")
-const helpers = require("./helpers")
 const fs = require("fs")
 const tmp = require("tmp")
 tmp.setGracefulCleanup()
+
+const helpers = require("./helpers")
+const { GETPAGESHORTCODESTART } = require("./constants")
 
 const singleCourseSourcePath =
   "test_data/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
@@ -107,5 +109,57 @@ describe("pathToChildRecursive", () => {
       ),
       "sections/labs/river-testing-photos"
     )
+  })
+})
+
+describe("getHugoPathSuffix", () => {
+  it("returns _index.md if the page is a parent", () => {
+    const parentPage = singleCourseJsonData["course_pages"].filter(
+      page => page["uid"] === "0aee0583c6aac4a87ddefb73319a8f26"
+    )[0]
+    assert.equal(
+      helpers.getHugoPathSuffix(parentPage, singleCourseJsonData),
+      "/_index.md"
+    )
+  })
+
+  it("returns a blank string if the page is not a parent", () => {
+    const childlessPage = singleCourseJsonData["course_pages"].filter(
+      page => page["uid"] === "14896ec808d2b8ea4b434109ba3fb682"
+    )[0]
+    assert.equal(
+      helpers.getHugoPathSuffix(childlessPage, singleCourseJsonData),
+      ""
+    )
+  })
+})
+
+describe("resolveUids", () => {
+  it("replaces all resolveuid links on a given page", () => {
+    const assignmentsPage = singleCourseJsonData["course_pages"].filter(
+      page => page["uid"] === "1016059a65d256e4e12de4f25591a1b8"
+    )[0]
+    assert.isTrue(assignmentsPage["text"].indexOf("resolveuid") !== -1)
+    const result = helpers.resolveUids(
+      assignmentsPage["text"],
+      assignmentsPage,
+      singleCourseJsonData
+    )
+    assert.isTrue(result.indexOf("resolveuid") === -1)
+  })
+})
+
+describe("resolveRelativeLinks", () => {
+  it("replaces all relative links on the page with hugo getpage shortcodes", () => {
+    const assignmentsPage = singleCourseJsonData["course_pages"].filter(
+      page => page["uid"] === "1016059a65d256e4e12de4f25591a1b8"
+    )[0]
+    assert.isTrue(assignmentsPage["text"].indexOf("{{% getpage ") === -1)
+    const result = helpers.resolveRelativeLinks(
+      assignmentsPage["text"],
+      singleCourseJsonData,
+      true
+    )
+    assert.isTrue(result.indexOf(GETPAGESHORTCODESTART) !== -1)
   })
 })
