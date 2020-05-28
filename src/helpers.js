@@ -206,32 +206,56 @@ const resolveUids = (htmlStr, page, courseData) => {
   return htmlStr
 }
 
-const resolveRelativeLinks = (htmlStr, courseData, log = false) => {
+/**
+ * @param {string} htmlStr
+ * @param {object} courseData
+ *
+ * The purpose of this function is to find relatively linked content
+ * in a given HTML string and try to resolve that URL to the static content
+ * or course section it is supposed to point to.
+ *
+ */
+const resolveRelativeLinks = (htmlStr, courseData) => {
   try {
-    Array.from(htmlStr.matchAll(/href="([^"]*)"/g)).forEach(match => {
-      const url = match[0].replace(`href="`, "").replace(`"`, "")
+    // find and iterate all href tags
+    Array.from(
+      htmlStr.matchAll(/((href="([^"]*)")|(href='([^']*)'))/g)
+    ).forEach(match => {
+      // isolate the url
+      const trimmedUrl = match[0].trim()
+      const url = trimmedUrl.slice(0, -1).replace(/(href=")|(href=')/g, "")
+      // ensure that this is not resolveuid or an external link
       if (!url.includes("resolveuid") && url[0] === "/") {
+        // split the url into its parts
         const parts = url.split("/")
+        /**
+         * disassembles the OCW URL based on the following patten:
+         *
+         * EXAMPLE: /courses/mathematics/18-01-single-variable-calculus-fall-2006/exams/prfinalsol.pdf
+         *
+         * 0: blank string
+         * 1: "courses"
+         * 2: department ("mathematics")
+         * 3: course ID ("18-01-single-variable-calculus-fall-2006")
+         * 4 - ?: section and subsections with the page / file at the end
+         */
         const courseId = parts[3]
         if (courseId) {
           const layers = parts.length - 4
-          const sections = []
+          let sections = []
           let page = null
           if (layers === 0) {
+            // course home page link
             page = "index.htm"
           } else if (layers === 1) {
+            // root section link
             page = parts[4]
           } else {
-            for (let i = parts.length - layers; i < parts.length; i++) {
-              const section = parts[i]
-              if (i + 1 === parts.length) {
-                page = section
-              } else {
-                sections.push(section)
-              }
-            }
+            // this is a link to something in a subsection, slice out the layers and page
+            sections = parts.slice(parts.length - layers, parts.length - 1)
+            page = parts.slice(parts.length - 1, parts.length)[0]
           }
-          const suffix = page === "index.htm" ? "/_index.md" : ""
+          // build the base of the Hugo url
           const newUrlBase = path.join(
             "courses",
             courseId,
@@ -239,28 +263,35 @@ const resolveRelativeLinks = (htmlStr, courseData, log = false) => {
             ...sections
           )
           if (page.includes(".") && !page.includes(".htm")) {
+            // page has a file extension and isn't HTML
             courseData["course_files"].forEach(media => {
               if (
                 media["file_type"] === "application/pdf" &&
                 media["file_location"].includes(page)
               ) {
+                // construct url to Hugo PDF viewer page
                 const newUrl = `${GETPAGESHORTCODESTART}${path.join(
                   newUrlBase,
                   page.replace(".pdf", "")
-                )}${suffix}${GETPAGESHORTCODEEND}`
+                )}${GETPAGESHORTCODEEND}`
                 htmlStr = htmlStr.replace(url, newUrl)
               } else if (media["file_location"].includes(page)) {
+                // write link directly to file
                 htmlStr = htmlStr.replace(url, media["file_location"])
               }
             })
           } else {
+            // match page from url to the short_url property on a course page
             courseData["course_pages"].forEach(coursePage => {
               if (coursePage["short_url"] === page) {
                 const pageName = page.replace(/(index)?\.html?/g, "")
                 const newUrl = `${GETPAGESHORTCODESTART}${path.join(
                   newUrlBase,
-                  pageName === "" ? "_index.md" : pageName
-                )}${suffix}${GETPAGESHORTCODEEND}`
+                  pageName
+                )}${getHugoPathSuffix(
+                  coursePage,
+                  courseData
+                )}${GETPAGESHORTCODEEND}`
                 htmlStr = htmlStr.replace(url, newUrl)
               }
             })
