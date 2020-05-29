@@ -153,25 +153,48 @@ const getHugoPathSuffix = (page, courseData) => {
   return isParent || hasFiles ? "/_index.md" : ""
 }
 
+/**
+ * @param {string} htmlStr
+ * @param {object} page
+ * @param {object} courseData
+ *
+ * The purpose of this function is to resolve "resolveuid" links in OCW HTML.
+ * It takes 3 parameters; an HTML string to parse, the page that the string came from
+ * and the course data object.
+ *
+ */
 const resolveUids = (htmlStr, page, courseData) => {
   try {
+    // get the Hugo path to the page
     const pagePath = `${pathToChildRecursive(
       path.join("courses", courseData["short_url"], "sections"),
       page,
       courseData
     )}${getHugoPathSuffix(page, courseData)}`
+    // iterate all resolveuid links by regex match
     Array.from(htmlStr.matchAll(/\.?\/?resolveuid\/.{0,32}/g)).forEach(
       match => {
+        /**
+         * resolveuid links are formatted as, for example:
+         *
+         * href="./resolveuid/b463875b69d4156b90faaeb0dd7ca66b"
+         *
+         * the UID is the only part we need, so we split the string on "/" and
+         * take the last part
+         */
         const url = match[0]
         const urlParts = url.split("/")
         const uid = urlParts[urlParts.length - 1]
+        // filter course_pages on the UID in the URL
         const linkedPage = courseData["course_pages"].find(
           coursePage => coursePage["uid"] === uid
         )
+        // filter course_files on the UID in the URL
         const linkedFile = courseData["course_files"].find(
           file => file["uid"] === uid
         )
         if (linkedPage) {
+          // a course_page has been found for this UID
           const linkPagePath = `${pathToChildRecursive(
             path.join("courses", courseData["short_url"], "sections"),
             linkedPage,
@@ -183,7 +206,9 @@ const resolveUids = (htmlStr, page, courseData) => {
           )
         }
         if (linkedFile) {
+          // a course_file has been found for this UID
           if (linkedFile["file_type"] === "application/pdf") {
+            // create a link to the generated PDF viewer page for this PDF file
             const pdfPath = `${pagePath.replace("/_index.md", "/")}${
               linkedFile["id"]
             }`
@@ -195,6 +220,7 @@ const resolveUids = (htmlStr, page, courseData) => {
               )}${GETPAGESHORTCODEEND}`
             )
           } else {
+            // link directly to the static content
             htmlStr = htmlStr.replace(url, linkedFile["file_location"])
           }
         }
