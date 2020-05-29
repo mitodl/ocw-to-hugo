@@ -57,7 +57,9 @@ const getDepartments = courseData => {
 }
 
 const getCourseNumbers = courseData => {
-  let courseNumbers = [`${courseData["department_number"]}.${courseData["master_course_number"]}`]
+  let courseNumbers = [
+    `${courseData["department_number"]}.${courseData["master_course_number"]}`
+  ]
   if (courseData["extra_course_number"]) {
     courseNumbers = courseNumbers.concat(
       courseData["extra_course_number"].map(
