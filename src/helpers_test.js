@@ -41,7 +41,7 @@ describe("getDepartments", () => {
 
 describe("getCourseNumbers", () => {
   it("returns the expected course numbers for a given course json input", () => {
-    assert.equal(helpers.getCourseNumbers(singleCourseJsonData)[0], "2.00 A")
+    assert.equal(helpers.getCourseNumbers(singleCourseJsonData)[0], "2.00AJ")
     assert.equal(helpers.getCourseNumbers(singleCourseJsonData)[1], "16.00AJ")
   })
 })
