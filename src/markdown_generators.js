@@ -5,16 +5,17 @@ const TurndownService = require("turndown")
 const turndownPluginGfm = require("turndown-plugin-gfm")
 const { gfm, tables } = turndownPluginGfm
 
+const {
+  REPLACETHISWITHAPIPE,
+  GETPAGESHORTCODESTART,
+  GETPAGESHORTCODEEND
+} = require("./constants")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
 
 const turndownService = new TurndownService()
 turndownService.use(gfm)
 turndownService.use(tables)
-
-const REPLACETHISWITHAPIPE = "REPLACETHISWITHAPIPE"
-const GETPAGESHORTCODESTART = "GETPAGESHORTCODESTART"
-const GETPAGESHORTCODEEND = "GETPAGESHORTCODEEND"
 
 /**
  * Sanitize markdown table content
@@ -122,69 +123,11 @@ turndownService.addRule("refshortcode", {
 const fixLinks = (page, courseData) => {
   let htmlStr = page["text"]
   if (htmlStr) {
-    const coursePages = courseData["course_pages"].filter(
-      page => page["type"] !== "CourseHomeSection"
-    )
-    coursePages.forEach(coursePage => {
-      const children = courseData["course_pages"].filter(
-        coursePage => coursePage["parent_uid"] === page["uid"]
-      )
-      const pdfFiles = courseData["course_files"].filter(
-        file =>
-          file["file_type"] === "application/pdf" &&
-          file["parent_uid"] === coursePage["uid"]
-      )
-      const isParent = children.length > 0
-      const hasFiles = pdfFiles.length > 0
-      const suffix = isParent || hasFiles ? "/_index.md" : ""
-      const pagePath = `${helpers.pathToChildRecursive(
-        path.join("courses", courseData["short_url"], "sections"),
-        coursePage,
-        courseData
-      )}${suffix}`
-      const placeholder = new RegExp(
-        `\\.?\\/?resolveuid\\/${coursePage["uid"]}`,
-        "g"
-      )
-      htmlStr = htmlStr.replace(
-        placeholder,
-        `${GETPAGESHORTCODESTART}${pagePath}${GETPAGESHORTCODEEND}`
-      )
-      pdfFiles.forEach(pdfFile => {
-        const placeholder = new RegExp(
-          `\\.?\\/?resolveuid\\/${pdfFile["uid"]}`,
-          "g"
-        )
-        const pdfPath = `${pagePath.replace("/_index.md", "/")}${pdfFile["id"]}`
-        htmlStr = htmlStr.replace(
-          placeholder,
-          `${GETPAGESHORTCODESTART}${pdfPath.replace(
-            ".pdf",
-            ""
-          )}${GETPAGESHORTCODEEND}`
-        )
-      })
-    })
-    courseData["course_files"].forEach(media => {
-      if (media["file_type"] !== "application/pdf") {
-        const placeholder = new RegExp(
-          `\\.?\\/?resolveuid\\/${media["uid"]}`,
-          "g"
-        )
-        htmlStr = htmlStr.replace(placeholder, `${media["file_location"]}`)
-      }
-    })
-    Object.keys(courseData["course_embedded_media"]).forEach(key => {
-      if (htmlStr.includes(key)) {
-        htmlStr = htmlStr.replace(
-          key,
-          helpers.getYoutubeEmbedHtml(courseData["course_embedded_media"][key])
-        )
-      }
-    })
-
-    return htmlStr
-  } else return ""
+    htmlStr = helpers.resolveUids(htmlStr, page, courseData)
+    htmlStr = helpers.resolveRelativeLinks(htmlStr, courseData)
+    htmlStr = helpers.resolveYouTubeEmbed(htmlStr, courseData)
+  }
+  return htmlStr
 }
 
 const generateMarkdownFromJson = courseData => {
@@ -270,7 +213,7 @@ const generateMarkdownRecursive = page => {
             }
           }
         } catch (err) {
-          loggers.errorLogger.log({
+          loggers.fileLogger.log({
             level:   "error",
             message: err
           })
@@ -288,7 +231,7 @@ const generateMarkdownRecursive = page => {
             }
           }
         } catch (err) {
-          loggers.errorLogger.log({
+          loggers.fileLogger.log({
             level:   "error",
             message: err
           })
@@ -343,7 +286,7 @@ const generateCourseHomeFrontMatter = courseData => {
   try {
     return `---\n${yaml.safeDump(frontMatter)}---\n`
   } catch (err) {
-    loggers.errorLogger.log({
+    loggers.fileLogger.log({
       level:   "error",
       message: err
     })
@@ -419,7 +362,7 @@ const generateCourseSectionMarkdown = (page, courseData) => {
   try {
     return turndownService.turndown(fixLinks(page, courseData))
   } catch (err) {
-    loggers.errorLogger.log({
+    loggers.fileLogger.log({
       level:   "error",
       message: err
     })

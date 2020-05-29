@@ -103,7 +103,7 @@ const writeSectionFiles = (key, section, destination) => {
         }
         fs.writeFileSync(filePath, file["data"])
       } catch (err) {
-        loggers.errorLogger.log({
+        loggers.fileLogger.log({
           level:   "error",
           message: err
         })
