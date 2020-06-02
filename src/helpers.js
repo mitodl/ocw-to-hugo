@@ -114,15 +114,12 @@ const getConsolidatedTopics = courseCollections => {
 }
 /* eslint-disable camelcase */
 
-const getYoutubeEmbedHtml = media => {
+const getYoutubeEmbedCode = media => {
   const youTubeMedia = media["embedded_media"].filter(embeddedMedia => {
     return embeddedMedia["id"] === "Video-YouTube-Stream"
   })
   return youTubeMedia
-    .map(
-      embeddedMedia =>
-        `<div class="text-center"><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${embeddedMedia["media_info"]}" frameborder="0" allow="encrypted-media; picture-in-picture"></iframe></div>`
-    )
+    .map(embeddedMedia => `{{< youtube ${embeddedMedia["media_location"]} >}}`)
     .join("")
 }
 
@@ -336,7 +333,7 @@ const resolveYouTubeEmbed = (htmlStr, courseData) => {
     if (htmlStr.includes(key)) {
       htmlStr = htmlStr.replace(
         key,
-        getYoutubeEmbedHtml(courseData["course_embedded_media"][key])
+        getYoutubeEmbedCode(courseData["course_embedded_media"][key])
       )
     }
   })
@@ -353,7 +350,7 @@ module.exports = {
   getCourseFeatureObject,
   getCourseSectionFromFeatureUrl,
   getConsolidatedTopics,
-  getYoutubeEmbedHtml,
+  getYoutubeEmbedHtml: getYoutubeEmbedCode,
   pathToChildRecursive,
   getHugoPathSuffix,
   resolveUids,
