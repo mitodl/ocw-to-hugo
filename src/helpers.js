@@ -350,7 +350,7 @@ module.exports = {
   getCourseFeatureObject,
   getCourseSectionFromFeatureUrl,
   getConsolidatedTopics,
-  getYoutubeEmbedHtml: getYoutubeEmbedCode,
+  getYoutubeEmbedCode,
   pathToChildRecursive,
   getHugoPathSuffix,
   resolveUids,
