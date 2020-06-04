@@ -360,7 +360,9 @@ const generateCourseSectionMarkdown = (page, courseData) => {
     Generate markdown a given course section page
     */
   try {
-    return turndownService.turndown(fixLinks(page, courseData))
+    return `${turndownService.turndown(
+      fixLinks(page, courseData)
+    )}${generateCourseFeaturesMarkdown(page, courseData)}`
   } catch (err) {
     loggers.fileLogger.log({
       level:   "error",
@@ -385,6 +387,45 @@ const generatePdfMarkdown = (file, courseData) => {
     course_id:     courseData["short_url"]
   }
   return `---\n${yaml.safeDump(pdfFrontMatter)}---\n`
+}
+
+const generateCourseFeaturesMarkdown = (page, courseData) => {
+  let courseFeaturesMarkdown = ""
+  if (page.hasOwnProperty("is_image_gallery")) {
+    if (page["is_image_gallery"]) {
+      const images = courseData["course_files"].filter(
+        file =>
+          file["parent_uid"] === page["uid"] && file["type"] === "OCWImage"
+      )
+      if (images.length > 0) {
+        let baseUrl = ""
+        const imageArgs = images.map(image => {
+          const url = image["file_location"]
+          if (baseUrl === "") {
+            baseUrl = url.substring(0, url.lastIndexOf("/") + 1)
+          }
+          const fileName = url.substring(url.lastIndexOf("/") + 1, url.length)
+          return {
+            href:          fileName,
+            "data-ngdesc": image["description"],
+            text:          image["caption"]
+          }
+        })
+        const imageShortcodes = imageArgs.map(
+          args =>
+            `{{< image-gallery-item ${Object.keys(args)
+              .map(key => `${key}="${args[key]}"`)
+              .join(" ")} >}}`
+        )
+        courseFeaturesMarkdown = `${courseFeaturesMarkdown}\n{{< image-gallery id="${
+          page["uid"]
+        }_nanogallery2" data-nanogallery2='{ "itemsBaseURL": ${baseUrl} }' >}}\n${imageShortcodes.join(
+          "\n"
+        )}\n{{</ image-gallery >}}`
+      }
+    }
+  }
+  return courseFeaturesMarkdown
 }
 
 module.exports = {
