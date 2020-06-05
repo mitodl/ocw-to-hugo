@@ -419,7 +419,7 @@ const generateCourseFeaturesMarkdown = (page, courseData) => {
         )
         courseFeaturesMarkdown = `${courseFeaturesMarkdown}\n{{< image-gallery id="${
           page["uid"]
-        }_nanogallery2" data-nanogallery2='{ "itemsBaseURL": ${baseUrl} }' >}}\n${imageShortcodes.join(
+        }_nanogallery2" baseUrl="${baseUrl}" >}}\n${imageShortcodes.join(
           "\n"
         )}\n{{</ image-gallery >}}`
       }
