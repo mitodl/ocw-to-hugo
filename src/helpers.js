@@ -35,7 +35,7 @@ const findDepartmentByNumber = departmentNumber => {
 }
 
 const getDepartments = courseData => {
-  const primaryDepartmentNumber = courseData["sort_as"].split(".")[0]
+  const primaryDepartmentNumber = courseData["department_number"]
   const department = findDepartmentByNumber(primaryDepartmentNumber)
   if (department) {
     let departments = [department["title"]]
@@ -57,7 +57,9 @@ const getDepartments = courseData => {
 }
 
 const getCourseNumbers = courseData => {
-  let courseNumbers = [courseData["sort_as"]]
+  let courseNumbers = [
+    `${courseData["department_number"]}.${courseData["master_course_number"]}`
+  ]
   if (courseData["extra_course_number"]) {
     courseNumbers = courseNumbers.concat(
       courseData["extra_course_number"].map(
