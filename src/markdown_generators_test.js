@@ -10,15 +10,37 @@ const titleCase = require("title-case")
 const tmp = require("tmp")
 tmp.setGracefulCleanup()
 
+const testDataPath = "test_data"
 const singleCourseId =
   "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
-const singleCourseSourcePath = `test_data/${singleCourseId}`
+const imageGalleryCourseId = "12-001-introduction-to-geology-fall-2013"
 const singleCourseMasterJsonPath = path.join(
-  singleCourseSourcePath,
+  testDataPath,
+  singleCourseId,
   "e395587c58555f1fe564e8afd75899e6_master.json"
+)
+const imageGalleryCourseMasterJsonPath = path.join(
+  testDataPath,
+  imageGalleryCourseId,
+  "d9aad1541f1a9d3c0f7b0dcf9531a9a1_master.json"
 )
 const singleCourseRawData = fs.readFileSync(singleCourseMasterJsonPath)
 const singleCourseJsonData = JSON.parse(singleCourseRawData)
+const imageGalleryCourseRawData = fs.readFileSync(imageGalleryCourseMasterJsonPath)
+const imageGalleryCourseJsonData = JSON.parse(imageGalleryCourseRawData)
+const coursePagesWithText = singleCourseJsonData["course_pages"].filter(
+  page => page["text"]
+)
+const imageGalleryPages = imageGalleryCourseJsonData["course_pages"].filter(
+  page => page["is_image_gallery"]
+)
+const imageGalleryImages = imageGalleryCourseJsonData["course_files"].filter(
+  file => file["type"] === "OCWImage" && file["parent_uid"] === imageGalleryPages[0]["uid"]
+)
+const courseFeaturesFrontMatter = markdownGenerators.generateCourseFeaturesMarkdown(
+  imageGalleryPages[0],
+  imageGalleryCourseJsonData
+)
 
 describe("generateMarkdownFromJson", () => {
   it("contains the course home page and other expected sections", () => {
@@ -337,9 +359,6 @@ describe("generateCourseFeatures", () => {
 
 describe("generateCourseSectionMarkdown", () => {
   it("can be called without generating an error and returns something", () => {
-    const coursePagesWithText = singleCourseJsonData["course_pages"].filter(
-      page => page["text"]
-    )
     assert(
       markdownGenerators.generateCourseSectionMarkdown(
         coursePagesWithText[0],
@@ -350,6 +369,19 @@ describe("generateCourseSectionMarkdown", () => {
 })
 
 describe("generateCourseFeaturesMarkdown", () => {
-  it("can be called without generating an error and returns something", () => {
+  it("renders one image-gallery shortcode", () => {
+    assert.equal((courseFeaturesFrontMatter.match(/{{< image-gallery id=/g) || []).length, 1)
+  })
+
+  it("renders 11 image-gallery-item shortcodes", () => {
+    assert.equal((courseFeaturesFrontMatter.match(/{{< image-gallery-item /g) || []).length, 11)
+  })
+
+  it("renders the expected files from course_files", () => {
+    imageGalleryImages.forEach(image => {
+      const url = image["file_location"]
+      const fileName = url.substring(url.lastIndexOf("/") + 1, url.length)
+      assert.include(courseFeaturesFrontMatter, fileName)
+    })
   })
 })

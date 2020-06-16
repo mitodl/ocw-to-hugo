@@ -439,5 +439,6 @@ module.exports = {
   generateCourseHomeFrontMatter,
   generateCourseSectionFrontMatter,
   generateCourseFeatures,
-  generateCourseSectionMarkdown
+  generateCourseSectionMarkdown,
+  generateCourseFeaturesMarkdown
 }
