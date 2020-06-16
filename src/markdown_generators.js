@@ -402,9 +402,7 @@ const generateCourseFeaturesMarkdown = (page, courseData) => {
         const imageArgs = images.map(image => {
           const url = image["file_location"]
           if (baseUrl === "") {
-            baseUrl = `${url.substring(0, url.lastIndexOf("/") + 1)}${
-              courseData["short_url"]
-            }/`
+            baseUrl = `${url.substring(0, url.lastIndexOf("/") + 1)}`
           }
           const fileName = url.substring(url.lastIndexOf("/") + 1, url.length)
           return {
