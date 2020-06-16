@@ -7,10 +7,10 @@ tmp.setGracefulCleanup()
 const helpers = require("./helpers")
 const { GETPAGESHORTCODESTART } = require("./constants")
 
-const singleCourseSourcePath =
+const singleCourseInputPath =
   "test_data/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
 const singleCourseMasterJsonPath = path.join(
-  singleCourseSourcePath,
+  singleCourseInputPath,
   "e395587c58555f1fe564e8afd75899e6_master.json"
 )
 const singleCourseRawData = fs.readFileSync(singleCourseMasterJsonPath)
@@ -55,7 +55,7 @@ describe("getCourseFeatureObject", () => {
     assert.equal(featureObject["subfeature"], "design with examples")
   })
 
-  it("subfeature is undefined on the course feature object if it's blank in the source data", () => {
+  it("subfeature is undefined on the course feature object if it's blank in the input data", () => {
     const featureObject = helpers.getCourseFeatureObject(
       singleCourseJsonData["course_features"][0]
     )

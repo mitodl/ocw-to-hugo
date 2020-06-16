@@ -10,11 +10,12 @@ const fileOperations = require("./file_operations")
 const markdownGenerators = require("./markdown_generators")
 
 tmp.setGracefulCleanup()
+const testDataPath = "test_data"
 const singleCourseId =
   "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
-const singleCourseSourcePath = `test_data/${singleCourseId}`
 const singleCourseMasterJsonPath = path.join(
-  singleCourseSourcePath,
+  testDataPath,
+  singleCourseId,
   "e395587c58555f1fe564e8afd75899e6_master.json"
 )
 const singleCourseRawData = fs.readFileSync(singleCourseMasterJsonPath)
@@ -26,20 +27,24 @@ const singleCourseMarkdownData = markdownGenerators.generateMarkdownFromJson(
 describe("scanCourses", () => {
   let readdirSync, lstatSync, consoleLog
   const sandbox = sinon.createSandbox()
-  const sourcePath = "test_data"
-  const destinationPath = tmp.dirSync({ prefix: "destination" }).name
-  const logMessage = "Converting 3 courses to Hugo markdown..."
+  const inputPath = "test_data"
+  const outputPath = tmp.dirSync({ prefix: "output" }).name
+  const logMessage = "Converting 4 courses to Hugo markdown..."
   const course1Path = path.join(
-    sourcePath,
+    inputPath,
     "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
   )
   const course2Path = path.join(
-    sourcePath,
+    inputPath,
     "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
   )
   const course3Path = path.join(
-    sourcePath,
+    inputPath,
     "3-00-thermodynamics-of-materials-fall-2002"
+  )
+  const course4Path = path.join(
+    inputPath,
+    "12-001-introduction-to-geology-fall-2013"
   )
 
   beforeEach(() => {
@@ -52,36 +57,37 @@ describe("scanCourses", () => {
     sandbox.restore()
   })
 
-  it("throws an error when you call it with no source directory", () => {
-    assert.throws(() => fileOperations.scanCourses(null, destinationPath))
+  it("throws an error when you call it with no input directory", () => {
+    assert.throws(() => fileOperations.scanCourses(null, outputPath))
   })
 
-  it("throws an error when you call it with no destination directory", () => {
-    assert.throws(() => fileOperations.scanCourses(sourcePath, null))
+  it("throws an error when you call it with no output directory", () => {
+    assert.throws(() => fileOperations.scanCourses(inputPath, null))
   })
 
   it("calls readdirSync once", () => {
-    fileOperations.scanCourses(sourcePath, destinationPath)
+    fileOperations.scanCourses(inputPath, outputPath)
     expect(readdirSync).to.be.calledOnce
   })
 
   it("scans the three test courses and reports to console", () => {
-    fileOperations.scanCourses(sourcePath, destinationPath)
+    fileOperations.scanCourses(inputPath, outputPath)
     expect(consoleLog).calledWithExactly(logMessage)
   })
 
   it("calls lstatSync for each test course", () => {
-    fileOperations.scanCourses(sourcePath, destinationPath)
+    fileOperations.scanCourses(inputPath, outputPath)
     expect(lstatSync).to.be.calledWithExactly(course1Path)
     expect(lstatSync).to.be.calledWithExactly(course2Path)
     expect(lstatSync).to.be.calledWithExactly(course3Path)
+    expect(lstatSync).to.be.calledWithExactly(course4Path)
   })
 })
 
 describe("scanCourse", () => {
   let readFileSync, generateMarkdownFromJson
   const sandbox = sinon.createSandbox()
-  const destinationPath = tmp.dirSync({ prefix: "destination" }).name
+  const outputPath = tmp.dirSync({ prefix: "output" }).name
 
   beforeEach(async () => {
     readFileSync = sandbox.stub(fs, "readFileSync").returns(singleCourseRawData)
@@ -89,7 +95,7 @@ describe("scanCourse", () => {
       markdownGenerators,
       "generateMarkdownFromJson"
     )
-    await fileOperations.scanCourse(singleCourseSourcePath, destinationPath)
+    await fileOperations.scanCourse(testDataPath, outputPath, singleCourseId)
   })
 
   afterEach(() => {
@@ -110,26 +116,26 @@ describe("scanCourse", () => {
 describe("writeMarkdownFilesRecursive", () => {
   let mkDirSync, writeFileSync, unlinkSync
   const sandbox = sinon.createSandbox()
-  const destinationPath = tmp.dirSync({ prefix: "destination" }).name
+  const outputPath = tmp.dirSync({ prefix: "output" }).name
 
   beforeEach(() => {
     mkDirSync = sandbox.spy(fs, "mkdirSync")
     writeFileSync = sandbox.spy(fs, "writeFileSync")
     unlinkSync = sandbox.spy(fs, "unlinkSync")
     fileOperations.writeMarkdownFilesRecursive(
-      path.join(destinationPath, singleCourseId),
+      path.join(outputPath, singleCourseId),
       singleCourseMarkdownData
     )
   })
 
   afterEach(() => {
     sandbox.restore()
-    rimraf.sync(path.join(destinationPath, "*"))
+    rimraf.sync(path.join(outputPath, "*"))
   })
 
   it("calls mkDirSync to create sections folder", () => {
     expect(mkDirSync).to.be.calledWith(
-      path.join(destinationPath, singleCourseId, "sections")
+      path.join(outputPath, singleCourseId, "sections")
     )
   })
 
@@ -145,7 +151,7 @@ describe("writeMarkdownFilesRecursive", () => {
           )[0]
           expect(mkDirSync).to.be.calledWith(
             helpers.pathToChildRecursive(
-              path.join(destinationPath, singleCourseId, "sections"),
+              path.join(outputPath, singleCourseId, "sections"),
               child,
               singleCourseJsonData
             )
@@ -159,7 +165,7 @@ describe("writeMarkdownFilesRecursive", () => {
       .filter(file => file["name"] !== "_index.md")
       .forEach(file => {
         expect(writeFileSync).to.be.calledWithExactly(
-          path.join(destinationPath, singleCourseId, file["name"]),
+          path.join(outputPath, singleCourseId, file["name"]),
           file["data"]
         )
         if (file["children"].length > 0) {
@@ -174,7 +180,7 @@ describe("writeMarkdownFilesRecursive", () => {
             )[0]
             expect(writeFileSync).to.be.calledWithExactly(
               `${helpers.pathToChildRecursive(
-                path.join(destinationPath, singleCourseId, "sections"),
+                path.join(outputPath, singleCourseId, "sections"),
                 childJson,
                 singleCourseJsonData
               )}.md`,
@@ -187,14 +193,14 @@ describe("writeMarkdownFilesRecursive", () => {
 
   it("calls unlinkSync to remove files if they already exist", () => {
     fileOperations.writeMarkdownFilesRecursive(
-      path.join(destinationPath, singleCourseId),
+      path.join(outputPath, singleCourseId),
       singleCourseMarkdownData
     )
     singleCourseMarkdownData
       .filter(file => file["name"] !== "_index.md")
       .forEach(file => {
         expect(unlinkSync).to.be.calledWithExactly(
-          path.join(destinationPath, singleCourseId, file["name"])
+          path.join(outputPath, singleCourseId, file["name"])
         )
         if (file["children"].length > 0) {
           file["children"].forEach(child => {
@@ -208,7 +214,7 @@ describe("writeMarkdownFilesRecursive", () => {
             )[0]
             expect(unlinkSync).to.be.calledWithExactly(
               `${helpers.pathToChildRecursive(
-                path.join(destinationPath, singleCourseId, "sections"),
+                path.join(outputPath, singleCourseId, "sections"),
                 childJson,
                 singleCourseJsonData
               )}.md`

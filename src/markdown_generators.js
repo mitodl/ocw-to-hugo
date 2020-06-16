@@ -402,13 +402,19 @@ const generateCourseFeaturesMarkdown = (page, courseData) => {
         const imageArgs = images.map(image => {
           const url = image["file_location"]
           if (baseUrl === "") {
-            baseUrl = url.substring(0, url.lastIndexOf("/") + 1)
+            baseUrl = `${url.substring(0, url.lastIndexOf("/") + 1)}${
+              courseData["short_url"]
+            }/`
           }
           const fileName = url.substring(url.lastIndexOf("/") + 1, url.length)
           return {
             href:          fileName,
-            "data-ngdesc": image["description"],
-            text:          image["caption"]
+            "data-ngdesc": helpers.htmlSafeText(
+              turndownService.turndown(image["description"])
+            ),
+            text: helpers.htmlSafeText(
+              turndownService.turndown(image["caption"])
+            )
           }
         })
         const imageShortcodes = imageArgs.map(

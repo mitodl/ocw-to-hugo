@@ -348,3 +348,8 @@ describe("generateCourseSectionMarkdown", () => {
     )
   })
 })
+
+describe("generateCourseFeaturesMarkdown", () => {
+  it("can be called without generating an error and returns something", () => {
+  })
+})
