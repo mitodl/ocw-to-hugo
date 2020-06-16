@@ -26,7 +26,9 @@ const imageGalleryCourseMasterJsonPath = path.join(
 )
 const singleCourseRawData = fs.readFileSync(singleCourseMasterJsonPath)
 const singleCourseJsonData = JSON.parse(singleCourseRawData)
-const imageGalleryCourseRawData = fs.readFileSync(imageGalleryCourseMasterJsonPath)
+const imageGalleryCourseRawData = fs.readFileSync(
+  imageGalleryCourseMasterJsonPath
+)
 const imageGalleryCourseJsonData = JSON.parse(imageGalleryCourseRawData)
 const coursePagesWithText = singleCourseJsonData["course_pages"].filter(
   page => page["text"]
@@ -35,7 +37,9 @@ const imageGalleryPages = imageGalleryCourseJsonData["course_pages"].filter(
   page => page["is_image_gallery"]
 )
 const imageGalleryImages = imageGalleryCourseJsonData["course_files"].filter(
-  file => file["type"] === "OCWImage" && file["parent_uid"] === imageGalleryPages[0]["uid"]
+  file =>
+    file["type"] === "OCWImage" &&
+    file["parent_uid"] === imageGalleryPages[0]["uid"]
 )
 const courseFeaturesFrontMatter = markdownGenerators.generateCourseFeaturesMarkdown(
   imageGalleryPages[0],
@@ -370,11 +374,18 @@ describe("generateCourseSectionMarkdown", () => {
 
 describe("generateCourseFeaturesMarkdown", () => {
   it("renders one image-gallery shortcode", () => {
-    assert.equal((courseFeaturesFrontMatter.match(/{{< image-gallery id=/g) || []).length, 1)
+    assert.equal(
+      (courseFeaturesFrontMatter.match(/{{< image-gallery id=/g) || []).length,
+      1
+    )
   })
 
   it("renders 11 image-gallery-item shortcodes", () => {
-    assert.equal((courseFeaturesFrontMatter.match(/{{< image-gallery-item /g) || []).length, 11)
+    assert.equal(
+      (courseFeaturesFrontMatter.match(/{{< image-gallery-item /g) || [])
+        .length,
+      11
+    )
   })
 
   it("renders the expected files from course_files", () => {
