@@ -79,7 +79,7 @@ const scanCourse = async (inputPath, outputPath, course) => {
         // If the item is a master json file, parse it and process into hugo markdown
         if (
           RegExp("^[0-9a-f]{32}_master.json").test(file) ||
-          file == "master.json"
+          file === "master.json"
         ) {
           const courseData = JSON.parse(
             fs.readFileSync(path.join(coursePath, file))
