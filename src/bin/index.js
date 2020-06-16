@@ -6,7 +6,7 @@ const { downloadCourses } = require("../aws_sync")
 const { scanCourses } = require("../file_operations")
 
 const { MISSING_JSON_ERROR_MESSAGE } = require("../constants")
-const loggers = require("./loggers")
+const loggers = require(".file_operations_test./loggers")
 
 // Gather arguments
 const options = yargs
