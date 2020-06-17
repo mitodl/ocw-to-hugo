@@ -12,7 +12,7 @@ $ npm install -g .
 ## Usage
 
 ```shell
-$ ocw-to-hugo -c <courses.json location> -s <source directory> -d <destination directory>
+$ ocw-to-hugo -c <courses.json location> -d <download> -i <input directory> -o <output directory>
 ```
 
 This utility optionally takes a JSON file of OCW course ID's, formatted as:
@@ -27,15 +27,17 @@ This utility optionally takes a JSON file of OCW course ID's, formatted as:
 }
 ```
 
-If the `-c` option has been specified, these courses will be downloaded to the specified source directory and converted to the Hugo markdown structure used by hugo-course-publisher.  It will use your AWS credentials defined in the environment as detailed below.  If no courses JSON is specified, ocw-to-hugo assumes you have already downloaded your courses and placed them in your source directory.
+If the `-c` option has been specified, processing will be filtered by the courses specified in the format above.  If the `-d` option is specified, the courses listed will first be downloaded from AWS to the input directory specified with `-i`.  When downlading courses, `ocw-to-hugo` automatically determines if it needs to re-download a file by comparing dates.  If `-d` is false or not specified, the source for the courses specified in the JSON must already exist in the input directory.  If any of the courses are not there, an error will be thrown.  If you wish to simply process an input directory of courses without downloading or filtering, use only the `-i` and `-o` arguments.
+
 
 ## Arguments
 
 | Argument | Required? | Valid values  |
 | :------- | :-------- | :------------ |
-| `c`      | No  | `/path/to/courses.json` |
-| `s`      | Yes | `/path/to/open-learning-course-data` |
-| `d`      | Yes | `/path/to/hugo-markdown-output` |
+| `-c, -courses`      | Only if download flag is true  | `/path/to/courses.json` |
+| `-d, -download`      | No  | `(true | false)` |
+| `-i, -input`      | Yes | `/path/to/open-learning-course-data` |
+| `-o, -output`      | Yes | `/path/to/hugo-markdown-output` |
 
 ## Environment Variables
 | Variable | Description  |
