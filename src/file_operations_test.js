@@ -5,10 +5,7 @@ const { assert, expect } = require("chai").use(require("sinon-chai"))
 const tmp = require("tmp")
 const rimraf = require("rimraf")
 
-const {
-  MISSING_COURSE_ERROR_MESSAGE,
-  NO_COURSES_FOUND_MESSAGE
-} = require("./constants")
+const { NO_COURSES_FOUND_MESSAGE } = require("./constants")
 const helpers = require("./helpers")
 const fileOperations = require("./file_operations")
 const markdownGenerators = require("./markdown_generators")
@@ -78,6 +75,11 @@ describe("scanCourses", () => {
     expect(consoleLog).calledWithExactly(NO_COURSES_FOUND_MESSAGE)
   })
 
+  it("displays an error when you call it with an empty input directory", () => {
+    fileOperations.scanCourses("test_data/empty", outputPath)
+    expect(consoleLog).calledWithExactly(NO_COURSES_FOUND_MESSAGE)
+  })
+
   it("calls readdirSync once", () => {
     fileOperations.scanCourses(inputPath, outputPath)
     expect(readdirSync).to.be.calledOnce
@@ -123,6 +125,12 @@ describe("scanCourse", () => {
     expect(generateMarkdownFromJson).to.be.calledOnceWithExactly(
       singleCourseJsonData
     )
+  })
+
+  it("throws an error when you call it with a course that doesn't exist", async () => {
+    await expect(
+      fileOperations.scanCourse(testDataPath, outputPath, "test_missing")
+    ).to.eventually.be.rejectedWith("no such file or directory")
   })
 })
 
