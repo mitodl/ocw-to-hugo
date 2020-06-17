@@ -10,7 +10,7 @@ const titleCase = require("title-case")
 const tmp = require("tmp")
 tmp.setGracefulCleanup()
 
-const testDataPath = "test_data"
+const testDataPath = "test_data/courses"
 const singleCourseId =
   "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
 const imageGalleryCourseId = "12-001-introduction-to-geology-fall-2013"

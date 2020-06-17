@@ -5,12 +5,16 @@ const { assert, expect } = require("chai").use(require("sinon-chai"))
 const tmp = require("tmp")
 const rimraf = require("rimraf")
 
+const {
+  MISSING_COURSE_ERROR_MESSAGE,
+  NO_COURSES_FOUND_MESSAGE
+} = require("./constants")
 const helpers = require("./helpers")
 const fileOperations = require("./file_operations")
 const markdownGenerators = require("./markdown_generators")
 
 tmp.setGracefulCleanup()
-const testDataPath = "test_data"
+const testDataPath = "test_data/courses"
 const singleCourseId =
   "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
 const singleCourseMasterJsonPath = path.join(
@@ -27,7 +31,7 @@ const singleCourseMarkdownData = markdownGenerators.generateMarkdownFromJson(
 describe("scanCourses", () => {
   let readdirSync, lstatSync, consoleLog
   const sandbox = sinon.createSandbox()
-  const inputPath = "test_data"
+  const inputPath = "test_data/courses"
   const outputPath = tmp.dirSync({ prefix: "output" }).name
   const logMessage = "Converting 4 courses to Hugo markdown..."
   const course1Path = path.join(
@@ -63,6 +67,11 @@ describe("scanCourses", () => {
 
   it("throws an error when you call it with no output directory", () => {
     assert.throws(() => fileOperations.scanCourses(inputPath, null))
+  })
+
+  it("displays an error when you call it with an empty courses.json", () => {
+    fileOperations.scanCourses(inputPath, outputPath, "test_data/courses_blank.json")
+    expect(consoleLog).calledWithExactly(NO_COURSES_FOUND_MESSAGE)
   })
 
   it("calls readdirSync once", () => {
