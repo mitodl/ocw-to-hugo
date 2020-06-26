@@ -31,38 +31,23 @@ const scanCourses = (inputPath, outputPath, jsonPath = null) => {
   if (!directoryExists(outputPath)) {
     throw new Error("Invalid output directory")
   }
-  if (jsonPath) {
-    // Iterate only the courses specified in the coursesJson
-    const coursesJson = JSON.parse(fs.readFileSync(jsonPath))
-    const totalCourses = coursesJson["courses"].length
-    if (totalCourses > 0) {
-      console.log(`Converting ${totalCourses} courses to Hugo markdown...`)
-      progressBar.start(totalCourses, 0)
-      coursesJson["courses"].forEach(course =>
-        scanCourse(inputPath, outputPath, course).then(() => {
-          progressBar.increment()
-        })
-      )
-    } else {
-      console.log(NO_COURSES_FOUND_MESSAGE)
-    }
+  const courseList = jsonPath
+    ? JSON.parse(fs.readFileSync(jsonPath))["courses"]
+    : fs.readdirSync(inputPath)
+  const numCourses = jsonPath
+    ? courseList.length
+    : courseList.filter(file => directoryExists(path.join(inputPath, file)))
+      .length
+  if (numCourses > 0) {
+    console.log(`Converting ${numCourses} courses to Hugo markdown...`)
+    progressBar.start(numCourses, 0)
+    courseList.forEach(course =>
+      scanCourse(inputPath, outputPath, course).then(() => {
+        progressBar.increment()
+      })
+    )
   } else {
-    // Iterate all subdirectories under input
-    const contents = fs.readdirSync(inputPath)
-    const totalDirectories = contents.filter(file =>
-      directoryExists(path.join(inputPath, file))
-    ).length
-    if (totalDirectories > 0) {
-      console.log(`Converting ${totalDirectories} courses to Hugo markdown...`)
-      progressBar.start(totalDirectories, 0)
-      contents.forEach(course =>
-        scanCourse(inputPath, outputPath, course).then(() => {
-          progressBar.increment()
-        })
-      )
-    } else {
-      console.log(NO_COURSES_FOUND_MESSAGE)
-    }
+    console.log(NO_COURSES_FOUND_MESSAGE)
   }
 }
 
