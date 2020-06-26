@@ -12,7 +12,7 @@ $ npm install -g .
 ## Usage
 
 ```shell
-$ ocw-to-hugo -c <courses.json location> -d <download> -i <input directory> -o <output directory>
+$ ocw-to-hugo -c <courses.json location> -d -i <input directory> -o <output directory>
 ```
 
 This utility optionally takes a JSON file of OCW course ID's, formatted as:
@@ -27,7 +27,7 @@ This utility optionally takes a JSON file of OCW course ID's, formatted as:
 }
 ```
 
-If the `-c` option has been specified, processing will be filtered by the courses specified in the format above.  If the `-d` option is specified, the courses listed will first be downloaded from AWS to the input directory specified with `-i`.  When downlading courses, `ocw-to-hugo` automatically determines if it needs to re-download a file by comparing dates.  If `-d` is false or not specified, the source for the courses specified in the JSON must already exist in the input directory.  If any of the courses are not there, an error will be thrown.  If you wish to simply process an input directory of courses without downloading or filtering, use only the `-i` and `-o` arguments.
+If the `-c` option has been specified, processing will be filtered by the courses specified in the format above.  If the `-d` option is specified, the courses listed will first be downloaded from AWS to the input directory specified with `-i`.  `-d` does not require any arguments; it's true if it's there and false if it's not.  When downlading courses, `ocw-to-hugo` automatically determines if it needs to re-download a file by comparing dates.  If `-d` is false or not specified, the source for the courses specified in the JSON must already exist in the input directory.  If any of the courses are not there, an error will be thrown.  If you wish to simply process an input directory of courses without downloading or filtering, use only the `-i` and `-o` arguments.
 
 
 ## Arguments
