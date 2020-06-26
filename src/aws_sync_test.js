@@ -49,7 +49,7 @@ describe("downloadCourseRecursive", () => {
   const testJson = "bb55dad7f4888f0a1ad004600c5fb1f1_master.json"
   const testJsonKey = path.join(testCourse, testJson)
   const testJsonContents = fs.readFileSync(
-    path.join("test_data", testCourse, testJson)
+    path.join("test_data", "courses", testCourse, testJson)
   )
   const coursesDir = tmp.dirSync({
     prefix: "source"

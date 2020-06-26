@@ -5,9 +5,14 @@ const util = require("util")
 const path = require("path")
 const cliProgress = require("cli-progress")
 
+const {
+  MISSING_COURSE_ERROR_MESSAGE,
+  NO_COURSES_FOUND_MESSAGE
+} = require("./constants")
 const { directoryExists } = require("./helpers")
 const markdownGenerators = require("./markdown_generators")
 const loggers = require("./loggers")
+const helpers = require("./helpers")
 
 const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
@@ -15,64 +20,83 @@ const progressBar = new cliProgress.SingleBar(
 )
 const readdir = util.promisify(fs.readdir)
 
-const scanCourses = (source, destination) => {
+const scanCourses = (inputPath, outputPath, jsonPath = null) => {
   /*
-    This function scans the source directory for course folders
+    This function scans the input directory for course folders
   */
-  // Make sure that the source and destination arguments have been passed and they are directories
-  if (!directoryExists(source)) {
-    throw new Error("Invalid source directory")
+  // Make sure that the input and output arguments have been passed and they are directories
+  if (!directoryExists(inputPath)) {
+    throw new Error("Invalid input directory")
   }
-  if (!directoryExists(destination)) {
-    throw new Error("Invalid destination directory")
+  if (!directoryExists(outputPath)) {
+    throw new Error("Invalid output directory")
   }
-  // Iterate all subdirectories under source
-  const contents = fs.readdirSync(source)
-  const totalDirectories = contents.filter(file =>
-    directoryExists(path.join(source, file))
-  ).length
-  console.log(`Converting ${totalDirectories} courses to Hugo markdown...`)
-  progressBar.start(totalDirectories, 0)
-  contents.forEach(file => {
-    const coursePath = path.join(source, file)
-    if (fs.lstatSync(coursePath).isDirectory()) {
-      // If the item is indeed a directory, read all files in it
-      scanCourse(coursePath, destination).then(() => {
+  const courseList = jsonPath
+    ? JSON.parse(fs.readFileSync(jsonPath))["courses"]
+    : fs.readdirSync(inputPath)
+  const numCourses = jsonPath
+    ? courseList.length
+    : courseList.filter(file => directoryExists(path.join(inputPath, file)))
+      .length
+  if (numCourses > 0) {
+    console.log(`Converting ${numCourses} courses to Hugo markdown...`)
+    progressBar.start(numCourses, 0)
+    courseList.forEach(course =>
+      scanCourse(inputPath, outputPath, course).then(() => {
         progressBar.increment()
       })
-    }
-  })
+    )
+  } else {
+    console.log(NO_COURSES_FOUND_MESSAGE)
+  }
 }
 
-const scanCourse = async (coursePath, destination) => {
+const scanCourse = async (inputPath, outputPath, course) => {
   /*
     This function scans a course directory for a master json file and processes it
   */
-  const contents = await readdir(coursePath)
-  for (const file of contents) {
-    // If the item is a master json file, parse it and process into hugo markdown
-    if (RegExp("^[0-9a-f]{32}_master.json").test(file)) {
-      const courseData = JSON.parse(
-        fs.readFileSync(path.join(coursePath, file))
-      )
-      const markdownData = markdownGenerators.generateMarkdownFromJson(
-        courseData
-      )
-      writeMarkdownFilesRecursive(
-        path.join(destination, courseData["short_url"]),
-        markdownData
-      )
+  const coursePath = path.join(inputPath, course)
+  if (fs.lstatSync(coursePath).isDirectory()) {
+    if (helpers.directoryExists(coursePath)) {
+      // If the item is indeed a directory, read all files in it
+      const contents = await readdir(coursePath)
+      for (const file of contents) {
+        // If the item is a master json file, parse it and process into hugo markdown
+        if (
+          RegExp("^[0-9a-f]{32}_master.json").test(file) ||
+          file === "master.json"
+        ) {
+          const courseData = JSON.parse(
+            fs.readFileSync(path.join(coursePath, file))
+          )
+          const markdownData = markdownGenerators.generateMarkdownFromJson(
+            courseData
+          )
+          writeMarkdownFilesRecursive(
+            path.join(outputPath, courseData["short_url"]),
+            markdownData
+          )
+        }
+      }
+    } else {
+      const courseError = `${coursePath} - ${MISSING_COURSE_ERROR_MESSAGE}`
+      loggers.fileLogger.log({
+        level:   "error",
+        message: courseError
+      })
+      progressBar.increment()
+      throw new Error(courseError)
     }
   }
 }
 
-const writeMarkdownFilesRecursive = (destination, markdownData) => {
+const writeMarkdownFilesRecursive = (outputPath, markdownData) => {
   /*
     For a given course identifier string and array of objects with properties
     name and data, write Hugo markdown files
     */
   for (const section of markdownData) {
-    const sectionPath = path.join(destination, section["name"])
+    const sectionPath = path.join(outputPath, section["name"])
     const sectionDirPath = path.dirname(sectionPath)
     if (!directoryExists(sectionDirPath)) {
       fs.mkdirSync(sectionDirPath, { recursive: true })
@@ -81,19 +105,19 @@ const writeMarkdownFilesRecursive = (destination, markdownData) => {
       fs.unlinkSync(sectionPath)
     }
     fs.writeFileSync(sectionPath, section["data"])
-    writeSectionFiles("files", section, destination)
-    writeSectionFiles("media", section, destination)
+    writeSectionFiles("files", section, outputPath)
+    writeSectionFiles("media", section, outputPath)
     if (section.hasOwnProperty("children")) {
-      writeMarkdownFilesRecursive(destination, section["children"])
+      writeMarkdownFilesRecursive(outputPath, section["children"])
     }
   }
 }
 
-const writeSectionFiles = (key, section, destination) => {
+const writeSectionFiles = (key, section, outputPath) => {
   if (section.hasOwnProperty(key)) {
     section[key].forEach(file => {
       try {
-        const filePath = path.join(destination, file["name"])
+        const filePath = path.join(outputPath, file["name"])
         const fileDirPath = path.dirname(filePath)
         if (!directoryExists(fileDirPath)) {
           fs.mkdirSync(fileDirPath, { recursive: true })

@@ -342,6 +342,9 @@ const resolveYouTubeEmbed = (htmlStr, courseData) => {
   return htmlStr
 }
 
+const htmlSafeText = text =>
+  text.replace(/("|')/g, "").replace(/(\r\n|\r|\n)/g, " ")
+
 module.exports = {
   distinct,
   directoryExists,
@@ -357,5 +360,6 @@ module.exports = {
   getHugoPathSuffix,
   resolveUids,
   resolveRelativeLinks,
-  resolveYouTubeEmbed
+  resolveYouTubeEmbed,
+  htmlSafeText
 }
