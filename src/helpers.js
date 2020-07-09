@@ -252,21 +252,20 @@ const resolveRelativeLinks = (htmlStr, courseData) => {
       // ensure that this is not resolveuid or an external link
       if (!url.includes("resolveuid") && url[0] === "/") {
         // split the url into its parts
-        const parts = url.split("/")
+        const parts = url.split("/").filter(part => part !== "")
         /**
          * disassembles the OCW URL based on the following patten:
          *
          * EXAMPLE: /courses/mathematics/18-01-single-variable-calculus-fall-2006/exams/prfinalsol.pdf
          *
-         * 0: blank string
-         * 1: "courses"
-         * 2: department ("mathematics")
-         * 3: course ID ("18-01-single-variable-calculus-fall-2006")
-         * 4 - ?: section and subsections with the page / file at the end
+         * 0: "courses"
+         * 1: department ("mathematics")
+         * 2: course ID ("18-01-single-variable-calculus-fall-2006")
+         * 3 - ?: section and subsections with the page / file at the end
          */
-        const courseId = parts[3]
+        const courseId = parts[2]
         if (courseId) {
-          const layers = parts.length - 4
+          const layers = parts.length - 3
           let sections = []
           let page = null
           if (layers === 0) {
@@ -274,7 +273,7 @@ const resolveRelativeLinks = (htmlStr, courseData) => {
             page = "index.htm"
           } else if (layers === 1) {
             // root section link
-            page = parts[4]
+            page = parts[3]
           } else {
             // this is a link to something in a subsection, slice out the layers and page
             sections = parts.slice(parts.length - layers, parts.length - 1)
@@ -308,7 +307,9 @@ const resolveRelativeLinks = (htmlStr, courseData) => {
           } else {
             // match page from url to the short_url property on a course page
             courseData["course_pages"].forEach(coursePage => {
-              if (coursePage["short_url"] === page) {
+              if (
+                coursePage["short_url"].toLowerCase() === page.toLowerCase()
+              ) {
                 const pageName = page.replace(/(index)?\.html?/g, "")
                 const newUrl = `${GETPAGESHORTCODESTART}${path.join(
                   newUrlBase,
@@ -327,7 +328,7 @@ const resolveRelativeLinks = (htmlStr, courseData) => {
   } catch (err) {
     loggers.fileLogger.error(err.message)
   }
-  return htmlStr
+  return htmlStr.replace(/http:\/\/ocw.mit.edu/g, "")
 }
 
 const resolveYouTubeEmbed = (htmlStr, courseData) => {
