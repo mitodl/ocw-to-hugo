@@ -138,7 +138,7 @@ describe("generateMarkdownFromJson", () => {
   })
 })
 
-describe("generateCourseHomeFrontMatter", () => {
+describe("generateCourseHomeMarkdown", () => {
   let courseHomeFrontMatter, getCourseNumbers, getConsolidatedTopics, safeDump
   const sandbox = sinon.createSandbox()
 
@@ -148,7 +148,7 @@ describe("generateCourseHomeFrontMatter", () => {
     safeDump = sandbox.spy(yaml, "safeDump")
     courseHomeFrontMatter = yaml.safeLoad(
       markdownGenerators
-        .generateCourseHomeFrontMatter(singleCourseJsonData)
+        .generateCourseHomeMarkdown(singleCourseJsonData)
         .replace(/---\n/g, "")
     )
   })
