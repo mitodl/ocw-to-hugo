@@ -24,7 +24,7 @@ turndownService.addRule("table", {
   filter:      ["table"],
   replacement: (content, node, options) => {
     /**
-     * Interate the HTML node and replace all pipes inside table
+     * Iterate the HTML node and replace all pipes inside table
      * cells with a marker we'll use later
      */
     for (let i = 0; i < node.rows.length; i++) {
@@ -190,13 +190,18 @@ const generateMarkdownRecursive = page => {
   const hasMedia = coursePageEmbeddedMedia.length > 0
   const hasParent = parents.length > 0
   const parent = hasParent ? parents[0] : null
+  const isGrandChild = hasParent ? courseData["course_pages"].filter(
+    coursePage => coursePage["uid"] === parent["parent_uid"]
+  ).length > 0 : false
   let courseSectionMarkdown = generateCourseSectionFrontMatter(
     page["title"],
     `${page["uid"]}`,
-    hasParent ? `${parent["uid"]}` : null,
+    hasParent ? parent["uid"] : null,
+    isGrandChild,
     hasMedia,
     page["is_media_gallery"],
     (this["menuIndex"] + 1) * 10,
+    page["list_in_left_nav"],
     courseData["short_url"]
   )
   this["menuIndex"]++
@@ -329,9 +334,11 @@ const generateCourseSectionFrontMatter = (
   title,
   pageId,
   parentId,
+  isGrandChild,
   hasMedia,
   isMediaGallery,
   menuIndex,
+  listInLeftNav,
   courseId
 ) => {
   /**
@@ -339,17 +346,21 @@ const generateCourseSectionFrontMatter = (
     */
   const courseSectionFrontMatter = {
     title:     title,
-    course_id: courseId,
-    menu:      {
+    course_id: courseId
+  }
+  
+  if (!isGrandChild || (isGrandChild && listInLeftNav)) {
+    courseSectionFrontMatter["menu"] = {
       [courseId]: {
         identifier: pageId,
         weight:     menuIndex
       }
     }
+    if (parentId) {
+      courseSectionFrontMatter["menu"][courseId]["parent"] = parentId
+    }
   }
-  if (parentId) {
-    courseSectionFrontMatter["menu"][courseId]["parent"] = parentId
-  }
+
   if (hasMedia) {
     courseSectionFrontMatter["type"] = "courses"
     courseSectionFrontMatter["layout"] = "videogallery"
