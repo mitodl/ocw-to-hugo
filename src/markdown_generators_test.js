@@ -138,19 +138,22 @@ describe("generateMarkdownFromJson", () => {
   })
 })
 
-describe("generateCourseHomeFrontMatter", () => {
-  let courseHomeFrontMatter, getCourseNumbers, getConsolidatedTopics, safeDump
+describe("generateCourseHomeMarkdown", () => {
+  let courseHomeMarkdown,
+    courseHomeFrontMatter,
+    getCourseNumbers,
+    getConsolidatedTopics,
+    safeDump
   const sandbox = sinon.createSandbox()
 
   beforeEach(() => {
     getCourseNumbers = sandbox.spy(helpers, "getCourseNumbers")
     getConsolidatedTopics = sandbox.spy(helpers, "getConsolidatedTopics")
     safeDump = sandbox.spy(yaml, "safeDump")
-    courseHomeFrontMatter = yaml.safeLoad(
-      markdownGenerators
-        .generateCourseHomeFrontMatter(singleCourseJsonData)
-        .replace(/---\n/g, "")
+    courseHomeMarkdown = markdownGenerators.generateCourseHomeMarkdown(
+      singleCourseJsonData
     )
+    courseHomeFrontMatter = yaml.safeLoad(courseHomeMarkdown.split("---\n")[1])
   })
 
   afterEach(() => {
@@ -178,12 +181,6 @@ describe("generateCourseHomeFrontMatter", () => {
   it("sets the course_thumbnail_image_url property to the thumbnail_image_src of the course json data", () => {
     const expectedValue = singleCourseJsonData["thumbnail_image_src"]
     const foundValue = courseHomeFrontMatter["course_thumbnail_image_url"]
-    assert.equal(expectedValue, foundValue)
-  })
-
-  it("sets the course_description property to the description property of the course json data", () => {
-    const expectedValue = singleCourseJsonData["description"]
-    const foundValue = courseHomeFrontMatter["course_description"]
     assert.equal(expectedValue, foundValue)
   })
 

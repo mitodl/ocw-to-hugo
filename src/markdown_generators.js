@@ -106,7 +106,11 @@ turndownService.addRule("refshortcode", {
     return false
   },
   replacement: (content, node, options) => {
-    content = turndownService.escape(content)
+    const children = Array.prototype.slice.call(node.childNodes)
+    if (!children.filter(child => child.nodeName === "IMG").length > 0) {
+      // if this link doesn't contain an image, escape the content
+      content = turndownService.escape(content)
+    }
     const ref = turndownService
       .escape(
         node
@@ -120,8 +124,17 @@ turndownService.addRule("refshortcode", {
   }
 })
 
-const fixLinks = (page, courseData) => {
-  let htmlStr = page["text"]
+/**
+ * Render h4 tags as an h5 instead
+ */
+turndownService.addRule("h4", {
+  filter:      ["h4"],
+  replacement: (content, node, options) => {
+    return `##### ${content}`
+  }
+})
+
+const fixLinks = (htmlStr, page, courseData) => {
   if (htmlStr) {
     htmlStr = helpers.resolveUids(htmlStr, page, courseData)
     htmlStr = helpers.resolveRelativeLinks(htmlStr, courseData)
@@ -144,7 +157,7 @@ const generateMarkdownFromJson = courseData => {
   return [
     {
       name: "_index.md",
-      data: generateCourseHomeFrontMatter(courseData)
+      data: generateCourseHomeMarkdown(courseData)
     },
     ...rootSections.map(generateMarkdownRecursive, this)
   ]
@@ -242,10 +255,27 @@ const generateMarkdownRecursive = page => {
   }
 }
 
-const generateCourseHomeFrontMatter = courseData => {
+const generateCourseHomeMarkdown = courseData => {
   /**
     Generate the front matter metadata for the course home page given course_data JSON
     */
+  const courseHomePage = courseData["course_pages"].find(
+    coursePage => coursePage["type"] === "CourseHomeSection"
+  )
+  const courseDescription = courseData["description"]
+    ? turndownService.turndown(
+      fixLinks(courseData["description"], courseHomePage, courseData)
+    )
+    : ""
+  const otherInformationText = courseData["other_information_text"]
+    ? turndownService.turndown(
+      fixLinks(
+        courseData["other_information_text"],
+        courseHomePage,
+        courseData
+      )
+    )
+    : ""
 
   const frontMatter = {
     title:                      "Course Home",
@@ -261,8 +291,7 @@ const generateCourseHomeFrontMatter = courseData => {
     course_image_caption_text: courseData["image_caption_text"]
       ? courseData["image_caption_text"]
       : "",
-    course_description: courseData["description"],
-    course_info:        {
+    course_info: {
       instructors: courseData["instructors"].map(
         instructor =>
           `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`
@@ -284,7 +313,9 @@ const generateCourseHomeFrontMatter = courseData => {
     }
   }
   try {
-    return `---\n${yaml.safeDump(frontMatter)}---\n`
+    return `---\n${yaml.safeDump(
+      frontMatter
+    )}---\n${courseDescription}\n${otherInformationText}`
   } catch (err) {
     loggers.fileLogger.log({
       level:   "error",
@@ -361,7 +392,7 @@ const generateCourseSectionMarkdown = (page, courseData) => {
     */
   try {
     return `${turndownService.turndown(
-      fixLinks(page, courseData)
+      fixLinks(page["text"], page, courseData)
     )}${generateCourseFeaturesMarkdown(page, courseData)}`
   } catch (err) {
     loggers.fileLogger.log({
@@ -434,7 +465,7 @@ const generateCourseFeaturesMarkdown = (page, courseData) => {
 
 module.exports = {
   generateMarkdownFromJson,
-  generateCourseHomeFrontMatter,
+  generateCourseHomeMarkdown,
   generateCourseSectionFrontMatter,
   generateCourseFeatures,
   generateCourseSectionMarkdown,
