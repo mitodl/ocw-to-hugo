@@ -351,7 +351,7 @@ const generateCourseSectionFrontMatter = (
     course_id: courseId
   }
 
-  if (!isGrandChild || (isGrandChild && listInLeftNav)) {
+  if (!isGrandChild || listInLeftNav) {
     courseSectionFrontMatter["menu"] = {
       [courseId]: {
         identifier: pageId,
