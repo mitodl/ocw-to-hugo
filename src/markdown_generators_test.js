@@ -283,7 +283,9 @@ describe("generateCourseSectionFrontMatter", () => {
           null,
           false,
           false,
+          false,
           10,
+          false,
           singleCourseJsonData["short_url"]
         )
         .replace(/---\n/g, "")
