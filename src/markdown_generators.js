@@ -335,7 +335,7 @@ const generateCourseHomeMarkdown = courseData => {
 
 const generateCourseSectionFrontMatter = (
   title,
-  short_title,
+  shortTitle,
   pageId,
   parentId,
   isGrandChild,
@@ -357,7 +357,7 @@ const generateCourseSectionFrontMatter = (
     courseSectionFrontMatter["menu"] = {
       [courseId]: {
         identifier: pageId,
-        name:       short_title,
+        name:       shortTitle,
         weight:     menuIndex
       }
     }
