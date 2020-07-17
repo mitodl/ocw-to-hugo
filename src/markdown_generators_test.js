@@ -279,6 +279,7 @@ describe("generateCourseSectionFrontMatter", () => {
       markdownGenerators
         .generateCourseSectionFrontMatter(
           "Syllabus",
+          "Syllabus",
           "syllabus",
           null,
           false,
