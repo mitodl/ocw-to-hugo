@@ -6,6 +6,8 @@ const departmentsJson = require("./departments.json")
 const { GETPAGESHORTCODESTART, GETPAGESHORTCODEEND } = require("./constants")
 const loggers = require("./loggers")
 
+const courseUidList = {}
+
 const distinct = (value, index, self) => {
   return self.indexOf(value) === index
 }
@@ -192,6 +194,12 @@ const resolveUids = (htmlStr, page, courseData) => {
         const linkedFile = courseData["course_files"].find(
           file => file["uid"] === uid
         )
+        // filter courseUidList values on the UID in the URL
+        const linkedCourse = Object.entries(courseUidList).find(([key, value]) => {
+          if (value === uid) {
+            return key
+          }
+        })
         if (linkedPage) {
           // a course_page has been found for this UID
           const linkPagePath = `${pathToChildRecursive(
@@ -222,6 +230,10 @@ const resolveUids = (htmlStr, page, courseData) => {
             // link directly to the static content
             htmlStr = htmlStr.replace(url, linkedFile["file_location"])
           }
+        }
+        if (linkedCourse) {
+          const linkedCourseId = linkedCourse[0]
+          htmlStr = htmlStr.replace(url, `/courses/${linkedCourseId}`)
         }
       }
     )
@@ -362,5 +374,6 @@ module.exports = {
   resolveUids,
   resolveRelativeLinks,
   resolveYouTubeEmbed,
-  htmlSafeText
+  htmlSafeText,
+  courseUidList
 }
