@@ -195,11 +195,13 @@ const resolveUids = (htmlStr, page, courseData) => {
           file => file["uid"] === uid
         )
         // filter courseUidList values on the UID in the URL
-        const linkedCourse = Object.entries(courseUidList).find(([key, value]) => {
-          if (value === uid) {
-            return key
+        const linkedCourse = Object.entries(courseUidList).find(
+          ([key, value]) => {
+            if (value === uid) {
+              return key
+            }
           }
-        })
+        )
         if (linkedPage) {
           // a course_page has been found for this UID
           const linkPagePath = `${pathToChildRecursive(

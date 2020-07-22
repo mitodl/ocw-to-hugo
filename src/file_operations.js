@@ -60,9 +60,7 @@ const getCourseUid = async (inputPath, course) => {
   const coursePath = path.join(inputPath, course)
   const masterJsonFile = await getMasterJsonFileName(coursePath)
   if (masterJsonFile) {
-    const courseData = JSON.parse(
-      fs.readFileSync(masterJsonFile)
-    )
+    const courseData = JSON.parse(fs.readFileSync(masterJsonFile))
     return courseData["uid"]
   }
 }
@@ -75,9 +73,7 @@ const scanCourse = async (inputPath, outputPath, course) => {
   const coursePath = path.join(inputPath, course)
   const masterJsonFile = await getMasterJsonFileName(coursePath)
   if (masterJsonFile) {
-    const courseData = JSON.parse(
-      fs.readFileSync(masterJsonFile)
-    )
+    const courseData = JSON.parse(fs.readFileSync(masterJsonFile))
     const markdownData = markdownGenerators.generateMarkdownFromJson(courseData)
     writeMarkdownFilesRecursive(
       path.join(outputPath, courseData["short_url"]),
@@ -86,7 +82,7 @@ const scanCourse = async (inputPath, outputPath, course) => {
   }
 }
 
-const getMasterJsonFileName = async (coursePath) => {
+const getMasterJsonFileName = async coursePath => {
   /*
     This function scans a course directory for a master json file and returns it
   */
@@ -94,11 +90,15 @@ const getMasterJsonFileName = async (coursePath) => {
     if (helpers.directoryExists(coursePath)) {
       // If the item is indeed a directory, read all files in it
       const contents = await readdir(coursePath)
-      return path.join(coursePath, contents.find(
-        file => (RegExp("^[0-9a-f]{32}_master.json").test(file) || file === "master.json")
-      ))
-    }
-    else {
+      return path.join(
+        coursePath,
+        contents.find(
+          file =>
+            RegExp("^[0-9a-f]{32}_master.json").test(file) ||
+            file === "master.json"
+        )
+      )
+    } else {
       console.log(coursePath)
       const courseError = `${coursePath} - ${MISSING_COURSE_ERROR_MESSAGE}`
       loggers.fileLogger.log({
