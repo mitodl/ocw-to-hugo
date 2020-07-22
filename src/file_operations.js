@@ -91,8 +91,7 @@ const getMasterJsonFileName = async coursePath => {
     const contents = await readdir(coursePath)
     const fileName = contents.find(
       file =>
-        RegExp("^[0-9a-f]{32}_master.json").test(file) ||
-        file === "master.json"
+        RegExp("^[0-9a-f]{32}_master.json").test(file) || file === "master.json"
     )
     if (fileName) {
       return path.join(coursePath, fileName)
