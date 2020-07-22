@@ -33,7 +33,7 @@ const scanCourses = (inputPath, outputPath, jsonPath = null) => {
   }
   const courseList = jsonPath
     ? JSON.parse(fs.readFileSync(jsonPath))["courses"]
-    : fs.readdirSync(inputPath)
+    : fs.readdirSync(inputPath).filter(course => !course.startsWith("."))
   const numCourses = jsonPath
     ? courseList.length
     : courseList.filter(file => directoryExists(path.join(inputPath, file)))
@@ -86,28 +86,26 @@ const getMasterJsonFileName = async coursePath => {
   /*
     This function scans a course directory for a master json file and returns it
   */
-  if (fs.lstatSync(coursePath).isDirectory()) {
-    if (helpers.directoryExists(coursePath)) {
-      // If the item is indeed a directory, read all files in it
-      const contents = await readdir(coursePath)
-      return path.join(
-        coursePath,
-        contents.find(
-          file =>
-            RegExp("^[0-9a-f]{32}_master.json").test(file) ||
-            file === "master.json"
-        )
-      )
-    } else {
-      const courseError = `${coursePath} - ${MISSING_COURSE_ERROR_MESSAGE}`
-      loggers.fileLogger.log({
-        level:   "error",
-        message: courseError
-      })
-      progressBar.increment()
-      throw new Error(courseError)
+  if (helpers.directoryExists(coursePath)) {
+    // If the item is indeed a directory, read all files in it
+    const contents = await readdir(coursePath)
+    const fileName = contents.find(
+      file =>
+        RegExp("^[0-9a-f]{32}_master.json").test(file) ||
+        file === "master.json"
+    )
+    if (fileName) {
+      return path.join(coursePath, fileName)
     }
   }
+  //  If we made it here, the master json file wasn't found
+  const courseError = `${coursePath} - ${MISSING_COURSE_ERROR_MESSAGE}`
+  loggers.fileLogger.log({
+    level:   "error",
+    message: courseError
+  })
+  progressBar.increment()
+  throw new Error(courseError)
 }
 
 const writeMarkdownFilesRecursive = (outputPath, markdownData) => {
@@ -159,5 +157,6 @@ const writeSectionFiles = (key, section, outputPath) => {
 module.exports = {
   scanCourses,
   scanCourse,
+  getMasterJsonFileName,
   writeMarkdownFilesRecursive
 }

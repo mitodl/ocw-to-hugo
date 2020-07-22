@@ -5,7 +5,7 @@ const { assert, expect } = require("chai").use(require("sinon-chai"))
 const tmp = require("tmp")
 const rimraf = require("rimraf")
 
-const { NO_COURSES_FOUND_MESSAGE } = require("./constants")
+const { NO_COURSES_FOUND_MESSAGE, MISSING_COURSE_ERROR_MESSAGE } = require("./constants")
 const helpers = require("./helpers")
 const fileOperations = require("./file_operations")
 const markdownGenerators = require("./markdown_generators")
@@ -130,7 +130,27 @@ describe("scanCourse", () => {
   it("throws an error when you call it with a course that doesn't exist", async () => {
     await expect(
       fileOperations.scanCourse(testDataPath, outputPath, "test_missing")
-    ).to.eventually.be.rejectedWith("no such file or directory")
+    ).to.eventually.be.rejectedWith(`${path.join(testDataPath, "test_missing")} - ${MISSING_COURSE_ERROR_MESSAGE}`)
+  })
+})
+
+describe("getMasterJsonFileName", () => {
+  it("gives the expected filename for a sample course", async () => {
+    const masterJsonFileName = await fileOperations.getMasterJsonFileName(path.join(testDataPath, singleCourseId))
+    assert.equal(masterJsonFileName, singleCourseMasterJsonPath)
+  })
+
+  it("throws an error when you call it with nonexistent directory", async () => {
+    await expect(
+      fileOperations.getMasterJsonFileName(path.join(testDataPath, "test_missing"))
+      ).to.eventually.be.rejectedWith(`${path.join(testDataPath, "test_missing")} - ${MISSING_COURSE_ERROR_MESSAGE}`)
+  })
+
+  it("throws an error when you call it with a directory with no master json file", async () => {
+    const emptyDirectory = path.join("test_data", "empty")
+    await expect(
+      fileOperations.getMasterJsonFileName(emptyDirectory)
+    ).to.eventually.be.rejectedWith(`${emptyDirectory} - ${MISSING_COURSE_ERROR_MESSAGE}`)
   })
 })
 
