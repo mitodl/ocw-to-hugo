@@ -99,7 +99,6 @@ const getMasterJsonFileName = async coursePath => {
         )
       )
     } else {
-      console.log(coursePath)
       const courseError = `${coursePath} - ${MISSING_COURSE_ERROR_MESSAGE}`
       loggers.fileLogger.log({
         level:   "error",
