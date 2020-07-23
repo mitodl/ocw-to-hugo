@@ -152,7 +152,8 @@ const generateMarkdownFromJson = courseData => {
   const rootSections = courseData["course_pages"].filter(
     page =>
       page["parent_uid"] === courseData["uid"] &&
-      page["type"] !== "CourseHomeSection"
+      page["type"] !== "CourseHomeSection" &&
+      page["type"] !== "DownloadSection"
   )
   return [
     {
