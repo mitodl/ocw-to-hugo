@@ -55,7 +55,8 @@ describe("generateMarkdownFromJson", () => {
       .filter(
         page =>
           page["parent_uid"] === singleCourseJsonData["uid"] &&
-          page["type"] !== "CourseHomeSection"
+          page["type"] !== "CourseHomeSection" &&
+          page["type"] !== "DownloadSection"
       )
       .map(page => page["short_url"])
     const markdownFileNames = singleCourseMarkdownData.map(markdownData => {
