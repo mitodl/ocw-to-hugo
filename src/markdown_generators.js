@@ -288,6 +288,8 @@ const generateCourseHomeMarkdown = courseData => {
 
   const frontMatter = {
     title:                      "Course Home",
+    type:                       "course_home",
+    layout:                     "section",
     course_id:                  courseData["short_url"],
     course_title:               courseData["title"],
     course_image_url:           courseData["image_src"] ? courseData["image_src"] : "",
@@ -358,6 +360,8 @@ const generateCourseSectionFrontMatter = (
     courseSectionFrontMatter["menu"] = {
       [courseId]: {
         identifier: pageId,
+        type:       "section",
+        layout:     "section",
         name:       shortTitle,
         weight:     menuIndex
       }
