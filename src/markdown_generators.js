@@ -178,7 +178,7 @@ const generateMarkdownRecursive = page => {
     courseData["course_embedded_media"]
   )
     .map(embeddedMedia => {
-      embeddedMedia["type"] = "courses"
+      embeddedMedia["type"] = "course"
       embeddedMedia["layout"] = "video"
       return embeddedMedia
     })
@@ -288,8 +288,8 @@ const generateCourseHomeMarkdown = courseData => {
 
   const frontMatter = {
     title:                      "Course Home",
-    type:                       "course_home",
-    layout:                     "section",
+    type:                       "course",
+    layout:                     "course_home",
     course_id:                  courseData["short_url"],
     course_title:               courseData["title"],
     course_image_url:           courseData["image_src"] ? courseData["image_src"] : "",
@@ -353,15 +353,15 @@ const generateCourseSectionFrontMatter = (
     */
   const courseSectionFrontMatter = {
     title:     title,
-    course_id: courseId
+    course_id: courseId,
+    type:      "course",
+    layout:    "course_section"
   }
 
   if (!isGrandChild || listInLeftNav) {
     courseSectionFrontMatter["menu"] = {
       [courseId]: {
         identifier: pageId,
-        type:       "section",
-        layout:     "section",
         name:       shortTitle,
         weight:     menuIndex
       }
@@ -372,7 +372,6 @@ const generateCourseSectionFrontMatter = (
   }
 
   if (hasMedia) {
-    courseSectionFrontMatter["type"] = "courses"
     courseSectionFrontMatter["layout"] = "videogallery"
   }
   if (isMediaGallery) {
@@ -431,7 +430,7 @@ const generatePdfMarkdown = (file, courseData) => {
   const pdfFrontMatter = {
     title:         file["title"],
     description:   file["description"],
-    type:          "courses",
+    type:          "course",
     layout:        "pdf",
     uid:           file["uid"],
     file_type:     file["file_type"],
