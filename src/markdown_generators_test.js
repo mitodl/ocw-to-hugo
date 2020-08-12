@@ -397,3 +397,14 @@ describe("generateCourseFeaturesMarkdown", () => {
     })
   })
 })
+
+describe("turndown service", () => {
+  it("should not get tripped up on problematic code blocks", () => {
+    const problematicHTML =
+      "<pre><span><code>stuff\nin\nthe\nblock</span></pre>"
+    const markdown = markdownGenerators.turndownService.turndown(
+      problematicHTML
+    )
+    assert.equal(markdown, "```\nstuff\nin\nthe\nblock\n```")
+  })
+})

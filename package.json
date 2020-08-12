@@ -10,7 +10,8 @@
     "lint": "eslint src",
     "fmt": "LOG_LEVEL= prettier-eslint --write --no-semi 'src/**/*.js'",
     "fmt:check": "LOG_LEVEL= prettier-eslint --list-different --no-semi 'src/**/*.js'",
-    "test": "./scripts/js_test.sh"
+    "test": "./scripts/js_test.sh",
+    "test:watch": "WATCH=1 ./scripts/js_test.sh"
   },
   "repository": {
     "type": "git",

@@ -13,7 +13,9 @@ const {
 const helpers = require("./helpers")
 const loggers = require("./loggers")
 
-const turndownService = new TurndownService()
+const turndownService = new TurndownService({
+  codeBlockStyle: "fenced"
+})
 turndownService.use(gfm)
 turndownService.use(tables)
 
@@ -90,6 +92,25 @@ turndownService.addRule("table", {
           .replace(/\|\|/g, "|\n|")
       )
     } else return content
+  }
+})
+
+/**
+ * fix some strangely formatted code blocks in OCW
+ * see https://github.com/mitodl/hugo-course-publisher/issues/154
+ * for discussion
+ */
+turndownService.addRule("codeblockfix", {
+  filter: node =>
+    node.nodeName === "PRE" &&
+    node.firstChild &&
+    node.firstChild.nodeName === "SPAN",
+  replacement: (content, node, options) => {
+    if (content.match(/\r?\n/)) {
+      return `\n\n\`\`\`\n${content.replace(/`/g, "")}\n\`\`\`\n\n`
+    } else {
+      return content
+    }
   }
 })
 
@@ -489,5 +510,6 @@ module.exports = {
   generateCourseSectionFrontMatter,
   generateCourseFeatures,
   generateCourseSectionMarkdown,
-  generateCourseFeaturesMarkdown
+  generateCourseFeaturesMarkdown,
+  turndownService
 }
