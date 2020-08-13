@@ -130,7 +130,10 @@ turndownService.addRule("refshortcode", {
     const children = Array.prototype.slice.call(node.childNodes)
     if (!children.filter(child => child.nodeName === "IMG").length > 0) {
       // if this link doesn't contain an image, escape the content
-      content = turndownService.escape(content)
+      // except first make sure there are no pre-escaped square brackets
+      content = turndownService.escape(
+        content.replace(/\\\[/g, "[").replace(/\\\]/g, "]")
+      )
     }
     const ref = turndownService
       .escape(
