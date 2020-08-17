@@ -285,7 +285,7 @@ describe("generateCourseSectionFrontMatter", () => {
           "Syllabus",
           "syllabus",
           null,
-          false,
+          true,
           false,
           false,
           10,
