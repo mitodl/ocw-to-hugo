@@ -10,6 +10,8 @@ const titleCase = require("title-case")
 const tmp = require("tmp")
 tmp.setGracefulCleanup()
 
+const { GETPAGESHORTCODESTART, GETPAGESHORTCODEEND } = require("./constants")
+
 const testDataPath = "test_data/courses"
 const singleCourseId =
   "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
@@ -406,5 +408,16 @@ describe("turndown service", () => {
       problematicHTML
     )
     assert.equal(markdown, "```\nstuff\nin\nthe\nblock\n```")
+  })
+
+  it("should properly escape square brackets inside link text", () => {
+    const problematicHTML = `<a href="${GETPAGESHORTCODESTART}courses/${singleCourseId}/syllabus${GETPAGESHORTCODEEND}">[R&amp;T]</a>`
+    const markdown = markdownGenerators.turndownService.turndown(
+      problematicHTML
+    )
+    assert.equal(
+      markdown,
+      `[\\[R&T\\]]({{% getpage "courses/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/syllabus" %}})`
+    )
   })
 })

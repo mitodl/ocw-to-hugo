@@ -117,7 +117,7 @@ turndownService.addRule("codeblockfix", {
 /**
  * Build links with Hugo shortcodes to course sections
  **/
-turndownService.addRule("refshortcode", {
+turndownService.addRule("getpageshortcode", {
   filter: (node, options) => {
     if (node.nodeName === "A" && node.getAttribute("href")) {
       if (node.getAttribute("href").includes(GETPAGESHORTCODESTART)) {
