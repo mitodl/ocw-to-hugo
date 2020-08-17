@@ -117,7 +117,7 @@ turndownService.addRule("codeblockfix", {
 /**
  * Build links with Hugo shortcodes to course sections
  **/
-turndownService.addRule("refshortcode", {
+turndownService.addRule("getpageshortcode", {
   filter: (node, options) => {
     if (node.nodeName === "A" && node.getAttribute("href")) {
       if (node.getAttribute("href").includes(GETPAGESHORTCODESTART)) {
@@ -130,7 +130,10 @@ turndownService.addRule("refshortcode", {
     const children = Array.prototype.slice.call(node.childNodes)
     if (!children.filter(child => child.nodeName === "IMG").length > 0) {
       // if this link doesn't contain an image, escape the content
-      content = turndownService.escape(content)
+      // except first make sure there are no pre-escaped square brackets
+      content = turndownService.escape(
+        content.replace(/\\\[/g, "[").replace(/\\\]/g, "]")
+      )
     }
     const ref = turndownService
       .escape(
