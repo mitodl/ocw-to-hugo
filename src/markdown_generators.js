@@ -215,17 +215,13 @@ const generateMarkdownRecursive = page => {
   const hasMedia = coursePageEmbeddedMedia.length > 0
   const hasParent = parents.length > 0
   const parent = hasParent ? parents[0] : null
-  const isGrandChild = hasParent
-    ? courseData["course_pages"].filter(
-      coursePage => coursePage["uid"] === parent["parent_uid"]
-    ).length > 0
-    : false
+  const inRootNav = page["parent_uid"] === courseData["uid"]
   let courseSectionMarkdown = generateCourseSectionFrontMatter(
     page["title"],
     page["short_page_title"],
     `${page["uid"]}`,
     hasParent ? parent["uid"] : null,
-    isGrandChild,
+    inRootNav,
     hasMedia,
     page["is_media_gallery"],
     (this["menuIndex"] + 1) * 10,
@@ -365,7 +361,7 @@ const generateCourseSectionFrontMatter = (
   shortTitle,
   pageId,
   parentId,
-  isGrandChild,
+  inRootNav,
   hasMedia,
   isMediaGallery,
   menuIndex,
@@ -382,7 +378,7 @@ const generateCourseSectionFrontMatter = (
     layout:    "course_section"
   }
 
-  if (!isGrandChild || listInLeftNav) {
+  if (inRootNav || listInLeftNav) {
     courseSectionFrontMatter["menu"] = {
       [courseId]: {
         identifier: pageId,

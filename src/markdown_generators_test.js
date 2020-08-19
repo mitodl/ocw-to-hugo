@@ -285,7 +285,7 @@ describe("generateCourseSectionFrontMatter", () => {
           "Syllabus",
           "syllabus",
           null,
-          false,
+          true,
           false,
           false,
           10,
@@ -315,6 +315,51 @@ describe("generateCourseSectionFrontMatter", () => {
 
   it("calls yaml.safeDump once", () => {
     expect(safeDump).to.be.calledOnce
+  })
+
+  it("doesn't create a menu entry if list_in_left_nav is false and it's not a root section", () => {
+    courseSectionFrontMatter = yaml.safeLoad(
+      markdownGenerators
+        .generateCourseSectionFrontMatter(
+          "Syllabus",
+          "Syllabus",
+          "syllabus",
+          null,
+          false,
+          false,
+          false,
+          10,
+          false,
+          singleCourseJsonData["short_url"]
+        )
+        .replace(/---\n/g, "")
+    )
+    expect(courseSectionFrontMatter["menu"]).to.be.undefined
+  })
+
+  it("creates a menu entry if list_in_left_nav is true and it's not a root section", () => {
+    courseSectionFrontMatter = yaml.safeLoad(
+      markdownGenerators
+        .generateCourseSectionFrontMatter(
+          "Syllabus",
+          "Syllabus",
+          "syllabus",
+          null,
+          false,
+          false,
+          false,
+          10,
+          true,
+          singleCourseJsonData["short_url"]
+        )
+        .replace(/---\n/g, "")
+    )
+    assert.equal(
+      10,
+      courseSectionFrontMatter["menu"][singleCourseJsonData["short_url"]][
+        "weight"
+      ]
+    )
   })
 })
 
