@@ -115,6 +115,21 @@ turndownService.addRule("codeblockfix", {
 })
 
 /**
+ * Build anchor link shortcodes
+ **/
+turndownService.addRule("anchorshortcode", {
+  filter: (node, options) => {
+    if (node.nodeName === "A" && node.getAttribute("name")) {
+      return true
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    return `{{< anchor "${node.getAttribute("name")}" >}}`
+  }
+})
+
+/**
  * Build links with Hugo shortcodes to course sections
  **/
 turndownService.addRule("getpageshortcode", {

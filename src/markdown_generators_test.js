@@ -465,4 +465,10 @@ describe("turndown service", () => {
       `[\\[R&T\\]]({{% getpage "courses/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/syllabus" %}})`
     )
   })
+
+  it("should generate an anchor shortcode for an a tag with a name attribute", () => {
+    const inputHTML = `<a name="test"></a>`
+    const markdown = markdownGenerators.turndownService.turndown(inputHTML)
+    assert.equal(markdown, `{{< anchor "test" >}}`)
+  })
 })
