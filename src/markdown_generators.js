@@ -114,6 +114,9 @@ turndownService.addRule("codeblockfix", {
   }
 })
 
+/**
+ * Build anchor link shortcodes
+ **/
 turndownService.addRule("anchorshortcode", {
   filter: (node, options) => {
     if (node.nodeName === "A" && node.getAttribute("name")) {
