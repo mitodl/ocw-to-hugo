@@ -118,7 +118,7 @@ turndownService.addRule("codeblockfix", {
 /**
  * turn kbd, tt and samp elements into inline code blocks
  */
-turndownService.addRule("kbdfix", {
+turndownService.addRule("inlinecodeblockfix", {
   filter: node =>
     node.nodeName === "KBD" ||
     node.nodeName === "TT" ||
