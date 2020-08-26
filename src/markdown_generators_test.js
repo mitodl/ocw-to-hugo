@@ -419,12 +419,14 @@ describe("generateCourseSectionMarkdown", () => {
     )
   })
 
-  it ("should strip pre-escaped backticks from markdown", () => {
+  it("should strip pre-escaped backticks from markdown", () => {
     assert(
-      !markdownGenerators.generateCourseSectionMarkdown(
-        coursePagesWithText[0],
-        singleCourseJsonData
-      ).includes("\\`")
+      !markdownGenerators
+        .generateCourseSectionMarkdown(
+          coursePagesWithText[0],
+          singleCourseJsonData
+        )
+        .includes("\\`")
     )
   })
 })
