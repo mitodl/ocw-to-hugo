@@ -129,6 +129,8 @@ turndownService.addRule("kbdfix", {
      * between a backtick and a single quote
      */
     try {
+      // eslint seems to think the escaped backtick in the regex is useless, but it's not
+      // eslint-disable-next-line no-useless-escape
       const backTickSingleQuoteWrap = new RegExp(/(?<=\`)(.*?)(?=')/g)
       content.match(backTickSingleQuoteWrap).forEach(match => {
         content = content.replace(`\\\`${match}'`, match)
