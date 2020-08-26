@@ -135,14 +135,13 @@ turndownService.addRule("inlinecodeblockfix", {
       content.match(backTickSingleQuoteWrap).forEach(match => {
         content = content.replace(`\\\`${match}'`, match)
       })
-      return `\`${content}\``
     } catch (err) {
       loggers.fileLogger.log({
         level:   "error",
         message: err
       })
     }
-    return content
+    return `\`${content}\``
   }
 })
 
