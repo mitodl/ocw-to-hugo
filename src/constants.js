@@ -10,5 +10,6 @@ module.exports = {
     "No courses found!  For more information, see README.md",
   AWS_REGEX: new RegExp(
     /https?:\/\/open-learning-course-data(.*)\.s3\.amazonaws.com/g
-  )
+  ),
+  HUGO_COURSE_PUBLISHER_GIT: "git@github.com:mitodl/hugo-course-publisher.git"
 }

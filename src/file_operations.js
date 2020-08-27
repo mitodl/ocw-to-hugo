@@ -3,21 +3,27 @@
 const fs = require("fs")
 const util = require("util")
 const path = require("path")
+const tmp = require("tmp")
 const cliProgress = require("cli-progress")
+const simpleGit = require("simple-git")
+const walk = require("walk")
 
 const {
   MISSING_COURSE_ERROR_MESSAGE,
-  NO_COURSES_FOUND_MESSAGE
+  NO_COURSES_FOUND_MESSAGE,
+  HUGO_COURSE_PUBLISHER_GIT
 } = require("./constants")
 const { courseUidList, directoryExists } = require("./helpers")
 const markdownGenerators = require("./markdown_generators")
 const loggers = require("./loggers")
 const helpers = require("./helpers")
+const { tmpdir } = require("os")
 
 const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
   cliProgress.Presets.shades_classic
 )
+const git = simpleGit()
 const readdir = util.promisify(fs.readdir)
 
 const scanCourses = (inputPath, outputPath, options = {}) => {
@@ -31,31 +37,68 @@ const scanCourses = (inputPath, outputPath, options = {}) => {
   if (!directoryExists(outputPath)) {
     throw new Error("Invalid output directory")
   }
-  const coursesJson = options.courses
-  helpers.runOptions.strips3 = options.strips3
-  const courseList = coursesJson
-    ? JSON.parse(fs.readFileSync(coursesJson))["courses"]
-    : fs.readdirSync(inputPath).filter(course => !course.startsWith("."))
-  const numCourses = coursesJson
-    ? courseList.length
-    : courseList.filter(file => directoryExists(path.join(inputPath, file)))
-      .length
-  if (numCourses > 0) {
-    // populate the course uid mapping
-    courseList.forEach(async course => {
-      const courseUid = await getCourseUid(inputPath, course)
-      helpers.courseUidList[course] = courseUid
-    })
-    console.log(`Converting ${numCourses} courses to Hugo markdown...`)
-    progressBar.start(numCourses, 0)
-    courseList.forEach(course =>
-      scanCourse(inputPath, outputPath, course).then(() => {
-        progressBar.increment()
+  fetchBoilerplate(outputPath, () => {
+    const courseList = jsonPath
+      ? JSON.parse(fs.readFileSync(jsonPath))["courses"]
+      : fs.readdirSync(inputPath).filter(course => !course.startsWith("."))
+    const numCourses = jsonPath
+      ? courseList.length
+      : courseList.filter(file => directoryExists(path.join(inputPath, file)))
+        .length
+    const coursesPath = path.join(outputPath, "site", "content", "courses")
+    if (numCourses > 0) {
+      // populate the course uid mapping
+      courseList.forEach(async course => {
+        const courseUid = await getCourseUid(inputPath, course)
+        helpers.courseUidList[course] = courseUid
       })
-    )
-  } else {
-    console.log(NO_COURSES_FOUND_MESSAGE)
-  }
+      console.log(`Converting ${numCourses} courses to Hugo markdown...`)
+      progressBar.start(numCourses, 0)
+      courseList.forEach(course =>
+        scanCourse(inputPath, coursesPath, course).then(() => {
+          progressBar.increment()
+        })
+      )
+    } else {
+      console.log(NO_COURSES_FOUND_MESSAGE)
+    }
+  })
+}
+
+const fetchBoilerplate = (outputPath, done) => {
+  const tmpDir = tmp.dirSync({
+    prefix: "hugo-course-publisher"
+  }).name
+  git.clone(HUGO_COURSE_PUBLISHER_GIT, tmpDir).then(() => {
+    const contentDir = path.join(tmpDir, "site", "content")
+    const coursesDir = path.join(contentDir, "courses")
+    walk.walk(tmpDir, {
+      listeners: {
+        file: (root, fileStats, next) => {
+          if (
+            (root.includes(contentDir) && !root.includes(coursesDir)) ||
+            (root === coursesDir && fileStats.name === "_index.md")
+          ) {
+            // copy into the output path
+            const outputRoot = root.replace(tmpDir, outputPath)
+            if (!directoryExists(outputRoot)) {
+              fs.mkdirSync(outputRoot, { recursive: true })
+            }
+            fs.copyFileSync(
+              path.join(root, fileStats.name),
+              path.join(outputRoot, fileStats.name)
+            )
+          } else {
+            nodeNamesArray = []
+          }
+          next()
+        },
+        end: () => {
+          done()
+        }
+      }
+    })
+  })
 }
 
 const getCourseUid = async (inputPath, course) => {
