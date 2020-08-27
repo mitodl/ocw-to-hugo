@@ -88,8 +88,6 @@ const fetchBoilerplate = (outputPath, done) => {
               path.join(root, fileStats.name),
               path.join(outputRoot, fileStats.name)
             )
-          } else {
-            nodeNamesArray = []
           }
           next()
         },
