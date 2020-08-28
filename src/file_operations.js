@@ -44,7 +44,7 @@ const scanCourses = (inputPath, outputPath, options = {}) => {
       ? courseList.length
       : courseList.filter(file => directoryExists(path.join(inputPath, file)))
         .length
-    const coursesPath = path.join(outputPath, "site", "content", "courses")
+    const coursesPath = path.join(outputPath, "courses")
     if (numCourses > 0) {
       // populate the course uid mapping
       courseList.forEach(async course => {

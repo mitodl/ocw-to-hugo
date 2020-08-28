@@ -32,14 +32,14 @@ describe("fetchBoilerplate", () => {
   let consoleLog, git, rimRafSync
   const sandbox = sinon.createSandbox()
   const tmpDir = tmp.dirSync({ prefix: "output" }).name
-  const sitePath = path.join(tmpDir, "site")
+  const coursesPath = path.join(tmpDir, "courses")
 
   beforeEach(async () => {
     consoleLog = sandbox.stub(console, "log")
     git = sandbox.stub(helpers, "getGit").returns({
       clone: (repo, dir) => {
-        if (!helpers.directoryExists(sitePath)) {
-          fs.mkdirSync(sitePath)
+        if (!helpers.directoryExists(coursesPath)) {
+          fs.mkdirSync(coursesPath)
         }
       }
     })
@@ -52,7 +52,7 @@ describe("fetchBoilerplate", () => {
   })
 
   it("runs the function successfully and we see the mocked folder in the output folder", async () => {
-    expect(fs.readdirSync(tmpDir)[0]).to.equal("site")
+    expect(fs.readdirSync(tmpDir)[0]).to.equal("courses")
   })
 
   it("cleans up the git tmp folder when done", async () => {
