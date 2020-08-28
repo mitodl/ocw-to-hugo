@@ -3,9 +3,9 @@
 const fs = require("fs")
 const util = require("util")
 const path = require("path")
+const rimraf = require("rimraf")
 const tmp = require("tmp")
 const cliProgress = require("cli-progress")
-const simpleGit = require("simple-git")
 const walk = require("walk")
 
 const {
@@ -23,7 +23,6 @@ const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
   cliProgress.Presets.shades_classic
 )
-const git = simpleGit()
 const readdir = util.promisify(fs.readdir)
 
 const scanCourses = (inputPath, outputPath, options = {}) => {

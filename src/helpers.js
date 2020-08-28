@@ -1,17 +1,18 @@
 const _ = require("lodash")
 const fs = require("fs")
 const path = require("path")
-const departmentsJson = require("./departments.json")
+const simpleGit = require("simple-git")
 
-const {
-  GETPAGESHORTCODESTART,
-  GETPAGESHORTCODEEND,
-  AWS_REGEX
-} = require("./constants")
+const departmentsJson = require("./departments.json")
+const { GETPAGESHORTCODESTART, GETPAGESHORTCODEEND } = require("./constants")
 const loggers = require("./loggers")
 
 const courseUidList = {}
-const runOptions = {}
+const git = simpleGit()
+
+const getGit = () => {
+  return git
+}
 
 const distinct = (value, index, self) => {
   return self.indexOf(value) === index
@@ -372,6 +373,7 @@ const stripS3 = text => {
 }
 
 module.exports = {
+  getGit,
   distinct,
   directoryExists,
   createOrOverwriteFile,

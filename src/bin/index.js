@@ -3,7 +3,7 @@
 
 const yargs = require("yargs")
 const { downloadCourses } = require("../aws_sync")
-const { downloadBoilerplate, scanCourses } = require("../file_operations")
+const { fetchBoilerplate, scanCourses } = require("../file_operations")
 
 const { MISSING_JSON_ERROR_MESSAGE } = require("../constants")
 const loggers = require("../loggers")
@@ -52,9 +52,8 @@ const run = async () => {
     })
     throw new Error(MISSING_JSON_ERROR_MESSAGE)
   }
-  scanCourses(options.input, options.output, {
-    courses: options.courses,
-    strips3: options.strips3
+  fetchBoilerplate(options.output).then(() => {
+    scanCourses(options.input, options.output, options.courses)
   })
 }
 

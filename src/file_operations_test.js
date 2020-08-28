@@ -4,6 +4,7 @@ const sinon = require("sinon")
 const { assert, expect } = require("chai").use(require("sinon-chai"))
 const tmp = require("tmp")
 const rimraf = require("rimraf")
+const git = require("simple-git")
 
 const {
   NO_COURSES_FOUND_MESSAGE,
@@ -26,6 +27,38 @@ const singleCourseJsonData = JSON.parse(singleCourseRawData)
 const singleCourseMarkdownData = markdownGenerators.generateMarkdownFromJson(
   singleCourseJsonData
 )
+
+describe("fetchBoilerplate", () => {
+  let consoleLog, git, rimRafSync
+  const sandbox = sinon.createSandbox()
+  const tmpDir = tmp.dirSync({ prefix: "output" }).name
+  const sitePath = path.join(tmpDir, "site")
+
+  beforeEach(async () => {
+    consoleLog = sandbox.stub(console, "log")
+    git = sandbox.stub(helpers, "getGit").returns({
+      clone: (repo, dir) => {
+        if (!helpers.directoryExists(sitePath)) {
+          fs.mkdirSync(sitePath)
+        }
+      }
+    })
+    rimRafSync = sandbox.stub(rimraf, "sync")
+    await fileOperations.fetchBoilerplate(tmpDir)
+  })
+
+  afterEach(() => {
+    sandbox.restore()
+  })
+
+  it("runs the function successfully and we see the mocked folder in the output folder", async () => {
+    expect(fs.readdirSync(tmpDir)[0]).to.equal("site")
+  })
+
+  it("cleans up the git tmp folder when done", async () => {
+    expect(rimRafSync).to.be.calledOnce
+  })
+})
 
 describe("scanCourses", () => {
   let readdirSync, lstatSync, consoleLog
