@@ -37,7 +37,7 @@ const scanCourses = (inputPath, outputPath, options = {}) => {
   if (!directoryExists(outputPath)) {
     throw new Error("Invalid output directory")
   }
-  fetchBoilerplate(outputPath, () => {
+  try {
     const courseList = jsonPath
       ? JSON.parse(fs.readFileSync(jsonPath))["courses"]
       : fs.readdirSync(inputPath).filter(course => !course.startsWith("."))
@@ -62,41 +62,12 @@ const scanCourses = (inputPath, outputPath, options = {}) => {
     } else {
       console.log(NO_COURSES_FOUND_MESSAGE)
     }
-  })
-}
-
-const fetchBoilerplate = (outputPath, done) => {
-  const tmpDir = tmp.dirSync({
-    prefix: "hugo-course-publisher"
-  }).name
-  git.clone(HUGO_COURSE_PUBLISHER_GIT, tmpDir).then(() => {
-    const contentDir = path.join(tmpDir, "site", "content")
-    const coursesDir = path.join(contentDir, "courses")
-    walk.walk(tmpDir, {
-      listeners: {
-        file: (root, fileStats, next) => {
-          if (
-            (root.includes(contentDir) && !root.includes(coursesDir)) ||
-            (root === coursesDir && fileStats.name === "_index.md")
-          ) {
-            // copy into the output path
-            const outputRoot = root.replace(tmpDir, outputPath)
-            if (!directoryExists(outputRoot)) {
-              fs.mkdirSync(outputRoot, { recursive: true })
-            }
-            fs.copyFileSync(
-              path.join(root, fileStats.name),
-              path.join(outputRoot, fileStats.name)
-            )
-          }
-          next()
-        },
-        end: () => {
-          done()
-        }
-      }
+  } catch (err) {
+    loggers.fileLogger.log({
+      level:   "error",
+      message: err
     })
-  })
+  }
 }
 
 const getCourseUid = async (inputPath, course) => {
@@ -197,6 +168,7 @@ const writeSectionFiles = (key, section, outputPath) => {
 }
 
 module.exports = {
+  fetchBoilerplate,
   scanCourses,
   scanCourse,
   getMasterJsonFileName,

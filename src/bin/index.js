@@ -3,7 +3,7 @@
 
 const yargs = require("yargs")
 const { downloadCourses } = require("../aws_sync")
-const { scanCourses } = require("../file_operations")
+const { downloadBoilerplate, scanCourses } = require("../file_operations")
 
 const { MISSING_JSON_ERROR_MESSAGE } = require("../constants")
 const loggers = require("../loggers")

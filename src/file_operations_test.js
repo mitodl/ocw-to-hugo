@@ -85,7 +85,7 @@ describe("scanCourses", () => {
     expect(readdirSync).to.be.calledOnce
   })
 
-  it("scans the three test courses and reports to console", () => {
+  it("scans the four test courses and reports to console", () => {
     fileOperations.scanCourses(inputPath, outputPath)
     expect(consoleLog).calledWithExactly(logMessage)
   })
