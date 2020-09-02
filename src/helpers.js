@@ -360,6 +360,12 @@ const resolveYouTubeEmbed = (htmlStr, courseData) => {
 const htmlSafeText = text =>
   text.replace(/("|')/g, "").replace(/(\r\n|\r|\n)/g, " ")
 
+const awsRegEx = new RegExp(/https?:\/\/open-learning-course-data(.*)\.s3\.amazonaws.com/)
+
+const stripAws = text => {  
+  return text.replace(awsRegEx, "")
+}
+
 module.exports = {
   distinct,
   directoryExists,
@@ -377,5 +383,7 @@ module.exports = {
   resolveRelativeLinks,
   resolveYouTubeEmbed,
   htmlSafeText,
+  stripAws,
+  awsRegEx,
   courseUidList
 }

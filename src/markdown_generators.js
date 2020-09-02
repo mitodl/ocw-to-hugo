@@ -130,6 +130,23 @@ turndownService.addRule("anchorshortcode", {
 })
 
 /**
+ * Strip open-learning-course-data*.s3.amazonaws.com urls back to being absolute urls
+ */
+turndownService.addRule("stripaws", {
+  filter: (node, options) => {
+    if (node.nodeName === "A" && node.getAttribute("href")) {
+      if (node.getAttribute("href").match(helpers.awsRegEx)) {
+        return true
+      }
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    return `[${content}](${helpers.stripAws(node.getAttribute("href"))})`
+  }
+})
+
+/**
  * Build links with Hugo shortcodes to course sections
  **/
 turndownService.addRule("getpageshortcode", {
@@ -358,6 +375,9 @@ const generateCourseHomeMarkdown = courseData => {
       }
     }
   }
+  // strip out any direct s3 pathing in course image urls
+  frontMatter["course_image_url"] = helpers.stripAws(frontMatter["course_image_url"])
+  frontMatter["course_thumbnail_image_url"] = helpers.stripAws(frontMatter["course_thumbnail_image_url"])
   try {
     return `---\n${yaml.safeDump(
       frontMatter
@@ -469,7 +489,7 @@ const generatePdfMarkdown = (file, courseData) => {
     layout:        "pdf",
     uid:           file["uid"],
     file_type:     file["file_type"],
-    file_location: file["file_location"],
+    file_location: helpers.stripAws(file["file_location"]),
     course_id:     courseData["short_url"]
   }
   return `---\n${yaml.safeDump(pdfFrontMatter)}---\n`
@@ -509,7 +529,7 @@ const generateCourseFeaturesMarkdown = (page, courseData) => {
         )
         courseFeaturesMarkdown = `${courseFeaturesMarkdown}\n{{< image-gallery id="${
           page["uid"]
-        }_nanogallery2" baseUrl="${baseUrl}" >}}\n${imageShortcodes.join(
+        }_nanogallery2" baseUrl="${helpers.stripAws(baseUrl)}" >}}\n${imageShortcodes.join(
           "\n"
         )}\n{{</ image-gallery >}}`
       }
