@@ -163,3 +163,40 @@ describe("resolveRelativeLinks", () => {
     assert.isTrue(result.indexOf(GETPAGESHORTCODESTART) !== -1)
   })
 })
+
+describe("stripS3", () => {
+  beforeEach(() => {
+    helpers.runOptions.strips3 = true
+  })
+
+  afterEach(() => {
+    helpers.runOptions.strips3 = undefined
+  })
+
+  it("strips OCW base S3 URL from a URL string", () => {
+    const input = "https://open-learning-course-data.s3.amazonaws.com/test.jpg"
+    assert.equal(helpers.stripS3(input), "/test.jpg")
+  })
+
+  it("strips regardless of protocol", () => {
+    const input = "http://open-learning-course-data.s3.amazonaws.com/test.jpg"
+    assert.equal(helpers.stripS3(input), "/test.jpg")
+  })
+
+  it("does not strip from a non OCW url", () => {
+    const input = "https://something-else.amazonaws.com/test.jpg"
+    assert.equal(
+      helpers.stripS3(input),
+      "https://something-else.amazonaws.com/test.jpg"
+    )
+  })
+
+  it("does not strip if the option is turned off", () => {
+    helpers.runOptions.strips3 = undefined
+    const input = "https://open-learning-course-data.s3.amazonaws.com/test.jpg"
+    assert.equal(
+      helpers.stripS3(input),
+      "https://open-learning-course-data.s3.amazonaws.com/test.jpg"
+    )
+  })
+})

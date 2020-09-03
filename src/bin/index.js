@@ -36,7 +36,8 @@ const options = yargs
     demandOption: false
   })
   .option("strips3", {
-    describe:     "A flag that tells ocw-to-hugo to strip the s3 base url from OCW resources",
+    describe:
+      "A flag that tells ocw-to-hugo to strip the s3 base url from OCW resources",
     type:         "boolean",
     demandOption: false
   }).argv

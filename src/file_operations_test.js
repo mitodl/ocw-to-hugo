@@ -13,7 +13,6 @@ const helpers = require("./helpers")
 const fileOperations = require("./file_operations")
 const markdownGenerators = require("./markdown_generators")
 
-tmp.setGracefulCleanup()
 const testDataPath = "test_data/courses"
 const singleCourseId =
   "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
@@ -70,11 +69,9 @@ describe("scanCourses", () => {
   })
 
   it("displays an error when you call it with an empty courses.json", () => {
-    fileOperations.scanCourses(
-      inputPath,
-      outputPath,
-      { courses: "test_data/courses_blank.json" }
-    )
+    fileOperations.scanCourses(inputPath, outputPath, {
+      courses: "test_data/courses_blank.json"
+    })
     expect(consoleLog).calledWithExactly(NO_COURSES_FOUND_MESSAGE)
   })
 

@@ -235,9 +235,7 @@ const resolveUids = (htmlStr, page, courseData) => {
             )
           } else {
             // link directly to the static content
-            htmlStr = stripS3(
-              htmlStr.replace(url, linkedFile["file_location"])
-            )
+            htmlStr = stripS3(htmlStr.replace(url, linkedFile["file_location"]))
           }
         }
         if (linkedCourse) {
@@ -370,8 +368,7 @@ const htmlSafeText = text =>
 const stripS3 = text => {
   if (runOptions.strips3) {
     return text.replace(AWS_REGEX, "")
-  }
-  else return text
+  } else return text
 }
 
 module.exports = {
