@@ -20,7 +20,7 @@ const progressBar = new cliProgress.SingleBar(
 )
 const readdir = util.promisify(fs.readdir)
 
-const scanCourses = (inputPath, outputPath, jsonPath = null) => {
+const scanCourses = (inputPath, outputPath, options = {}) => {
   /*
     This function scans the input directory for course folders
   */
@@ -31,10 +31,12 @@ const scanCourses = (inputPath, outputPath, jsonPath = null) => {
   if (!directoryExists(outputPath)) {
     throw new Error("Invalid output directory")
   }
-  const courseList = jsonPath
-    ? JSON.parse(fs.readFileSync(jsonPath))["courses"]
+  const coursesJson = options.courses
+  helpers.runOptions.strips3 = options.strips3
+  const courseList = coursesJson
+    ? JSON.parse(fs.readFileSync(coursesJson))["courses"]
     : fs.readdirSync(inputPath).filter(course => !course.startsWith("."))
-  const numCourses = jsonPath
+  const numCourses = coursesJson
     ? courseList.length
     : courseList.filter(file => directoryExists(path.join(inputPath, file)))
       .length

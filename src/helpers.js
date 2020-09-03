@@ -11,6 +11,7 @@ const {
 const loggers = require("./loggers")
 
 const courseUidList = {}
+const runOptions = {}
 
 const distinct = (value, index, self) => {
   return self.indexOf(value) === index
@@ -234,7 +235,7 @@ const resolveUids = (htmlStr, page, courseData) => {
             )
           } else {
             // link directly to the static content
-            htmlStr = stripAws(
+            htmlStr = stripS3(
               htmlStr.replace(url, linkedFile["file_location"])
             )
           }
@@ -321,7 +322,7 @@ const resolveRelativeLinks = (htmlStr, courseData) => {
                 htmlStr = htmlStr.replace(url, newUrl)
               } else if (media["file_location"].includes(page)) {
                 // write link directly to file
-                htmlStr = stripAws(htmlStr.replace(url, media["file_location"]))
+                htmlStr = stripS3(htmlStr.replace(url, media["file_location"]))
               }
             })
           } else {
@@ -366,8 +367,11 @@ const resolveYouTubeEmbed = (htmlStr, courseData) => {
 const htmlSafeText = text =>
   text.replace(/("|')/g, "").replace(/(\r\n|\r|\n)/g, " ")
 
-const stripAws = text => {
-  return text.replace(AWS_REGEX, "")
+const stripS3 = text => {
+  if (runOptions.strips3) {
+    return text.replace(AWS_REGEX, "")
+  }
+  else return text
 }
 
 module.exports = {
@@ -387,6 +391,7 @@ module.exports = {
   resolveRelativeLinks,
   resolveYouTubeEmbed,
   htmlSafeText,
-  stripAws,
-  courseUidList
+  stripS3,
+  courseUidList,
+  runOptions
 }
