@@ -13,7 +13,6 @@ const {
 } = require("./constants")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
-const constants = require("./constants")
 
 const turndownService = new TurndownService({
   codeBlockStyle: "fenced"
