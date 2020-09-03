@@ -3,7 +3,11 @@ const fs = require("fs")
 const path = require("path")
 const departmentsJson = require("./departments.json")
 
-const { GETPAGESHORTCODESTART, GETPAGESHORTCODEEND } = require("./constants")
+const {
+  GETPAGESHORTCODESTART,
+  GETPAGESHORTCODEEND,
+  AWS_REGEX
+} = require("./constants")
 const loggers = require("./loggers")
 
 const courseUidList = {}
@@ -230,7 +234,9 @@ const resolveUids = (htmlStr, page, courseData) => {
             )
           } else {
             // link directly to the static content
-            htmlStr = htmlStr.replace(url, linkedFile["file_location"])
+            htmlStr = stripAws(
+              htmlStr.replace(url, linkedFile["file_location"])
+            )
           }
         }
         if (linkedCourse) {
@@ -315,7 +321,7 @@ const resolveRelativeLinks = (htmlStr, courseData) => {
                 htmlStr = htmlStr.replace(url, newUrl)
               } else if (media["file_location"].includes(page)) {
                 // write link directly to file
-                htmlStr = htmlStr.replace(url, media["file_location"])
+                htmlStr = stripAws(htmlStr.replace(url, media["file_location"]))
               }
             })
           } else {
@@ -360,10 +366,8 @@ const resolveYouTubeEmbed = (htmlStr, courseData) => {
 const htmlSafeText = text =>
   text.replace(/("|')/g, "").replace(/(\r\n|\r|\n)/g, " ")
 
-const awsRegEx = new RegExp(/https?:\/\/open-learning-course-data(.*)\.s3\.amazonaws.com/)
-
-const stripAws = text => {  
-  return text.replace(awsRegEx, "")
+const stripAws = text => {
+  return text.replace(AWS_REGEX, "")
 }
 
 module.exports = {
@@ -384,6 +388,5 @@ module.exports = {
   resolveYouTubeEmbed,
   htmlSafeText,
   stripAws,
-  awsRegEx,
   courseUidList
 }

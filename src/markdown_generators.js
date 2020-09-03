@@ -8,10 +8,12 @@ const { gfm, tables } = turndownPluginGfm
 const {
   REPLACETHISWITHAPIPE,
   GETPAGESHORTCODESTART,
-  GETPAGESHORTCODEEND
+  GETPAGESHORTCODEEND,
+  AWS_REGEX
 } = require("./constants")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
+const constants = require("./constants")
 
 const turndownService = new TurndownService({
   codeBlockStyle: "fenced"
@@ -135,14 +137,19 @@ turndownService.addRule("anchorshortcode", {
 turndownService.addRule("stripaws", {
   filter: (node, options) => {
     if (node.nodeName === "A" && node.getAttribute("href")) {
-      if (node.getAttribute("href").match(helpers.awsRegEx)) {
+      if (node.getAttribute("href").match(AWS_REGEX)) {
+        return true
+      }
+    } else if (node.nodeName === "IMG" && node.getAttribute("src")) {
+      if (node.getAttribute("src").match(AWS_REGEX)) {
         return true
       }
     }
     return false
   },
   replacement: (content, node, options) => {
-    return `[${content}](${helpers.stripAws(node.getAttribute("href"))})`
+    const attr = node.nodeName === "A" ? "href" : "src"
+    return `[${content}](${helpers.stripAws(node.getAttribute(attr))})`
   }
 })
 
@@ -376,8 +383,12 @@ const generateCourseHomeMarkdown = courseData => {
     }
   }
   // strip out any direct s3 pathing in course image urls
-  frontMatter["course_image_url"] = helpers.stripAws(frontMatter["course_image_url"])
-  frontMatter["course_thumbnail_image_url"] = helpers.stripAws(frontMatter["course_thumbnail_image_url"])
+  frontMatter["course_image_url"] = helpers.stripAws(
+    frontMatter["course_image_url"]
+  )
+  frontMatter["course_thumbnail_image_url"] = helpers.stripAws(
+    frontMatter["course_thumbnail_image_url"]
+  )
   try {
     return `---\n${yaml.safeDump(
       frontMatter
@@ -529,9 +540,9 @@ const generateCourseFeaturesMarkdown = (page, courseData) => {
         )
         courseFeaturesMarkdown = `${courseFeaturesMarkdown}\n{{< image-gallery id="${
           page["uid"]
-        }_nanogallery2" baseUrl="${helpers.stripAws(baseUrl)}" >}}\n${imageShortcodes.join(
-          "\n"
-        )}\n{{</ image-gallery >}}`
+        }_nanogallery2" baseUrl="${helpers.stripAws(
+          baseUrl
+        )}" >}}\n${imageShortcodes.join("\n")}\n{{</ image-gallery >}}`
       }
     }
   }
