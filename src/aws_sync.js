@@ -3,10 +3,10 @@
 const fs = require("fs")
 const path = require("path")
 const AWS = require("aws-sdk")
-const env = require("dotenv").config().parsed
+require("dotenv").config()
 const cliProgress = require("cli-progress")
 
-const { directoryExists, createOrOverwriteFile } = require("./helpers")
+const { createOrOverwriteFile } = require("./helpers")
 
 const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
@@ -20,21 +20,28 @@ const downloadCourses = async (coursesJson, coursesDir) => {
   if (!coursesDir) {
     throw new Error("Invalid courses directory")
   }
-  if (
-    !env["AWS_REGION"] ||
-    !env["AWS_BUCKET_NAME"] ||
-    !env["AWS_ACCESS_KEY"] ||
-    !env["AWS_SECRET_ACCESS_KEY"]
-  ) {
-    throw new Error("Invalid AWS connection info")
+  if (!process.env["AWS_BUCKET_NAME"]) {
+    throw new Error("AWS_BUCKET_NAME not set")
   }
-  AWS.config = new AWS.Config({
-    region:      env["AWS_REGION"],
-    credentials: new AWS.Credentials({
-      accessKeyId:     env["AWS_ACCESS_KEY"],
-      secretAccessKey: env["AWS_SECRET_ACCESS_KEY"]
+  /**
+   * We explicitly configure credentials here if we see them set because
+   * the aws-sdk will not automatically configure itself from values set in
+   * .env files
+   */
+  if (
+    process.env["AWS_REGION"] &&
+    process.env["AWS_ACCESS_KEY"] &&
+    process.env["AWS_SECRET_ACCESS_KEY"]
+  ) {
+    AWS.config = new AWS.Config({
+      region:      process.env["AWS_RGEION"],
+      credentials: new AWS.Credentials({
+        accessKeyId:     process.env["AWS_ACCESS_KEY"],
+        secretAccessKey: process.env["AWS_SECRET_ACCESS_KEY"]
+      })
     })
-  })
+  }
+
   const s3 = new AWS.S3()
   const courses = JSON.parse(fs.readFileSync(coursesJson))["courses"]
   const totalCourses = courses.length
@@ -43,7 +50,7 @@ const downloadCourses = async (coursesJson, coursesDir) => {
   return await Promise.all(
     courses.map(async course => {
       const bucketParams = {
-        Bucket: env["AWS_BUCKET_NAME"],
+        Bucket: process.env["AWS_BUCKET_NAME"],
         Prefix: course
       }
       await downloadCourseRecursive(s3, bucketParams, coursesDir)
