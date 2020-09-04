@@ -29,8 +29,8 @@ const downloadCourses = async (coursesJson, coursesDir) => {
    * .env files
    */
   if (
-    process.env["AWS_REGION"] ||
-    process.env["AWS_ACCESS_KEY"] ||
+    process.env["AWS_REGION"] &&
+    process.env["AWS_ACCESS_KEY"] &&
     process.env["AWS_SECRET_ACCESS_KEY"]
   ) {
     const config = {}
