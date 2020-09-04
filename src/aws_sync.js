@@ -33,19 +33,13 @@ const downloadCourses = async (coursesJson, coursesDir) => {
     process.env["AWS_ACCESS_KEY"] &&
     process.env["AWS_SECRET_ACCESS_KEY"]
   ) {
-    const config = {}
-    if (process.env["AWS_REGION"]) {
-      config["region"] = process.env["AWS_REGION"]
-    }
-    if (process.env["AWS_ACCESS_KEY"] && process.env["AWS_SECRET_ACCESS_KEY"]) {
-      config["credentials"] = new AWS.Credentials({
+    AWS.config = new AWS.Config({
+      region:      process.env["AWS_RGEION"],
+      credentials: new AWS.Credentials({
         accessKeyId:     process.env["AWS_ACCESS_KEY"],
         secretAccessKey: process.env["AWS_SECRET_ACCESS_KEY"]
       })
-    } else {
-      throw new Error("AWS credentials not set")
-    }
-    AWS.config = new AWS.Config(config)
+    })
   }
 
   const s3 = new AWS.S3()
