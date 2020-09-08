@@ -3,10 +3,15 @@ const fs = require("fs")
 const path = require("path")
 const departmentsJson = require("./departments.json")
 
-const { GETPAGESHORTCODESTART, GETPAGESHORTCODEEND } = require("./constants")
+const {
+  GETPAGESHORTCODESTART,
+  GETPAGESHORTCODEEND,
+  AWS_REGEX
+} = require("./constants")
 const loggers = require("./loggers")
 
 const courseUidList = {}
+const runOptions = {}
 
 const distinct = (value, index, self) => {
   return self.indexOf(value) === index
@@ -230,7 +235,7 @@ const resolveUids = (htmlStr, page, courseData) => {
             )
           } else {
             // link directly to the static content
-            htmlStr = htmlStr.replace(url, linkedFile["file_location"])
+            htmlStr = stripS3(htmlStr.replace(url, linkedFile["file_location"]))
           }
         }
         if (linkedCourse) {
@@ -315,7 +320,7 @@ const resolveRelativeLinks = (htmlStr, courseData) => {
                 htmlStr = htmlStr.replace(url, newUrl)
               } else if (media["file_location"].includes(page)) {
                 // write link directly to file
-                htmlStr = htmlStr.replace(url, media["file_location"])
+                htmlStr = stripS3(htmlStr.replace(url, media["file_location"]))
               }
             })
           } else {
@@ -360,6 +365,12 @@ const resolveYouTubeEmbed = (htmlStr, courseData) => {
 const htmlSafeText = text =>
   text.replace(/("|')/g, "").replace(/(\r\n|\r|\n)/g, " ")
 
+const stripS3 = text => {
+  if (runOptions.strips3) {
+    return text.replace(AWS_REGEX, "")
+  } else return text
+}
+
 module.exports = {
   distinct,
   directoryExists,
@@ -377,5 +388,7 @@ module.exports = {
   resolveRelativeLinks,
   resolveYouTubeEmbed,
   htmlSafeText,
-  courseUidList
+  stripS3,
+  courseUidList,
+  runOptions
 }

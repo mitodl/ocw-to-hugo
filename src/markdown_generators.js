@@ -8,7 +8,8 @@ const { gfm, tables } = turndownPluginGfm
 const {
   REPLACETHISWITHAPIPE,
   GETPAGESHORTCODESTART,
-  GETPAGESHORTCODEEND
+  GETPAGESHORTCODEEND,
+  AWS_REGEX
 } = require("./constants")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
@@ -126,6 +127,28 @@ turndownService.addRule("anchorshortcode", {
   },
   replacement: (content, node, options) => {
     return `{{< anchor "${node.getAttribute("name")}" >}}`
+  }
+})
+
+/**
+ * Strip open-learning-course-data*.s3.amazonaws.com urls back to being absolute urls
+ */
+turndownService.addRule("stripS3", {
+  filter: (node, options) => {
+    if (node.nodeName === "A" && node.getAttribute("href")) {
+      if (node.getAttribute("href").match(AWS_REGEX)) {
+        return true
+      }
+    } else if (node.nodeName === "IMG" && node.getAttribute("src")) {
+      if (node.getAttribute("src").match(AWS_REGEX)) {
+        return true
+      }
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    const attr = node.nodeName === "A" ? "href" : "src"
+    return `[${content}](${helpers.stripS3(node.getAttribute(attr))})`
   }
 })
 
@@ -358,6 +381,13 @@ const generateCourseHomeMarkdown = courseData => {
       }
     }
   }
+  // strip out any direct s3 pathing in course image urls
+  frontMatter["course_image_url"] = helpers.stripS3(
+    frontMatter["course_image_url"]
+  )
+  frontMatter["course_thumbnail_image_url"] = helpers.stripS3(
+    frontMatter["course_thumbnail_image_url"]
+  )
   try {
     return `---\n${yaml.safeDump(
       frontMatter
@@ -469,7 +499,7 @@ const generatePdfMarkdown = (file, courseData) => {
     layout:        "pdf",
     uid:           file["uid"],
     file_type:     file["file_type"],
-    file_location: file["file_location"],
+    file_location: helpers.stripS3(file["file_location"]),
     course_id:     courseData["short_url"]
   }
   return `---\n${yaml.safeDump(pdfFrontMatter)}---\n`
@@ -509,9 +539,9 @@ const generateCourseFeaturesMarkdown = (page, courseData) => {
         )
         courseFeaturesMarkdown = `${courseFeaturesMarkdown}\n{{< image-gallery id="${
           page["uid"]
-        }_nanogallery2" baseUrl="${baseUrl}" >}}\n${imageShortcodes.join(
-          "\n"
-        )}\n{{</ image-gallery >}}`
+        }_nanogallery2" baseUrl="${helpers.stripS3(
+          baseUrl
+        )}" >}}\n${imageShortcodes.join("\n")}\n{{</ image-gallery >}}`
       }
     }
   }

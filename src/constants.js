@@ -7,5 +7,8 @@ module.exports = {
   MISSING_COURSE_ERROR_MESSAGE:
     "Specified course was not found.  You need to either place the course there or use the -d option to download it from AWS.  For more information, see README.md",
   NO_COURSES_FOUND_MESSAGE:
-    "No courses found!  For more information, see README.md"
+    "No courses found!  For more information, see README.md",
+  AWS_REGEX: new RegExp(
+    /https?:\/\/open-learning-course-data(.*)\.s3\.amazonaws.com/g
+  )
 }
