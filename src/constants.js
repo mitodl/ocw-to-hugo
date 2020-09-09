@@ -11,18 +11,29 @@ module.exports = {
   AWS_REGEX: new RegExp(
     /https?:\/\/open-learning-course-data(.*)\.s3\.amazonaws.com/g
   ),
-  BOILERPLATE_MARKDOWN: [{
-      path: "",
-      name: "_index.md",
-      content: `---\ntitle: Hugo Course Publisher\n---\n`
-    }, {
-      path: "search",
-      name: "_index.md",
-      content: `---\ntitle: Search\ntype: search\n---\n`
-    }, {
-      path: "courses",
-      name: "_index.md",
-      content: `---\ntitle: Courses\ntype: courseindex\n---\n`
+  BOILERPLATE_MARKDOWN: [
+    {
+      path:    "",
+      name:    "_index.md",
+      content: {
+        title: "Hugo Course Publisher"
+      }
+    },
+    {
+      path:    "search",
+      name:    "_index.md",
+      content: {
+        title: "Search",
+        type:  "search"
+      }
+    },
+    {
+      path:    "courses",
+      name:    "_index.md",
+      content: {
+        title: "Courses",
+        type:  "courseindex"
+      }
     }
   ]
 }

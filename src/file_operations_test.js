@@ -4,7 +4,7 @@ const sinon = require("sinon")
 const { assert, expect } = require("chai").use(require("sinon-chai"))
 const tmp = require("tmp")
 const rimraf = require("rimraf")
-const git = require("simple-git")
+const yaml = require("js-yaml")
 
 const {
   NO_COURSES_FOUND_MESSAGE,
@@ -34,8 +34,11 @@ describe("writeBoilerplate", () => {
     const outputPath = tmp.dirSync({ prefix: "output" }).name
     await fileOperations.writeBoilerplate(outputPath)
     BOILERPLATE_MARKDOWN.forEach(file => {
-      const tmpFileContents = fs.readFileSync(path.join(outputPath, file.path, file.name))
-      assert.equal(tmpFileContents, file.content)
+      const expectedContent = `---\n${yaml.safeDump(file.content)}---\n`
+      const tmpFileContents = fs.readFileSync(
+        path.join(outputPath, file.path, file.name)
+      )
+      assert.equal(tmpFileContents, expectedContent)
     })
   })
 })

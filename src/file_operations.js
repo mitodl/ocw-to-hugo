@@ -3,6 +3,7 @@
 const fs = require("fs")
 const util = require("util")
 const path = require("path")
+const yaml = require("js-yaml")
 const cliProgress = require("cli-progress")
 
 const {
@@ -25,8 +26,9 @@ const writeBoilerplate = async outputPath => {
   BOILERPLATE_MARKDOWN.forEach(file => {
     if (!directoryExists(file.path)) {
       const filePath = path.join(outputPath, file.path)
+      const content = `---\n${yaml.safeDump(file.content)}---\n`
       fs.mkdirSync(filePath, { recursive: true })
-      fs.writeFileSync(path.join(filePath, file.name), file.content)
+      fs.writeFileSync(path.join(filePath, file.name), content)
     }
   })
 }

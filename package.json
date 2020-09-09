@@ -29,12 +29,10 @@
     "dotenv": "^8.2.0",
     "js-yaml": "^3.13.1",
     "markdown-builder": "^0.9.0",
-    "simple-git": "^2.20.1",
     "title-case": "^3.0.2",
     "tmp": "^0.2.1",
     "turndown": "^6.0.0",
     "turndown-plugin-gfm": "^1.0.2",
-    "walk": "^2.3.14",
     "winston": "^3.2.1",
     "yargs": "^15.0.2"
   },

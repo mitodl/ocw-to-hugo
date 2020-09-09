@@ -3,7 +3,11 @@ const fs = require("fs")
 const path = require("path")
 
 const departmentsJson = require("./departments.json")
-const { AWS_REGEX, GETPAGESHORTCODESTART, GETPAGESHORTCODEEND } = require("./constants")
+const {
+  AWS_REGEX,
+  GETPAGESHORTCODESTART,
+  GETPAGESHORTCODEEND
+} = require("./constants")
 const loggers = require("./loggers")
 
 const courseUidList = {}
