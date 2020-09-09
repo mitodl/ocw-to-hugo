@@ -3,27 +3,33 @@
 const fs = require("fs")
 const util = require("util")
 const path = require("path")
-const rimraf = require("rimraf")
-const tmp = require("tmp")
 const cliProgress = require("cli-progress")
-const walk = require("walk")
 
 const {
   MISSING_COURSE_ERROR_MESSAGE,
   NO_COURSES_FOUND_MESSAGE,
-  HUGO_COURSE_PUBLISHER_GIT
+  BOILERPLATE_MARKDOWN
 } = require("./constants")
-const { courseUidList, directoryExists } = require("./helpers")
+const { directoryExists } = require("./helpers")
 const markdownGenerators = require("./markdown_generators")
 const loggers = require("./loggers")
 const helpers = require("./helpers")
-const { tmpdir } = require("os")
 
 const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
   cliProgress.Presets.shades_classic
 )
 const readdir = util.promisify(fs.readdir)
+
+const writeBoilerplate = async outputPath => {
+  BOILERPLATE_MARKDOWN.forEach(file => {
+    if (!directoryExists(file.path)) {
+      const filePath = path.join(outputPath, file.path)
+      fs.mkdirSync(filePath, { recursive: true })
+      fs.writeFileSync(path.join(filePath, file.name), file.content)
+    }
+  })
+}
 
 const scanCourses = (inputPath, outputPath, options = {}) => {
   /*
@@ -37,6 +43,8 @@ const scanCourses = (inputPath, outputPath, options = {}) => {
     throw new Error("Invalid output directory")
   }
   try {
+    const jsonPath = options.courses
+    helpers.runOptions.strips3 = options.strips3
     const courseList = jsonPath
       ? JSON.parse(fs.readFileSync(jsonPath))["courses"]
       : fs.readdirSync(inputPath).filter(course => !course.startsWith("."))
@@ -167,7 +175,7 @@ const writeSectionFiles = (key, section, outputPath) => {
 }
 
 module.exports = {
-  fetchBoilerplate,
+  writeBoilerplate,
   scanCourses,
   scanCourse,
   getMasterJsonFileName,

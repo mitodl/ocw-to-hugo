@@ -8,7 +8,8 @@ const git = require("simple-git")
 
 const {
   NO_COURSES_FOUND_MESSAGE,
-  MISSING_COURSE_ERROR_MESSAGE
+  MISSING_COURSE_ERROR_MESSAGE,
+  BOILERPLATE_MARKDOWN
 } = require("./constants")
 const helpers = require("./helpers")
 const fileOperations = require("./file_operations")
@@ -28,35 +29,14 @@ const singleCourseMarkdownData = markdownGenerators.generateMarkdownFromJson(
   singleCourseJsonData
 )
 
-describe("fetchBoilerplate", () => {
-  let consoleLog, git, rimRafSync
-  const sandbox = sinon.createSandbox()
-  const tmpDir = tmp.dirSync({ prefix: "output" }).name
-  const coursesPath = path.join(tmpDir, "courses")
-
-  beforeEach(async () => {
-    consoleLog = sandbox.stub(console, "log")
-    git = sandbox.stub(helpers, "getGit").returns({
-      clone: (repo, dir) => {
-        if (!helpers.directoryExists(coursesPath)) {
-          fs.mkdirSync(coursesPath)
-        }
-      }
+describe("writeBoilerplate", () => {
+  it("writes the files as expected", async () => {
+    const outputPath = tmp.dirSync({ prefix: "output" }).name
+    await fileOperations.writeBoilerplate(outputPath)
+    BOILERPLATE_MARKDOWN.forEach(file => {
+      const tmpFileContents = fs.readFileSync(path.join(outputPath, file.path, file.name))
+      assert.equal(tmpFileContents, file.content)
     })
-    rimRafSync = sandbox.stub(rimraf, "sync")
-    await fileOperations.fetchBoilerplate(tmpDir)
-  })
-
-  afterEach(() => {
-    sandbox.restore()
-  })
-
-  it("runs the function successfully and we see the mocked folder in the output folder", async () => {
-    expect(fs.readdirSync(tmpDir)[0]).to.equal("courses")
-  })
-
-  it("cleans up the git tmp folder when done", async () => {
-    expect(rimRafSync).to.be.calledOnce
   })
 })
 
