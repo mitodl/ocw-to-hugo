@@ -4,10 +4,12 @@ const sinon = require("sinon")
 const { assert, expect } = require("chai").use(require("sinon-chai"))
 const tmp = require("tmp")
 const rimraf = require("rimraf")
+const yaml = require("js-yaml")
 
 const {
   NO_COURSES_FOUND_MESSAGE,
-  MISSING_COURSE_ERROR_MESSAGE
+  MISSING_COURSE_ERROR_MESSAGE,
+  BOILERPLATE_MARKDOWN
 } = require("./constants")
 const helpers = require("./helpers")
 const fileOperations = require("./file_operations")
@@ -26,6 +28,20 @@ const singleCourseJsonData = JSON.parse(singleCourseRawData)
 const singleCourseMarkdownData = markdownGenerators.generateMarkdownFromJson(
   singleCourseJsonData
 )
+
+describe("writeBoilerplate", () => {
+  it("writes the files as expected", async () => {
+    const outputPath = tmp.dirSync({ prefix: "output" }).name
+    await fileOperations.writeBoilerplate(outputPath)
+    BOILERPLATE_MARKDOWN.forEach(file => {
+      const expectedContent = `---\n${yaml.safeDump(file.content)}---\n`
+      const tmpFileContents = fs.readFileSync(
+        path.join(outputPath, file.path, file.name)
+      )
+      assert.equal(tmpFileContents, expectedContent)
+    })
+  })
+})
 
 describe("scanCourses", () => {
   let readdirSync, lstatSync, consoleLog
@@ -85,7 +101,7 @@ describe("scanCourses", () => {
     expect(readdirSync).to.be.calledOnce
   })
 
-  it("scans the three test courses and reports to console", () => {
+  it("scans the four test courses and reports to console", () => {
     fileOperations.scanCourses(inputPath, outputPath)
     expect(consoleLog).calledWithExactly(logMessage)
   })

@@ -1,12 +1,12 @@
 const _ = require("lodash")
 const fs = require("fs")
 const path = require("path")
-const departmentsJson = require("./departments.json")
 
+const departmentsJson = require("./departments.json")
 const {
+  AWS_REGEX,
   GETPAGESHORTCODESTART,
-  GETPAGESHORTCODEEND,
-  AWS_REGEX
+  GETPAGESHORTCODEEND
 } = require("./constants")
 const loggers = require("./loggers")
 

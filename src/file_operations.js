@@ -3,13 +3,15 @@
 const fs = require("fs")
 const util = require("util")
 const path = require("path")
+const yaml = require("js-yaml")
 const cliProgress = require("cli-progress")
 
 const {
   MISSING_COURSE_ERROR_MESSAGE,
-  NO_COURSES_FOUND_MESSAGE
+  NO_COURSES_FOUND_MESSAGE,
+  BOILERPLATE_MARKDOWN
 } = require("./constants")
-const { courseUidList, directoryExists } = require("./helpers")
+const { directoryExists } = require("./helpers")
 const markdownGenerators = require("./markdown_generators")
 const loggers = require("./loggers")
 const helpers = require("./helpers")
@@ -19,6 +21,17 @@ const progressBar = new cliProgress.SingleBar(
   cliProgress.Presets.shades_classic
 )
 const readdir = util.promisify(fs.readdir)
+
+const writeBoilerplate = async outputPath => {
+  BOILERPLATE_MARKDOWN.forEach(file => {
+    if (!directoryExists(file.path)) {
+      const filePath = path.join(outputPath, file.path)
+      const content = `---\n${yaml.safeDump(file.content)}---\n`
+      fs.mkdirSync(filePath, { recursive: true })
+      fs.writeFileSync(path.join(filePath, file.name), content)
+    }
+  })
+}
 
 const scanCourses = (inputPath, outputPath, options = {}) => {
   /*
@@ -31,30 +44,38 @@ const scanCourses = (inputPath, outputPath, options = {}) => {
   if (!directoryExists(outputPath)) {
     throw new Error("Invalid output directory")
   }
-  const coursesJson = options.courses
-  helpers.runOptions.strips3 = options.strips3
-  const courseList = coursesJson
-    ? JSON.parse(fs.readFileSync(coursesJson))["courses"]
-    : fs.readdirSync(inputPath).filter(course => !course.startsWith("."))
-  const numCourses = coursesJson
-    ? courseList.length
-    : courseList.filter(file => directoryExists(path.join(inputPath, file)))
-      .length
-  if (numCourses > 0) {
-    // populate the course uid mapping
-    courseList.forEach(async course => {
-      const courseUid = await getCourseUid(inputPath, course)
-      helpers.courseUidList[course] = courseUid
-    })
-    console.log(`Converting ${numCourses} courses to Hugo markdown...`)
-    progressBar.start(numCourses, 0)
-    courseList.forEach(course =>
-      scanCourse(inputPath, outputPath, course).then(() => {
-        progressBar.increment()
+  try {
+    const jsonPath = options.courses
+    helpers.runOptions.strips3 = options.strips3
+    const courseList = jsonPath
+      ? JSON.parse(fs.readFileSync(jsonPath))["courses"]
+      : fs.readdirSync(inputPath).filter(course => !course.startsWith("."))
+    const numCourses = jsonPath
+      ? courseList.length
+      : courseList.filter(file => directoryExists(path.join(inputPath, file)))
+        .length
+    const coursesPath = path.join(outputPath, "courses")
+    if (numCourses > 0) {
+      // populate the course uid mapping
+      courseList.forEach(async course => {
+        const courseUid = await getCourseUid(inputPath, course)
+        helpers.courseUidList[course] = courseUid
       })
-    )
-  } else {
-    console.log(NO_COURSES_FOUND_MESSAGE)
+      console.log(`Converting ${numCourses} courses to Hugo markdown...`)
+      progressBar.start(numCourses, 0)
+      courseList.forEach(course =>
+        scanCourse(inputPath, coursesPath, course).then(() => {
+          progressBar.increment()
+        })
+      )
+    } else {
+      console.log(NO_COURSES_FOUND_MESSAGE)
+    }
+  } catch (err) {
+    loggers.fileLogger.log({
+      level:   "error",
+      message: err
+    })
   }
 }
 
@@ -156,6 +177,7 @@ const writeSectionFiles = (key, section, outputPath) => {
 }
 
 module.exports = {
+  writeBoilerplate,
   scanCourses,
   scanCourse,
   getMasterJsonFileName,

@@ -10,5 +10,30 @@ module.exports = {
     "No courses found!  For more information, see README.md",
   AWS_REGEX: new RegExp(
     /https?:\/\/open-learning-course-data(.*)\.s3\.amazonaws.com/g
-  )
+  ),
+  BOILERPLATE_MARKDOWN: [
+    {
+      path:    "",
+      name:    "_index.md",
+      content: {
+        title: "Hugo Course Publisher"
+      }
+    },
+    {
+      path:    "search",
+      name:    "_index.md",
+      content: {
+        title: "Search",
+        type:  "search"
+      }
+    },
+    {
+      path:    "courses",
+      name:    "_index.md",
+      content: {
+        title: "Courses",
+        type:  "courseindex"
+      }
+    }
+  ]
 }
