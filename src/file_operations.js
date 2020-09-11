@@ -127,7 +127,6 @@ const getMasterJsonFileName = async coursePath => {
     message: courseError
   })
   progressBar.increment()
-  throw new Error(courseError)
 }
 
 const writeMarkdownFilesRecursive = (outputPath, markdownData) => {
