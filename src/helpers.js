@@ -371,7 +371,7 @@ const stripS3 = text => {
   } else return text
 }
 
-const unescapeBackticks = text => text.replace(/\\`/g, "`")
+const unescapeBackticks = text => text.replace(/\\`/g, "&grave;")
 
 module.exports = {
   distinct,
