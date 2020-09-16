@@ -2,11 +2,18 @@
 
 ## Installation
 
+These examples demonstrate installing `ocw-to-hugo` globally, as it is designed to be a command line utility that can be run from anywhere in the system.  However, you may omit the global flag if you wish to install it into another project.
+
+### From source
 ```shell
 $ cd ~/path/to/temp/dir
 $ git clone git@github.com:mitodl/ocw-to-hugo.git
 $ cd ocw-to-hugo
 $ npm install -g .
+```
+### From npm
+```shell
+$ npm install -g ocw-to-hugo
 ```
 
 ## Usage
@@ -15,14 +22,13 @@ $ npm install -g .
 $ ocw-to-hugo -c <courses.json location> -d -i <input directory> -o <output directory>
 ```
 
-This utility optionally takes a JSON file of OCW course ID's, formatted as:
+This utility optionally takes a JSON file of OCW course ID's.  Various examples of this can be found in the `course_json_examples` folder, but generally it is formatted as:
 
 ```json
 {
     "courses": [
         "12-001-introduction-to-geology-fall-2013",
-        "14-01sc-principles-of-microeconomics-fall-2011",
-		...
+        "14-01sc-principles-of-microeconomics-fall-2011"
     ]
 }
 ```
