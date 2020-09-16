@@ -116,6 +116,36 @@ turndownService.addRule("codeblockfix", {
 })
 
 /**
+ * turn kbd, tt and samp elements into inline code blocks
+ */
+turndownService.addRule("inlinecodeblockfix", {
+  filter: node =>
+    node.nodeName === "KBD" ||
+    node.nodeName === "TT" ||
+    node.nodeName === "SAMP",
+  replacement: (content, node, options) => {
+    /**
+     * fix weird formatting issue with some elements' content being wrapped
+     * between a backtick and a single quote
+     */
+    try {
+      // eslint seems to think the escaped backtick in the regex is useless, but it's not
+      // eslint-disable-next-line no-useless-escape
+      const backTickSingleQuoteWrap = new RegExp(/(?<=\`)(.*?)(?=')/g)
+      content.match(backTickSingleQuoteWrap).forEach(match => {
+        content = content.replace(`\\\`${match}'`, match)
+      })
+    } catch (err) {
+      loggers.fileLogger.log({
+        level:   "error",
+        message: err
+      })
+    }
+    return `\`${content}\``
+  }
+})
+
+/**
  * Build anchor link shortcodes
  **/
 turndownService.addRule("anchorshortcode", {
@@ -476,8 +506,8 @@ const generateCourseSectionMarkdown = (page, courseData) => {
     Generate markdown a given course section page
     */
   try {
-    return `${turndownService.turndown(
-      fixLinks(page["text"], page, courseData)
+    return `${helpers.unescapeBackticks(
+      turndownService.turndown(fixLinks(page["text"], page, courseData))
     )}${generateCourseFeaturesMarkdown(page, courseData)}`
   } catch (err) {
     loggers.fileLogger.log({
@@ -524,10 +554,14 @@ const generateCourseFeaturesMarkdown = (page, courseData) => {
           return {
             href:          fileName,
             "data-ngdesc": helpers.htmlSafeText(
-              turndownService.turndown(image["description"])
+              helpers.unescapeBackticks(
+                turndownService.turndown(image["description"])
+              )
             ),
             text: helpers.htmlSafeText(
-              turndownService.turndown(image["caption"])
+              helpers.unescapeBackticks(
+                turndownService.turndown(image["caption"])
+              )
             )
           }
         })

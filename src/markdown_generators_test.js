@@ -418,6 +418,17 @@ describe("generateCourseSectionMarkdown", () => {
       )
     )
   })
+
+  it("should strip pre-escaped backticks from markdown", () => {
+    assert(
+      !markdownGenerators
+        .generateCourseSectionMarkdown(
+          coursePagesWithText[0],
+          singleCourseJsonData
+        )
+        .includes("\\`")
+    )
+  })
 })
 
 describe("generateCourseFeaturesMarkdown", () => {
@@ -470,5 +481,11 @@ describe("turndown service", () => {
     const inputHTML = `<a name="test"></a>`
     const markdown = markdownGenerators.turndownService.turndown(inputHTML)
     assert.equal(markdown, `{{< anchor "test" >}}`)
+  })
+
+  it("should turn inline code blocks into text surrounded by backticks", () => {
+    const inputHTML = `<kbd>test</kbd><tt>test</tt><samp>test</samp>`
+    const markdown = markdownGenerators.turndownService.turndown(inputHTML)
+    assert.equal(markdown, "`test``test``test`")
   })
 })
