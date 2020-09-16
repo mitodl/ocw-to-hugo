@@ -13,7 +13,7 @@ $ npm install -g .
 ```
 ### From npm
 ```shell
-$ npm install -g ocw-to-hugo
+$ npm install -g @mitodl/ocw-to-hugo
 ```
 
 ## Usage
