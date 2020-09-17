@@ -34,7 +34,7 @@ const downloadCourses = async (coursesJson, coursesDir) => {
     process.env["AWS_SECRET_ACCESS_KEY"]
   ) {
     AWS.config = new AWS.Config({
-      region:      process.env["AWS_RGEION"],
+      region:      process.env["AWS_REGION"],
       credentials: new AWS.Credentials({
         accessKeyId:     process.env["AWS_ACCESS_KEY"],
         secretAccessKey: process.env["AWS_SECRET_ACCESS_KEY"]
