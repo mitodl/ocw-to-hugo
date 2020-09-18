@@ -67,4 +67,7 @@ const run = async () => {
   })
 }
 
-run()
+run().catch(err => {
+  console.error("Error:", err)
+  process.exit(1)
+})
