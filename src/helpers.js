@@ -367,7 +367,8 @@ const htmlSafeText = text =>
 
 const stripS3 = text => {
   if (runOptions.strips3) {
-    return text.replace(AWS_REGEX, "")
+    const staticPrefix = runOptions.staticPrefix ? runOptions.staticPrefix : ""
+    return text.replace(AWS_REGEX, staticPrefix)
   } else return text
 }
 

@@ -40,6 +40,12 @@ const options = yargs
       "A flag that tells ocw-to-hugo to strip the s3 base url from OCW resources",
     type:         "boolean",
     demandOption: false
+  })
+  .option("staticPrefix", {
+    describe:
+      "When strips3 is set to true, the value passed into this argument will replace the s3 prefix on static assets",
+    type:         "string",
+    demandOption: false
   }).argv
 
 const run = async () => {
@@ -54,8 +60,9 @@ const run = async () => {
   }
   writeBoilerplate(options.output).then(() => {
     scanCourses(options.input, options.output, {
-      courses: options.courses,
-      strips3: options.strips3
+      courses:      options.courses,
+      strips3:      options.strips3,
+      staticPrefix: options.staticPrefix
     })
   })
 }
