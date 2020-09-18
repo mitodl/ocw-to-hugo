@@ -47,6 +47,7 @@ const scanCourses = (inputPath, outputPath, options = {}) => {
   try {
     const jsonPath = options.courses
     helpers.runOptions.strips3 = options.strips3
+    helpers.runOptions.staticPrefix = options.staticPrefix
     const courseList = jsonPath
       ? JSON.parse(fs.readFileSync(jsonPath))["courses"]
       : fs.readdirSync(inputPath).filter(course => !course.startsWith("."))

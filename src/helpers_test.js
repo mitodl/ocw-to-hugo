@@ -199,4 +199,10 @@ describe("stripS3", () => {
       "https://open-learning-course-data.s3.amazonaws.com/test.jpg"
     )
   })
+
+  it("replaces the s3 prefix with a static prefix if set", () => {
+    helpers.runOptions.staticPrefix = "/courses"
+    const input = "https://open-learning-course-data.s3.amazonaws.com/test.jpg"
+    assert.equal(helpers.stripS3(input), "/courses/test.jpg")
+  })
 })
