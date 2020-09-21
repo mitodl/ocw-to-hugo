@@ -1,8 +1,8 @@
 const _ = require("lodash")
-const fs = require("fs")
+const { lstat, mkdir, unlink, writeFile } = require("fs").promises
 const path = require("path")
 
-const departmentsJson = require("./departments.json")
+const DEPARTMENTS_JSON = require("./departments.json")
 const {
   AWS_REGEX,
   GETPAGESHORTCODESTART,
@@ -17,29 +17,26 @@ const distinct = (value, index, self) => {
   return self.indexOf(value) === index
 }
 
-const directoryExists = directory => {
-  return (
-    directory &&
-    fs.existsSync(directory) &&
-    fs.lstatSync(directory).isDirectory()
-  )
-}
+const directoryExists = async directory =>
+  directory &&
+  (await lstat(directory)).isDirectory()
 
-const createOrOverwriteFile = (file, body) => {
+const fileExists = async path => (await lstat(path)).isFile()
+
+const createOrOverwriteFile = async (file, body) => {
   const dirName = path.dirname(file)
-  if (!directoryExists(dirName)) {
-    fs.mkdirSync(dirName, { recursive: true })
-  } else if (fs.existsSync(file)) {
-    fs.unlinkSync(file)
+  if (!(await directoryExists(dirName))) {
+    await mkdir(dirName, { recursive: true })
+  } else if (await fileExists(file)) {
+    await unlink(file)
   }
-  fs.writeFileSync(file, body)
+  await writeFile(file, body)
 }
 
-const findDepartmentByNumber = departmentNumber => {
-  return departmentsJson.find(department => {
-    return department["depNo"] === departmentNumber.toString()
-  })
-}
+const findDepartmentByNumber = departmentNumber =>
+  DEPARTMENTS_JSON.find(
+    department => department["depNo"] === departmentNumber.toString()
+  )
 
 const getDepartments = courseData => {
   const primaryDepartmentNumber = courseData["department_number"]
@@ -378,6 +375,7 @@ module.exports = {
   distinct,
   directoryExists,
   createOrOverwriteFile,
+  fileExists,
   findDepartmentByNumber,
   getDepartments,
   getCourseNumbers,

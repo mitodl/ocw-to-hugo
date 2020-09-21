@@ -52,18 +52,13 @@ const run = async () => {
   if (options.courses && options.download) {
     await downloadCourses(options.courses, options.input)
   } else if (options.download && !options.courses) {
-    loggers.fileLogger.log({
-      level:   "error",
-      message: MISSING_JSON_ERROR_MESSAGE
-    })
     throw new Error(MISSING_JSON_ERROR_MESSAGE)
   }
-  writeBoilerplate(options.output).then(() => {
-    scanCourses(options.input, options.output, {
-      courses:      options.courses,
-      strips3:      options.strips3,
-      staticPrefix: options.staticPrefix
-    })
+  await writeBoilerplate(options.output)
+  await scanCourses(options.input, options.output, {
+    courses:      options.courses,
+    strips3:      options.strips3,
+    staticPrefix: options.staticPrefix
   })
 }
 
@@ -71,7 +66,7 @@ run().catch(err => {
   console.error("Error:", err)
   loggers.fileLogger.log({
     level:   "error",
-    message: err
+    message: err.message
   })
   process.exit(1)
 })
