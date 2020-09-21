@@ -67,4 +67,11 @@ const run = async () => {
   })
 }
 
-run()
+run().catch(err => {
+  console.error("Error:", err)
+  loggers.fileLogger.log({
+    level:   "error",
+    message: err
+  })
+  process.exit(1)
+})
