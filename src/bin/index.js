@@ -64,7 +64,6 @@ const run = async () => {
 
 run()
   .catch(err => {
-    console.error("Error:", err, Object.keys(err))
     loggers.fileLogger.log({
       level:   "error",
       message: err.message
