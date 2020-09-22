@@ -501,21 +501,21 @@ describe("generateCourseFeaturesMarkdown", () => {
 
 describe("turndown tables", () => {
   let markdown
-  const tableHTML = `<table summary=\"See table caption for summary.\" class=\"tablewidth100\">
-    <caption class=\"invisible\">Course readings.</caption> <!-- BEGIN TABLE HEADER (for MIT OCW Table Template 2.51) -->
+  const tableHTML = `<table summary="See table caption for summary." class="tablewidth100">
+    <caption class="invisible">Course readings.</caption> <!-- BEGIN TABLE HEADER (for MIT OCW Table Template 2.51) -->
     <thead>
       <tr>
-        <th scope=\"col\">LEC&nbsp;#</th>
-        <th scope=\"col\">TOPICS</th>
-        <th scope=\"col\">READINGS&nbsp;(3D&nbsp;ED.)</th>
-        <th scope=\"col\">READINGS&nbsp;(4TH&nbsp;ED.)</th>
+        <th scope="col">LEC&nbsp;#</th>
+        <th scope="col">TOPICS</th>
+        <th scope="col">READINGS&nbsp;(3D&nbsp;ED.)</th>
+        <th scope="col">READINGS&nbsp;(4TH&nbsp;ED.)</th>
       </tr>
     </thead> <!-- END TABLE HEADER -->
     <tbody>
-      <tr class=\"row\">
-        <td colspan=\"4\"><strong>Control and Scope</strong></td>
+      <tr class="row">
+        <td colspan="4"><strong>Control and Scope</strong></td>
       </tr>
-      <tr class=\"alt-row\">
+      <tr class="alt-row">
         <td>L 1</td>
         <td>Course Overview, Introduction to Java</td>
         <td>&mdash;</td>
