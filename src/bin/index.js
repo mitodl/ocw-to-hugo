@@ -62,16 +62,21 @@ const run = async () => {
   })
 }
 
-run().catch(err => {
-  console.error("Error:", err, Object.keys(err))
-  loggers.fileLogger.log({
-    level:   "error",
-    message: err.message
-  })
-  process.exit(1)
-}).then(() => {
-  if (loggers.memoryTransport.logs.length) {
-    console.error("Found errors which were logged: ", loggers.memoryTransport.logs)
+run()
+  .catch(err => {
+    console.error("Error:", err, Object.keys(err))
+    loggers.fileLogger.log({
+      level:   "error",
+      message: err.message
+    })
     process.exit(1)
-  }
-})
+  })
+  .then(() => {
+    if (loggers.memoryTransport.logs.length) {
+      console.error(
+        "Found errors which were logged: ",
+        loggers.memoryTransport.logs
+      )
+      process.exit(1)
+    }
+  })

@@ -23,7 +23,7 @@ const { readdir, mkdir, readFile, unlink, writeFile } = fsPromises
 
 const writeBoilerplate = async outputPath => {
   for (const file of BOILERPLATE_MARKDOWN) {
-    if (!await directoryExists(file.path)) {
+    if (!(await directoryExists(file.path))) {
       const filePath = path.join(outputPath, file.path)
       const content = `---\n${yaml.safeDump(file.content)}---\n`
       await mkdir(filePath, { recursive: true })
@@ -37,10 +37,10 @@ const scanCourses = async (inputPath, outputPath, options = {}) => {
     This function scans the input directory for course folders
   */
   // Make sure that the input and output arguments have been passed and they are directories
-  if (!await directoryExists(inputPath)) {
+  if (!(await directoryExists(inputPath))) {
     throw new Error("Invalid input directory")
   }
-  if (!await directoryExists(outputPath)) {
+  if (!(await directoryExists(outputPath))) {
     throw new Error("Invalid output directory")
   }
 
@@ -52,8 +52,11 @@ const scanCourses = async (inputPath, outputPath, options = {}) => {
     : (await readdir(inputPath)).filter(course => !course.startsWith("."))
   const numCourses = jsonPath
     ? courseList.length
-    : Promise.all(courseList.map(file => path.join(inputPath, file)).map(path => directoryExists(path)))
-      .length
+    : Promise.all(
+      courseList
+        .map(file => path.join(inputPath, file))
+        .map(path => directoryExists(path))
+    ).length
   const coursesPath = path.join(outputPath, "courses")
   if (numCourses > 0) {
     // populate the course uid mapping
@@ -130,7 +133,7 @@ const writeMarkdownFilesRecursive = async (outputPath, markdownData) => {
   for (const section of markdownData) {
     const sectionPath = path.join(outputPath, section["name"])
     const sectionDirPath = path.dirname(sectionPath)
-    if (!await directoryExists(sectionDirPath)) {
+    if (!(await directoryExists(sectionDirPath))) {
       await mkdir(sectionDirPath, { recursive: true })
     }
     if (await fileExists(sectionPath)) {
@@ -151,7 +154,7 @@ const writeSectionFiles = async (key, section, outputPath) => {
       try {
         const filePath = path.join(outputPath, file["name"])
         const fileDirPath = path.dirname(filePath)
-        if (!await directoryExists(fileDirPath)) {
+        if (!(await directoryExists(fileDirPath))) {
           await mkdir(fileDirPath, { recursive: true })
         }
         if (await fileExists(filePath)) {

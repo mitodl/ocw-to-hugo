@@ -1,5 +1,5 @@
 const winston = require("winston")
-const TransportStream = require('winston-transport')
+const TransportStream = require("winston-transport")
 
 class MemoryTransport extends TransportStream {
   constructor() {
