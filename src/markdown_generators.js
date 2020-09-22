@@ -64,34 +64,20 @@ turndownService.addRule("table", {
     if (content.match(/(?<=\| \*\*)(.*?)(?=\*\* \|\r?\n|\r)/g)) {
       // Get the amount of columns by matching three hyphens and counting
       const totalColumns = content.match(/---/g || []).length
-      // Split headers out on their own so they aren't in one cell
-      return (
-        content
-        /**
-           * First, replace pipe space and double asterisk with a newline
-           * followed by double asterisk
-           */
-
-          .replace(/\| \*\*/g, "\n**")
-          /**
-           * Second, replace double asterisk space pipe followed by a newline
-           * or carriage return with double asterisk double newline.  After the
-           * second newline, re-initialize the table by iterating a pipe followed
-           * by a space and three hyphens for the total amount of columns, finally
-           * closing it out with a single pipe at the end
-           */
-          .replace(
-            /\*\* \|\r?\n|\r/g,
-            `**\n\n${"| ".repeat(totalColumns)}|\n${"| --- ".repeat(
-              totalColumns
-            )}|`
-          )
-          /**
-           * Finally, reconstruct the table by inserting line breaks in between
-           * back-to-back pipes to re-create rows
-           */
-          .replace(/\|\|/g, "|\n|")
-      )
+      // Style headers so that they aren't bound by the width of one cell
+      content.match(/\| \*\*(.*)\*\* \|\r?\n|\r/g).forEach(element => {
+        const headerContent = element
+          .replace(/\| \*\*/g, "")
+          .replace(/\*\* \|\r?\n|\r/g, "")
+        // Wrap header content in the fullwidth-cell shortcode and insert spaces to set line height
+        content = content.replace(
+          element,
+          `| {{< fullwidth-cell >}}**${headerContent}**{{< /fullwidth-cell >}} |${" &nbsp; |".repeat(
+            totalColumns - 1
+          )}\n`
+        )
+      })
+      return content
     } else return content
   }
 })
