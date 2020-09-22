@@ -521,7 +521,7 @@ const generateCourseSectionMarkdown = (page, courseData) => {
     */
   try {
     return `${helpers.unescapeBackticks(
-      turndownService.turndown(fixLinks(page["text"], page, courseData))
+      turndownService.turndown(fixLinks(page["text"] || "", page, courseData))
     )}${generateCourseFeaturesMarkdown(page, courseData)}`
   } catch (err) {
     loggers.fileLogger.log({

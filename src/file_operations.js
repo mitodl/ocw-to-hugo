@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-const fsPromises = require("fs").promises
+const fsPromises = require("./fsPromises")
 const path = require("path")
 const yaml = require("js-yaml")
 const cliProgress = require("cli-progress")

@@ -1,4 +1,19 @@
 const winston = require("winston")
+const TransportStream = require('winston-transport')
+
+class MemoryTransport extends TransportStream {
+  constructor() {
+    super()
+    this.logs = []
+  }
+
+  log(info, callback) {
+    this.logs.push(info)
+    callback()
+  }
+}
+
+const memoryTransport = new MemoryTransport()
 
 const fileLogger = winston.createLogger({
   level:       "error",
@@ -12,10 +27,12 @@ const fileLogger = winston.createLogger({
     new winston.transports.File({
       filename: "ocw-to-hugo.info.log",
       level:    "info"
-    })
+    }),
+    memoryTransport
   ]
 })
 
 module.exports = {
-  fileLogger
+  fileLogger,
+  memoryTransport
 }

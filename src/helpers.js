@@ -1,7 +1,7 @@
 const _ = require("lodash")
-const { lstat, mkdir, unlink, writeFile } = require("fs").promises
 const path = require("path")
 
+const { lstat, mkdir, unlink, writeFile } = require("./fsPromises")
 const DEPARTMENTS_JSON = require("./departments.json")
 const {
   AWS_REGEX,
@@ -17,9 +17,14 @@ const distinct = (value, index, self) => {
   return self.indexOf(value) === index
 }
 
-const directoryExists = async directory =>
-  directory &&
-  (await lstat(directory)).isDirectory()
+const directoryExists = async directory => {
+  try {
+    return directory && (await lstat(directory)).isDirectory()
+  } catch (err) {
+    // this will happen if we don't have access to the directory or if it doesn't exist
+    return false
+  }
+}
 
 const fileExists = async path => (await lstat(path)).isFile()
 
