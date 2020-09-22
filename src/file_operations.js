@@ -19,15 +19,14 @@ const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
   cliProgress.Presets.shades_classic
 )
-const { readdir, mkdir, readFile, unlink, writeFile } = fsPromises
 
 const writeBoilerplate = async outputPath => {
   for (const file of BOILERPLATE_MARKDOWN) {
     if (!(await directoryExists(file.path))) {
       const filePath = path.join(outputPath, file.path)
       const content = `---\n${yaml.safeDump(file.content)}---\n`
-      await mkdir(filePath, { recursive: true })
-      await writeFile(path.join(filePath, file.name), content)
+      await fsPromises.mkdir(filePath, { recursive: true })
+      await fsPromises.writeFile(path.join(filePath, file.name), content)
     }
   }
 }
@@ -48,15 +47,19 @@ const scanCourses = async (inputPath, outputPath, options = {}) => {
   helpers.runOptions.strips3 = options.strips3
   helpers.runOptions.staticPrefix = options.staticPrefix
   const courseList = jsonPath
-    ? JSON.parse(await readFile(jsonPath))["courses"]
-    : (await readdir(inputPath)).filter(course => !course.startsWith("."))
+    ? JSON.parse(await fsPromises.readFile(jsonPath))["courses"]
+    : (await fsPromises.readdir(inputPath)).filter(
+      course => !course.startsWith(".")
+    )
   const numCourses = jsonPath
     ? courseList.length
-    : Promise.all(
-      courseList
-        .map(file => path.join(inputPath, file))
-        .map(path => directoryExists(path))
-    ).length
+    : (
+      await Promise.all(
+        courseList
+          .map(file => path.join(inputPath, file))
+          .map(path => directoryExists(path))
+      )
+    ).filter(Boolean).length
   const coursesPath = path.join(outputPath, "courses")
   if (numCourses > 0) {
     // populate the course uid mapping
@@ -79,7 +82,7 @@ const getCourseUid = async (inputPath, course) => {
   const coursePath = path.join(inputPath, course)
   const masterJsonFile = await getMasterJsonFileName(coursePath)
   if (masterJsonFile) {
-    const courseData = JSON.parse(await readFile(masterJsonFile))
+    const courseData = JSON.parse(await fsPromises.readFile(masterJsonFile))
     return courseData["uid"]
   }
 }
@@ -92,7 +95,7 @@ const scanCourse = async (inputPath, outputPath, course) => {
   const coursePath = path.join(inputPath, course)
   const masterJsonFile = await getMasterJsonFileName(coursePath)
   if (masterJsonFile) {
-    const courseData = JSON.parse(await readFile(masterJsonFile))
+    const courseData = JSON.parse(await fsPromises.readFile(masterJsonFile))
     const markdownData = markdownGenerators.generateMarkdownFromJson(courseData)
     await writeMarkdownFilesRecursive(
       path.join(outputPath, courseData["short_url"]),
@@ -107,7 +110,7 @@ const getMasterJsonFileName = async coursePath => {
   */
   if (await directoryExists(coursePath)) {
     // If the item is indeed a directory, read all files in it
-    const contents = await readdir(coursePath)
+    const contents = await fsPromises.readdir(coursePath)
     const fileName = contents.find(
       file =>
         RegExp("^[0-9a-f]{32}_master.json").test(file) || file === "master.json"
@@ -134,12 +137,12 @@ const writeMarkdownFilesRecursive = async (outputPath, markdownData) => {
     const sectionPath = path.join(outputPath, section["name"])
     const sectionDirPath = path.dirname(sectionPath)
     if (!(await directoryExists(sectionDirPath))) {
-      await mkdir(sectionDirPath, { recursive: true })
+      await fsPromises.mkdir(sectionDirPath, { recursive: true })
     }
     if (await fileExists(sectionPath)) {
-      await unlink(sectionPath)
+      await fsPromises.unlink(sectionPath)
     }
-    await writeFile(sectionPath, section["data"])
+    await fsPromises.writeFile(sectionPath, section["data"])
     await writeSectionFiles("files", section, outputPath)
     await writeSectionFiles("media", section, outputPath)
     if (section.hasOwnProperty("children")) {
@@ -155,12 +158,12 @@ const writeSectionFiles = async (key, section, outputPath) => {
         const filePath = path.join(outputPath, file["name"])
         const fileDirPath = path.dirname(filePath)
         if (!(await directoryExists(fileDirPath))) {
-          await mkdir(fileDirPath, { recursive: true })
+          await fsPromises.mkdir(fileDirPath, { recursive: true })
         }
         if (await fileExists(filePath)) {
-          await unlink(filePath)
+          await fsPromises.unlink(filePath)
         }
-        await writeFile(filePath, file["data"])
+        await fsPromises.writeFile(filePath, file["data"])
       } catch (err) {
         loggers.fileLogger.log({
           level:   "error",

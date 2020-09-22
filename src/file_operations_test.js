@@ -1,4 +1,4 @@
-const fsPromises = require("fs").promises
+const fsPromises = require("./fsPromises")
 const path = require("path")
 const sinon = require("sinon")
 const { assert, expect } = require("chai").use(require("sinon-chai"))
@@ -173,13 +173,9 @@ describe("writeMarkdownFilesRecursive", () => {
   const outputPath = tmp.dirSync({ prefix: "output" }).name
 
   beforeEach(async () => {
-    mkDirStub = sandbox.spy(fsPromises, "mkdirStub").returns(Promise.resolve())
-    writeFileStub = sandbox
-      .spy(fsPromises, "writeFileStub")
-      .returns(Promise.resolve())
-    unlinkStub = sandbox
-      .spy(fsPromises, "unlinkStub")
-      .returns(Promise.resolve())
+    mkDirStub = sandbox.spy(fsPromises, "mkdir")
+    writeFileStub = sandbox.spy(fsPromises, "writeFile")
+    unlinkStub = sandbox.spy(fsPromises, "unlink")
     await fileOperations.writeMarkdownFilesRecursive(
       path.join(outputPath, singleCourseId),
       singleCourseMarkdownData

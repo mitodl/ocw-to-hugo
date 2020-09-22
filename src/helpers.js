@@ -1,7 +1,7 @@
 const _ = require("lodash")
 const path = require("path")
 
-const { lstat, mkdir, unlink, writeFile } = require("./fsPromises")
+const fsPromises = require("./fsPromises")
 const DEPARTMENTS_JSON = require("./departments.json")
 const {
   AWS_REGEX,
@@ -19,7 +19,7 @@ const distinct = (value, index, self) => {
 
 const directoryExists = async directory => {
   try {
-    return (await lstat(directory)).isDirectory()
+    return (await fsPromises.lstat(directory)).isDirectory()
   } catch (err) {
     // this will happen if we don't have access to the directory or if it doesn't exist
     return false
@@ -28,7 +28,7 @@ const directoryExists = async directory => {
 
 const fileExists = async path => {
   try {
-    return (await lstat(path)).isFile()
+    return (await fsPromises.lstat(path)).isFile()
   } catch (err) {
     // this will happen if we don't have access to the file or if it doesn't exist
     return false
@@ -38,11 +38,11 @@ const fileExists = async path => {
 const createOrOverwriteFile = async (file, body) => {
   const dirName = path.dirname(file)
   if (!(await directoryExists(dirName))) {
-    await mkdir(dirName, { recursive: true })
+    await fsPromises.mkdir(dirName, { recursive: true })
   } else if (await fileExists(file)) {
-    await unlink(file)
+    await fsPromises.unlink(file)
   }
-  await writeFile(file, body)
+  await fsPromises.writeFile(file, body)
 }
 
 const findDepartmentByNumber = departmentNumber =>
