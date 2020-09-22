@@ -108,9 +108,9 @@ describe("scanCourses", () => {
     expect(consoleLog).calledWithExactly(NO_COURSES_FOUND_MESSAGE)
   })
 
-  it("calls readdir once", async () => {
+  it("calls readdir nine times, once for courses and once for each course", async () => {
     await fileOperations.scanCourses(inputPath, outputPath)
-    expect(readdirStub).to.be.calledOnce
+    assert.equal(readdirStub.callCount, 9)
   })
 
   it("scans the four test courses and reports to console", async () => {
