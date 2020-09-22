@@ -14,7 +14,7 @@ const progressBar = new cliProgress.SingleBar(
 )
 
 const downloadCourses = async (coursesJson, coursesDir) => {
-  if (!await fileExists(coursesJson)) {
+  if (!(await fileExists(coursesJson))) {
     throw new Error("Invalid courses JSON")
   }
   if (!coursesDir) {
