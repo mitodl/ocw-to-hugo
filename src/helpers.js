@@ -19,14 +19,21 @@ const distinct = (value, index, self) => {
 
 const directoryExists = async directory => {
   try {
-    return directory && (await lstat(directory)).isDirectory()
+    return (await lstat(directory)).isDirectory()
   } catch (err) {
     // this will happen if we don't have access to the directory or if it doesn't exist
     return false
   }
 }
 
-const fileExists = async path => (await lstat(path)).isFile()
+const fileExists = async path => {
+  try {
+    return (await lstat(path)).isFile()
+  } catch (err) {
+    // this will happen if we don't have access to the file or if it doesn't exist
+    return false
+  }
+}
 
 const createOrOverwriteFile = async (file, body) => {
   const dirName = path.dirname(file)
