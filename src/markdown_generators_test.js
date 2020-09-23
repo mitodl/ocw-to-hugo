@@ -51,7 +51,8 @@ const courseFeaturesFrontMatter = markdownGenerators.generateCourseFeaturesMarkd
 describe("generateMarkdownFromJson", () => {
   it("contains the course home page and other expected sections", () => {
     const singleCourseMarkdownData = markdownGenerators.generateMarkdownFromJson(
-      singleCourseJsonData, singleCourseId
+      singleCourseJsonData,
+      singleCourseId
     )
     const expectedSections = singleCourseJsonData["course_pages"]
       .filter(
@@ -154,7 +155,8 @@ describe("generateCourseHomeMarkdown", () => {
     getConsolidatedTopics = sandbox.spy(helpers, "getConsolidatedTopics")
     safeDump = sandbox.spy(yaml, "safeDump")
     courseHomeMarkdown = markdownGenerators.generateCourseHomeMarkdown(
-      singleCourseJsonData, singleCourseId
+      singleCourseJsonData,
+      singleCourseId
     )
     courseHomeFrontMatter = yaml.safeLoad(courseHomeMarkdown.split("---\n")[1])
   })
@@ -363,19 +365,18 @@ describe("generateCourseSectionFrontMatter", () => {
   })
 
   it("handles missing short_page_title correctly", async () => {
-    const yaml = markdownGenerators
-      .generateCourseSectionFrontMatter(
-        "Syllabus",
-        undefined,
-        "syllabus",
-        null,
-        true,
-        false,
-        false,
-        10,
-        false,
-        singleCourseJsonData["short_url"]
-      )
+    const yaml = markdownGenerators.generateCourseSectionFrontMatter(
+      "Syllabus",
+      undefined,
+      "syllabus",
+      null,
+      true,
+      false,
+      false,
+      10,
+      false,
+      singleCourseJsonData["short_url"]
+    )
     assert.notInclude(yaml, "undefined")
   })
 })
@@ -456,7 +457,10 @@ describe("generateCourseSectionMarkdown", () => {
       ...coursePagesWithText[0],
       text: undefined
     }
-    const markdown = markdownGenerators.generateCourseSectionMarkdown(page, singleCourseJsonData)
+    const markdown = markdownGenerators.generateCourseSectionMarkdown(
+      page,
+      singleCourseJsonData
+    )
     assert.equal(markdown, "")
   })
 })

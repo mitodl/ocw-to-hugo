@@ -28,7 +28,8 @@ const singleCourseRawData = require("fs").readFileSync(
 )
 const singleCourseJsonData = JSON.parse(singleCourseRawData)
 const singleCourseMarkdownData = markdownGenerators.generateMarkdownFromJson(
-  singleCourseJsonData, singleCourseId
+  singleCourseJsonData,
+  singleCourseId
 )
 
 describe("writeBoilerplate", () => {
