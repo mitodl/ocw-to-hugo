@@ -96,7 +96,7 @@ const scanCourse = async (inputPath, outputPath, course) => {
   const masterJsonFile = await getMasterJsonFileName(coursePath)
   if (masterJsonFile) {
     const courseData = JSON.parse(await fsPromises.readFile(masterJsonFile))
-    const markdownData = markdownGenerators.generateMarkdownFromJson(courseData)
+    const markdownData = markdownGenerators.generateMarkdownFromJson(courseData, course)
     await writeMarkdownFilesRecursive(
       path.join(outputPath, courseData["short_url"]),
       markdownData

@@ -51,7 +51,7 @@ const courseFeaturesFrontMatter = markdownGenerators.generateCourseFeaturesMarkd
 describe("generateMarkdownFromJson", () => {
   it("contains the course home page and other expected sections", () => {
     const singleCourseMarkdownData = markdownGenerators.generateMarkdownFromJson(
-      singleCourseJsonData
+      singleCourseJsonData, singleCourseId
     )
     const expectedSections = singleCourseJsonData["course_pages"]
       .filter(
@@ -154,7 +154,7 @@ describe("generateCourseHomeMarkdown", () => {
     getConsolidatedTopics = sandbox.spy(helpers, "getConsolidatedTopics")
     safeDump = sandbox.spy(yaml, "safeDump")
     courseHomeMarkdown = markdownGenerators.generateCourseHomeMarkdown(
-      singleCourseJsonData
+      singleCourseJsonData, singleCourseId
     )
     courseHomeFrontMatter = yaml.safeLoad(courseHomeMarkdown.split("---\n")[1])
   })
@@ -449,6 +449,15 @@ describe("generateCourseSectionMarkdown", () => {
         )
         .includes("\\`")
     )
+  })
+
+  it("handles missing page text gracefully", () => {
+    const page = {
+      ...coursePagesWithText[0],
+      text: undefined
+    }
+    const markdown = markdownGenerators.generateCourseSectionMarkdown(page, singleCourseJsonData)
+    assert.equal(markdown, "")
   })
 })
 

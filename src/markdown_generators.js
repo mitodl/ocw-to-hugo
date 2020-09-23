@@ -236,7 +236,7 @@ const fixLinks = (htmlStr, page, courseData) => {
   return htmlStr
 }
 
-const generateMarkdownFromJson = courseData => {
+const generateMarkdownFromJson = (courseData, course) => {
   /**
     This function takes JSON data parsed from a master.json file and returns markdown data
     */
@@ -251,7 +251,7 @@ const generateMarkdownFromJson = courseData => {
   return [
     {
       name: "_index.md",
-      data: generateCourseHomeMarkdown(courseData)
+      data: generateCourseHomeMarkdown(courseData, course)
     },
     ...rootSections.map(generateMarkdownRecursive, this)
   ]
@@ -347,13 +347,17 @@ const generateMarkdownRecursive = page => {
   }
 }
 
-const generateCourseHomeMarkdown = courseData => {
+const generateCourseHomeMarkdown = (courseData, course) => {
   /**
     Generate the front matter metadata for the course home page given course_data JSON
     */
   const courseHomePage = courseData["course_pages"].find(
     coursePage => coursePage["type"] === "CourseHomeSection"
   )
+  if (!courseHomePage) {
+    loggers.fileLogger.error(`Missing home page for ${course}`)
+    return null
+  }
   const courseDescription = courseData["description"]
     ? turndownService.turndown(
       fixLinks(courseData["description"], courseHomePage, courseData)
