@@ -46,6 +46,11 @@ const options = yargs
       "When strips3 is set to true, the value passed into this argument will replace the s3 prefix on static assets",
     type:         "string",
     demandOption: false
+  })
+  .option("verbose", {
+    describe:     "Write error logging and other extra output",
+    type:         "boolean",
+    demandOption: false
   }).argv
 
 const run = async () => {
@@ -70,10 +75,12 @@ run()
   })
   .then(() => {
     if (loggers.memoryTransport.logs.length) {
-      console.error(
-        "Found errors which were logged: ",
-        loggers.memoryTransport.logs
-      )
+      if (options.verbose) {
+        console.error(
+          "Found errors which were logged: ",
+          loggers.memoryTransport.logs
+        )
+      }
       process.exit(1)
     }
   })
