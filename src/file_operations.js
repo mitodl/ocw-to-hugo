@@ -121,10 +121,7 @@ const getMasterJsonFileName = async coursePath => {
   }
   //  If we made it here, the master json file wasn't found
   const courseError = `${coursePath} - ${MISSING_COURSE_ERROR_MESSAGE}`
-  loggers.fileLogger.log({
-    level:   "error",
-    message: courseError
-  })
+  loggers.fileLogger.error(courseError)
   progressBar.increment()
 }
 
@@ -165,10 +162,7 @@ const writeSectionFiles = async (key, section, outputPath) => {
         }
         await fsPromises.writeFile(filePath, file["data"])
       } catch (err) {
-        loggers.fileLogger.log({
-          level:   "error",
-          message: err
-        })
+        loggers.fileLogger.error(err)
       }
     }
   }

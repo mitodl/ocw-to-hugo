@@ -254,7 +254,7 @@ const resolveUids = (htmlStr, page, courseData) => {
       }
     )
   } catch (err) {
-    loggers.fileLogger.error(err.message)
+    loggers.fileLogger.error(err)
   }
   return htmlStr
 }
@@ -354,7 +354,7 @@ const resolveRelativeLinks = (htmlStr, courseData) => {
       }
     })
   } catch (err) {
-    loggers.fileLogger.error(err.message)
+    loggers.fileLogger.error(err)
   }
   return htmlStr.replace(/http:\/\/ocw.mit.edu/g, "")
 }

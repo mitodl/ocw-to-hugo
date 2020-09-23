@@ -136,10 +136,7 @@ turndownService.addRule("inlinecodeblockfix", {
         content = content.replace(`\\\`${match}'`, match)
       })
     } catch (err) {
-      loggers.fileLogger.log({
-        level:   "error",
-        message: err
-      })
+      loggers.fileLogger.error(err)
     }
     return `\`${content}\``
   }
@@ -327,10 +324,7 @@ const generateMarkdownRecursive = page => {
             }
           }
         } catch (err) {
-          loggers.fileLogger.log({
-            level:   "error",
-            message: err
-          })
+          loggers.fileLogger.error(err)
           return null
         }
       })
@@ -345,10 +339,7 @@ const generateMarkdownRecursive = page => {
             }
           }
         } catch (err) {
-          loggers.fileLogger.log({
-            level:   "error",
-            message: err
-          })
+          loggers.fileLogger.error(err)
           return null
         }
       })
@@ -427,10 +418,7 @@ const generateCourseHomeMarkdown = courseData => {
       frontMatter
     )}---\n${courseDescription}\n${otherInformationText}`
   } catch (err) {
-    loggers.fileLogger.log({
-      level:   "error",
-      message: err
-    })
+    loggers.fileLogger.error(err)
     return null
   }
 }
@@ -524,10 +512,7 @@ const generateCourseSectionMarkdown = (page, courseData) => {
       turndownService.turndown(fixLinks(page["text"] || "", page, courseData))
     )}${generateCourseFeaturesMarkdown(page, courseData)}`
   } catch (err) {
-    loggers.fileLogger.log({
-      level:   "error",
-      message: err
-    })
+    loggers.fileLogger.error(err)
     return page["text"]
   }
 }
