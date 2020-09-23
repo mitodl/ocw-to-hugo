@@ -449,7 +449,7 @@ const generateCourseSectionFrontMatter = (
     courseSectionFrontMatter["menu"] = {
       [courseId]: {
         identifier: pageId,
-        name:       shortTitle,
+        name:       shortTitle || "",
         weight:     menuIndex
       }
     }
