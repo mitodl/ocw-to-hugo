@@ -156,7 +156,11 @@ turndownService.addRule("anchorshortcode", {
     return false
   },
   replacement: (content, node, options) => {
-    return `{{< anchor "${node.getAttribute("name")}" >}}`
+    const name = node.getAttribute("name")
+    const href = node.getAttribute("href")
+    return `{{< anchor "${name}"${
+      href ? ` "${href}"` : ""
+    } >}}${content}{{< /anchor >}}`
   }
 })
 
