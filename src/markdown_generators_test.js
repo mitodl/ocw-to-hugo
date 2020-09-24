@@ -361,6 +361,22 @@ describe("generateCourseSectionFrontMatter", () => {
       ]
     )
   })
+
+  it("handles missing short_page_title correctly", async () => {
+    const yaml = markdownGenerators.generateCourseSectionFrontMatter(
+      "Syllabus",
+      undefined,
+      "syllabus",
+      null,
+      true,
+      false,
+      false,
+      10,
+      false,
+      singleCourseJsonData["short_url"]
+    )
+    assert.notInclude(yaml, "undefined")
+  })
 })
 
 describe("generateCourseFeatures", () => {
@@ -432,6 +448,18 @@ describe("generateCourseSectionMarkdown", () => {
         )
         .includes("\\`")
     )
+  })
+
+  it("handles missing page text gracefully", () => {
+    const page = {
+      ...coursePagesWithText[0],
+      text: undefined
+    }
+    const markdown = markdownGenerators.generateCourseSectionMarkdown(
+      page,
+      singleCourseJsonData
+    )
+    assert.equal(markdown, "")
   })
 })
 

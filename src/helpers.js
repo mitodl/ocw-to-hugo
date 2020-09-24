@@ -1,8 +1,8 @@
 const _ = require("lodash")
-const fs = require("fs")
 const path = require("path")
 
-const departmentsJson = require("./departments.json")
+const fsPromises = require("./fsPromises")
+const DEPARTMENTS_JSON = require("./departments.json")
 const {
   AWS_REGEX,
   GETPAGESHORTCODESTART,
@@ -17,29 +17,38 @@ const distinct = (value, index, self) => {
   return self.indexOf(value) === index
 }
 
-const directoryExists = directory => {
-  return (
-    directory &&
-    fs.existsSync(directory) &&
-    fs.lstatSync(directory).isDirectory()
-  )
-}
-
-const createOrOverwriteFile = (file, body) => {
-  const dirName = path.dirname(file)
-  if (!directoryExists(dirName)) {
-    fs.mkdirSync(dirName, { recursive: true })
-  } else if (fs.existsSync(file)) {
-    fs.unlinkSync(file)
+const directoryExists = async directory => {
+  try {
+    return (await fsPromises.lstat(directory)).isDirectory()
+  } catch (err) {
+    // this will happen if we don't have access to the directory or if it doesn't exist
+    return false
   }
-  fs.writeFileSync(file, body)
 }
 
-const findDepartmentByNumber = departmentNumber => {
-  return departmentsJson.find(department => {
-    return department["depNo"] === departmentNumber.toString()
-  })
+const fileExists = async path => {
+  try {
+    return (await fsPromises.lstat(path)).isFile()
+  } catch (err) {
+    // this will happen if we don't have access to the file or if it doesn't exist
+    return false
+  }
 }
+
+const createOrOverwriteFile = async (file, body) => {
+  const dirName = path.dirname(file)
+  if (!(await directoryExists(dirName))) {
+    await fsPromises.mkdir(dirName, { recursive: true })
+  } else if (await fileExists(file)) {
+    await fsPromises.unlink(file)
+  }
+  await fsPromises.writeFile(file, body)
+}
+
+const findDepartmentByNumber = departmentNumber =>
+  DEPARTMENTS_JSON.find(
+    department => department["depNo"] === departmentNumber.toString()
+  )
 
 const getDepartments = courseData => {
   const primaryDepartmentNumber = courseData["department_number"]
@@ -245,7 +254,7 @@ const resolveUids = (htmlStr, page, courseData) => {
       }
     )
   } catch (err) {
-    loggers.fileLogger.error(err.message)
+    loggers.fileLogger.error(err)
   }
   return htmlStr
 }
@@ -345,7 +354,7 @@ const resolveRelativeLinks = (htmlStr, courseData) => {
       }
     })
   } catch (err) {
-    loggers.fileLogger.error(err.message)
+    loggers.fileLogger.error(err)
   }
   return htmlStr.replace(/http:\/\/ocw.mit.edu/g, "")
 }
@@ -378,6 +387,7 @@ module.exports = {
   distinct,
   directoryExists,
   createOrOverwriteFile,
+  fileExists,
   findDepartmentByNumber,
   getDepartments,
   getCourseNumbers,

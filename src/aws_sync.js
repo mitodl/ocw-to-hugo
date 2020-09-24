@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
 
-const fs = require("fs")
+const { readFile, stat } = require("./fsPromises")
 const path = require("path")
 const AWS = require("aws-sdk")
 require("dotenv").config()
 const cliProgress = require("cli-progress")
 
-const { createOrOverwriteFile } = require("./helpers")
+const { createOrOverwriteFile, fileExists } = require("./helpers")
 
 const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
@@ -14,7 +14,7 @@ const progressBar = new cliProgress.SingleBar(
 )
 
 const downloadCourses = async (coursesJson, coursesDir) => {
-  if (!fs.existsSync(coursesJson)) {
+  if (!(await fileExists(coursesJson))) {
     throw new Error("Invalid courses JSON")
   }
   if (!coursesDir) {
@@ -43,7 +43,7 @@ const downloadCourses = async (coursesJson, coursesDir) => {
   }
 
   const s3 = new AWS.S3()
-  const courses = JSON.parse(fs.readFileSync(coursesJson))["courses"]
+  const courses = JSON.parse(await readFile(coursesJson))["courses"]
   const totalCourses = courses.length
   console.log(`Downloading ${totalCourses} courses from AWS...`)
   progressBar.start(totalCourses, 0)
@@ -69,8 +69,8 @@ const downloadCourseRecursive = async (s3, bucketParams, destination) => {
         Bucket: bucketParams.Bucket,
         Key:    content.Key
       }
-      if (fs.existsSync(filePath)) {
-        const mtime = fs.statSync(filePath).mtime
+      if (await fileExists(filePath)) {
+        const mtime = (await stat(filePath)).mtime
         if (content.LastModified > mtime) {
           return await s3.getObject(getObjectParams).promise()
         }
@@ -82,14 +82,14 @@ const downloadCourseRecursive = async (s3, bucketParams, destination) => {
   )
   modifiedFiles = modifiedFiles.filter(file => file)
 
-  const writeS3Object = file => {
+  const writeS3Object = async file => {
     const key = listData.Contents.find(content => content.ETag === file.ETag)
       .Key
-    createOrOverwriteFile(path.join(destination, key), file.Body)
+    await createOrOverwriteFile(path.join(destination, key), file.Body)
   }
 
-  modifiedFiles.forEach(writeS3Object)
-  newFiles.forEach(writeS3Object)
+  await Promise.all(modifiedFiles.map(writeS3Object))
+  await Promise.all(newFiles.map(writeS3Object))
 
   if (listData.IsTruncated) {
     bucketParams.ContinuationToken = listData.NextContinuationToken

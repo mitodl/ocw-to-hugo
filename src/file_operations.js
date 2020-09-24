@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 
-const fs = require("fs")
-const util = require("util")
+const fsPromises = require("./fsPromises")
 const path = require("path")
 const yaml = require("js-yaml")
 const cliProgress = require("cli-progress")
@@ -11,7 +10,7 @@ const {
   NO_COURSES_FOUND_MESSAGE,
   BOILERPLATE_MARKDOWN
 } = require("./constants")
-const { directoryExists } = require("./helpers")
+const { directoryExists, fileExists } = require("./helpers")
 const markdownGenerators = require("./markdown_generators")
 const loggers = require("./loggers")
 const helpers = require("./helpers")
@@ -20,63 +19,62 @@ const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
   cliProgress.Presets.shades_classic
 )
-const readdir = util.promisify(fs.readdir)
 
 const writeBoilerplate = async outputPath => {
-  BOILERPLATE_MARKDOWN.forEach(file => {
-    if (!directoryExists(file.path)) {
+  for (const file of BOILERPLATE_MARKDOWN) {
+    if (!(await directoryExists(file.path))) {
       const filePath = path.join(outputPath, file.path)
       const content = `---\n${yaml.safeDump(file.content)}---\n`
-      fs.mkdirSync(filePath, { recursive: true })
-      fs.writeFileSync(path.join(filePath, file.name), content)
+      await fsPromises.mkdir(filePath, { recursive: true })
+      await fsPromises.writeFile(path.join(filePath, file.name), content)
     }
-  })
+  }
 }
 
-const scanCourses = (inputPath, outputPath, options = {}) => {
+const scanCourses = async (inputPath, outputPath, options = {}) => {
   /*
     This function scans the input directory for course folders
   */
   // Make sure that the input and output arguments have been passed and they are directories
-  if (!directoryExists(inputPath)) {
+  if (!(await directoryExists(inputPath))) {
     throw new Error("Invalid input directory")
   }
-  if (!directoryExists(outputPath)) {
+  if (!(await directoryExists(outputPath))) {
     throw new Error("Invalid output directory")
   }
-  try {
-    const jsonPath = options.courses
-    helpers.runOptions.strips3 = options.strips3
-    helpers.runOptions.staticPrefix = options.staticPrefix
-    const courseList = jsonPath
-      ? JSON.parse(fs.readFileSync(jsonPath))["courses"]
-      : fs.readdirSync(inputPath).filter(course => !course.startsWith("."))
-    const numCourses = jsonPath
-      ? courseList.length
-      : courseList.filter(file => directoryExists(path.join(inputPath, file)))
-        .length
-    const coursesPath = path.join(outputPath, "courses")
-    if (numCourses > 0) {
-      // populate the course uid mapping
-      courseList.forEach(async course => {
-        const courseUid = await getCourseUid(inputPath, course)
-        helpers.courseUidList[course] = courseUid
-      })
-      console.log(`Converting ${numCourses} courses to Hugo markdown...`)
-      progressBar.start(numCourses, 0)
-      courseList.forEach(course =>
-        scanCourse(inputPath, coursesPath, course).then(() => {
-          progressBar.increment()
-        })
+
+  const jsonPath = options.courses
+  helpers.runOptions.strips3 = options.strips3
+  helpers.runOptions.staticPrefix = options.staticPrefix
+  const courseList = jsonPath
+    ? JSON.parse(await fsPromises.readFile(jsonPath))["courses"]
+    : (await fsPromises.readdir(inputPath)).filter(
+      course => !course.startsWith(".")
+    )
+  const numCourses = jsonPath
+    ? courseList.length
+    : (
+      await Promise.all(
+        courseList
+          .map(file => path.join(inputPath, file))
+          .map(path => directoryExists(path))
       )
-    } else {
-      console.log(NO_COURSES_FOUND_MESSAGE)
+    ).filter(Boolean).length
+  const coursesPath = path.join(outputPath, "courses")
+  if (numCourses > 0) {
+    // populate the course uid mapping
+    for (const course of courseList) {
+      const courseUid = await getCourseUid(inputPath, course)
+      helpers.courseUidList[course] = courseUid
     }
-  } catch (err) {
-    loggers.fileLogger.log({
-      level:   "error",
-      message: err
-    })
+    console.log(`Converting ${numCourses} courses to Hugo markdown...`)
+    progressBar.start(numCourses, 0)
+    for (const course of courseList) {
+      await scanCourse(inputPath, coursesPath, course)
+      progressBar.increment()
+    }
+  } else {
+    console.log(NO_COURSES_FOUND_MESSAGE)
   }
 }
 
@@ -84,7 +82,7 @@ const getCourseUid = async (inputPath, course) => {
   const coursePath = path.join(inputPath, course)
   const masterJsonFile = await getMasterJsonFileName(coursePath)
   if (masterJsonFile) {
-    const courseData = JSON.parse(fs.readFileSync(masterJsonFile))
+    const courseData = JSON.parse(await fsPromises.readFile(masterJsonFile))
     return courseData["uid"]
   }
 }
@@ -97,9 +95,9 @@ const scanCourse = async (inputPath, outputPath, course) => {
   const coursePath = path.join(inputPath, course)
   const masterJsonFile = await getMasterJsonFileName(coursePath)
   if (masterJsonFile) {
-    const courseData = JSON.parse(fs.readFileSync(masterJsonFile))
+    const courseData = JSON.parse(await fsPromises.readFile(masterJsonFile))
     const markdownData = markdownGenerators.generateMarkdownFromJson(courseData)
-    writeMarkdownFilesRecursive(
+    await writeMarkdownFilesRecursive(
       path.join(outputPath, courseData["short_url"]),
       markdownData
     )
@@ -110,9 +108,9 @@ const getMasterJsonFileName = async coursePath => {
   /*
     This function scans a course directory for a master json file and returns it
   */
-  if (helpers.directoryExists(coursePath)) {
+  if (await directoryExists(coursePath)) {
     // If the item is indeed a directory, read all files in it
-    const contents = await readdir(coursePath)
+    const contents = await fsPromises.readdir(coursePath)
     const fileName = contents.find(
       file =>
         RegExp("^[0-9a-f]{32}_master.json").test(file) || file === "master.json"
@@ -123,14 +121,11 @@ const getMasterJsonFileName = async coursePath => {
   }
   //  If we made it here, the master json file wasn't found
   const courseError = `${coursePath} - ${MISSING_COURSE_ERROR_MESSAGE}`
-  loggers.fileLogger.log({
-    level:   "error",
-    message: courseError
-  })
+  loggers.fileLogger.error(courseError)
   progressBar.increment()
 }
 
-const writeMarkdownFilesRecursive = (outputPath, markdownData) => {
+const writeMarkdownFilesRecursive = async (outputPath, markdownData) => {
   /*
     For a given course identifier string and array of objects with properties
     name and data, write Hugo markdown files
@@ -138,41 +133,38 @@ const writeMarkdownFilesRecursive = (outputPath, markdownData) => {
   for (const section of markdownData) {
     const sectionPath = path.join(outputPath, section["name"])
     const sectionDirPath = path.dirname(sectionPath)
-    if (!directoryExists(sectionDirPath)) {
-      fs.mkdirSync(sectionDirPath, { recursive: true })
+    if (!(await directoryExists(sectionDirPath))) {
+      await fsPromises.mkdir(sectionDirPath, { recursive: true })
     }
-    if (fs.existsSync(sectionPath)) {
-      fs.unlinkSync(sectionPath)
+    if (await fileExists(sectionPath)) {
+      await fsPromises.unlink(sectionPath)
     }
-    fs.writeFileSync(sectionPath, section["data"])
-    writeSectionFiles("files", section, outputPath)
-    writeSectionFiles("media", section, outputPath)
+    await fsPromises.writeFile(sectionPath, section["data"])
+    await writeSectionFiles("files", section, outputPath)
+    await writeSectionFiles("media", section, outputPath)
     if (section.hasOwnProperty("children")) {
-      writeMarkdownFilesRecursive(outputPath, section["children"])
+      await writeMarkdownFilesRecursive(outputPath, section["children"])
     }
   }
 }
 
-const writeSectionFiles = (key, section, outputPath) => {
+const writeSectionFiles = async (key, section, outputPath) => {
   if (section.hasOwnProperty(key)) {
-    section[key].forEach(file => {
+    for (const file of section[key]) {
       try {
         const filePath = path.join(outputPath, file["name"])
         const fileDirPath = path.dirname(filePath)
-        if (!directoryExists(fileDirPath)) {
-          fs.mkdirSync(fileDirPath, { recursive: true })
+        if (!(await directoryExists(fileDirPath))) {
+          await fsPromises.mkdir(fileDirPath, { recursive: true })
         }
-        if (fs.existsSync(filePath)) {
-          fs.unlinkSync(filePath)
+        if (await fileExists(filePath)) {
+          await fsPromises.unlink(filePath)
         }
-        fs.writeFileSync(filePath, file["data"])
+        await fsPromises.writeFile(filePath, file["data"])
       } catch (err) {
-        loggers.fileLogger.log({
-          level:   "error",
-          message: err
-        })
+        loggers.fileLogger.error(err)
       }
-    })
+    }
   }
 }
 

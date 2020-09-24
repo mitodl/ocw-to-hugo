@@ -132,14 +132,14 @@ turndownService.addRule("inlinecodeblockfix", {
       // eslint seems to think the escaped backtick in the regex is useless, but it's not
       // eslint-disable-next-line no-useless-escape
       const backTickSingleQuoteWrap = new RegExp(/(?<=\`)(.*?)(?=')/g)
-      content.match(backTickSingleQuoteWrap).forEach(match => {
-        content = content.replace(`\\\`${match}'`, match)
-      })
+      const matches = content.match(backTickSingleQuoteWrap)
+      if (matches) {
+        for (const match of matches) {
+          content = content.replace(`\\\`${match}'`, match)
+        }
+      }
     } catch (err) {
-      loggers.fileLogger.log({
-        level:   "error",
-        message: err
-      })
+      loggers.fileLogger.error(err)
     }
     return `\`${content}\``
   }
@@ -327,10 +327,7 @@ const generateMarkdownRecursive = page => {
             }
           }
         } catch (err) {
-          loggers.fileLogger.log({
-            level:   "error",
-            message: err
-          })
+          loggers.fileLogger.error(err)
           return null
         }
       })
@@ -345,10 +342,7 @@ const generateMarkdownRecursive = page => {
             }
           }
         } catch (err) {
-          loggers.fileLogger.log({
-            level:   "error",
-            message: err
-          })
+          loggers.fileLogger.error(err)
           return null
         }
       })
@@ -427,10 +421,7 @@ const generateCourseHomeMarkdown = courseData => {
       frontMatter
     )}---\n${courseDescription}\n${otherInformationText}`
   } catch (err) {
-    loggers.fileLogger.log({
-      level:   "error",
-      message: err
-    })
+    loggers.fileLogger.error(err)
     return null
   }
 }
@@ -461,7 +452,7 @@ const generateCourseSectionFrontMatter = (
     courseSectionFrontMatter["menu"] = {
       [courseId]: {
         identifier: pageId,
-        name:       shortTitle,
+        name:       shortTitle || "",
         weight:     menuIndex
       }
     }
@@ -521,13 +512,10 @@ const generateCourseSectionMarkdown = (page, courseData) => {
     */
   try {
     return `${helpers.unescapeBackticks(
-      turndownService.turndown(fixLinks(page["text"], page, courseData))
+      turndownService.turndown(fixLinks(page["text"] || "", page, courseData))
     )}${generateCourseFeaturesMarkdown(page, courseData)}`
   } catch (err) {
-    loggers.fileLogger.log({
-      level:   "error",
-      message: err
-    })
+    loggers.fileLogger.error(err)
     return page["text"]
   }
 }
