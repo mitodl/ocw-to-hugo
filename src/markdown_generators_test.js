@@ -5,7 +5,7 @@ const markdownGenerators = require("./markdown_generators")
 const helpers = require("./helpers")
 const fs = require("fs")
 const yaml = require("js-yaml")
-const markdown = require("markdown-builder")
+const markdown = require("markdown-doc-builder").default
 const titleCase = require("title-case")
 const tmp = require("tmp")
 tmp.setGracefulCleanup()
@@ -364,13 +364,17 @@ describe("generateCourseSectionFrontMatter", () => {
 })
 
 describe("generateCourseFeatures", () => {
-  let courseFeatures, hX, link, ul
-  const sandbox = sinon.createSandbox()
+  let courseFeatures, builderStub, h5, link, ul, sandbox
 
   beforeEach(() => {
-    hX = sandbox.spy(markdown.headers, "hX")
-    link = sandbox.spy(markdown.misc, "link")
-    ul = sandbox.spy(markdown.lists, "ul")
+    sandbox = sinon.createSandbox()
+    builderStub = markdown.newBuilder()
+
+    h5 = sandbox.spy(builderStub, "h5")
+    link = sandbox.spy(builderStub, "link")
+    ul = sandbox.spy(builderStub, "list")
+
+    sandbox.stub(markdown, "newBuilder").returns(builderStub)
     courseFeatures = markdownGenerators.generateCourseFeatures(
       singleCourseJsonData
     )
@@ -380,8 +384,8 @@ describe("generateCourseFeatures", () => {
     sandbox.restore()
   })
 
-  it("calls markdown.headers.hx to create the Course Features header", () => {
-    expect(hX).to.be.calledWithExactly(5, "Course Features")
+  it("calls markdown.h5 to create the Course Features header", () => {
+    expect(h5).to.be.calledWithExactly("Course Features")
   })
 
   it("calls markdown.misc.link for each item in course_features", () => {

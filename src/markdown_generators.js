@@ -1,6 +1,6 @@
 const path = require("path")
 const yaml = require("js-yaml")
-const markdown = require("markdown-builder")
+const markdown = require("markdown-doc-builder").default
 const TurndownService = require("turndown")
 const turndownPluginGfm = require("turndown-plugin-gfm")
 const { gfm, tables } = turndownPluginGfm
@@ -483,7 +483,11 @@ const generateCourseFeatures = courseData => {
   /**
     Generate markdown for the "Course Features" section of the home page
     */
-  const courseFeaturesHeader = markdown.headers.hX(5, "Course Features")
+  const courseFeaturesHeader = markdown
+    .newBuilder()
+    .h5("Course Features")
+    .toMarkdown()
+
   const courseFeatures = courseData["course_features"]
     .map(courseFeature => {
       const section = helpers.getCourseSectionFromFeatureUrl(courseFeature)
@@ -491,18 +495,24 @@ const generateCourseFeatures = courseData => {
         coursePage => coursePage["short_url"] === section
       )
       if (section && matchingSections.length > 0) {
-        return markdown.misc.link(
-          courseFeature["ocw_feature"],
-          `{{% ref "${helpers.pathToChildRecursive(
-            path.join("courses", courseData["short_url"], "sections"),
-            matchingSections[0],
-            courseData
-          )}" %}}`
-        )
+        return markdown
+          .newBuilder()
+          .link(
+            `{{% ref "${helpers.pathToChildRecursive(
+              path.join("courses", courseData["short_url"], "sections"),
+              matchingSections[0],
+              courseData
+            )}" %}}`,
+            courseFeature["ocw_feature"]
+          )
+          .toMarkdown()
       } else return null
     })
     .filter(courseFeature => courseFeature)
-  return `${courseFeaturesHeader}\n${markdown.lists.ul(courseFeatures)}`
+  return `${courseFeaturesHeader}\n${markdown
+    .newBuilder()
+    .list(courseFeatures)
+    .toMarkdown()}`
 }
 
 const generateCourseSectionMarkdown = (page, courseData) => {
