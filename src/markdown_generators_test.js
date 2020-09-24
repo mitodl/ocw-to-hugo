@@ -483,6 +483,15 @@ describe("turndown service", () => {
     assert.equal(markdown, `{{< anchor "test" >}}test{{< /anchor >}}`)
   })
 
+  it("should generate an anchor shortcode for an a tag with a name and href attribute", () => {
+    const inputHTML = `<a name="test" href="https://ocw.mit.edu">test</a>`
+    const markdown = markdownGenerators.turndownService.turndown(inputHTML)
+    assert.equal(
+      markdown,
+      `{{< anchor "test" "https://ocw.mit.edu" >}}test{{< /anchor >}}`
+    )
+  })
+
   it("should turn inline code blocks into text surrounded by backticks", () => {
     const inputHTML = `<kbd>test</kbd><tt>test</tt><samp>test</samp>`
     const markdown = markdownGenerators.turndownService.turndown(inputHTML)
