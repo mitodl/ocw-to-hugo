@@ -132,9 +132,12 @@ turndownService.addRule("inlinecodeblockfix", {
       // eslint seems to think the escaped backtick in the regex is useless, but it's not
       // eslint-disable-next-line no-useless-escape
       const backTickSingleQuoteWrap = new RegExp(/(?<=\`)(.*?)(?=')/g)
-      content.match(backTickSingleQuoteWrap).forEach(match => {
-        content = content.replace(`\\\`${match}'`, match)
-      })
+      const matches = content.match(backTickSingleQuoteWrap)
+      if (matches) {
+        for (const match of matches) {
+          content = content.replace(`\\\`${match}'`, match)
+        }
+      }
     } catch (err) {
       loggers.fileLogger.error(err)
     }
