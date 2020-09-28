@@ -6,7 +6,7 @@ const AWS = require("aws-sdk")
 require("dotenv").config()
 const cliProgress = require("cli-progress")
 
-const { createOrOverwriteFile, fileExists } = require("./helpers")
+const { createOrOverwriteFile } = require("./helpers")
 
 const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
@@ -14,14 +14,17 @@ const progressBar = new cliProgress.SingleBar(
 )
 
 const downloadCourses = async (coursesJson, coursesDir) => {
-  if (!(await fileExists(coursesJson))) {
-    throw new Error("Invalid courses JSON")
-  }
   if (!coursesDir) {
     throw new Error("Invalid courses directory")
   }
   if (!process.env["AWS_BUCKET_NAME"]) {
     throw new Error("AWS_BUCKET_NAME not set")
+  }
+  let courses
+  try {
+    courses = JSON.parse(await readFile(coursesJson))["courses"]
+  } catch (err) {
+    throw new Error(`Invalid courses JSON: ${err}`)
   }
   /**
    * We explicitly configure credentials here if we see them set because
@@ -43,7 +46,6 @@ const downloadCourses = async (coursesJson, coursesDir) => {
   }
 
   const s3 = new AWS.S3()
-  const courses = JSON.parse(await readFile(coursesJson))["courses"]
   const totalCourses = courses.length
   console.log(`Downloading ${totalCourses} courses from AWS...`)
   progressBar.start(totalCourses, 0)
@@ -69,14 +71,21 @@ const downloadCourseRecursive = async (s3, bucketParams, destination) => {
         Bucket: bucketParams.Bucket,
         Key:    content.Key
       }
-      if (await fileExists(filePath)) {
-        const mtime = (await stat(filePath)).mtime
-        if (content.LastModified > mtime) {
-          return await s3.getObject(getObjectParams).promise()
-        }
-      } else {
+      let mtime
+      try {
+        mtime = (await stat(filePath)).mtime
+      } catch (err) {
+        // most likely file does not exist, so download it again
         newFiles.push(await s3.getObject(getObjectParams).promise())
+        return null
       }
+
+      if (content.LastModified > mtime) {
+        // content is newly updated, so download it again
+        return await s3.getObject(getObjectParams).promise()
+      }
+
+      // no need for action
       return null
     })
   )

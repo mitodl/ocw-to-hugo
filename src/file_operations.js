@@ -10,7 +10,7 @@ const {
   NO_COURSES_FOUND_MESSAGE,
   BOILERPLATE_MARKDOWN
 } = require("./constants")
-const { directoryExists, fileExists } = require("./helpers")
+const { directoryExists } = require("./helpers")
 const markdownGenerators = require("./markdown_generators")
 const loggers = require("./loggers")
 const helpers = require("./helpers")
@@ -132,14 +132,7 @@ const writeMarkdownFilesRecursive = async (outputPath, markdownData) => {
     */
   for (const section of markdownData) {
     const sectionPath = path.join(outputPath, section["name"])
-    const sectionDirPath = path.dirname(sectionPath)
-    if (!(await directoryExists(sectionDirPath))) {
-      await fsPromises.mkdir(sectionDirPath, { recursive: true })
-    }
-    if (await fileExists(sectionPath)) {
-      await fsPromises.unlink(sectionPath)
-    }
-    await fsPromises.writeFile(sectionPath, section["data"])
+    await helpers.createOrOverwriteFile(sectionPath, section["data"])
     await writeSectionFiles("files", section, outputPath)
     await writeSectionFiles("media", section, outputPath)
     if (section.hasOwnProperty("children")) {
@@ -151,19 +144,8 @@ const writeMarkdownFilesRecursive = async (outputPath, markdownData) => {
 const writeSectionFiles = async (key, section, outputPath) => {
   if (section.hasOwnProperty(key)) {
     for (const file of section[key]) {
-      try {
-        const filePath = path.join(outputPath, file["name"])
-        const fileDirPath = path.dirname(filePath)
-        if (!(await directoryExists(fileDirPath))) {
-          await fsPromises.mkdir(fileDirPath, { recursive: true })
-        }
-        if (await fileExists(filePath)) {
-          await fsPromises.unlink(filePath)
-        }
-        await fsPromises.writeFile(filePath, file["data"])
-      } catch (err) {
-        loggers.fileLogger.error(err)
-      }
+      const filePath = path.join(outputPath, file["name"])
+      await helpers.createOrOverwriteFile(filePath, file["data"])
     }
   }
 }
