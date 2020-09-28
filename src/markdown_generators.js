@@ -231,7 +231,7 @@ turndownService.addRule("h4", {
 })
 
 const fixLinks = (htmlStr, page, courseData) => {
-  if (htmlStr) {
+  if (htmlStr && page) {
     htmlStr = helpers.resolveUids(htmlStr, page, courseData)
     htmlStr = helpers.resolveRelativeLinks(htmlStr, courseData)
     htmlStr = helpers.resolveYouTubeEmbed(htmlStr, courseData)

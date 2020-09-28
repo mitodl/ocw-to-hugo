@@ -1,8 +1,6 @@
 const path = require("path")
 const sinon = require("sinon")
 const { assert, expect } = require("chai").use(require("sinon-chai"))
-const markdownGenerators = require("./markdown_generators")
-const helpers = require("./helpers")
 const fs = require("fs")
 const yaml = require("js-yaml")
 const markdown = require("markdown-doc-builder").default
@@ -11,6 +9,9 @@ const tmp = require("tmp")
 tmp.setGracefulCleanup()
 
 const { GETPAGESHORTCODESTART, GETPAGESHORTCODEEND } = require("./constants")
+const loggers = require("./loggers")
+const markdownGenerators = require("./markdown_generators")
+const helpers = require("./helpers")
 
 const testDataPath = "test_data/courses"
 const singleCourseId =
@@ -269,6 +270,16 @@ describe("generateCourseHomeMarkdown", () => {
 
   it("calls yaml.safeDump once", () => {
     expect(safeDump).to.be.calledOnce
+  })
+
+  it("doesn't error if the page is missing", () => {
+    sandbox.stub(loggers.memoryTransport, "log").callsFake((...args) => {
+      throw new Error(`Error caught: ${args}`)
+    })
+    courseHomeMarkdown = markdownGenerators.generateCourseHomeMarkdown(
+      singleCourseJsonData
+    )
+    assert.include(courseHomeMarkdown, "title: Course Home")
   })
 })
 
