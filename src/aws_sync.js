@@ -5,6 +5,7 @@ const path = require("path")
 const AWS = require("aws-sdk")
 require("dotenv").config()
 const cliProgress = require("cli-progress")
+const loggers = require("./loggers")
 
 const { createOrOverwriteFile, fileExists } = require("./helpers")
 
@@ -83,9 +84,17 @@ const downloadCourseRecursive = async (s3, bucketParams, destination) => {
   modifiedFiles = modifiedFiles.filter(file => file)
 
   const writeS3Object = async file => {
-    const key = listData.Contents.find(content => content.ETag === file.ETag)
-      .Key
-    await createOrOverwriteFile(path.join(destination, key), file.Body)
+    const contents = listData.Contents.find(
+      content => content.ETag === file.ETag
+    )
+    if (!contents) {
+      loggers.fileLogger.error(
+        `Unable to find matching etag for ${file.ETag} to be written to ${destination}`
+      )
+      return null
+    }
+
+    await createOrOverwriteFile(path.join(destination, contents.Key), file.Body)
   }
 
   await Promise.all(modifiedFiles.map(writeS3Object))
