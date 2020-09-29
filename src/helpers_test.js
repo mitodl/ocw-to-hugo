@@ -145,7 +145,8 @@ describe("resolveUids", () => {
     const result = helpers.resolveUids(
       assignmentsPage["text"],
       assignmentsPage,
-      singleCourseJsonData
+      singleCourseJsonData,
+      {}
     )
     assert.isTrue(result.indexOf("resolveuid") === -1)
   })

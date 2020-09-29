@@ -140,7 +140,6 @@ describe("scanCourse", () => {
       markdownGenerators,
       "generateMarkdownFromJson"
     )
-    await fileOperations.scanCourse(testDataPath, outputPath, singleCourseId)
   })
 
   afterEach(() => {
@@ -148,12 +147,27 @@ describe("scanCourse", () => {
   })
 
   it("calls readFile on the master json file", async () => {
+    const courseUidLookup = { singleCourseId: "uid" }
+    await fileOperations.scanCourse(
+      testDataPath,
+      outputPath,
+      singleCourseId,
+      courseUidLookup
+    )
     expect(readFileStub).to.be.calledWithExactly(singleCourseMasterJsonPath)
   })
 
-  it("calls generateMarkdownFromJson on the course data", () => {
+  it("calls generateMarkdownFromJson on the course data", async () => {
+    const courseUidLookup = { singleCourseId: "uid" }
+    await fileOperations.scanCourse(
+      testDataPath,
+      outputPath,
+      singleCourseId,
+      courseUidLookup
+    )
     expect(generateMarkdownFromJson).to.be.calledOnceWithExactly(
-      singleCourseJsonData
+      singleCourseJsonData,
+      courseUidLookup
     )
   })
 })

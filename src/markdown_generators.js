@@ -230,16 +230,16 @@ turndownService.addRule("h4", {
   }
 })
 
-const fixLinks = (htmlStr, page, courseData) => {
+const fixLinks = (htmlStr, page, courseData, courseUidsLookup) => {
   if (htmlStr && page) {
-    htmlStr = helpers.resolveUids(htmlStr, page, courseData)
+    htmlStr = helpers.resolveUids(htmlStr, page, courseData, courseUidsLookup)
     htmlStr = helpers.resolveRelativeLinks(htmlStr, courseData)
     htmlStr = helpers.resolveYouTubeEmbed(htmlStr, courseData)
   }
   return htmlStr
 }
 
-const generateMarkdownFromJson = courseData => {
+const generateMarkdownFromJson = (courseData, courseUidsLookup) => {
   /**
     This function takes JSON data parsed from a master.json file and returns markdown data
     */
@@ -254,13 +254,16 @@ const generateMarkdownFromJson = courseData => {
   return [
     {
       name: "_index.md",
-      data: generateCourseHomeMarkdown(courseData)
+      data: generateCourseHomeMarkdown(courseData, courseUidsLookup)
     },
-    ...rootSections.map(generateMarkdownRecursive, this)
+    ...rootSections.map(
+      page => generateMarkdownRecursive(page, courseUidsLookup),
+      this
+    )
   ]
 }
 
-const generateMarkdownRecursive = page => {
+const generateMarkdownRecursive = (page, courseUidsLookup) => {
   const courseData = this["courseData"]
   const children = courseData["course_pages"].filter(
     coursePage => coursePage["parent_uid"] === page["uid"]
@@ -301,7 +304,11 @@ const generateMarkdownRecursive = page => {
     courseData["short_url"]
   )
   this["menuIndex"]++
-  courseSectionMarkdown += generateCourseSectionMarkdown(page, courseData)
+  courseSectionMarkdown += generateCourseSectionMarkdown(
+    page,
+    courseData,
+    courseUidsLookup
+  )
   const pathToChild = `${helpers.pathToChildRecursive(
     "sections/",
     page,
@@ -313,8 +320,11 @@ const generateMarkdownRecursive = page => {
         ? path.join(pathToChild, "_index.md")
         : `${pathToChild}.md`,
     data:     courseSectionMarkdown,
-    children: children.map(generateMarkdownRecursive, this),
-    files:    pdfFiles
+    children: children.map(
+      page => generateMarkdownRecursive(page, courseUidsLookup),
+      this
+    ),
+    files: pdfFiles
       .map(file => {
         try {
           if (file["id"]) {
@@ -350,7 +360,7 @@ const generateMarkdownRecursive = page => {
   }
 }
 
-const generateCourseHomeMarkdown = courseData => {
+const generateCourseHomeMarkdown = (courseData, courseUidsLookup) => {
   /**
     Generate the front matter metadata for the course home page given course_data JSON
     */
@@ -359,7 +369,12 @@ const generateCourseHomeMarkdown = courseData => {
   )
   const courseDescription = courseData["description"]
     ? turndownService.turndown(
-      fixLinks(courseData["description"], courseHomePage, courseData)
+      fixLinks(
+        courseData["description"],
+        courseHomePage,
+        courseData,
+        courseUidsLookup
+      )
     )
     : ""
   const otherInformationText = courseData["other_information_text"]
@@ -367,7 +382,8 @@ const generateCourseHomeMarkdown = courseData => {
       fixLinks(
         courseData["other_information_text"],
         courseHomePage,
-        courseData
+        courseData,
+        courseUidsLookup
       )
     )
     : ""
@@ -506,13 +522,15 @@ const generateCourseFeatures = courseData => {
     .toMarkdown()}`
 }
 
-const generateCourseSectionMarkdown = (page, courseData) => {
+const generateCourseSectionMarkdown = (page, courseData, courseUidsLookup) => {
   /**
     Generate markdown a given course section page
     */
   try {
     return `${helpers.unescapeBackticks(
-      turndownService.turndown(fixLinks(page["text"] || "", page, courseData))
+      turndownService.turndown(
+        fixLinks(page["text"] || "", page, courseData, courseUidsLookup)
+      )
     )}${generateCourseFeaturesMarkdown(page, courseData)}`
   } catch (err) {
     loggers.fileLogger.error(err)
