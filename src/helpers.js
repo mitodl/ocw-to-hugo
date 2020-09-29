@@ -317,19 +317,23 @@ const resolveRelativeLinks = (htmlStr, courseData) => {
           if (page.includes(".") && !page.includes(".htm")) {
             // page has a file extension and isn't HTML
             courseData["course_files"].forEach(media => {
-              if (
-                media["file_type"] === "application/pdf" &&
-                media["file_location"].includes(page)
-              ) {
-                // construct url to Hugo PDF viewer page
-                const newUrl = `${GETPAGESHORTCODESTART}${path.join(
-                  newUrlBase,
-                  page.replace(".pdf", "")
-                )}${GETPAGESHORTCODEEND}`
-                htmlStr = htmlStr.replace(url, newUrl)
-              } else if (media["file_location"].includes(page)) {
-                // write link directly to file
-                htmlStr = stripS3(htmlStr.replace(url, media["file_location"]))
+              if (media["file_location"]) {
+                if (
+                  media["file_type"] === "application/pdf" &&
+                  media["file_location"].includes(page)
+                ) {
+                  // construct url to Hugo PDF viewer page
+                  const newUrl = `${GETPAGESHORTCODESTART}${path.join(
+                    newUrlBase,
+                    page.replace(".pdf", "")
+                  )}${GETPAGESHORTCODEEND}`
+                  htmlStr = htmlStr.replace(url, newUrl)
+                } else if (media["file_location"].includes(page)) {
+                  // write link directly to file
+                  htmlStr = stripS3(
+                    htmlStr.replace(url, media["file_location"])
+                  )
+                }
               }
             })
           } else {
