@@ -118,7 +118,7 @@ describe("scanCourses", () => {
     expect(consoleLog).calledWithExactly(logMessage)
   })
 
-  it("calls lstatSync for each test course", async () => {
+  it("calls lstat for each test course", async () => {
     await fileOperations.scanCourses(inputPath, outputPath)
     expect(lstatStub).to.be.calledWithExactly(course1Path)
     expect(lstatStub).to.be.calledWithExactly(course2Path)
@@ -147,7 +147,7 @@ describe("scanCourse", () => {
     sandbox.restore()
   })
 
-  it("calls readFileSync on the master json file", async () => {
+  it("calls readFile on the master json file", async () => {
     expect(readFileStub).to.be.calledWithExactly(singleCourseMasterJsonPath)
   })
 
@@ -187,13 +187,13 @@ describe("writeMarkdownFilesRecursive", () => {
     rimraf.sync(path.join(outputPath, "*"))
   })
 
-  it("calls mkDirSync to create sections folder", () => {
+  it("calls mkDir to create sections folder", () => {
     expect(mkDirStub).to.be.calledWith(
       path.join(outputPath, singleCourseId, "sections")
     )
   })
 
-  it("calls mkDirSync to create subfolders for sections with children", () => {
+  it("calls mkDir to create subfolders for sections with children", () => {
     singleCourseMarkdownData
       .filter(file => file["name"] !== "_index.md")
       .forEach(file => {
@@ -214,7 +214,7 @@ describe("writeMarkdownFilesRecursive", () => {
       })
   })
 
-  it("calls writeFileSync to create the course section markdown files", () => {
+  it("calls writeFile to create the course section markdown files", () => {
     singleCourseMarkdownData
       .filter(file => file["name"] !== "_index.md")
       .forEach(file => {
@@ -239,39 +239,6 @@ describe("writeMarkdownFilesRecursive", () => {
                 singleCourseJsonData
               )}.md`,
               child["data"]
-            )
-          })
-        }
-      })
-  })
-
-  it("calls unlinkSync to remove files if they already exist", async () => {
-    await fileOperations.writeMarkdownFilesRecursive(
-      path.join(outputPath, singleCourseId),
-      singleCourseMarkdownData
-    )
-    singleCourseMarkdownData
-      .filter(file => file["name"] !== "_index.md")
-      .forEach(file => {
-        expect(unlinkStub).to.be.calledWithExactly(
-          path.join(outputPath, singleCourseId, file["name"])
-        )
-        if (file["children"].length > 0) {
-          file["children"].forEach(child => {
-            const childJson = singleCourseJsonData["course_pages"].filter(
-              page =>
-                `${helpers.pathToChildRecursive(
-                  "sections",
-                  page,
-                  singleCourseJsonData
-                )}.md` === child["name"]
-            )[0]
-            expect(unlinkStub).to.be.calledWithExactly(
-              `${helpers.pathToChildRecursive(
-                path.join(outputPath, singleCourseId, "sections"),
-                childJson,
-                singleCourseJsonData
-              )}.md`
             )
           })
         }
