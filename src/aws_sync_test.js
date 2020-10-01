@@ -30,6 +30,7 @@ describe("downloadCourses", () => {
   })
 
   it("throws an error when you call it with no courses.json", () => {
+    process.env["AWS_BUCKET_NAME"] = "test"
     expect(
       awsSync.downloadCourses(null, coursesDir)
     ).to.eventually.be.rejectedWith("Invalid courses JSON")

@@ -37,11 +37,7 @@ const fileExists = async path => {
 
 const createOrOverwriteFile = async (file, body) => {
   const dirName = path.dirname(file)
-  if (!(await directoryExists(dirName))) {
-    await fsPromises.mkdir(dirName, { recursive: true })
-  } else if (await fileExists(file)) {
-    await fsPromises.unlink(file)
-  }
+  await fsPromises.mkdir(dirName, { recursive: true })
   await fsPromises.writeFile(file, body)
 }
 
