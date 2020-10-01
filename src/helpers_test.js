@@ -2,10 +2,12 @@ const path = require("path")
 const { assert } = require("chai")
 const fs = require("fs")
 const tmp = require("tmp")
+const sinon = require("sinon")
 tmp.setGracefulCleanup()
 
 const helpers = require("./helpers")
 const { GETPAGESHORTCODESTART } = require("./constants")
+const loggers = require("./loggers")
 
 const singleCourseInputPath =
   "test_data/courses/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
@@ -150,6 +152,16 @@ describe("resolveUids", () => {
 })
 
 describe("resolveRelativeLinks", () => {
+  let sandbox
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox()
+  })
+
+  afterEach(() => {
+    sandbox.restore()
+  })
+
   it("replaces all relative links on the page with hugo getpage shortcodes", () => {
     const assignmentsPage = singleCourseJsonData["course_pages"].filter(
       page => page["uid"] === "1016059a65d256e4e12de4f25591a1b8"
@@ -157,10 +169,21 @@ describe("resolveRelativeLinks", () => {
     assert.isTrue(assignmentsPage["text"].indexOf("{{% getpage ") === -1)
     const result = helpers.resolveRelativeLinks(
       assignmentsPage["text"],
-      singleCourseJsonData,
-      true
+      singleCourseJsonData
     )
     assert.isTrue(result.indexOf(GETPAGESHORTCODESTART) !== -1)
+  })
+
+  it("handles a missing media file location", () => {
+    sandbox.stub(loggers.memoryTransport, "log").callsFake((...args) => {
+      throw new Error(`Error caught: ${args}`)
+    })
+    const assignmentsPage = singleCourseJsonData["course_pages"].filter(
+      page => page["uid"] === "1016059a65d256e4e12de4f25591a1b8"
+    )[0]
+    const text = `${assignmentsPage["text"]} <a href="/courses/mathematics/18-01-single-variable-calculus-fall-2006/exams/prfinalsol.pdf" />`
+    delete singleCourseJsonData.course_files[0].file_location
+    const result = helpers.resolveRelativeLinks(text, singleCourseJsonData)
   })
 })
 
