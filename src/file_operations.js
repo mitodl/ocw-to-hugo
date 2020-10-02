@@ -63,14 +63,15 @@ const scanCourses = async (inputPath, outputPath, options = {}) => {
   const coursesPath = path.join(outputPath, "courses")
   if (numCourses > 0) {
     // populate the course uid mapping
+    const courseUidsLookup = {}
     for (const course of courseList) {
       const courseUid = await getCourseUid(inputPath, course)
-      helpers.courseUidList[course] = courseUid
+      courseUidsLookup[courseUid] = course
     }
     console.log(`Converting ${numCourses} courses to Hugo markdown...`)
     progressBar.start(numCourses, 0)
     for (const course of courseList) {
-      await scanCourse(inputPath, coursesPath, course)
+      await scanCourse(inputPath, coursesPath, course, courseUidsLookup)
       progressBar.increment()
     }
   } else {
@@ -87,7 +88,7 @@ const getCourseUid = async (inputPath, course) => {
   }
 }
 
-const scanCourse = async (inputPath, outputPath, course) => {
+const scanCourse = async (inputPath, outputPath, course, courseUidsLookup) => {
   /*
     This function scans a course directory for a master json file and processes it
   */
@@ -96,7 +97,10 @@ const scanCourse = async (inputPath, outputPath, course) => {
   const masterJsonFile = await getMasterJsonFileName(coursePath)
   if (masterJsonFile) {
     const courseData = JSON.parse(await fsPromises.readFile(masterJsonFile))
-    const markdownData = markdownGenerators.generateMarkdownFromJson(courseData)
+    const markdownData = markdownGenerators.generateMarkdownFromJson(
+      courseData,
+      courseUidsLookup
+    )
     await writeMarkdownFilesRecursive(
       path.join(outputPath, courseData["short_url"]),
       markdownData

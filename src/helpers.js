@@ -10,7 +10,6 @@ const {
 } = require("./constants")
 const loggers = require("./loggers")
 
-const courseUidList = {}
 const runOptions = {}
 
 const distinct = (value, index, self) => {
@@ -168,13 +167,14 @@ const getHugoPathSuffix = (page, courseData) => {
  * @param {string} htmlStr
  * @param {object} page
  * @param {object} courseData
+ * @param {object} courseUidsLookup
  *
  * The purpose of this function is to resolve "resolveuid" links in OCW HTML.
- * It takes 3 parameters; an HTML string to parse, the page that the string came from
- * and the course data object.
+ * It takes 4 parameters; an HTML string to parse, the page that the string came from,
+ * the course data object, and a lookup from uid to course.
  *
  */
-const resolveUids = (htmlStr, page, courseData) => {
+const resolveUids = (htmlStr, page, courseData, courseUidsLookup) => {
   try {
     // get the Hugo path to the page
     const pagePath = `${pathToChildRecursive(
@@ -204,14 +204,7 @@ const resolveUids = (htmlStr, page, courseData) => {
         const linkedFile = courseData["course_files"].find(
           file => file["uid"] === uid
         )
-        // filter courseUidList values on the UID in the URL
-        const linkedCourse = Object.entries(courseUidList).find(
-          ([key, value]) => {
-            if (value === uid) {
-              return key
-            }
-          }
-        )
+        const linkedCourse = courseUidsLookup[uid]
         if (linkedPage) {
           // a course_page has been found for this UID
           const linkPagePath = `${pathToChildRecursive(
@@ -403,6 +396,5 @@ module.exports = {
   htmlSafeText,
   stripS3,
   unescapeBackticks,
-  courseUidList,
   runOptions
 }
