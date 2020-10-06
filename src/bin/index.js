@@ -10,7 +10,7 @@ const loggers = require("../loggers")
 
 // Gather arguments
 const options = yargs
-  .usage("Usage: -s <path> -d <path>")
+  .usage("Usage: -i <path> -o <path>")
   .option("i", {
     alias:        "input",
     describe:     "Input directory of courses",
