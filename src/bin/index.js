@@ -80,7 +80,7 @@ run()
           "Found errors which were logged: ",
           loggers.memoryTransport.logs
         )
+        process.exit(1)
       }
-      process.exit(1)
     }
   })
