@@ -7,6 +7,7 @@ const { writeBoilerplate, scanCourses } = require("../file_operations")
 
 const { MISSING_JSON_ERROR_MESSAGE } = require("../constants")
 const loggers = require("../loggers")
+const helpers = require("../helpers")
 
 // Gather arguments
 const options = yargs
@@ -53,6 +54,8 @@ const options = yargs
     demandOption: false
   }).argv
 
+helpers.runOptions = options
+
 const run = async () => {
   if (options.courses && options.download) {
     await downloadCourses(options.courses, options.input)
@@ -60,11 +63,7 @@ const run = async () => {
     throw new Error(MISSING_JSON_ERROR_MESSAGE)
   }
   await writeBoilerplate(options.output)
-  await scanCourses(options.input, options.output, {
-    courses:      options.courses,
-    strips3:      options.strips3,
-    staticPrefix: options.staticPrefix
-  })
+  await scanCourses(options.input, options.output)
 }
 
 run()
