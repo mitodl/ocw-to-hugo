@@ -44,20 +44,22 @@ const scanCourses = async (inputPath, outputPath) => {
   }
 
   const jsonPath = helpers.runOptions.courses
-  const courseList = jsonPath
-    ? JSON.parse(await fsPromises.readFile(jsonPath))["courses"]
-    : (await fsPromises.readdir(inputPath)).filter(
+  let courseList
+  if (jsonPath) {
+    courseList = JSON.parse(await fsPromises.readFile(jsonPath))["courses"]
+  } else {
+    const courseDirectories = (await fsPromises.readdir(inputPath)).filter(
       course => !course.startsWith(".")
     )
-  const numCourses = jsonPath
-    ? courseList.length
-    : (
-      await Promise.all(
-        courseList
-          .map(file => path.join(inputPath, file))
-          .map(path => directoryExists(path))
-      )
-    ).filter(Boolean).length
+    courseList = []
+    for (const directory of courseDirectories) {
+      const absPath = path.join(inputPath, directory)
+      if (await directoryExists(absPath)) {
+        courseList.push(directory)
+      }
+    }
+  }
+  const numCourses = courseList.length
   if (numCourses === 0) {
     console.log(NO_COURSES_FOUND_MESSAGE)
     return
