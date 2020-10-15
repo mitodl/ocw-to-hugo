@@ -281,6 +281,16 @@ describe("generateCourseHomeMarkdown", () => {
     )
     assert.include(courseHomeMarkdown, "title: Course Home")
   })
+
+  it("parses the last published date and reformats as ISO-8601", () => {
+    courseHomeMarkdown = markdownGenerators.generateCourseHomeMarkdown(
+      {
+        ...singleCourseJsonData,
+        last_published_to_production: "2020/01/30 21:09:39.493 Universal"
+      }
+    )
+    assert.include(courseHomeMarkdown, "publishdate: '2020-01-30T21:09:39-05:00'")
+  })
 })
 
 describe("generateCourseSectionFrontMatter", () => {

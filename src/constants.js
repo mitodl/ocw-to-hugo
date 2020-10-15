@@ -35,5 +35,6 @@ module.exports = {
         type:  "courseindex"
       }
     }
-  ]
+  ],
+  INPUT_COURSE_DATE_FORMAT: "YYYY/M/D H:m:s.SSS"
 }
