@@ -125,6 +125,13 @@ const getConsolidatedTopics = courseCollections => {
   })
   return topics
 }
+
+const getConsolidatedTopicsList = courseCollections =>
+  _.uniq(
+    courseCollections
+      .map(collection => collection.ocw_subfeature || collection.ocw_feature)
+      .filter(Boolean)
+  )
 /* eslint-disable camelcase */
 
 const getYoutubeEmbedCode = media => {
@@ -387,6 +394,7 @@ module.exports = {
   getCourseFeatureObject,
   getCourseSectionFromFeatureUrl,
   getConsolidatedTopics,
+  getConsolidatedTopicsList,
   getYoutubeEmbedCode,
   pathToChildRecursive,
   getHugoPathSuffix,

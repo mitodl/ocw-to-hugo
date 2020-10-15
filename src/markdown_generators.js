@@ -399,7 +399,10 @@ const generateCourseHomeMarkdown = (courseData, courseUidsLookup) => {
       course_features: courseData["course_features"].map(courseFeature =>
         helpers.getCourseFeatureObject(courseFeature)
       ),
-      topics:         helpers.getConsolidatedTopics(courseData["course_collections"]),
+      topics:     helpers.getConsolidatedTopics(courseData["course_collections"]),
+      topicslist: helpers.getConsolidatedTopicsList(
+        courseData["course_collections"]
+      ),
       course_numbers: helpers.getCourseNumbers(courseData),
       term:           `${courseData["from_semester"]} ${courseData["from_year"]}`,
       level:          courseData["course_level"]

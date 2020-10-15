@@ -147,12 +147,17 @@ describe("generateCourseHomeMarkdown", () => {
     courseHomeFrontMatter,
     getCourseNumbers,
     getConsolidatedTopics,
+    getConsolidatedTopicsList,
     safeDump
   const sandbox = sinon.createSandbox()
 
   beforeEach(() => {
     getCourseNumbers = sandbox.spy(helpers, "getCourseNumbers")
     getConsolidatedTopics = sandbox.spy(helpers, "getConsolidatedTopics")
+    getConsolidatedTopicsList = sandbox.spy(
+      helpers,
+      "getConsolidatedTopicsList"
+    )
     safeDump = sandbox.spy(yaml, "safeDump")
     courseHomeMarkdown = markdownGenerators.generateCourseHomeMarkdown(
       singleCourseJsonData
@@ -212,31 +217,76 @@ describe("generateCourseHomeMarkdown", () => {
     expect(getConsolidatedTopics).to.be.calledWith(
       singleCourseJsonData["course_collections"]
     )
+    assert.deepEqual(
+      helpers.getConsolidatedTopics(singleCourseJsonData["course_collections"]),
+      courseHomeFrontMatter["course_info"]["topics"]
+    )
+  })
+
+  it("calls getConsolidatedTopicsList with course_collections", () => {
+    expect(getConsolidatedTopics).to.be.calledWith(
+      singleCourseJsonData["course_collections"]
+    )
+    assert.deepEqual(
+      helpers.getConsolidatedTopicsList(
+        singleCourseJsonData["course_collections"]
+      ),
+      courseHomeFrontMatter["course_info"]["topicslist"]
+    )
   })
 
   it("sets the topics property on the course info object to data parsed from course_collections in the course json data", () => {
-    const expectedValues = helpers.getConsolidatedTopics(
+    const topics = helpers.getConsolidatedTopics(
       singleCourseJsonData["course_collections"]
     )
-    const foundValues = courseHomeFrontMatter["course_info"]["topics"]
-    Object.keys(expectedValues).forEach(expectedTopicKey => {
-      assert.isTrue(foundValues.hasOwnProperty(expectedTopicKey))
-      Object.keys(expectedValues[expectedTopicKey]).forEach(
-        expectedSubTopicKey => {
-          assert.isTrue(
-            foundValues[expectedTopicKey].hasOwnProperty(expectedSubTopicKey)
-          )
-          expectedValues[expectedTopicKey][expectedSubTopicKey].forEach(
-            (expectedSpeciality, index) => {
-              assert.equal(
-                expectedSpeciality,
-                foundValues[expectedTopicKey][expectedSubTopicKey][index]
-              )
-            }
-          )
-        }
-      )
+    assert.deepEqual(topics, {
+      Engineering: {
+        "Electrical Engineering": ["Robotics and Control Systems"],
+        "Mechanical Engineering": ["Mechanical Design"],
+        "Ocean Engineering":      ["Ocean Exploration"],
+        "Systems Engineering":    ["Systems Design"]
+      }
     })
+  })
+
+  it("sets the topics_list property on the course info to a list of topics", () => {
+    const topicsList = helpers.getConsolidatedTopicsList(
+      singleCourseJsonData["course_collections"]
+    )
+    assert.deepEqual(topicsList, [
+      "Systems Engineering",
+      "Electrical Engineering",
+      "Ocean Engineering",
+      "Mechanical Engineering"
+    ])
+  })
+
+  it("uses ocw_feature for getConsolidatedTopicsList if ocw_subfeature doesn't exist", () => {
+    const topicsList = helpers.getConsolidatedTopicsList([
+      {
+        ocw_feature:    "Engineering",
+        ocw_subfeature: ""
+      },
+      {
+        ocw_feature:    "Mathematics",
+        ocw_subfeature: "Linear Algebra"
+      }
+    ])
+
+    assert.deepEqual(topicsList, ["Engineering", "Linear Algebra"])
+  })
+
+  it("ignores duplicate topics for getConsolidatedTopicsList", () => {
+    const topicsList = helpers.getConsolidatedTopicsList([
+      {
+        ocw_feature: "Engineering"
+      },
+      {
+        ocw_feature: "Engineering"
+      }
+    ])
+
+    assert.deepEqual(topicsList, ["Engineering"])
   })
 
   it("calls getCourseNumbers with the course json data", () => {
