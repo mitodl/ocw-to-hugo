@@ -289,7 +289,7 @@ describe("generateCourseHomeMarkdown", () => {
         last_published_to_production: "2020/01/30 21:09:39.493 Universal"
       }
     )
-    assert.include(courseHomeMarkdown, "publishdate: '2020-01-30T21:09:39-05:00'")
+    assert.include(courseHomeMarkdown, "publishdate: '2020-01-30T21:09:39")
   })
 })
 
