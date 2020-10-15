@@ -6,6 +6,8 @@ const tmp = require("tmp")
 const rimraf = require("rimraf")
 const yaml = require("js-yaml")
 
+const loggers = require("./loggers")
+
 const {
   NO_COURSES_FOUND_MESSAGE,
   MISSING_COURSE_ERROR_MESSAGE,
@@ -51,10 +53,9 @@ describe("scanCourses", () => {
   const inputPath = "test_data/courses"
   const outputPath = tmp.dirSync({ prefix: "output" }).name
   const logMessage = "Converting 4 courses to Hugo markdown..."
-  const course1Path = path.join(
-    inputPath,
+  const course1Name =
     "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
-  )
+  const course1Path = path.join(inputPath, course1Name)
   const course2Path = path.join(
     inputPath,
     "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
@@ -72,6 +73,8 @@ describe("scanCourses", () => {
     readdirStub = sandbox.spy(fsPromises, "readdir")
     lstatStub = sandbox.spy(fsPromises, "lstat")
     consoleLog = sandbox.stub(console, "log")
+
+    helpers.runOptions.courses = null
   })
 
   afterEach(() => {
@@ -97,15 +100,51 @@ describe("scanCourses", () => {
   })
 
   it("displays an error when you call it with an empty courses.json", async () => {
-    await fileOperations.scanCourses(inputPath, outputPath, {
-      courses: "test_data/courses_blank.json"
-    })
+    helpers.runOptions.courses = "test_data/courses_blank.json"
+    await fileOperations.scanCourses(inputPath, outputPath)
     expect(consoleLog).calledWithExactly(NO_COURSES_FOUND_MESSAGE)
   })
 
-  it("displays an error when you call it with an empty input directory", async () => {
+  it("errors when reading a course without a master JSON file", async () => {
+    const coursesPath = tmp.dirSync({ prefix: "output" }).name
+    await fsPromises.mkdir(path.join(coursesPath, course1Name))
+    helpers.runOptions.courses = "test_data/courses.json"
+    try {
+      await fileOperations.scanCourses(coursesPath, outputPath)
+      assert.fail("No exception")
+    } catch (err) {
+      assert.include(
+        err.message,
+        `${course1Name} - Specified course was not found.`
+      )
+    }
+  })
+
+  it("doesn't error when reading a course without a master JSON file, if the courses option wasn't set", async () => {
+    const coursesPath = tmp.dirSync({ prefix: "output" }).name
+    await fsPromises.mkdir(path.join(coursesPath, course1Name))
+    await fileOperations.scanCourses(coursesPath, outputPath)
+    assert.include(
+      loggers.memoryTransport.logs[loggers.memoryTransport.logs.length - 1]
+        .message,
+      `${course1Name} - Specified course was not found`
+    )
+  })
+
+  it("throws an error when you call it with an empty input directory", async () => {
+    helpers.runOptions.courses = "test_data/courses.json"
+    return expect(
+      fileOperations.scanCourses("test_data/empty", outputPath)
+    ).to.eventually.be.rejectedWith(
+      `Missing course directory for ${course1Name}`
+    )
+  })
+
+  it("skips an empty input directory", async () => {
     await fileOperations.scanCourses("test_data/empty", outputPath)
-    expect(consoleLog).calledWithExactly(NO_COURSES_FOUND_MESSAGE)
+    expect(consoleLog).calledWithExactly(
+      "No courses found!  For more information, see README.md"
+    )
   })
 
   it("calls readdir nine times, once for courses and once for each course", async () => {

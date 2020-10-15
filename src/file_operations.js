@@ -31,7 +31,7 @@ const writeBoilerplate = async outputPath => {
   }
 }
 
-const scanCourses = async (inputPath, outputPath, options = {}) => {
+const scanCourses = async (inputPath, outputPath) => {
   /*
     This function scans the input directory for course folders
   */
@@ -43,39 +43,45 @@ const scanCourses = async (inputPath, outputPath, options = {}) => {
     throw new Error("Invalid output directory")
   }
 
-  const jsonPath = options.courses
-  helpers.runOptions.strips3 = options.strips3
-  helpers.runOptions.staticPrefix = options.staticPrefix
-  const courseList = jsonPath
-    ? JSON.parse(await fsPromises.readFile(jsonPath))["courses"]
-    : (await fsPromises.readdir(inputPath)).filter(
+  const jsonPath = helpers.runOptions.courses
+  let courseList
+  if (jsonPath) {
+    courseList = JSON.parse(await fsPromises.readFile(jsonPath))["courses"]
+  } else {
+    const courseDirectories = (await fsPromises.readdir(inputPath)).filter(
       course => !course.startsWith(".")
     )
-  const numCourses = jsonPath
-    ? courseList.length
-    : (
-      await Promise.all(
-        courseList
-          .map(file => path.join(inputPath, file))
-          .map(path => directoryExists(path))
-      )
-    ).filter(Boolean).length
-  const coursesPath = path.join(outputPath, "courses")
-  if (numCourses > 0) {
-    // populate the course uid mapping
-    const courseUidsLookup = {}
-    for (const course of courseList) {
-      const courseUid = await getCourseUid(inputPath, course)
-      courseUidsLookup[courseUid] = course
+    courseList = []
+    for (const directory of courseDirectories) {
+      const absPath = path.join(inputPath, directory)
+      if (await directoryExists(absPath)) {
+        courseList.push(directory)
+      }
     }
-    console.log(`Converting ${numCourses} courses to Hugo markdown...`)
-    progressBar.start(numCourses, 0)
-    for (const course of courseList) {
-      await scanCourse(inputPath, coursesPath, course, courseUidsLookup)
-      progressBar.increment()
-    }
-  } else {
+  }
+  const numCourses = courseList.length
+  if (numCourses === 0) {
     console.log(NO_COURSES_FOUND_MESSAGE)
+    return
+  }
+
+  // populate the course uid mapping
+  const courseUidsLookup = {}
+  for (const course of courseList) {
+    if (!(await directoryExists(path.join(inputPath, course)))) {
+      throw new Error(`Missing course directory for ${course}`)
+    }
+
+    const courseUid = await getCourseUid(inputPath, course)
+    courseUidsLookup[courseUid] = course
+  }
+
+  console.log(`Converting ${numCourses} courses to Hugo markdown...`)
+  const coursesPath = path.join(outputPath, "courses")
+  progressBar.start(numCourses, 0)
+  for (const course of courseList) {
+    await scanCourse(inputPath, coursesPath, course, courseUidsLookup)
+    progressBar.increment()
   }
 }
 
@@ -125,6 +131,11 @@ const getMasterJsonFileName = async coursePath => {
   }
   //  If we made it here, the master json file wasn't found
   const courseError = `${coursePath} - ${MISSING_COURSE_ERROR_MESSAGE}`
+  if (helpers.runOptions.courses) {
+    // if the script is filtering on courses, this should be a fatal error
+    throw new Error(courseError)
+  }
+
   loggers.fileLogger.error(courseError)
   progressBar.increment()
 }
