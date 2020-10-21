@@ -140,7 +140,7 @@ describe("downloadCourseRecursive", () => {
 
   it("is able to run scanCourses on the resulting courseDir without an error", async () => {
     await awsSync.downloadCourseRecursive(mockS3, bucketParams, coursesDir)
-    fileOperations.scanCourses(coursesDir, destinationPath)
+    await fileOperations.scanCourses(coursesDir, destinationPath)
   })
 
   it("calls listObjectsV2 with the bucket params", async () => {

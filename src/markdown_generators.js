@@ -3,13 +3,15 @@ const yaml = require("js-yaml")
 const markdown = require("markdown-doc-builder").default
 const TurndownService = require("turndown")
 const turndownPluginGfm = require("turndown-plugin-gfm")
+const moment = require("moment")
 const { gfm, tables } = turndownPluginGfm
 
 const {
   REPLACETHISWITHAPIPE,
   GETPAGESHORTCODESTART,
   GETPAGESHORTCODEEND,
-  AWS_REGEX
+  AWS_REGEX,
+  INPUT_COURSE_DATE_FORMAT
 } = require("./constants")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
@@ -390,11 +392,19 @@ const generateCourseHomeMarkdown = (courseData, courseUidsLookup) => {
     course_image_caption_text: courseData["image_caption_text"]
       ? courseData["image_caption_text"]
       : "",
+    publishdate: courseData["last_published_to_production"]
+      ? moment(
+        courseData["last_published_to_production"],
+        INPUT_COURSE_DATE_FORMAT
+      ).format()
+      : "",
     course_info: {
-      instructors: courseData["instructors"].map(
-        instructor =>
-          `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`
-      ),
+      instructors: courseData["instructors"]
+        ? courseData["instructors"].map(
+          instructor =>
+            `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`
+        )
+        : [],
       departments:     helpers.getDepartments(courseData),
       course_features: courseData["course_features"].map(courseFeature =>
         helpers.getCourseFeatureObject(courseFeature)
