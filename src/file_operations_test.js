@@ -124,11 +124,6 @@ describe("scanCourses", () => {
     const coursesPath = tmp.dirSync({ prefix: "output" }).name
     await fsPromises.mkdir(path.join(coursesPath, course1Name))
     await fileOperations.scanCourses(coursesPath, outputPath)
-    assert.include(
-      loggers.memoryTransport.logs[loggers.memoryTransport.logs.length - 1]
-        .message,
-      `${course1Name} - Specified course was not found`
-    )
   })
 
   it("throws an error when you call it with an empty input directory", async () => {

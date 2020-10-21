@@ -136,7 +136,7 @@ const getMasterJsonFileName = async coursePath => {
     throw new Error(courseError)
   }
 
-  loggers.fileLogger.error(courseError)
+  // else, skip this one and go to the next course
   progressBar.increment()
 }
 
