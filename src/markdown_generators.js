@@ -399,10 +399,12 @@ const generateCourseHomeMarkdown = (courseData, courseUidsLookup) => {
       ).format()
       : "",
     course_info: {
-      instructors: courseData["instructors"].map(
-        instructor =>
-          `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`
-      ),
+      instructors: courseData["instructors"]
+        ? courseData["instructors"].map(
+          instructor =>
+            `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`
+        )
+        : [],
       departments:     helpers.getDepartments(courseData),
       course_features: courseData["course_features"].map(courseFeature =>
         helpers.getCourseFeatureObject(courseFeature)

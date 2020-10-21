@@ -289,6 +289,13 @@ describe("generateCourseHomeMarkdown", () => {
     })
     assert.include(courseHomeMarkdown, "publishdate: '2020-01-30T21:09:39")
   })
+
+  it("handles an empty string for instructors", () => {
+    markdownGenerators.generateCourseHomeMarkdown({
+      ...singleCourseJsonData,
+      instructors: ""
+    })
+  })
 })
 
 describe("generateCourseSectionFrontMatter", () => {
