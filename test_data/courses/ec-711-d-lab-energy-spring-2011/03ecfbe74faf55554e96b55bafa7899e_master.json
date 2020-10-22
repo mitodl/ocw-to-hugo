@@ -1,0 +1,1768 @@
+{
+	"uid": "03ecfbe74faf55554e96b55bafa7899e",
+	"title": "D-Lab: Energy",
+	"description": "<p>D-Lab: Energy offers a hands-on, project-based approach that engages students in understanding and addressing the applications of small-scale, sustainable energy technology in developing countries where compact, robust, low-cost systems for generating power are required. Projects may include micro-hydro, solar, or wind turbine generators along with theoretical analysis, design, prototype construction, evaluation and implementation. Students will have the opportunity both to travel to Nicaragua during spring break to identify and implement projects.</p> <p>D-Lab: Energy is part of MIT's <a href=\"http://d-lab.mit.edu/\">D-Lab program</a>, which fosters the development of appropriate technologies and sustainable solutions within the framework of international development.</p><p>This course is an elective subject in MIT&rsquo;s undergraduate  <a href=\"http://mitei.mit.edu/education/energy-minor/\">Energy Studies Minor</a>. This Institute-wide program complements the deep  expertise obtained in any major with a broad understanding of the  interlinked realms of science, technology, and social sciences as they  relate to energy and associated environmental challenges.</p>",
+	"other_information_text": "",
+	"last_published_to_production": "2018/06/07 06:18:50.457 GMT-4",
+	"last_unpublishing_date": "None",
+	"retirement_date": "None",
+	"sort_as": "EC.711",
+	"department_number": "EC",
+	"master_course_number": "711",
+	"from_semester": "Spring",
+	"from_year": "2011",
+	"to_semester": "-1",
+	"to_year": "-1",
+	"course_level": "Undergraduate",
+	"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011",
+	"short_url": "ec-711-d-lab-energy-spring-2011",
+	"image_src": "",
+	"thumbnail_image_src": "",
+	"image_description": "",
+	"thumbnail_image_description": "",
+	"image_alternate_text": "Photo of a student standing outdoors next to a box containing cookies, with clear plexiglass top and a large foil solar reflector.",
+	"image_caption_text": "<p>During the <a href=\"./resolveuid/fb9d6e56eac497fb24b46d3ac31a62da\">spring break trip</a> to Nicaragua, students worked with community partners on various projects like a solar oven, shown here baking sugar cookies. (Photo courtesy of <a href=\"http://www.flickr.com/photos/d-lab/5576006598\">D-Lab</a> on Flickr.)</p>",
+	"tags": [{
+		"name": "sustainable energy"
+	}, {
+		"name": "renewable energy"
+	}, {
+		"name": "green energy"
+	}, {
+		"name": "sustainable development"
+	}, {
+		"name": "third world"
+	}, {
+		"name": "appropriate technology"
+	}, {
+		"name": "solar power"
+	}, {
+		"name": "wind power"
+	}, {
+		"name": "micro-hydro power"
+	}, {
+		"name": "design"
+	}, {
+		"name": "co-creation"
+	}, {
+		"name": "Nicaragua"
+	}],
+	"instructors": [{
+		"middle_initial": "",
+		"first_name": "Amy",
+		"last_name": "Banzaert",
+		"suffix": "",
+		"title": "",
+		"department": "",
+		"directory_title": "",
+		"uid": "e6d76a3901222e62f3b053fa9550466d"
+	}, {
+		"middle_initial": "",
+		"first_name": "Amit",
+		"last_name": "Gandhi",
+		"suffix": "",
+		"title": "",
+		"department": "",
+		"directory_title": "",
+		"uid": "56ed272d1906edde638ae8c0ed26ba19"
+	}],
+	"language": "en-US",
+	"extra_course_number": [],
+	"course_collections": [{
+		"ocw_feature": "Engineering",
+		"ocw_subfeature": "Electrical Engineering",
+		"ocw_feature_url": "",
+		"ocw_feature_notes": "",
+		"ocw_speciality": "Electric Power"
+	}, {
+		"ocw_feature": "Society",
+		"ocw_subfeature": "The Developing World",
+		"ocw_feature_url": "",
+		"ocw_feature_notes": "",
+		"ocw_speciality": ""
+	}, {
+		"ocw_feature": "Science",
+		"ocw_subfeature": "Earth Science",
+		"ocw_feature_url": "",
+		"ocw_feature_notes": "",
+		"ocw_speciality": "Sustainability"
+	}, {
+		"ocw_feature": "Energy",
+		"ocw_subfeature": "",
+		"ocw_feature_url": "",
+		"ocw_feature_notes": "",
+		"ocw_speciality": ""
+	}],
+	"course_pages": [{
+		"order_index": 2,
+		"uid": "30f9280e2b0be5e7720f57d2f3520f41",
+		"parent_uid": "03ecfbe74faf55554e96b55bafa7899e",
+		"title": "Course Home",
+		"short_page_title": null,
+		"text": "",
+		"bottomtext": null,
+		"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/index.htm",
+		"short_url": "index.htm",
+		"description": "<p>D-Lab: Energy offers a hands-on, project-based approach that engages students in understanding and addressing the applications of small-scale, sustainable energy technology in developing countries where compact, robust, low-cost systems for generating power are required. Projects may include micro-hydro, solar, or wind turbine generators along with theoretical analysis, design, prototype construction, evaluation and implementation. Students will have the opportunity both to travel to Nicaragua during spring break to identify and implement projects.</p> <p>D-Lab: Energy is part of MIT's <a href=\"http://d-lab.mit.edu/\">D-Lab program</a>, which fosters the development of appropriate technologies and sustainable solutions within the framework of international development.</p><p>This course is an elective subject in MIT&rsquo;s undergraduate  <a href=\"http://mitei.mit.edu/education/energy-minor/\">Energy Studies Minor</a>. This Institute-wide program complements the deep  expertise obtained in any major with a broad understanding of the  interlinked realms of science, technology, and social sciences as they  relate to energy and associated environmental challenges.</p>",
+		"type": "CourseHomeSection",
+		"is_image_gallery": null,
+		"is_media_gallery": false,
+		"list_in_left_nav": null,
+		"file_location": "30f9280e2b0be5e7720f57d2f3520f41_index.htm.html"
+	}, {
+		"order_index": 3,
+		"uid": "f03094f36e60d35cd0bbed00551f4c2f",
+		"parent_uid": "03ecfbe74faf55554e96b55bafa7899e",
+		"title": "Syllabus",
+		"short_page_title": "Syllabus",
+		"text": "<h2 class=\"subhead\">Course Meeting Times</h2>\r\n<p>Lectures: 1 session / week, 3 hours / session</p>\r\n<p>Labs: 1 session / week, 3 hours / session</p>\r\n<h2 class=\"subhead\">Course Aims</h2>\r\n<ol>\r\n    <li>Energy literacy</li>\r\n    <li>Knowledge of energy usage and challenges in developing regions</li>\r\n    <li>Real-world capability to design, build, implement, and evaluate off-grid energy systems</li>\r\n</ol>\r\n<h2 class=\"subhead\">Course Objectives</h2>\r\n<ol>\r\n    <li>Have physical intuition for different energy sources and associated units.</li>\r\n    <li>Understand the engineering principles behind and have direct hands-on experience with a variety of energy technologies common in developing regions (e.g., biomass-based cooking fuels, diesel generators, micro-hydropower, solar photovoltaics, small wind turbines, etc.).</li>\r\n    <li>Evaluate the utility and trade-offs for different energy options in a multi-objective environment, including system-level considerations.</li>\r\n    <li>Understand the practice of design for the other 90% including consideration of local adaptability and socio-economic impacts.</li>\r\n    <li>Design &amp; build simple, off-grid energy system using co-creation with local stakeholders.</li>\r\n</ol>\r\n<h2 class=\"subhead\">Course Structure</h2>\r\n<p>The course is comprised of three sections based on the aims and objectives described above.</p>\r\n<p>During the first seven weeks, the focus of lecture and lab sessions will be a hands-on experience developing energy literacy, knowledge of energy usage and associated challenges in developing regions, and the capability to build, model, and analyze off-grid energy systems.</p>\r\n<p>During spring break, students will have the opportunity to travel to Nicaragua and El Salvador to learn first-hand about energy in a developing country, implement small projects or trainings, and identify larger projects to be worked on in the remainder of the class and beyond. This trip is entirely optional and not a formal, credit-bearing part of the class, but highly recommended. Students are expected to contribute $500 toward the cost of the trip; if that amount is prohibitive due to a financial hardship, you should make an appointment with Amy Banzaert to discuss.</p>\r\n<p>For the remainder of the class, students will implement projects in conjunction with their community partners in Nicaragua and El Salvador. There will be one formal design review associated with the project; final presentations both in class and then in the group presentations for all <a href=\"http://d-lab.mit.edu/courses\">D-Lab classes</a> at the end of the term.</p>\r\n<h2 class=\"subhead\">Credit &amp; Grading</h2>\r\n<p><em>D-Lab Energy</em> is a 12-unit undergraduate class: 3 hours/week in lecture, 3 hours/week in lab, and 6 hours/week on homework, readings, language, and design projects. Your presence and attendance in class is essential: every session will involve in-class activities that are very difficult to replicate or make up outside of class.</p>\r\n<p>This seminar is graded on an A/B/C/D/F basis; furthermore it is a class where your work is impacting the lives of people in Nicaragua and we expect an appropriate level of commitment.</p>\r\n<div class=\"maintabletemplate\">\r\n<table class=\"tablewidth50\" summary=\"See table caption for summary.\">\r\n    <caption class=\"invisible\">Grading criteria.</caption>\r\n    <thead>\r\n        <tr>\r\n            <th scope=\"col\">COURSE&nbsp;WORK</th>\r\n            <th scope=\"col\">GRADE&nbsp;WEIGHTS</th>\r\n        </tr>\r\n    </thead>\r\n    <tbody>\r\n        <tr class=\"row\">\r\n            <td>Course engagement (attendance, participation in both in-class and online activities)</td>\r\n            <td>25%</td>\r\n        </tr>\r\n        <tr class=\"alt-row\">\r\n            <td>Assignments (readings, homework, labs)</td>\r\n            <td>25%</td>\r\n        </tr>\r\n        <tr class=\"row\">\r\n            <td>Quizzes</td>\r\n            <td>20%</td>\r\n        </tr>\r\n        <tr class=\"alt-row\">\r\n            <td>Design project (10% final prototype &amp; report, 10% participation, 10% assignments)</td>\r\n            <td>30%</td>\r\n        </tr>\r\n    </tbody>\r\n</table>\r\n</div>\r\n<h2 class=\"subhead\">Readings</h2>\r\n<p><a name=\"Polak\"></a>Required text: [Polak] = <a href=\"http://www.amazon.com/exec/obidos/ASIN/1576754499/ref=nosim/mitopencourse-20\"><img alt=\"Buy at Amazon\" src=\"/images/a_logo_17.gif\" border=\"0\" align=\"absmiddle\" /></a> Polak, Paul. <em>Out of Poverty: What Works When Traditional Approaches Fail</em>. Berrett-Koehler Publishers, 2008. ISBN: 9781576754498</p>\r\n<p>Other readings will be assigned for individual topics and class sessions.</p>\r\n<h2 class=\"subhead\">Hablamos Espa\u00f1gles</h2>\r\n<p>Because we will be traveling to Nicaragua and El Salvador over spring break and working with Spanish-speaking community partners, it is important that all students know at least a tiny bit of Spanish. If you don't speak Spanish fluently, you should plan to spend no less than 20 minutes/week working on your Spanish. We recommend <em>Coffee Break Spanish</em>, a free podcast for beginners to intermediate speakers (starting at whatever week seems like it matches your skill), or <em>Show Time Spanish</em>, a free podcast for more advanced speakers. Each show is 15-20 minutes long. 20 minutes/week won't get you very far, so if you can sneak in more, please do so (with the podcast format, it's easy to listen while walking around campus).</p>\r\n<p>In addition, we will speak &quot;Spanglish&quot; in <em>D-Lab Energy</em>. The usage will be very basic and relatively infrequent but will give a taste of Spanish. Students who speak Spanish well are encouraged to help everyone else in the class (including instructors!) improve their Spanish.</p>\r\n<h2 class=\"subhead\">Muddy Cards</h2>\r\n<p>After each class, students will submit &quot;muddy cards&quot; to request more discussion or clarification, and to provide frequent and timely feedback to the instructors. This reference gives background about the goals and methodology of using muddy cards:</p>\r\n<ul>\r\n    <li>Worldwide CDIO Initiative. <span class=\"nobr\"><a href=\"http://www.cdio.org/files/mudcards.pdf\"><em>Muddiest Point in the Lecture (Muddy Cards)</em> (PDF)</a></span></li>\r\n</ul>\r\n<h2 class=\"subhead\">Guidelines for Project Work During 2<sup>nd</sup> Half of Term</h2>\r\n<p>There will be a lot of &quot;free&quot; time in class for project work. You still need to come to class on time and work for the entire time; instructors and mentors will be stopping by regularly to meet with your team and help you. If you will not be working in the classroom, you should leave a note on the classroom whiteboard stating where your team will be and including a cell phone we can use to track you down if need be.</p>\r\n<h3 class=\"subsubhead\">Wiki Design Notebook</h3>\r\n<p>Each week, your team should update your team's Wiki page.</p>\r\n<h3 class=\"subsubhead\">Design Review</h3>\r\n<p>Your design review will include 10 minutes to present your project, and then 15 minutes for discussion and questions. You should bring and demonstrate your working prototype.</p>\r\n<h3 class=\"subsubhead\">Final Presentations</h3>\r\n<p>The final presentation session will consist of three parts: A 1 minute presentation, a poster session, and finally a 20 minutes design review (10 minutes of presentation followed by 10 minutes for discussion). You should bring a working, good-looking prototype for demonstrations.</p>\r\n<h2 class=\"subhead\">Calendar</h2>\r\n<h3 class=\"subsubhead\">Part 1: Foundations - Lectures and Labs</h3>\r\n<div class=\"maintabletemplate\">\r\n<table class=\"tablewidth75\" summary=\"See table caption for summary.\">\r\n    <caption class=\"invisible\">Course calendar.</caption>\r\n    <thead>\r\n        <tr>\r\n            <th scope=\"col\">WEEK&nbsp;#</th>\r\n            <th scope=\"col\">CLASSES</th>\r\n            <th scope=\"col\">LABS</th>\r\n            <th scope=\"col\">ASSIGNMENTS&nbsp;DUE*</th>\r\n        </tr>\r\n    </thead>\r\n    <tbody>\r\n        <tr class=\"row\">\r\n            <td>1</td>\r\n            <td>Lecture 1. Introduction: Energy, units, estimation, energy usage world-wide</td>\r\n            <td>Lab 1. Human Power</td>\r\n            <td>Problem Set 0 (Lantern)</td>\r\n        </tr>\r\n        <tr class=\"alt-row\">\r\n            <td>2</td>\r\n            <td>\r\n            <p>Lecture 2. Energy storage &amp; micro grids</p>\r\n            <p>Initial trip planning</p>\r\n            </td>\r\n            <td>Lab 2. Energy Storage</td>\r\n            <td>\r\n            <p>Reading reaction</p>\r\n            <p>Problem Set 1</p>\r\n            <p>Lab 1 write-up</p>\r\n            <p>Trip project survey</p>\r\n            </td>\r\n        </tr>\r\n        <tr class=\"row\">\r\n            <td>3</td>\r\n            <td>\r\n            <p>Lecture 3. Lighting</p>\r\n            <p>Community partner introduction</p>\r\n            </td>\r\n            <td>Lab 3. Biogas &amp; biodiesel lecture &amp; construction</td>\r\n            <td>\r\n            <p>Problem Set 2</p>\r\n            <p>Lab 2 write-up</p>\r\n            </td>\r\n        </tr>\r\n        <tr class=\"alt-row\">\r\n            <td>4</td>\r\n            <td>\r\n            <p>Lecture 4. Solar thermal &amp; PV</p>\r\n            <p>Quiz I</p>\r\n            </td>\r\n            <td>Lab 4. Solar panel construction, installation, and operation</td>\r\n            <td>\r\n            <p>Reading reaction</p>\r\n            <p>Community partner outreach</p>\r\n            </td>\r\n        </tr>\r\n        <tr class=\"row\">\r\n            <td>5</td>\r\n            <td>\r\n            <p>Lecture 5. Wind &amp; micro-hydro</p>\r\n            <p>Trip planning</p>\r\n            </td>\r\n            <td>Lab 5. Savonius wind turbine construction &amp; testing</td>\r\n            <td>\r\n            <p>Reading reaction</p>\r\n            <p>Problem Set 3</p>\r\n            <p>Lab 4 write-up</p>\r\n            <p>1st brainstorm pictures</p>\r\n            <p>Literature search</p>\r\n            </td>\r\n        </tr>\r\n        <tr class=\"alt-row\">\r\n            <td>6</td>\r\n            <td>\r\n            <p>Lecture 6. Cooking, stoves, &amp; fuel</p>\r\n            <p>Biogas digester testing</p>\r\n            </td>\r\n            <td>Lab 6. Charcoal making &amp; stove testing</td>\r\n            <td>\r\n            <p>Reading reaction</p>\r\n            <p>Lab 3 and Lab 5 write-ups</p>\r\n            <p>Initial project specifications</p>\r\n            <p>2nd brainstorm pictures</p>\r\n            <p>Materials list for trip</p>\r\n            </td>\r\n        </tr>\r\n        <tr class=\"row\">\r\n            <td>7</td>\r\n            <td>Lecture 7. Trip plan presentations</td>\r\n            <td>Trip preparation</td>\r\n            <td>\r\n            <p>Lab 6 write-up</p>\r\n            <p>Revised project specifications</p>\r\n            <p>Revised 2nd brainstorm pictures</p>\r\n            <p>Trip questions</p>\r\n            </td>\r\n        </tr>\r\n        <tr class=\"alt-row\">\r\n            <td>8</td>\r\n            <td colspan=\"3\">Spring break trip to Nicaragua and El Salvador community partners</td>\r\n        </tr>\r\n    </tbody>\r\n</table>\r\n</div>\r\n<p>* Assignments are due each week on the Lab day unless otherwise noted. Students should anticipate spending 6 hours per week on assignments, including listening to no less than one ~20-minute Spanish podcast/week.</p>\r\n<h3 class=\"subsubhead\">Part II: Project Work</h3>\r\n<div class=\"maintabletemplate\">\r\n<table class=\"tablewidth75\" summary=\"See table caption for summary.\">\r\n    <caption class=\"invisible\">Course project work.</caption>\r\n    <thead>\r\n        <tr>\r\n            <th scope=\"col\">WEEK&nbsp;#</th>\r\n            <th scope=\"col\"><span class=\"nobr\">CLASS TOPICS &amp; PROJECT WORK</span></th>\r\n            <th scope=\"col\">Project Milestones</th>\r\n        </tr>\r\n    </thead>\r\n    <tbody>\r\n        <tr class=\"row\">\r\n            <td>9</td>\r\n            <td>\r\n            <p>Lecture 8. Design Process</p>\r\n            <p>Trip presentations, project evaluations</p>\r\n            <p>Team formation &amp; brainstorming</p>\r\n            </td>\r\n            <td>\r\n            <p>Trip report</p>\r\n            <p>Select project</p>\r\n            <p>Team roles assigned</p>\r\n            </td>\r\n        </tr>\r\n        <tr class=\"alt-row\">\r\n            <td>10</td>\r\n            <td>\r\n            <p>Quiz 2</p>\r\n            <p>Librarian visit</p>\r\n            <p>Experimentation overview</p>\r\n            </td>\r\n            <td>\r\n            <p>Concept review</p>\r\n            <p>Wiki Design Notebook report: best brainstormed ideas, Pugh charts</p>\r\n            <p>Project specifications due</p>\r\n            </td>\r\n        </tr>\r\n        <tr class=\"row\">\r\n            <td>11</td>\r\n            <td>\r\n            <p>System-level design</p>\r\n            </td>\r\n            <td>\r\n            <p>System spec review</p>\r\n            <p>Wiki Design Notebook report: sketch models &amp; experimentation</p>\r\n            </td>\r\n        </tr>\r\n        <tr class=\"alt-row\">\r\n            <td>12</td>\r\n            <td>\r\n            <p>Detailed design and build</p>\r\n            <p>Initial design review presentations</p>\r\n            </td>\r\n            <td>\r\n            <p>Critical design review with initial working prototype</p>\r\n            <p>Wiki Design Notebook report</p>\r\n            </td>\r\n        </tr>\r\n        <tr class=\"row\">\r\n            <td>13</td>\r\n            <td>Testing and refinement</td>\r\n            <td>Wiki Design Notebook report</td>\r\n        </tr>\r\n        <tr class=\"alt-row\">\r\n            <td>14</td>\r\n            <td>\r\n            <p>Testing and refinement</p>\r\n            <p>Final design review presentations</p>\r\n            </td>\r\n            <td>Final presentation and review at the D-Lab Showcase</td>\r\n        </tr>\r\n        <tr class=\"row\">\r\n            <td>15</td>\r\n            <td>Production ramp-up</td>\r\n            <td>Final project report &amp; team assessment</td>\r\n        </tr>\r\n    </tbody>\r\n</table>\r\n</div>",
+		"bottomtext": "",
+		"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/syllabus",
+		"short_url": "syllabus",
+		"description": "This syllabus section provides information on course meeting times, aims, objectives, structure, readings, use of Spanish, project work, and the schedule of class topics, labs, and assignment due dates.",
+		"type": "CourseSection",
+		"is_image_gallery": false,
+		"is_media_gallery": false,
+		"list_in_left_nav": false,
+		"file_location": "f03094f36e60d35cd0bbed00551f4c2f_syllabus.html"
+	}, {
+		"order_index": 4,
+		"uid": "32a22e0de0add67342ce41445297fce7",
+		"parent_uid": "03ecfbe74faf55554e96b55bafa7899e",
+		"title": "Week 1: Introduction, Energy Basics & Human Power",
+		"short_page_title": "Introduction, Energy Basics & Human Power",
+		"text": "",
+		"bottomtext": "<h2 class=\"subhead\">Readings</h2> <p>Practical Action. <a href=\"https://practicalaction.org/poor-peoples-energy-outlook/#:~:text=The%20Poor%20People's%20Energy%20Outlook,the%20perspectives%20of%20the%20poor.&amp;text=By%20drawing%20on%20the%20realities,framing%20the%20energy%20access%20narrative.\"><em>Poor People's Energy Outlook 2010</em></a>. Read from start to top of p. 38, pp. 50-54, and pp. 55-61.</p> <p>Reading reaction:</p> <ul>     <li><a href=\"./resolveuid/8e0e114c6add3da2130fc85ca3884596\">Instructions for reading reaction posts <span style=\"background-color: rgb(255, 255, 255);\">(PDF</span>)</a></li>     <li>Make   your initial reaction post before next Monday and then make at least   one follow-up post responding to another student's reaction by next   Wednesday.</li> </ul> <h2 class=\"subhead\">Assignments</h2> <p><a href=\"./resolveuid/dafbfcc992f8550b177a67a95cb65180\">Problem Set 0</a> (Lantern homework)<a name=\"ps0\"></a></p> <p><a href=\"./resolveuid/5638dda948ce2cd5f89513c4a9b480a7\">Problem Set 1</a><span style=\"background-color: rgb(255, 255, 0);\"><a name=\"ps1\"></a><br /> </span></p>",
+		"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/intro-energy-basics-human-power",
+		"short_url": "intro-energy-basics-human-power",
+		"description": "This section provides materials for the first week of the course, including lecture and lab videos, readings, and assignments.",
+		"type": "CourseSection",
+		"is_image_gallery": false,
+		"is_media_gallery": true,
+		"list_in_left_nav": false,
+		"file_location": "32a22e0de0add67342ce41445297fce7_intro-energy-basics-human-power.html"
+	}, {
+		"order_index": 5,
+		"uid": "6e9b9baba0f993d05be2369160b9b3ca",
+		"parent_uid": "32a22e0de0add67342ce41445297fce7",
+		"title": "Lab 1 Instructions",
+		"short_page_title": "Lab 1 Instructions",
+		"text": "<h2 class=\"subhead\">Water Pumping Module</h2> <p>In this lab subsection, we're looking at measuring the power you can produce by pumping water to a certain height using your arms and legs. Start by guessing how much more power your legs can produce than your arms.</p> <p>The pumps you will be using have been developed for different applications in the developing world, and are both examples of appropriate technologies. The first of these pumps is the Escuela M\u00f3vil de Agua y Saneamiento (EMAS) pump developed by Wolfgang Buchner in Bolivia. It is a PVC hand pump that uses two one-way valves, and pumps on the down stroke. The second pump is the Full Belly Project Pump that is designed and developed by Jock Brandis, and is a cement rocker pump.</p> <p>We will be estimating the power output by pumping water and calculating the pressure and flow rate of the water. It is important to remember that this is an approximation, as the pumps themselves have different efficiencies. We should start with the definition of power in a system with fluid flow:</p> <p><em>P = p x Q</em></p> <p>where <em>p</em> is pressure (Pa) and <em>Q</em> is the volumetric flow rate (<em>m<sup>3</sup>&frasl;s</em>)</p> <p>For each pump:</p> <ol>     <li>Measure <em>Q</em>:     <p>While we can measure the volumetric flow rate using a variety of sensors, in this lab we will be using five-gallon buckets and measuring the time it takes to fill them using a stopwatch.</p></li>     <li>Measuring <em>p</em>:     <p>We can approximate the pressure of the fluid by using the hydrostatic pressure equation:</p>     <p><em>p = &rho;gh</em></p>     <p>where <em>&rho;</em> is the density of the fluid, <em>g </em>is the gravitation acceleration, and <em>h</em> is the height of the fluid</p></li>     <li>Calculate P     <p>Based on your measurements, calculate the power.</p></li> </ol> <h2 class=\"subhead\">Water Carrying</h2> <p>Try out all forms of water carrying. For each method, go from our 2<sup>nd</sup> floor class room to our 1<sup>st</sup> floor workshop and back, via the stairs.</p> <ul>     <li>Tump line</li>     <li>Head carry</li>     <li>Hand carry</li>     <li>Q-drum</li> </ul> <p>Note the differences in each experience.</p> <h2 class=\"subhead\">Shop Training</h2> <p>In order to familiarize yourselves with the shop equipment and prepare for a future lab, you will have the task of cutting wood and drilling pilot holes in it using a variety of tools. The stock you will have to work from is a 1&quot; x 6&quot; piece of wood that is 8 feet long. In teams of two, you will have to make: one 1&quot; x 6&quot; x 20 cm piece with notches, two 1&quot; x 1&quot; x 30 cm pieces, and one 1&quot; x 1&quot; x 20 cm piece and then drill pilot holes in them. Keep a list of the tools that you are using.</p> <p><img width=\"400\" height=\"281\" alt=\"Schematic with dimensions for four pieces of wood.\" src=\"./resolveuid/08ed6e0e2453a588061c56128dd14d5d\" /></p> <p class=\"caption\">Woodworking design for shop training.</p> <p>Along with this woodworking assignment, students will also have the opportunity to experiment with the following:</p> <ul>     <li>Drilling holes in sheet metal with a drill press</li>     <li>Cutting copper and PVC pipe with hand tools</li>     <li>Cutting rebar with a hacksaw</li>     <li>Spot welding</li>     <li>Sheet metal bending</li>     <li>Using a pop-rivet tool</li> </ul> <p><a href=\"./resolveuid/b03952e4bdfcea4962271aeae1dedb3f\">&laquo; Back</a></p>",
+		"bottomtext": "",
+		"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/intro-energy-basics-human-power/lab-1-human-power-instructions",
+		"short_url": "lab-1-human-power-instructions",
+		"description": "This section provides instructions for a lab on human power, and includes subsections on water pumping, water carrying, and shop training.\r\n",
+		"type": "CourseSection",
+		"is_image_gallery": false,
+		"is_media_gallery": false,
+		"list_in_left_nav": false,
+		"file_location": "6e9b9baba0f993d05be2369160b9b3ca_lab-1-human-power-instructions.html"
+	}, {
+		"order_index": 7,
+		"uid": "292bd34ad8ecb81401c0de0ef3145cd4",
+		"parent_uid": "32a22e0de0add67342ce41445297fce7",
+		"title": "Lab 1 Analysis & Report",
+		"short_page_title": "Lab 1 Analysis & Report",
+		"text": "<h2 class=\"subhead\">Water Pumping</h2> <p>How much more power do you think that you can generate with your legs than your arms? First, estimate the answer.</p> <p>Then, look up the answer in David Gordon Wilson's paper &quot;Understanding Pedal Power&quot; (<a href=\"./resolveuid/15286019b5a06fde2d43af6c00f460d4\">PDF</a>) (Courtesy of David Gordon Wilson. Used with permission.)</p> <p>Record both.</p> <p>In the lab, how much power were you able to generate using your arms? How much power were you able to generate using your legs? How do these values compare to each other, to your estimate of the power difference, and to the actual difference? If the result of the lab showed that the difference between your arms and legs did not match the common, documented difference, hypothesize the reasons for the discrepancy.</p> <p>If we were able to harness the power that you generated and use it to power LEDs, how many of the LEDs that we provided to you would you be able to power using your arms? What about your legs?</p> <p>As a class that focuses on design as well as energy, it is important for you to start thinking about where the technologies that you will be exposed to in this class can be applied. In order to start you on this path, review instructions for each pump:</p> <ul>     <li>&quot;Building an EMAS Pump&quot; by Paul Cloesen (<a href=\"http://paulcloesen.50webs.com/DocEMAS/Build-an-EMAS-pump.doc\">DOC</a>)</li>     <li><a href=\"https://www.thefullbellyproject.org/products-2\">The Full Belly Project Rocker Pump</a></li> </ul> <p>For <em>each</em> pump:</p> <ol type=\"a\">     <li>Discuss five things you particularly liked about the design.</li>     <li>Discuss five things you could improve about the design.</li>     <li>In one or two paragraphs, describe a scenario in which this pump could be used to benefit people in developing regions.</li> </ol> <p>Another commonly used pump in the developing world is the IDE India Treadle Pump. Read this treadle pump case study:</p> <ul>     <li>Ashden Awards. &quot;<a href=\"https://www.ashden.org/winners/international-development-enterprises-india-idei\">Case Study Summary: International Development Enterprises India (IDEI)</a>.&quot; May 2009.</li>     <li>and this page in Appropredia: <a href=\"http://www.appropedia.org/Treadle_pumps\">Treadle Pumps</a></li> </ul> <p>How does this treadle pump compare to the cement pump?</p> <h2 class=\"subhead\">Shop Introduction</h2> <p>In the shop introduction, you were exposed to and trained on a variety of tools, some of which may have been new to you. However, as part of the design process, it is important to consider which tools and techniques our target communities will likely have access to. It would not, for example, be appropriate to have a critical component in your design be something that needs to be waterjet cut (though an experienced metalworker may be able to cut a similar component using a chisel). For both the cutting and drilling parts of the shop intro, discuss the different techniques you were exposed to paying particular attention to:</p> <ol type=\"a\">     <li>The relative difficulty of the process</li>     <li>The speed of the tool</li>     <li>The likely availability in the developing world</li> </ol> <h2 class=\"subhead\">Water Carrying</h2> <p>First, write down your impressions of each method of carrying water. Rank the methods from easiest to hardest for you. What are the pros and cons of each method?</p> <p>If you had to carry 5 gallons of water a mile every day, and a q-drum was not available, which method would you use?</p> <p>Now, read the following abstracts</p> <ul>     <li>Maloiy, G. M., N. C. Heglund, L. M. Prager, G. A. Cavagna, and C. R. Taylor. &quot;<a href=\"http://www.ncbi.nlm.nih.gov/pubmed/3951538\">Energetic Cost of Carrying Loads: Have African Women Discovered an Economic Way?</a>&quot; <em>Nature</em> 319, no. 6055 (1986): 668-9.</li>     <li>Bastien, G. J., B. Schepens, P. A. Willems, and N. C. Heglund. &quot;<a href=\"http://www.ncbi.nlm.nih.gov/pubmed/15961662\">Energetics of Load Carrying in Nepalese Porters.</a>&quot; <em>Science</em> 308, no. 5729 (2005): 1755.</li> </ul> <p>If you find them intriguing, it's easy to get the entire paper online through the libraries; many of the citations are also interesting.</p> <p>Did the findings from these papers in terms of the efficiency of the methods described surprise you or match your experience? Why?</p> <p>Propose some reasons &ndash; from a physics standpoint &ndash; why the efficiencies of the methods described might be so superior.</p> <p><a href=\"./resolveuid/b03952e4bdfcea4962271aeae1dedb3f\">&laquo; Back</a></p>",
+		"bottomtext": "",
+		"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/intro-energy-basics-human-power/lab-1-human-power-homework",
+		"short_url": "lab-1-human-power-homework",
+		"description": "This section provides instructions for an assignment to analyze and report on a lab on human power.",
+		"type": "CourseSection",
+		"is_image_gallery": false,
+		"is_media_gallery": false,
+		"list_in_left_nav": false,
+		"file_location": "292bd34ad8ecb81401c0de0ef3145cd4_lab-1-human-power-homework.html"
+	}, {
+		"order_index": 9,
+		"uid": "dafbfcc992f8550b177a67a95cb65180",
+		"parent_uid": "32a22e0de0add67342ce41445297fce7",
+		"title": "Problem Set 0",
+		"short_page_title": "Problem Set 0",
+		"text": "<p>Using the given LED (3.6V, 20mA) and 9V battery provided in class, a resistor of your choosing, and found materials, construct a lantern. The lantern should be able to turn on and off.</p> <p>Tip for choosing the resistor: while picking an appropriate resistor in the right ballpark is important, the exact value is not critical. If you can't find the exact value you need, find something within 10-15%.</p> <p>Grading criteria:</p> <ul>     <li>functionality (does it light, is it easy to figure out the switch)</li>     <li>aesthetics &mdash; does it look good</li>     <li>creative use of materials</li>     <li>maximizing light</li> </ul> <p>Bring the lantern to D-Lab no later than one hour before the next class session. Your device should be placed on one of the desks in that room on an 8.5&quot;x11&quot; piece of paper with your name, a very quick sketch of your device, and an explanation - including formula - of how you chose the resistor and what value you used.</p> <p><a href=\"./resolveuid/74baee58a69e9d655612d7aaaaeaad76\">Problem Set 0 Grading Rubric (PDF)</a></p> <p><a href=\"./resolveuid/32a22e0de0add67342ce41445297fce7#ps0\">&laquo; Back</a></p>",
+		"bottomtext": "",
+		"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/intro-energy-basics-human-power/problem-set-0",
+		"short_url": "problem-set-0",
+		"description": "This page describes Problem Set 0, in which students build an LED lantern.",
+		"type": "CourseSection",
+		"is_image_gallery": false,
+		"is_media_gallery": false,
+		"list_in_left_nav": false,
+		"file_location": "dafbfcc992f8550b177a67a95cb65180_problem-set-0.html"
+	}, {
+		"order_index": 11,
+		"uid": "5638dda948ce2cd5f89513c4a9b480a7",
+		"parent_uid": "32a22e0de0add67342ce41445297fce7",
+		"title": "Problem Set 1",
+		"short_page_title": "Problem Set 1",
+		"text": "<h2 class=\"subhead\">Problem 1</h2> <p>It is important to have a general idea of how much energy can be stored and extracted from a certain form of storage. Record the specific energies of the listed storage types. Then make a chart (generated in Matlab, Excel, or similar) to display the relative specific energies.</p> <p><em>Extra credit: Plot the specific energies vs. the cost/Joule of each storage type.</em></p> <p><strong>Storage Type Specific energy (MJ/kg)</strong></p> <p>Alkaline battery<br /> Capacitor<br /> Coal<br /> Flywheel<br /> Gasoline<br /> Hydrogen<br /> Lithium ion battery<br /> Super capacitor<br /> A storage method of interest to you</p> <h2 class=\"subhead\">Problem 2</h2> <p>In this problem you will be using estimation to measure how much energy goes into heating water for showers in MA. Remember to state your assumptions clearly &ndash; you'll find that an estimate may be completely off because of just one assumption (but, conveniently, it's common that two bad assumptions can cancel each other out). Further, explicitly stating assumptions is key to the design process. We will start you off with the following assumption:</p> <p>Assumption: Hot water for showering is about 105&deg; F</p> <ol type=\"a\">     <li>How much hot water is used in a single hot shower?</li>     <li>How much hot water is used in showers throughout MA. Keep in mind that some people do not take hot showers.</li>     <li>How much energy is needed to heat water for showers throughout MA? Remember that heating water is not a 100% efficient process.</li>     <li>Suppose you designed a shower head that halved the volumetric flow of water coming out from the shower without any negative impacts on showering. How much money could you save all the residents of MA? How much would you price the product at?</li>     <li>Inspired by this problem set, you decide to build your own solar water heater with an efficiency of 25%. How large a solar water heater would you have to build so that the average family would have hot showering water? What about all of the residents of MA? You can neglect heat losses in storage/transport.</li> </ol> <p><a href=\"./resolveuid/32a22e0de0add67342ce41445297fce7#ps1\">&laquo; Back</a></p>",
+		"bottomtext": "",
+		"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/intro-energy-basics-human-power/problem-set-1",
+		"short_url": "problem-set-1",
+		"description": "This page describes Problem Set 1, covering energy storage and estimating energy used.",
+		"type": "CourseSection",
+		"is_image_gallery": false,
+		"is_media_gallery": false,
+		"list_in_left_nav": false,
+		"file_location": "5638dda948ce2cd5f89513c4a9b480a7_problem-set-1.html"
+	}, {
+		"order_index": 26,
+		"uid": "bd09c1cc93fd481d39456e105dc16816",
+		"parent_uid": "03ecfbe74faf55554e96b55bafa7899e",
+		"title": "Week 2: Energy Storage; Measurement Lab",
+		"short_page_title": "Energy Storage; Measurement Lab",
+		"text": "",
+		"bottomtext": "<h2 class=\"subhead\">Assignments</h2> <p><a href=\"./resolveuid/8c249fc1ff672f6fb82a52720d7b2694\">Problem Set 2</a> (Personal Energy Consumption challenge)<a name=\"ps2\"></a></p> <h3 class=\"subsubhead\">Project Work</h3> <ul>     <li>Complete student survey of project preferences</li>     <li>Project teams formed by Week 4 lecture session</li>     <li>Begin initial research &amp; sketch model prototypes, due in Week 7</li> </ul>",
+		"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/energy-storage",
+		"short_url": "energy-storage",
+		"description": "This section provides materials for the second week of the course, including lecture and lab videos, readings, and assignments.",
+		"type": "CourseSection",
+		"is_image_gallery": false,
+		"is_media_gallery": true,
+		"list_in_left_nav": false,
+		"file_location": "bd09c1cc93fd481d39456e105dc16816_energy-storage.html"
+	}, {
+		"order_index": 27,
+		"uid": "5e001ecb027ee84ad79b0cb04f1b0990",
+		"parent_uid": "bd09c1cc93fd481d39456e105dc16816",
+		"title": "Lab 2 Instructions",
+		"short_page_title": "Lab 2 Instructions",
+		"text": "<h2 class=\"subhead\">Power Module</h2> <p>In this module, we're aiming to characterize the peak power output of the solar cell. As you may recall from our earlier class, as you change a resistive load in a circuit, the voltage and current that are outputted also change. Since we know that the <em>P = I<sup>2</sup>R = V<sup>2</sup>/R</em>, it is possible to find the maximum power output of the solar panel experimentally by measuring current and voltage at a variety of resistances. The procedure for generating this curve is as follows:</p> <ol>     <li>Choose an orientation for the solar panel     <p>As you will find in the other modules, changing the angle of the solar panel and the amount of light that is contacting the panel will affect the power outputted by the panel. In order to not confound your power measurements with these variables, fix the orientation of the solar panel for this portion of the lab. Note: avoid placing the panel close to shadows, since they will move and potentially block some light from the panel.</p></li>     <li>Measure the power of the cell     <p>A potentiometer is a variable resistor, and we will provide you with a fairly robust one that is able to handle the power being outputted by the panel. The resistance of the potentiometer changes as you turn the dial, so you should turn the dial and measure the resistance.</p>     <p>NOTE: You cannot measure the resistance of the pot while it is hooked up to the circuit, so you have to disconnect it from the circuit before measuring. If you do try to measure the resistance, you will burn out the voltmeter.</p>     <p>For several different resistances (I would like to see you take at least 15 different data points) across the range of the resistor, measure the voltage across the load. You will need to graph power vs resistance later for the lab write-up.</p></li> </ol> <h2 class=\"subhead\">Angle Optimization</h2> <p>In this module you will be measuring how the power output of the solar panel changes with angle. The power output of the solar panel is determined by the angle of the light hitting the solar cell. For a given load, change the angle of the panel and measure the voltage across the resistor and the angle. Take at least 10 different data points, recording the angle and voltage (make sure you also write down the resistance you are using to calculate power later). We want to see how the power output changes when we angle the solar panel both ways, parallel and perpendicular to the individual solar cells.</p> <h2 class=\"subhead\">Shading Module</h2> <p>In this module, you will examine how the efficiency of the solar panel drops when the solar panel is covered. You will be covering the solar panel in two ways, placing a cover that is perpendicular to the individual cells and then placing a cover that is parallel to them. Measure the exposed surface area and take at least 10 different data points, recording the exposed surface area and output voltage (make sure you also write down the resistance you are using to calculate power later).</p> <p><a href=\"./resolveuid/09983496dbeb7fa69b6e295c146cbe57\">&laquo; Back</a></p>",
+		"bottomtext": "",
+		"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/energy-storage/lab-2-energy-storage-solar-panel",
+		"short_url": "lab-2-energy-storage-solar-panel",
+		"description": "This page describes the procedures for the solar power output and efficiency lab.",
+		"type": "CourseSection",
+		"is_image_gallery": false,
+		"is_media_gallery": false,
+		"list_in_left_nav": false,
+		"file_location": "5e001ecb027ee84ad79b0cb04f1b0990_lab-2-energy-storage-solar-panel.html"
+	}, {
+		"order_index": 28,
+		"uid": "5e62a2ae6757222a296a99da52f7bade",
+		"parent_uid": "bd09c1cc93fd481d39456e105dc16816",
+		"title": "Lab 2 Writeup Assignment",
+		"short_page_title": "Lab 2 Writeup Assignment",
+		"text": "<p>For each of the modules, provide the following analysis and discussion. As a general rule, you should present all of your raw data in a table or other easy to read format. If you are asked to show calculations, you can show one calculation or formula as an example and indicate that the rest of calculations were performed that way.</p> <h2 class=\"subhead\">Power Module</h2> <h3 class=\"subsubhead\">Analysis</h3> <p>Plot the power vs resistance of the system, showing your calculations. At what load did your solar panel output the maximum power and what was it?</p> <h3 class=\"subsubhead\">Discussion</h3> <p>Was the peak power output load captured in your range of resistances? What did you expect your graph to look like? Did the graph match your expectations?</p> <h2 class=\"subhead\">Angle Optimization</h2> <h3 class=\"subsubhead\">Analysis</h3> <p>Plot the power output of the solar panel vs angle of the solar panel for both orientations on the same graph, showing your calculations. Based on the results, what was the angle to the sun?</p> <h3 class=\"subsubhead\">Discussion</h3> <p>How do the two graphs for the different orientations compare? From theory, the power drop with respect to angle should be a function of the cosine of the angle. How do your findings compare? Are your graphs symmetric about the peak? Why or why not?</p> <h2 class=\"subhead\">Shading Module</h2> <h3 class=\"subsubhead\">Analysis</h3> <p>Plot the power output of the graph vs surface area of the exposed panel for both orientations on the same graph, showing your calculations.</p> <h3 class=\"subsubhead\">Discussion</h3> <p>How does the power output change with surface area? Did the power output drop off as you expected it to drop off when the solar panel was covered? Explain. Did the power drop off the same for both orientations? Why or why not?</p> <h2 class=\"subhead\">Conclusion:</h2> <p>What did you learn from the lab that could be applied to designing a solar power system? What were some sources of error in the experiment? How could you have avoided these in the future?</p> <p><a href=\"./resolveuid/09983496dbeb7fa69b6e295c146cbe57\">&laquo; Back</a></p>",
+		"bottomtext": "",
+		"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/energy-storage/lab-2-energy-storage-solar-panel-write-up",
+		"short_url": "lab-2-energy-storage-solar-panel-write-up",
+		"description": "This page describes the analysis and write-up assignment for Lab 2 on solar power output and efficiency.",
+		"type": "CourseSection",
+		"is_image_gallery": false,
+		"is_media_gallery": false,
+		"list_in_left_nav": false,
+		"file_location": "5e62a2ae6757222a296a99da52f7bade_lab-2-energy-storage-solar-panel-write-up.html"
+	}, {
+		"order_index": 29,
+		"uid": "8c249fc1ff672f6fb82a52720d7b2694",
+		"parent_uid": "bd09c1cc93fd481d39456e105dc16816",
+		"title": "Problem Set 2: Personal Energy Consumption Challenge",
+		"short_page_title": "Problem Set 2: Personal Energy Consumption Challenge",
+		"text": "<p>This homework is previewed in a discussion at the end of the Lecture 2 video.</p> <p>Choose two days over the following week.</p> <h2 class=\"subhead\">Day 1</h2> <p>Consider only consumables (you do not need to worry about the energy required to make the laptop, etc., just the energy you consumed using it), document the energy you used. Possibilities: food, cooking, water, lighting, electricity for laptops/computer/cellphone/other appliances and technology, heating/cooling, transportation).</p> <p>You'll need to do a lot of estimating here; that's to be expected, just document how you arrive at your numbers. For a shared situation (for example, taking a public bus with 10 other people), you can divide to calculate your portion.</p> <p>Estimate/calculate the total energy consumed by your life (daily), and calculate your average power usage.</p> <p>What percentage of your daily energy consumption is in your control? What is out of your control (for example, in most dorms and classrooms you have NO control over the temperature)? What is a grey area (for example, you can choose which computing device to use to do your work, but you can't eliminate use of a computer entirely if you want to pass your classes)?</p> <h2 class=\"subhead\">Day 2</h2> <p>Make a list of the areas where you think you can cut back, and by how much. Strive to cut back aggressively ... cutting back by 1% is not sufficient.</p> <p>Implement your cutbacks for one day and calculate how close you were to your estimate in the Day 1 exercise.</p> <p>Write about the experience: how hard was it to cut back? Discuss how close you were to your target and if you were off, how and why. Where else would you have liked to cut back but couldn't, and why not? Other reflections on the experience.</p> <p>If you were forced to use 10% of the energy you currently estimate you're using, what would you do? Where does that 10% goal come from? You may recall from Week #1 that in the US our average annual energy usage per capita is 360 GJ, whereas in Nicaragua it's 25 and in Haiti it's 11.</p> <p><a href=\"./resolveuid/bd09c1cc93fd481d39456e105dc16816#ps2\">&laquo; Back</a></p>",
+		"bottomtext": "",
+		"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/energy-storage/problem-set-2-personal-energy-consumption-challenge",
+		"short_url": "problem-set-2-personal-energy-consumption-challenge",
+		"description": "This page describes the personal energy consumption challenge homework.",
+		"type": "CourseSection",
+		"is_image_gallery": false,
+		"is_media_gallery": false,
+		"list_in_left_nav": false,
+		"file_location": "8c249fc1ff672f6fb82a52720d7b2694_problem-set-2-personal-energy-consumption-challenge.html"
+	}, {
+		"order_index": 46,
+		"uid": "70e2edb13971cd3b00913ae541bcdecc",
+		"parent_uid": "03ecfbe74faf55554e96b55bafa7899e",
+		"title": "Week 3:  Lighting, Biogas",
+		"short_page_title": "Lighting, Biogas",
+		"text": "",
+		"bottomtext": "<h2 class=\"subhead\">Resources for Lighting Design in Developing Countries</h2> <ul>     <li>Best Practices     <ul type=\"circle\">         <li>Lumina Project. <a href=\"http://light.lbl.gov/best-practices.html\">Best Practice Guide for off-grid lighting product development</a>.</li>     </ul></li>     <li>Sources for statistics     <ul type=\"circle\">         <li>Mills, Evan.<a href=\"https://pdfs.semanticscholar.org/af45/cda1a788e6453c27ea9341a2545408bdf332.pdf?_ga=2.171809827.2016510353.1566239404-159250059.1566239404\"> &quot;The $230-billion Global Lighting Energy Bill.&quot; (<img alt=\"This resource may not render correctly in a screen reader.\" src=\"/images/inacessible.gif\" />PDF)</a> June 2002.</li>         <li>Lumina Project. <a href=\"http://light.lbl.gov/opportunity.html\">The Opportunity</a>.</li>         <li>OECD and IEA.<a href=\"http://web.archive.org/web/20101204194847/http://www.iea.org/work/2007/cfl/Waide.pdf\"> &quot;Light's Labour Lost: Policies for Energy-efficient Lighting.&quot; (PDF)</a></li>         <li>Mills, Evan. <a href=\"http://light.lbl.gov/pubs/mills_science_fbl_full.pdf\">&quot;The Specter of Fuel-Based Lighting.&quot; (<img src=\"/images/inacessible.gif\" alt=\"This resource may not render correctly in a screen reader.\" />PDF - 1.3MB)</a></li>         <li>Apte, J., A. Gopal, J. Mathieu, and S. Parthasarathy.<a href=\"http://light.lbl.gov/pubs/fisherman-led-rpt.pdf\"> &quot;Improved Lighting for Indian Fishing Communities.&quot;  (<img alt=\"This resource may not render correctly in a screen reader.\" src=\"/images/inacessible.gif\" />PDF - 2.5MB)</a> May 16, 2007.</li>         <li>U.S. DOE. <a href=\"https://openei.org/doe-opendata/dataset/buildings-energy-data-book\">&quot;2008 Residential Energy End-Use Splits, by Fuel Type.&quot;</a> Table 2.1.5, in <em>Buildings Energy Data Book</em>. March 2011.</li>     </ul></li>     <li>Relevant organizations     <ul type=\"circle\">         <li><a href=\"http://www.cie.co.at/\">International Commission on Illumination</a></li>         <li><a href=\"http://www.ies.org/\">Illuminating Engineering Society of North America</a></li>         <li><a href=\"http://www.lutw.org/\">Light up the World Foundation</a></li>         <li><a href=\"http://light.lbl.gov/\">The Lumina Project</a></li>         <li><a href=\"http://www.lightingafrica.org/\">Lighting Africa</a></li>     </ul></li> </ul> <h2 class=\"subhead\">Readings</h2> <p>[<a href=\"./resolveuid/f03094f36e60d35cd0bbed00551f4c2f#Polak\">Polak</a>], Chapters 1 and 2</p> <p>Make  your initial reading reaction post before next Monday and then make at least  one follow-up post responding to another student's reaction by next  Wednesday.</p> <h2 class=\"subhead\">Assignments</h2> <p><a href=\"./resolveuid/ca54380aa4276bca928a60120653283d\">Problem Set 3</a><a name=\"ps3\"></a></p>",
+		"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/lighting-biogas",
+		"short_url": "lighting-biogas",
+		"description": "This section provides materials for the third week of the course, including lecture and lab videos, readings, and assignments.",
+		"type": "CourseSection",
+		"is_image_gallery": false,
+		"is_media_gallery": true,
+		"list_in_left_nav": false,
+		"file_location": "70e2edb13971cd3b00913ae541bcdecc_lighting-biogas.html"
+	}, {
+		"order_index": 47,
+		"uid": "ca54380aa4276bca928a60120653283d",
+		"parent_uid": "70e2edb13971cd3b00913ae541bcdecc",
+		"title": "Problem Set 3",
+		"short_page_title": "Problem Set 3",
+		"text": "<h2 class=\"subhead\">Question 1</h2> <p>Find the average illuminance for the following categories. Cite your sources, provide units, and remember about significant figures.</p> <ul>     <li>Sunlight Indoor household lighting</li>     <li>Recommended lighting for reading</li>     <li>Moonlight</li>     <li>Workshops</li> </ul> <h2 class=\"subhead\">Question 2</h2> <ol type=\"a\">     <li>Estimate/calculate the total energy consumed by the lighting you identified this past week, as well as the average power associated with that lighting. Show your work.</li>     <li>When was lighting excessive? Insufficient?</li>     <li>What lighting technology or technologies most interested you from Wednesday's lecture? Why?</li> </ol> <h2 class=\"subhead\">Question 3</h2> <p>Estimation. Normal commercial LEDs are rated at 40 lumens/watt. Suppose you want to design a reading light for households that is placed 50 cm from the reading material. How many LEDs would you use in your light that are rated at 20 mA and 3.6 V? Show all your calculations.</p> <p><a href=\"./resolveuid/70e2edb13971cd3b00913ae541bcdecc#ps3\">&laquo; Back</a></p>",
+		"bottomtext": "",
+		"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/lighting-biogas/problem-set-3",
+		"short_url": "problem-set-3",
+		"description": "This page describes a problem set on lighting.",
+		"type": "CourseSection",
+		"is_image_gallery": false,
+		"is_media_gallery": false,
+		"list_in_left_nav": false,
+		"file_location": "ca54380aa4276bca928a60120653283d_problem-set-3.html"
+	}, {
+		"order_index": 67,
+		"uid": "97d18199d8e130f96762504a4894e1bc",
+		"parent_uid": "03ecfbe74faf55554e96b55bafa7899e",
+		"title": "Week 4: Solar Energy",
+		"short_page_title": "Solar",
+		"text": "",
+		"bottomtext": "<h2 class=\"subhead\">Readings</h2> <p>[<a href=\"./resolveuid/f03094f36e60d35cd0bbed00551f4c2f#Polak\">Polak</a>], Chapters 3 and 4.</p> <p>Make your initial reading reaction post before next Monday and then make at least one follow-up post responding to another student's reaction by next Wednesday.</p>",
+		"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/solar",
+		"short_url": "solar",
+		"description": "This section provides materials for the fourth week of the course, including lecture and lab videos, readings, and assignments.",
+		"type": "CourseSection",
+		"is_image_gallery": false,
+		"is_media_gallery": true,
+		"list_in_left_nav": false,
+		"file_location": "97d18199d8e130f96762504a4894e1bc_solar.html"
+	}, {
+		"order_index": 83,
+		"uid": "f14900f478f23db9257193b8b3c5f9c8",
+		"parent_uid": "97d18199d8e130f96762504a4894e1bc",
+		"title": "Lab 4 Wiring Solar Panels: Instructions and Writeup Assignment",
+		"short_page_title": "Lab 4 Wiring Solar Panels: Instructions and Writeup Assignment",
+		"text": "<p>For each of these modules, provide the following analysis and discussion. As a general rule, you should present all of your raw data in a table or other easy to read format. If you are asked to show calculations, you can show one calculation or formula as an example and indicate that the rest of calculations were performed that way.</p> <ol>     <li>Individual Solar Cell Analysis</li>     <p>Take 4 individual solar cells outside and measure the output voltage of each cell individually using a voltmeter and a load. What voltage are you generating? How does this compare to what you would expect? How much power are you generating? How do these values differ for the different solar cells?</p>     <li>Solar Panel Analysis</li>     <p>Measure the voltage and power output of your wired solar panel. How does this compare to the output of each solar cell that you previously measured? Is this what you expected? Why or why not? Explain what is happening electrically in your system.</p>     <p>Cover up about one quarter of one cell&hellip; how does doing so affect the output of your panel? Why does this occur?</p>     <li>Conclusion</li>     <p>What did you learn from the lab that could be applied to building solar panels? What were the most difficult aspects of wiring the solar cells together? What are some changes you could make to the process to make it easier and/or less painful?</p> </ol> <p><a href=\"./resolveuid/97a34ce75fb2a23054a4c6c113127714\">&laquo; Back</a></p>",
+		"bottomtext": "",
+		"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/solar/lab-4-instructions-and-writeup",
+		"short_url": "lab-4-instructions-and-writeup",
+		"description": "This page presents instructions and the writeup assignment for Lab 4 on wiring solar panels.",
+		"type": "CourseSection",
+		"is_image_gallery": false,
+		"is_media_gallery": false,
+		"list_in_left_nav": false,
+		"file_location": "f14900f478f23db9257193b8b3c5f9c8_lab-4-instructions-and-writeup.html"
+	}, {
+		"order_index": 85,
+		"uid": "5dd5186b4a86f3ff771b545e19e9b505",
+		"parent_uid": "03ecfbe74faf55554e96b55bafa7899e",
+		"title": "Week 5: Wind and Micro-Hydro",
+		"short_page_title": "Wind and Micro-Hydro",
+		"text": "",
+		"bottomtext": "<h2 class=\"subhead\">Readings</h2> <p>BOPrenuer. &quot;<a href=\"http://bopreneur.blogspot.com/2010/01/ending-poverty-period.html\">Ending Poverty (period)</a>.&quot; Blog posting, January 8, 2010.</p> <p>Fuel from the Fields Team. <a href=\"./resolveuid/2b5321517d0b0e6a217aeeaba60c6bbe\">&quot;Fuel from the Fields: Charcoal from Agricultural Waste.&quot; (PDF)</a>  Technical Brief. Practical Action, 2010. (Courtesy of Practical Action. Used with permission.)</p> <h2 class=\"subhead\">Assignments</h2> <h3 class=\"subsubhead\"><a name=\"Assignments\"></a>Pre-Trip Project Work</h3> <p>Project work will ramp up during the next few weeks prior to the spring break trip (Week 8).&nbsp; Here's what's expected during Weeks 5 to 7.</p> <div class=\"maintabletemplate\"><table summary=\"See table caption for summary.\" class=\"tablewidth100\">     <caption class=\"invisible\">Course assignments.</caption>  <!-- BEGIN TABLE HEADER (for MIT OCW Table Template 2.51) -->     <thead>         <tr>             <th scope=\"col\">PROJECT ASSIGNMENTS</th>             <th scope=\"col\">DETAILS</th>             <th scope=\"col\">DUE</th>         </tr>     </thead>     <!-- END TABLE HEADER -->     <tbody>         <tr class=\"row\">             <td>First brainstorm</td>             <td>Produce annotated pictures from each team member for each project</td>             <td>During Lab 5 class</td>         </tr>         <tr class=\"alt-row\">             <td>Literature search on topics</td>             <td><p>What exists? How does it function? How is it made? Focus writing on summarize &amp; reflect, not assess &mdash; only include sources that pass the assessment</p>             <p>Reference: &quot;<a href=\"http://owl.english.purdue.edu/owl/resource/614/01/\">Annotated Bibliographies</a>,&quot; from the Purdue Online Writing Lab (OWL).</p>             <p>Deliverable: ~2 page annotated bibliography per project</p></td>             <td>End of Week 5</td>         </tr>         <tr class=\"row\">             <td>Develop project specifications</td>             <td><p>How: <span class=\"nobr\"><a href=\"http://web.mit.edu/2.009/www/lectures/15_specifications.pdf\">2.009 Specification lecture slides (PDF)</a></span></p>             <p>Example: <a href=\"http://web.mit.edu/2.009/www/lectures/15_fruitSpec/specExamples.html\">2.009 Fruit Spec</a></p>             <p>Deliverable: specs for each project using 2.009 format (attribute, metric, unit, value)<br />             It is likely you won't be able to fill in all the values until your trip.</p></td>             <td>End of Week 6, revised by end of Week 7</td>         </tr>         <tr class=\"alt-row\">             <td>Second brainstorm</td>             <td>2 annotated pictures for each project</td>             <td>End of Week 6, revised by end of Week 7</td>         </tr>         <tr class=\"row\">             <td>Materials list for trip</td>             <td>Delivered to project partners</td>             <td><span class=\"nobr\">End of Week 6</span></td>         </tr>         <tr class=\"alt-row\">             <td>Question list for trip</td>             <td>&nbsp;</td>             <td>During Lecture 7 class</td>         </tr>         <tr class=\"row\">             <td>15-minute project presentation</td>             <td>Contents:             <ol type=\"a\">                 <li>literature search findings</li>                 <li>project specifications</li>                 <li>annotated pictures</li>                 <li>key questions</li>                 <li>key expected activities</li>             </ol></td>             <td>During Lecture 7 class</td>         </tr>         <!-- TEN ROWS -->     </tbody> </table></div>",
+		"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/wind-micro-hydro",
+		"short_url": "wind-micro-hydro",
+		"description": "This section provides materials for the fifth week of the course, including lecture and lab videos, readings, and assignments.",
+		"type": "CourseSection",
+		"is_image_gallery": false,
+		"is_media_gallery": true,
+		"list_in_left_nav": false,
+		"file_location": "5dd5186b4a86f3ff771b545e19e9b505_wind-micro-hydro.html"
+	}, {
+		"order_index": 99,
+		"uid": "40a90435c33545755ca5aed11bc98c6a",
+		"parent_uid": "03ecfbe74faf55554e96b55bafa7899e",
+		"title": "Week 6: Cooking, Stoves & Fuel",
+		"short_page_title": "Cooking, Stoves & Fuel",
+		"text": "",
+		"bottomtext": "<h2 class=\"subhead\">Assignments</h2> <h3 class=\"subsubhead\">Project Milestones</h3> <p>Due this week (as described in <a href=\"./resolveuid/5dd5186b4a86f3ff771b545e19e9b505#Assignments\">Week 5 Assignments</a>)</p> <ul>     <li>Develop project specifications</li>     <li>Second brainstorm</li>     <li>Materials list for trip</li> </ul>",
+		"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/cooking-stoves-fuel",
+		"short_url": "cooking-stoves-fuel",
+		"description": "This section provides materials for the sixth week of the course, including lecture and lab videos, readings, and assignments.",
+		"type": "CourseSection",
+		"is_image_gallery": false,
+		"is_media_gallery": true,
+		"list_in_left_nav": false,
+		"file_location": "40a90435c33545755ca5aed11bc98c6a_cooking-stoves-fuel.html"
+	}, {
+		"order_index": 114,
+		"uid": "374104f0f3d930af2e1057b34aa6c451",
+		"parent_uid": "03ecfbe74faf55554e96b55bafa7899e",
+		"title": "Week 7: Trip Planning and Preparations",
+		"short_page_title": "Trip Planning and Preparations",
+		"text": "",
+		"bottomtext": "<h2 class=\"subhead\">Lab 7: Trip Preparation</h2> <p>This class period is devoted to final preparations for the spring break trips to Nicaragua and El Salvador.</p> <p>It includes a class discussion about various challenging situations that might arise on a field trip, for instance:</p> <ul>     <li>As a token of gratitude, or as a cultural exchange, you're offered food or drinks, and you are concerned about food safety.</li>     <li>A community partner asks you for money or gifts.</li>     <li>A community member proposes a project idea that seems utterly ludicrous to you (e.g. bike powered lighting).</li>     <li>A community member proposes a project idea has no relation to D-Lab Energy (water quality testing).</li>     <li>A community member in an area known to have a high AIDS prevalence needs help dressing a wound.</li>     <li>You're asked to do something you are uncomfortable with: for instance, ride in the back of a pick-up truck, shower when there's no privacy&hellip;</li>     <li>Because of conditions (e.g. heat, bugs, food &amp; water issues), you feel sick, exhausted, homesick, and just don't want to deal.</li>     <li>Your host family won't let you help them with any chores, and you feel uncomfortable.</li>     <li>The charcoal burn goes terribly, the charcoal comes out barely carbonized, and community members seem very unimpressed.</li>     <li>Your host family offers you meals that are way too big to finish. You don't want to waste the food but you don't want to eat that much either.</li> </ul>",
+		"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/week-7-trip-planning-and-preparations",
+		"short_url": "week-7-trip-planning-and-preparations",
+		"description": "This section provides materials for the seventh week of the course, including lecture and lab videos, readings, and assignments.",
+		"type": "CourseSection",
+		"is_image_gallery": false,
+		"is_media_gallery": true,
+		"list_in_left_nav": false,
+		"file_location": "374104f0f3d930af2e1057b34aa6c451_week-7-trip-planning-and-preparations.html"
+	}, {
+		"order_index": 126,
+		"uid": "fb9d6e56eac497fb24b46d3ac31a62da",
+		"parent_uid": "03ecfbe74faf55554e96b55bafa7899e",
+		"title": "Week 8: Community Partner Trips",
+		"short_page_title": "Community Partner Trips",
+		"text": "<h2 class=\"subhead\">Trip Resources</h2> <p><a href=\"./resolveuid/be777a1746d4b2283888658b6b114d54\">Travel Tips (PDF)</a></p> <p><a href=\"./resolveuid/a388dd244c6607136a649ec922e8f499\">Packing list (PDF)</a></p> <p><a href=\"./resolveuid/bdb620eb52dbf8267672ea1d6ff15fc8\">Sample equipment travel letter (PDF)</a></p> <h2 class=\"subhead\">Post-Trip Assignments</h2> <h3 class=\"subsubhead\">Design Challenges</h3> <p>As a team, collaboratively complete design challenge worksheets for all projects identified and supplement them with pictures. Bring the hard copies to class.</p> <h3 class=\"subsubhead\">Pictures</h3> <p>As a team, collaboratively sort through your pictures, select the most relevant ones, and organize them into several folders:</p> <ul>     <li>one folder for <em>each</em> project with the 10-20 most relevant pictures</li>     <li>one folder with general trip pictures (about 20-30)</li>     <li>one folder that has truly spectacular photos</li> </ul> <p>Upload the pictures onto the D-Lab Flickr account. Add captions to describe each picture. Use the D-Lab India <a href=\"http://www.flickr.com/photos/d-lab/sets/72157623182601149/\">Avani Charcoal &amp; Stove collection</a> as a sample of how to title, caption and attribute credits to photographs.</p> <p><strong>Results</strong>: Flickr photo collection of <a href=\"http://www.flickr.com/photos/d-lab/collections/72157623356103471/\">D-Lab Energy 2011 community partner visits</a></p> <h3 class=\"subsubhead\">Presentation</h3> <p>In the lecture session the week after your trip (lecture #8), each team will give a 10-minute presentation about their trip, and present the top 3-5 ideas for projects. You are welcome to only use pictures for the presentation, so that you don't have to spend time prepping slides. To do so, just create a Flickr folder with the pictures from your presentation.<strong><br /> </strong></p>",
+		"bottomtext": "<h3 class=\"subsubhead\">Trip Summary</h3> <p>As a team, collaboratively write a 2&ndash;3 page narrative of what happened on the trip. Include fun/interesting anecdotes in addition to an overview of what was accomplished. In addition, write a list of lessons learned at the end, documenting things that went well and things that could be improved about the trip.</p>",
+		"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/week-8-nicaragua-trip",
+		"short_url": "week-8-nicaragua-trip",
+		"description": "This page presents materials associated with spring break trips to community partners in Nicaragua and El Salvador.",
+		"type": "CourseSection",
+		"is_image_gallery": false,
+		"is_media_gallery": true,
+		"list_in_left_nav": false,
+		"file_location": "fb9d6e56eac497fb24b46d3ac31a62da_week-8-nicaragua-trip.html"
+	}, {
+		"order_index": 135,
+		"uid": "b769b31f283dae0eca5f75068d997bdb",
+		"parent_uid": "03ecfbe74faf55554e96b55bafa7899e",
+		"title": "Projects",
+		"short_page_title": "Projects",
+		"text": "<p>During the first seven weeks of class, project work builds incrementally as described in each week's lectures, labs, and assignments. The <a href=\"./resolveuid/5dd5186b4a86f3ff771b545e19e9b505#Assignments\">Project Work list</a> in Week 5 Assignments summarizes much of that preliminary work.</p> <p>After the spring break trips, the class focuses intensely on their projects. This page describes the project design process and deliverables starting with Week 9.</p><p>Examples of student work can be found on the <a href=\"./resolveuid/cc396362e27aa4169fbb66fd1cb19b76\">Project Results</a> page.</p>",
+		"bottomtext": "<h2 class=\"subhead\">Project Deliverables for 2<sup>nd</sup> Half of Term</h2> <h3 class=\"subsubhead\">Wiki Design Notebook</h3> <p>Each week, your team should update your team's wiki page. If you do a great job documenting everything, it will make your final report much, MUCH easier to write.</p> <p>The wiki should include key documents (project specs, etc.), an ever-changing schedule, photos from experiments, scans of best brainstormed ideas, etc. It should also contain a weekly report on your communications with your community partner (you should do everything in your power &mdash; regular emails and/or phonecalls to stay in touch) so that they are up to date on your progress and can offer feedback.</p> <h3 class=\"subsubhead\">Initial Design Review (Week 12)</h3> <p>At this review, you'll have 10 minutes to present your project, and then 15 minutes for discussion and questions. If you want to use powerpoint, send me your presentation by 9 am that morning. You should bring your working prototype and show it working. For teams that will need fire, for example, you should think about whether you want to do your presentation outside, but also have a weather backup, like a video of your prototype working. You should also have a looks-like prototype, either by making your working prototype one that looks like it's supposed to look like, or by making a second prototype. (For example, if you were inventing an iphone, you could have one prototype that was on a laptop that showed all the software functionality of the iphone (works-like), and a metal and glass model that didn't work but showed how it'd look, or you could have the whole iphone all together, depending on how far along you were in your design process. There will be some people at the design review who will be brand new, so as you prepare your presentation, assume a scientific audience with no background on your project or D-Lab Energy whatsoever.<span style=\"background-color: rgb(0, 255, 0);\"><br /> </span></p><p>A video of the initial design review presentations is on the <a href=\"./resolveuid/cc396362e27aa4169fbb66fd1cb19b76\">Project Results</a> page.</p> <h3 class=\"subsubhead\">Final Design Review &amp; Presentations (Week 14)</h3> <p>Our final presentations will be part of a Saturday showcase of the projects from all D-Lab classes. Each team will prepare the following:</p> <ol>     <li><strong>One-minute Presentation</strong>. Each team will need to prepare a VERY brief, one-minute oral presentation that describes your prototype and summarizes the key aspects of your design. Your audience for this is non-technical, and this presentation should be engaging and exciting and get people to want to learn more.</li>     <li><strong>Poster Session</strong>. After the presentations your team will host a booth so that people in the audience can come to ask you questions about your final prototype. For your booth you should have a working prototype and you should prepare up to two 20'x30' posters for display that help describe the problem and your solution. Engaging posters and hands-on activities for the general public are ideal.</li>     <li><strong>Final Design Review</strong>. During the poster session, your team will break off for a bit for your final design review presentation. At this presentation, you'll have 10 minutes to present your project, and then 10 minutes for discussion and questions (20 minutes total). You should bring a working, good-looking prototype and show it working. For teams that can't demonstrate it working in a classroom because of fire issues or something, show a video for the working aspect. In this case, your prototype should be at full on iPhone version, not split into a &quot;looks like&quot; and &quot;works like.&quot; There will be some people at the design review who will be brand new, so as you prepare your presentation, assume a scientific audience with no background on your project or D-Lab Energy whatsoever.<span style=\"background-color: rgb(0, 255, 0);\"><br />     </span></li></ol><p>A video of the final design review presentations is on the <a href=\"./resolveuid/cc396362e27aa4169fbb66fd1cb19b76\">Project Results</a> page.</p> <h3 class=\"subsubhead\">Final Report</h3> <p>The final report (one per team) is due at noon on our final class day, along with a teamwork survey (one per person).</p> <p>The purpose of the final report is to document your project so that community partners and/or future students interested in your work can understand it, avoid repetition, and make further progress. As a team, write a 12-15 page report describing your project. In it you should include:</p> <ul>     <li>An abstract, summarizing your work (about 150 words) and a single, representative photo for the project.</li>     <li>The problem statement, including information about your community partners.</li>     <li>The design specifications you developed and reasons for them.</li>     <li>A brief review of the design concepts you considered and the reasons why you selected your final design.</li>     <li>A detailed description of your design, including reasons for your design decisions. Include pictures, drawings, and calculations as needed to fully describe your design such that an outside party could both fully operate your product and create replicas. An appendix with an instruction manual is appropriate.</li>     <li>Methodologies and results of tests you performed in designing and refining your prototype.</li>     <li>Discuss the extent to which your final design meets the design specifications, and if there are shortfalls, indicate how these might be addressed in the future.</li>     <li>How your design has been received by your community partner, what follow up is needed (prototype delivery, etc.), and how that will be achieved. Include any plans your team and/or any members of your team have for moving this project forward beyond the auspices of SP.775.</li> </ul> <p>As always when writing, be sure to cite any references properly and edit carefully.</p><p>Sample final reports can found on the <a href=\"./resolveuid/cc396362e27aa4169fbb66fd1cb19b76\">Project Results</a> page.</p> <h3 class=\"subsubhead\">Grading Rubrics</h3> <p><a href=\"./resolveuid/16c217375a56941c0f49bf3df639d86d\">Design Project grading rubric used by instructors (PDF)</a></p> <p><a href=\"./resolveuid/90f493cdd582cf2a1cde3aec846fda5a\">Teamwork self-assessment rubric (<img alt=\"This resource may not render correctly in a screen reader.\" src=\"/images/inacessible.gif\" />PDF)</a></p>",
+		"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/projects",
+		"short_url": "projects",
+		"description": "This page describes the project work that occurs predominantly in the 2nd half of the class, and includes documentation of student work.",
+		"type": "CourseSection",
+		"is_image_gallery": false,
+		"is_media_gallery": true,
+		"list_in_left_nav": false,
+		"file_location": "b769b31f283dae0eca5f75068d997bdb_projects.html"
+	}, {
+		"order_index": 141,
+		"uid": "cc396362e27aa4169fbb66fd1cb19b76",
+		"parent_uid": "b769b31f283dae0eca5f75068d997bdb",
+		"title": "Project Results",
+		"short_page_title": "Project Results",
+		"text": "<h2 class=\"subhead\">2011 Projects</h2> <p>The following projects were developed during the 2011 class. (Content is courtesy of the students and used with permission.)</p> <div class=\"maintabletemplate\"><table summary=\"See table caption for summary.\">     <caption class=\"invisible\">Project files.</caption> <!-- BEGIN TABLE HEADER (for MIT OCW Table Template 2.51) -->     <thead>         <tr>             <th scope=\"col\">2011&nbsp;PROJECTS</th>             <th scope=\"col\">DESCRIPTIONS</th>             <th scope=\"col\">FINAL&nbsp;REPORTS</th>         </tr>     </thead>     <!-- END TABLE HEADER -->     <tbody>         <tr class=\"row\">             <td><p><strong>Barrel on Fire</strong></p>             <p><em>Team</em>: Jessica Artiles, Vivian Dien, Kurt Tsuo</p></td>             <td>Low cost dugout and sealing process improves the agri-waste charcoal-making process by reducing heat exposure and safety risk to the user</td>             <td><a href=\"./resolveuid/e39f6e11e20a4ab9c3d0adfd836c580e\">Barrel on Fire report (PDF - 1.5MB)</a></td>         </tr>         <tr class=\"alt-row\">             <td><p><strong>Dehusking Insert</strong></p>             <p><em>Team</em>: Benji Moncivaiz, Bensey Schnip, Missy Showers, MIT student</p></td>             <td>A cheap, local process which dehusks rice more conveniently; this allows for personal consumption and income generation</td>             <td><a href=\"./resolveuid/09af6dbe00f3e660d48ad65898730f49\">Dehusking Insert report (PDF)</a></td>         </tr>         <tr class=\"row\">             <td><p><strong>Orange Juice Bag Sealer</strong></p>             <p><em>Team</em>: Carter Chang, Brianna Conrad, Bus Leonard, Emily Rosser</p></td>             <td>Improvements on a low-power heat sealer device to preserve surplus orange juice in single-serving plastic bags for transport and later sale</td>             <td><a href=\"./resolveuid/1494323b6c9e7f35cd886582d22ab20a\">Orange Juice Bag Sealer report (PDF)</a></td>         </tr>         <tr class=\"alt-row\">             <td><p><strong>Solar Cellphone Charger</strong></p>             <p><em>Team</em>: Elizabeth de Regt, Juan D. Diaz, Sidhant Pai</p></td>             <td>Compact device to convert solar energy to a usable voltage for charging cellphones, to be built locally in Nicaragua</td>             <td><a href=\"./resolveuid/98bd865f3f4ffaeeb99fbc1c3c3c18be\">Solar Cellphone Charger report (PDF)</a></td>         </tr>         <!-- TEN ROWS -->     </tbody> </table></div> <h3 class=\"subsubhead\">Design Review Presentations</h3> <p>These design review presentations were given three weeks and one week prior to the end of class.</p>",
+		"bottomtext": "<h2 class=\"subhead\">2010 Projects</h2> <p>D-Lab: Energy was first offered in 2010. For reference, these projects were undertaken during the 2010 class; no futher materials are available.</p> <div class=\"maintabletemplate\"><table summary=\"See table caption for summary.\" class=\"tablewidth75\">     <caption class=\"invisible\">Course projects.</caption>  <!-- BEGIN TABLE HEADER (for MIT OCW Table Template 2.51) -->     <thead>         <tr>             <th scope=\"col\">2010&nbsp;PROJECTS</th>             <th scope=\"col\">DESCRIPTIONS</th>         </tr>     </thead>     <!-- END TABLE HEADER -->     <tbody>         <tr class=\"row\">             <td>Charcoal Stove</td>             <td>A culturally appropriate charcoal stove that physically and visually integrates into existing local wood stoves</td>         </tr>         <tr class=\"alt-row\">             <td>Plastic Bag Sealer</td>             <td>A device for sealing single use plastic bags for long term juice storage</td>         </tr>         <tr class=\"row\">             <td>Solar Cell Cutter</td>             <td>A device for accurately scoring and cutting scrap solar cells to be made into cell phone chargers</td>         </tr>         <tr class=\"alt-row\">             <td>Solar Water Distiller</td>             <td>A device for distilling salt water to be used in deep cycle batteries in solar installations</td>         </tr>         <!-- TEN ROWS -->     </tbody> </table></div>",
+		"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/projects/project-results",
+		"short_url": "project-results",
+		"description": "This page presents student design review videos and final reports on their projects.",
+		"type": "CourseSection",
+		"is_image_gallery": false,
+		"is_media_gallery": true,
+		"list_in_left_nav": true,
+		"file_location": "cc396362e27aa4169fbb66fd1cb19b76_project-results.html"
+	}, {
+		"order_index": 159,
+		"uid": "e80a9eb5f120cd25f78ef7aaf0fee485",
+		"parent_uid": "03ecfbe74faf55554e96b55bafa7899e",
+		"title": "Download Course Materials",
+		"short_page_title": "Download Course Materials",
+		"text": "<div id=\"download_inner_main\"><p class=\"ptext\">This package contains the same content as the online version of the course.</p><p class=\"ptext\">For help downloading and using course materials, read our <a href=\"http://ocw.mit.edu/help/faq-technology/\">frequently asked questions</a>.</p></div>",
+		"bottomtext": "",
+		"url": "/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/download-course-materials",
+		"short_url": "download-course-materials",
+		"description": "",
+		"type": "DownloadSection",
+		"is_image_gallery": false,
+		"is_media_gallery": false,
+		"list_in_left_nav": false,
+		"file_location": "e80a9eb5f120cd25f78ef7aaf0fee485_download-course-materials.html"
+	}],
+	"course_features": [{
+		"ocw_feature": "Assignments",
+		"ocw_subfeature": "activity (no examples)",
+		"ocw_feature_url": "./resolveuid/32a22e0de0add67342ce41445297fce7",
+		"ocw_feature_notes": "",
+		"ocw_speciality": ""
+	}, {
+		"ocw_feature": "Projects",
+		"ocw_subfeature": "Examples",
+		"ocw_feature_url": "./resolveuid/cc396362e27aa4169fbb66fd1cb19b76",
+		"ocw_feature_notes": "",
+		"ocw_speciality": ""
+	}, {
+		"ocw_feature": "Assignments",
+		"ocw_subfeature": "design with examples",
+		"ocw_feature_url": "./resolveuid/b769b31f283dae0eca5f75068d997bdb",
+		"ocw_feature_notes": "",
+		"ocw_speciality": ""
+	}, {
+		"ocw_feature": "Assignments",
+		"ocw_subfeature": "presentations with examples",
+		"ocw_feature_url": "./resolveuid/fb9d6e56eac497fb24b46d3ac31a62da",
+		"ocw_feature_notes": "",
+		"ocw_speciality": ""
+	}],
+	"course_files": [{
+		"order_index": 6,
+		"uid": "08ed6e0e2453a588061c56128dd14d5d",
+		"id": "lab1s11.jpg",
+		"parent_uid": "6e9b9baba0f993d05be2369160b9b3ca",
+		"title": "lab1s11.jpg",
+		"caption": "Woodworking design for shop training.",
+		"file_type": "image/jpeg",
+		"alt_text": "Schematic with dimensions for four pieces of wood.",
+		"credit": "",
+		"platform_requirements": "Any number of image viewers/editors can be used to display these .jpg image files, including most html browsers.",
+		"description": "Woodworking design for shop training.",
+		"type": "OCWImage"
+	}, {
+		"order_index": 8,
+		"uid": "15286019b5a06fde2d43af6c00f460d4",
+		"id": "MITEC_711S11_lab1_pedal.pdf",
+		"parent_uid": "292bd34ad8ecb81401c0de0ef3145cd4",
+		"title": "Understanding Pedal Power",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains information regarding Understanding Pedal Power.",
+		"type": "OCWFile"
+	}, {
+		"order_index": 10,
+		"uid": "74baee58a69e9d655612d7aaaaeaad76",
+		"id": "MITSP_775S11_pset0_rubric.pdf",
+		"parent_uid": "dafbfcc992f8550b177a67a95cb65180",
+		"title": "MITSP_775S11_pset0_rubric.pdf",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains the information related to problem set grading rubric.",
+		"type": "OCWFile"
+	}, {
+		"order_index": 22,
+		"uid": "18016923a66dc59a17b06ae7926c5a81",
+		"id": "MITEC_711S11_lec01_ho2.pdf",
+		"parent_uid": "32a22e0de0add67342ce41445297fce7",
+		"title": "Units check-in \"quiz\"",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains information related to Units check-in.",
+		"type": "OCWFile"
+	}, {
+		"order_index": 23,
+		"uid": "880ca1d850da941ac3ed277bd2f00889",
+		"id": "MITEC_711S11_lec01_ho1.pdf",
+		"parent_uid": "32a22e0de0add67342ce41445297fce7",
+		"title": "Country Facts \"quiz\"",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains information related to Country Facts.",
+		"type": "OCWFile"
+	}, {
+		"order_index": 24,
+		"uid": "8e0e114c6add3da2130fc85ca3884596",
+		"id": "MITEC_711S11_read_react.pdf",
+		"parent_uid": "32a22e0de0add67342ce41445297fce7",
+		"title": "Instructions for reading reaction posts",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains information related to Instructions for reading reaction posts.",
+		"type": "OCWFile"
+	}, {
+		"order_index": 25,
+		"uid": "43e7ab6d7e77a873cf5feca4b87785f7",
+		"id": "MITEC_711S11_lec01.pdf",
+		"parent_uid": "32a22e0de0add67342ce41445297fce7",
+		"title": "Lecture 1 slides",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains information related to Lecture 1 slides.",
+		"type": "OCWFile"
+	}, {
+		"order_index": 45,
+		"uid": "f7c2c564359a741ef5de50dfd675098b",
+		"id": "MITEC_711S11_lec02.pdf",
+		"parent_uid": "bd09c1cc93fd481d39456e105dc16816",
+		"title": "Lecture 2 slides",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains information regarding week 2: energy storage, ouput and efficiency. ",
+		"type": "OCWFile"
+	}, {
+		"order_index": 63,
+		"uid": "612c5dec27642281008a61791f840394",
+		"id": "MITEC_711S11_lab3.pdf",
+		"parent_uid": "70e2edb13971cd3b00913ae541bcdecc",
+		"title": "Lab 3 instructions",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains information related to Lab 3 instructions.",
+		"type": "OCWFile"
+	}, {
+		"order_index": 64,
+		"uid": "e80a54db9eb4782f351c845635e2f81c",
+		"id": "MITEC_711S11_lec3_ho1.pdf",
+		"parent_uid": "70e2edb13971cd3b00913ae541bcdecc",
+		"title": "Lighting \"quiz\"",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains information related to Lighting.",
+		"type": "OCWFile"
+	}, {
+		"order_index": 65,
+		"uid": "04e9004504845ba57a66385d763c7ba1",
+		"id": "MITEC_711S11_lab3_pres.pdf",
+		"parent_uid": "70e2edb13971cd3b00913ae541bcdecc",
+		"title": "Lecture slides for Lab 3",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains information related to Lab 3.",
+		"type": "OCWFile"
+	}, {
+		"order_index": 66,
+		"uid": "d65f36cbad503eaa162a30253450adbb",
+		"id": "MITEC_711S11_lec03.pdf",
+		"parent_uid": "70e2edb13971cd3b00913ae541bcdecc",
+		"title": "Lecture 3 slides",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains information related to Lecture 3 slides.",
+		"type": "OCWFile"
+	}, {
+		"order_index": 84,
+		"uid": "606b06bc1e38fa58d271651476d1469e",
+		"id": "MITEC_711S11_lec04.pdf",
+		"parent_uid": "97d18199d8e130f96762504a4894e1bc",
+		"title": "Lecture 4 slides",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains information related to lecture 4.",
+		"type": "OCWFile"
+	}, {
+		"order_index": 96,
+		"uid": "184c0fc86a104f97fddefdc5bd119127",
+		"id": "MITEC_711S11_lab5.pdf",
+		"parent_uid": "5dd5186b4a86f3ff771b545e19e9b505",
+		"title": "Lab 5 Instructions: Build Your Own Wind Turbine",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.\r\n",
+		"description": "This resource contains the information related to wind turbine. ",
+		"type": "OCWFile"
+	}, {
+		"order_index": 97,
+		"uid": "ee63a3af81a24cd8ed0235f7c98907b9",
+		"id": "MITEC_711S11_lec05.pdf",
+		"parent_uid": "5dd5186b4a86f3ff771b545e19e9b505",
+		"title": "MITEC_711S11_lec05.pdf",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.\r\n",
+		"description": "This resource contains information regarding lecture 5 slides. ",
+		"type": "OCWFile"
+	}, {
+		"order_index": 98,
+		"uid": "2b5321517d0b0e6a217aeeaba60c6bbe",
+		"id": "MITEC_711S11_read5_fuel.pdf",
+		"parent_uid": "5dd5186b4a86f3ff771b545e19e9b505",
+		"title": "Fuel from the Fields: Charcoal from Agricultural Waste",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains information related to fuel from the fields: charcoal from agricultural waste. ",
+		"type": "OCWFile"
+	}, {
+		"order_index": 110,
+		"uid": "534345fd317e100b558a103f4d5630ff",
+		"id": "MITEC_711S11_read6a.pdf",
+		"parent_uid": "40a90435c33545755ca5aed11bc98c6a",
+		"title": "D-Lab Do-It Module: Fuel from the Fields Charcoal",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains the information related to fuel from the fields charcoal. ",
+		"type": "OCWFile"
+	}, {
+		"order_index": 111,
+		"uid": "60955952a9c740f27cf83754d4774592",
+		"id": "MITEC_711S11_read6b.pdf",
+		"parent_uid": "40a90435c33545755ca5aed11bc98c6a",
+		"title": "Carbonization checklist & documentation form",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains the information related to carbonization checklist. ",
+		"type": "OCWFile"
+	}, {
+		"order_index": 112,
+		"uid": "2338907a2ce8d8fb94b0c51900eeb478",
+		"id": "MITEC_711S11_read6c.pdf",
+		"parent_uid": "40a90435c33545755ca5aed11bc98c6a",
+		"title": "Briquetting checklist & documentation form",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains the information related to briquetting checklist ",
+		"type": "OCWFile"
+	}, {
+		"order_index": 113,
+		"uid": "b5ddc2317eaeb1960423a15ed805f2e2",
+		"id": "MITEC_711S11_lec06.pdf",
+		"parent_uid": "40a90435c33545755ca5aed11bc98c6a",
+		"title": "Lecture 6 slides",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains information regarding lecture 6 slides. ",
+		"type": "OCWFile"
+	}, {
+		"order_index": 125,
+		"uid": "4dd64dddf4dbaa81899a7f676b0d931c",
+		"id": "MITEC_711S11_lec07.pdf",
+		"parent_uid": "374104f0f3d930af2e1057b34aa6c451",
+		"title": "Lecture 7 slides",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains information regarding lecture 7 slides.",
+		"type": "OCWFile"
+	}, {
+		"order_index": 132,
+		"uid": "be777a1746d4b2283888658b6b114d54",
+		"id": "MITEC_711S11_trip_tips.pdf",
+		"parent_uid": "fb9d6e56eac497fb24b46d3ac31a62da",
+		"title": "Travel Tips",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains the information related to travel tips. ",
+		"type": "OCWFile"
+	}, {
+		"order_index": 133,
+		"uid": "a388dd244c6607136a649ec922e8f499",
+		"id": "MITEC_711S11_trip_pack.pdf",
+		"parent_uid": "fb9d6e56eac497fb24b46d3ac31a62da",
+		"title": "Packing List",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains the information related to travel packing. ",
+		"type": "OCWFile"
+	}, {
+		"order_index": 134,
+		"uid": "bdb620eb52dbf8267672ea1d6ff15fc8",
+		"id": "MITEC_711S11_trip_ltr.pdf",
+		"parent_uid": "fb9d6e56eac497fb24b46d3ac31a62da",
+		"title": "Sample equipment travel letter",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains the sample letter of equipment travel. ",
+		"type": "OCWFile"
+	}, {
+		"order_index": 152,
+		"uid": "354861c275307274f72816ce94549d27",
+		"id": "MITEC_711S11_lec8.pdf",
+		"parent_uid": "b769b31f283dae0eca5f75068d997bdb",
+		"title": "Week 8: Presentations & the Design Process",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains information related to design process and presentations. ",
+		"type": "OCWFile"
+	}, {
+		"order_index": 153,
+		"uid": "98bd865f3f4ffaeeb99fbc1c3c3c18be",
+		"id": "MITEC_711S11_proj_rptchrg.pdf",
+		"parent_uid": "b769b31f283dae0eca5f75068d997bdb",
+		"title": "Solar Cellphone Charger",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.\r\n",
+		"description": "This resource contains the information related to Solar Cellphone Charger.",
+		"type": "OCWFile"
+	}, {
+		"order_index": 154,
+		"uid": "16c217375a56941c0f49bf3df639d86d",
+		"id": "MITEC_711S11_proj_rubric.pdf",
+		"parent_uid": "b769b31f283dae0eca5f75068d997bdb",
+		"title": "Design Project grading rubric used by instructors",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains the information related to Design Project grading rubric used by instructors.",
+		"type": "OCWFile"
+	}, {
+		"order_index": 155,
+		"uid": "1494323b6c9e7f35cd886582d22ab20a",
+		"id": "MITEC_711S11_proj_rptseal.pdf",
+		"parent_uid": "b769b31f283dae0eca5f75068d997bdb",
+		"title": "Orange Juice Sealer",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains the information related to Orange Juice Sealer.",
+		"type": "OCWFile"
+	}, {
+		"order_index": 156,
+		"uid": "90f493cdd582cf2a1cde3aec846fda5a",
+		"id": "MITEC_711S11_proj_teamass.pdf",
+		"parent_uid": "b769b31f283dae0eca5f75068d997bdb",
+		"title": "Teamwork self-assessment rubric",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains the teamwork self-assessment rubric. ",
+		"type": "OCWFile"
+	}, {
+		"order_index": 157,
+		"uid": "e39f6e11e20a4ab9c3d0adfd836c580e",
+		"id": "MITEC_711S11_proj_rptfire.pdf",
+		"parent_uid": "b769b31f283dae0eca5f75068d997bdb",
+		"title": "Barrel on Fire",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains the information related to Barrel on Fire.",
+		"type": "OCWFile"
+	}, {
+		"order_index": 158,
+		"uid": "09af6dbe00f3e660d48ad65898730f49",
+		"id": "MITEC_711S11_proj_rpthusk.pdf",
+		"parent_uid": "b769b31f283dae0eca5f75068d997bdb",
+		"title": "Dehusking Insert",
+		"caption": null,
+		"file_type": "application/pdf",
+		"alt_text": null,
+		"credit": null,
+		"platform_requirements": "Adobe Reader software is required to view this .pdf file.",
+		"description": "This resource contains the information related to Dehusking Insert.",
+		"type": "OCWFile"
+	}, {
+		"order_index": 160,
+		"uid": "904b1bf01a94f63a980908933b86bfda",
+		"id": "ec-711s11.jpg",
+		"parent_uid": "03ecfbe74faf55554e96b55bafa7899e",
+		"title": "ec-711s11.jpg",
+		"caption": "During the spring break trip to Nicaragua, students worked with community partners on various projects like a solar oven, shown here baking sugar cookies.",
+		"file_type": "image/jpeg",
+		"alt_text": "Photo of a student standing outdoors next to a box containing cookies, with clear plexiglass top and a large foil solar reflector.",
+		"credit": "Photo courtesy of D-Lab on Flickr.",
+		"platform_requirements": "Any number of image viewers/editors can be used to display these .jpg image files, including most html browsers.",
+		"description": "During the spring break trip to Nicaragua, students worked with community partners on various projects like a solar oven, shown here baking sugar cookies. Photo courtesy of D-Lab on Flickr.",
+		"type": "OCWImage"
+	}, {
+		"order_index": 161,
+		"uid": "ce3eef57129daf7c8cc223790262ef9c",
+		"id": "ec-711s11-th.jpg",
+		"parent_uid": "03ecfbe74faf55554e96b55bafa7899e",
+		"title": "ec-711s11-th.jpg",
+		"caption": "During the spring break trip to Nicaragua, students worked with community partners on various projects like a solar oven, shown here baking sugar cookies.",
+		"file_type": "image/jpeg",
+		"alt_text": "D-Lab: Energy",
+		"credit": "Photo courtesy of D-Lab on Flickr.",
+		"platform_requirements": "Any number of image viewers/editors can be used to display these .jpg image files, including most html browsers.",
+		"description": "During the spring break trip to Nicaragua, students worked with community partners on various projects like a solar oven, shown here baking sugar cookies. Photo courtesy of D-Lab on Flickr.",
+		"type": "OCWImage"
+	}],
+	"course_embedded_media": {
+		"62016158lecture1:introductiontoenergy58131072": {
+			"order_index": 12,
+			"title": "Lecture 1: Introduction to Energy",
+			"uid": "1b0190b9ac077e7471213af5ae8e895a",
+			"parent_uid": "32a22e0de0add67342ce41445297fce7",
+			"technical_location": "https://ocw.mit.edu/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/intro-energy-basics-human-power/lecture-1-introduction-to-energy",
+			"short_url": "lecture-1-introduction-to-energy",
+			"inline_embed_id": "62016158lecture1:introductiontoenergy58131072",
+			"about_this_resource_text": "<p><strong>Description:</strong> This lecture introduces fundamental energy concepts: energy around in the world, energy units, a quick electricity review, and some estimation practice activities. The session ends with a syllabus overview.</p> <p><strong>Speaker:</strong> Amy Banzaert</p>",
+			"related_resources_text": "",
+			"transcript": "",
+			"embedded_media": [{
+				"uid": "d0b7921e5f0f1db9201940e83329a661",
+				"parent_uid": "1b0190b9ac077e7471213af5ae8e895a",
+				"id": "Video-YouTube-Stream",
+				"title": "Video-YouTube-Stream",
+				"type": "Video",
+				"media_location": "SbpeBF8D_m4"
+			}, {
+				"uid": "90bb688b4764bd2ea17700b15a9bc720",
+				"parent_uid": "1b0190b9ac077e7471213af5ae8e895a",
+				"id": "Thumbnail-YouTube-JPG",
+				"title": "Thumbnail-YouTube-JPG",
+				"type": "Thumbnail",
+				"media_location": "https://img.youtube.com/vi/SbpeBF8D_m4/default.jpg"
+			}, {
+				"uid": "8c366bf8c031d4e2e9e889d1189bcbd8",
+				"parent_uid": "1b0190b9ac077e7471213af5ae8e895a",
+				"id": "Video-iTunesU-MP4",
+				"title": "Video-iTunes U-MP4",
+				"type": "Video",
+				"media_location": "https://itunes.apple.com/us/itunes-u/lecture-1-introduction-to/id591211144?i=127630214"
+			}, {
+				"uid": "d33080d31354791cf9da0bdc74fba248",
+				"parent_uid": "1b0190b9ac077e7471213af5ae8e895a",
+				"id": "Video-InternetArchive-MP4",
+				"title": "Video-Internet Archive-MP4",
+				"type": "Video",
+				"media_location": "http://www.archive.org/download/MITSP.775S11/MITSP_775S11lec01_300k.mp4"
+			}]
+		},
+		"19321690lab1:humanpower77178344": {
+			"order_index": 17,
+			"title": "Lab 1: Human Power",
+			"uid": "b03952e4bdfcea4962271aeae1dedb3f",
+			"parent_uid": "32a22e0de0add67342ce41445297fce7",
+			"technical_location": "https://ocw.mit.edu/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/intro-energy-basics-human-power/lab-1-human-power",
+			"short_url": "lab-1-human-power",
+			"inline_embed_id": "19321690lab1:humanpower77178344",
+			"about_this_resource_text": "<p><strong>Description:</strong> This lab consists of three parts:</p> <ul>     <li>Water pumping, with a PVC hand pump and a cement rocker pump</li>     <li>Water carrying, with a tump line, head carry, hand carry, and Q-drum</li>     <li>Woodshop training</li> </ul> <p><strong>Speaker:</strong> Amy Banzaert, Amit Gandhi</p>",
+			"related_resources_text": "",
+			"transcript": "",
+			"embedded_media": [{
+				"uid": "76d5e9d7f95b8606707d34c921e94be2",
+				"parent_uid": "b03952e4bdfcea4962271aeae1dedb3f",
+				"id": "Video-YouTube-Stream",
+				"title": "Video-YouTube-Stream",
+				"type": "Video",
+				"media_location": "7MzwxhtVfFc"
+			}, {
+				"uid": "d6c4f3fdc4c6ff086ecdd01b491a6b42",
+				"parent_uid": "b03952e4bdfcea4962271aeae1dedb3f",
+				"id": "Video-iTunesU-MP4",
+				"title": "Video-iTunes U-MP4",
+				"type": "Video",
+				"media_location": "https://itunes.apple.com/us/itunes-u/lab-1-human-power/id591211144?i=136606449"
+			}, {
+				"uid": "6b8582ab50bc0ae7d8d8b24d058c553d",
+				"parent_uid": "b03952e4bdfcea4962271aeae1dedb3f",
+				"id": "Video-InternetArchive-MP4",
+				"title": "Video-Internet Archive-MP4",
+				"type": "Video",
+				"media_location": "http://www.archive.org/download/MITSP.775S11/MITSP_775S11lab01_300k.mp4"
+			}, {
+				"uid": "c2b0f6c1f6bfe239af13f509bd0add19",
+				"parent_uid": "b03952e4bdfcea4962271aeae1dedb3f",
+				"id": "Thumbnail-YouTube-JPG_1",
+				"title": "Thumbnail-YouTube-JPG",
+				"type": "Thumbnail",
+				"media_location": "https://img.youtube.com/vi/7MzwxhtVfFc/default.jpg"
+			}]
+		},
+		"98404581lecture2:energystorage&microgrids;trippreview28770981": {
+			"order_index": 30,
+			"title": "Lecture 2: Energy Storage & Microgrids; Trip Preview",
+			"uid": "8d66a4c740d57c2daec86c1e98494333",
+			"parent_uid": "bd09c1cc93fd481d39456e105dc16816",
+			"technical_location": "https://ocw.mit.edu/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/energy-storage/lecture-2-energy-storage-microgrids-trip-preview",
+			"short_url": "lecture-2-energy-storage-microgrids-trip-preview",
+			"inline_embed_id": "98404581lecture2:energystorage&microgrids;trippreview28770981",
+			"about_this_resource_text": "<p><strong>Description:</strong> This lecture explores energy storage needs in developing countries. It also includes a review of some introductory topics, pedal power, estimation exercises, and a preview of the spring break field trip.</p> <p><strong>Speaker:</strong> Amy Banzaert</p>",
+			"related_resources_text": "",
+			"transcript": "",
+			"embedded_media": [{
+				"uid": "9008810137052c85220314518dd2b1d7",
+				"parent_uid": "8d66a4c740d57c2daec86c1e98494333",
+				"id": "Video-YouTube-Stream",
+				"title": "Video-YouTube-Stream",
+				"type": "Video",
+				"media_location": "Cy5-17esUsE"
+			}, {
+				"uid": "27505123497ea7af07af439670e5d145",
+				"parent_uid": "8d66a4c740d57c2daec86c1e98494333",
+				"id": "Thumbnail-YouTube-JPG",
+				"title": "Thumbnail-YouTube-JPG",
+				"type": "Thumbnail",
+				"media_location": "https://img.youtube.com/vi/Cy5-17esUsE/default.jpg"
+			}, {
+				"uid": "1a7e35265ca87eefa0a7ce371d490d6d",
+				"parent_uid": "8d66a4c740d57c2daec86c1e98494333",
+				"id": "Video-iTunesU-MP4",
+				"title": "Video-iTunes U-MP4",
+				"type": "Video",
+				"media_location": "https://itunes.apple.com/us/itunes-u/lecture-2-energy-storage-microgrids/id591211144?i=127630220"
+			}, {
+				"uid": "8d9659de498109c69a5ec2986c73f082",
+				"parent_uid": "8d66a4c740d57c2daec86c1e98494333",
+				"id": "Video-InternetArchive-MP4",
+				"title": "Video-Internet Archive-MP4",
+				"type": "Video",
+				"media_location": "http://www.archive.org/download/MITSP.775S11/MITSP_775S11lec02_300k.mp4"
+			}]
+		},
+		"65103759lab2:solarpowermeasurement,parti:lecture87314245": {
+			"order_index": 35,
+			"title": "Lab 2: Solar Power Measurement, Part I: Lecture",
+			"uid": "5e800d0e334f0e1ea68b69dd206b63fa",
+			"parent_uid": "bd09c1cc93fd481d39456e105dc16816",
+			"technical_location": "https://ocw.mit.edu/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/energy-storage/lab-2-solar-power-measurement-part-i-lecture",
+			"short_url": "lab-2-solar-power-measurement-part-i-lecture",
+			"inline_embed_id": "65103759lab2:solarpowermeasurement,parti:lecture87314245",
+			"about_this_resource_text": "<p><strong>Description:</strong> In this pre-lab lecture, students learn about the sun and its pluses and minuses as a source of energy, and the various inefficiencies throughout the process of harvesting, storing, then using solar power.</p> <p><strong>Speaker:</strong> Amit Gandhi</p>",
+			"related_resources_text": "",
+			"transcript": "",
+			"embedded_media": [{
+				"uid": "4eda5d836ed09ab02a3af7123b09b5ed",
+				"parent_uid": "5e800d0e334f0e1ea68b69dd206b63fa",
+				"id": "Video-YouTube-Stream",
+				"title": "Video-YouTube-Stream",
+				"type": "Video",
+				"media_location": "NHGOc_nC_eU"
+			}, {
+				"uid": "9882cc89c3a7360abb220dac70e4dfe2",
+				"parent_uid": "5e800d0e334f0e1ea68b69dd206b63fa",
+				"id": "Video-iTunesU-MP4",
+				"title": "Video-iTunes U-MP4",
+				"type": "Video",
+				"media_location": "https://itunes.apple.com/us/itunes-u/lab-2-solar-power-measurement/id591211144?i=136606450"
+			}, {
+				"uid": "9bd91964e0ef357a00c65b8e5823096a",
+				"parent_uid": "5e800d0e334f0e1ea68b69dd206b63fa",
+				"id": "Video-InternetArchive-MP4",
+				"title": "Video-Internet Archive-MP4",
+				"type": "Video",
+				"media_location": "http://www.archive.org/download/MITSP.775S11/MITSP_775S11lab02-1_300k.mp4"
+			}, {
+				"uid": "49fad6774fb393e1e1712334c3339bc6",
+				"parent_uid": "5e800d0e334f0e1ea68b69dd206b63fa",
+				"id": "Thumbnail-YouTube-JPG",
+				"title": "Thumbnail-YouTube-JPG",
+				"type": "Thumbnail",
+				"media_location": "https://img.youtube.com/vi/NHGOc_nC_eU/default.jpg"
+			}]
+		},
+		"98086906lab2:solarpowermeasurement,partii:activities1576908": {
+			"order_index": 40,
+			"title": "Lab 2: Solar Power Measurement, Part II: Activities",
+			"uid": "09983496dbeb7fa69b6e295c146cbe57",
+			"parent_uid": "bd09c1cc93fd481d39456e105dc16816",
+			"technical_location": "https://ocw.mit.edu/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/energy-storage/lab-2-solar-power-measurement-part-ii-activities",
+			"short_url": "lab-2-solar-power-measurement-part-ii-activities",
+			"inline_embed_id": "98086906lab2:solarpowermeasurement,partii:activities1576908",
+			"about_this_resource_text": "<p><strong>Description:</strong> This lab consists of three modules:</p> <ul>     <li>Characterize the peak power output of the solar cell</li>     <li>Measure how power output of a solar panel changes with the angle of light</li>     <li>Measure how solar panel efficiency drops when the panel is shaded</li> </ul> <p>Students also get more instruction and hands-on time with various workshop tasks, including</p> <ul>     <li>Drilling holes in sheet metal with a drill press</li>     <li>Cutting copper and PVC pipe with hand tools</li>     <li>Cutting rebar with a hacksaw</li>     <li>Spot welding</li>     <li>Bending sheet metal with a brake</li>     <li>Using a hand riveter</li> </ul> <p><strong>Speaker:</strong> Amit Gandhi, Amy Banzaert</p>",
+			"related_resources_text": "",
+			"transcript": "",
+			"embedded_media": [{
+				"uid": "dfac7dd197087b0bf0add46d04edff09",
+				"parent_uid": "09983496dbeb7fa69b6e295c146cbe57",
+				"id": "Video-YouTube-Stream",
+				"title": "Video-YouTube-Stream",
+				"type": "Video",
+				"media_location": "zVzixXOtq7Y"
+			}, {
+				"uid": "d723c727d008a96c2b78f382ac63b4b2",
+				"parent_uid": "09983496dbeb7fa69b6e295c146cbe57",
+				"id": "Video-iTunesU-MP4",
+				"title": "Video-iTunes U-MP4",
+				"type": "Video",
+				"media_location": "https://itunes.apple.com/us/itunes-u/lab-2-solar-power-measurement/id591211144?i=136606454"
+			}, {
+				"uid": "4564230d8a6a5fbdbfa3697f9997aee1",
+				"parent_uid": "09983496dbeb7fa69b6e295c146cbe57",
+				"id": "Video-InternetArchive-MP4",
+				"title": "Video-Internet Archive-MP4",
+				"type": "Video",
+				"media_location": "http://www.archive.org/download/MITSP.775S11/MITSP_775S11lab02-2_300k.mp4"
+			}, {
+				"uid": "c9b67b615e9a8562ba1a931b0e7e0e84",
+				"parent_uid": "09983496dbeb7fa69b6e295c146cbe57",
+				"id": "Thumbnail-YouTube-JPG",
+				"title": "Thumbnail-YouTube-JPG",
+				"type": "Thumbnail",
+				"media_location": "https://img.youtube.com/vi/zVzixXOtq7Y/default.jpg"
+			}]
+		},
+		"24564597lecture3:lighting;tripintroduction79232098": {
+			"order_index": 48,
+			"title": "Lecture 3: Lighting; Trip Introduction ",
+			"uid": "72ae130268e045322088ec31fa291b22",
+			"parent_uid": "70e2edb13971cd3b00913ae541bcdecc",
+			"technical_location": "https://ocw.mit.edu/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/lighting-biogas/lecture-3-lighting-trip-introduction",
+			"short_url": "lecture-3-lighting-trip-introduction",
+			"inline_embed_id": "24564597lecture3:lighting;tripintroduction79232098",
+			"about_this_resource_text": "<p><strong>Description:</strong> This lecture on lighting for the developing world covers fundamentals of lighting and some example solutions. A survey of class projects from previous years and intro to this year's community partners finish the session.</p> <p><strong>Speaker:</strong> Amy Banzaert</p>",
+			"related_resources_text": "",
+			"transcript": "",
+			"embedded_media": [{
+				"uid": "51f111a68b15e01249e0f3c97a16eb64",
+				"parent_uid": "72ae130268e045322088ec31fa291b22",
+				"id": "Video-YouTube-Stream",
+				"title": "Video-YouTube-Stream",
+				"type": "Video",
+				"media_location": "bElGczheDOc"
+			}, {
+				"uid": "6b097410a6caea29986e67b962cb02dd",
+				"parent_uid": "72ae130268e045322088ec31fa291b22",
+				"id": "Thumbnail-YouTube-JPG",
+				"title": "Thumbnail-YouTube-JPG",
+				"type": "Thumbnail",
+				"media_location": "https://img.youtube.com/vi/bElGczheDOc/default.jpg"
+			}, {
+				"uid": "baed054dc58c472795da81db18a404fe",
+				"parent_uid": "72ae130268e045322088ec31fa291b22",
+				"id": "Video-iTunesU-MP4",
+				"title": "Video-iTunes U-MP4",
+				"type": "Video",
+				"media_location": "https://itunes.apple.com/us/itunes-u/lecture-3-lighting-trip-introduction/id591211144?i=127630217"
+			}, {
+				"uid": "9c23af403a582ef5512b71975a213146",
+				"parent_uid": "72ae130268e045322088ec31fa291b22",
+				"id": "Video-InternetArchive-MP4",
+				"title": "Video-Internet Archive-MP4",
+				"type": "Video",
+				"media_location": "http://www.archive.org/download/MITSP.775S11/MITSP_775S11lec03_300k.mp4"
+			}]
+		},
+		"80076546lab3:biogasandbiodigesters,parti:lecture47013775": {
+			"order_index": 53,
+			"title": "Lab 3: Biogas and Biodigesters, Part I: Lecture",
+			"uid": "d38db4ada060ff1fd4459c515fa603db",
+			"parent_uid": "70e2edb13971cd3b00913ae541bcdecc",
+			"technical_location": "https://ocw.mit.edu/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/lighting-biogas/lab-3-biogas-and-biodigesters-part-i-lecture",
+			"short_url": "lab-3-biogas-and-biodigesters-part-i-lecture",
+			"inline_embed_id": "80076546lab3:biogasandbiodigesters,parti:lecture47013775",
+			"about_this_resource_text": "<p><strong>Description:</strong> In this pre-lab lecture, students learn about using organic matter to create biogas for cooking and when biodigesters are advantagous vs impractical. Finally, they go over a specific biodigester design in great detail, learning how each part works.</p> <p><strong>Speaker:</strong> Amit Gandhi</p>",
+			"related_resources_text": "",
+			"transcript": "",
+			"embedded_media": [{
+				"uid": "67ecee67eb6609bfa4cc8c15a61cbbfa",
+				"parent_uid": "d38db4ada060ff1fd4459c515fa603db",
+				"id": "Video-YouTube-Stream",
+				"title": "Video-YouTube-Stream",
+				"type": "Video",
+				"media_location": "_RIqn1c_BY8"
+			}, {
+				"uid": "6d77c62d9bc6c50e44f1e361dd740be5",
+				"parent_uid": "d38db4ada060ff1fd4459c515fa603db",
+				"id": "Video-iTunesU-MP4",
+				"title": "Video-iTunes U-MP4",
+				"type": "Video",
+				"media_location": "https://itunes.apple.com/us/itunes-u/lab-3-biogas-biodigesters/id591211144?i=136606452"
+			}, {
+				"uid": "a487b8c51878278a8846c242cffd2f32",
+				"parent_uid": "d38db4ada060ff1fd4459c515fa603db",
+				"id": "Video-InternetArchive-MP4",
+				"title": "Video-Internet Archive-MP4",
+				"type": "Video",
+				"media_location": "http://www.archive.org/download/MITSP.775S11/MITSP_775S11lab03-1_300k.mp4"
+			}, {
+				"uid": "5a0723d2b5bf5ed2ec1fd3a1e31976da",
+				"parent_uid": "d38db4ada060ff1fd4459c515fa603db",
+				"id": "Thumbnail-YouTube-JPG",
+				"title": "Thumbnail-YouTube-JPG",
+				"type": "Thumbnail",
+				"media_location": "https://img.youtube.com/vi/_RIqn1c_BY8/default.jpg"
+			}]
+		},
+		"39543591lab3:biogasandbiodigesters,partii:activities67374343": {
+			"order_index": 58,
+			"title": "Lab 3: Biogas and Biodigesters, Part II: Activities",
+			"uid": "284a0b04cb5651fa1d60257d13b0abf3",
+			"parent_uid": "70e2edb13971cd3b00913ae541bcdecc",
+			"technical_location": "https://ocw.mit.edu/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/lighting-biogas/lab-3-biogas-and-biodigesters-part-ii-activities",
+			"short_url": "lab-3-biogas-and-biodigesters-part-ii-activities",
+			"inline_embed_id": "39543591lab3:biogasandbiodigesters,partii:activities67374343",
+			"about_this_resource_text": "<p><strong>Description:</strong> In this lab, students make small working biodigesters, building a base and piping and putting an animal waste slurry into a small soda bottle. They also learn about the design of SODIS bags and, using sheets of plastic, make SODIS bags.</p> <p><strong>Speaker:</strong> Amit Gandhi, Rebecca Smith</p>",
+			"related_resources_text": "",
+			"transcript": "",
+			"embedded_media": [{
+				"uid": "816bf622bfac27a209dae696b4e825ce",
+				"parent_uid": "284a0b04cb5651fa1d60257d13b0abf3",
+				"id": "Video-YouTube-Stream",
+				"title": "Video-YouTube-Stream",
+				"type": "Video",
+				"media_location": "5jk6t_aVrx4"
+			}, {
+				"uid": "67e3809eb0a2cc337a0f6edb11a70fe0",
+				"parent_uid": "284a0b04cb5651fa1d60257d13b0abf3",
+				"id": "Video-iTunesU-MP4",
+				"title": "Video-iTunes U-MP4",
+				"type": "Video",
+				"media_location": "https://itunes.apple.com/us/itunes-u/lab-3-biogas-biodigesters/id591211144?i=136606453"
+			}, {
+				"uid": "ae15a5e5bb8ec5bf2d4dbced651e30e5",
+				"parent_uid": "284a0b04cb5651fa1d60257d13b0abf3",
+				"id": "Video-InternetArchive-MP4",
+				"title": "Video-Internet Archive-MP4",
+				"type": "Video",
+				"media_location": "http://www.archive.org/download/MITSP.775S11/MITSP_775S11lab03-2_300k.mp4"
+			}, {
+				"uid": "a83dc247274c036fd931dd8d91ae4acc",
+				"parent_uid": "284a0b04cb5651fa1d60257d13b0abf3",
+				"id": "Thumbnail-YouTube-JPG",
+				"title": "Thumbnail-YouTube-JPG",
+				"type": "Thumbnail",
+				"media_location": "https://img.youtube.com/vi/5jk6t_aVrx4/default.jpg"
+			}]
+		},
+		"85723930lecture4:solarenergy:photovoltaics&solarthermal2507522": {
+			"order_index": 68,
+			"title": "Lecture 4: Solar Energy: Photovoltaics & Solar Thermal",
+			"uid": "e9f41fd06a5e9e2f1fab8bef1626199b",
+			"parent_uid": "97d18199d8e130f96762504a4894e1bc",
+			"technical_location": "https://ocw.mit.edu/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/solar/lecture-4.-solar-energy",
+			"short_url": "lecture-4.-solar-energy",
+			"inline_embed_id": "85723930lecture4:solarenergy:photovoltaics&solarthermal2507522",
+			"about_this_resource_text": "<p><strong>Description:</strong> This lecture is a brief survey of solar energy, with focus on photovoltaic and solar thermal technologies.</p> <p><strong>Speaker:</strong> Amy Banzaert</p>",
+			"related_resources_text": "",
+			"transcript": "",
+			"embedded_media": [{
+				"uid": "8e4b36f487364262d131b8df9d8aa6fb",
+				"parent_uid": "e9f41fd06a5e9e2f1fab8bef1626199b",
+				"id": "Video-YouTube-Stream",
+				"title": "Video-YouTube-Stream",
+				"type": "Video",
+				"media_location": "i35rFCupvNA"
+			}, {
+				"uid": "a0eb53a4c4f4edea79fdbab147141dfc",
+				"parent_uid": "e9f41fd06a5e9e2f1fab8bef1626199b",
+				"id": "Thumbnail-YouTube-JPG",
+				"title": "Thumbnail-YouTube-JPG",
+				"type": "Thumbnail",
+				"media_location": "https://img.youtube.com/vi/i35rFCupvNA/default.jpg"
+			}, {
+				"uid": "650f0776af2f96afcf248d2bcac3a87d",
+				"parent_uid": "e9f41fd06a5e9e2f1fab8bef1626199b",
+				"id": "Video-iTunesU-MP4",
+				"title": "Video-iTunes U-MP4",
+				"type": "Video",
+				"media_location": "https://itunes.apple.com/us/itunes-u/lecture-4-solar-energy/id591211144?i=127630221"
+			}, {
+				"uid": "7a789371a96d1538826c5fcae0d01921",
+				"parent_uid": "e9f41fd06a5e9e2f1fab8bef1626199b",
+				"id": "Video-InternetArchive-MP4",
+				"title": "Video-Internet Archive-MP4",
+				"type": "Video",
+				"media_location": "http://www.archive.org/download/MITSP.775S11/MITSP_775S11lec04_300k.mp4"
+			}]
+		},
+		"5424066lab4:wiringsolarpanels,parti:lecture40969401": {
+			"order_index": 73,
+			"title": "Lab 4: Wiring Solar Panels, Part I: Lecture",
+			"uid": "ebb9883f90220018ba82ee86f7e9f4e6",
+			"parent_uid": "97d18199d8e130f96762504a4894e1bc",
+			"technical_location": "https://ocw.mit.edu/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/solar/lab-4-wiring-solar-panels-part-i-lecture",
+			"short_url": "lab-4-wiring-solar-panels-part-i-lecture",
+			"inline_embed_id": "5424066lab4:wiringsolarpanels,parti:lecture40969401",
+			"about_this_resource_text": "<p><strong>Description:</strong> In this pre-lab lecture, students learn the basics about how photovoltaic solar panels work. They also learn about various solar thermal technologies, and the advantages to using SODIS bags for solar water disinfection.</p> <p><strong>Speaker:</strong> Amit Gandhi</p>",
+			"related_resources_text": "",
+			"transcript": "",
+			"embedded_media": [{
+				"uid": "1f76dc37260c8e0f6b0c416dd7fdc2ec",
+				"parent_uid": "ebb9883f90220018ba82ee86f7e9f4e6",
+				"id": "Video-YouTube-Stream",
+				"title": "Video-YouTube-Stream",
+				"type": "Video",
+				"media_location": "g2ISFplW5zQ"
+			}, {
+				"uid": "67464bbfeaec2bcbdc47b8e402801e44",
+				"parent_uid": "ebb9883f90220018ba82ee86f7e9f4e6",
+				"id": "Video-iTunesU-MP4",
+				"title": "Video-iTunes U-MP4",
+				"type": "Video",
+				"media_location": "https://itunes.apple.com/us/itunes-u/lab-4-wiring-solar-panels/id591211144?i=136606448"
+			}, {
+				"uid": "7e713c10e56eb9f0516785556af526f9",
+				"parent_uid": "ebb9883f90220018ba82ee86f7e9f4e6",
+				"id": "Video-InternetArchive-MP4",
+				"title": "Video-Internet Archive-MP4",
+				"type": "Video",
+				"media_location": "http://www.archive.org/download/MITSP.775S11/MITSP_775S11lab04-1_300k.mp4"
+			}, {
+				"uid": "fbf01e23e8bcf61136fafdb39f30ddb1",
+				"parent_uid": "ebb9883f90220018ba82ee86f7e9f4e6",
+				"id": "Thumbnail-YouTube-JPG",
+				"title": "Thumbnail-YouTube-JPG",
+				"type": "Thumbnail",
+				"media_location": "https://img.youtube.com/vi/g2ISFplW5zQ/default.jpg"
+			}]
+		},
+		"88661073lab4:wiringsolarpanels,partii:activities89284362": {
+			"order_index": 78,
+			"title": "Lab 4: Wiring Solar Panels, Part II: Activities",
+			"uid": "97a34ce75fb2a23054a4c6c113127714",
+			"parent_uid": "97d18199d8e130f96762504a4894e1bc",
+			"technical_location": "https://ocw.mit.edu/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/solar/lab-4-wiring-solar-panels-part-ii-activities",
+			"short_url": "lab-4-wiring-solar-panels-part-ii-activities",
+			"inline_embed_id": "88661073lab4:wiringsolarpanels,partii:activities89284362",
+			"about_this_resource_text": "<p><strong>Description:</strong> In this lab, students connect several small PV panels together into a circuit. They then take their solar arrays outside and compare the output of each individual panel to that of the array as a whole, and measure the effect shading has on the array.</p> <p><strong>Speaker:</strong> Amit Gandhi</p>",
+			"related_resources_text": "",
+			"transcript": "",
+			"embedded_media": [{
+				"uid": "5b28800451a636efbba2daf2acae1503",
+				"parent_uid": "97a34ce75fb2a23054a4c6c113127714",
+				"id": "Video-YouTube-Stream",
+				"title": "Video-YouTube-Stream",
+				"type": "Video",
+				"media_location": "wZ0LCQV9jvY"
+			}, {
+				"uid": "797cfa7e6eb19fef0c45743e42897eec",
+				"parent_uid": "97a34ce75fb2a23054a4c6c113127714",
+				"id": "Video-iTunesU-MP4",
+				"title": "Video-iTunes U-MP4",
+				"type": "Video",
+				"media_location": "https://itunes.apple.com/us/itunes-u/lab-4-wiring-solar-panels/id591211144?i=136606455"
+			}, {
+				"uid": "6f0124cf42beada6575c8f501baf322c",
+				"parent_uid": "97a34ce75fb2a23054a4c6c113127714",
+				"id": "Video-InternetArchive-MP4",
+				"title": "Video-Internet Archive-MP4",
+				"type": "Video",
+				"media_location": "http://www.archive.org/download/MITSP.775S11/MITSP_775S11lab04-2_300k.mp4"
+			}, {
+				"uid": "069bc708de984b5e125236ea980491f3",
+				"parent_uid": "97a34ce75fb2a23054a4c6c113127714",
+				"id": "Thumbnail-YouTube-JPG",
+				"title": "Thumbnail-YouTube-JPG",
+				"type": "Thumbnail",
+				"media_location": "https://img.youtube.com/vi/wZ0LCQV9jvY/default.jpg"
+			}]
+		},
+		"82270533lecture5:windandmicro-hydropower;tripplanning20742702": {
+			"order_index": 86,
+			"title": "Lecture 5: Wind and Micro-Hydro Power; Trip Planning",
+			"uid": "4181ae33bb696107975387a74cdbd923",
+			"parent_uid": "5dd5186b4a86f3ff771b545e19e9b505",
+			"technical_location": "https://ocw.mit.edu/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/wind-micro-hydro/lecture-5-wind-and-micro-hydro-power-trip-planning",
+			"short_url": "lecture-5-wind-and-micro-hydro-power-trip-planning",
+			"inline_embed_id": "82270533lecture5:windandmicro-hydropower;tripplanning20742702",
+			"about_this_resource_text": "<p><strong>Description:</strong> Wind and water are important potential energy sources in the developing world. This lecture covers design considerations and examples of wind and micro-hydro energy systems.</p> <p><strong>Speaker:</strong> Amy Banzaert</p>",
+			"related_resources_text": "",
+			"transcript": "",
+			"embedded_media": [{
+				"uid": "00b884fd9fd000c65c9c82510c25bab2",
+				"parent_uid": "4181ae33bb696107975387a74cdbd923",
+				"id": "Video-YouTube-Stream",
+				"title": "Video-YouTube-Stream",
+				"type": "Video",
+				"media_location": "y4uc4t5vcdI"
+			}, {
+				"uid": "93ff8c6e00788d1b36e8819daf9f12f7",
+				"parent_uid": "4181ae33bb696107975387a74cdbd923",
+				"id": "Thumbnail-YouTube-JPG",
+				"title": "Thumbnail-YouTube-JPG",
+				"type": "Thumbnail",
+				"media_location": "https://img.youtube.com/vi/y4uc4t5vcdI/default.jpg"
+			}, {
+				"uid": "ff4bda3b872bb87f8d39eabba17475f8",
+				"parent_uid": "4181ae33bb696107975387a74cdbd923",
+				"id": "Video-iTunesU-MP4",
+				"title": "Video-iTunes U-MP4",
+				"type": "Video",
+				"media_location": "https://itunes.apple.com/us/itunes-u/lecture-5-wind-micro-hydro/id591211144?i=127630215"
+			}, {
+				"uid": "66787bb2e9b97420be7b2db5d3fa98fb",
+				"parent_uid": "4181ae33bb696107975387a74cdbd923",
+				"id": "Video-InternetArchive-MP4",
+				"title": "Video-Internet Archive-MP4",
+				"type": "Video",
+				"media_location": "http://www.archive.org/download/MITSP.775S11/MITSP_775S11lec05_300k.mp4"
+			}]
+		},
+		"99525203lab5:savoniuswindturbineconstructionandtesting48221462": {
+			"order_index": 91,
+			"title": "Lab 5: Savonius Wind Turbine Construction and Testing",
+			"uid": "b9bf46e59ba1eb6f15504c934e7fb9e0",
+			"parent_uid": "5dd5186b4a86f3ff771b545e19e9b505",
+			"technical_location": "https://ocw.mit.edu/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/wind-micro-hydro/lab-5-savonius-wind-turbine-construction-and-testing",
+			"short_url": "lab-5-savonius-wind-turbine-construction-and-testing",
+			"inline_embed_id": "99525203lab5:savoniuswindturbineconstructionandtesting48221462",
+			"about_this_resource_text": "<p><strong>Description:</strong> In this lab, students use soda bottles, wire, and magnets to construct small wind turbines on wooden bases. They use the Savonius wind turbine design and troubleshoot various problems that come up, finally calculating voltage and current when finished.</p> <p><strong>Speaker:</strong> Amit Gandhi</p>",
+			"related_resources_text": "",
+			"transcript": "",
+			"embedded_media": [{
+				"uid": "cee9800c3a9c5b767c92187d03a22426",
+				"parent_uid": "b9bf46e59ba1eb6f15504c934e7fb9e0",
+				"id": "Video-YouTube-Stream",
+				"title": "Video-YouTube-Stream",
+				"type": "Video",
+				"media_location": "LnSvSfXUmVs"
+			}, {
+				"uid": "148fc365c57ea3a2d1cc4adba2678176",
+				"parent_uid": "b9bf46e59ba1eb6f15504c934e7fb9e0",
+				"id": "Video-iTunesU-MP4",
+				"title": "Video-iTunes U-MP4",
+				"type": "Video",
+				"media_location": "https://itunes.apple.com/us/itunes-u/lab-5-savonius-wind-turbine/id591211144?i=136606456"
+			}, {
+				"uid": "16c1589ba2e5795fa20441e3c43e0411",
+				"parent_uid": "b9bf46e59ba1eb6f15504c934e7fb9e0",
+				"id": "Video-InternetArchive-MP4",
+				"title": "Video-Internet Archive-MP4",
+				"type": "Video",
+				"media_location": "http://www.archive.org/download/MITSP.775S11/MITSP_775S11lab05_300k.mp4"
+			}, {
+				"uid": "96d424a61a1d559d0a3540dbccfc9e52",
+				"parent_uid": "b9bf46e59ba1eb6f15504c934e7fb9e0",
+				"id": "Thumbnail-YouTube-JPG",
+				"title": "Thumbnail-YouTube-JPG",
+				"type": "Thumbnail",
+				"media_location": "https://img.youtube.com/vi/LnSvSfXUmVs/default.jpg"
+			}]
+		},
+		"21810759lecture6:cooking,stoves&fuel4371488": {
+			"order_index": 100,
+			"title": "Lecture  6: Cooking, Stoves & Fuel",
+			"uid": "12b632ef12caaccb8031afd33f06de48",
+			"parent_uid": "40a90435c33545755ca5aed11bc98c6a",
+			"technical_location": "https://ocw.mit.edu/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/cooking-stoves-fuel/lecture-6-cooking-stoves-fuel",
+			"short_url": "lecture-6-cooking-stoves-fuel",
+			"inline_embed_id": "21810759lecture6:cooking,stoves&fuel4371488",
+			"about_this_resource_text": "<p><strong>Description:</strong> In the developing world, widely used cooking technologies (especially biomass) pose mounting health risks, high expense, and enviromental damage. This lecture considers alternative fuels and stove designs, with a focus on the D-Lab charcoal project.</p> <p><strong>Speaker:</strong> Amy Banzaert</p>",
+			"related_resources_text": "",
+			"transcript": "",
+			"embedded_media": [{
+				"uid": "ce0714955557c70b5e12354783fbcf1c",
+				"parent_uid": "12b632ef12caaccb8031afd33f06de48",
+				"id": "Video-YouTube-Stream",
+				"title": "Video-YouTube-Stream",
+				"type": "Video",
+				"media_location": "zzePDMT2-oc"
+			}, {
+				"uid": "4d3fa3e25a9e701d3d72d952612743dd",
+				"parent_uid": "12b632ef12caaccb8031afd33f06de48",
+				"id": "Thumbnail-YouTube-JPG",
+				"title": "Thumbnail-YouTube-JPG",
+				"type": "Thumbnail",
+				"media_location": "https://img.youtube.com/vi/zzePDMT2-oc/default.jpg"
+			}, {
+				"uid": "2a063da2f8c11fe47f407a037bdc053a",
+				"parent_uid": "12b632ef12caaccb8031afd33f06de48",
+				"id": "Video-iTunesU-MP4",
+				"title": "Video-iTunes U-MP4",
+				"type": "Video",
+				"media_location": "https://itunes.apple.com/us/itunes-u/lecture-6-cooking-stoves-fuel/id591211144?i=127630218"
+			}, {
+				"uid": "63a1ead9f065b7785cbe918ee952d0f9",
+				"parent_uid": "12b632ef12caaccb8031afd33f06de48",
+				"id": "Video-InternetArchive-MP4",
+				"title": "Video-Internet Archive-MP4",
+				"type": "Video",
+				"media_location": "http://www.archive.org/download/MITSP.775S11/MITSP_775S11lec06_300k.mp4"
+			}]
+		},
+		"53130316lab6:charcoalmaking&stovetesting24504174": {
+			"order_index": 105,
+			"title": "Lab 6: Charcoal Making & Stove Testing",
+			"uid": "773a1612a184f4d43e834ed4fcbd9093",
+			"parent_uid": "40a90435c33545755ca5aed11bc98c6a",
+			"technical_location": "https://ocw.mit.edu/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/cooking-stoves-fuel/lab-6-charcoal-making-stove-testing",
+			"short_url": "lab-6-charcoal-making-stove-testing",
+			"inline_embed_id": "53130316lab6:charcoalmaking&stovetesting24504174",
+			"about_this_resource_text": "<p><strong>Description:</strong> In this lab, the class does a charcoal burn from start to finish, loading the drum, lighting it, and sealing it after some of the burn. While the burn is going on, they grate yucca to make a binder and make briquettes using the contents from a previous burn.</p> <p><strong>Speaker:</strong> Amy Banzaert</p>",
+			"related_resources_text": "",
+			"transcript": "",
+			"embedded_media": [{
+				"uid": "d891653f08ef35ffaac39dbbcc1f53cd",
+				"parent_uid": "773a1612a184f4d43e834ed4fcbd9093",
+				"id": "Video-YouTube-Stream",
+				"title": "Video-YouTube-Stream",
+				"type": "Video",
+				"media_location": "1p81Mb69f8E"
+			}, {
+				"uid": "7c1649ddfa7a63502614a22c07f467a8",
+				"parent_uid": "773a1612a184f4d43e834ed4fcbd9093",
+				"id": "Video-iTunesU-MP4",
+				"title": "Video-iTunes U-MP4",
+				"type": "Video",
+				"media_location": "https://itunes.apple.com/us/itunes-u/lab-6-charcoal-making-stove/id591211144?i=136606451"
+			}, {
+				"uid": "d5347a69dfd28a209d39d782f5d06ba2",
+				"parent_uid": "773a1612a184f4d43e834ed4fcbd9093",
+				"id": "Video-InternetArchive-MP4",
+				"title": "Video-Internet Archive-MP4",
+				"type": "Video",
+				"media_location": "http://www.archive.org/download/MITSP.775S11/MITSP_775S11lab06_300k.mp4"
+			}, {
+				"uid": "91f93ab64c4121633e76d9cac6423f14",
+				"parent_uid": "773a1612a184f4d43e834ed4fcbd9093",
+				"id": "Thumbnail-YouTube-JPG",
+				"title": "Thumbnail-YouTube-JPG",
+				"type": "Thumbnail",
+				"media_location": "https://img.youtube.com/vi/1p81Mb69f8E/default.jpg"
+			}]
+		},
+		"83343304projectpresentations1:tripplanning49060306": {
+			"order_index": 115,
+			"title": "Project Presentations 1: Trip Planning ",
+			"uid": "67e18e370c68be4f026e43718c40e7c0",
+			"parent_uid": "374104f0f3d930af2e1057b34aa6c451",
+			"technical_location": "https://ocw.mit.edu/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/week-7-trip-planning-and-preparations/project-presentations-1-trip-planning",
+			"short_url": "project-presentations-1-trip-planning",
+			"inline_embed_id": "83343304projectpresentations1:tripplanning49060306",
+			"about_this_resource_text": "<p><strong>Description:</strong> This video contains three student team presentations previewing their plans for upcoming  visits to Nicaragua and El Salvador community partners, and feedback from instructor Amy Banzaert about those plans.</p> <p><strong>Speaker:</strong> MIT Students, Amy Banzaert</p>",
+			"related_resources_text": "",
+			"transcript": "",
+			"embedded_media": [{
+				"uid": "77a673927f260918750245c211d67f7e",
+				"parent_uid": "67e18e370c68be4f026e43718c40e7c0",
+				"id": "Video-YouTube-Stream",
+				"title": "Video-YouTube-Stream",
+				"type": "Video",
+				"media_location": "MVd5BMAgRdI"
+			}, {
+				"uid": "f8089ec7a074aa771b9086baf29f35e9",
+				"parent_uid": "67e18e370c68be4f026e43718c40e7c0",
+				"id": "Thumbnail-YouTube-JPG",
+				"title": "Thumbnail-YouTube-JPG",
+				"type": "Thumbnail",
+				"media_location": "https://img.youtube.com/vi/MVd5BMAgRdI/default.jpg"
+			}, {
+				"uid": "841e1bc3822cfebe9b0ba46e1efea0d6",
+				"parent_uid": "67e18e370c68be4f026e43718c40e7c0",
+				"id": "Video-iTunesU-MP4",
+				"title": "Video-iTunes U-MP4",
+				"type": "Video",
+				"media_location": "https://itunes.apple.com/us/itunes-u/project-1-trip-planning-presentations/id591211144?i=127630213"
+			}, {
+				"uid": "98537b1715c48d5bc0362a00d2076d30",
+				"parent_uid": "67e18e370c68be4f026e43718c40e7c0",
+				"id": "Video-InternetArchive-MP4",
+				"title": "Video-Internet Archive-MP4",
+				"type": "Video",
+				"media_location": "http://www.archive.org/download/MITSP.775S11/MITSP_775S11proj01_300k.mp4"
+			}]
+		},
+		"72157706lecture7:solarcookers,creativecapacitybuilding,trippreparation87838497": {
+			"order_index": 120,
+			"title": "Lecture 7: Solar Cookers, Creative Capacity Building, Trip Preparation",
+			"uid": "98a4193c1cdc77fddd38ec6bae808b8f",
+			"parent_uid": "374104f0f3d930af2e1057b34aa6c451",
+			"technical_location": "https://ocw.mit.edu/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/week-7-trip-planning-and-preparations/lecture-7-solar-cookers-creative-capacity-building-trip-preparation",
+			"short_url": "lecture-7-solar-cookers-creative-capacity-building-trip-preparation",
+			"inline_embed_id": "72157706lecture7:solarcookers,creativecapacitybuilding,trippreparation87838497",
+			"about_this_resource_text": "<p><strong>Description:</strong> This lecture reviews solar cooker technology and a case study in D-Lab's Creative Capacity Building workshops. The session ends with final thoughts on trip preparation, including how to get good information from community partners, and how to pack.</p> <p><strong>Speaker:</strong> Amy Banzaert, Stephen Ray</p>",
+			"related_resources_text": "",
+			"transcript": "",
+			"embedded_media": [{
+				"uid": "dd94d08d77477c97d8dfdd876da56b59",
+				"parent_uid": "98a4193c1cdc77fddd38ec6bae808b8f",
+				"id": "Video-YouTube-Stream",
+				"title": "Video-YouTube-Stream",
+				"type": "Video",
+				"media_location": "WMDXIL3IvBg"
+			}, {
+				"uid": "aff0362ebca12737225c32d0daa5dc43",
+				"parent_uid": "98a4193c1cdc77fddd38ec6bae808b8f",
+				"id": "Thumbnail-YouTube-JPG",
+				"title": "Thumbnail-YouTube-JPG",
+				"type": "Thumbnail",
+				"media_location": "https://img.youtube.com/vi/WMDXIL3IvBg/default.jpg"
+			}, {
+				"uid": "0f5ae7b685e034216697336681120d71",
+				"parent_uid": "98a4193c1cdc77fddd38ec6bae808b8f",
+				"id": "Video-iTunesU-MP4",
+				"title": "Video-iTunes U-MP4",
+				"type": "Video",
+				"media_location": "https://itunes.apple.com/us/itunes-u/lecture-7-solar-cookers-creative/id591211144?i=127630224"
+			}, {
+				"uid": "ff72f7acedbb315def7fed11f2eba9b4",
+				"parent_uid": "98a4193c1cdc77fddd38ec6bae808b8f",
+				"id": "Video-InternetArchive-MP4",
+				"title": "Video-Internet Archive-MP4",
+				"type": "Video",
+				"media_location": "http://www.archive.org/download/MITSP.775S11/MITSP_775S11lec07_300k.mp4"
+			}]
+		},
+		"74835111projectpresentations2:tripreports88777978": {
+			"order_index": 127,
+			"title": "Project Presentations 2: Trip Reports",
+			"uid": "e4f8943812dd19d773d1a4360f2dfa01",
+			"parent_uid": "fb9d6e56eac497fb24b46d3ac31a62da",
+			"technical_location": "https://ocw.mit.edu/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/week-8-nicaragua-trip/project-presentations-2-trip-reports",
+			"short_url": "project-presentations-2-trip-reports",
+			"inline_embed_id": "74835111projectpresentations2:tripreports88777978",
+			"about_this_resource_text": "<p><strong>Description:</strong> Three student teams give 20 minute presentations about their week-long visits to community partners, in which they test and refine various energy project designs.</p> <p><strong>Speaker:</strong> MIT Students, Amy Banzaert</p>",
+			"related_resources_text": "",
+			"transcript": "",
+			"embedded_media": [{
+				"uid": "3036d0f3931c5d8d5783f244358b1889",
+				"parent_uid": "e4f8943812dd19d773d1a4360f2dfa01",
+				"id": "Video-YouTube-Stream",
+				"title": "Video-YouTube-Stream",
+				"type": "Video",
+				"media_location": "UE3_JL4wS2o"
+			}, {
+				"uid": "a4c5f0d375f0fd45734d850de825a746",
+				"parent_uid": "e4f8943812dd19d773d1a4360f2dfa01",
+				"id": "Thumbnail-YouTube-JPG",
+				"title": "Thumbnail-YouTube-JPG",
+				"type": "Thumbnail",
+				"media_location": "https://img.youtube.com/vi/UE3_JL4wS2o/default.jpg"
+			}, {
+				"uid": "28b331bc92c6425fe3aaa30565861aec",
+				"parent_uid": "e4f8943812dd19d773d1a4360f2dfa01",
+				"id": "Video-iTunesU-MP4",
+				"title": "Video-iTunes U-MP4",
+				"type": "Video",
+				"media_location": "https://itunes.apple.com/us/itunes-u/project-2-trip-report-presentations/id591211144?i=127630223"
+			}, {
+				"uid": "a1bb214eb5127262a1a6d356ff30e134",
+				"parent_uid": "e4f8943812dd19d773d1a4360f2dfa01",
+				"id": "Video-InternetArchive-MP4",
+				"title": "Video-Internet Archive-MP4",
+				"type": "Video",
+				"media_location": "http://www.archive.org/download/MITSP.775S11/MITSP_775S11proj02_300k.mp4"
+			}]
+		},
+		"75482616lecture8:projectdesignprocess42060913": {
+			"order_index": 136,
+			"title": "Lecture 8: Project Design Process",
+			"uid": "b160c53eaa4700b0f36d13dda56a9373",
+			"parent_uid": "b769b31f283dae0eca5f75068d997bdb",
+			"technical_location": "https://ocw.mit.edu/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/projects/lecture-8-project-design-process",
+			"short_url": "lecture-8-project-design-process",
+			"inline_embed_id": "75482616lecture8:projectdesignprocess42060913",
+			"about_this_resource_text": "<p><strong>Description:</strong> This lecture introduces design as iterative process, reviews techniques like Pugh and Gantt charts, and provides guidance on project design and deliverables during the remaining 6 weeks of the course.</p> <p><strong>Speaker:</strong> Amy Banzaert</p>",
+			"related_resources_text": "",
+			"transcript": "",
+			"embedded_media": [{
+				"uid": "62df7a774bc46c1024fdf932631b4312",
+				"parent_uid": "b160c53eaa4700b0f36d13dda56a9373",
+				"id": "Video-YouTube-Stream",
+				"title": "Video-YouTube-Stream",
+				"type": "Video",
+				"media_location": "QAg3GPMUO84"
+			}, {
+				"uid": "bacbfdcd7e9d94537a7af2b0737f84cc",
+				"parent_uid": "b160c53eaa4700b0f36d13dda56a9373",
+				"id": "Thumbnail-YouTube-JPG",
+				"title": "Thumbnail-YouTube-JPG",
+				"type": "Thumbnail",
+				"media_location": "https://img.youtube.com/vi/QAg3GPMUO84/default.jpg"
+			}, {
+				"uid": "99ac04be5ff2c31692c0fb3f63ba9784",
+				"parent_uid": "b160c53eaa4700b0f36d13dda56a9373",
+				"id": "Video-iTunesU-MP4",
+				"title": "Video-iTunes U-MP4",
+				"type": "Video",
+				"media_location": "https://itunes.apple.com/us/itunes-u/lecture-8-project-design-process/id591211144?i=127630216"
+			}, {
+				"uid": "26898bb6009597ccd6701283b8670f55",
+				"parent_uid": "b160c53eaa4700b0f36d13dda56a9373",
+				"id": "Video-InternetArchive-MP4",
+				"title": "Video-Internet Archive-MP4",
+				"type": "Video",
+				"media_location": "http://www.archive.org/download/MITSP.775S11/MITSP_775S11lec08_300k.mp4"
+			}]
+		},
+		"27520158projectpresentations3:initialdesignreview35220622": {
+			"order_index": 142,
+			"title": "Project Presentations 3:  Initial Design Review",
+			"uid": "f6720eaa1df013639cba7f18456b8268",
+			"parent_uid": "cc396362e27aa4169fbb66fd1cb19b76",
+			"technical_location": "https://ocw.mit.edu/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/projects/project-results/project-presentations-3-initial-design-review",
+			"short_url": "project-presentations-3-initial-design-review",
+			"inline_embed_id": "27520158projectpresentations3:initialdesignreview35220622",
+			"about_this_resource_text": "<p><strong>Description:</strong> Four student teams (juice bag sealer, charcoal burn, solar charger for cell phones, rice dehusking) present initial designs, preliminary test results, and next steps, and get feedback from guest reviewers and mentors.</p> <p><strong>Speaker:</strong> MIT Students</p>",
+			"related_resources_text": "",
+			"transcript": "",
+			"embedded_media": [{
+				"uid": "1dc7b0c6c3a95913e3fbf1ecde0f04ba",
+				"parent_uid": "f6720eaa1df013639cba7f18456b8268",
+				"id": "Video-YouTube-Stream",
+				"title": "Video-YouTube-Stream",
+				"type": "Video",
+				"media_location": "YZpYxeeb6hA"
+			}, {
+				"uid": "940f1a41216a6b90638d1b226d49f839",
+				"parent_uid": "f6720eaa1df013639cba7f18456b8268",
+				"id": "Thumbnail-YouTube-JPG",
+				"title": "Thumbnail-YouTube-JPG",
+				"type": "Thumbnail",
+				"media_location": "https://img.youtube.com/vi/YZpYxeeb6hA/default.jpg"
+			}, {
+				"uid": "bb125ca378839ccaed230c10fb033553",
+				"parent_uid": "f6720eaa1df013639cba7f18456b8268",
+				"id": "Video-iTunesU-MP4",
+				"title": "Video-iTunes U-MP4",
+				"type": "Video",
+				"media_location": "https://itunes.apple.com/us/itunes-u/project-3-initial-design-review/id591211144?i=127630219"
+			}, {
+				"uid": "81d1f2f3ac17c6b418d71db589a81a82",
+				"parent_uid": "f6720eaa1df013639cba7f18456b8268",
+				"id": "Video-InternetArchive-MP4",
+				"title": "Video-Internet Archive-MP4",
+				"type": "Video",
+				"media_location": "http://www.archive.org/download/MITSP.775S11/MITSP_775S11proj03_300k.mp4"
+			}]
+		},
+		"56131846projectpresentations4:finaldesignreview30461128": {
+			"order_index": 147,
+			"title": "Project Presentations 4: Final Design Review",
+			"uid": "7c41af11049c0024e724b005519c8fd1",
+			"parent_uid": "cc396362e27aa4169fbb66fd1cb19b76",
+			"technical_location": "https://ocw.mit.edu/courses/edgerton-center/ec-711-d-lab-energy-spring-2011/projects/project-results/project-presentations-4-final-design-review",
+			"short_url": "project-presentations-4-final-design-review",
+			"inline_embed_id": "56131846projectpresentations4:finaldesignreview30461128",
+			"about_this_resource_text": "<p><strong>Description:</strong> Four student teams (juice bag sealer, charcoal barrel improvement, solar charger for cell phones, rice dehusking) give final presentations and demonstrations of their projects, at the D-Lab Spring Showcase event.</p> <p><strong>Speaker:</strong> MIT Students</p>",
+			"related_resources_text": "",
+			"transcript": "",
+			"embedded_media": [{
+				"uid": "e706782c2b38d56de74665bf2e26643f",
+				"parent_uid": "7c41af11049c0024e724b005519c8fd1",
+				"id": "Video-YouTube-Stream",
+				"title": "Video-YouTube-Stream",
+				"type": "Video",
+				"media_location": "FbP7q5m05pI"
+			}, {
+				"uid": "f2aced46ac177bf55c15f301a9e0ce3c",
+				"parent_uid": "7c41af11049c0024e724b005519c8fd1",
+				"id": "Thumbnail-YouTube-JPG",
+				"title": "Thumbnail-YouTube-JPG",
+				"type": "Thumbnail",
+				"media_location": "https://img.youtube.com/vi/FbP7q5m05pI/default.jpg"
+			}, {
+				"uid": "d44d7a88de75317cfb5d38c46006e53b",
+				"parent_uid": "7c41af11049c0024e724b005519c8fd1",
+				"id": "Video-iTunesU-MP4",
+				"title": "Video-iTunes U-MP4",
+				"type": "Video",
+				"media_location": "https://itunes.apple.com/us/itunes-u/project-4-final-presentations/id591211144?i=127630222"
+			}, {
+				"uid": "06ca2bc8ecbb9fd8bdb4757970acb999",
+				"parent_uid": "7c41af11049c0024e724b005519c8fd1",
+				"id": "Video-InternetArchive-MP4",
+				"title": "Video-Internet Archive-MP4",
+				"type": "Video",
+				"media_location": "http://archive.org/download/MITSP.775S11/MITSP_775S11proj04_300k.mp4"
+			}]
+		}
+	},
+	"course_foreign_files": []
+}
