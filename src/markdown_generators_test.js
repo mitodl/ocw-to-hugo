@@ -476,10 +476,25 @@ describe("generateCourseSectionMarkdown", () => {
     )
   })
 
+  it("renders markdown for top and bottom text", () => {
+    const page = {
+      ...coursePagesWithText[0],
+      text:       '<div id="top">Top Text</div>',
+      bottomtext: '<div id="bottom">Bottom Text</div>'
+    }
+    const markdown = markdownGenerators.generateCourseSectionMarkdown(
+      page,
+      singleCourseJsonData
+    )
+    assert(markdown.includes("Top Text"))
+    assert(markdown.includes("Bottom Text"))
+  })
+
   it("handles missing page text gracefully", () => {
     const page = {
       ...coursePagesWithText[0],
-      text: undefined
+      text:       undefined,
+      bottomtext: undefined
     }
     const markdown = markdownGenerators.generateCourseSectionMarkdown(
       page,
