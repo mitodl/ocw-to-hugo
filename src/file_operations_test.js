@@ -52,7 +52,7 @@ describe("scanCourses", () => {
   const sandbox = sinon.createSandbox()
   const inputPath = "test_data/courses"
   const outputPath = tmp.dirSync({ prefix: "output" }).name
-  const logMessage = "Converting 5 courses to Hugo markdown..."
+  const logMessage = "Converting 4 courses to Hugo markdown..."
   const course1Name =
     "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
   const course1Path = path.join(inputPath, course1Name)
@@ -62,7 +62,7 @@ describe("scanCourses", () => {
   )
   const course3Path = path.join(
     inputPath,
-    "3-00-thermodynamics-of-materials-fall-2002"
+    "ec-711-d-lab-energy-spring-2011"
   )
   const course4Path = path.join(
     inputPath,
@@ -147,9 +147,9 @@ describe("scanCourses", () => {
     )
   })
 
-  it("calls readdir eleven times, once for courses and once for each course", async () => {
+  it("calls readdir nine times, once for courses and once for each course", async () => {
     await fileOperations.scanCourses(inputPath, outputPath)
-    assert.equal(readdirStub.callCount, 11)
+    assert.equal(readdirStub.callCount, 9)
   })
 
   it("scans the five test courses and reports to console", async () => {
