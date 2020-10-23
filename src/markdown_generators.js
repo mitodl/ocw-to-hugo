@@ -4,6 +4,7 @@ const markdown = require("markdown-doc-builder").default
 const TurndownService = require("turndown")
 const turndownPluginGfm = require("turndown-plugin-gfm")
 const moment = require("moment")
+const stripHtml = require("string-strip-html")
 const { gfm, tables } = turndownPluginGfm
 
 const {
@@ -550,9 +551,9 @@ const generatePdfMarkdown = (file, courseData) => {
 
 const generateVideoGalleryMarkdown = (page, courseData) => {
   let courseFeaturesMarkdown = ""
-  const videos = Object.values(courseData["course_embedded_media"])
-    .filter(obj => obj["parent_uid"] === page["uid"])
-    .sort((a, b) => (a.order_index < b.order_index ? 1 : -1))
+  const videos = Object.values(courseData["course_embedded_media"]).filter(
+    obj => obj["parent_uid"] === page["uid"]
+  )
   if (videos.length > 0) {
     const videoDivs = []
     videos.forEach(video => {
@@ -562,15 +563,20 @@ const generateVideoGalleryMarkdown = (page, courseData) => {
           video,
           courseData
         ),
-        title:       video.title,
+        section: helpers.htmlSafeText(
+          helpers.unescapeBackticks(turndownService.turndown(page.title))
+        ),
+        title: helpers.htmlSafeText(
+          helpers.unescapeBackticks(turndownService.turndown(video.title))
+        ),
         description: helpers.htmlSafeText(
           helpers.unescapeBackticks(
-            turndownService.turndown(video["about_this_resource_text"])
+            stripHtml(video["about_this_resource_text"]).result
           )
         )
       }
       video.embedded_media.forEach(media => {
-        if (media.type === "Thumbnail") {
+        if (media.type === "Thumbnail" && media.media_location) {
           videoArgs.thumbnail = media.media_location
         }
       })
