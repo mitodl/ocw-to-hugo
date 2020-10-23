@@ -149,7 +149,7 @@ describe("scanCourses", () => {
     assert.equal(readdirStub.callCount, 9)
   })
 
-  it("scans the five test courses and reports to console", async () => {
+  it("scans the four test courses and reports to console", async () => {
     await fileOperations.scanCourses(inputPath, outputPath)
     expect(consoleLog).calledWithExactly(logMessage)
   })
