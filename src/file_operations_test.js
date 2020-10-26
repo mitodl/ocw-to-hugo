@@ -147,12 +147,12 @@ describe("scanCourses", () => {
   it("calls readdir nine times, once for courses and once for each course", async () => {
     await fileOperations.scanCourses(inputPath, outputPath)
     assert.equal(readdirStub.callCount, 9)
-  })
+  }).timeout(5000)
 
   it("scans the four test courses and reports to console", async () => {
     await fileOperations.scanCourses(inputPath, outputPath)
     expect(consoleLog).calledWithExactly(logMessage)
-  })
+  }).timeout(5000)
 
   it("calls lstat for each test course", async () => {
     await fileOperations.scanCourses(inputPath, outputPath)
@@ -160,7 +160,7 @@ describe("scanCourses", () => {
     expect(lstatStub).to.be.calledWithExactly(course2Path)
     expect(lstatStub).to.be.calledWithExactly(course3Path)
     expect(lstatStub).to.be.calledWithExactly(course4Path)
-  })
+  }).timeout(5000)
 })
 
 describe("scanCourse", () => {
@@ -191,7 +191,7 @@ describe("scanCourse", () => {
       courseUidLookup
     )
     expect(readFileStub).to.be.calledWithExactly(singleCourseMasterJsonPath)
-  })
+  }).timeout(5000)
 
   it("calls generateMarkdownFromJson on the course data", async () => {
     const courseUidLookup = { singleCourseId: "uid" }
@@ -205,7 +205,7 @@ describe("scanCourse", () => {
       singleCourseJsonData,
       courseUidLookup
     )
-  })
+  }).timeout(5000)
 })
 
 describe("getMasterJsonFileName", () => {
