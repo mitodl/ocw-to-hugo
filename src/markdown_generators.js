@@ -516,16 +516,32 @@ const generateCourseFeatures = courseData => {
     .toMarkdown()}`
 }
 
+const formatHTMLMarkDown = (page, courseData, courseUidsLookup, section) => {
+  return page[section]
+    ? `\n${helpers.unescapeBackticks(
+      turndownService.turndown(
+        fixLinks(page[section] || "", page, courseData, courseUidsLookup)
+      )
+    )}`
+    : ""
+}
+
 const generateCourseSectionMarkdown = (page, courseData, courseUidsLookup) => {
   /**
     Generate markdown a given course section page
     */
   try {
-    return `${helpers.unescapeBackticks(
-      turndownService.turndown(
-        fixLinks(page["text"] || "", page, courseData, courseUidsLookup)
-      )
-    )}${generateCourseFeaturesMarkdown(page, courseData)}`
+    return `${formatHTMLMarkDown(
+      page,
+      courseData,
+      courseUidsLookup,
+      "text"
+    )}${generateCourseFeaturesMarkdown(page, courseData)}${formatHTMLMarkDown(
+      page,
+      courseData,
+      courseUidsLookup,
+      "bottomtext"
+    )}`
   } catch (err) {
     loggers.fileLogger.error(err)
     return page["text"]
