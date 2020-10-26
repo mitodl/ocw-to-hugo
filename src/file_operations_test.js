@@ -60,10 +60,7 @@ describe("scanCourses", () => {
     inputPath,
     "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
   )
-  const course3Path = path.join(
-    inputPath,
-    "3-00-thermodynamics-of-materials-fall-2002"
-  )
+  const course3Path = path.join(inputPath, "ec-711-d-lab-energy-spring-2011")
   const course4Path = path.join(
     inputPath,
     "12-001-introduction-to-geology-fall-2013"

@@ -4,6 +4,7 @@ const markdown = require("markdown-doc-builder").default
 const TurndownService = require("turndown")
 const turndownPluginGfm = require("turndown-plugin-gfm")
 const moment = require("moment")
+const stripHtml = require("string-strip-html")
 const { gfm, tables } = turndownPluginGfm
 
 const {
@@ -473,9 +474,6 @@ const generateCourseSectionFrontMatter = (
     }
   }
 
-  if (hasMedia) {
-    courseSectionFrontMatter["layout"] = "videogallery"
-  }
   if (isMediaGallery) {
     courseSectionFrontMatter["is_media_gallery"] = true
   }
@@ -551,51 +549,98 @@ const generatePdfMarkdown = (file, courseData) => {
   return `---\n${yaml.safeDump(pdfFrontMatter)}---\n`
 }
 
-const generateCourseFeaturesMarkdown = (page, courseData) => {
+const generateVideoGalleryMarkdown = (page, courseData) => {
   let courseFeaturesMarkdown = ""
-  if (page.hasOwnProperty("is_image_gallery")) {
-    if (page["is_image_gallery"]) {
-      const images = courseData["course_files"].filter(
-        file =>
-          file["parent_uid"] === page["uid"] && file["type"] === "OCWImage"
-      )
-      if (images.length > 0) {
-        let baseUrl = ""
-        const imageArgs = images.map(image => {
-          const url = image["file_location"]
-          if (baseUrl === "") {
-            baseUrl = `${url.substring(0, url.lastIndexOf("/") + 1)}`
-          }
-          const fileName = url.substring(url.lastIndexOf("/") + 1, url.length)
-          return {
-            href:          fileName,
-            "data-ngdesc": helpers.htmlSafeText(
-              helpers.unescapeBackticks(
-                turndownService.turndown(image["description"])
-              )
-            ),
-            text: helpers.htmlSafeText(
-              helpers.unescapeBackticks(
-                turndownService.turndown(image["caption"])
-              )
-            )
-          }
-        })
-        const imageShortcodes = imageArgs.map(
-          args =>
-            `{{< image-gallery-item ${Object.keys(args)
-              .map(key => `${key}="${args[key]}"`)
-              .join(" ")} >}}`
+  const videos = Object.values(courseData["course_embedded_media"]).filter(
+    obj => obj["parent_uid"] === page["uid"]
+  )
+  if (videos.length > 0) {
+    const videoDivs = []
+    videos.forEach(video => {
+      const videoArgs = {
+        href: helpers.pathToChildRecursive(
+          `/courses/${courseData.short_url}/sections`,
+          video,
+          courseData
+        ),
+        section: helpers.htmlSafeText(
+          helpers.unescapeBackticks(turndownService.turndown(page.title))
+        ),
+        title: helpers.htmlSafeText(
+          helpers.unescapeBackticks(turndownService.turndown(video.title))
+        ),
+        description: helpers.htmlSafeText(
+          helpers.unescapeBackticks(
+            stripHtml(video["about_this_resource_text"]).result
+          )
         )
-        courseFeaturesMarkdown = `${courseFeaturesMarkdown}\n{{< image-gallery id="${
-          page["uid"]
-        }_nanogallery2" baseUrl="${helpers.stripS3(
-          baseUrl
-        )}" >}}\n${imageShortcodes.join("\n")}\n{{</ image-gallery >}}`
       }
-    }
+      video.embedded_media.forEach(media => {
+        if (media.type === "Thumbnail" && media.media_location) {
+          videoArgs.thumbnail = media.media_location
+        }
+      })
+      videoDivs.push(
+        `{{< video-gallery-item ${Object.keys(videoArgs)
+          .map(key => `${key}="${videoArgs[key]}"`)
+          .join(" ")} >}}`
+      )
+    })
+    courseFeaturesMarkdown = videoDivs.join("\n")
   }
   return courseFeaturesMarkdown
+}
+
+const generateImageGalleryMarkdown = (page, courseData) => {
+  let courseFeaturesMarkdown = ""
+  const images = courseData["course_files"].filter(
+    file => file["parent_uid"] === page["uid"] && file["type"] === "OCWImage"
+  )
+  if (images.length > 0) {
+    let baseUrl = ""
+    const imageArgs = images.map(image => {
+      const url = image["file_location"]
+      if (baseUrl === "") {
+        baseUrl = `${url.substring(0, url.lastIndexOf("/") + 1)}`
+      }
+      const fileName = url.substring(url.lastIndexOf("/") + 1, url.length)
+      return {
+        href:          fileName,
+        "data-ngdesc": helpers.htmlSafeText(
+          helpers.unescapeBackticks(
+            turndownService.turndown(image["description"])
+          )
+        ),
+        text: helpers.htmlSafeText(
+          helpers.unescapeBackticks(turndownService.turndown(image["caption"]))
+        )
+      }
+    })
+    const imageShortcodes = imageArgs.map(
+      args =>
+        `{{< image-gallery-item ${Object.keys(args)
+          .map(key => `${key}="${args[key]}"`)
+          .join(" ")} >}}`
+    )
+    courseFeaturesMarkdown = `${courseFeaturesMarkdown}\n{{< image-gallery id="${
+      page["uid"]
+    }_nanogallery2" baseUrl="${helpers.stripS3(
+      baseUrl
+    )}" >}}\n${imageShortcodes.join("\n")}\n{{</ image-gallery >}}`
+  }
+  return courseFeaturesMarkdown
+}
+
+const generateCourseFeaturesMarkdown = (page, courseData) => {
+  if (page.hasOwnProperty("is_image_gallery") && page["is_image_gallery"]) {
+    return generateImageGalleryMarkdown(page, courseData)
+  } else if (
+    page.hasOwnProperty("is_media_gallery") &&
+    page["is_media_gallery"]
+  ) {
+    return generateVideoGalleryMarkdown(page, courseData)
+  }
+  return ""
 }
 
 module.exports = {

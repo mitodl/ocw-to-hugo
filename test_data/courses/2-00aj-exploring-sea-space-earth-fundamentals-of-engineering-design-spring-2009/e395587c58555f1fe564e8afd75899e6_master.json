@@ -917,68 +917,7 @@
             "uid": "fdd772ca7d1767bb2ac425bd80695e9a"
         }
     ],
-    "course_foreign_files": [
-        {
-            "file_location": "https://open-learning-course-data-ci.s3.amazonaws.com/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/pool_clip1.wmv",
-            "link": "https://ocw.mit.edu/ans7870/2/2.00AJ/s09/labs/pool_clip1.wmv",
-            "parent_uid": "877f0e43412db8b16e5b2864cf8bf1cc"
-        },
-        {
-            "file_location": "https://open-learning-course-data-ci.s3.amazonaws.com/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/pool_clip1.wmv",
-            "link": "https://ocw.mit.edu/ans7870/2/2.00AJ/s09/labs/pool_clip1.wmv",
-            "parent_uid": "877f0e43412db8b16e5b2864cf8bf1cc"
-        },
-        {
-            "file_location": "https://open-learning-course-data-ci.s3.amazonaws.com/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/pool_clip2.wmv",
-            "link": "https://ocw.mit.edu/ans7870/2/2.00AJ/s09/labs/pool_clip2.wmv",
-            "parent_uid": "877f0e43412db8b16e5b2864cf8bf1cc"
-        },
-        {
-            "file_location": "https://open-learning-course-data-ci.s3.amazonaws.com/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/pool_clip2.wmv",
-            "link": "https://ocw.mit.edu/ans7870/2/2.00AJ/s09/labs/pool_clip2.wmv",
-            "parent_uid": "877f0e43412db8b16e5b2864cf8bf1cc"
-        },
-        {
-            "file_location": "https://open-learning-course-data-ci.s3.amazonaws.com/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/pool_clip3.wmv",
-            "link": "https://ocw.mit.edu/ans7870/2/2.00AJ/s09/labs/pool_clip3.wmv",
-            "parent_uid": "877f0e43412db8b16e5b2864cf8bf1cc"
-        },
-        {
-            "file_location": "https://open-learning-course-data-ci.s3.amazonaws.com/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/pool_clip3.wmv",
-            "link": "https://ocw.mit.edu/ans7870/2/2.00AJ/s09/labs/pool_clip3.wmv",
-            "parent_uid": "877f0e43412db8b16e5b2864cf8bf1cc"
-        },
-        {
-            "file_location": "https://open-learning-course-data-ci.s3.amazonaws.com/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/pool_clip4.wmv",
-            "link": "https://ocw.mit.edu/ans7870/2/2.00AJ/s09/labs/pool_clip4.wmv",
-            "parent_uid": "877f0e43412db8b16e5b2864cf8bf1cc"
-        },
-        {
-            "file_location": "https://open-learning-course-data-ci.s3.amazonaws.com/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/pool_clip4.wmv",
-            "link": "https://ocw.mit.edu/ans7870/2/2.00AJ/s09/labs/pool_clip4.wmv",
-            "parent_uid": "877f0e43412db8b16e5b2864cf8bf1cc"
-        },
-        {
-            "file_location": "https://open-learning-course-data-ci.s3.amazonaws.com/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/pool_clip5.wmv",
-            "link": "https://ocw.mit.edu/ans7870/2/2.00AJ/s09/labs/pool_clip5.wmv",
-            "parent_uid": "877f0e43412db8b16e5b2864cf8bf1cc"
-        },
-        {
-            "file_location": "https://open-learning-course-data-ci.s3.amazonaws.com/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/pool_clip5.wmv",
-            "link": "https://ocw.mit.edu/ans7870/2/2.00AJ/s09/labs/pool_clip5.wmv",
-            "parent_uid": "877f0e43412db8b16e5b2864cf8bf1cc"
-        },
-        {
-            "file_location": "https://open-learning-course-data-ci.s3.amazonaws.com/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/river.avi",
-            "link": "http://ocw.mit.edu/ans7870/2/2.00AJ/s09/labs/river.avi",
-            "parent_uid": "0aee0583c6aac4a87ddefb73319a8f26"
-        },
-        {
-            "file_location": "https://open-learning-course-data-ci.s3.amazonaws.com/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/river.avi",
-            "link": "http://ocw.mit.edu/ans7870/2/2.00AJ/s09/labs/river.avi",
-            "parent_uid": "0aee0583c6aac4a87ddefb73319a8f26"
-        }
-    ],
+    "course_foreign_files": [],
     "course_level": "Undergraduate",
     "course_pages": [
         {

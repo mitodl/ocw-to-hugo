@@ -17,6 +17,7 @@ const testDataPath = "test_data/courses"
 const singleCourseId =
   "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
 const imageGalleryCourseId = "12-001-introduction-to-geology-fall-2013"
+const videoGalleryCourseId = "ec-711-d-lab-energy-spring-2011"
 const singleCourseMasterJsonPath = path.join(
   testDataPath,
   singleCourseId,
@@ -27,12 +28,25 @@ const imageGalleryCourseMasterJsonPath = path.join(
   imageGalleryCourseId,
   "d9aad1541f1a9d3c0f7b0dcf9531a9a1_master.json"
 )
+
+const videoGalleryCourseMasterJsonPath = path.join(
+  testDataPath,
+  videoGalleryCourseId,
+  "03ecfbe74faf55554e96b55bafa7899e_master.json"
+)
+
 const singleCourseRawData = fs.readFileSync(singleCourseMasterJsonPath)
 const singleCourseJsonData = JSON.parse(singleCourseRawData)
 const imageGalleryCourseRawData = fs.readFileSync(
   imageGalleryCourseMasterJsonPath
 )
 const imageGalleryCourseJsonData = JSON.parse(imageGalleryCourseRawData)
+
+const videoGalleryCourseRawData = fs.readFileSync(
+  videoGalleryCourseMasterJsonPath
+)
+const videoGalleryCourseJsonData = JSON.parse(videoGalleryCourseRawData)
+
 const coursePagesWithText = singleCourseJsonData["course_pages"].filter(
   page => page["text"]
 )
@@ -44,9 +58,21 @@ const imageGalleryImages = imageGalleryCourseJsonData["course_files"].filter(
     file["type"] === "OCWImage" &&
     file["parent_uid"] === imageGalleryPages[0]["uid"]
 )
-const courseFeaturesFrontMatter = markdownGenerators.generateCourseFeaturesMarkdown(
+const videoGalleryPages = videoGalleryCourseJsonData["course_pages"].filter(
+  page => page["is_media_gallery"]
+)
+const videoGalleryVideos = videoGalleryCourseJsonData["course_files"].filter(
+  file => file["parent_uid"] === videoGalleryPages[0]["uid"]
+)
+
+const courseImageFeaturesFrontMatter = markdownGenerators.generateCourseFeaturesMarkdown(
   imageGalleryPages[0],
   imageGalleryCourseJsonData
+)
+
+const courseVideoFeaturesFrontMatter = markdownGenerators.generateCourseFeaturesMarkdown(
+  videoGalleryPages[0],
+  videoGalleryCourseJsonData
 )
 
 describe("generateMarkdownFromJson", () => {
@@ -492,14 +518,15 @@ describe("generateCourseSectionMarkdown", () => {
 describe("generateCourseFeaturesMarkdown", () => {
   it("renders one image-gallery shortcode", () => {
     assert.equal(
-      (courseFeaturesFrontMatter.match(/{{< image-gallery id=/g) || []).length,
+      (courseImageFeaturesFrontMatter.match(/{{< image-gallery id=/g) || [])
+        .length,
       1
     )
   })
 
   it("renders 11 image-gallery-item shortcodes", () => {
     assert.equal(
-      (courseFeaturesFrontMatter.match(/{{< image-gallery-item /g) || [])
+      (courseImageFeaturesFrontMatter.match(/{{< image-gallery-item /g) || [])
         .length,
       11
     )
@@ -509,8 +536,16 @@ describe("generateCourseFeaturesMarkdown", () => {
     imageGalleryImages.forEach(image => {
       const url = image["file_location"]
       const fileName = url.substring(url.lastIndexOf("/") + 1, url.length)
-      assert.include(courseFeaturesFrontMatter, fileName)
+      assert.include(courseImageFeaturesFrontMatter, fileName)
     })
+  })
+
+  it("renders 2 video-gallery-item shortcodes", () => {
+    assert.equal(
+      (courseVideoFeaturesFrontMatter.match(/{{< video-gallery-item /g) || [])
+        .length,
+      2
+    )
   })
 })
 
