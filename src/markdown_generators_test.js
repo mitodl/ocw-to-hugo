@@ -79,20 +79,43 @@ describe("generateMarkdownFromJson", () => {
   const singleCourseMarkdownData = markdownGenerators.generateMarkdownFromJson(
     singleCourseJsonData
   )
-  const expectedSections = singleCourseJsonData["course_pages"]
-    .filter(
-      page =>
-        page["parent_uid"] === singleCourseJsonData["uid"] &&
-        page["type"] !== "CourseHomeSection" &&
-        page["type"] !== "DownloadSection"
+  const assertCourseIdRecursive = (sectionMarkdownData, courseId) => {
+    const sectionFrontMatter = yaml.safeLoad(
+      sectionMarkdownData["data"].split("---\n")[1]
     )
-    .map(page => page["short_url"])
+    assert.equal(sectionFrontMatter["course_id"], courseId)
+    if (sectionMarkdownData["files"]) {
+      sectionMarkdownData["files"].forEach(file => {
+        const fileFrontMatter = yaml.safeLoad(file["data"].split("---\n")[1])
+        assert.equal(fileFrontMatter["course_id"], courseId)
+      })
+    }
+    if (sectionMarkdownData["media"]) {
+      sectionMarkdownData["media"].forEach(media => {
+        const mediaFrontMatter = yaml.safeLoad(media["data"].split("---\n")[1])
+        assert.equal(mediaFrontMatter["course_id"], courseId)
+      })
+    }
+    if (sectionMarkdownData["children"]) {
+      sectionMarkdownData["children"].forEach(child => {
+        assertCourseIdRecursive(child, courseId)
+      })
+    }
+  }
 
   it("contains the course home page and other expected sections", () => {
     const markdownFileNames = singleCourseMarkdownData.map(markdownData => {
       return markdownData["name"]
     })
     assert.include(markdownFileNames, "_index.md")
+    const expectedSections = singleCourseJsonData["course_pages"]
+      .filter(
+        page =>
+          page["parent_uid"] === singleCourseJsonData["uid"] &&
+          page["type"] !== "CourseHomeSection" &&
+          page["type"] !== "DownloadSection"
+      )
+      .map(page => page["short_url"])
     expectedSections.forEach(expectedSection => {
       let filename = `sections/${expectedSection}`
       const sectionMarkdownData = singleCourseMarkdownData.filter(
@@ -169,17 +192,8 @@ describe("generateMarkdownFromJson", () => {
   })
 
   it("puts the course_id in every course page's markdown", () => {
-    expectedSections.forEach(expectedSection => {
-      const filename = `sections/${expectedSection}`
-      const sectionMarkdownData = singleCourseMarkdownData.filter(
-        section =>
-          section["name"] === `${filename}.md` ||
-          section["name"] === `${filename}/_index.md`
-      )[0]
-      const frontMatter = yaml.safeLoad(
-        sectionMarkdownData["data"].split("---\n")[1]
-      )
-      assert.equal(frontMatter["course_id"], singleCourseId)
+    singleCourseMarkdownData.forEach(sectionMarkdownData => {
+      assertCourseIdRecursive(sectionMarkdownData, singleCourseId)
     })
   })
 })
