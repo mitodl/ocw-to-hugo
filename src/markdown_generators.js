@@ -266,6 +266,7 @@ const generateMarkdownRecursive = (page, courseUidsLookup) => {
     courseData["course_embedded_media"]
   )
     .map(embeddedMedia => {
+      embeddedMedia["course_id"] = courseData["short_url"]
       embeddedMedia["type"] = "course"
       embeddedMedia["layout"] = "video"
       return embeddedMedia
