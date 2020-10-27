@@ -76,18 +76,19 @@ const courseVideoFeaturesFrontMatter = markdownGenerators.generateCourseFeatures
 )
 
 describe("generateMarkdownFromJson", () => {
-  it("contains the course home page and other expected sections", () => {
-    const singleCourseMarkdownData = markdownGenerators.generateMarkdownFromJson(
-      singleCourseJsonData
+  const singleCourseMarkdownData = markdownGenerators.generateMarkdownFromJson(
+    singleCourseJsonData
+  )
+  const expectedSections = singleCourseJsonData["course_pages"]
+    .filter(
+      page =>
+        page["parent_uid"] === singleCourseJsonData["uid"] &&
+        page["type"] !== "CourseHomeSection" &&
+        page["type"] !== "DownloadSection"
     )
-    const expectedSections = singleCourseJsonData["course_pages"]
-      .filter(
-        page =>
-          page["parent_uid"] === singleCourseJsonData["uid"] &&
-          page["type"] !== "CourseHomeSection" &&
-          page["type"] !== "DownloadSection"
-      )
-      .map(page => page["short_url"])
+    .map(page => page["short_url"])
+
+  it("contains the course home page and other expected sections", () => {
     const markdownFileNames = singleCourseMarkdownData.map(markdownData => {
       return markdownData["name"]
     })
@@ -164,6 +165,21 @@ describe("generateMarkdownFromJson", () => {
           assert.include(mediaMarkdownFileNames, mediaFilename)
         })
       }
+    })
+  })
+
+  it("puts the course_id in every course page's markdown", () => {
+    expectedSections.forEach(expectedSection => {
+      const filename = `sections/${expectedSection}`
+      const sectionMarkdownData = singleCourseMarkdownData.filter(
+        section =>
+          section["name"] === `${filename}.md` ||
+          section["name"] === `${filename}/_index.md`
+      )[0]
+      const frontMatter = yaml.safeLoad(
+        sectionMarkdownData["data"].split("---\n")[1]
+      )
+      assert.equal(frontMatter["course_id"], singleCourseId)
     })
   })
 })
