@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.0.12
+Version 1.0.12 (Released October 28, 2020)
 --------------
 
 - fix embedded media nav bug (#110)
