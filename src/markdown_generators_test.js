@@ -21,18 +21,18 @@ const videoGalleryCourseId = "ec-711-d-lab-energy-spring-2011"
 const singleCourseMasterJsonPath = path.join(
   testDataPath,
   singleCourseId,
-  "e395587c58555f1fe564e8afd75899e6_master.json"
+  `${singleCourseId}_parsed.json`
 )
 const imageGalleryCourseMasterJsonPath = path.join(
   testDataPath,
   imageGalleryCourseId,
-  "d9aad1541f1a9d3c0f7b0dcf9531a9a1_master.json"
+  `${imageGalleryCourseId}_parsed.json`
 )
 
 const videoGalleryCourseMasterJsonPath = path.join(
   testDataPath,
   videoGalleryCourseId,
-  "03ecfbe74faf55554e96b55bafa7899e_master.json"
+  `${videoGalleryCourseId}_parsed.json`
 )
 
 const singleCourseRawData = fs.readFileSync(singleCourseMasterJsonPath)

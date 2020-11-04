@@ -23,7 +23,7 @@ const singleCourseId =
 const singleCourseMasterJsonPath = path.join(
   testDataPath,
   singleCourseId,
-  "e395587c58555f1fe564e8afd75899e6_master.json"
+  `${singleCourseId}_parsed.json`
 )
 const singleCourseRawData = require("fs").readFileSync(
   singleCourseMasterJsonPath

@@ -9,11 +9,12 @@ const helpers = require("./helpers")
 const { GETPAGESHORTCODESTART } = require("./constants")
 const loggers = require("./loggers")
 
-const singleCourseInputPath =
-  "test_data/courses/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
+const testCourse =
+  "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
+const singleCourseInputPath = `test_data/courses/${testCourse}`
 const singleCourseMasterJsonPath = path.join(
   singleCourseInputPath,
-  "e395587c58555f1fe564e8afd75899e6_master.json"
+  `${testCourse}_parsed.json`
 )
 const singleCourseRawData = fs.readFileSync(singleCourseMasterJsonPath)
 const singleCourseJsonData = JSON.parse(singleCourseRawData)
