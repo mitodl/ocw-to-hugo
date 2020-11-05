@@ -394,9 +394,9 @@ const generateCourseHomeMarkdown = (courseData, courseUidsLookup) => {
     course_image_caption_text: courseData["image_caption_text"]
       ? courseData["image_caption_text"]
       : "",
-    publishdate: courseData["last_published_to_production"]
+    publishdate: courseData["first_published_to_production"]
       ? moment(
-        courseData["last_published_to_production"],
+        courseData["first_published_to_production"],
         INPUT_COURSE_DATE_FORMAT
       ).format()
       : "",
