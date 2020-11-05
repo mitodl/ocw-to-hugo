@@ -121,7 +121,7 @@ const getMasterJsonFileName = async coursePath => {
   if (await directoryExists(coursePath)) {
     // If the item is indeed a directory, read all files in it
     const contents = await fsPromises.readdir(coursePath)
-    const fileName = contents.find(file => RegExp(".*_parsed.json").test(file))
+    const fileName = contents.find(file => RegExp(".*_parsed.json$").test(file))
     if (fileName) {
       return path.join(coursePath, fileName)
     }
