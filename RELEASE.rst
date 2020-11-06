@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.1.0
+-------------
+
+- Use first_published_to_production instead (#115)
+
 Version 1.0.12 (Released October 28, 2020)
 --------------
 
