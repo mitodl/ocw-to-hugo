@@ -64,7 +64,7 @@ describe("downloadCourseRecursive", () => {
 
     testCourse =
       "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
-    testJson = "bb55dad7f4888f0a1ad004600c5fb1f1_master.json"
+    testJson = `${testCourse}_parsed.json`
     testJsonKey = path.join(testCourse, testJson)
     testJsonContents = fs.readFileSync(
       path.join("test_data", "courses", testCourse, testJson)

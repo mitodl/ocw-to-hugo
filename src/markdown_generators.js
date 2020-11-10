@@ -230,7 +230,7 @@ const fixLinks = (htmlStr, page, courseData, courseUidsLookup) => {
 
 const generateMarkdownFromJson = (courseData, courseUidsLookup) => {
   /**
-    This function takes JSON data parsed from a master.json file and returns markdown data
+    This function takes JSON data parsed from a parsed.json file and returns markdown data
     */
   this["courseData"] = courseData
   this["menuIndex"] = 0

@@ -40,10 +40,10 @@ If the `-c` option has been specified, processing will be filtered by the course
 
 | Argument | Required? | Valid values  | Description |
 | :------- | :-------- | :------------ | :------------ |
-| `-i, --input`      | Yes | `/path/to/open-learning-course-data` | Input folder of OCW course folders containing `master.json` files and optionally static content |
+| `-i, --input`      | Yes | `/path/to/open-learning-course-data` | Input folder of OCW course folders containing `parsed.json` files and optionally static content |
 | `-o, --output`      | Yes | `/path/to/hugo-markdown-output` | Output path to place `hugo-course-publisher` content folder in |
 | `-c, --courses`      | Only if download flag is true  | `/path/to/courses.json` | If enabled, courses processed will be filtered based on the format above |
-| `--download`      | No  | `true or false` | Download `master.json` files from a configured S3 bucket and a list of courses passed in with `-c` |
+| `--download`      | No  | `true or false` | Download `parsed.json` files from a configured S3 bucket and a list of courses passed in with `-c` |
 | `--strips3`       | No  | `true or false` | Strip the s3 base URL from all OCW resources |
 | `--staticPrefix`       | No  | `/path/to/static/assets` | When `--strips3` is set to true, replace the s3 base URL with this string |
 
