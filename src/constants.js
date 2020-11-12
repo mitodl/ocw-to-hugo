@@ -16,7 +16,7 @@ module.exports = {
       path:    "",
       name:    "_index.md",
       content: {
-        title: "Hugo Course Publisher"
+        title: ""
       }
     },
     {
