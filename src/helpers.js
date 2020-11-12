@@ -104,25 +104,45 @@ const getCourseSectionFromFeatureUrl = courseFeature => {
 
 /* eslint-disable camelcase */
 const getConsolidatedTopics = courseCollections => {
-  let topics = {}
-  courseCollections.forEach(courseCollection => {
-    const { ocw_feature, ocw_subfeature, ocw_speciality } = courseCollection
+  const topics = []
+  const topicsLookup = {}
+  const subtopicsLookup = {}
+  for (const courseCollection of courseCollections) {
+    const {
+      ocw_feature: feature,
+      ocw_subfeature: subfeature,
+      ocw_speciality: speciality
+    } = courseCollection
 
-    const collectionTopic = {
-      [ocw_feature]: {}
-    }
-    if (ocw_subfeature) {
-      collectionTopic[ocw_feature][ocw_subfeature] = [ocw_speciality].filter(
-        Boolean
-      )
-    }
-
-    topics = _.mergeWith(topics, collectionTopic, (objValue, srcValue) => {
-      if (_.isArray(objValue)) {
-        return objValue.concat(srcValue)
+    let topicObj = topicsLookup[feature]
+    if (!topicObj) {
+      topicObj = {
+        topic:     feature,
+        subtopics: []
       }
-    })
-  })
+      topics.push(topicObj)
+      topicsLookup[feature] = topicObj
+      subtopicsLookup[feature] = {}
+    }
+
+    if (!subfeature) {
+      continue
+    }
+
+    let subtopicObj = subtopicsLookup[feature][subfeature]
+    if (!subtopicObj) {
+      subtopicObj = {
+        subtopic:     subfeature,
+        specialities: []
+      }
+      topicObj.subtopics.push(subtopicObj)
+      subtopicsLookup[feature][subfeature] = subtopicObj
+    }
+
+    if (speciality) {
+      subtopicObj.specialities.push(speciality)
+    }
+  }
   return topics
 }
 /* eslint-disable camelcase */

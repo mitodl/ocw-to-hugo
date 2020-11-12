@@ -271,28 +271,32 @@ describe("generateCourseHomeMarkdown", () => {
   })
 
   it("sets the topics property on the course info object to data parsed from course_collections in the course json data", () => {
-    const expectedValues = helpers.getConsolidatedTopics(
+    const topics = helpers.getConsolidatedTopics(
       singleCourseJsonData["course_collections"]
     )
-    const foundValues = courseHomeFrontMatter["course_info"]["topics"]
-    Object.keys(expectedValues).forEach(expectedTopicKey => {
-      assert.isTrue(foundValues.hasOwnProperty(expectedTopicKey))
-      Object.keys(expectedValues[expectedTopicKey]).forEach(
-        expectedSubTopicKey => {
-          assert.isTrue(
-            foundValues[expectedTopicKey].hasOwnProperty(expectedSubTopicKey)
-          )
-          expectedValues[expectedTopicKey][expectedSubTopicKey].forEach(
-            (expectedSpeciality, index) => {
-              assert.equal(
-                expectedSpeciality,
-                foundValues[expectedTopicKey][expectedSubTopicKey][index]
-              )
-            }
-          )
-        }
-      )
-    })
+    assert.deepEqual(topics, [
+      {
+        topic:     "Engineering",
+        subtopics: [
+          {
+            specialities: ["Systems Design"],
+            subtopic:     "Systems Engineering"
+          },
+          {
+            specialities: ["Robotics and Control Systems"],
+            subtopic:     "Electrical Engineering"
+          },
+          {
+            specialities: ["Ocean Exploration"],
+            subtopic:     "Ocean Engineering"
+          },
+          {
+            specialities: ["Mechanical Design"],
+            subtopic:     "Mechanical Engineering"
+          }
+        ]
+      }
+    ])
   })
 
   it("calls getCourseNumbers with the course json data", () => {
