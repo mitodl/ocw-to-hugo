@@ -12,7 +12,8 @@ const {
   GETPAGESHORTCODESTART,
   GETPAGESHORTCODEEND,
   AWS_REGEX,
-  INPUT_COURSE_DATE_FORMAT
+  INPUT_COURSE_DATE_FORMAT,
+  SUPPORTED_IFRAME_EMBEDS
 } = require("./constants")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
@@ -172,6 +173,27 @@ turndownService.addRule("stripS3", {
   replacement: (content, node, options) => {
     const attr = node.nodeName === "A" ? "href" : "src"
     return `[${content}](${helpers.stripS3(node.getAttribute(attr))})`
+  }
+})
+
+// add support for embedded content from various sources
+turndownService.addRule("iframe", {
+  filter: (node, options) => {
+    if (node.nodeName === "IFRAME") {
+      const src = node.getAttribute("src")
+
+      if (src) {
+        const url = new URL(src)
+        return SUPPORTED_IFRAME_EMBEDS.hasOwnProperty(url.hostname)
+      }
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    const src = new URL(node.getAttribute("src"))
+    const { hugoShortcode, getID } = SUPPORTED_IFRAME_EMBEDS[src.hostname]
+
+    return `{{< ${hugoShortcode} ${getID(src)} >}}`
   }
 })
 

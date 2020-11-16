@@ -701,4 +701,13 @@ describe("other turndown elements", () => {
     const markdown = markdownGenerators.turndownService.turndown(inputHTML)
     assert.equal(markdown, "`test``test``test`")
   })
+
+  it("should return a simplecast shortcode when confronted with a simplecast iframe", () => {
+    const inputHTML = `<iframe scrolling="no" seamless="" src="https://player.simplecast.com/e31edbb0-e4ac-4d9f-aebc-3d613c2f972c?dark=false" width="100%" height="200px" frameborder="no"></iframe>`
+    const markdown = markdownGenerators.turndownService.turndown(inputHTML)
+    assert.equal(
+      markdown,
+      "{{< simplecast e31edbb0-e4ac-4d9f-aebc-3d613c2f972c >}}"
+    )
+  })
 })

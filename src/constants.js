@@ -36,5 +36,11 @@ module.exports = {
       }
     }
   ],
-  INPUT_COURSE_DATE_FORMAT: "YYYY/M/D H:m:s.SSS"
+  INPUT_COURSE_DATE_FORMAT: "YYYY/M/D H:m:s.SSS",
+  SUPPORTED_IFRAME_EMBEDS:  {
+    "player.simplecast.com": {
+      hugoShortcode: "simplecast",
+      getID:         url => url.pathname.replace("/", "")
+    }
+  }
 }
