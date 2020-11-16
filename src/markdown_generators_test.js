@@ -372,7 +372,8 @@ describe("generateCourseSectionFrontMatter", () => {
           false,
           10,
           false,
-          singleCourseJsonData["short_url"]
+          singleCourseJsonData["short_url"],
+          singleCourseJsonData
         )
         .replace(/---\n/g, "")
     )
@@ -412,7 +413,8 @@ describe("generateCourseSectionFrontMatter", () => {
           false,
           10,
           false,
-          singleCourseJsonData["short_url"]
+          singleCourseJsonData["short_url"],
+          singleCourseJsonData
         )
         .replace(/---\n/g, "")
     )
@@ -432,7 +434,8 @@ describe("generateCourseSectionFrontMatter", () => {
           false,
           10,
           true,
-          singleCourseJsonData["short_url"]
+          singleCourseJsonData["short_url"],
+          singleCourseJsonData
         )
         .replace(/---\n/g, "")
     )
@@ -455,9 +458,30 @@ describe("generateCourseSectionFrontMatter", () => {
       false,
       10,
       false,
-      singleCourseJsonData["short_url"]
+      singleCourseJsonData["short_url"],
+      singleCourseJsonData
     )
     assert.notInclude(yaml, "undefined")
+  })
+
+  it("has a course and section title", () => {
+    assert.equal(courseSectionFrontMatter["title"], "Syllabus")
+    assert.equal(
+      courseSectionFrontMatter["course_title"],
+      "Exploring Sea, Space, & Earth: Fundamentals of Engineering Design"
+    )
+  })
+
+  it("has course info", () => {
+    const info = courseSectionFrontMatter["course_info"]
+    assert.deepEqual(info.instructors, ["Prof. Alexandra Techet"])
+    assert.deepEqual(info.departments, [
+      "Mechanical Engineering",
+      "Aeronautics and Astronautics"
+    ])
+    assert.deepEqual(info.course_numbers, ["2.00AJ", "16.00AJ"])
+    assert.equal(info.term, "Spring 2009")
+    assert.equal(info.level, "Undergraduate")
   })
 })
 
