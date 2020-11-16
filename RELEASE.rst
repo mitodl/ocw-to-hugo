@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 1.3.0
+-------------
+
+- add support for rendering simplecast files
+- Add course_title and course_info to section pages (#120)
+- Remove title from boilerplate (#118)
+
 Version 1.2.0 (Released November 10, 2020)
 -------------
 
