@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.3.1
+-------------
+
+- Change topics to return a list with dicts (#119)
+
 Version 1.3.0 (Released November 16, 2020)
 -------------
 
