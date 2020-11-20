@@ -52,6 +52,11 @@ const options = yargs
     describe:     "Write error logging and other extra output",
     type:         "boolean",
     demandOption: false
+  })
+  .option("stats", {
+    describe:     "Write statistical information about processed courses to a file",
+    type:         "string",
+    demandOption: false
   }).argv
 
 helpers.runOptions = options
@@ -73,6 +78,12 @@ run()
     process.exit(1)
   })
   .then(() => {
+    console.log("Conversion complete...")
+    if (options.stats) {
+      console.log(`Writing stats to ${options.stats}`)
+      const statsLogger = new loggers.statsLogger(options.stats)
+      statsLogger.writeCourseTitleStats()
+    }
     if (loggers.memoryTransport.logs.length) {
       if (options.verbose) {
         console.error(

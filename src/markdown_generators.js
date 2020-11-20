@@ -446,6 +446,10 @@ const generateCourseHomeMarkdown = (courseData, courseUidsLookup) => {
       }
     }
   }
+  helpers.stats.courseTitleLengths.push({
+    course_id: frontMatter["course_id"],
+    length:    frontMatter["course_title"].length
+  })
   // strip out any direct s3 pathing in course image urls
   frontMatter["course_image_url"] = helpers.stripS3(
     frontMatter["course_image_url"]

@@ -74,6 +74,7 @@ const scanCourses = async (inputPath, outputPath) => {
 
     const courseUid = await getCourseUid(inputPath, course)
     courseUidsLookup[courseUid] = course
+    helpers.stats.courseIds.push(course)
   }
 
   console.log(`Converting ${numCourses} courses to Hugo markdown...`)
@@ -121,7 +122,9 @@ const getMasterJsonFileName = async coursePath => {
   if (await directoryExists(coursePath)) {
     // If the item is indeed a directory, read all files in it
     const contents = await fsPromises.readdir(coursePath)
-    const fileName = contents.find(file => RegExp(".*_parsed.json$").test(file))
+    const fileName = contents.find(file =>
+      RegExp(".*_(parsed|master).json$").test(file)
+    )
     if (fileName) {
       return path.join(coursePath, fileName)
     }

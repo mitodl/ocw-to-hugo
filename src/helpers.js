@@ -11,6 +11,10 @@ const {
 const loggers = require("./loggers")
 
 const runOptions = {}
+const stats = {
+  courseIds:          [],
+  courseTitleLengths: []
+}
 
 const distinct = (value, index, self) => {
   return self.indexOf(value) === index
@@ -396,6 +400,14 @@ const stripS3 = text => {
 
 const unescapeBackticks = text => text.replace(/\\`/g, "&grave;")
 
+const median = (arr, key) => {
+  const mid = Math.floor(arr.length / 2),
+    nums = [...arr].sort((a, b) => {
+      key ? a[key] - b[key] : a - b
+    })
+  return arr.length % 2 !== 0 ? nums[mid].length : (nums[mid - 1].length + nums[mid]).length / 2
+}
+
 module.exports = {
   distinct,
   directoryExists,
@@ -416,5 +428,7 @@ module.exports = {
   htmlSafeText,
   stripS3,
   unescapeBackticks,
-  runOptions
+  median,
+  runOptions,
+  stats
 }
