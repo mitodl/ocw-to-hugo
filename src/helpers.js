@@ -257,8 +257,7 @@ const resolveUids = (htmlStr, page, courseData, courseUidsLookup) => {
           }
         }
         if (linkedCourse) {
-          const linkedCourseId = linkedCourse[0]
-          htmlStr = htmlStr.replace(url, `/courses/${linkedCourseId}`)
+          htmlStr = htmlStr.replace(url, `/courses/${linkedCourse}`)
         }
       }
     )

@@ -18,6 +18,9 @@ const singleCourseMasterJsonPath = path.join(
 )
 const singleCourseRawData = fs.readFileSync(singleCourseMasterJsonPath)
 const singleCourseJsonData = JSON.parse(singleCourseRawData)
+const assignmentsPage = singleCourseJsonData["course_pages"].find(
+  page => page["uid"] === "1016059a65d256e4e12de4f25591a1b8"
+)
 
 describe("findDepartmentByNumber", () => {
   it("returns the expected department for a given department number integer", () => {
@@ -138,10 +141,20 @@ describe("getHugoPathSuffix", () => {
 })
 
 describe("resolveUids", () => {
+  const course =
+    "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
+  const parsedPath = path.join(
+    "test_data",
+    "courses",
+    course,
+    `${course}_parsed.json`
+  )
+  const courseData = JSON.parse(fs.readFileSync(parsedPath))
+  const syllabusPage = courseData["course_pages"].find(
+    page => page["uid"] === "00eb284b6ed5f08a3cf9669918588f59"
+  )
+
   it("replaces all resolveuid links on a given page", () => {
-    const assignmentsPage = singleCourseJsonData["course_pages"].filter(
-      page => page["uid"] === "1016059a65d256e4e12de4f25591a1b8"
-    )[0]
     assert.isTrue(assignmentsPage["text"].indexOf("resolveuid") !== -1)
     const result = helpers.resolveUids(
       assignmentsPage["text"],
@@ -150,6 +163,69 @@ describe("resolveUids", () => {
       {}
     )
     assert.isTrue(result.indexOf("resolveuid") === -1)
+  })
+
+  it("resolves a uid for a page", async () => {
+    assert.include(
+      syllabusPage["text"],
+      'see the <a href="./resolveuid/ab358d663152f31a56035144d6d77e4b">Tools section</a>'
+    )
+    const result = helpers.resolveUids(
+      syllabusPage["text"],
+      syllabusPage,
+      courseData,
+      {}
+    )
+    assert.include(
+      result,
+      'see the <a href="GETPAGESHORTCODESTARTcourses/' +
+        "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012/sections/" +
+        'toolsGETPAGESHORTCODEEND">Tools section</a>'
+    )
+  })
+
+  it("resolves a uid for a file", () => {
+    assert.include(
+      assignmentsPage["text"],
+      "Technical report 1 (" +
+        '<a href="./resolveuid/b0f020c026200bb212a4c65a017b4340">' +
+        "PDF</a>"
+    )
+    const result = helpers.resolveUids(
+      assignmentsPage["text"],
+      assignmentsPage,
+      singleCourseJsonData,
+      {}
+    )
+    assert.include(
+      result,
+      "Technical report 1 (" +
+        '<a href="GETPAGESHORTCODESTARTcourses/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/' +
+        'sections/assignments/MIT2_00AJs09_assn06_motorsGETPAGESHORTCODEEND">' +
+        "PDF</a>"
+    )
+  })
+  ;[true, false].forEach(missing => {
+    it(`resolves uids for a ${missing ? "missing " : ""}course`, () => {
+      const otherCourseUid = "bfe41979b9593362793fd930b36efa01"
+      const otherCourseSlug = "123-456-789-a-course-slug"
+      const originalLink = `<p><a href="./resolveuid/${otherCourseUid}"><em>18.01 (Single Variable Calculus)</em>`
+      assert.include(syllabusPage["text"], originalLink)
+      const lookup = {}
+      if (!missing) {
+        lookup[otherCourseUid] = otherCourseSlug
+      }
+      const result = helpers.resolveUids(
+        syllabusPage["text"],
+        syllabusPage,
+        courseData,
+        lookup
+      )
+      const expectedNeedle = missing
+        ? `<p><a href="./resolveuid/${otherCourseUid}"><em>18.01 (Single Variable Calculus)</em>`
+        : `<p><a href="/courses/${otherCourseSlug}"><em>18.01 (Single Variable Calculus)</em>`
+      assert.include(result, expectedNeedle)
+    })
   })
 })
 
@@ -165,9 +241,6 @@ describe("resolveRelativeLinks", () => {
   })
 
   it("replaces all relative links on the page with hugo getpage shortcodes", () => {
-    const assignmentsPage = singleCourseJsonData["course_pages"].filter(
-      page => page["uid"] === "1016059a65d256e4e12de4f25591a1b8"
-    )[0]
     assert.isTrue(assignmentsPage["text"].indexOf("{{% getpage ") === -1)
     const result = helpers.resolveRelativeLinks(
       assignmentsPage["text"],
@@ -180,9 +253,6 @@ describe("resolveRelativeLinks", () => {
     sandbox.stub(loggers.memoryTransport, "log").callsFake((...args) => {
       throw new Error(`Error caught: ${args}`)
     })
-    const assignmentsPage = singleCourseJsonData["course_pages"].filter(
-      page => page["uid"] === "1016059a65d256e4e12de4f25591a1b8"
-    )[0]
     const text = `${assignmentsPage["text"]} <a href="/courses/mathematics/18-01-single-variable-calculus-fall-2006/exams/prfinalsol.pdf" />`
     delete singleCourseJsonData.course_files[0].file_location
     const result = helpers.resolveRelativeLinks(text, singleCourseJsonData)
