@@ -254,6 +254,7 @@ const generateMarkdownFromJson = (courseData, courseUidsLookup) => {
   /**
     This function takes JSON data parsed from a parsed.json file and returns markdown data
     */
+  this["courseData"] = courseData
   this["menuIndex"] = 0
   const rootSections = courseData["course_pages"].filter(
     page =>
@@ -267,13 +268,14 @@ const generateMarkdownFromJson = (courseData, courseUidsLookup) => {
       data: generateCourseHomeMarkdown(courseData, courseUidsLookup)
     },
     ...rootSections.map(
-      page => generateMarkdownRecursive(page, courseUidsLookup, courseData),
+      page => generateMarkdownRecursive(page, courseUidsLookup),
       this
     )
   ]
 }
 
-const generateMarkdownRecursive = (page, courseUidsLookup, courseData) => {
+const generateMarkdownRecursive = (page, courseUidsLookup) => {
+  const courseData = this["courseData"]
   const children = courseData["course_pages"].filter(
     coursePage => coursePage["parent_uid"] === page["uid"]
   )
@@ -311,8 +313,7 @@ const generateMarkdownRecursive = (page, courseUidsLookup, courseData) => {
     page["is_media_gallery"],
     (this["menuIndex"] + 1) * 10,
     page["list_in_left_nav"],
-    courseData["short_url"],
-    courseData
+    courseData["short_url"]
   )
   this["menuIndex"]++
   courseSectionMarkdown += generateCourseSectionMarkdown(
@@ -332,7 +333,7 @@ const generateMarkdownRecursive = (page, courseUidsLookup, courseData) => {
         : `${pathToChild}.md`,
     data:     courseSectionMarkdown,
     children: children.map(
-      page => generateMarkdownRecursive(page, courseUidsLookup, courseData),
+      page => generateMarkdownRecursive(page, courseUidsLookup),
       this
     ),
     files: pdfFiles
@@ -370,23 +371,6 @@ const generateMarkdownRecursive = (page, courseUidsLookup, courseData) => {
       .filter(media => media)
   }
 }
-
-const generateCourseInfo = courseData => ({
-  instructors: courseData["instructors"]
-    ? courseData["instructors"].map(
-      instructor =>
-        `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`
-    )
-    : [],
-  departments:     helpers.getDepartments(courseData),
-  course_features: courseData["course_features"].map(courseFeature =>
-    helpers.getCourseFeatureObject(courseFeature)
-  ),
-  topics:         helpers.getConsolidatedTopics(courseData["course_collections"]),
-  course_numbers: helpers.getCourseNumbers(courseData),
-  term:           `${courseData["from_semester"]} ${courseData["from_year"]}`,
-  level:          courseData["course_level"]
-})
 
 const generateCourseHomeMarkdown = (courseData, courseUidsLookup) => {
   /**
@@ -438,8 +422,23 @@ const generateCourseHomeMarkdown = (courseData, courseUidsLookup) => {
         INPUT_COURSE_DATE_FORMAT
       ).format()
       : "",
-    course_info: generateCourseInfo(courseData),
-    menu:        {
+    course_info: {
+      instructors: courseData["instructors"]
+        ? courseData["instructors"].map(
+          instructor =>
+            `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`
+        )
+        : [],
+      departments:     helpers.getDepartments(courseData),
+      course_features: courseData["course_features"].map(courseFeature =>
+        helpers.getCourseFeatureObject(courseFeature)
+      ),
+      topics:         helpers.getConsolidatedTopics(courseData["course_collections"]),
+      course_numbers: helpers.getCourseNumbers(courseData),
+      term:           `${courseData["from_semester"]} ${courseData["from_year"]}`,
+      level:          courseData["course_level"]
+    },
+    menu: {
       [courseData["short_url"]]: {
         identifier: "course-home",
         weight:     -10
@@ -473,19 +472,16 @@ const generateCourseSectionFrontMatter = (
   isMediaGallery,
   menuIndex,
   listInLeftNav,
-  courseId,
-  courseData
+  courseId
 ) => {
   /**
     Generate the front matter metadata for a course section given a title and menu index
     */
   const courseSectionFrontMatter = {
-    title:        title,
-    course_id:    courseId,
-    type:         "course",
-    layout:       "course_section",
-    course_title: courseData["title"],
-    course_info:  generateCourseInfo(courseData)
+    title:     title,
+    course_id: courseId,
+    type:      "course",
+    layout:    "course_section"
   }
 
   if (inRootNav || listInLeftNav) {
