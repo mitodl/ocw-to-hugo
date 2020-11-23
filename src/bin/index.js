@@ -55,7 +55,7 @@ const options = yargs
   })
   .option("rm", {
     describe:
-      "Recursively remove the contents of the destination directory before conversoin",
+      "Recursively remove the contents of the destination directory before conversion",
     type:         "boolean",
     demandOption: false
   }).argv
