@@ -46,6 +46,7 @@ If the `-c` option has been specified, processing will be filtered by the course
 | `--download`      | No  | `true or false` | Download `parsed.json` files from a configured S3 bucket and a list of courses passed in with `-c` |
 | `--strips3`       | No  | `true or false` | Strip the s3 base URL from all OCW resources |
 | `--staticPrefix`       | No  | `/path/to/static/assets` | When `--strips3` is set to true, replace the s3 base URL with this string |
+| `--rm` | No | `true or false` | Clear the contents of the path passed with `-o` before the conversion run |
 
 ## Environment Variables
 | Variable | Description  |
