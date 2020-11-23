@@ -16,6 +16,7 @@ const {
 const helpers = require("./helpers")
 const fileOperations = require("./file_operations")
 const markdownGenerators = require("./markdown_generators")
+const { fileExists } = require("./helpers")
 
 const testDataPath = "test_data/courses"
 const singleCourseId =
@@ -34,9 +35,20 @@ const singleCourseMarkdownData = markdownGenerators.generateMarkdownFromJson(
 )
 
 describe("writeBoilerplate", () => {
+  const sandbox = sinon.createSandbox()
+  let consoleLog
+
+  beforeEach(() => {
+    consoleLog = sandbox.stub(console, "log")
+  })
+
+  afterEach(() => {
+    sandbox.restore()
+  })
+
   it("writes the files as expected", async () => {
     const outputPath = tmp.dirSync({ prefix: "output" }).name
-    await fileOperations.writeBoilerplate(outputPath)
+    await fileOperations.writeBoilerplate(outputPath, false)
     for (const file of BOILERPLATE_MARKDOWN) {
       const expectedContent = `---\n${yaml.safeDump(file.content)}---\n`
       const tmpFileContents = await fsPromises.readFile(
@@ -44,6 +56,18 @@ describe("writeBoilerplate", () => {
       )
       assert.equal(tmpFileContents, expectedContent)
     }
+  })
+
+  it("clears the destination directory if the argument is passed to do so", async () => {
+    const outputPath = tmp.dirSync({ prefix: "output" }).name
+    const testFilePath = path.join(outputPath, "test.txt")
+    await helpers.createOrOverwriteFile(
+      testFilePath,
+      "this file should be removed"
+    )
+    await fileOperations.writeBoilerplate(outputPath, true)
+    const testFileExists = await fileExists(testFilePath)
+    assert.isFalse(testFileExists)
   })
 })
 

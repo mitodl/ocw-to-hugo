@@ -20,7 +20,11 @@ const progressBar = new cliProgress.SingleBar(
   cliProgress.Presets.shades_classic
 )
 
-const writeBoilerplate = async outputPath => {
+const writeBoilerplate = async (outputPath, remove) => {
+  if (remove) {
+    console.log(`Removing the contents of ${outputPath}...`)
+    await fsPromises.rmdir(outputPath, { recursive: true })
+  }
   for (const file of BOILERPLATE_MARKDOWN) {
     if (!(await directoryExists(file.path))) {
       const filePath = path.join(outputPath, file.path)

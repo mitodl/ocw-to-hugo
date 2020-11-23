@@ -52,6 +52,12 @@ const options = yargs
     describe:     "Write error logging and other extra output",
     type:         "boolean",
     demandOption: false
+  })
+  .option("rm", {
+    describe:
+      "Recursively remove the contents of the destination directory before conversion",
+    type:         "boolean",
+    demandOption: false
   }).argv
 
 helpers.runOptions = options
@@ -62,7 +68,7 @@ const run = async () => {
   } else if (options.download && !options.courses) {
     throw new Error(MISSING_JSON_ERROR_MESSAGE)
   }
-  await writeBoilerplate(options.output)
+  await writeBoilerplate(options.output, options.rm)
   await scanCourses(options.input, options.output)
 }
 
