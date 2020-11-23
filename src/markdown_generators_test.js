@@ -376,7 +376,8 @@ describe("generateCourseSectionFrontMatter", () => {
           false,
           10,
           false,
-          singleCourseJsonData["short_url"]
+          singleCourseJsonData["short_url"],
+          singleCourseJsonData
         )
         .replace(/---\n/g, "")
     )
@@ -416,7 +417,8 @@ describe("generateCourseSectionFrontMatter", () => {
           false,
           10,
           false,
-          singleCourseJsonData["short_url"]
+          singleCourseJsonData["short_url"],
+          singleCourseJsonData
         )
         .replace(/---\n/g, "")
     )
@@ -436,7 +438,8 @@ describe("generateCourseSectionFrontMatter", () => {
           false,
           10,
           true,
-          singleCourseJsonData["short_url"]
+          singleCourseJsonData["short_url"],
+          singleCourseJsonData
         )
         .replace(/---\n/g, "")
     )
@@ -459,9 +462,18 @@ describe("generateCourseSectionFrontMatter", () => {
       false,
       10,
       false,
-      singleCourseJsonData["short_url"]
+      singleCourseJsonData["short_url"],
+      singleCourseJsonData
     )
     assert.notInclude(yaml, "undefined")
+  })
+
+  it("has a course and section title", () => {
+    assert.equal(courseSectionFrontMatter["title"], "Syllabus")
+    assert.equal(
+      courseSectionFrontMatter["course_title"],
+      "Exploring Sea, Space, & Earth: Fundamentals of Engineering Design"
+    )
   })
 })
 
