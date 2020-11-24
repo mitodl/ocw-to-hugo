@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 1.4.0
+-------------
+
+- add optional argument to clear destination directory before conversion (#131)
+- Fix course resolveuid links (#127)
+
 Version 1.3.1 (Released November 17, 2020)
 -------------
 
