@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.4.0
+Version 1.4.0 (Released November 24, 2020)
 -------------
 
 - add optional argument to clear destination directory before conversion (#131)
