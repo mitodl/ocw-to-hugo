@@ -33,7 +33,7 @@
     "string-strip-html": "^6.1.1",
     "title-case": "^3.0.2",
     "tmp": "^0.2.1",
-    "turndown": "^6.0.0",
+    "turndown": "^7.0.0",
     "turndown-plugin-gfm": "^1.0.2",
     "winston": "^3.2.1",
     "yargs": "^15.0.2"
