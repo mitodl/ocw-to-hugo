@@ -392,7 +392,7 @@ const fixLinks = async (htmlStr, page, courseData, courseUidsLookup) => {
   return htmlStr
 }
 
-const htmlSafeText = text =>
+const htmlSafeText = async text =>
   text.replace(/("|')/g, "").replace(/(\r\n|\r|\n)/g, " ")
 
 const stripS3 = text => {
@@ -402,7 +402,7 @@ const stripS3 = text => {
   } else return text
 }
 
-const unescapeBackticks = text => text.replace(/\\`/g, "&grave;")
+const unescapeBackticks = async text => text.replace(/\\`/g, "&grave;")
 
 module.exports = {
   distinct,

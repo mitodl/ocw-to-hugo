@@ -72,7 +72,7 @@ const run = async () => {
   await writeBoilerplate(options.output, options.rm)
   await scanCourses(options.input, options.output)
   const end = new Date()
-  console.log(`took ${(end - start) / 1000} seconds`);
+  console.log(`took ${(end - start) / 1000} seconds`)
 }
 
 run()

@@ -241,7 +241,7 @@ turndownService.addRule("h4", {
   }
 })
 
-async function html2markdown (text) {
+async function html2markdown(text) {
   const md = turndownService.turndown(text)
   return md
 }

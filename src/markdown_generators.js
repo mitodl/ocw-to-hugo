@@ -16,8 +16,6 @@ const helpers = require("./helpers")
 const loggers = require("./loggers")
 const { html2markdown } = require('./turndown')
 
-
-
 const generateMarkdownFromJson = async (courseData, courseUidsLookup) => {
   /**
     This function takes JSON data parsed from a parsed.json file and returns markdown data
@@ -325,7 +323,7 @@ const generateCourseFeatures = courseData => {
 
 const formatHTMLMarkDown = async (page, courseData, courseUidsLookup, section) => {
   return page[section]
-    ? `\n${helpers.unescapeBackticks(
+    ? `\n${await helpers.unescapeBackticks(
       await html2markdown(
         await helpers.fixLinks(page[section] || "", page, courseData, courseUidsLookup)
       )
@@ -386,14 +384,14 @@ const generateVideoGalleryMarkdown = async (page, courseData) => {
           video,
           courseData
         ),
-        section: helpers.htmlSafeText(
-          helpers.unescapeBackticks(await html2markdown(page.title))
+        section: await helpers.htmlSafeText(
+          await helpers.unescapeBackticks(await html2markdown(page.title))
         ),
-        title: helpers.htmlSafeText(
-          helpers.unescapeBackticks(await html2markdown(video.title))
+        title: await helpers.htmlSafeText(
+          await helpers.unescapeBackticks(await html2markdown(video.title))
         ),
-        description: helpers.htmlSafeText(
-          helpers.unescapeBackticks(
+        description: await helpers.htmlSafeText(
+          await helpers.unescapeBackticks(
             stripHtml(video["about_this_resource_text"]).result
           )
         )
@@ -422,7 +420,7 @@ const generateImageGalleryMarkdown = async (page, courseData) => {
   if (images.length > 0) {
     let baseUrl = ""
     const imageArgs = await Promise.all(
-    images.map(async image => {
+      images.map(async image => {
       const url = image["file_location"]
       if (baseUrl === "") {
         baseUrl = `${url.substring(0, url.lastIndexOf("/") + 1)}`
@@ -430,13 +428,13 @@ const generateImageGalleryMarkdown = async (page, courseData) => {
       const fileName = url.substring(url.lastIndexOf("/") + 1, url.length)
       return {
         href:          fileName,
-        "data-ngdesc": helpers.htmlSafeText(
-          helpers.unescapeBackticks(
+        "data-ngdesc": await helpers.htmlSafeText(
+          await helpers.unescapeBackticks(
             await html2markdown(image["description"])
           )
         ),
-        text: helpers.htmlSafeText(
-          helpers.unescapeBackticks(await html2markdown(image["caption"]))
+        text: await helpers.htmlSafeText(
+          await helpers.unescapeBackticks(await html2markdown(image["caption"]))
         )
       }
     })

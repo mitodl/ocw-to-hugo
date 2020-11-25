@@ -81,12 +81,13 @@ const scanCourses = async (inputPath, outputPath) => {
     courseUidsLookup[courseUid] = course
   }
 
+  console.log(process.env.UV_THREADPOOL_SIZE);
+
   console.log(`Converting ${numCourses} courses to Hugo markdown...`)
   const coursesPath = path.join(outputPath, "courses")
   progressBar.start(numCourses, 0)
   await Promise.all(
     courseList.map(async course => {
-      console.log("\nstarting")
       await scanCourse(inputPath, coursesPath, course, courseUidsLookup)
       progressBar.increment()
     })
