@@ -301,7 +301,7 @@ describe("generateCourseSectionFrontMatter", () => {
           false,
           10,
           false,
-          singleCourseJsonData["short_url"],
+          singleCourseJsonData["short_url"]
         )
         .replace(/---\n/g, "")
     )
@@ -340,7 +340,7 @@ describe("generateCourseSectionFrontMatter", () => {
           false,
           10,
           false,
-          singleCourseJsonData["short_url"],
+          singleCourseJsonData["short_url"]
         )
         .replace(/---\n/g, "")
     )
@@ -359,7 +359,7 @@ describe("generateCourseSectionFrontMatter", () => {
           false,
           10,
           false,
-          singleCourseJsonData["short_url"],
+          singleCourseJsonData["short_url"]
         )
         .replace(/---\n/g, "")
     )
@@ -381,7 +381,7 @@ describe("generateCourseSectionFrontMatter", () => {
       false,
       10,
       false,
-      singleCourseJsonData["short_url"],
+      singleCourseJsonData["short_url"]
     )
     assert.notInclude(yaml, "undefined")
   })
