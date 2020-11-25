@@ -14,7 +14,7 @@ const {
 } = require("./constants")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
-const { html2markdown } = require('./turndown')
+const { html2markdown } = require("./turndown")
 
 const generateMarkdownFromJson = async (courseData, courseUidsLookup) => {
   /**
@@ -28,7 +28,10 @@ const generateMarkdownFromJson = async (courseData, courseUidsLookup) => {
       page["type"] !== "DownloadSection"
   )
 
-  const courseHomeMarkdown = await generateCourseHomeMarkdown(courseData, courseUidsLookup)
+  const courseHomeMarkdown = await generateCourseHomeMarkdown(
+    courseData,
+    courseUidsLookup
+  )
 
   const pages = await Promise.all(
     rootSections.map(
@@ -46,7 +49,11 @@ const generateMarkdownFromJson = async (courseData, courseUidsLookup) => {
   ]
 }
 
-const generateMarkdownRecursive = async (page, courseUidsLookup, courseData) => {
+const generateMarkdownRecursive = async (
+  page,
+  courseUidsLookup,
+  courseData
+) => {
   const children = courseData["course_pages"].filter(
     coursePage => coursePage["parent_uid"] === page["uid"]
   )
@@ -100,7 +107,8 @@ const generateMarkdownRecursive = async (page, courseUidsLookup, courseData) => 
   )}`
 
   const generatedChildren = await Promise.all(
-    children.map(page => generateMarkdownRecursive(page, courseUidsLookup, courseData),
+    children.map(
+      page => generateMarkdownRecursive(page, courseUidsLookup, courseData),
       this
     )
   )
@@ -110,7 +118,7 @@ const generateMarkdownRecursive = async (page, courseUidsLookup, courseData) => 
       isParent || hasFiles || hasMedia
         ? path.join(pathToChild, "_index.md")
         : `${pathToChild}.md`,
-    data:     courseSectionMarkdown,
+    data: courseSectionMarkdown,
     children: generatedChildren,
     files: pdfFiles
       .map(file => {
@@ -151,18 +159,18 @@ const generateMarkdownRecursive = async (page, courseUidsLookup, courseData) => 
 const generateCourseInfo = courseData => ({
   instructors: courseData["instructors"]
     ? courseData["instructors"].map(
-      instructor =>
-        `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`
-    )
+        instructor =>
+          `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`
+      )
     : [],
-  departments:     helpers.getDepartments(courseData),
+  departments: helpers.getDepartments(courseData),
   course_features: courseData["course_features"].map(courseFeature =>
     helpers.getCourseFeatureObject(courseFeature)
   ),
-  topics:         helpers.getConsolidatedTopics(courseData["course_collections"]),
+  topics: helpers.getConsolidatedTopics(courseData["course_collections"]),
   course_numbers: helpers.getCourseNumbers(courseData),
-  term:           `${courseData["from_semester"]} ${courseData["from_year"]}`,
-  level:          courseData["course_level"]
+  term: `${courseData["from_semester"]} ${courseData["from_year"]}`,
+  level: courseData["course_level"]
 })
 
 const generateCourseHomeMarkdown = async (courseData, courseUidsLookup) => {
@@ -173,34 +181,33 @@ const generateCourseHomeMarkdown = async (courseData, courseUidsLookup) => {
     coursePage => coursePage["type"] === "CourseHomeSection"
   )
   const courseDescription = courseData["description"]
-    ? (await html2markdown(
-      await helpers.fixLinks(
-        courseData["description"],
-        courseHomePage,
-        courseData,
-        courseUidsLookup
+    ? await html2markdown(
+        await helpers.fixLinks(
+          courseData["description"],
+          courseHomePage,
+          courseData,
+          courseUidsLookup
+        )
       )
-    ))
     : ""
   const otherInformationText = courseData["other_information_text"]
-    ? (await html2markdown(
-      await helpers.fixLinks(
-        courseData["other_information_text"],
-        courseHomePage,
-        courseData,
-        courseUidsLookup
+    ? await html2markdown(
+        await helpers.fixLinks(
+          courseData["other_information_text"],
+          courseHomePage,
+          courseData,
+          courseUidsLookup
+        )
       )
-    )
-    )
     : ""
 
   const frontMatter = {
-    title:                      "Course Home",
-    type:                       "course",
-    layout:                     "course_home",
-    course_id:                  courseData["short_url"],
-    course_title:               courseData["title"],
-    course_image_url:           courseData["image_src"] ? courseData["image_src"] : "",
+    title: "Course Home",
+    type: "course",
+    layout: "course_home",
+    course_id: courseData["short_url"],
+    course_title: courseData["title"],
+    course_image_url: courseData["image_src"] ? courseData["image_src"] : "",
     course_thumbnail_image_url: courseData["thumbnail_image_src"]
       ? courseData["thumbnail_image_src"]
       : "",
@@ -212,15 +219,15 @@ const generateCourseHomeMarkdown = async (courseData, courseUidsLookup) => {
       : "",
     publishdate: courseData["first_published_to_production"]
       ? moment(
-        courseData["first_published_to_production"],
-        INPUT_COURSE_DATE_FORMAT
-      ).format()
+          courseData["first_published_to_production"],
+          INPUT_COURSE_DATE_FORMAT
+        ).format()
       : "",
     course_info: generateCourseInfo(courseData),
-    menu:        {
+    menu: {
       [courseData["short_url"]]: {
         identifier: "course-home",
-        weight:     -10
+        weight: -10
       }
     }
   }
@@ -258,20 +265,20 @@ const generateCourseSectionFrontMatter = (
     Generate the front matter metadata for a course section given a title and menu index
     */
   const courseSectionFrontMatter = {
-    title:        title,
-    course_id:    courseId,
-    type:         "course",
-    layout:       "course_section",
+    title: title,
+    course_id: courseId,
+    type: "course",
+    layout: "course_section",
     course_title: courseData["title"],
-    course_info:  generateCourseInfo(courseData)
+    course_info: generateCourseInfo(courseData)
   }
 
   if (inRootNav || listInLeftNav) {
     courseSectionFrontMatter["menu"] = {
       [courseId]: {
         identifier: pageId,
-        name:       shortTitle || "",
-        weight:     menuIndex
+        name: shortTitle || "",
+        weight: menuIndex
       }
     }
     if (parentId) {
@@ -321,17 +328,31 @@ const generateCourseFeatures = courseData => {
     .toMarkdown()}`
 }
 
-const formatHTMLMarkDown = async (page, courseData, courseUidsLookup, section) => {
+const formatHTMLMarkDown = async (
+  page,
+  courseData,
+  courseUidsLookup,
+  section
+) => {
   return page[section]
     ? `\n${await helpers.unescapeBackticks(
-      await html2markdown(
-        await helpers.fixLinks(page[section] || "", page, courseData, courseUidsLookup)
-      )
-    )}`
+        await html2markdown(
+          await helpers.fixLinks(
+            page[section] || "",
+            page,
+            courseData,
+            courseUidsLookup
+          )
+        )
+      )}`
     : ""
 }
 
-const generateCourseSectionMarkdown = async (page, courseData, courseUidsLookup) => {
+const generateCourseSectionMarkdown = async (
+  page,
+  courseData,
+  courseUidsLookup
+) => {
   /**
     Generate markdown a given course section page
     */
@@ -341,7 +362,10 @@ const generateCourseSectionMarkdown = async (page, courseData, courseUidsLookup)
       courseData,
       courseUidsLookup,
       "text"
-    )}${await generateCourseFeaturesMarkdown(page, courseData)}${await formatHTMLMarkDown(
+    )}${await generateCourseFeaturesMarkdown(
+      page,
+      courseData
+    )}${await formatHTMLMarkDown(
       page,
       courseData,
       courseUidsLookup,
@@ -358,14 +382,14 @@ const generatePdfMarkdown = (file, courseData) => {
   Generate the front matter metadata for a PDF file
   */
   const pdfFrontMatter = {
-    title:         file["title"],
-    description:   file["description"],
-    type:          "course",
-    layout:        "pdf",
-    uid:           file["uid"],
-    file_type:     file["file_type"],
+    title: file["title"],
+    description: file["description"],
+    type: "course",
+    layout: "pdf",
+    uid: file["uid"],
+    file_type: file["file_type"],
     file_location: helpers.stripS3(file["file_location"]),
-    course_id:     courseData["short_url"]
+    course_id: courseData["short_url"]
   }
   return `---\n${yaml.safeDump(pdfFrontMatter)}---\n`
 }
@@ -377,36 +401,34 @@ const generateVideoGalleryMarkdown = async (page, courseData) => {
   )
   if (videos.length > 0) {
     const videoDivs = []
-    await Promise.all(async video => {
-      const videoArgs = {
-        href: helpers.pathToChildRecursive(
-          `/courses/${courseData.short_url}/sections`,
-          video,
-          courseData
-        ),
-        section: await helpers.htmlSafeText(
-          await helpers.unescapeBackticks(await html2markdown(page.title))
-        ),
-        title: await helpers.htmlSafeText(
-          await helpers.unescapeBackticks(await html2markdown(video.title))
-        ),
-        description: await helpers.htmlSafeText(
-          await helpers.unescapeBackticks(
-            stripHtml(video["about_this_resource_text"]).result
-          )
+    const videoArgs = {
+      href: helpers.pathToChildRecursive(
+        `/courses/${courseData.short_url}/sections`,
+        video,
+        courseData
+      ),
+      section: await helpers.htmlSafeText(
+        await helpers.unescapeBackticks(await html2markdown(page.title))
+      ),
+      title: await helpers.htmlSafeText(
+        await helpers.unescapeBackticks(await html2markdown(video.title))
+      ),
+      description: await helpers.htmlSafeText(
+        await helpers.unescapeBackticks(
+          stripHtml(video["about_this_resource_text"]).result
         )
-      }
-      video.embedded_media.forEach(media => {
-        if (media.type === "Thumbnail" && media.media_location) {
-          videoArgs.thumbnail = media.media_location
-        }
-      })
-      videoDivs.push(
-        `{{< video-gallery-item ${Object.keys(videoArgs)
-          .map(key => `${key}="${videoArgs[key]}"`)
-          .join(" ")} >}}`
       )
+    }
+    video.embedded_media.forEach(media => {
+      if (media.type === "Thumbnail" && media.media_location) {
+        videoArgs.thumbnail = media.media_location
+      }
     })
+    videoDivs.push(
+      `{{< video-gallery-item ${Object.keys(videoArgs)
+        .map(key => `${key}="${videoArgs[key]}"`)
+        .join(" ")} >}}`
+    )
     courseFeaturesMarkdown = videoDivs.join("\n")
   }
   return courseFeaturesMarkdown
@@ -421,23 +443,25 @@ const generateImageGalleryMarkdown = async (page, courseData) => {
     let baseUrl = ""
     const imageArgs = await Promise.all(
       images.map(async image => {
-      const url = image["file_location"]
-      if (baseUrl === "") {
-        baseUrl = `${url.substring(0, url.lastIndexOf("/") + 1)}`
-      }
-      const fileName = url.substring(url.lastIndexOf("/") + 1, url.length)
-      return {
-        href:          fileName,
-        "data-ngdesc": await helpers.htmlSafeText(
-          await helpers.unescapeBackticks(
-            await html2markdown(image["description"])
+        const url = image["file_location"]
+        if (baseUrl === "") {
+          baseUrl = `${url.substring(0, url.lastIndexOf("/") + 1)}`
+        }
+        const fileName = url.substring(url.lastIndexOf("/") + 1, url.length)
+        return {
+          href: fileName,
+          "data-ngdesc": await helpers.htmlSafeText(
+            await helpers.unescapeBackticks(
+              await html2markdown(image["description"])
+            )
+          ),
+          text: await helpers.htmlSafeText(
+            await helpers.unescapeBackticks(
+              await html2markdown(image["caption"])
+            )
           )
-        ),
-        text: await helpers.htmlSafeText(
-          await helpers.unescapeBackticks(await html2markdown(image["caption"]))
-        )
-      }
-    })
+        }
+      })
     )
     const imageShortcodes = imageArgs.map(
       args =>
@@ -472,5 +496,5 @@ module.exports = {
   generateCourseSectionFrontMatter,
   generateCourseFeatures,
   generateCourseSectionMarkdown,
-  generateCourseFeaturesMarkdown,
+  generateCourseFeaturesMarkdown
 }

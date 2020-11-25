@@ -76,9 +76,14 @@ const courseVideoFeaturesFrontMatter = markdownGenerators.generateCourseFeatures
 )
 
 describe("generateMarkdownFromJson", () => {
-  const singleCourseMarkdownData = markdownGenerators.generateMarkdownFromJson(
+  let singleCourseMarkdownData
+
+  beforeEach(async () => {
+  singleCourseMarkdownData = await markdownGenerators.generateMarkdownFromJson(
     singleCourseJsonData
   )
+  });
+
   const assertCourseIdRecursive = (sectionMarkdownData, courseId) => {
     const sectionFrontMatter = yaml.safeLoad(
       sectionMarkdownData["data"].split("---\n")[1]
@@ -618,100 +623,6 @@ describe("generateCourseFeaturesMarkdown", () => {
       (courseVideoFeaturesFrontMatter.match(/{{< video-gallery-item /g) || [])
         .length,
       2
-    )
-  })
-})
-
-describe("turndown tables", () => {
-  let markdown
-  const tableHTML = `<table summary="See table caption for summary." class="tablewidth100">
-    <caption class="invisible">Course readings.</caption> <!-- BEGIN TABLE HEADER (for MIT OCW Table Template 2.51) -->
-    <thead>
-      <tr>
-        <th scope="col">LEC&nbsp;#</th>
-        <th scope="col">TOPICS</th>
-        <th scope="col">READINGS&nbsp;(3D&nbsp;ED.)</th>
-        <th scope="col">READINGS&nbsp;(4TH&nbsp;ED.)</th>
-      </tr>
-    </thead> <!-- END TABLE HEADER -->
-    <tbody>
-      <tr class="row">
-        <td colspan="4"><strong>Control and Scope</strong></td>
-      </tr>
-      <tr class="alt-row">
-        <td>L 1</td>
-        <td>Course Overview, Introduction to Java</td>
-        <td>&mdash;</td>
-        <td>&mdash;</td>
-      </tr>
-    </tbody>
-  </table>`
-
-  beforeEach(() => {
-    markdown = markdownGenerators.turndownService.turndown(tableHTML)
-  })
-
-  it("should include a table definition for 4 columns", () => {
-    assert.isTrue(markdown.includes("| --- | --- | --- | --- |"))
-  })
-
-  it("should properly generate a header with the fullwidth-cell shortcode", () => {
-    assert.isTrue(
-      markdown.includes(
-        "| {{< fullwidth-cell >}}**Control and Scope**{{< /fullwidth-cell >}} | &nbsp; | &nbsp; | &nbsp; |"
-      )
-    )
-  })
-})
-
-describe("other turndown elements", () => {
-  it("should not get tripped up on problematic code blocks", () => {
-    const problematicHTML =
-      "<pre><span><code>stuff\nin\nthe\nblock</span></pre>"
-    const markdown = markdownGenerators.turndownService.turndown(
-      problematicHTML
-    )
-    assert.equal(markdown, "```\nstuff\nin\nthe\nblock\n```")
-  })
-
-  it("should properly escape square brackets inside link text", () => {
-    const problematicHTML = `<a href="${GETPAGESHORTCODESTART}courses/${singleCourseId}/syllabus${GETPAGESHORTCODEEND}">[R&amp;T]</a>`
-    const markdown = markdownGenerators.turndownService.turndown(
-      problematicHTML
-    )
-    assert.equal(
-      markdown,
-      `[\\[R&T\\]]({{% getpage "courses/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/syllabus" %}})`
-    )
-  })
-
-  it("should generate an anchor shortcode for an a tag with a name attribute", () => {
-    const inputHTML = `<a name="test">test</a>`
-    const markdown = markdownGenerators.turndownService.turndown(inputHTML)
-    assert.equal(markdown, `{{< anchor "test" >}}test{{< /anchor >}}`)
-  })
-
-  it("should generate an anchor shortcode for an a tag with a name and href attribute", () => {
-    const inputHTML = `<a name="test" href="https://ocw.mit.edu">test</a>`
-    const markdown = markdownGenerators.turndownService.turndown(inputHTML)
-    assert.equal(
-      markdown,
-      `{{< anchor "test" "https://ocw.mit.edu" >}}test{{< /anchor >}}`
-    )
-  })
-
-  it("should turn inline code blocks into text surrounded by backticks", () => {
-    const inputHTML = `<kbd>test</kbd><tt>test</tt><samp>test</samp>`
-    const markdown = markdownGenerators.turndownService.turndown(inputHTML)
-    assert.equal(markdown, "`test``test``test`")
-  })
-
-  it("should return a simplecast shortcode when confronted with a simplecast iframe", () => {
-    const inputHTML = `<iframe scrolling="no" seamless="" src="https://player.simplecast.com/e31edbb0-e4ac-4d9f-aebc-3d613c2f972c?dark=false" width="100%" height="200px" frameborder="no"></iframe>`
-    const markdown = markdownGenerators.turndownService.turndown(inputHTML)
-    assert.equal(
-      markdown,
-      "{{< simplecast e31edbb0-e4ac-4d9f-aebc-3d613c2f972c >}}"
     )
   })
 })
