@@ -110,7 +110,6 @@ const scanCourse = async (inputPath, outputPath, course, courseUidsLookup) => {
   const coursePath = path.join(inputPath, course)
   const masterJsonFile = await getMasterJsonFileName(coursePath)
   if (masterJsonFile) {
-    console.log(`\nbadodo ${course}`);
     const jsonFileContents = await fsPromises.readFile(masterJsonFile)
     const courseData = JSON.parse(jsonFileContents)
     const markdownData = await markdownGenerators.generateMarkdownFromJson(
@@ -121,7 +120,6 @@ const scanCourse = async (inputPath, outputPath, course, courseUidsLookup) => {
       path.join(outputPath, courseData["short_url"]),
       markdownData
     )
-    console.log(`badodoooo ${course}`);
   }
 }
 
