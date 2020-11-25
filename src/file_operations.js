@@ -38,7 +38,7 @@ const writeBoilerplate = async (outputPath, remove) => {
 const scanCourses = async (inputPath, outputPath) => {
   /*
     This function scans the input directory for course folders
-  */
+    */
   // Make sure that the input and output arguments have been passed and they are directories
   if (!(await directoryExists(inputPath))) {
     throw new Error("Invalid input directory")
@@ -49,6 +49,7 @@ const scanCourses = async (inputPath, outputPath) => {
 
   const jsonPath = helpers.runOptions.courses
   let courseList
+
   if (jsonPath) {
     courseList = JSON.parse(await fsPromises.readFile(jsonPath))["courses"]
   } else {
@@ -83,10 +84,13 @@ const scanCourses = async (inputPath, outputPath) => {
   console.log(`Converting ${numCourses} courses to Hugo markdown...`)
   const coursesPath = path.join(outputPath, "courses")
   progressBar.start(numCourses, 0)
-  for (const course of courseList) {
-    await scanCourse(inputPath, coursesPath, course, courseUidsLookup)
-    progressBar.increment()
-  }
+  await Promise.all(
+    courseList.map(async course => {
+      console.log("\nstarting")
+      await scanCourse(inputPath, coursesPath, course, courseUidsLookup)
+      progressBar.increment()
+    })
+  )
 }
 
 const getCourseUid = async (inputPath, course) => {
@@ -101,13 +105,15 @@ const getCourseUid = async (inputPath, course) => {
 const scanCourse = async (inputPath, outputPath, course, courseUidsLookup) => {
   /*
     This function scans a course directory for a master json file and processes it
-  */
+    */
 
   const coursePath = path.join(inputPath, course)
   const masterJsonFile = await getMasterJsonFileName(coursePath)
   if (masterJsonFile) {
-    const courseData = JSON.parse(await fsPromises.readFile(masterJsonFile))
-    const markdownData = markdownGenerators.generateMarkdownFromJson(
+    console.log(`\nbadodo ${course}`);
+    const jsonFileContents = await fsPromises.readFile(masterJsonFile)
+    const courseData = JSON.parse(jsonFileContents)
+    const markdownData = await markdownGenerators.generateMarkdownFromJson(
       courseData,
       courseUidsLookup
     )
@@ -115,13 +121,14 @@ const scanCourse = async (inputPath, outputPath, course, courseUidsLookup) => {
       path.join(outputPath, courseData["short_url"]),
       markdownData
     )
+    console.log(`badodoooo ${course}`);
   }
 }
 
 const getMasterJsonFileName = async coursePath => {
   /*
     This function scans a course directory for a master json file and returns it
-  */
+    */
   if (await directoryExists(coursePath)) {
     // If the item is indeed a directory, read all files in it
     const contents = await fsPromises.readdir(coursePath)

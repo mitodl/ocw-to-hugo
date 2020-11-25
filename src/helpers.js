@@ -194,7 +194,7 @@ const getHugoPathSuffix = (page, courseData) => {
  * the course data object, and a lookup from uid to course.
  *
  */
-const resolveUids = (htmlStr, page, courseData, courseUidsLookup) => {
+const resolveUids = async (htmlStr, page, courseData, courseUidsLookup) => {
   try {
     // get the Hugo path to the page
     const pagePath = `${pathToChildRecursive(
@@ -276,7 +276,7 @@ const resolveUids = (htmlStr, page, courseData, courseUidsLookup) => {
  * or course section it is supposed to point to.
  *
  */
-const resolveRelativeLinks = (htmlStr, courseData) => {
+const resolveRelativeLinks = async (htmlStr, courseData) => {
   try {
     // find and iterate all href tags
     Array.from(
@@ -371,7 +371,7 @@ const resolveRelativeLinks = (htmlStr, courseData) => {
   return htmlStr.replace(/http:\/\/ocw.mit.edu/g, "")
 }
 
-const resolveYouTubeEmbed = (htmlStr, courseData) => {
+const resolveYouTubeEmbed = async (htmlStr, courseData) => {
   Object.keys(courseData["course_embedded_media"]).forEach(key => {
     if (htmlStr.includes(key)) {
       htmlStr = htmlStr.replace(
@@ -380,6 +380,15 @@ const resolveYouTubeEmbed = (htmlStr, courseData) => {
       )
     }
   })
+  return htmlStr
+}
+
+const fixLinks = async (htmlStr, page, courseData, courseUidsLookup) => {
+  if (htmlStr && page) {
+    htmlStr = await resolveUids(htmlStr, page, courseData, courseUidsLookup)
+    htmlStr = await resolveRelativeLinks(htmlStr, courseData)
+    htmlStr = await resolveYouTubeEmbed(htmlStr, courseData)
+  }
   return htmlStr
 }
 
@@ -415,5 +424,6 @@ module.exports = {
   htmlSafeText,
   stripS3,
   unescapeBackticks,
-  runOptions
+  runOptions,
+  fixLinks
 }

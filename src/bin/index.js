@@ -63,6 +63,7 @@ const options = yargs
 helpers.runOptions = options
 
 const run = async () => {
+  const start = new Date()
   if (options.courses && options.download) {
     await downloadCourses(options.courses, options.input)
   } else if (options.download && !options.courses) {
@@ -70,6 +71,8 @@ const run = async () => {
   }
   await writeBoilerplate(options.output, options.rm)
   await scanCourses(options.input, options.output)
+  const end = new Date()
+  console.log(`took ${(end - start) / 1000} seconds`);
 }
 
 run()
