@@ -81,7 +81,7 @@ const scanCourses = async (inputPath, outputPath) => {
     courseUidsLookup[courseUid] = course
   }
 
-  console.log(process.env.UV_THREADPOOL_SIZE);
+  console.log(process.env.UV_THREADPOOL_SIZE)
 
   console.log(`Converting ${numCourses} courses to Hugo markdown...`)
   const coursesPath = path.join(outputPath, "courses")

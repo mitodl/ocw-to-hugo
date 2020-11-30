@@ -14,15 +14,6 @@ const singleCourseId =
   "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
 
 describe("turndown", () => {
-  let courseVideoFeaturesFrontMatter
-
-  beforeEach(async () => {
-    courseVideoFeaturesFrontMatter = await markdownGenerators.generateCourseFeaturesMarkdown(
-      videoGalleryPages[0],
-      videoGalleryCourseJsonData
-    )
-  })
-
   describe("tables", () => {
     let markdown
     const tableHTML = `<table summary="See table caption for summary." class="tablewidth100">

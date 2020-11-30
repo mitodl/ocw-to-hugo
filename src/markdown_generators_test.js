@@ -65,24 +65,14 @@ const videoGalleryVideos = videoGalleryCourseJsonData["course_files"].filter(
   file => file["parent_uid"] === videoGalleryPages[0]["uid"]
 )
 
-const courseImageFeaturesFrontMatter = markdownGenerators.generateCourseFeaturesMarkdown(
-  imageGalleryPages[0],
-  imageGalleryCourseJsonData
-)
-
-const courseVideoFeaturesFrontMatter = markdownGenerators.generateCourseFeaturesMarkdown(
-  videoGalleryPages[0],
-  videoGalleryCourseJsonData
-)
-
 describe("generateMarkdownFromJson", () => {
   let singleCourseMarkdownData
 
   beforeEach(async () => {
-  singleCourseMarkdownData = await markdownGenerators.generateMarkdownFromJson(
-    singleCourseJsonData
-  )
-  });
+    singleCourseMarkdownData = await markdownGenerators.generateMarkdownFromJson(
+      singleCourseJsonData
+    )
+  })
 
   const assertCourseIdRecursive = (sectionMarkdownData, courseId) => {
     const sectionFrontMatter = yaml.safeLoad(
@@ -211,11 +201,11 @@ describe("generateCourseHomeMarkdown", () => {
     safeDump
   const sandbox = sinon.createSandbox()
 
-  beforeEach(() => {
+  beforeEach(async () => {
     getCourseNumbers = sandbox.spy(helpers, "getCourseNumbers")
     getConsolidatedTopics = sandbox.spy(helpers, "getConsolidatedTopics")
     safeDump = sandbox.spy(yaml, "safeDump")
-    courseHomeMarkdown = markdownGenerators.generateCourseHomeMarkdown(
+    courseHomeMarkdown = await markdownGenerators.generateCourseHomeMarkdown(
       singleCourseJsonData
     )
     courseHomeFrontMatter = yaml.safeLoad(courseHomeMarkdown.split("---\n")[1])
@@ -337,26 +327,26 @@ describe("generateCourseHomeMarkdown", () => {
     expect(safeDump).to.be.calledOnce
   })
 
-  it("doesn't error if the page is missing", () => {
+  it("doesn't error if the page is missing", async () => {
     sandbox.stub(loggers.memoryTransport, "log").callsFake((...args) => {
       throw new Error(`Error caught: ${args}`)
     })
-    courseHomeMarkdown = markdownGenerators.generateCourseHomeMarkdown(
+    courseHomeMarkdown = await markdownGenerators.generateCourseHomeMarkdown(
       singleCourseJsonData
     )
     assert.include(courseHomeMarkdown, "title: Course Home")
   })
 
-  it("parses the first published date and reformats as ISO-8601", () => {
-    courseHomeMarkdown = markdownGenerators.generateCourseHomeMarkdown({
+  it("parses the first published date and reformats as ISO-8601", async () => {
+    courseHomeMarkdown = await markdownGenerators.generateCourseHomeMarkdown({
       ...singleCourseJsonData,
       first_published_to_production: "2020/01/30 21:09:39.493 Universal"
     })
     assert.include(courseHomeMarkdown, "publishdate: '2020-01-30T21:09:39")
   })
 
-  it("handles an empty string for instructors", () => {
-    markdownGenerators.generateCourseHomeMarkdown({
+  it("handles an empty string for instructors", async () => {
+    await markdownGenerators.generateCourseHomeMarkdown({
       ...singleCourseJsonData,
       instructors: ""
     })
@@ -554,24 +544,22 @@ describe("generateCourseSectionMarkdown", () => {
     )
   })
 
-  it("should strip pre-escaped backticks from markdown", () => {
-    assert(
-      !markdownGenerators
-        .generateCourseSectionMarkdown(
-          coursePagesWithText[0],
-          singleCourseJsonData
-        )
-        .includes("\\`")
+  it("should strip pre-escaped backticks from markdown", async () => {
+    const markdown = await markdownGenerators.generateCourseSectionMarkdown(
+      coursePagesWithText[0],
+      singleCourseJsonData
     )
+
+    assert(!markdown.includes("\\`"))
   })
 
-  it("renders markdown for top and bottom text", () => {
+  it("renders markdown for top and bottom text", async () => {
     const page = {
       ...coursePagesWithText[0],
       text:       '<div id="top">Top Text</div>',
       bottomtext: '<div id="bottom">Bottom Text</div>'
     }
-    const markdown = markdownGenerators.generateCourseSectionMarkdown(
+    const markdown = await markdownGenerators.generateCourseSectionMarkdown(
       page,
       singleCourseJsonData
     )
@@ -579,13 +567,13 @@ describe("generateCourseSectionMarkdown", () => {
     assert(markdown.includes("Bottom Text"))
   })
 
-  it("handles missing page text gracefully", () => {
+  it("handles missing page text gracefully", async () => {
     const page = {
       ...coursePagesWithText[0],
       text:       undefined,
       bottomtext: undefined
     }
-    const markdown = markdownGenerators.generateCourseSectionMarkdown(
+    const markdown = await markdownGenerators.generateCourseSectionMarkdown(
       page,
       singleCourseJsonData
     )
@@ -594,6 +582,19 @@ describe("generateCourseSectionMarkdown", () => {
 })
 
 describe("generateCourseFeaturesMarkdown", () => {
+  let courseVideoFeaturesFrontMatter, courseImageFeaturesFrontMatter
+
+  beforeEach(async () => {
+    courseVideoFeaturesFrontMatter = await markdownGenerators.generateCourseFeaturesMarkdown(
+      videoGalleryPages[0],
+      videoGalleryCourseJsonData
+    )
+    courseImageFeaturesFrontMatter = await markdownGenerators.generateCourseFeaturesMarkdown(
+      imageGalleryPages[0],
+      imageGalleryCourseJsonData
+    )
+  })
+
   it("renders one image-gallery shortcode", () => {
     assert.equal(
       (courseImageFeaturesFrontMatter.match(/{{< image-gallery id=/g) || [])
