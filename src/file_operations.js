@@ -13,7 +13,6 @@ const {
 const { directoryExists } = require("./helpers")
 const markdownGenerators = require("./markdown_generators")
 const dataTemplateGenerators = require("./data_template_generators")
-const loggers = require("./loggers")
 const helpers = require("./helpers")
 
 const progressBar = new cliProgress.SingleBar(
