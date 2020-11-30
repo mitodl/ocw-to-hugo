@@ -17,32 +17,32 @@ const singleCourseId =
   "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
 const imageGalleryCourseId = "12-001-introduction-to-geology-fall-2013"
 const videoGalleryCourseId = "ec-711-d-lab-energy-spring-2011"
-const singleCourseMasterJsonPath = path.join(
+const singleCourseParsedJsonPath = path.join(
   testDataPath,
   singleCourseId,
   `${singleCourseId}_parsed.json`
 )
-const imageGalleryCourseMasterJsonPath = path.join(
+const imageGalleryCourseParsedJsonPath = path.join(
   testDataPath,
   imageGalleryCourseId,
   `${imageGalleryCourseId}_parsed.json`
 )
 
-const videoGalleryCourseMasterJsonPath = path.join(
+const videoGalleryCourseParsedJsonPath = path.join(
   testDataPath,
   videoGalleryCourseId,
   `${videoGalleryCourseId}_parsed.json`
 )
 
-const singleCourseRawData = fs.readFileSync(singleCourseMasterJsonPath)
+const singleCourseRawData = fs.readFileSync(singleCourseParsedJsonPath)
 const singleCourseJsonData = JSON.parse(singleCourseRawData)
 const imageGalleryCourseRawData = fs.readFileSync(
-  imageGalleryCourseMasterJsonPath
+  imageGalleryCourseParsedJsonPath
 )
 const imageGalleryCourseJsonData = JSON.parse(imageGalleryCourseRawData)
 
 const videoGalleryCourseRawData = fs.readFileSync(
-  videoGalleryCourseMasterJsonPath
+  videoGalleryCourseParsedJsonPath
 )
 const videoGalleryCourseJsonData = JSON.parse(videoGalleryCourseRawData)
 

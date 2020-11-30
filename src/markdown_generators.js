@@ -1,7 +1,8 @@
 const path = require("path")
 const yaml = require("js-yaml")
 const markdown = require("markdown-doc-builder").default
-const moment = require("moment")
+const TurndownService = require("turndown")
+const turndownPluginGfm = require("turndown-plugin-gfm")
 const stripHtml = require("string-strip-html")
 
 const {
@@ -9,7 +10,6 @@ const {
   GETPAGESHORTCODESTART,
   GETPAGESHORTCODEEND,
   AWS_REGEX,
-  INPUT_COURSE_DATE_FORMAT,
   SUPPORTED_IFRAME_EMBEDS
 } = require("./constants")
 const helpers = require("./helpers")
