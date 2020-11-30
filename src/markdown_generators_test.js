@@ -4,7 +4,6 @@ const { assert, expect } = require("chai").use(require("sinon-chai"))
 const fs = require("fs")
 const yaml = require("js-yaml")
 const markdown = require("markdown-doc-builder").default
-const titleCase = require("title-case")
 const tmp = require("tmp")
 tmp.setGracefulCleanup()
 
@@ -60,9 +59,6 @@ const imageGalleryImages = imageGalleryCourseJsonData["course_files"].filter(
 )
 const videoGalleryPages = videoGalleryCourseJsonData["course_pages"].filter(
   page => page["is_media_gallery"]
-)
-const videoGalleryVideos = videoGalleryCourseJsonData["course_files"].filter(
-  file => file["parent_uid"] === videoGalleryPages[0]["uid"]
 )
 
 const courseImageFeaturesFrontMatter = markdownGenerators.generateCourseFeaturesMarkdown(
