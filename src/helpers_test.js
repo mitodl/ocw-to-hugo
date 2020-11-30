@@ -154,9 +154,9 @@ describe("resolveUids", () => {
     page => page["uid"] === "00eb284b6ed5f08a3cf9669918588f59"
   )
 
-  it("replaces all resolveuid links on a given page", () => {
+  it("replaces all resolveuid links on a given page", async () => {
     assert.isTrue(assignmentsPage["text"].indexOf("resolveuid") !== -1)
-    const result = helpers.resolveUids(
+    const result = await helpers.resolveUids(
       assignmentsPage["text"],
       assignmentsPage,
       singleCourseJsonData,
@@ -170,7 +170,7 @@ describe("resolveUids", () => {
       syllabusPage["text"],
       'see the <a href="./resolveuid/ab358d663152f31a56035144d6d77e4b">Tools section</a>'
     )
-    const result = helpers.resolveUids(
+    const result = await helpers.resolveUids(
       syllabusPage["text"],
       syllabusPage,
       courseData,
@@ -184,14 +184,14 @@ describe("resolveUids", () => {
     )
   })
 
-  it("resolves a uid for a file", () => {
+  it("resolves a uid for a file", async () => {
     assert.include(
       assignmentsPage["text"],
       "Technical report 1 (" +
         '<a href="./resolveuid/b0f020c026200bb212a4c65a017b4340">' +
         "PDF</a>"
     )
-    const result = helpers.resolveUids(
+    const result = await helpers.resolveUids(
       assignmentsPage["text"],
       assignmentsPage,
       singleCourseJsonData,
@@ -205,8 +205,9 @@ describe("resolveUids", () => {
         "PDF</a>"
     )
   })
+
   ;[true, false].forEach(missing => {
-    it(`resolves uids for a ${missing ? "missing " : ""}course`, () => {
+    it(`resolves uids for a ${missing ? "missing " : ""}course`, async () => {
       const otherCourseUid = "bfe41979b9593362793fd930b36efa01"
       const otherCourseSlug = "123-456-789-a-course-slug"
       const originalLink = `<p><a href="./resolveuid/${otherCourseUid}"><em>18.01 (Single Variable Calculus)</em>`
@@ -215,7 +216,7 @@ describe("resolveUids", () => {
       if (!missing) {
         lookup[otherCourseUid] = otherCourseSlug
       }
-      const result = helpers.resolveUids(
+      const result = await helpers.resolveUids(
         syllabusPage["text"],
         syllabusPage,
         courseData,
@@ -240,22 +241,22 @@ describe("resolveRelativeLinks", () => {
     sandbox.restore()
   })
 
-  it("replaces all relative links on the page with hugo getpage shortcodes", () => {
+  it("replaces all relative links on the page with hugo getpage shortcodes", async () => {
     assert.isTrue(assignmentsPage["text"].indexOf("{{% getpage ") === -1)
-    const result = helpers.resolveRelativeLinks(
+    const result = await helpers.resolveRelativeLinks(
       assignmentsPage["text"],
       singleCourseJsonData
     )
     assert.isTrue(result.indexOf(GETPAGESHORTCODESTART) !== -1)
   })
 
-  it("handles a missing media file location", () => {
+  it("handles a missing media file location", async () => {
     sandbox.stub(loggers.memoryTransport, "log").callsFake((...args) => {
       throw new Error(`Error caught: ${args}`)
     })
     const text = `${assignmentsPage["text"]} <a href="/courses/mathematics/18-01-single-variable-calculus-fall-2006/exams/prfinalsol.pdf" />`
     delete singleCourseJsonData.course_files[0].file_location
-    const result = helpers.resolveRelativeLinks(text, singleCourseJsonData)
+    const result = await helpers.resolveRelativeLinks(text, singleCourseJsonData)
   })
 })
 

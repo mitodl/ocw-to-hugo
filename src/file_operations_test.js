@@ -30,9 +30,6 @@ const singleCourseRawData = require("fs").readFileSync(
   singleCourseMasterJsonPath
 )
 const singleCourseJsonData = JSON.parse(singleCourseRawData)
-const singleCourseMarkdownData = markdownGenerators.generateMarkdownFromJson(
-  singleCourseJsonData
-)
 
 describe("writeBoilerplate", () => {
   const sandbox = sinon.createSandbox()
@@ -237,11 +234,15 @@ describe("getMasterJsonFileName", () => {
 })
 
 describe("writeMarkdownFilesRecursive", () => {
-  let mkDirStub, writeFileStub, unlinkStub
+  let mkDirStub, writeFileStub, unlinkStub, singleCourseMarkdownData
   const sandbox = sinon.createSandbox()
   const outputPath = tmp.dirSync({ prefix: "output" }).name
 
   beforeEach(async () => {
+singleCourseMarkdownData = await markdownGenerators.generateMarkdownFromJson(
+  singleCourseJsonData
+)
+
     mkDirStub = sandbox.spy(fsPromises, "mkdir")
     writeFileStub = sandbox.spy(fsPromises, "writeFile")
     unlinkStub = sandbox.spy(fsPromises, "unlink")
