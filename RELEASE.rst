@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.5.0
+Version 1.5.0 (Released December 01, 2020)
 -------------
 
 - store course metadata in hugo data templates (#134)
