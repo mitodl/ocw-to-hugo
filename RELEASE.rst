@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 1.5.0
+-------------
+
+- store course metadata in hugo data templates (#134)
+- refactor: move turndown out into a separate file
+- upgrade turndown
+
 Version 1.4.0 (Released November 24, 2020)
 -------------
 
