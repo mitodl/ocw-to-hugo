@@ -96,19 +96,27 @@ describe("generateDataTemplate", () => {
     })
   })
 
-  it("sets the course_number property on the course info object to data parsed from sort_as and extra_course_number properties in the course json data", () => {
+  it("sets the topics property on the course data template to a consolidated list of topics from the course_collections property of the course json data", () => {
+    const expectedValue = helpers.getConsolidatedTopics(
+      singleCourseJsonData["course_collections"]
+    )[0]
+    const foundValue = courseDataTemplate["topics"][0]
+    sinon.assert.match(expectedValue, foundValue)
+  })
+
+  it("sets the course_number property on the course data template to data parsed from sort_as and extra_course_number properties in the course json data", () => {
     const expectedValue = helpers.getCourseNumbers(singleCourseJsonData)[0]
     const foundValue = courseDataTemplate["course_numbers"][0]
     assert.equal(expectedValue, foundValue)
   })
 
-  it("sets the term property on the course info object to from_semester and from_year in the course json data", () => {
+  it("sets the term property on the course data template to from_semester and from_year in the course json data", () => {
     const expectedValue = `${singleCourseJsonData["from_semester"]} ${singleCourseJsonData["from_year"]}`
     const foundValue = courseDataTemplate["term"]
     assert.equal(expectedValue, foundValue)
   })
 
-  it("sets the level property on the course info object to course_level in the course json data", () => {
+  it("sets the level property on the course data template to course_level in the course json data", () => {
     const expectedValue = singleCourseJsonData["course_level"]
     const foundValue = courseDataTemplate["level"]
     assert.equal(expectedValue, foundValue)
