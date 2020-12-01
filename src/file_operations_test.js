@@ -6,16 +6,14 @@ const tmp = require("tmp")
 const rimraf = require("rimraf")
 const yaml = require("js-yaml")
 
-const loggers = require("./loggers")
-
 const {
   NO_COURSES_FOUND_MESSAGE,
-  MISSING_COURSE_ERROR_MESSAGE,
   BOILERPLATE_MARKDOWN
 } = require("./constants")
 const helpers = require("./helpers")
 const fileOperations = require("./file_operations")
 const markdownGenerators = require("./markdown_generators")
+const dataTemplateGenerators = require("./data_template_generators")
 const { fileExists } = require("./helpers")
 
 const testDataPath = "test_data/courses"
@@ -183,7 +181,7 @@ describe("scanCourses", () => {
 })
 
 describe("scanCourse", () => {
-  let readFileStub, generateMarkdownFromJson
+  let readFileStub, generateMarkdownFromJson, generateDataTemplate
   const sandbox = sinon.createSandbox()
   const outputPath = tmp.dirSync({ prefix: "output" }).name
 
@@ -194,6 +192,10 @@ describe("scanCourse", () => {
     generateMarkdownFromJson = sandbox.spy(
       markdownGenerators,
       "generateMarkdownFromJson"
+    )
+    generateDataTemplate = sandbox.spy(
+      dataTemplateGenerators,
+      "generateDataTemplate"
     )
   })
 
@@ -223,6 +225,19 @@ describe("scanCourse", () => {
     expect(generateMarkdownFromJson).to.be.calledOnceWithExactly(
       singleCourseJsonData,
       courseUidLookup
+    )
+  }).timeout(5000)
+
+  it("calls generateDataTemplate on the course data", async () => {
+    const courseUidLookup = { singleCourseId: "uid" }
+    await fileOperations.scanCourse(
+      testDataPath,
+      outputPath,
+      singleCourseId,
+      courseUidLookup
+    )
+    expect(generateDataTemplate).to.be.calledOnceWithExactly(
+      singleCourseJsonData
     )
   }).timeout(5000)
 })

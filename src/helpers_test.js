@@ -180,7 +180,7 @@ describe("resolveUids", () => {
       result,
       'see the <a href="GETPAGESHORTCODESTARTcourses/' +
         "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012/sections/" +
-        'toolsGETPAGESHORTCODEEND">Tools section</a>'
+        'tools/_index.mdGETPAGESHORTCODEEND">Tools section</a>'
     )
   })
 

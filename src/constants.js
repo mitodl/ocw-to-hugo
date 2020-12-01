@@ -13,14 +13,14 @@ module.exports = {
   ),
   BOILERPLATE_MARKDOWN: [
     {
-      path:    "",
+      path:    "content",
       name:    "_index.md",
       content: {
         title: ""
       }
     },
     {
-      path:    "search",
+      path:    "content/search",
       name:    "_index.md",
       content: {
         title: "Search",
@@ -28,7 +28,7 @@ module.exports = {
       }
     },
     {
-      path:    "courses",
+      path:    "content/courses",
       name:    "_index.md",
       content: {
         title: "Courses",

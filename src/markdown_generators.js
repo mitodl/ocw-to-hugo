@@ -1,7 +1,8 @@
 const path = require("path")
 const yaml = require("js-yaml")
 const markdown = require("markdown-doc-builder").default
-const moment = require("moment")
+const TurndownService = require("turndown")
+const turndownPluginGfm = require("turndown-plugin-gfm")
 const stripHtml = require("string-strip-html")
 
 const {
@@ -9,7 +10,6 @@ const {
   GETPAGESHORTCODESTART,
   GETPAGESHORTCODEEND,
   AWS_REGEX,
-  INPUT_COURSE_DATE_FORMAT,
   SUPPORTED_IFRAME_EMBEDS
 } = require("./constants")
 const helpers = require("./helpers")
@@ -82,12 +82,10 @@ const generateMarkdownRecursive = (page, courseUidsLookup, courseData) => {
     `${page["uid"]}`,
     hasParent ? parent["uid"] : null,
     inRootNav,
-    hasMedia,
     page["is_media_gallery"],
     (this["menuIndex"] + 1) * 10,
     page["list_in_left_nav"],
-    courseData["short_url"],
-    courseData
+    courseData["short_url"]
   )
   this["menuIndex"]++
   courseSectionMarkdown += generateCourseSectionMarkdown(
@@ -192,42 +190,17 @@ const generateCourseHomeMarkdown = (courseData, courseUidsLookup) => {
     : ""
 
   const frontMatter = {
-    title:                      "Course Home",
-    type:                       "course",
-    layout:                     "course_home",
-    course_id:                  courseData["short_url"],
-    course_title:               courseData["title"],
-    course_image_url:           courseData["image_src"] ? courseData["image_src"] : "",
-    course_thumbnail_image_url: courseData["thumbnail_image_src"]
-      ? courseData["thumbnail_image_src"]
-      : "",
-    course_image_alternate_text: courseData["image_alternate_text"]
-      ? courseData["image_alternate_text"]
-      : "",
-    course_image_caption_text: courseData["image_caption_text"]
-      ? courseData["image_caption_text"]
-      : "",
-    publishdate: courseData["first_published_to_production"]
-      ? moment(
-        courseData["first_published_to_production"],
-        INPUT_COURSE_DATE_FORMAT
-      ).format()
-      : "",
-    course_info: generateCourseInfo(courseData),
-    menu:        {
+    title:     "Course Home",
+    type:      "course",
+    layout:    "course_home",
+    course_id: courseData["short_url"],
+    menu:      {
       [courseData["short_url"]]: {
         identifier: "course-home",
         weight:     -10
       }
     }
   }
-  // strip out any direct s3 pathing in course image urls
-  frontMatter["course_image_url"] = helpers.stripS3(
-    frontMatter["course_image_url"]
-  )
-  frontMatter["course_thumbnail_image_url"] = helpers.stripS3(
-    frontMatter["course_thumbnail_image_url"]
-  )
   try {
     return `---\n${yaml.safeDump(
       frontMatter
@@ -244,23 +217,19 @@ const generateCourseSectionFrontMatter = (
   pageId,
   parentId,
   inRootNav,
-  hasMedia,
   isMediaGallery,
   menuIndex,
   listInLeftNav,
-  courseId,
-  courseData
+  courseId
 ) => {
   /**
     Generate the front matter metadata for a course section given a title and menu index
     */
   const courseSectionFrontMatter = {
-    title:        title,
-    course_id:    courseId,
-    type:         "course",
-    layout:       "course_section",
-    course_title: courseData["title"],
-    course_info:  generateCourseInfo(courseData)
+    title:     title,
+    course_id: courseId,
+    type:      "course",
+    layout:    "course_section"
   }
 
   if (inRootNav || listInLeftNav) {

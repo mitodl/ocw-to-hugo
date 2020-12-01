@@ -12,7 +12,7 @@ const {
 } = require("./constants")
 const { directoryExists } = require("./helpers")
 const markdownGenerators = require("./markdown_generators")
-const loggers = require("./loggers")
+const dataTemplateGenerators = require("./data_template_generators")
 const helpers = require("./helpers")
 
 const progressBar = new cliProgress.SingleBar(
@@ -81,10 +81,9 @@ const scanCourses = async (inputPath, outputPath) => {
   }
 
   console.log(`Converting ${numCourses} courses to Hugo markdown...`)
-  const coursesPath = path.join(outputPath, "courses")
   progressBar.start(numCourses, 0)
   for (const course of courseList) {
-    await scanCourse(inputPath, coursesPath, course, courseUidsLookup)
+    await scanCourse(inputPath, outputPath, course, courseUidsLookup)
     progressBar.increment()
   }
 }
@@ -102,18 +101,23 @@ const scanCourse = async (inputPath, outputPath, course, courseUidsLookup) => {
   /*
     This function scans a course directory for a master json file and processes it
   */
-
-  const coursePath = path.join(inputPath, course)
-  const masterJsonFile = await getMasterJsonFileName(coursePath)
+  const markdownPath = path.join(outputPath, "content", "courses")
+  const courseMarkdownPath = path.join(inputPath, course)
+  const masterJsonFile = await getMasterJsonFileName(courseMarkdownPath)
   if (masterJsonFile) {
     const courseData = JSON.parse(await fsPromises.readFile(masterJsonFile))
     const markdownData = markdownGenerators.generateMarkdownFromJson(
       courseData,
       courseUidsLookup
     )
+    const dataTemplate = dataTemplateGenerators.generateDataTemplate(courseData)
     await writeMarkdownFilesRecursive(
-      path.join(outputPath, courseData["short_url"]),
+      path.join(markdownPath, courseData["short_url"]),
       markdownData
+    )
+    await writeDataTemplate(
+      path.join(outputPath, "data", "courses"),
+      dataTemplate
     )
   }
 }
@@ -155,6 +159,13 @@ const writeMarkdownFilesRecursive = async (outputPath, markdownData) => {
       await writeMarkdownFilesRecursive(outputPath, section["children"])
     }
   }
+}
+
+const writeDataTemplate = async (outputPath, dataTemplate) => {
+  await helpers.createOrOverwriteFile(
+    path.join(outputPath, `${dataTemplate["course_id"]}.json`),
+    JSON.stringify(dataTemplate)
+  )
 }
 
 const writeSectionFiles = async (key, section, outputPath) => {

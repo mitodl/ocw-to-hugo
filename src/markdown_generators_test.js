@@ -4,7 +4,6 @@ const { assert, expect } = require("chai").use(require("sinon-chai"))
 const fs = require("fs")
 const yaml = require("js-yaml")
 const markdown = require("markdown-doc-builder").default
-const titleCase = require("title-case")
 const tmp = require("tmp")
 tmp.setGracefulCleanup()
 
@@ -18,32 +17,32 @@ const singleCourseId =
   "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
 const imageGalleryCourseId = "12-001-introduction-to-geology-fall-2013"
 const videoGalleryCourseId = "ec-711-d-lab-energy-spring-2011"
-const singleCourseMasterJsonPath = path.join(
+const singleCourseParsedJsonPath = path.join(
   testDataPath,
   singleCourseId,
   `${singleCourseId}_parsed.json`
 )
-const imageGalleryCourseMasterJsonPath = path.join(
+const imageGalleryCourseParsedJsonPath = path.join(
   testDataPath,
   imageGalleryCourseId,
   `${imageGalleryCourseId}_parsed.json`
 )
 
-const videoGalleryCourseMasterJsonPath = path.join(
+const videoGalleryCourseParsedJsonPath = path.join(
   testDataPath,
   videoGalleryCourseId,
   `${videoGalleryCourseId}_parsed.json`
 )
 
-const singleCourseRawData = fs.readFileSync(singleCourseMasterJsonPath)
+const singleCourseRawData = fs.readFileSync(singleCourseParsedJsonPath)
 const singleCourseJsonData = JSON.parse(singleCourseRawData)
 const imageGalleryCourseRawData = fs.readFileSync(
-  imageGalleryCourseMasterJsonPath
+  imageGalleryCourseParsedJsonPath
 )
 const imageGalleryCourseJsonData = JSON.parse(imageGalleryCourseRawData)
 
 const videoGalleryCourseRawData = fs.readFileSync(
-  videoGalleryCourseMasterJsonPath
+  videoGalleryCourseParsedJsonPath
 )
 const videoGalleryCourseJsonData = JSON.parse(videoGalleryCourseRawData)
 
@@ -60,9 +59,6 @@ const imageGalleryImages = imageGalleryCourseJsonData["course_files"].filter(
 )
 const videoGalleryPages = videoGalleryCourseJsonData["course_pages"].filter(
   page => page["is_media_gallery"]
-)
-const videoGalleryVideos = videoGalleryCourseJsonData["course_files"].filter(
-  file => file["parent_uid"] === videoGalleryPages[0]["uid"]
 )
 
 const courseImageFeaturesFrontMatter = markdownGenerators.generateCourseFeaturesMarkdown(
@@ -226,50 +222,6 @@ describe("generateCourseHomeMarkdown", () => {
     assert.equal(expectedValue, foundValue)
   })
 
-  it("sets the course_title property to the title property of the course json data", () => {
-    const expectedValue = singleCourseJsonData["title"]
-    const foundValue = courseHomeFrontMatter["course_title"]
-    assert.equal(expectedValue, foundValue)
-  })
-
-  it("sets the course_image_url property to the image_src of the course json data", () => {
-    const expectedValue = singleCourseJsonData["image_src"]
-    const foundValue = courseHomeFrontMatter["course_image_url"]
-    assert.equal(expectedValue, foundValue)
-  })
-
-  it("sets the course_thumbnail_image_url property to the thumbnail_image_src of the course json data", () => {
-    const expectedValue = singleCourseJsonData["thumbnail_image_src"]
-    const foundValue = courseHomeFrontMatter["course_thumbnail_image_url"]
-    assert.equal(expectedValue, foundValue)
-  })
-
-  it("sets the instructors property on the course_info node to the instructors found in the instuctors node of the course json data", () => {
-    singleCourseJsonData["instructors"].forEach((instructor, index) => {
-      const expectedValue = `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`
-      const foundValue =
-        courseHomeFrontMatter["course_info"]["instructors"][index]
-      assert.equal(expectedValue, foundValue)
-    })
-  })
-
-  it("sets the department property on the course_info node to the deparentment found on the url property of the course json data, title cased with hyphens replaced with spaces", () => {
-    assert.equal(
-      "Mechanical Engineering",
-      courseHomeFrontMatter["course_info"]["departments"][0]
-    )
-    assert.equal(
-      "Aeronautics and Astronautics",
-      courseHomeFrontMatter["course_info"]["departments"][1]
-    )
-  })
-
-  it("calls getConsolidatedTopics with course_collections", () => {
-    expect(getConsolidatedTopics).to.be.calledWith(
-      singleCourseJsonData["course_collections"]
-    )
-  })
-
   it("sets the topics property on the course info object to data parsed from course_collections in the course json data", () => {
     const topics = helpers.getConsolidatedTopics(
       singleCourseJsonData["course_collections"]
@@ -299,28 +251,6 @@ describe("generateCourseHomeMarkdown", () => {
     ])
   })
 
-  it("calls getCourseNumbers with the course json data", () => {
-    expect(getCourseNumbers).to.be.calledWithExactly(singleCourseJsonData)
-  })
-
-  it("sets the course_number property on the course info object to data parsed from sort_as and extra_course_number properties in the course json data", () => {
-    const expectedValue = helpers.getCourseNumbers(singleCourseJsonData)[0]
-    const foundValue = courseHomeFrontMatter["course_info"]["course_numbers"][0]
-    assert.equal(expectedValue, foundValue)
-  })
-
-  it("sets the term property on the course info object to from_semester and from_year in the course json data", () => {
-    const expectedValue = `${singleCourseJsonData["from_semester"]} ${singleCourseJsonData["from_year"]}`
-    const foundValue = courseHomeFrontMatter["course_info"]["term"]
-    assert.equal(expectedValue, foundValue)
-  })
-
-  it("sets the level property on the course info object to course_level in the course json data", () => {
-    const expectedValue = singleCourseJsonData["course_level"]
-    const foundValue = courseHomeFrontMatter["course_info"]["level"]
-    assert.equal(expectedValue, foundValue)
-  })
-
   it("sets the menu index of the course home page to -10 to ensure it is at the top", () => {
     assert.equal(
       -10,
@@ -340,14 +270,6 @@ describe("generateCourseHomeMarkdown", () => {
       singleCourseJsonData
     )
     assert.include(courseHomeMarkdown, "title: Course Home")
-  })
-
-  it("parses the first published date and reformats as ISO-8601", () => {
-    courseHomeMarkdown = markdownGenerators.generateCourseHomeMarkdown({
-      ...singleCourseJsonData,
-      first_published_to_production: "2020/01/30 21:09:39.493 Universal"
-    })
-    assert.include(courseHomeMarkdown, "publishdate: '2020-01-30T21:09:39")
   })
 
   it("handles an empty string for instructors", () => {
@@ -373,11 +295,9 @@ describe("generateCourseSectionFrontMatter", () => {
           null,
           true,
           false,
-          false,
           10,
           false,
-          singleCourseJsonData["short_url"],
-          singleCourseJsonData
+          singleCourseJsonData["short_url"]
         )
         .replace(/---\n/g, "")
     )
@@ -414,11 +334,9 @@ describe("generateCourseSectionFrontMatter", () => {
           null,
           false,
           false,
-          false,
           10,
           false,
-          singleCourseJsonData["short_url"],
-          singleCourseJsonData
+          singleCourseJsonData["short_url"]
         )
         .replace(/---\n/g, "")
     )
@@ -433,13 +351,11 @@ describe("generateCourseSectionFrontMatter", () => {
           "Syllabus",
           "syllabus",
           null,
-          false,
-          false,
+          true,
           false,
           10,
-          true,
-          singleCourseJsonData["short_url"],
-          singleCourseJsonData
+          false,
+          singleCourseJsonData["short_url"]
         )
         .replace(/---\n/g, "")
     )
@@ -454,38 +370,20 @@ describe("generateCourseSectionFrontMatter", () => {
   it("handles missing short_page_title correctly", async () => {
     const yaml = markdownGenerators.generateCourseSectionFrontMatter(
       "Syllabus",
-      undefined,
+      "Syllabus",
       "syllabus",
       null,
       true,
       false,
-      false,
       10,
       false,
-      singleCourseJsonData["short_url"],
-      singleCourseJsonData
+      singleCourseJsonData["short_url"]
     )
     assert.notInclude(yaml, "undefined")
   })
 
-  it("has a course and section title", () => {
+  it("has a section title", () => {
     assert.equal(courseSectionFrontMatter["title"], "Syllabus")
-    assert.equal(
-      courseSectionFrontMatter["course_title"],
-      "Exploring Sea, Space, & Earth: Fundamentals of Engineering Design"
-    )
-  })
-
-  it("has course info", () => {
-    const info = courseSectionFrontMatter["course_info"]
-    assert.deepEqual(info.instructors, ["Prof. Alexandra Techet"])
-    assert.deepEqual(info.departments, [
-      "Mechanical Engineering",
-      "Aeronautics and Astronautics"
-    ])
-    assert.deepEqual(info.course_numbers, ["2.00AJ", "16.00AJ"])
-    assert.equal(info.term, "Spring 2009")
-    assert.equal(info.level, "Undergraduate")
   })
 })
 
