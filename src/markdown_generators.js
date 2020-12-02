@@ -190,7 +190,7 @@ const generateCourseHomeMarkdown = (courseData, courseUidsLookup) => {
     : ""
 
   const frontMatter = {
-    title:     "Course Home",
+    title:     "",
     type:      "course",
     layout:    "course_home",
     course_id: courseData["short_url"],
