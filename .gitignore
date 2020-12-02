@@ -20,6 +20,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# ocw-to-hugo's cource cache
+.cache
+
 # C extensions
 *.so
 
