@@ -14,6 +14,7 @@ const { directoryExists } = require("./helpers")
 const markdownGenerators = require("./markdown_generators")
 const dataTemplateGenerators = require("./data_template_generators")
 const helpers = require("./helpers")
+const { cacheCourseContent, cacheCourseData } = require("./cache")
 
 const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
@@ -83,6 +84,7 @@ const scanCourses = async (inputPath, outputPath) => {
   console.log(`Converting ${numCourses} courses to Hugo markdown...`)
   progressBar.start(numCourses, 0)
   for (const course of courseList) {
+    // caching logic will go here
     await scanCourse(inputPath, outputPath, course, courseUidsLookup)
     progressBar.increment()
   }
@@ -111,13 +113,26 @@ const scanCourse = async (inputPath, outputPath, course, courseUidsLookup) => {
       courseUidsLookup
     )
     const dataTemplate = dataTemplateGenerators.generateDataTemplate(courseData)
+
     await writeMarkdownFilesRecursive(
       path.join(markdownPath, courseData["short_url"]),
       markdownData
     )
+
+    cacheCourseContent(
+      markdownPath,
+      courseData["short_url"],
+      "markdown"
+    )
+
+const dataTemplatePath = path.join(outputPath, `${dataTemplate["course_id"]}.json`)
     await writeDataTemplate(
-      path.join(outputPath, "data", "courses"),
+      dataTemplatePath,
       dataTemplate
+    )
+    cacheCourseData(
+      dataTemplatePath,
+      dataTemplate["course_id"]
     )
   }
 }
@@ -161,9 +176,9 @@ const writeMarkdownFilesRecursive = async (outputPath, markdownData) => {
   }
 }
 
-const writeDataTemplate = async (outputPath, dataTemplate) => {
+const writeDataTemplate = async (dataTemplatePath, dataTemplate) => {
   await helpers.createOrOverwriteFile(
-    path.join(outputPath, `${dataTemplate["course_id"]}.json`),
+    dataTemplatePath,
     JSON.stringify(dataTemplate)
   )
 }
