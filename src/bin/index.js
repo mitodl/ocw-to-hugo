@@ -59,6 +59,11 @@ const options = yargs
     type:         "boolean",
     demandOption: false
   }).argv
+  .option("no-cache", {
+    describe: "Skip the cache and convert all input courses",
+    type: "boolean",
+    demandOption: false
+  })
 
 helpers.runOptions = options
 
