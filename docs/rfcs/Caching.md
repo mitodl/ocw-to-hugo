@@ -90,9 +90,9 @@ modules like `os`, `path`, and `fs`.
 The cache will be implemented as a commonJS module exporting 3 functions:
 
 ```
-stale: (courseId: string, inputPath: string) => boolean
-save: async (courseId: string) => Promise<undefined>
-load: async (courseId: string) => Promise<undefined>
+stale: (courseId: string, inputPath: string) => Promise<boolean>
+save: (courseId: string) => Promise<undefined>
+load: (courseId: string) => Promise<undefined>
 ```
 
 `stale` basically just wraps up checking whether the source data is newer than
@@ -116,9 +116,9 @@ const cache = require("./cache")
 
 if (await cache.stale(courseId, inputPath)) {
   // write markdown and template
-  cache.save(courseId)
+  await cache.save(courseId)
 } else {
-  cache.load(courseId)
+  await cache.load(courseId)
 }
 ```
 
