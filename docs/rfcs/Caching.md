@@ -66,7 +66,7 @@ Based on these requirements, I propose the following algorithm:
         1. untar `${CACHE_DIR}/${course_id}_${current_version}.tgz` in `${output}/content/courses/`
         1. copy `${CACHE_DIR}/${course_id}_${current_version}.json` to `${output}/data/courses/${course_id}.json`
 
-I believe this will cover our bases. We want to invalute the cache whenever the
+I believe this will cover our bases. We want to invalidate the cache whenever the
 data in it is stale or was generated with an older version of `ocw-to-hugo`.
 Otherwise, we are good to use the cached data and skip running the HTML through
 our conversion process.
@@ -80,14 +80,14 @@ A few little details and preliminary thinking.
 The [draft / proof of concept
 implementation](https://github.com/mitodl/ocw-to-hugo/pull/143) uses the
 [node-tar](https://github.com/npm/node-tar) library for compression. It is a
-flexible library which has usage patterns similar to the unix `tar` command. It
+flexible library which has usage patterns similar to the Unix `tar` command. It
 can be used synchronously or asynchronously, with promises, callbacks, or using
 a streaming API. Other than that the only dependencies are node.js built-in
 modules like `os`, `path`, and `fs`.
 
 ### API
 
-The cache will be implemented as a commonJS module exporting 3 functions:
+The cache will be implemented as a CommonJS module exporting 3 functions:
 
 ```
 stale: (courseId: string, inputPath: string) => Promise<boolean>
