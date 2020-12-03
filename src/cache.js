@@ -25,7 +25,6 @@ const stale = async (courseId, inputPath) => {
   const haveCacheEntry = await fileExists(courseContentCachePath(courseId))
 
   if (!haveCacheEntry) {
-    console.log(`${courseId} is missing`);
     return true
   }
 
@@ -35,11 +34,6 @@ const stale = async (courseId, inputPath) => {
   ).mtime
 
   const stale = courseLastModified > cacheLastModified
-  if (stale) {
-    console.log(`${courseId} cache miss`);
-  }  else {
-    console.log(`${courseId} cache hit`);
-  }
   return stale
 }
 
