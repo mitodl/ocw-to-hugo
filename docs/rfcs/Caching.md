@@ -50,6 +50,7 @@ Based on these requirements, I propose the following algorithm:
 
 1. let `current_version` be a string representation of the current version of `ocw-to-hugo`
 1. let `output` be the output specified with the `-o` option on the command-line
+1. let `CACHE_DIR` be the cache directory
 1. for each course in the input:
     1. let `course_id` be the course's UUID (`short_url` in the input data).
     1. let `inputLastModified` be the last modified date for the course
