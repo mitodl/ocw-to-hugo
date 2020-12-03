@@ -178,3 +178,12 @@ courses cached) the run finishes in ~17% of the time.
 
 Running against the full course set on my laptop generates around 200MB of
 cached stuff, so I think this is what we can expect for the cache size typically.
+
+## Rollout
+
+Deployment of a new version implementing caching will not be terribly
+difficult. DevOps will need to be made aware of the change when a hugo release
+depending on a caching version of `ocw-to-hugo` is going to be deployed. DevOps
+will need to decide where it makes sense to store the cache on the build
+server, and will need to set configuration accordingly. No changes to the build
+script should be necessary.
