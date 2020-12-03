@@ -4,6 +4,7 @@ const os = require("os")
 const tar = require("tar")
 
 const { lastModifiedDate } = require("./fs_utils")
+const { MARKDOWN_PATH } = require("./paths")
 
 const cacheDirectory = () => path.resolve(os.homedir(), ".cache", "ocw-to-hugo")
 
@@ -18,23 +19,23 @@ const ensureCacheDir = () => {
 const courseContentCachePath = courseKey =>
   path.resolve(CACHE_DIR, `${courseKey}_markdown.tgz`)
 
-const saveCourseContent = async (markdownPath, courseKey) => {
+const saveCourseContent = async (courseKey) => {
   ensureCacheDir()
 
   await tar.c(
     {
       gzip: true,
-      C:    markdownPath,
+      C:    MARKDOWN_PATH,
       file: courseContentCachePath(courseKey)
     },
     [courseKey]
   )
 }
 
-const loadCourseContent = (markdownPath, courseKey) => {
+const loadCourseContent = (courseKey) => {
   fs.createReadStream(courseContentCachePath(courseKey)).pipe(
     tar.x({
-      C: markdownPath // alias for cwd:'some-dir', also ok
+      C: MARKDOWN_PATH // alias for cwd:'some-dir', also ok
     })
   )
 }

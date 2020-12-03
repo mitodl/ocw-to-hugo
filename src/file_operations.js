@@ -16,6 +16,8 @@ const helpers = require("./helpers")
 const cache = require("./cache")
 const { directoryExists, createOrOverwriteFile } = require("./fs_utils")
 
+const { MARKDOWN_PATH } = require("./paths")
+
 const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
   cliProgress.Presets.shades_classic
@@ -103,11 +105,10 @@ const scanCourse = async (inputPath, outputPath, course, courseUidsLookup) => {
   /*
     This function scans a course directory for a master json file and processes it
   */
-  const markdownPath = path.join(outputPath, "content", "courses")
   const courseMarkdownPath = path.join(inputPath, course)
   const masterJsonFile = await getMasterJsonFileName(courseMarkdownPath)
-  if (masterJsonFile) {
 
+  if (masterJsonFile) {
     const courseData = JSON.parse(await fsPromises.readFile(masterJsonFile))
     const markdownData = markdownGenerators.generateMarkdownFromJson(
       courseData,
@@ -116,7 +117,7 @@ const scanCourse = async (inputPath, outputPath, course, courseUidsLookup) => {
     const dataTemplate = dataTemplateGenerators.generateDataTemplate(courseData)
 
     await writeMarkdownFilesRecursive(
-      path.join(markdownPath, courseData["short_url"]),
+      path.join(MARKDOWN_PATH, courseData["short_url"]),
       markdownData
     )
     // cache.loadCourseContent(
@@ -125,7 +126,6 @@ const scanCourse = async (inputPath, outputPath, course, courseUidsLookup) => {
     // )
 
     cache.saveCourseContent(
-      markdownPath,
       courseData["short_url"],
     )
 
