@@ -1,7 +1,6 @@
 const _ = require("lodash")
 const path = require("path")
 
-const fsPromises = require("./fsPromises")
 const DEPARTMENTS_JSON = require("./departments.json")
 const {
   AWS_REGEX,
@@ -15,31 +14,6 @@ const runOptions = {}
 const distinct = (value, index, self) => {
   return self.indexOf(value) === index
 }
-
-const directoryExists = async directory => {
-  try {
-    return (await fsPromises.lstat(directory)).isDirectory()
-  } catch (err) {
-    // this will happen if we don't have access to the directory or if it doesn't exist
-    return false
-  }
-}
-
-const fileExists = async path => {
-  try {
-    return (await fsPromises.lstat(path)).isFile()
-  } catch (err) {
-    // this will happen if we don't have access to the file or if it doesn't exist
-    return false
-  }
-}
-
-const createOrOverwriteFile = async (file, body) => {
-  const dirName = path.dirname(file)
-  await fsPromises.mkdir(dirName, { recursive: true })
-  await fsPromises.writeFile(file, body)
-}
-
 const findDepartmentByNumber = departmentNumber =>
   DEPARTMENTS_JSON.find(
     department => department["depNo"] === departmentNumber.toString()
@@ -397,9 +371,6 @@ const unescapeBackticks = text => text.replace(/\\`/g, "&grave;")
 
 module.exports = {
   distinct,
-  directoryExists,
-  createOrOverwriteFile,
-  fileExists,
   findDepartmentByNumber,
   getDepartments,
   getCourseNumbers,

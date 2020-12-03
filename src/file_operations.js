@@ -10,11 +10,11 @@ const {
   NO_COURSES_FOUND_MESSAGE,
   BOILERPLATE_MARKDOWN
 } = require("./constants")
-const { directoryExists } = require("./helpers")
 const markdownGenerators = require("./markdown_generators")
 const dataTemplateGenerators = require("./data_template_generators")
 const helpers = require("./helpers")
-const { cacheCourseContent, cacheCourseData } = require("./cache")
+const cache = require("./cache")
+const { directoryExists, createOrOverwriteFile } = require("./fs_utils")
 
 const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
@@ -107,6 +107,7 @@ const scanCourse = async (inputPath, outputPath, course, courseUidsLookup) => {
   const courseMarkdownPath = path.join(inputPath, course)
   const masterJsonFile = await getMasterJsonFileName(courseMarkdownPath)
   if (masterJsonFile) {
+
     const courseData = JSON.parse(await fsPromises.readFile(masterJsonFile))
     const markdownData = markdownGenerators.generateMarkdownFromJson(
       courseData,
@@ -118,19 +119,28 @@ const scanCourse = async (inputPath, outputPath, course, courseUidsLookup) => {
       path.join(markdownPath, courseData["short_url"]),
       markdownData
     )
+    // cache.loadCourseContent(
+    //   markdownPath,
+    //   courseData["short_url"]
+    // )
 
-    cacheCourseContent(
+    cache.saveCourseContent(
       markdownPath,
       courseData["short_url"],
-      "markdown"
     )
 
-const dataTemplatePath = path.join(outputPath, `${dataTemplate["course_id"]}.json`)
+    const dataTemplatePath = path.join(outputPath,
+      "data",
+      "courses",
+      `${dataTemplate["course_id"]}.json`
+    )
+
     await writeDataTemplate(
       dataTemplatePath,
       dataTemplate
     )
-    cacheCourseData(
+
+    cache.saveCourseData(
       dataTemplatePath,
       dataTemplate["course_id"]
     )
@@ -167,7 +177,7 @@ const writeMarkdownFilesRecursive = async (outputPath, markdownData) => {
     */
   for (const section of markdownData) {
     const sectionPath = path.join(outputPath, section["name"])
-    await helpers.createOrOverwriteFile(sectionPath, section["data"])
+    await createOrOverwriteFile(sectionPath, section["data"])
     await writeSectionFiles("files", section, outputPath)
     await writeSectionFiles("media", section, outputPath)
     if (section.hasOwnProperty("children")) {
@@ -177,7 +187,7 @@ const writeMarkdownFilesRecursive = async (outputPath, markdownData) => {
 }
 
 const writeDataTemplate = async (dataTemplatePath, dataTemplate) => {
-  await helpers.createOrOverwriteFile(
+  await createOrOverwriteFile(
     dataTemplatePath,
     JSON.stringify(dataTemplate)
   )
@@ -187,7 +197,7 @@ const writeSectionFiles = async (key, section, outputPath) => {
   if (section.hasOwnProperty(key)) {
     for (const file of section[key]) {
       const filePath = path.join(outputPath, file["name"])
-      await helpers.createOrOverwriteFile(filePath, file["data"])
+      await createOrOverwriteFile(filePath, file["data"])
     }
   }
 }

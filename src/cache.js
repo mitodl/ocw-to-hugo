@@ -1,50 +1,49 @@
 const fs = require("fs")
 const path = require("path")
+const os = require("os")
 const tar = require("tar")
 
-const isDirectory = pathname => fs.statSync(pathname).isDirectory()
+const { lastModifiedDate } = require("./fs_utils")
 
-// returns an array of all files and directories within a directory
-const directoryTree = pathname =>
-  fs.readdirSync(pathname).reduce((acc, child) => {
-    const childPathname = path.join(pathname, child)
+const cacheDirectory = () => path.resolve(os.homedir(), ".cache", "ocw-to-hugo")
 
-    return isDirectory(childPathname)
-      ? acc.concat(childPathname, directoryTree(childPathname))
-      : acc.concat(childPathname)
-  }, [])
-
-// scan all files and directories in a path to get the most recent modified time
-const lastModifiedDate = pathname =>
-  directoryTree(pathname)
-    .map(pathname => fs.statSync(pathname).mtime)
-    .reduce((latest, current) => (latest < current ? current : latest))
+const CACHE_DIR = cacheDirectory()
 
 const ensureCacheDir = () => {
-  if (!fs.existsSync(".cache")) {
-    fs.mkdirSync(".cache")
+  if (!fs.existsSync(CACHE_DIR)) {
+    fs.mkdirSync(CACHE_DIR)
   }
 }
 
-const cacheCourseContent = (markdownPath, courseKey, cacheName) => {
+const courseContentCachePath = courseKey =>
+  path.resolve(CACHE_DIR, `${courseKey}_markdown.tgz`)
+
+const saveCourseContent = async (markdownPath, courseKey) => {
   ensureCacheDir()
 
-  tar.c(
+  await tar.c(
     {
       gzip: true,
-      C: markdownPath
+      C:    markdownPath,
+      file: courseContentCachePath(courseKey)
     },
-    [ courseKey ]
-  ).pipe(fs.createWriteStream(
-    `.cache/${courseKey}_markdown.tgz`
-  ))
-}
-
-const cacheCourseData = (dataTemplatePath, courseKey) => {
-  fs.copyFileSync(
-    dataTemplatePath,
-    `.cache/${courseKey}.json`
+    [courseKey]
   )
 }
 
-module.exports = { cacheCourseContent, cacheCourseData } 
+const loadCourseContent = (markdownPath, courseKey) => {
+  fs.createReadStream(courseContentCachePath(courseKey)).pipe(
+    tar.x({
+      C: markdownPath // alias for cwd:'some-dir', also ok
+    })
+  )
+}
+
+const dataTemplateCachePath = courseKey =>
+  path.resolve(CACHE_DIR, `${courseKey}.json`)
+
+const saveCourseData = (dataTemplatePath, courseKey) => {
+  fs.copyFileSync(dataTemplatePath, dataTemplateCachePath(courseKey))
+}
+
+module.exports = { saveCourseContent, saveCourseData, loadCourseContent }
