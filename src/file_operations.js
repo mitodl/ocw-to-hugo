@@ -16,7 +16,7 @@ const helpers = require("./helpers")
 const cache = require("./cache")
 const { directoryExists, createOrOverwriteFile } = require("./fs_utils")
 
-const { markdownDir, dataTemplatePath } = require("./paths")
+const { courseContentPath, dataTemplatePath } = require("./paths")
 
 const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
@@ -86,7 +86,6 @@ const scanCourses = async (inputPath, outputPath) => {
   console.log(`Converting ${numCourses} courses to Hugo markdown...`)
   progressBar.start(numCourses, 0)
   for (const course of courseList) {
-    // caching logic will go here
     await scanCourse(inputPath, outputPath, course, courseUidsLookup)
     progressBar.increment()
   }
@@ -106,14 +105,13 @@ const scanCourse = async (inputPath, outputPath, course, courseUidsLookup) => {
     This function scans a course directory for a master json file and processes it
   */
   const inputDataPath = path.join(inputPath, course)
-  console.log(inputDataPath)
   const masterJsonFile = await getMasterJsonFileName(inputDataPath)
 
   if (masterJsonFile) {
     const courseData = JSON.parse(await fsPromises.readFile(masterJsonFile))
     const courseId = courseData["short_url"]
 
-    if (cache.stale(courseId, inputDataPath)) {
+    if (await cache.stale(courseId, inputDataPath)) {
       const markdownData = markdownGenerators.generateMarkdownFromJson(
         courseData,
         courseUidsLookup

@@ -20,10 +20,15 @@ const fileExists = async path => {
   }
 }
 
-const createOrOverwriteFile = async (file, body) => {
-  const dirName = path.dirname(file)
+const ensureDirnameExists = async (filePath) => {
+  const dirName = path.dirname(filePath)
   await fsPromises.mkdir(dirName, { recursive: true })
-  await fsPromises.writeFile(file, body)
+}
+
+
+const createOrOverwriteFile = async (filePath, body) => {
+  await ensureDirnameExists(filePath)
+  await fsPromises.writeFile(filePath, body)
 }
 
 const isDirectory = pathname => fs.statSync(pathname).isDirectory()
@@ -48,6 +53,7 @@ module.exports = {
   directoryExists,
   fileExists,
   createOrOverwriteFile,
+  ensureDirnameExists,
   isDirectory,
   directoryTree,
   lastModifiedDate

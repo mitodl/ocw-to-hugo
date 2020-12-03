@@ -8,7 +8,7 @@ const markdownDir = () =>
 
 const courseContentPath = courseId => path.join(markdownDir(), courseId)
 
-const dataTemplateDir = path.join(helpers.runOptions.output, "data", "courses")
+const dataTemplateDir = () => path.join(helpers.runOptions.output, "data", "courses")
 
 const dataTemplatePath = courseId =>
   path.join(dataTemplateDir(), `${courseId}.json`)
