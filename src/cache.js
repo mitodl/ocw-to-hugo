@@ -4,7 +4,7 @@ const os = require("os")
 const tar = require("tar")
 
 const { lastModifiedDate } = require("./fs_utils")
-const { MARKDOWN_PATH } = require("./paths")
+const { MARKDOWN_DIR } = require("./paths")
 
 const cacheDirectory = () => path.resolve(os.homedir(), ".cache", "ocw-to-hugo")
 
@@ -25,7 +25,7 @@ const saveCourseContent = async (courseKey) => {
   await tar.c(
     {
       gzip: true,
-      C:    MARKDOWN_PATH,
+      C:    MARKDOWN_DIR,
       file: courseContentCachePath(courseKey)
     },
     [courseKey]
@@ -35,7 +35,7 @@ const saveCourseContent = async (courseKey) => {
 const loadCourseContent = (courseKey) => {
   fs.createReadStream(courseContentCachePath(courseKey)).pipe(
     tar.x({
-      C: MARKDOWN_PATH // alias for cwd:'some-dir', also ok
+      C: MARKDOWN_DIR // alias for cwd:'some-dir', also ok
     })
   )
 }

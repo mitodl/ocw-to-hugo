@@ -16,7 +16,7 @@ const helpers = require("./helpers")
 const cache = require("./cache")
 const { directoryExists, createOrOverwriteFile } = require("./fs_utils")
 
-const { MARKDOWN_PATH } = require("./paths")
+const { MARKDOWN_DIR } = require("./paths")
 
 const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
@@ -117,7 +117,7 @@ const scanCourse = async (inputPath, outputPath, course, courseUidsLookup) => {
     const dataTemplate = dataTemplateGenerators.generateDataTemplate(courseData)
 
     await writeMarkdownFilesRecursive(
-      path.join(MARKDOWN_PATH, courseData["short_url"]),
+      path.join(MARKDOWN_DIR, courseData["short_url"]),
       markdownData
     )
     // cache.loadCourseContent(

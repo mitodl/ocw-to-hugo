@@ -1,7 +1,7 @@
 const { runOptions } = require("./helpers")
 
 // module for declaring key filepaths in one place
-const MARKDOWN_PATH = path.join(
+const MARKDOWN_DIR = path.join(
   runOptions.output,
   "content",
   "courses"
