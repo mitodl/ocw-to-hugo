@@ -73,6 +73,10 @@ our conversion process.
 
 ## Implementation
 
+A few little details and preliminary thinking.
+
+### dependencies
+
 The [draft / proof of concept
 implementation](https://github.com/mitodl/ocw-to-hugo/pull/143) uses the
 [node-tar](https://github.com/npm/node-tar) library for compression. It is a
@@ -80,6 +84,43 @@ flexible library which has usage patterns similar to the unix `tar` command. It
 can be used synchronously or asynchronously, with promises, callbacks, or using
 a streaming API. Other than that the only dependencies are node.js built-in
 modules like `os`, `path`, and `fs`.
+
+### API
+
+The cache will be implemented as a commonJS module exporting 3 functions:
+
+```
+stale: (courseId: string, inputPath: string) => boolean
+save: async (courseId: string) => Promise<undefined>
+load: async (courseId: string) => Promise<undefined>
+```
+
+`stale` basically just wraps up checking whether the source data is newer than
+the cached data. The version number check isn't implemented yet, but this will
+probably be integrated into this method too for simplicity's sake.
+
+`save` takes a `courseId` performs the steps of creating the `.tgz` archive,
+copying it to the cache directory, and then copying the data template.
+
+`load` takes a `courseId` and does the opposite: it unpacks the `.tgz` archive
+at the right spot and likewise copies the data template `.json` file to its
+rightful home.
+
+I considered implementing the cache as an object with an ES6 class, but I think
+it's not really necessary.
+
+The intended use is like this:
+
+```js
+const cache = require("./cache")
+
+if (await cache.stale(courseId, inputPath)) {
+  // write markdown and template
+  cache.save(courseId)
+} else {
+  cache.load(courseId)
+}
+```
 
 ## Cache location
 
