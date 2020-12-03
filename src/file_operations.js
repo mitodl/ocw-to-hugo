@@ -16,7 +16,7 @@ const helpers = require("./helpers")
 const cache = require("./cache")
 const { directoryExists, createOrOverwriteFile } = require("./fs_utils")
 
-const { MARKDOWN_DIR } = require("./paths")
+const { markdownDir, dataTemplatePath } = require("./paths")
 
 const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
@@ -105,45 +105,32 @@ const scanCourse = async (inputPath, outputPath, course, courseUidsLookup) => {
   /*
     This function scans a course directory for a master json file and processes it
   */
-  const courseMarkdownPath = path.join(inputPath, course)
-  const masterJsonFile = await getMasterJsonFileName(courseMarkdownPath)
+  const inputDataPath = path.join(inputPath, course)
+  console.log(inputDataPath)
+  const masterJsonFile = await getMasterJsonFileName(inputDataPath)
 
   if (masterJsonFile) {
     const courseData = JSON.parse(await fsPromises.readFile(masterJsonFile))
-    const markdownData = markdownGenerators.generateMarkdownFromJson(
-      courseData,
-      courseUidsLookup
-    )
-    const dataTemplate = dataTemplateGenerators.generateDataTemplate(courseData)
+    const courseId = courseData["short_url"]
 
-    await writeMarkdownFilesRecursive(
-      path.join(MARKDOWN_DIR, courseData["short_url"]),
-      markdownData
-    )
-    // cache.loadCourseContent(
-    //   markdownPath,
-    //   courseData["short_url"]
-    // )
+    if (cache.stale(courseId, inputDataPath)) {
+      const markdownData = markdownGenerators.generateMarkdownFromJson(
+        courseData,
+        courseUidsLookup
+      )
+      const dataTemplate = dataTemplateGenerators.generateDataTemplate(
+        courseData
+      )
 
-    cache.saveCourseContent(
-      courseData["short_url"],
-    )
-
-    const dataTemplatePath = path.join(outputPath,
-      "data",
-      "courses",
-      `${dataTemplate["course_id"]}.json`
-    )
-
-    await writeDataTemplate(
-      dataTemplatePath,
-      dataTemplate
-    )
-
-    cache.saveCourseData(
-      dataTemplatePath,
-      dataTemplate["course_id"]
-    )
+      await writeMarkdownFilesRecursive(
+        courseContentPath(courseId),
+        markdownData
+      )
+      await writeDataTemplate(dataTemplate)
+      await cache.save(courseId)
+    } else {
+      await cache.load(courseId)
+    }
   }
 }
 
@@ -186,9 +173,9 @@ const writeMarkdownFilesRecursive = async (outputPath, markdownData) => {
   }
 }
 
-const writeDataTemplate = async (dataTemplatePath, dataTemplate) => {
+const writeDataTemplate = async dataTemplate => {
   await createOrOverwriteFile(
-    dataTemplatePath,
+    dataTemplatePath(dataTemplate["course_id"]),
     JSON.stringify(dataTemplate)
   )
 }

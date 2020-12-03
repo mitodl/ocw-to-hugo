@@ -4,11 +4,13 @@ const os = require("os")
 const tar = require("tar")
 
 const { lastModifiedDate } = require("./fs_utils")
-const { MARKDOWN_DIR } = require("./paths")
-
-const cacheDirectory = () => path.resolve(os.homedir(), ".cache", "ocw-to-hugo")
-
-const CACHE_DIR = cacheDirectory()
+const {
+  markdownDir,
+  courseContentPath,
+  courseContentCachePath,
+  dataTemplateCachePath,
+  dataTemplatePath
+} = require("./paths")
 
 const ensureCacheDir = () => {
   if (!fs.existsSync(CACHE_DIR)) {
@@ -16,35 +18,50 @@ const ensureCacheDir = () => {
   }
 }
 
-const courseContentCachePath = courseKey =>
-  path.resolve(CACHE_DIR, `${courseKey}_markdown.tgz`)
+const stale = (courseId, inputPath) => {
+  ensureCacheDir()
 
-const saveCourseContent = async (courseKey) => {
+  const courseLastModified = lastModifiedDate()
+}
+
+const saveCourseContent = async courseId => {
   ensureCacheDir()
 
   await tar.c(
     {
       gzip: true,
-      C:    MARKDOWN_DIR,
-      file: courseContentCachePath(courseKey)
+      cwd:  markdownDir(),
+      file: courseContentCachePath(courseId)
     },
-    [courseKey]
+    [courseId]
   )
 }
 
-const loadCourseContent = (courseKey) => {
-  fs.createReadStream(courseContentCachePath(courseKey)).pipe(
-    tar.x({
-      C: MARKDOWN_DIR // alias for cwd:'some-dir', also ok
-    })
-  )
+const loadCourseContent = async courseId => {
+  await tar.x({
+    cwd:  markdownDir(),
+    file: courseContentCachePath(courseId)
+  })
 }
 
-const dataTemplateCachePath = courseKey =>
-  path.resolve(CACHE_DIR, `${courseKey}.json`)
-
-const saveCourseData = (dataTemplatePath, courseKey) => {
-  fs.copyFileSync(dataTemplatePath, dataTemplateCachePath(courseKey))
+const saveCourseData = courseId => {
+  fs.copyFileSync(dataTemplatePath(courseId), dataTemplateCachePath(courseId))
 }
 
-module.exports = { saveCourseContent, saveCourseData, loadCourseContent }
+const loadCourseData = courseId => {}
+
+const save = async courseId => {
+  await saveCourseContent(courseId)
+  await saveCourseData(courseId)
+}
+
+const load = async courseId => {}
+
+module.exports = {
+  saveCourseContent,
+  saveCourseData,
+  loadCourseContent,
+  loadCoursedata,
+  save,
+  stale
+}
