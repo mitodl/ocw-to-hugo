@@ -147,7 +147,8 @@ This is looking at the performance of the [draft
 implementation](https://github.com/mitodl/ocw-to-hugo/pull/143), which hasn't
 really been optimized or 'tuned' at all. There is a good deal of additional i/o
 as compared with current `master`, mainly in the form of additional calls to
-`ls` and then `fs.statSync`.
+`ls` and then `fs.statSync`. By checking only the `mtime` of `_parsed.json`
+we'll remove the need for a lot Those calls.
 
 There's two relevant things to examine: runtime and cache size.
 
