@@ -1,5 +1,8 @@
 const path = require("path")
 const os = require("os")
+const fsPromises = require("./fsPromises")
+const { directoryExists, isDirectory } = require("./fs_utils")
+const fs = require("fs")
 
 const helpers = require("./helpers")
 
@@ -22,6 +25,23 @@ const courseContentCachePath = courseKey =>
 const dataTemplateCachePath = courseId =>
   path.resolve(CACHE_DIR, `${courseId}.json`)
 
+const parsed_regex = /.*_parsed.json$/
+const getMasterJsonFileName = async coursePath => {
+  /*
+    This function scans a course directory for a master json file and returns it
+  */
+  if (await directoryExists(coursePath)) {
+  // if (isDirectory(coursePath)) {
+    // If the item is indeed a directory, read all files in it
+    const contents = await fsPromises.readdir(coursePath)
+    // const contents = fs.readdirSync(coursePath)
+    const fileName = contents.find(file => parsed_regex.test(file))
+    if (fileName) {
+      return path.join(coursePath, fileName)
+    }
+  }
+}
+
 module.exports = {
   markdownDir,
   courseContentPath,
@@ -29,5 +49,6 @@ module.exports = {
   dataTemplatePath,
   CACHE_DIR,
   courseContentCachePath,
-  dataTemplateCachePath
+  dataTemplateCachePath,
+  getMasterJsonFileName
 }

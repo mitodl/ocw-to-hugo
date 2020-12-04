@@ -16,7 +16,7 @@ const helpers = require("./helpers")
 const cache = require("./cache")
 const { directoryExists, createOrOverwriteFile } = require("./fs_utils")
 
-const { courseContentPath, dataTemplatePath } = require("./paths")
+const { courseContentPath, dataTemplatePath, getMasterJsonFileName } = require("./paths")
 
 const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
@@ -129,30 +129,13 @@ const scanCourse = async (inputPath, outputPath, course, courseUidsLookup) => {
     } else {
       await cache.load(courseId)
     }
-  }
-}
-
-const getMasterJsonFileName = async coursePath => {
-  /*
-    This function scans a course directory for a master json file and returns it
-  */
-  if (await directoryExists(coursePath)) {
-    // If the item is indeed a directory, read all files in it
-    const contents = await fsPromises.readdir(coursePath)
-    const fileName = contents.find(file => RegExp(".*_parsed.json$").test(file))
-    if (fileName) {
-      return path.join(coursePath, fileName)
+  } else {
+    if (helpers.runOptions.courses) {
+      const courseError = `${inputDataPath} - ${MISSING_COURSE_ERROR_MESSAGE}`
+      // if the script is filtering on courses, this should be a fatal error
+      throw new Error(courseError)
     }
   }
-  //  If we made it here, the master json file wasn't found
-  const courseError = `${coursePath} - ${MISSING_COURSE_ERROR_MESSAGE}`
-  if (helpers.runOptions.courses) {
-    // if the script is filtering on courses, this should be a fatal error
-    throw new Error(courseError)
-  }
-
-  // else, skip this one and go to the next course
-  progressBar.increment()
 }
 
 const writeMarkdownFilesRecursive = async (outputPath, markdownData) => {
