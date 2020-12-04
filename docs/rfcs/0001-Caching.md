@@ -48,25 +48,37 @@ be incompatible with the version of `hugo-course-publisher` we intend to use).
 
 Based on these requirements, I propose the following algorithm:
 
-1. let `current_version` be a string representation of the current version of `ocw-to-hugo`
-1. let `output` be the output specified with the `-o` option on the command-line
+1. let `current_version` be a string representation of the current version of
+   `ocw-to-hugo`
+1. let `output` be the output specified with the `-o` option on the
+   command-line
 1. let `CACHE_DIR` be the cache directory
 1. for each course in the input:
     1. let `course_id` be the course's UUID (`short_url` in the input data).
-    1. let `inputLastModified` be the last modified date for the course. This is calculcated
-    by looking at the last modified time for the `_parsed.json` file for the course, since any file changes would cause that file to change as well.
-    1. let `cacheLastModified` be the last modified date for cached content for that course
+    1. let `inputLastModified` be the last modified date for the course. This
+       is calculcated by looking at the last modified time for the
+       `_parsed.json` file for the course, since any file or content changes
+       would cause that file to change as well.
+    1. let `cacheLastModified` be the last modified date for cached content for
+       that course
     1. let `is_stale` be `inputLastModified > cacheLastModified`
-    1. let `cache_version` be the version ID written in the filenames for the cached content
-    - if `is_stale` or `cache_version !== current_version` or course not present in cache:
-        1. convert markdown, and write markdown into directory `${output}/content/courses/${course_id}`
+    1. let `cache_version` be the version ID written in the filenames for the
+    cached content
+    - if `is_stale` or `cache_version !== current_version` or course not
+      present in cache:
+        1. convert markdown, and write markdown into directory
+        `${output}/content/courses/${course_id}`
         1. write data template to `${output}/data/courses/${course_id}.json`
         1. create a tar archive of `${output}/content/courses/${course_id}`
-        1. write tar archive to `${CACHE_DIR}/${course_id}_${current_version}.tgz`
-        1. copy `${output}/data/courses/${course_id}.json` to `${CACHE_DIR}/${course_id}_${version_id}.json`
+        1. write tar archive to
+        `${CACHE_DIR}/${course_id}_${current_version}.tgz`
+        1. copy `${output}/data/courses/${course_id}.json` to
+        `${CACHE_DIR}/${course_id}_${version_id}.json`
     - else:
-        1. untar `${CACHE_DIR}/${course_id}_${current_version}.tgz` in `${output}/content/courses/`
-        1. copy `${CACHE_DIR}/${course_id}_${current_version}.json` to `${output}/data/courses/${course_id}.json`
+        1. untar `${CACHE_DIR}/${course_id}_${current_version}.tgz` in
+        `${output}/content/courses/`
+        1. copy `${CACHE_DIR}/${course_id}_${current_version}.json` to
+        `${output}/data/courses/${course_id}.json`
 
 I believe this will cover our bases. We want to invalidate the cache whenever the
 data in it is stale or was generated with an older version of `ocw-to-hugo`.
