@@ -53,7 +53,8 @@ Based on these requirements, I propose the following algorithm:
 1. let `CACHE_DIR` be the cache directory
 1. for each course in the input:
     1. let `course_id` be the course's UUID (`short_url` in the input data).
-    1. let `inputLastModified` be the last modified date for the course
+    1. let `inputLastModified` be the last modified date for the course. This is calculcated
+    by looking at the last modified time for the `_parsed.json` file for the course, since any file changes would cause that file to change as well.
     1. let `cacheLastModified` be the last modified date for cached content for that course
     1. let `is_stale` be `inputLastModified > cacheLastModified`
     1. let `cache_version` be the version ID written in the filenames for the cached content
