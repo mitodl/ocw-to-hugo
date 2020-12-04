@@ -216,8 +216,8 @@ describe("generateCourseHomeMarkdown", () => {
     sandbox.restore()
   })
 
-  it(`sets the title of the page to "Course Home"`, () => {
-    const expectedValue = "Course Home"
+  it(`sets the title of the page to an empty string for course pages`, () => {
+    const expectedValue = ""
     const foundValue = courseHomeFrontMatter["title"]
     assert.equal(expectedValue, foundValue)
   })
@@ -269,7 +269,7 @@ describe("generateCourseHomeMarkdown", () => {
     courseHomeMarkdown = markdownGenerators.generateCourseHomeMarkdown(
       singleCourseJsonData
     )
-    assert.include(courseHomeMarkdown, "title: Course Home")
+    assert.include(courseHomeMarkdown, "title: ''")
   })
 
   it("handles an empty string for instructors", () => {
