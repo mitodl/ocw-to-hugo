@@ -34,7 +34,6 @@ fi
 eval "$CMD $CMD_ARGS" 2> >(tee "$TMP_FILE")
 
 export TEST_RESULT=$?
-export TRAVIS_BUILD_DIR=$PWD
 if [[ ! -z "$CODECOV" ]]
 then
     echo "Uploading coverage..."
