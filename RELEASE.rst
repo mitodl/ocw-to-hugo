@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 1.6.0
+-------------
+
+- Switch to github actions (#147)
+- Remove "Course Home" from course page title (#142)
+
 Version 1.5.0 (Released December 01, 2020)
 -------------
 
