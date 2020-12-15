@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.6.0
+Version 1.6.0 (Released December 15, 2020)
 -------------
 
 - Switch to github actions (#147)
