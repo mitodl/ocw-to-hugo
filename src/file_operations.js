@@ -10,10 +10,13 @@ const {
   NO_COURSES_FOUND_MESSAGE,
   BOILERPLATE_MARKDOWN
 } = require("./constants")
-const { directoryExists } = require("./helpers")
 const markdownGenerators = require("./markdown_generators")
 const dataTemplateGenerators = require("./data_template_generators")
 const helpers = require("./helpers")
+const cache = require("./cache")
+const { directoryExists, createOrOverwriteFile } = require("./fs_utils")
+
+const { courseContentPath, dataTemplatePath, getMasterJsonFileName } = require("./paths")
 
 const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
@@ -101,48 +104,38 @@ const scanCourse = async (inputPath, outputPath, course, courseUidsLookup) => {
   /*
     This function scans a course directory for a master json file and processes it
   */
-  const markdownPath = path.join(outputPath, "content", "courses")
-  const courseMarkdownPath = path.join(inputPath, course)
-  const masterJsonFile = await getMasterJsonFileName(courseMarkdownPath)
+  const inputDataPath = path.join(inputPath, course)
+  const masterJsonFile = await getMasterJsonFileName(inputDataPath)
+
   if (masterJsonFile) {
     const courseData = JSON.parse(await fsPromises.readFile(masterJsonFile))
-    const markdownData = markdownGenerators.generateMarkdownFromJson(
-      courseData,
-      courseUidsLookup
-    )
-    const dataTemplate = dataTemplateGenerators.generateDataTemplate(courseData)
-    await writeMarkdownFilesRecursive(
-      path.join(markdownPath, courseData["short_url"]),
-      markdownData
-    )
-    await writeDataTemplate(
-      path.join(outputPath, "data", "courses"),
-      dataTemplate
-    )
-  }
-}
+    const courseId = courseData["short_url"]
 
-const getMasterJsonFileName = async coursePath => {
-  /*
-    This function scans a course directory for a master json file and returns it
-  */
-  if (await directoryExists(coursePath)) {
-    // If the item is indeed a directory, read all files in it
-    const contents = await fsPromises.readdir(coursePath)
-    const fileName = contents.find(file => RegExp(".*_parsed.json$").test(file))
-    if (fileName) {
-      return path.join(coursePath, fileName)
+    if (await cache.stale(courseId, inputDataPath)) {
+      const markdownData = markdownGenerators.generateMarkdownFromJson(
+        courseData,
+        courseUidsLookup
+      )
+      const dataTemplate = dataTemplateGenerators.generateDataTemplate(
+        courseData
+      )
+
+      await writeMarkdownFilesRecursive(
+        courseContentPath(courseId),
+        markdownData
+      )
+      await writeDataTemplate(dataTemplate)
+      await cache.save(courseId)
+    } else {
+      await cache.load(courseId)
+    }
+  } else {
+    if (helpers.runOptions.courses) {
+      const courseError = `${inputDataPath} - ${MISSING_COURSE_ERROR_MESSAGE}`
+      // if the script is filtering on courses, this should be a fatal error
+      throw new Error(courseError)
     }
   }
-  //  If we made it here, the master json file wasn't found
-  const courseError = `${coursePath} - ${MISSING_COURSE_ERROR_MESSAGE}`
-  if (helpers.runOptions.courses) {
-    // if the script is filtering on courses, this should be a fatal error
-    throw new Error(courseError)
-  }
-
-  // else, skip this one and go to the next course
-  progressBar.increment()
 }
 
 const writeMarkdownFilesRecursive = async (outputPath, markdownData) => {
@@ -152,7 +145,7 @@ const writeMarkdownFilesRecursive = async (outputPath, markdownData) => {
     */
   for (const section of markdownData) {
     const sectionPath = path.join(outputPath, section["name"])
-    await helpers.createOrOverwriteFile(sectionPath, section["data"])
+    await createOrOverwriteFile(sectionPath, section["data"])
     await writeSectionFiles("files", section, outputPath)
     await writeSectionFiles("media", section, outputPath)
     if (section.hasOwnProperty("children")) {
@@ -161,9 +154,9 @@ const writeMarkdownFilesRecursive = async (outputPath, markdownData) => {
   }
 }
 
-const writeDataTemplate = async (outputPath, dataTemplate) => {
-  await helpers.createOrOverwriteFile(
-    path.join(outputPath, `${dataTemplate["course_id"]}.json`),
+const writeDataTemplate = async dataTemplate => {
+  await createOrOverwriteFile(
+    dataTemplatePath(dataTemplate["course_id"]),
     JSON.stringify(dataTemplate)
   )
 }
@@ -172,7 +165,7 @@ const writeSectionFiles = async (key, section, outputPath) => {
   if (section.hasOwnProperty(key)) {
     for (const file of section[key]) {
       const filePath = path.join(outputPath, file["name"])
-      await helpers.createOrOverwriteFile(filePath, file["data"])
+      await createOrOverwriteFile(filePath, file["data"])
     }
   }
 }

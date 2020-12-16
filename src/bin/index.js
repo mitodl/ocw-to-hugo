@@ -58,6 +58,11 @@ const options = yargs
       "Recursively remove the contents of the destination directory before conversion",
     type:         "boolean",
     demandOption: false
+  })
+  .option("no-cache", {
+    describe:     "Skip the cache and convert all input courses",
+    type:         "boolean",
+    demandOption: false
   }).argv
 
 helpers.runOptions = options

@@ -14,7 +14,7 @@ const helpers = require("./helpers")
 const fileOperations = require("./file_operations")
 const markdownGenerators = require("./markdown_generators")
 const dataTemplateGenerators = require("./data_template_generators")
-const { fileExists } = require("./helpers")
+const { fileExists, createOrOverwriteFile } = require("./fs_utils")
 
 const testDataPath = "test_data/courses"
 const singleCourseId =
@@ -59,10 +59,7 @@ describe("writeBoilerplate", () => {
   it("clears the destination directory if the argument is passed to do so", async () => {
     const outputPath = tmp.dirSync({ prefix: "output" }).name
     const testFilePath = path.join(outputPath, "test.txt")
-    await helpers.createOrOverwriteFile(
-      testFilePath,
-      "this file should be removed"
-    )
+    await createOrOverwriteFile(testFilePath, "this file should be removed")
     await fileOperations.writeBoilerplate(outputPath, true)
     const testFileExists = await fileExists(testFilePath)
     assert.isFalse(testFileExists)

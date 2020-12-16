@@ -7,7 +7,7 @@ require("dotenv").config()
 const cliProgress = require("cli-progress")
 const loggers = require("./loggers")
 
-const { createOrOverwriteFile } = require("./helpers")
+const { createOrOverwriteFile } = require("./fs_utils")
 
 const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
