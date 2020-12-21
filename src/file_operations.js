@@ -106,19 +106,23 @@ const scanCourse = async (inputPath, outputPath, course, courseUidsLookup) => {
   const masterJsonFile = await getMasterJsonFileName(courseMarkdownPath)
   if (masterJsonFile) {
     const courseData = JSON.parse(await fsPromises.readFile(masterJsonFile))
-    const markdownData = markdownGenerators.generateMarkdownFromJson(
-      courseData,
-      courseUidsLookup
-    )
-    const dataTemplate = dataTemplateGenerators.generateDataTemplate(courseData)
-    await writeMarkdownFilesRecursive(
-      path.join(markdownPath, courseData["short_url"]),
-      markdownData
-    )
-    await writeDataTemplate(
-      path.join(outputPath, "data", "courses"),
-      dataTemplate
-    )
+    if (helpers.isCoursePublished(courseData)) {
+      const markdownData = markdownGenerators.generateMarkdownFromJson(
+        courseData,
+        courseUidsLookup
+      )
+      const dataTemplate = dataTemplateGenerators.generateDataTemplate(
+        courseData
+      )
+      await writeMarkdownFilesRecursive(
+        path.join(markdownPath, courseData["short_url"]),
+        markdownData
+      )
+      await writeDataTemplate(
+        path.join(outputPath, "data", "courses"),
+        dataTemplate
+      )
+    }
   }
 }
 

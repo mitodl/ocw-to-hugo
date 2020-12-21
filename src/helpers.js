@@ -1,12 +1,14 @@
 const _ = require("lodash")
 const path = require("path")
+const moment = require("moment")
 
 const fsPromises = require("./fsPromises")
 const DEPARTMENTS_JSON = require("./departments.json")
 const {
   AWS_REGEX,
   GETPAGESHORTCODESTART,
-  GETPAGESHORTCODEEND
+  GETPAGESHORTCODEEND,
+  INPUT_COURSE_DATE_FORMAT
 } = require("./constants")
 const loggers = require("./loggers")
 
@@ -395,6 +397,23 @@ const stripS3 = text => {
 
 const unescapeBackticks = text => text.replace(/\\`/g, "&grave;")
 
+const isCoursePublished = courseData => {
+  const lastPublishedToProduction = moment(
+    courseData["last_published_to_production"],
+    INPUT_COURSE_DATE_FORMAT
+  )
+  const lastUnpublishingDate = moment(
+    courseData["last_unpublishing_date"],
+    INPUT_COURSE_DATE_FORMAT
+  )
+  if (
+    !courseData["last_published_to_production"] ||
+    lastUnpublishingDate.isBefore(lastPublishedToProduction)
+  ) {
+    return false
+  } else return true
+}
+
 module.exports = {
   distinct,
   directoryExists,
@@ -415,5 +434,6 @@ module.exports = {
   htmlSafeText,
   stripS3,
   unescapeBackticks,
+  isCoursePublished,
   runOptions
 }
