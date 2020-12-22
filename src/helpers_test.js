@@ -331,15 +331,11 @@ describe("isCoursePublished", () => {
       ["2010/03/10 0:0:0.000", "2010/03/11 0:0:0.000", false],
       ["2010/03/11 0:0:0.000", "2010/03/10 0:0:0.000", true]
     ].forEach(([pubDate, unpubDate, published]) => {
-      it(`returns ${String(published)} for publish date ${String(
-        pubDate
-      )}, unpublish date ${String(unpubDate)}`, () => {
-        const courseData = {
-          last_unpublishing_date:       unpubDate,
-          last_published_to_production: pubDate
-        }
-        assert.equal(helpers.isCoursePublished(courseData), published)
-      })
+      const courseData = {
+        last_unpublishing_date:       unpubDate,
+        last_published_to_production: pubDate
+      }
+      assert.equal(helpers.isCoursePublished(courseData), published)
     })
   })
 })
