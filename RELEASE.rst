@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.7.0
+-------------
+
+- don't process unpublished courses (#150)
+
 Version 1.6.0 (Released December 15, 2020)
 -------------
 
