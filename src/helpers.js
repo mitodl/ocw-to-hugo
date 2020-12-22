@@ -408,7 +408,7 @@ const isCoursePublished = courseData => {
   )
   if (
     !courseData["last_published_to_production"] ||
-    lastUnpublishingDate.isBefore(lastPublishedToProduction)
+    lastUnpublishingDate.isAfter(lastPublishedToProduction)
   ) {
     return false
   } else return true

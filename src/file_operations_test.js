@@ -19,7 +19,7 @@ const { fileExists } = require("./helpers")
 const testDataPath = "test_data/courses"
 const singleCourseId =
   "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
-const unpublishedCourseId = "8-01sc-classical-mechanics-fall-2016"
+const unpublishedCourseId = "18-435j-quantum-computation-fall-2018"
 const singleCourseMasterJsonPath = path.join(
   testDataPath,
   singleCourseId,

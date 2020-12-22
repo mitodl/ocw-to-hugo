@@ -21,7 +21,7 @@ const singleCourseJsonData = JSON.parse(singleCourseRawData)
 const assignmentsPage = singleCourseJsonData["course_pages"].find(
   page => page["uid"] === "1016059a65d256e4e12de4f25591a1b8"
 )
-const unpublishedCourse = "8-01sc-classical-mechanics-fall-2016"
+const unpublishedCourse = "18-435j-quantum-computation-fall-2018"
 const unpublishedCourseInputPath = `test_data/courses/${unpublishedCourse}`
 const unpublishedCourseMasterJsonPath = path.join(
   unpublishedCourseInputPath,
@@ -319,5 +319,27 @@ describe("isCoursePublished", () => {
 
   it("returns false for an unpublished course", () => {
     assert.isFalse(helpers.isCoursePublished(unpublishedCourseJsonData))
+  })
+
+  it("returns the expected value for a set of comparisons", () => {
+    [
+      [null, null, false],
+      ["", null, false],
+      ["2010/03/10 0:0:0.000", null, true],
+      ["2010/03/10 0:0:0.000", "", true],
+      [null, "2010/03/10 0:0:0.000", false],
+      ["2010/03/10 0:0:0.000", "2010/03/11 0:0:0.000", false],
+      ["2010/03/11 0:0:0.000", "2010/03/10 0:0:0.000", true]
+    ].forEach(([pubDate, unpubDate, published]) => {
+      it(`returns ${String(published)} for publish date ${String(
+        pubDate
+      )}, unpublish date ${String(unpubDate)}`, () => {
+        const courseData = {
+          last_unpublishing_date:       unpubDate,
+          last_published_to_production: pubDate
+        }
+        assert.equal(helpers.isCoursePublished(courseData), published)
+      })
+    })
   })
 })
