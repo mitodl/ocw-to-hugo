@@ -79,7 +79,7 @@ const generateMarkdownRecursive = (page, courseUidsLookup, courseData) => {
   let courseSectionMarkdown = generateCourseSectionFrontMatter(
     page["title"],
     page["short_page_title"],
-    `${page["uid"]}`,
+    page["uid"],
     hasParent ? parent["uid"] : null,
     inRootNav,
     page["is_media_gallery"],
@@ -144,23 +144,6 @@ const generateMarkdownRecursive = (page, courseUidsLookup, courseData) => {
   }
 }
 
-const generateCourseInfo = courseData => ({
-  instructors: courseData["instructors"]
-    ? courseData["instructors"].map(
-      instructor =>
-        `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`
-    )
-    : [],
-  departments:     helpers.getDepartments(courseData),
-  course_features: courseData["course_features"].map(courseFeature =>
-    helpers.getCourseFeatureObject(courseFeature)
-  ),
-  topics:         helpers.getConsolidatedTopics(courseData["course_collections"]),
-  course_numbers: helpers.getCourseNumbers(courseData),
-  term:           `${courseData["from_semester"]} ${courseData["from_year"]}`,
-  level:          courseData["course_level"]
-})
-
 const generateCourseHomeMarkdown = (courseData, courseUidsLookup) => {
   /**
     Generate the front matter metadata for the course home page given course_data JSON
@@ -189,14 +172,16 @@ const generateCourseHomeMarkdown = (courseData, courseUidsLookup) => {
     )
     : ""
 
+  const pageId = courseHomePage ? courseHomePage["uid"] : "course-home"
   const frontMatter = {
+    uid:       pageId,
     title:     "",
     type:      "course",
     layout:    "course_home",
     course_id: courseData["short_url"],
     menu:      {
       [courseData["short_url"]]: {
-        identifier: "course-home",
+        identifier: pageId,
         weight:     -10
       }
     }
@@ -226,6 +211,7 @@ const generateCourseSectionFrontMatter = (
     Generate the front matter metadata for a course section given a title and menu index
     */
   const courseSectionFrontMatter = {
+    uid:       pageId,
     title:     title,
     course_id: courseId,
     type:      "course",
