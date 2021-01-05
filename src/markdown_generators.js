@@ -144,6 +144,24 @@ const generateMarkdownRecursive = (page, courseUidsLookup, courseData) => {
   }
 }
 
+const generateCourseInfo = courseData => ({
+  instructors: courseData["instructors"]
+    ? courseData["instructors"].map(
+      instructor =>
+        `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`
+    )
+    : [],
+  departments:     helpers.getDepartments(courseData),
+  course_features: courseData["course_features"].map(courseFeature =>
+    helpers.getCourseFeatureObject(courseFeature)
+  ),
+  topics:         helpers.getConsolidatedTopics(courseData["course_collections"]),
+  course_numbers: helpers.getCourseNumbers(courseData),
+  term:           `${courseData["from_semester"]} ${courseData["from_year"]}`,
+  level:          courseData["course_level"]
+})
+
+
 const generateCourseHomeMarkdown = (courseData, courseUidsLookup) => {
   /**
     Generate the front matter metadata for the course home page given course_data JSON
