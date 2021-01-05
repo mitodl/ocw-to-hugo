@@ -161,7 +161,6 @@ const generateCourseInfo = courseData => ({
   level:          courseData["course_level"]
 })
 
-
 const generateCourseHomeMarkdown = (courseData, courseUidsLookup) => {
   /**
     Generate the front matter metadata for the course home page given course_data JSON
