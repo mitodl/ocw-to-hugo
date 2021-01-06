@@ -222,6 +222,12 @@ describe("generateCourseHomeMarkdown", () => {
     assert.equal(expectedValue, foundValue)
   })
 
+  it("sets the uid property to the uid of the course home page from the source data", () => {
+    const expectedValue = "42664d52bd9a5b1632bac20876dc344d"
+    const foundValue = courseHomeFrontMatter["uid"]
+    assert.equal(expectedValue, foundValue)
+  })
+
   it("sets the topics property on the course info object to data parsed from course_collections in the course json data", () => {
     const topics = helpers.getConsolidatedTopics(
       singleCourseJsonData["course_collections"]

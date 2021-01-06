@@ -151,8 +151,7 @@ describe("getHugoPathSuffix", () => {
 })
 
 describe("resolveUids", () => {
-  const course =
-    "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
+  const course = "12-001-introduction-to-geology-fall-2013"
   const parsedPath = path.join(
     "test_data",
     "courses",
@@ -160,66 +159,76 @@ describe("resolveUids", () => {
     `${course}_parsed.json`
   )
   const courseData = JSON.parse(fs.readFileSync(parsedPath))
-  const syllabusPage = courseData["course_pages"].find(
-    page => page["uid"] === "00eb284b6ed5f08a3cf9669918588f59"
+  const fieldTripPage = courseData["course_pages"].find(
+    page => page["uid"] === "de36fe69cf33ddf238bc3896d0ce9eff"
   )
 
   it("replaces all resolveuid links on a given page", () => {
-    assert.isTrue(assignmentsPage["text"].indexOf("resolveuid") !== -1)
+    assert.isTrue(fieldTripPage["text"].indexOf("resolveuid") !== -1)
     const result = helpers.resolveUids(
-      assignmentsPage["text"],
-      assignmentsPage,
-      singleCourseJsonData,
+      fieldTripPage["text"],
+      fieldTripPage,
+      courseData,
       {}
     )
+    console.log(result.replace(/resolveuid/g, "\nresolveuid"))
     assert.isTrue(result.indexOf("resolveuid") === -1)
   })
 
   it("resolves a uid for a page", async () => {
+    assert.include(fieldTripPage["text"], "resolveuid")
     assert.include(
-      syllabusPage["text"],
-      'see the <a href="./resolveuid/ab358d663152f31a56035144d6d77e4b">Tools section</a>'
+      fieldTripPage["text"],
+      '<a href="./resolveuid/ef6931d2c8e6bc0b8e9a5572a78fe125">planning a good field trip</a>'
     )
     const result = helpers.resolveUids(
-      syllabusPage["text"],
-      syllabusPage,
+      fieldTripPage["text"],
+      fieldTripPage,
       courseData,
       {}
     )
     assert.include(
       result,
-      'see the <a href="GETPAGESHORTCODESTARTcourses/' +
-        "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012/sections/" +
-        'tools/_index.mdGETPAGESHORTCODEEND">Tools section</a>'
+      '<a href="GETPAGESHORTCODESTARTcourses/12-001-introduction-to-geology-fall-2013/sections/instructor-insights/planning-a-good-field-trip/_index.mdGETPAGESHORTCODEEND">planning a good field trip</a>'
     )
   })
 
   it("resolves a uid for a file", () => {
     assert.include(
-      assignmentsPage["text"],
-      "Technical report 1 (" +
-        '<a href="./resolveuid/b0f020c026200bb212a4c65a017b4340">' +
-        "PDF</a>"
+      fieldTripPage["text"],
+      `<a href="./resolveuid/f828208d0d04e1f39c1bb31d6fbe5f2d">Field Trip Guide (PDF - 4.2MB)</a>`
     )
     const result = helpers.resolveUids(
-      assignmentsPage["text"],
-      assignmentsPage,
-      singleCourseJsonData,
+      fieldTripPage["text"],
+      fieldTripPage,
+      courseData,
       {}
     )
     assert.include(
       result,
-      "Technical report 1 (" +
-        '<a href="GETPAGESHORTCODESTARTcourses/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/' +
-        'sections/assignments/MIT2_00AJs09_assn06_motorsGETPAGESHORTCODEEND">' +
-        "PDF</a>"
+      `<a href="GETPAGESHORTCODESTARTcourses/12-001-introduction-to-geology-fall-2013/sections/field-trip/MIT12_001F14_Field_TripGETPAGESHORTCODEEND">Field Trip Guide (PDF - 4.2MB)</a>`
     )
   })
   ;[true, false].forEach(missing => {
     it(`resolves uids for a ${missing ? "missing " : ""}course`, () => {
-      const otherCourseUid = "bfe41979b9593362793fd930b36efa01"
-      const otherCourseSlug = "123-456-789-a-course-slug"
-      const originalLink = `<p><a href="./resolveuid/${otherCourseUid}"><em>18.01 (Single Variable Calculus)</em>`
+      const linkingCourse =
+        "1-204-computer-algorithms-in-systems-engineering-spring-2010"
+      const linkingCourseParsedPath = path.join(
+        "test_data",
+        "courses",
+        linkingCourse,
+        `${linkingCourse}_parsed.json`
+      )
+      const linkingCourseData = JSON.parse(
+        fs.readFileSync(linkingCourseParsedPath)
+      )
+      const syllabusPage = linkingCourseData["course_pages"].find(
+        page => page["uid"] === "7b7843dfbb2f3b5946b25de9abdf10f8"
+      )
+      const otherCourseUid = "bb55dad7f4888f0a1ad004600c5fb1f1"
+      const otherCourseSlug =
+        "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
+      const originalLink = `<a href="./resolveuid/bb55dad7f4888f0a1ad004600c5fb1f1"><em>1.001 Introduction to Computers and Engineering Problem Solving</em></a>`
       assert.include(syllabusPage["text"], originalLink)
       const lookup = {}
       if (!missing) {
@@ -228,12 +237,12 @@ describe("resolveUids", () => {
       const result = helpers.resolveUids(
         syllabusPage["text"],
         syllabusPage,
-        courseData,
+        linkingCourseData,
         lookup
       )
       const expectedNeedle = missing
-        ? `<p><a href="./resolveuid/${otherCourseUid}"><em>18.01 (Single Variable Calculus)</em>`
-        : `<p><a href="/courses/${otherCourseSlug}"><em>18.01 (Single Variable Calculus)</em>`
+        ? `<a href="./resolveuid/${otherCourseUid}"><em>1.001 Introduction to Computers and Engineering Problem Solving</em></a>`
+        : `<a href="/courses/${otherCourseSlug}"><em>1.001 Introduction to Computers and Engineering Problem Solving</em></a>`
       assert.include(result, expectedNeedle)
     })
   })
