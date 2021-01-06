@@ -171,7 +171,6 @@ describe("resolveUids", () => {
       courseData,
       {}
     )
-    console.log(result.replace(/resolveuid/g, "\nresolveuid"))
     assert.isTrue(result.indexOf("resolveuid") === -1)
   })
 

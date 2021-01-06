@@ -222,13 +222,6 @@ const resolveUids = (htmlStr, page, courseData, courseUidsLookup) => {
         const linkedPage = courseData["course_pages"].find(
           coursePage => coursePage["uid"] === uid
         )
-        // courseData["course_pages"].forEach(page => {
-        //   if (page["text"].indexOf("resolveuid") !== -1) {
-        //     console.log(`${page["title"]}: ${page["uid"]}`)
-        //   }
-        // })
-        // console.log(courseData["course_pages"])
-        // console.log(linkedPage)
         // filter course_files on the UID in the URL
         const linkedFile = courseData["course_files"].find(
           file => file["uid"] === uid
