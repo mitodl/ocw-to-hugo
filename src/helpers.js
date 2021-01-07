@@ -431,7 +431,7 @@ const stripSuffix = suffix => text => {
 const stripPdfSuffix = stripSuffix(".pdf")
 
 const replaceSubstring = (text, index, length, substring) =>
-  `${text.substr(0, index)}${substring}${text.substr(index + length)}`
+  `${text.substring(0, index)}${substring}${text.substring(index + length)}`
 
 module.exports = {
   distinct,
