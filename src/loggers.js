@@ -8,6 +8,7 @@ class MemoryTransport extends TransportStream {
   }
 
   log(info, callback) {
+    // console.log(info)
     this.logs.push(info)
     callback()
   }

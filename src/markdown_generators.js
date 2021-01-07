@@ -115,7 +115,7 @@ const generateMarkdownRecursive = (page, courseUidsLookup, courseData) => {
             return {
               name: `${path.join(
                 pathToChild,
-                file["id"].replace(".pdf", "")
+                helpers.stripPdfSuffix(file["id"])
               )}.md`,
               data: generatePdfMarkdown(file, courseData)
             }
