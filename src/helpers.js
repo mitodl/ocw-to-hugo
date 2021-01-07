@@ -276,6 +276,79 @@ const resolveUids = (htmlStr, page, courseData, courseUidsLookup) => {
   return htmlStr
 }
 
+const resolveRelativeLink = (url, courseData) => {
+  // ensure that this is not resolveuid or an external link
+  if (!url.includes("resolveuid") && url[0] === "/") {
+    // split the url into its parts
+    const parts = url.split("/").filter(part => part !== "")
+    /**
+     * disassembles the OCW URL based on the following patten:
+     *
+     * EXAMPLE: /courses/mathematics/18-01-single-variable-calculus-fall-2006/exams/prfinalsol.pdf
+     *
+     * 0: "courses"
+     * 1: department ("mathematics")
+     * 2: course ID ("18-01-single-variable-calculus-fall-2006")
+     * 3 - ?: section and subsections with the page / file at the end
+     */
+    const courseId = parts[2]
+    if (courseId) {
+      const layers = parts.length - 3
+      let sections = []
+      let page = null
+      if (layers === 0) {
+        // course home page link
+        page = "index.htm"
+      } else if (layers === 1) {
+        // root section link
+        page = parts[3]
+      } else {
+        // this is a link to something in a subsection, slice out the layers and page
+        sections = parts.slice(parts.length - layers, parts.length - 1)
+        page = parts.slice(parts.length - 1, parts.length)[0]
+      }
+      // build the base of the Hugo url
+      const newUrlBase = path.join("courses", courseId, "sections", ...sections)
+      if (page.includes(".") && !page.includes(".htm")) {
+        // page has a file extension and isn't HTML
+        for (const media of courseData["course_files"]) {
+          if (media["file_location"]) {
+            if (
+              media["file_type"] === "application/pdf" &&
+              media["file_location"].includes(page)
+            ) {
+              // construct url to Hugo PDF viewer page
+              return `${GETPAGESHORTCODESTART}${path.join(
+                newUrlBase,
+                stripPdfSuffix(page)
+              )}${GETPAGESHORTCODEEND}`
+            } else if (media["file_location"].includes(page)) {
+              // write link directly to file
+              return stripS3(media["file_location"])
+            }
+          }
+        }
+      } else {
+        // match page from url to the short_url property on a course page
+        for (const coursePage of courseData["course_pages"]) {
+          if (coursePage["short_url"].toLowerCase() === page.toLowerCase()) {
+            const pageName = page.replace(/(index)?\.html?/g, "")
+            return `${GETPAGESHORTCODESTART}${path.join(
+              newUrlBase,
+              pageName
+            )}${getHugoPathSuffix(
+              coursePage,
+              courseData
+            )}${GETPAGESHORTCODEEND}`
+          }
+        }
+      }
+    }
+  }
+
+  return url
+}
+
 /**
  * @param {string} htmlStr
  * @param {object} courseData
@@ -288,91 +361,20 @@ const resolveUids = (htmlStr, page, courseData, courseUidsLookup) => {
 const resolveRelativeLinks = (htmlStr, courseData) => {
   try {
     // find and iterate all href tags
-    Array.from(
-      htmlStr.matchAll(/((href="([^"]*)")|(href='([^']*)'))/g)
-    ).forEach(match => {
+    const matches = Array.from(
+      htmlStr.matchAll(/((href="(?<url1>[^"]*)")|(href='(?<url2>[^']*)'))/g)
+    )
+    matches.reverse() // handle last match first so indexes for other matches aren't affected
+    matches.forEach(match => {
       // isolate the url
-      const trimmedUrl = match[0].trim()
-      const url = trimmedUrl.slice(0, -1).replace(/(href=")|(href=')/g, "")
-      // ensure that this is not resolveuid or an external link
-      if (!url.includes("resolveuid") && url[0] === "/") {
-        // split the url into its parts
-        const parts = url.split("/").filter(part => part !== "")
-        /**
-         * disassembles the OCW URL based on the following patten:
-         *
-         * EXAMPLE: /courses/mathematics/18-01-single-variable-calculus-fall-2006/exams/prfinalsol.pdf
-         *
-         * 0: "courses"
-         * 1: department ("mathematics")
-         * 2: course ID ("18-01-single-variable-calculus-fall-2006")
-         * 3 - ?: section and subsections with the page / file at the end
-         */
-        const courseId = parts[2]
-        if (courseId) {
-          const layers = parts.length - 3
-          let sections = []
-          let page = null
-          if (layers === 0) {
-            // course home page link
-            page = "index.htm"
-          } else if (layers === 1) {
-            // root section link
-            page = parts[3]
-          } else {
-            // this is a link to something in a subsection, slice out the layers and page
-            sections = parts.slice(parts.length - layers, parts.length - 1)
-            page = parts.slice(parts.length - 1, parts.length)[0]
-          }
-          // build the base of the Hugo url
-          const newUrlBase = path.join(
-            "courses",
-            courseId,
-            "sections",
-            ...sections
-          )
-          if (page.includes(".") && !page.includes(".htm")) {
-            // page has a file extension and isn't HTML
-            courseData["course_files"].forEach(media => {
-              if (media["file_location"]) {
-                if (
-                  media["file_type"] === "application/pdf" &&
-                  media["file_location"].includes(page)
-                ) {
-                  // construct url to Hugo PDF viewer page
-                  const newUrl = `${GETPAGESHORTCODESTART}${path.join(
-                    newUrlBase,
-                    stripPdfSuffix(page)
-                  )}${GETPAGESHORTCODEEND}`
-                  htmlStr = htmlStr.replace(url, newUrl)
-                } else if (media["file_location"].includes(page)) {
-                  // write link directly to file
-                  htmlStr = stripS3(
-                    htmlStr.replace(url, media["file_location"])
-                  )
-                }
-              }
-            })
-          } else {
-            // match page from url to the short_url property on a course page
-            courseData["course_pages"].forEach(coursePage => {
-              if (
-                coursePage["short_url"].toLowerCase() === page.toLowerCase()
-              ) {
-                const pageName = page.replace(/(index)?\.html?/g, "")
-                const newUrl = `${GETPAGESHORTCODESTART}${path.join(
-                  newUrlBase,
-                  pageName
-                )}${getHugoPathSuffix(
-                  coursePage,
-                  courseData
-                )}${GETPAGESHORTCODEEND}`
-                htmlStr = htmlStr.replace(url, newUrl)
-              }
-            })
-          }
-        }
-      }
+      const url = match.groups.url1 || match.groups.url2
+      const replacement = resolveRelativeLink(url, courseData)
+      htmlStr = replaceSubstring(
+        htmlStr,
+        match.index,
+        match[0].length,
+        `href="${replacement}"`
+      )
     })
   } catch (err) {
     loggers.fileLogger.error(err)
