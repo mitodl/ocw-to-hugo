@@ -185,6 +185,47 @@ const getHugoPathSuffix = (page, courseData) => {
   return isParent || hasFiles ? "/_index.md" : ""
 }
 
+const resolveUidForLink = (url, courseData, courseUidsLookup, pagePath) => {
+  const urlParts = url.split("/")
+  const uid = urlParts[urlParts.length - 1]
+  // filter course_pages on the UID in the URL
+  const linkedPage = courseData["course_pages"].find(
+    coursePage => coursePage["uid"] === uid
+  )
+  // filter course_files on the UID in the URL
+  const linkedFile = courseData["course_files"].find(
+    file => file["uid"] === uid
+  )
+  const linkedCourse = courseUidsLookup[uid]
+  if (linkedPage) {
+    // a course_page has been found for this UID
+    const linkPagePath = `${pathToChildRecursive(
+      path.join("courses", courseData["short_url"], "sections"),
+      linkedPage,
+      courseData
+    )}${getHugoPathSuffix(linkedPage, courseData)}`
+    return `${GETPAGESHORTCODESTART}${linkPagePath}${GETPAGESHORTCODEEND}`
+  } else if (linkedFile) {
+    // a course_file has been found for this UID
+    if (linkedFile["file_type"] === "application/pdf") {
+      // create a link to the generated PDF viewer page for this PDF file
+      const pdfPath = `${pagePath.replace("/_index.md", "/")}${
+        linkedFile["id"]
+      }`
+      return `${GETPAGESHORTCODESTART}${stripPdfSuffix(
+        pdfPath
+      )}${GETPAGESHORTCODEEND}`
+    } else {
+      // link directly to the static content
+      return stripS3(linkedFile["file_location"])
+    }
+  } else if (linkedCourse) {
+    return `/courses/${linkedCourse}`
+  }
+
+  return url
+}
+
 /**
  * @param {string} htmlStr
  * @param {object} page
@@ -205,64 +246,30 @@ const resolveUids = (htmlStr, page, courseData, courseUidsLookup) => {
       courseData
     )}${getHugoPathSuffix(page, courseData)}`
     // iterate all resolveuid links by regex match
-    Array.from(htmlStr.matchAll(/\.?\/?resolveuid\/.{0,32}/g)).forEach(
-      match => {
-        /**
-         * resolveuid links are formatted as, for example:
-         *
-         * href="./resolveuid/b463875b69d4156b90faaeb0dd7ca66b"
-         *
-         * the UID is the only part we need, so we split the string on "/" and
-         * take the last part
-         */
-        const url = match[0]
-        const urlParts = url.split("/")
-        const uid = urlParts[urlParts.length - 1]
-        // filter course_pages on the UID in the URL
-        const linkedPage = courseData["course_pages"].find(
-          coursePage => coursePage["uid"] === uid
-        )
-        // filter course_files on the UID in the URL
-        const linkedFile = courseData["course_files"].find(
-          file => file["uid"] === uid
-        )
-        const linkedCourse = courseUidsLookup[uid]
-        if (linkedPage) {
-          // a course_page has been found for this UID
-          const linkPagePath = `${pathToChildRecursive(
-            path.join("courses", courseData["short_url"], "sections"),
-            linkedPage,
-            courseData
-          )}${getHugoPathSuffix(linkedPage, courseData)}`
-          htmlStr = htmlStr.replace(
-            url,
-            `${GETPAGESHORTCODESTART}${linkPagePath}${GETPAGESHORTCODEEND}`
-          )
-        }
-        if (linkedFile) {
-          // a course_file has been found for this UID
-          if (linkedFile["file_type"] === "application/pdf") {
-            // create a link to the generated PDF viewer page for this PDF file
-            const pdfPath = `${pagePath.replace("/_index.md", "/")}${
-              linkedFile["id"]
-            }`
-            htmlStr = htmlStr.replace(
-              url,
-              `${GETPAGESHORTCODESTART}${pdfPath.replace(
-                ".pdf",
-                ""
-              )}${GETPAGESHORTCODEEND}`
-            )
-          } else {
-            // link directly to the static content
-            htmlStr = stripS3(htmlStr.replace(url, linkedFile["file_location"]))
-          }
-        }
-        if (linkedCourse) {
-          htmlStr = htmlStr.replace(url, `/courses/${linkedCourse}`)
-        }
-      }
-    )
+    const matches = Array.from(htmlStr.matchAll(/\.?\/?resolveuid\/.{0,32}/g))
+    matches.reverse() // handle last match first so indexes for other matches aren't affected
+    matches.forEach(match => {
+      /**
+       * resolveuid links are formatted as, for example:
+       *
+       * href="./resolveuid/b463875b69d4156b90faaeb0dd7ca66b"
+       *
+       * the UID is the only part we need, so we split the string on "/" and
+       * take the last part
+       */
+      const replacement = resolveUidForLink(
+        match[0],
+        courseData,
+        courseUidsLookup,
+        pagePath
+      )
+      htmlStr = replaceSubstring(
+        htmlStr,
+        match.index,
+        match[0].length,
+        replacement
+      )
+    })
   } catch (err) {
     loggers.fileLogger.error(err)
   }
@@ -335,7 +342,7 @@ const resolveRelativeLinks = (htmlStr, courseData) => {
                   // construct url to Hugo PDF viewer page
                   const newUrl = `${GETPAGESHORTCODESTART}${path.join(
                     newUrlBase,
-                    page.replace(".pdf", "")
+                    stripPdfSuffix(page)
                   )}${GETPAGESHORTCODEEND}`
                   htmlStr = htmlStr.replace(url, newUrl)
                 } else if (media["file_location"].includes(page)) {
@@ -414,6 +421,18 @@ const isCoursePublished = courseData => {
   } else return true
 }
 
+const stripSuffix = suffix => text => {
+  if (text.toLowerCase().endsWith(suffix.toLowerCase())) {
+    return text.slice(0, -suffix.length)
+  }
+  return text
+}
+
+const stripPdfSuffix = stripSuffix(".pdf")
+
+const replaceSubstring = (text, index, length, substring) =>
+  `${text.substring(0, index)}${substring}${text.substring(index + length)}`
+
 module.exports = {
   distinct,
   directoryExists,
@@ -435,5 +454,7 @@ module.exports = {
   stripS3,
   unescapeBackticks,
   isCoursePublished,
-  runOptions
+  runOptions,
+  stripPdfSuffix,
+  replaceSubstring
 }

@@ -339,3 +339,27 @@ describe("isCoursePublished", () => {
     })
   })
 })
+
+describe("misc functions", () => {
+  it("strips .pdf from the url", () => {
+    assert.equal(helpers.stripPdfSuffix("some text"), "some text")
+    assert.equal(helpers.stripPdfSuffix("some text.pdf"), "some text")
+    assert.equal(helpers.stripPdfSuffix("some text.PDF"), "some text")
+    assert.equal(helpers.stripPdfSuffix("some text.PDF.pdf"), "some text.PDF")
+  })
+
+  it("replaces a substring", () => {
+    assert.equal(
+      helpers.replaceSubstring("there is some text here", 9, 4, "a lot of"),
+      "there is a lot of text here"
+    )
+    assert.equal(
+      helpers.replaceSubstring("there is some text here", 13, 0, " amount of"),
+      "there is some amount of text here"
+    )
+    assert.equal(
+      helpers.replaceSubstring("there is some text here", 9, 5, ""),
+      "there is text here"
+    )
+  })
+})
