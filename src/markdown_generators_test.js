@@ -109,6 +109,7 @@ describe("generateMarkdownFromJson", () => {
         page =>
           page["parent_uid"] === singleCourseJsonData["uid"] &&
           page["type"] !== "CourseHomeSection" &&
+          page["type"] !== "SRHomePage" &&
           page["type"] !== "DownloadSection"
       )
       .map(page => page["short_url"])
@@ -219,6 +220,12 @@ describe("generateCourseHomeMarkdown", () => {
   it(`sets the title of the page to an empty string for course pages`, () => {
     const expectedValue = ""
     const foundValue = courseHomeFrontMatter["title"]
+    assert.equal(expectedValue, foundValue)
+  })
+
+  it("sets the uid property to the uid of the course home page from the source data", () => {
+    const expectedValue = "42664d52bd9a5b1632bac20876dc344d"
+    const foundValue = courseHomeFrontMatter["uid"]
     assert.equal(expectedValue, foundValue)
   })
 

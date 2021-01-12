@@ -34,6 +34,7 @@ const generateMarkdownFromJson = (courseData, courseUidsLookup) => {
     page =>
       page["parent_uid"] === courseData["uid"] &&
       page["type"] !== "CourseHomeSection" &&
+      page["type"] !== "SRHomePage" &&
       page["type"] !== "DownloadSection"
   )
   return [
@@ -79,7 +80,7 @@ const generateMarkdownRecursive = (page, courseUidsLookup, courseData) => {
   let courseSectionMarkdown = generateCourseSectionFrontMatter(
     page["title"],
     page["short_page_title"],
-    `${page["uid"]}`,
+    page["uid"],
     hasParent ? parent["uid"] : null,
     inRootNav,
     page["is_media_gallery"],
@@ -166,7 +167,9 @@ const generateCourseHomeMarkdown = (courseData, courseUidsLookup) => {
     Generate the front matter metadata for the course home page given course_data JSON
     */
   const courseHomePage = courseData["course_pages"].find(
-    coursePage => coursePage["type"] === "CourseHomeSection"
+    coursePage =>
+      coursePage["type"] === "CourseHomeSection" ||
+      coursePage["type"] === "SRHomePage"
   )
   const courseDescription = courseData["description"]
     ? html2markdown(
@@ -189,14 +192,16 @@ const generateCourseHomeMarkdown = (courseData, courseUidsLookup) => {
     )
     : ""
 
+  const pageId = courseHomePage ? courseHomePage["uid"] : ""
   const frontMatter = {
+    uid:       pageId,
     title:     "",
     type:      "course",
     layout:    "course_home",
     course_id: courseData["short_url"],
     menu:      {
       [courseData["short_url"]]: {
-        identifier: "course-home",
+        identifier: pageId,
         weight:     -10
       }
     }
@@ -226,6 +231,7 @@ const generateCourseSectionFrontMatter = (
     Generate the front matter metadata for a course section given a title and menu index
     */
   const courseSectionFrontMatter = {
+    uid:       pageId,
     title:     title,
     course_id: courseId,
     type:      "course",
