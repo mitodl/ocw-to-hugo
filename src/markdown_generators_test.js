@@ -109,6 +109,7 @@ describe("generateMarkdownFromJson", () => {
         page =>
           page["parent_uid"] === singleCourseJsonData["uid"] &&
           page["type"] !== "CourseHomeSection" &&
+          page["type"] !== "SRCourseHome" &&
           page["type"] !== "DownloadSection"
       )
       .map(page => page["short_url"])

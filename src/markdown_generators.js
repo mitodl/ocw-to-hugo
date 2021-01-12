@@ -34,6 +34,7 @@ const generateMarkdownFromJson = (courseData, courseUidsLookup) => {
     page =>
       page["parent_uid"] === courseData["uid"] &&
       page["type"] !== "CourseHomeSection" &&
+      page["type"] !== "SRCourseHome" &&
       page["type"] !== "DownloadSection"
   )
   return [
@@ -166,7 +167,9 @@ const generateCourseHomeMarkdown = (courseData, courseUidsLookup) => {
     Generate the front matter metadata for the course home page given course_data JSON
     */
   const courseHomePage = courseData["course_pages"].find(
-    coursePage => coursePage["type"] === "CourseHomeSection"
+    coursePage =>
+      coursePage["type"] === "CourseHomeSection" ||
+      coursePage["type"] === "SRCourseHome"
   )
   const courseDescription = courseData["description"]
     ? html2markdown(
