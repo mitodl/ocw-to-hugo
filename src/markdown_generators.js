@@ -192,7 +192,7 @@ const generateCourseHomeMarkdown = (courseData, courseUidsLookup) => {
     )
     : ""
 
-  const pageId = courseHomePage ? courseHomePage["uid"] : "course-home"
+  const pageId = courseHomePage ? courseHomePage["uid"] : ""
   const frontMatter = {
     uid:       pageId,
     title:     "",
