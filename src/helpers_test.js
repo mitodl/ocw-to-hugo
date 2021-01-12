@@ -265,7 +265,7 @@ describe("resolveRelativeLinks", () => {
     })
     const text = `${assignmentsPage["text"]} <a href="/courses/mathematics/18-01-single-variable-calculus-fall-2006/exams/prfinalsol.pdf" />`
     delete singleCourseJsonData.course_files[0].file_location
-    const result = helpers.resolveRelativeLinks(text, singleCourseJsonData)
+    helpers.resolveRelativeLinks(text, singleCourseJsonData)
   })
 })
 
