@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.8.0
+Version 1.8.0 (Released January 12, 2021)
 -------------
 
 - preserve UID on course home pages when possible (#155)
