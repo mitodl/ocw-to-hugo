@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 1.8.0
+-------------
+
+- preserve UID on course home pages when possible (#155)
+- Refactor resolveRelativeLinks (#158)
+- Change PDF extension handling to be case insensitive (#157)
+
 Version 1.7.0 (Released December 22, 2020)
 -------------
 
