@@ -172,7 +172,9 @@ turndownService.addRule("stripS3", {
   },
   replacement: (content, node, options) => {
     const attr = node.nodeName === "A" ? "href" : "src"
-    return `[${content}](${helpers.stripS3(node.getAttribute(attr))})`
+    const alt = node.getAttribute("alt")
+    const isImage = node.nodeName === "IMG"
+    return `${isImage ? "!" : ""}[${isImage ? alt : content}](${helpers.stripS3(node.getAttribute(attr))})`
   }
 })
 
