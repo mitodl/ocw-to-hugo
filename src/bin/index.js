@@ -60,7 +60,9 @@ const options = yargs
     demandOption: false
   }).argv
 
-helpers.runOptions = options
+Object.keys(options).forEach(key => {
+  helpers.runOptions[key] = options[key]
+})
 
 const run = async () => {
   if (options.courses && options.download) {
