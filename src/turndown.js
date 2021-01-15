@@ -175,7 +175,9 @@ if (helpers.runOptions.stripS3) {
       const attr = node.nodeName === "A" ? "href" : "src"
       const alt = node.getAttribute("alt")
       const isImage = node.nodeName === "IMG"
-      return `${isImage ? "!" : ""}[${isImage ? alt : content}](${helpers.stripS3(node.getAttribute(attr))})`
+      return `${isImage ? "!" : ""}[${
+        isImage ? alt : content
+      }](${helpers.stripS3(node.getAttribute(attr))})`
     }
   })
 }
