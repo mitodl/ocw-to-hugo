@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.9.0
+Version 1.9.0 (Released January 19, 2021)
 -------------
 
 - fix image tag rendering (#166)
