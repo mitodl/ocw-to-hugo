@@ -157,24 +157,30 @@ turndownService.addRule("anchorshortcode", {
 /**
  * Strip open-learning-course-data*.s3.amazonaws.com urls back to being absolute urls
  */
-turndownService.addRule("stripS3", {
-  filter: (node, options) => {
-    if (node.nodeName === "A" && node.getAttribute("href")) {
-      if (node.getAttribute("href").match(AWS_REGEX)) {
-        return true
+if (helpers.runOptions.stripS3) {
+  turndownService.addRule("stripS3", {
+    filter: (node, options) => {
+      if (node.nodeName === "A" && node.getAttribute("href")) {
+        if (node.getAttribute("href").match(AWS_REGEX)) {
+          return true
+        }
+      } else if (node.nodeName === "IMG" && node.getAttribute("src")) {
+        if (node.getAttribute("src").match(AWS_REGEX)) {
+          return true
+        }
       }
-    } else if (node.nodeName === "IMG" && node.getAttribute("src")) {
-      if (node.getAttribute("src").match(AWS_REGEX)) {
-        return true
-      }
+      return false
+    },
+    replacement: (content, node, options) => {
+      const attr = node.nodeName === "A" ? "href" : "src"
+      const alt = node.getAttribute("alt")
+      const isImage = node.nodeName === "IMG"
+      return `${isImage ? "!" : ""}[${
+        isImage ? alt : content
+      }](${helpers.stripS3(node.getAttribute(attr))})`
     }
-    return false
-  },
-  replacement: (content, node, options) => {
-    const attr = node.nodeName === "A" ? "href" : "src"
-    return `[${content}](${helpers.stripS3(node.getAttribute(attr))})`
-  }
-})
+  })
+}
 
 // add support for embedded content from various sources
 turndownService.addRule("iframe", {
