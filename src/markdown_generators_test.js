@@ -297,6 +297,7 @@ describe("generateCourseSectionFrontMatter", () => {
       markdownGenerators
         .generateCourseSectionFrontMatter(
           "Syllabus",
+          "course_section",
           "Syllabus",
           "syllabus",
           null,
@@ -336,6 +337,7 @@ describe("generateCourseSectionFrontMatter", () => {
       markdownGenerators
         .generateCourseSectionFrontMatter(
           "Syllabus",
+          "course_section",
           "Syllabus",
           "syllabus",
           null,
@@ -355,6 +357,7 @@ describe("generateCourseSectionFrontMatter", () => {
       markdownGenerators
         .generateCourseSectionFrontMatter(
           "Syllabus",
+          "course_section",
           "Syllabus",
           "syllabus",
           null,
@@ -377,6 +380,7 @@ describe("generateCourseSectionFrontMatter", () => {
   it("handles missing short_page_title correctly", async () => {
     const yaml = markdownGenerators.generateCourseSectionFrontMatter(
       "Syllabus",
+      "course_section",
       "Syllabus",
       "syllabus",
       null,
