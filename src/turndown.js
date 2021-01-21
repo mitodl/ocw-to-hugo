@@ -238,6 +238,37 @@ turndownService.addRule("getpageshortcode", {
 })
 
 /**
+ * Build quote element shortcodes for instructor insights sections
+ **/
+turndownService.addRule("quoteshortcode", {
+  filter: (node, options) => {
+    if (node.nodeName === "DIV" && node.getAttribute("class")) {
+      if (node.getAttribute("class").includes("pullquote")) {
+        return true
+      }
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    try {
+      const children = Array.prototype.slice.call(node.childNodes)    
+      const quoteP = children.find(
+        child => child.nodeName === "P" && child.getAttribute("class") === "quote"
+      )
+      const sigP = children.find(
+        child => child.nodeName === "P" && child.getAttribute("class") === "sig"
+      )
+      const quote = quoteP.textContent
+      const sig = sigP.textContent
+      return `{{% quote "${quote}" "${sig}" %}}`
+    }
+    catch (err) {
+      loggers.fileLogger.error(err)
+    }
+  }
+})
+
+/**
  * Render h4 tags as an h5 instead
  */
 turndownService.addRule("h4", {
