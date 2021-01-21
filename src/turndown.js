@@ -251,9 +251,10 @@ turndownService.addRule("quoteshortcode", {
   },
   replacement: (content, node, options) => {
     try {
-      const children = Array.prototype.slice.call(node.childNodes)    
+      const children = Array.prototype.slice.call(node.childNodes)
       const quoteP = children.find(
-        child => child.nodeName === "P" && child.getAttribute("class") === "quote"
+        child =>
+          child.nodeName === "P" && child.getAttribute("class") === "quote"
       )
       const sigP = children.find(
         child => child.nodeName === "P" && child.getAttribute("class") === "sig"
@@ -261,8 +262,7 @@ turndownService.addRule("quoteshortcode", {
       const quote = quoteP.textContent
       const sig = sigP.textContent
       return `{{% quote "${quote}" "${sig}" %}}`
-    }
-    catch (err) {
+    } catch (err) {
       loggers.fileLogger.error(err)
     }
   }
