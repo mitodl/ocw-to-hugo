@@ -261,7 +261,7 @@ turndownService.addRule("quoteshortcode", {
       )
       const quote = quoteP.textContent
       const sig = sigP.textContent
-      return `{{% quote "${quote}" "${sig}" %}}`
+      return `{{< quote "${quote}" "${sig}" >}}`
     } catch (err) {
       loggers.fileLogger.error(err)
     }
