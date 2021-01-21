@@ -404,6 +404,8 @@ const stripS3 = text => {
   } else return text
 }
 
+const escapeDoubleQuotes = text => text.replace(/"/g, "&quot;")
+
 const unescapeBackticks = text => text.replace(/\\`/g, "&grave;")
 
 const isCoursePublished = courseData => {
@@ -454,6 +456,7 @@ module.exports = {
   resolveYouTubeEmbed,
   htmlSafeText,
   stripS3,
+  escapeDoubleQuotes,
   unescapeBackticks,
   isCoursePublished,
   runOptions,

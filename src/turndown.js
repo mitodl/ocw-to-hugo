@@ -259,8 +259,8 @@ turndownService.addRule("quoteshortcode", {
       const sigP = children.find(
         child => child.nodeName === "P" && child.getAttribute("class") === "sig"
       )
-      const quote = quoteP.textContent
-      const sig = sigP.textContent
+      const quote = helpers.escapeDoubleQuotes(quoteP.textContent)
+      const sig = helpers.escapeDoubleQuotes(sigP.textContent)
       return `{{< quote "${quote}" "${sig}" >}}`
     } catch (err) {
       loggers.fileLogger.error(err)
