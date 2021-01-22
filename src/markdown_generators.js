@@ -77,8 +77,17 @@ const generateMarkdownRecursive = (page, courseUidsLookup, courseData) => {
   const hasParent = parents.length > 0
   const parent = hasParent ? parents[0] : null
   const inRootNav = page["parent_uid"] === courseData["uid"]
+  const isInstructorInsightsSection =
+    page["type"] === "ThisCourseAtMITSection" ||
+    page["short_url"] === "instructor-insights" ||
+    (hasParent && parent["type"] === "ThisCourseAtMITSection") ||
+    (hasParent && parent["short_url"] === "instructor-insights")
+  const layout = isInstructorInsightsSection
+    ? "instructor_insights"
+    : "course_section"
   let courseSectionMarkdown = generateCourseSectionFrontMatter(
     page["title"],
+    layout,
     page["short_page_title"],
     page["uid"],
     hasParent ? parent["uid"] : null,
@@ -218,6 +227,7 @@ const generateCourseHomeMarkdown = (courseData, courseUidsLookup) => {
 
 const generateCourseSectionFrontMatter = (
   title,
+  layout,
   shortTitle,
   pageId,
   parentId,
@@ -235,7 +245,7 @@ const generateCourseSectionFrontMatter = (
     title:     title,
     course_id: courseId,
     type:      "course",
-    layout:    "course_section"
+    layout:    layout
   }
 
   if (inRootNav || listInLeftNav) {

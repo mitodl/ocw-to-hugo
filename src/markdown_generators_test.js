@@ -193,6 +193,26 @@ describe("generateMarkdownFromJson", () => {
       assertCourseIdRecursive(sectionMarkdownData, singleCourseId)
     })
   })
+
+  it("sets the instructor_insights layout on Instructor Insights pages", () => {
+    const markdownData = markdownGenerators.generateMarkdownFromJson(
+      imageGalleryCourseJsonData
+    )
+    markdownData.forEach(sectionMarkdownData => {
+      const frontMatter = yaml.safeLoad(
+        sectionMarkdownData["data"].split("---\n")[1]
+      )
+      if (frontMatter["uid"] === "1c2cb2ad1c70fd66f19e20103dc94595") {
+        assert.equal(frontMatter["layout"], "instructor_insights")
+        sectionMarkdownData["children"].forEach(child => {
+          const childFrontMatter = yaml.safeLoad(
+            child["data"].split("---\n")[1]
+          )
+          assert.equal(childFrontMatter["layout"], "instructor_insights")
+        })
+      }
+    })
+  })
 })
 
 describe("generateCourseHomeMarkdown", () => {
@@ -297,6 +317,7 @@ describe("generateCourseSectionFrontMatter", () => {
       markdownGenerators
         .generateCourseSectionFrontMatter(
           "Syllabus",
+          "course_section",
           "Syllabus",
           "syllabus",
           null,
@@ -336,6 +357,7 @@ describe("generateCourseSectionFrontMatter", () => {
       markdownGenerators
         .generateCourseSectionFrontMatter(
           "Syllabus",
+          "course_section",
           "Syllabus",
           "syllabus",
           null,
@@ -355,6 +377,7 @@ describe("generateCourseSectionFrontMatter", () => {
       markdownGenerators
         .generateCourseSectionFrontMatter(
           "Syllabus",
+          "course_section",
           "Syllabus",
           "syllabus",
           null,
@@ -377,6 +400,7 @@ describe("generateCourseSectionFrontMatter", () => {
   it("handles missing short_page_title correctly", async () => {
     const yaml = markdownGenerators.generateCourseSectionFrontMatter(
       "Syllabus",
+      "course_section",
       "Syllabus",
       "syllabus",
       null,
