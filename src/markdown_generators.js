@@ -79,7 +79,9 @@ const generateMarkdownRecursive = (page, courseUidsLookup, courseData) => {
   const inRootNav = page["parent_uid"] === courseData["uid"]
   const isInstructorInsightsSection =
     page["type"] === "ThisCourseAtMITSection" ||
-    (hasParent && parent["type"] === "ThisCourseAtMITSection")
+    page["short_url"] === "instructor-insights" ||
+    (hasParent && parent["type"] === "ThisCourseAtMITSection") ||
+    (hasParent && parent["short_url"] === "instructor-insights")
   const layout = isInstructorInsightsSection
     ? "instructor_insights"
     : "course_section"
