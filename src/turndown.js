@@ -216,7 +216,7 @@ turndownService.addRule("getpageshortcode", {
     return false
   },
   replacement: (content, node, options) => {
-    const children = Array.prototype.slice.call(node.childNodes)
+    const children = Array.from(node.childNodes)
     if (!children.filter(child => child.nodeName === "IMG").length > 0) {
       // if this link doesn't contain an image, escape the content
       // except first make sure there are no pre-escaped square brackets
@@ -234,6 +234,37 @@ turndownService.addRule("getpageshortcode", {
       .split("\\_")
       .join("_")
     return `[${content}](${ref})`
+  }
+})
+
+/**
+ * Build quote element shortcodes for instructor insights sections
+ **/
+turndownService.addRule("quoteshortcode", {
+  filter: (node, options) => {
+    if (node.nodeName === "DIV" && node.getAttribute("class")) {
+      if (node.getAttribute("class").includes("pullquote")) {
+        return true
+      }
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    try {
+      const children = Array.from(node.childNodes)
+      const quoteP = children.find(
+        child =>
+          child.nodeName === "P" && child.getAttribute("class") === "quote"
+      )
+      const sigP = children.find(
+        child => child.nodeName === "P" && child.getAttribute("class") === "sig"
+      )
+      const quote = helpers.escapeDoubleQuotes(quoteP.textContent)
+      const sig = helpers.escapeDoubleQuotes(sigP.textContent)
+      return `{{< quote "${quote}" "${sig}" >}}`
+    } catch (err) {
+      loggers.fileLogger.error(err)
+    }
   }
 })
 

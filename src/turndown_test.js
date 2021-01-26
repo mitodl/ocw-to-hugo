@@ -101,4 +101,17 @@ describe("turndown", () => {
       "{{< simplecast e31edbb0-e4ac-4d9f-aebc-3d613c2f972c >}}"
     )
   })
+
+  it("should return a quote shortcode for instructor insights quotes", async () => {
+    const inputHTML = `<div class="pullquote right">
+      <p class="quote">I think stories are an important element of education, and if you strip them out, you don't have
+        much left that can possibly be inspiring.</p>
+      <p class="sig">&mdash; Patrick Winston</p>
+    </div>`
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(
+      markdown,
+      `{{< quote "I think stories are an important element of education, and if you strip them out, you don't have much left that can possibly be inspiring." "— Patrick Winston" >}}`
+    )
+  })
 })
