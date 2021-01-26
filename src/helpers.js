@@ -4,12 +4,7 @@ const moment = require("moment")
 
 const fsPromises = require("./fsPromises")
 const DEPARTMENTS_JSON = require("./departments.json")
-const {
-  AWS_REGEX,
-  GETPAGESHORTCODESTART,
-  GETPAGESHORTCODEEND,
-  INPUT_COURSE_DATE_FORMAT
-} = require("./constants")
+const { AWS_REGEX, INPUT_COURSE_DATE_FORMAT } = require("./constants")
 const loggers = require("./loggers")
 
 const runOptions = {}
@@ -158,31 +153,60 @@ const getYoutubeEmbedCode = media => {
     .join("")
 }
 
-const pathToChildRecursive = (basePath, child, courseData) => {
-  const parents = courseData["course_pages"].filter(
-    page =>
-      page["uid"] === child["parent_uid"] &&
-      courseData["uid"] !== child["parent_uid"]
-  )
-  if (parents.length > 0) {
-    return path.join(
-      basePath,
-      pathToChildRecursive("", parents[0], courseData),
-      child["short_url"]
-    )
-  } else return path.join(basePath, child["short_url"])
+const buildPathRecursive = (item, itemsLookup, courseUid, pathLookup) => {
+  const { filenameKey, page } = item
+  const uid = page["uid"]
+  const parentUid = page["parent_uid"]
+  const parentItem = itemsLookup[parentUid]
+
+  if (courseUid === parentUid) {
+    // course is the parent, so link should be off of /sections
+    const filename = page[filenameKey]
+    pathLookup[uid] = path.join(runOptions.linkPrefix, "sections", filename)
+    return
+  }
+
+  if (!parentItem) {
+    loggers.fileLogger.error(`Missing parent ${parentUid}`)
+    return
+  }
+
+  if (!pathLookup[parentUid]) {
+    buildPathRecursive(parentItem, itemsLookup, courseUid, pathLookup)
+    if (!pathLookup[parentUid]) {
+      throw new Error(`Unable to find path for ${parentUid}`)
+    }
+  }
+
+  pathLookup[uid] = path.join(pathLookup[parentUid], page[filenameKey])
 }
 
-const getHugoPathSuffix = (page, courseData) => {
-  const children = courseData["course_pages"].filter(
-    coursePage => coursePage["parent_uid"] === page["uid"]
-  )
-  const files = courseData["course_files"].filter(
-    file => file["parent_uid"] === page["uid"]
-  )
-  const isParent = children.length > 0
-  const hasFiles = files.length > 0
-  return isParent || hasFiles ? "/_index.md" : ""
+const buildPaths = courseData => {
+  const courseUid = courseData["uid"]
+  const pathLookup = {}
+  const itemsLookup = {}
+
+  for (const page of courseData["course_pages"]) {
+    itemsLookup[page["uid"]] = { filenameKey: "short_url", page: page }
+  }
+  for (const page of Object.values(courseData["course_embedded_media"])) {
+    itemsLookup[page["uid"]] = {
+      filenameKey: "short_url",
+      page
+    }
+  }
+  for (const page of courseData["course_files"]) {
+    itemsLookup[page["uid"]] = {
+      filenameKey: "id",
+      page
+    }
+  }
+
+  for (const item of Object.values(itemsLookup)) {
+    buildPathRecursive(item, itemsLookup, courseUid, pathLookup)
+  }
+
+  return pathLookup
 }
 
 const applyReplacements = (matchAndReplacements, text) => {
@@ -205,7 +229,7 @@ const applyReplacements = (matchAndReplacements, text) => {
   return text
 }
 
-const resolveUidForLink = (url, courseData, courseUidsLookup, pagePath) => {
+const resolveUidForLink = (url, courseData, courseUidsLookup, pathLookup) => {
   const urlParts = url.split("/")
   const uid = urlParts[urlParts.length - 1]
   // filter course_pages on the UID in the URL
@@ -218,29 +242,25 @@ const resolveUidForLink = (url, courseData, courseUidsLookup, pagePath) => {
   )
   const linkedCourse = courseUidsLookup[uid]
   if (linkedPage) {
-    // a course_page has been found for this UID
-    const linkPagePath = `${pathToChildRecursive(
-      path.join("courses", courseData["short_url"], "sections"),
-      linkedPage,
-      courseData
-    )}${getHugoPathSuffix(linkedPage, courseData)}`
-    return `${GETPAGESHORTCODESTART}${linkPagePath}${GETPAGESHORTCODEEND}`
+    // a page has been found for this UID
+    return pathLookup[uid] || null
   } else if (linkedFile) {
     // a course_file has been found for this UID
+    const parentUid = linkedFile["parent_uid"]
+
     if (linkedFile["file_type"] === "application/pdf") {
       // create a link to the generated PDF viewer page for this PDF file
-      const pdfPath = `${pagePath.replace("/_index.md", "/")}${
-        linkedFile["id"]
-      }`
-      return `${GETPAGESHORTCODESTART}${stripPdfSuffix(
-        pdfPath
-      )}${GETPAGESHORTCODEEND}`
+      const parent = pathLookup[parentUid]
+      if (parent) {
+        const pdfPath = path.join(parent, linkedFile["id"])
+        return stripPdfSuffix(pdfPath)
+      }
     } else {
       // link directly to the static content
       return stripS3(linkedFile["file_location"])
     }
   } else if (linkedCourse) {
-    return `/courses/${linkedCourse}`
+    return pathLookup[linkedCourse["uid"]]
   }
 
   return null
@@ -251,13 +271,20 @@ const resolveUidForLink = (url, courseData, courseUidsLookup, pagePath) => {
  * @param {object} page
  * @param {object} courseData
  * @param {object} courseUidsLookup
+ * @param {object} pathLookup
  *
  * The purpose of this function is to resolve "resolveuid" links in OCW HTML.
- * It takes 4 parameters; an HTML string to parse, the page that the string came from,
- * the course data object, and a lookup from uid to course.
+ * It takes 5 parameters; an HTML string to parse, the page that the string came from,
+ * the course data object, a lookup from uid to course, and a lookup from uid to path.
  *
  */
-const resolveUidMatches = (htmlStr, page, courseData, courseUidsLookup) => {
+const resolveUidMatches = (
+  htmlStr,
+  page,
+  courseData,
+  courseUidsLookup,
+  pathLookup
+) => {
   try {
     /**
      * resolveuid links are formatted as, for example:
@@ -267,12 +294,6 @@ const resolveUidMatches = (htmlStr, page, courseData, courseUidsLookup) => {
      * the UID is the only part we need, so we split the string on "/" and
      * take the last part
      */
-    // get the Hugo path to the page
-    const pagePath = `${pathToChildRecursive(
-      path.join("courses", courseData["short_url"], "sections"),
-      page,
-      courseData
-    )}${getHugoPathSuffix(page, courseData)}`
     const matches = Array.from(htmlStr.matchAll(/\.?\/?resolveuid\/.{0,32}/g))
 
     return matches
@@ -281,7 +302,7 @@ const resolveUidMatches = (htmlStr, page, courseData, courseUidsLookup) => {
           match[0],
           courseData,
           courseUidsLookup,
-          pagePath
+          pathLookup
         )
         if (replacement !== null) {
           return {
@@ -330,7 +351,11 @@ const resolveRelativeLink = (url, courseData) => {
         page = parts.slice(parts.length - 1, parts.length)[0]
       }
       // build the base of the Hugo url
-      const newUrlBase = path.join("courses", courseId, "sections", ...sections)
+      const newUrlBase = path.join(
+        runOptions.linkPrefix,
+        "sections",
+        ...sections
+      )
       if (page.includes(".") && !page.includes(".htm")) {
         // page has a file extension and isn't HTML
         for (const media of courseData["course_files"]) {
@@ -340,10 +365,7 @@ const resolveRelativeLink = (url, courseData) => {
               media["file_location"].includes(page)
             ) {
               // construct url to Hugo PDF viewer page
-              return `${GETPAGESHORTCODESTART}${path.join(
-                newUrlBase,
-                stripPdfSuffix(page)
-              )}${GETPAGESHORTCODEEND}`
+              return path.join(newUrlBase, stripPdfSuffix(page))
             } else if (media["file_location"].includes(page)) {
               // write link directly to file
               return stripS3(media["file_location"])
@@ -355,13 +377,8 @@ const resolveRelativeLink = (url, courseData) => {
         for (const coursePage of courseData["course_pages"]) {
           if (coursePage["short_url"].toLowerCase() === page.toLowerCase()) {
             const pageName = page.replace(/(index)?\.html?/g, "")
-            return `${GETPAGESHORTCODESTART}${path.join(
-              newUrlBase,
-              pageName
-            )}${getHugoPathSuffix(
-              coursePage,
-              courseData
-            )}${GETPAGESHORTCODEEND}`
+
+            return path.join(newUrlBase, pageName)
           }
         }
       }
@@ -477,11 +494,10 @@ module.exports = {
   getCourseSectionFromFeatureUrl,
   getConsolidatedTopics,
   getYoutubeEmbedCode,
-  pathToChildRecursive,
-  getHugoPathSuffix,
   resolveUidMatches,
   resolveRelativeLinkMatches,
   resolveYouTubeEmbedMatches,
+  buildPaths,
   htmlSafeText,
   stripS3,
   escapeDoubleQuotes,

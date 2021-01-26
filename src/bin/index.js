@@ -53,6 +53,12 @@ const options = yargs
     type:         "boolean",
     demandOption: false
   })
+  .option("linkPrefix", {
+    describe:     "Prefix used for relative links. Defaults to /",
+    type:         "string",
+    default:      "/",
+    demandOption: false
+  })
   .option("rm", {
     describe:
       "Recursively remove the contents of the destination directory before conversion",
