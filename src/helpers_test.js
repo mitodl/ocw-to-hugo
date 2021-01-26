@@ -6,7 +6,7 @@ const sinon = require("sinon")
 tmp.setGracefulCleanup()
 
 const helpers = require("./helpers")
-const { GETPAGESHORTCODESTART } = require("./constants")
+const { GETPAGESHORTCODESTART, GETPAGESHORTCODEEND } = require("./constants")
 const loggers = require("./loggers")
 
 const testCourse =
@@ -151,17 +151,21 @@ describe("getHugoPathSuffix", () => {
 })
 
 describe("resolveUids", () => {
-  const course = "12-001-introduction-to-geology-fall-2013"
-  const parsedPath = path.join(
-    "test_data",
-    "courses",
-    course,
-    `${course}_parsed.json`
-  )
-  const courseData = JSON.parse(fs.readFileSync(parsedPath))
-  const fieldTripPage = courseData["course_pages"].find(
-    page => page["uid"] === "de36fe69cf33ddf238bc3896d0ce9eff"
-  )
+  let course, parsedPath, courseData, fieldTripPage
+
+  beforeEach(() => {
+    course = "12-001-introduction-to-geology-fall-2013"
+    parsedPath = path.join(
+      "test_data",
+      "courses",
+      course,
+      `${course}_parsed.json`
+    )
+    courseData = JSON.parse(fs.readFileSync(parsedPath))
+    fieldTripPage = courseData["course_pages"].find(
+      page => page["uid"] === "de36fe69cf33ddf238bc3896d0ce9eff"
+    )
+  })
 
   it("replaces all resolveuid links on a given page", () => {
     assert.isTrue(fieldTripPage["text"].indexOf("resolveuid") !== -1)
@@ -208,6 +212,30 @@ describe("resolveUids", () => {
       `<a href="GETPAGESHORTCODESTARTcourses/12-001-introduction-to-geology-fall-2013/sections/field-trip/MIT12_001F14_Field_TripGETPAGESHORTCODEEND">Field Trip Guide (PDF - 4.2MB)</a>`
     )
   })
+
+  it("handles links correctly", () => {
+    const course = "18-01-single-variable-calculus-fall-2006"
+    const parsedPath = path.join(
+      "test_data",
+      "courses",
+      course,
+      `${course}_parsed.json`
+    )
+    const courseData = JSON.parse(fs.readFileSync(parsedPath))
+    const page = courseData["course_pages"].find(
+      page => page["uid"] === "98fdab81f6f5a25624a5128fe1261e9b"
+    )
+
+    const text =
+      '<td>Graphing functions (<a href="./resolveuid/de1c599e38662bfe32ce4082e767cad0">PDF</a>)</td>'
+    const result = helpers.resolveUids(text, page, courseData, {})
+    assert.include(
+      result,
+      `${GETPAGESHORTCODESTART}courses/18-01-single-variable-calculus-fall-2006/sections/readings/course-reader/g_graphng_fnctns${GETPAGESHORTCODEEND}`
+    )
+  })
+
+  //
   ;[true, false].forEach(missing => {
     it(`resolves uids for a ${missing ? "missing " : ""}course`, () => {
       const linkingCourse =

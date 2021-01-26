@@ -209,9 +209,10 @@ const resolveUidForLink = (url, courseData, courseUidsLookup, pagePath) => {
     // a course_file has been found for this UID
     if (linkedFile["file_type"] === "application/pdf") {
       // create a link to the generated PDF viewer page for this PDF file
-      const pdfPath = `${pagePath.replace("/_index.md", "/")}${
+      const pdfPath = path.join(
+        pagePath.replace("/_index.md", "/"),
         linkedFile["id"]
-      }`
+      )
       return `${GETPAGESHORTCODESTART}${stripPdfSuffix(
         pdfPath
       )}${GETPAGESHORTCODEEND}`
