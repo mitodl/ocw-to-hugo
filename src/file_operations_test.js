@@ -162,12 +162,12 @@ describe("scanCourses", () => {
     )
   })
 
-  it("calls readdir eleven times, once for courses and once for each course", async () => {
+  it("calls readdir many times, once for courses and once for each course", async () => {
     await fileOperations.scanCourses(inputPath, outputPath)
     assert.equal(readdirStub.callCount, 15)
   }).timeout(5000)
 
-  it("scans the four test courses and reports to console", async () => {
+  it("scans the test courses and reports to console", async () => {
     await fileOperations.scanCourses(inputPath, outputPath)
     expect(consoleLog).calledWithExactly(logMessage)
   }).timeout(5000)
