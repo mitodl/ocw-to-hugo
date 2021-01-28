@@ -213,6 +213,20 @@ describe("generateMarkdownFromJson", () => {
       }
     })
   })
+
+  it("sets a parent_title property on second tier pages", () => {
+    const markdownData = markdownGenerators.generateMarkdownFromJson(
+      imageGalleryCourseJsonData
+    )
+    markdownData.forEach(sectionMarkdownData => {
+      const frontMatter = yaml.safeLoad(
+        sectionMarkdownData["data"].split("---\n")[1]
+      )
+      if (frontMatter["uid"] === "eb66e88131e84c5dae78ba67407a1fc6") {
+        assert.equal(frontMatter["parent_title"], "Instructor Insights")
+      }
+    })
+  })
 })
 
 describe("generateCourseHomeMarkdown", () => {
@@ -317,6 +331,7 @@ describe("generateCourseSectionFrontMatter", () => {
       markdownGenerators
         .generateCourseSectionFrontMatter(
           "Syllabus",
+          null,
           "course_section",
           "Syllabus",
           "syllabus",
@@ -357,6 +372,7 @@ describe("generateCourseSectionFrontMatter", () => {
       markdownGenerators
         .generateCourseSectionFrontMatter(
           "Syllabus",
+          null,
           "course_section",
           "Syllabus",
           "syllabus",
@@ -377,6 +393,7 @@ describe("generateCourseSectionFrontMatter", () => {
       markdownGenerators
         .generateCourseSectionFrontMatter(
           "Syllabus",
+          null,
           "course_section",
           "Syllabus",
           "syllabus",
@@ -400,6 +417,7 @@ describe("generateCourseSectionFrontMatter", () => {
   it("handles missing short_page_title correctly", async () => {
     const yaml = markdownGenerators.generateCourseSectionFrontMatter(
       "Syllabus",
+      null,
       "course_section",
       "Syllabus",
       "syllabus",
