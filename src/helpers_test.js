@@ -150,7 +150,7 @@ describe("getHugoPathSuffix", () => {
   })
 })
 
-describe("resolveUids", () => {
+describe("resolveUidMatches", () => {
   const course = "12-001-introduction-to-geology-fall-2013"
   const parsedPath = path.join(
     "test_data",
@@ -165,49 +165,74 @@ describe("resolveUids", () => {
 
   it("replaces all resolveuid links on a given page", () => {
     assert.isTrue(fieldTripPage["text"].indexOf("resolveuid") !== -1)
-    const result = helpers.resolveUids(
-      fieldTripPage["text"],
-      fieldTripPage,
-      courseData,
-      {}
+    assert.deepEqual(
+      helpers.resolveUidMatches(
+        fieldTripPage["text"],
+        fieldTripPage,
+        courseData,
+        {}
+      ),
+      [
+        {
+          match:       ["./resolveuid/97f28b51c2d76bbffa1213260d56c281"],
+          replacement:
+            "https://open-learning-course-data-production.s3.amazonaws.com/12-001-introduction-to-geology-fall-2013/97f28b51c2d76bbffa1213260d56c281_12.001_Field_TripStops2014.kml"
+        },
+        {
+          match:       ["./resolveuid/f828208d0d04e1f39c1bb31d6fbe5f2d"],
+          replacement:
+            "GETPAGESHORTCODESTARTcourses/12-001-introduction-to-geology-fall-2013/sections/field-trip/MIT12_001F14_Field_TripGETPAGESHORTCODEEND"
+        },
+        {
+          match:       ["./resolveuid/ef6931d2c8e6bc0b8e9a5572a78fe125"],
+          replacement:
+            "GETPAGESHORTCODESTARTcourses/12-001-introduction-to-geology-fall-2013/sections/instructor-insights/planning-a-good-field-trip/_index.mdGETPAGESHORTCODEEND"
+        }
+      ]
     )
-    assert.isTrue(result.indexOf("resolveuid") === -1)
   })
 
   it("resolves a uid for a page", async () => {
     assert.include(fieldTripPage["text"], "resolveuid")
+    const link = "./resolveuid/ef6931d2c8e6bc0b8e9a5572a78fe125"
     assert.include(
       fieldTripPage["text"],
-      '<a href="./resolveuid/ef6931d2c8e6bc0b8e9a5572a78fe125">planning a good field trip</a>'
+      `<a href="${link}">planning a good field trip</a>`
     )
-    const result = helpers.resolveUids(
+    const result = helpers.resolveUidMatches(
       fieldTripPage["text"],
       fieldTripPage,
       courseData,
       {}
     )
-    assert.include(
-      result,
-      '<a href="GETPAGESHORTCODESTARTcourses/12-001-introduction-to-geology-fall-2013/sections/instructor-insights/planning-a-good-field-trip/_index.mdGETPAGESHORTCODEEND">planning a good field trip</a>'
-    )
+    const pageResult = result.find(item => item.match[0] === link)
+    assert.deepEqual(pageResult, {
+      replacement:
+        "GETPAGESHORTCODESTARTcourses/12-001-introduction-to-geology-fall-2013/sections/instructor-insights/planning-a-good-field-trip/_index.mdGETPAGESHORTCODEEND",
+      match: [link]
+    })
   })
 
   it("resolves a uid for a file", () => {
+    const link = "./resolveuid/f828208d0d04e1f39c1bb31d6fbe5f2d"
     assert.include(
       fieldTripPage["text"],
-      `<a href="./resolveuid/f828208d0d04e1f39c1bb31d6fbe5f2d">Field Trip Guide (PDF - 4.2MB)</a>`
+      `<a href="${link}">Field Trip Guide (PDF - 4.2MB)</a>`
     )
-    const result = helpers.resolveUids(
+    const result = helpers.resolveUidMatches(
       fieldTripPage["text"],
       fieldTripPage,
       courseData,
       {}
     )
-    assert.include(
-      result,
-      `<a href="GETPAGESHORTCODESTARTcourses/12-001-introduction-to-geology-fall-2013/sections/field-trip/MIT12_001F14_Field_TripGETPAGESHORTCODEEND">Field Trip Guide (PDF - 4.2MB)</a>`
-    )
+    const fileResult = result.find(item => item.match[0] === link)
+    assert.deepEqual(fileResult, {
+      replacement: `GETPAGESHORTCODESTARTcourses/12-001-introduction-to-geology-fall-2013/sections/field-trip/MIT12_001F14_Field_TripGETPAGESHORTCODEEND`,
+      match:       [link]
+    })
   })
+
+  //
   ;[true, false].forEach(missing => {
     it(`resolves uids for a ${missing ? "missing " : ""}course`, () => {
       const linkingCourse =
@@ -233,21 +258,28 @@ describe("resolveUids", () => {
       if (!missing) {
         lookup[otherCourseUid] = otherCourseSlug
       }
-      const result = helpers.resolveUids(
+      const result = helpers.resolveUidMatches(
         syllabusPage["text"],
         syllabusPage,
         linkingCourseData,
         lookup
       )
-      const expectedNeedle = missing
-        ? `<a href="./resolveuid/${otherCourseUid}"><em>1.001 Introduction to Computers and Engineering Problem Solving</em></a>`
-        : `<a href="/courses/${otherCourseSlug}"><em>1.001 Introduction to Computers and Engineering Problem Solving</em></a>`
-      assert.include(result, expectedNeedle)
+      assert.deepEqual(
+        result,
+        missing
+          ? []
+          : [
+            {
+              match:       [`./resolveuid/${otherCourseUid}`],
+              replacement: `/courses/${otherCourseSlug}`
+            }
+          ]
+      )
     })
   })
 })
 
-describe("resolveRelativeLinks", () => {
+describe("resolveRelativeLinkMatches", () => {
   let sandbox
 
   beforeEach(() => {
@@ -260,11 +292,20 @@ describe("resolveRelativeLinks", () => {
 
   it("replaces all relative links on the page with hugo getpage shortcodes", () => {
     assert.isTrue(assignmentsPage["text"].indexOf("{{% getpage ") === -1)
-    const result = helpers.resolveRelativeLinks(
+    const result = helpers.resolveRelativeLinkMatches(
       assignmentsPage["text"],
       singleCourseJsonData
     )
-    assert.isTrue(result.indexOf(GETPAGESHORTCODESTART) !== -1)
+    assert.lengthOf(result, 1)
+    assert.equal(
+      result[0].match[0],
+      `href="/courses/mechanical-engineering/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/projects"`
+    )
+    assert.equal(result[0].match.index, 121)
+    assert.equal(
+      result[0].replacement,
+      'href="GETPAGESHORTCODESTARTcourses/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/sections/projects/_index.mdGETPAGESHORTCODEEND"'
+    )
   })
 
   it("handles a missing media file location", () => {
@@ -273,7 +314,53 @@ describe("resolveRelativeLinks", () => {
     })
     const text = `${assignmentsPage["text"]} <a href="/courses/mathematics/18-01-single-variable-calculus-fall-2006/exams/prfinalsol.pdf" />`
     delete singleCourseJsonData.course_files[0].file_location
-    helpers.resolveRelativeLinks(text, singleCourseJsonData)
+    const result = helpers.resolveRelativeLinkMatches(
+      text,
+      singleCourseJsonData
+    )
+    assert.lengthOf(result, 1)
+    assert.equal(
+      result[0].match[0],
+      `href="/courses/mechanical-engineering/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/projects"`
+    )
+    assert.equal(result[0].match.index, 121)
+    assert.equal(
+      result[0].replacement,
+      'href="GETPAGESHORTCODESTARTcourses/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/sections/projects/_index.mdGETPAGESHORTCODEEND"'
+    )
+  })
+})
+
+describe("resolveYouTubeEmbedMatches", () => {
+  let sandbox
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox()
+  })
+
+  afterEach(() => {
+    sandbox.restore()
+  })
+
+  it("resolves youtube embed links", () => {
+    const youtubeKey =
+      "99525203lab5:savoniuswindturbineconstructionandtesting48221462"
+    const htmlStr = `some text ${youtubeKey} other text`
+    const courseId = "ec-711-d-lab-energy-spring-2011"
+    const courseData = JSON.parse(
+      fs.readFileSync(`test_data/courses/${courseId}/${courseId}_parsed.json`)
+    )
+    const results = helpers.resolveYouTubeEmbedMatches(htmlStr, courseData)
+    const match = [youtubeKey]
+    match.index = 10
+    assert.deepEqual(results, [
+      {
+        replacement: "{{< youtube LnSvSfXUmVs >}}",
+        match
+      }
+    ])
+    // verify that if there is a key not present in the html, it is skipped
+    assert.lengthOf(Object.values(courseData["course_embedded_media"]), 21)
   })
 })
 
@@ -369,5 +456,13 @@ describe("misc functions", () => {
       helpers.replaceSubstring("there is some text here", 9, 5, ""),
       "there is text here"
     )
+  })
+
+  it("replaces a list of items", () => {
+    const text = "The quick brown fox jumps over the lazy dog"
+    const os = Array.from(text.matchAll(/o/g))
+    const replacementItems = os.map(match => ({ match, replacement: "00" }))
+    const newText = helpers.applyReplacements(replacementItems, text)
+    assert.equal(newText, "The quick br00wn f00x jumps 00ver the lazy d00g")
   })
 })
