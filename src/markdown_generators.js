@@ -18,9 +18,15 @@ const { html2markdown } = require("./turndown")
 
 const fixLinks = (htmlStr, page, courseData, courseUidsLookup) => {
   if (htmlStr && page) {
-    htmlStr = helpers.resolveUids(htmlStr, page, courseData, courseUidsLookup)
-    htmlStr = helpers.resolveRelativeLinks(htmlStr, courseData)
-    htmlStr = helpers.resolveYouTubeEmbed(htmlStr, courseData)
+    const matchAndReplacements = [
+      ...helpers.resolveUidMatches(htmlStr, page, courseData, courseUidsLookup),
+      ...helpers.resolveRelativeLinkMatches(htmlStr, courseData),
+      ...helpers.resolveYouTubeEmbedMatches(htmlStr, courseData)
+    ]
+    htmlStr = helpers.applyReplacements(matchAndReplacements, htmlStr)
+
+    // this will be merged into resolveRelativeLinkMatches in a future PR
+    htmlStr = htmlStr.replace(/http:\/\/ocw.mit.edu/g, "")
   }
   return htmlStr
 }
@@ -456,5 +462,6 @@ module.exports = {
   generateCourseSectionFrontMatter,
   generateCourseFeatures,
   generateCourseSectionMarkdown,
-  generateCourseFeaturesMarkdown
+  generateCourseFeaturesMarkdown,
+  fixLinks
 }

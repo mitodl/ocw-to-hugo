@@ -185,6 +185,26 @@ const getHugoPathSuffix = (page, courseData) => {
   return isParent || hasFiles ? "/_index.md" : ""
 }
 
+const applyReplacements = (matchAndReplacements, text) => {
+  const sortedMatchAndReplacements = Array.from(matchAndReplacements)
+  // this sorts in reverse order with highest index first so that we can do replacements
+  // without needing to adjust indexes for the next items to be processed
+  sortedMatchAndReplacements.sort((a, b) => {
+    if (a.match.index < b.match.index) {
+      return 1
+    } else if (a.match.index > b.match.index) {
+      return -1
+    }
+    return 0
+  })
+
+  for (const { match, replacement } of sortedMatchAndReplacements) {
+    text = replaceSubstring(text, match.index, match[0].length, replacement)
+  }
+
+  return text
+}
+
 const resolveUidForLink = (url, courseData, courseUidsLookup, pagePath) => {
   const urlParts = url.split("/")
   const uid = urlParts[urlParts.length - 1]
@@ -223,7 +243,7 @@ const resolveUidForLink = (url, courseData, courseUidsLookup, pagePath) => {
     return `/courses/${linkedCourse}`
   }
 
-  return url
+  return null
 }
 
 /**
@@ -237,43 +257,45 @@ const resolveUidForLink = (url, courseData, courseUidsLookup, pagePath) => {
  * the course data object, and a lookup from uid to course.
  *
  */
-const resolveUids = (htmlStr, page, courseData, courseUidsLookup) => {
+const resolveUidMatches = (htmlStr, page, courseData, courseUidsLookup) => {
   try {
+    /**
+     * resolveuid links are formatted as, for example:
+     *
+     * href="./resolveuid/b463875b69d4156b90faaeb0dd7ca66b"
+     *
+     * the UID is the only part we need, so we split the string on "/" and
+     * take the last part
+     */
     // get the Hugo path to the page
     const pagePath = `${pathToChildRecursive(
       path.join("courses", courseData["short_url"], "sections"),
       page,
       courseData
     )}${getHugoPathSuffix(page, courseData)}`
-    // iterate all resolveuid links by regex match
     const matches = Array.from(htmlStr.matchAll(/\.?\/?resolveuid\/.{0,32}/g))
-    matches.reverse() // handle last match first so indexes for other matches aren't affected
-    matches.forEach(match => {
-      /**
-       * resolveuid links are formatted as, for example:
-       *
-       * href="./resolveuid/b463875b69d4156b90faaeb0dd7ca66b"
-       *
-       * the UID is the only part we need, so we split the string on "/" and
-       * take the last part
-       */
-      const replacement = resolveUidForLink(
-        match[0],
-        courseData,
-        courseUidsLookup,
-        pagePath
-      )
-      htmlStr = replaceSubstring(
-        htmlStr,
-        match.index,
-        match[0].length,
-        replacement
-      )
-    })
+
+    return matches
+      .map(match => {
+        const replacement = resolveUidForLink(
+          match[0],
+          courseData,
+          courseUidsLookup,
+          pagePath
+        )
+        if (replacement !== null) {
+          return {
+            match,
+            replacement
+          }
+        }
+        return null
+      })
+      .filter(Boolean)
   } catch (err) {
     loggers.fileLogger.error(err)
   }
-  return htmlStr
+  return []
 }
 
 const resolveRelativeLink = (url, courseData) => {
@@ -346,7 +368,7 @@ const resolveRelativeLink = (url, courseData) => {
     }
   }
 
-  return url
+  return null
 }
 
 /**
@@ -358,40 +380,46 @@ const resolveRelativeLink = (url, courseData) => {
  * or course section it is supposed to point to.
  *
  */
-const resolveRelativeLinks = (htmlStr, courseData) => {
+const resolveRelativeLinkMatches = (htmlStr, courseData) => {
   try {
     // find and iterate all href tags
     const matches = Array.from(
       htmlStr.matchAll(/((href="(?<url1>[^"]*)")|(href='(?<url2>[^']*)'))/g)
     )
-    matches.reverse() // handle last match first so indexes for other matches aren't affected
-    matches.forEach(match => {
-      // isolate the url
-      const url = match.groups.url1 || match.groups.url2
-      const replacement = resolveRelativeLink(url, courseData)
-      htmlStr = replaceSubstring(
-        htmlStr,
-        match.index,
-        match[0].length,
-        `href="${replacement}"`
-      )
-    })
+    return matches
+      .map(match => {
+        const url = match.groups.url1 || match.groups.url2
+
+        const replacement = resolveRelativeLink(url, courseData)
+        if (replacement !== null) {
+          return { match, replacement: `href="${replacement}"` }
+        }
+        return null
+      })
+      .filter(Boolean)
   } catch (err) {
     loggers.fileLogger.error(err)
   }
-  return htmlStr.replace(/http:\/\/ocw.mit.edu/g, "")
+  return []
 }
 
-const resolveYouTubeEmbed = (htmlStr, courseData) => {
-  Object.keys(courseData["course_embedded_media"]).forEach(key => {
-    if (htmlStr.includes(key)) {
-      htmlStr = htmlStr.replace(
-        key,
-        getYoutubeEmbedCode(courseData["course_embedded_media"][key])
-      )
-    }
-  })
-  return htmlStr
+const resolveYouTubeEmbedMatches = (htmlStr, courseData) => {
+  return Object.keys(courseData["course_embedded_media"])
+    .map(key => {
+      const index = htmlStr.indexOf(key)
+      if (index !== -1) {
+        // match is meant to resemble a regex match object enough
+        // to be used with applyReplacements above
+        const match = [key]
+        match.index = index
+        const replacement = getYoutubeEmbedCode(
+          courseData["course_embedded_media"][key]
+        )
+        return { replacement, match }
+      }
+      return null
+    })
+    .filter(Boolean)
 }
 
 const htmlSafeText = text =>
@@ -451,9 +479,9 @@ module.exports = {
   getYoutubeEmbedCode,
   pathToChildRecursive,
   getHugoPathSuffix,
-  resolveUids,
-  resolveRelativeLinks,
-  resolveYouTubeEmbed,
+  resolveUidMatches,
+  resolveRelativeLinkMatches,
+  resolveYouTubeEmbedMatches,
   htmlSafeText,
   stripS3,
   escapeDoubleQuotes,
@@ -461,5 +489,6 @@ module.exports = {
   isCoursePublished,
   runOptions,
   stripPdfSuffix,
-  replaceSubstring
+  replaceSubstring,
+  applyReplacements
 }
