@@ -29,7 +29,7 @@ describe("file operations", () => {
   let singleCourseRawData, singleCourseJsonData, singleCourseMarkdownData
 
   beforeEach(() => {
-    helpers.runOptions.linkPrefix = "/"
+    helpers.runOptions.linkPrefix = ""
 
     singleCourseRawData = require("fs").readFileSync(singleCourseMasterJsonPath)
     singleCourseJsonData = JSON.parse(singleCourseRawData)

@@ -48,7 +48,7 @@ describe("markdown generators", () => {
     courseVideoFeaturesFrontMatter
 
   beforeEach(() => {
-    helpers.runOptions.linkPrefix = "/"
+    helpers.runOptions.linkPrefix = ""
 
     singleCourseRawData = fs.readFileSync(singleCourseParsedJsonPath)
     singleCourseJsonData = JSON.parse(singleCourseRawData)
@@ -138,7 +138,7 @@ describe("markdown generators", () => {
         )
         .map(page => page["short_url"])
       expectedSections.forEach(expectedSection => {
-        let filename = `/sections/${expectedSection}`
+        let filename = `sections/${expectedSection}`
         const sectionMarkdownData = singleCourseMarkdownData.filter(
           section =>
             section["name"] === `${filename}.md` ||
@@ -176,7 +176,7 @@ describe("markdown generators", () => {
           ).filter(embeddedMedia => embeddedMedia["parent_uid"] === sectionUid)
           expectedChildren.forEach(expectedChild => {
             const childFilename = path.join(
-              "/sections/",
+              "sections/",
               expectedChild["url"].split("/")[4],
               "river-testing-photos.md"
             )
@@ -188,7 +188,7 @@ describe("markdown generators", () => {
             )[0]
             const fragmentUrlPieces = fragment.url.split("/")
             const fileFilename = path.join(
-              "/sections",
+              "sections",
               fragmentUrlPieces[fragmentUrlPieces.length - 1],
               `${expectedFile["id"].replace(".pdf", "")}.md`
             )

@@ -91,12 +91,28 @@ const getCourseFeatureObject = courseFeature => {
   return featureObject
 }
 
+const FAKE_BASE_URL = "https://sentinel.example.com"
+const getPathFragments = url =>
+  new URL(url, FAKE_BASE_URL).pathname.split("/").filter(Boolean)
+const updatePath = (url, pathPieces) => {
+  const obj = new URL(url, FAKE_BASE_URL)
+  obj.pathname = pathPieces.join("/")
+  let newUrl = obj.toString()
+  if (newUrl.startsWith(FAKE_BASE_URL)) {
+    newUrl = newUrl.slice(FAKE_BASE_URL.length)
+  }
+  return newUrl
+}
+
 const getCourseSectionFromFeatureUrl = courseFeature => {
   const featureUrl = courseFeature["ocw_feature_url"]
   if (!featureUrl.includes("resolveuid")) {
-    const urlParts = featureUrl.replace(/\/index.html?/g, "").split("/")
-    return urlParts[urlParts.length - 1].split("#")[0]
-  } else return featureUrl
+    let [last, ...urlParts] = getPathFragments(featureUrl).reverse()
+    last = last.replace(/^index.html?$/, "")
+    return updatePath(featureUrl, [...urlParts, last])
+  } else {
+    return featureUrl
+  }
 }
 
 /* eslint-disable camelcase */
@@ -233,8 +249,7 @@ const applyReplacements = (matchAndReplacements, text) => {
 }
 
 const resolveUidForLink = (url, courseData, courseUidsLookup, pathLookup) => {
-  const urlParts = url.split("/")
-  const uid = urlParts[urlParts.length - 1]
+  const [uid, ...urlParts] = getPathFragments(url).reverse()
   // filter course_pages on the UID in the URL
   const linkedPage = courseData["course_pages"].find(
     coursePage => coursePage["uid"] === uid
@@ -326,7 +341,7 @@ const resolveRelativeLink = (url, courseData) => {
   // ensure that this is not resolveuid or an external link
   if (!url.includes("resolveuid") && url[0] === "/") {
     // split the url into its parts
-    const parts = url.split("/").filter(part => part !== "")
+    const parts = getPathFragments(url)
     /**
      * disassembles the OCW URL based on the following patten:
      *
@@ -354,11 +369,7 @@ const resolveRelativeLink = (url, courseData) => {
         page = parts.slice(parts.length - 1, parts.length)[0]
       }
       // build the base of the Hugo url
-      const newUrlBase = path.join(
-        runOptions.linkPrefix,
-        "sections",
-        ...sections
-      )
+      const basePieces = [runOptions.linkPrefix, "sections", ...sections]
       if (page.includes(".") && !page.includes(".htm")) {
         // page has a file extension and isn't HTML
         for (const media of courseData["course_files"]) {
@@ -368,7 +379,7 @@ const resolveRelativeLink = (url, courseData) => {
               media["file_location"].includes(page)
             ) {
               // construct url to Hugo PDF viewer page
-              return path.join(newUrlBase, stripPdfSuffix(page))
+              return updatePath(url, [...basePieces, stripPdfSuffix(page)])
             } else if (media["file_location"].includes(page)) {
               // write link directly to file
               return stripS3(media["file_location"])
@@ -381,7 +392,7 @@ const resolveRelativeLink = (url, courseData) => {
           if (coursePage["short_url"].toLowerCase() === page.toLowerCase()) {
             const pageName = page.replace(/(index)?\.html?/g, "")
 
-            return path.join(newUrlBase, pageName)
+            return updatePath(url, [...basePieces, pageName])
           }
         }
       }
@@ -509,5 +520,7 @@ module.exports = {
   runOptions,
   stripPdfSuffix,
   replaceSubstring,
-  applyReplacements
+  applyReplacements,
+  getPathFragments,
+  updatePath
 }

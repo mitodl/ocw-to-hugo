@@ -54,9 +54,9 @@ const options = yargs
     demandOption: false
   })
   .option("linkPrefix", {
-    describe:     "Prefix used for relative links. Defaults to /",
+    describe:     "Prefix used for relative links. Defaults to an empty string.",
     type:         "string",
-    default:      "/",
+    default:      "",
     demandOption: false
   })
   .option("rm", {

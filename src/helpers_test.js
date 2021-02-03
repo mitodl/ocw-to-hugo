@@ -302,6 +302,20 @@ describe("resolveRelativeLinkMatches", () => {
     assert.equal(result[0].match.index, 121)
     assert.equal(result[0].replacement, 'href="/sections/projects"')
   })
+
+  it("resolves relative links while keeping hashes", () => {
+    helpers.runOptions.linkPrefix = ""
+    const text =
+      '<a href="/courses/aeronautics-and-astronautics/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/syllabus#Table_organization">Table Organization</a></p> '
+    const result = helpers.resolveRelativeLinkMatches(
+      text,
+      singleCourseJsonData
+    )
+    assert.equal(
+      result[0].replacement,
+      'href="/sections/syllabus#Table_organization"'
+    )
+  })
 })
 
 describe("resolveYouTubeEmbedMatches", () => {
@@ -437,5 +451,27 @@ describe("misc functions", () => {
     const replacementItems = os.map(match => ({ match, replacement: "00" }))
     const newText = helpers.applyReplacements(replacementItems, text)
     assert.equal(newText, "The quick br00wn f00x jumps 00ver the lazy d00g")
+  })
+
+  it("gets the path pieces from a url", () => {
+    assert.deepEqual(helpers.getPathFragments("/a/b/c/"), ["a", "b", "c"])
+    assert.deepEqual(
+      helpers.getPathFragments("https://mit.edu/path/to/course#hash"),
+      ["path", "to", "course"]
+    )
+    assert.deepEqual(helpers.getPathFragments("d/e/f"), ["d", "e", "f"])
+  })
+
+  it("updates the path of a url", () => {
+    assert.deepEqual(helpers.updatePath("/a/b/c/", ["d", "e", "f"]), "/d/e/f")
+    assert.deepEqual(
+      helpers.updatePath("https://mit.edu/path/to/course#hash", [
+        "course_home"
+      ]),
+      "https://mit.edu/course_home#hash"
+    )
+    assert.deepEqual(helpers.updatePath("d/e/f", ["", "a", "b", "c"]), "/a/b/c")
+    assert.deepEqual(helpers.updatePath("d/e/f", ["a", "b", "c"]), "/a/b/c")
+    assert.deepEqual(helpers.updatePath("f/g/h", []), "/")
   })
 })

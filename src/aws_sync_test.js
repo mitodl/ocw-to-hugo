@@ -16,7 +16,7 @@ const helpers = require("./helpers")
 
 describe("aws sync", () => {
   beforeEach(() => {
-    helpers.runOptions.linkPrefix = "/"
+    helpers.runOptions.linkPrefix = ""
   })
 
   describe("downloadCourses", () => {
