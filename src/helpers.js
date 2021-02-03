@@ -178,7 +178,7 @@ const buildPathRecursive = (item, itemsLookup, courseUid, pathLookup) => {
   if (courseUid === parentUid) {
     // course is the parent, so link should be off of /sections
     const filename = page[filenameKey]
-    pathLookup[uid] = path.join(runOptions.linkPrefix, "sections", filename)
+    pathLookup[uid] = path.join("/sections", filename)
     return
   }
 
@@ -369,7 +369,7 @@ const resolveRelativeLink = (url, courseData) => {
         page = parts.slice(parts.length - 1, parts.length)[0]
       }
       // build the base of the Hugo url
-      const basePieces = [runOptions.linkPrefix, "sections", ...sections]
+      const basePieces = ["/sections", ...sections]
       if (page.includes(".") && !page.includes(".htm")) {
         // page has a file extension and isn't HTML
         for (const media of courseData["course_files"]) {
@@ -490,8 +490,15 @@ const stripSuffix = suffix => text => {
   }
   return text
 }
-
 const stripPdfSuffix = stripSuffix(".pdf")
+
+const stripPrefix = prefix => text => {
+  if (text.toLowerCase().startsWith(prefix.toLowerCase())) {
+    return text.slice(prefix.length)
+  }
+  return text
+}
+const stripSlashPrefix = stripPrefix("/")
 
 const replaceSubstring = (text, index, length, substring) =>
   `${text.substring(0, index)}${substring}${text.substring(index + length)}`
@@ -519,6 +526,7 @@ module.exports = {
   isCoursePublished,
   runOptions,
   stripPdfSuffix,
+  stripSlashPrefix,
   replaceSubstring,
   applyReplacements,
   getPathFragments,

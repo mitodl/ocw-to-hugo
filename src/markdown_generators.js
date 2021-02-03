@@ -128,7 +128,7 @@ const generateMarkdownRecursive = (
     courseUidsLookup,
     pathLookup
   )
-  const pathToChild = pathLookup[page["uid"]]
+  const pathToChild = helpers.stripSlashPrefix(pathLookup[page["uid"]])
   return {
     name:
       isParent || hasFiles || hasMedia

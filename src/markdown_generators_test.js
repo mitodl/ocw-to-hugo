@@ -48,8 +48,6 @@ describe("markdown generators", () => {
     courseVideoFeaturesFrontMatter
 
   beforeEach(() => {
-    helpers.runOptions.linkPrefix = ""
-
     singleCourseRawData = fs.readFileSync(singleCourseParsedJsonPath)
     singleCourseJsonData = JSON.parse(singleCourseRawData)
     imageGalleryCourseRawData = fs.readFileSync(

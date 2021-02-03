@@ -15,10 +15,6 @@ const fileOperations = require("./file_operations")
 const helpers = require("./helpers")
 
 describe("aws sync", () => {
-  beforeEach(() => {
-    helpers.runOptions.linkPrefix = ""
-  })
-
   describe("downloadCourses", () => {
     const sandbox = sinon.createSandbox()
     const testCoursesJson = "test_data/courses.json"

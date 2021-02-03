@@ -269,8 +269,7 @@ describe("resolveRelativeLinkMatches", () => {
     sandbox.restore()
   })
 
-  it("replaces all relative links on the page with hugo getpage shortcodes", () => {
-    assert.isTrue(assignmentsPage["text"].indexOf("{{% getpage ") === -1)
+  it("fixes all relative links on the page", () => {
     const result = helpers.resolveRelativeLinkMatches(
       assignmentsPage["text"],
       singleCourseJsonData
@@ -304,7 +303,6 @@ describe("resolveRelativeLinkMatches", () => {
   })
 
   it("resolves relative links while keeping hashes", () => {
-    helpers.runOptions.linkPrefix = ""
     const text =
       '<a href="/courses/aeronautics-and-astronautics/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/syllabus#Table_organization">Table Organization</a></p> '
     const result = helpers.resolveRelativeLinkMatches(
@@ -422,12 +420,40 @@ describe("isCoursePublished", () => {
   })
 })
 
+describe("buildPaths", () => {
+  it("builds some paths", () => {
+    const paths = helpers.buildPaths(singleCourseJsonData)
+    assert.equal(
+      paths["303c499be5d236b1cde0bb36d615f4e7"],
+      "/sections/study-materials"
+    )
+    assert.equal(
+      paths["42664d52bd9a5b1632bac20876dc344d"],
+      "/sections/index.htm"
+    )
+    assert.equal(
+      paths["b6a31a6a85998d664ea826a766d9032b"],
+      "/sections/2-00ajs09.jpg"
+    )
+    assert.equal(
+      paths["6f5063fc562d919e4005ac2c983eefb7"],
+      "/sections/study-materials/MIT2_00AJs09_res01B.pdf"
+    )
+    assert.lengthOf(Object.values(paths), 67)
+  })
+})
+
 describe("misc functions", () => {
   it("strips .pdf from the url", () => {
     assert.equal(helpers.stripPdfSuffix("some text"), "some text")
     assert.equal(helpers.stripPdfSuffix("some text.pdf"), "some text")
     assert.equal(helpers.stripPdfSuffix("some text.PDF"), "some text")
     assert.equal(helpers.stripPdfSuffix("some text.PDF.pdf"), "some text.PDF")
+  })
+
+  it("strips / from the prefix", () => {
+    assert.equal(helpers.stripSlashPrefix("/a/b/c/"), "a/b/c/")
+    assert.equal(helpers.stripSlashPrefix("d/e/f"), "d/e/f")
   })
 
   it("replaces a substring", () => {
