@@ -109,4 +109,26 @@ describe("turndown", () => {
       `{{< quote "I think stories are an important element of education, and if you strip them out, you don't have much left that can possibly be inspiring." "— Patrick Winston" >}}`
     )
   })
+
+  it("should remove pie charts surrounded in a div with the class edu_grading", async () => {
+    const inputHTML = `<div class="onehalf alpha">
+      <p>The students' grades were based on the following activities:</p>
+      <div class="edu_grading" style="clear: both; position: relative;">
+        <div><canvas width="175" height="175" id="canvas5" style="width: 175px; height: 175px;"></canvas>
+          <script>
+            PIE CHART SCRIPT
+          </script>
+        </div>
+        <div class="edu_breakdown_key" style="float: right; width: 185px; margin-top: -180px;">
+          LEGEND
+        </div>
+      </div>
+      <p>"Spiritual" material refers to lectures not considered part of the core skill set; the "<a
+          href="http://web.mit.edu/fnl/volume/254/winston.html">Right Now</a>" material refers to lectures given by
+        what's-happening-right-now guest lecturers.</p>
+    </div>`
+    const markdown = await html2markdown(inputHTML)
+    assert.include(markdown, "The students' grades were based on the following activities:")
+    assert.include(markdown, `"Spiritual" material refers to lectures not considered part of the core skill set; the "[Right Now](http://web.mit.edu/fnl/volume/254/winston.html)" material refers to lectures given by what's-happening-right-now guest lecturers.`)
+  })
 })

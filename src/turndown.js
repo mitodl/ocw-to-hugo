@@ -262,6 +262,23 @@ turndownService.addRule("baseurlshortcode", {
 })
 
 /**
+ * Remove pie charts with the surrunding div of class edu_grading
+ **/
+turndownService.addRule("edu_grading", {
+  filter: (node, options) => {
+    if (node.nodeName === "DIV" && node.getAttribute("class")) {
+      if (node.getAttribute("class").includes("edu_grading")) {
+        return true
+      }
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    return ""
+  }
+})
+
+/**
  * Render h4 tags as an h5 instead
  */
 turndownService.addRule("h4", {
