@@ -274,7 +274,24 @@ turndownService.addRule("edu_grading", {
     return false
   },
   replacement: (content, node, options) => {
-    return ""
+    const replacements = []
+    const children = Array.from(node.childNodes)
+    children.forEach(child => {
+      if (
+        !(
+          child.nodeName === "DIV" && child.childNodes[0].nodeName === "CANVAS"
+        ) &&
+        !(
+          child.nodeName === "DIV" &&
+          child.getAttribute("class") === "edu_breakdown_key"
+        )
+      ) {
+        replacements.push(turndownService.turndown(child.innerHTML))
+      }
+    })
+    const replacement = replacements.join("\n")
+    loggers.fileLogger.info(replacement)
+    return replacement
   }
 })
 
