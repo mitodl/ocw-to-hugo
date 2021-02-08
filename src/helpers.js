@@ -4,9 +4,12 @@ const moment = require("moment")
 
 const fsPromises = require("./fsPromises")
 const DEPARTMENTS_JSON = require("./departments.json")
-const { AWS_REGEX, INPUT_COURSE_DATE_FORMAT } = require("./constants")
+const {
+  AWS_REGEX,
+  BASEURL_SHORTCODE,
+  INPUT_COURSE_DATE_FORMAT
+} = require("./constants")
 const loggers = require("./loggers")
-
 const runOptions = {}
 
 const distinct = (value, index, self) => {
@@ -95,11 +98,19 @@ const FAKE_BASE_URL = "https://sentinel.example.com"
 const getPathFragments = url =>
   new URL(url, FAKE_BASE_URL).pathname.split("/").filter(Boolean)
 const updatePath = (url, pathPieces) => {
+  const hasBaseUrl = pathPieces[0] && pathPieces[0] === BASEURL_SHORTCODE
+  if (hasBaseUrl) {
+    pathPieces = pathPieces.slice(1)
+  }
+
   const obj = new URL(url, FAKE_BASE_URL)
   obj.pathname = pathPieces.join("/")
   let newUrl = obj.toString()
   if (newUrl.startsWith(FAKE_BASE_URL)) {
     newUrl = newUrl.slice(FAKE_BASE_URL.length)
+  }
+  if (hasBaseUrl) {
+    newUrl = path.join(BASEURL_SHORTCODE, newUrl)
   }
   return newUrl
 }
@@ -261,7 +272,11 @@ const resolveUidForLink = (url, courseData, courseUidsLookup, pathLookup) => {
   const linkedCourse = courseUidsLookup[uid]
   if (linkedPage) {
     // a page has been found for this UID
-    return pathLookup[uid] || null
+    const pagePath = pathLookup[uid]
+    if (pagePath) {
+      return path.join(BASEURL_SHORTCODE, pagePath)
+    }
+    return null
   } else if (linkedFile) {
     // a course_file has been found for this UID
     const parentUid = linkedFile["parent_uid"]
@@ -270,7 +285,7 @@ const resolveUidForLink = (url, courseData, courseUidsLookup, pathLookup) => {
       // create a link to the generated PDF viewer page for this PDF file
       const parent = pathLookup[parentUid]
       if (parent) {
-        const pdfPath = path.join(parent, linkedFile["id"])
+        const pdfPath = path.join(BASEURL_SHORTCODE, parent, linkedFile["id"])
         return stripPdfSuffix(pdfPath)
       }
     } else {
@@ -278,7 +293,7 @@ const resolveUidForLink = (url, courseData, courseUidsLookup, pathLookup) => {
       return stripS3(linkedFile["file_location"])
     }
   } else if (linkedCourse) {
-    return pathLookup[linkedCourse["uid"]]
+    return path.join(BASEURL_SHORTCODE, pathLookup[linkedCourse["uid"]])
   }
 
   return null
@@ -369,7 +384,7 @@ const resolveRelativeLink = (url, courseData) => {
         page = parts.slice(parts.length - 1, parts.length)[0]
       }
       // build the base of the Hugo url
-      const basePieces = ["/sections", ...sections]
+      const basePieces = [BASEURL_SHORTCODE, "sections", ...sections]
       if (page.includes(".") && !page.includes(".htm")) {
         // page has a file extension and isn't HTML
         for (const media of courseData["course_files"]) {

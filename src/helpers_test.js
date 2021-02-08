@@ -151,11 +151,11 @@ describe("resolveUidMatches", () => {
         },
         {
           match:       [`./resolveuid/${uid2}`],
-          replacement: "/path/parent/MIT12_001F14_Field_Trip"
+          replacement: "BASEURL_SHORTCODE/path/parent/MIT12_001F14_Field_Trip"
         },
         {
           match:       [`./resolveuid/${uid3}`],
-          replacement: "/path/3/"
+          replacement: "BASEURL_SHORTCODE/path/3/"
         }
       ]
     )
@@ -181,8 +181,9 @@ describe("resolveUidMatches", () => {
     )
     const pageResult = result.find(item => item.match[0] === link)
     assert.deepEqual(pageResult, {
-      replacement: "/sections/instructor-insights/planning-a-good-field-trip",
-      match:       [link]
+      replacement:
+        "BASEURL_SHORTCODE/sections/instructor-insights/planning-a-good-field-trip",
+      match: [link]
     })
   })
 
@@ -203,7 +204,7 @@ describe("resolveUidMatches", () => {
     )
     const fileResult = result.find(item => item.match[0] === link)
     assert.deepEqual(fileResult, {
-      replacement: `/parent/node/MIT12_001F14_Field_Trip`,
+      replacement: `BASEURL_SHORTCODE/parent/node/MIT12_001F14_Field_Trip`,
       match:       [link]
     })
   })
@@ -250,7 +251,7 @@ describe("resolveUidMatches", () => {
           : [
             {
               match:       [`./resolveuid/${otherCourseUid}`],
-              replacement: `/`
+              replacement: `BASEURL_SHORTCODE/`
             }
           ]
       )
@@ -280,7 +281,10 @@ describe("resolveRelativeLinkMatches", () => {
       `href="/courses/mechanical-engineering/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/projects"`
     )
     assert.equal(result[0].match.index, 121)
-    assert.equal(result[0].replacement, 'href="/sections/projects"')
+    assert.equal(
+      result[0].replacement,
+      'href="BASEURL_SHORTCODE/sections/projects"'
+    )
   })
 
   it("handles a missing media file location", () => {
@@ -299,7 +303,10 @@ describe("resolveRelativeLinkMatches", () => {
       `href="/courses/mechanical-engineering/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/projects"`
     )
     assert.equal(result[0].match.index, 121)
-    assert.equal(result[0].replacement, 'href="/sections/projects"')
+    assert.equal(
+      result[0].replacement,
+      'href="BASEURL_SHORTCODE/sections/projects"'
+    )
   })
 
   it("resolves relative links while keeping hashes", () => {
@@ -311,7 +318,7 @@ describe("resolveRelativeLinkMatches", () => {
     )
     assert.equal(
       result[0].replacement,
-      'href="/sections/syllabus#Table_organization"'
+      'href="BASEURL_SHORTCODE/sections/syllabus#Table_organization"'
     )
   })
 })
@@ -489,6 +496,10 @@ describe("misc functions", () => {
   })
 
   it("updates the path of a url", () => {
+    assert.deepEqual(
+      helpers.updatePath("/a/b/c/", ["BASEURL_SHORTCODE", "d", "e", "f"]),
+      "BASEURL_SHORTCODE/d/e/f"
+    )
     assert.deepEqual(helpers.updatePath("/a/b/c/", ["d", "e", "f"]), "/d/e/f")
     assert.deepEqual(
       helpers.updatePath("https://mit.edu/path/to/course#hash", [
