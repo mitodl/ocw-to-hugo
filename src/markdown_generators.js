@@ -288,42 +288,6 @@ const generateCourseSectionFrontMatter = (
   return `---\n${yaml.safeDump(courseSectionFrontMatter)}---\n`
 }
 
-const generateCourseFeatures = courseData => {
-  /**
-    Generate markdown for the "Course Features" section of the home page
-    */
-  const courseFeaturesHeader = markdown
-    .newBuilder()
-    .h5("Course Features")
-    .toMarkdown()
-
-  const courseFeatures = courseData["course_features"]
-    .map(courseFeature => {
-      const section = helpers.getCourseSectionFromFeatureUrl(courseFeature)
-      const matchingSections = courseData["course_pages"].filter(
-        coursePage => coursePage["short_url"] === section
-      )
-      if (section && matchingSections.length > 0) {
-        return markdown
-          .newBuilder()
-          .link(
-            `{{% ref "${helpers.pathToChildRecursive(
-              path.join("courses", courseData["short_url"], "sections"),
-              matchingSections[0],
-              courseData
-            )}" %}}`,
-            courseFeature["ocw_feature"]
-          )
-          .toMarkdown()
-      } else return null
-    })
-    .filter(courseFeature => courseFeature)
-  return `${courseFeaturesHeader}\n${markdown
-    .newBuilder()
-    .list(courseFeatures)
-    .toMarkdown()}`
-}
-
 const formatHTMLMarkDown = (
   page,
   courseData,
@@ -486,6 +450,5 @@ module.exports = {
   generateCourseSectionFrontMatter,
   generateCourseSectionMarkdown,
   generateCourseFeaturesMarkdown,
-  generateCourseFeatures,
   fixLinks
 }

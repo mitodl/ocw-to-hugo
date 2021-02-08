@@ -455,56 +455,6 @@ describe("markdown generators", () => {
     })
   })
 
-  describe("generateCourseFeatures", () => {
-    let courseFeatures, builderStub, h5, link, ul, sandbox
-
-    beforeEach(() => {
-      sandbox = sinon.createSandbox()
-      builderStub = markdown.newBuilder()
-
-      h5 = sandbox.spy(builderStub, "h5")
-      link = sandbox.spy(builderStub, "link")
-      ul = sandbox.spy(builderStub, "list")
-
-      sandbox.stub(markdown, "newBuilder").returns(builderStub)
-      courseFeatures = markdownGenerators.generateCourseFeatures(
-        singleCourseJsonData
-      )
-    })
-
-    afterEach(() => {
-      sandbox.restore()
-    })
-
-    it("calls markdown.h5 to create the Course Features header", () => {
-      expect(h5).to.be.calledWithExactly("Course Features")
-    })
-
-    it("calls markdown.misc.link for each item in course_features", () => {
-      singleCourseJsonData["course_features"].forEach(courseFeature => {
-        const section = helpers.getCourseSectionFromFeatureUrl(courseFeature)
-        const matchingSection = singleCourseJsonData["course_pages"].filter(
-          coursePage => coursePage["short_url"] === section
-        )[0]
-        if (section && matchingSection) {
-          const sectionPath = helpers.pathToChildRecursive(
-            `courses/${singleCourseJsonData["short_url"]}/sections/`,
-            matchingSection,
-            singleCourseJsonData
-          )
-          expect(link).to.be.calledWithExactly(
-            courseFeature["ocw_feature"],
-            `{{% ref "${sectionPath}" %}}`
-          )
-        }
-      })
-    })
-
-    it("calls markdown.lists.ul to create the Course Features list", () => {
-      expect(ul).to.be.calledOnce
-    })
-  })
-
   describe("generateCourseSectionMarkdown", () => {
     it("can be called without generating an error and returns something", () => {
       assert(
