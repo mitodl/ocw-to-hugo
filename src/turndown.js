@@ -289,9 +289,7 @@ turndownService.addRule("edu_grading", {
         replacements.push(turndownService.turndown(child.innerHTML))
       }
     })
-    const replacement = replacements.join("\n")
-    loggers.fileLogger.info(replacement)
-    return replacement
+    return replacements.join("\n")
   }
 })
 
