@@ -3,10 +3,7 @@ export TMP_FILE=$(mktemp)
 
 if [[ ! -z "$COVERAGE" ]]
 then
-    export CMD="node ./node_modules/nyc/bin/nyc.js --reporter=html mocha"
-elif [[ ! -z "$CODECOV" ]]
-then
-    export CMD="node ./node_modules/nyc/bin/nyc.js --reporter=lcovonly -R spec mocha"
+    export CMD="node ./node_modules/nyc/bin/nyc.js --reporter=html --reporter=lcov mocha"
 elif [[ ! -z "$WATCH" ]]
 then
     export CMD="node ./node_modules/mocha/bin/_mocha --watch"
@@ -34,12 +31,6 @@ fi
 eval "$CMD $CMD_ARGS" 2> >(tee "$TMP_FILE")
 
 export TEST_RESULT=$?
-if [[ ! -z "$CODECOV" ]]
-then
-    echo "Uploading coverage..."
-    node ./node_modules/codecov/bin/codecov
-fi
-
 if [[ $TEST_RESULT -ne 0 ]]
 then
     echo "Tests failed, exiting with error $TEST_RESULT..."

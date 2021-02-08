@@ -30,7 +30,12 @@ jobs:
         run: npm run lint
 
       - name: Tests
-        run: npm run test
+        run: npm run coverage
 
       - name: Code formatting
         run: npm run fmt:check
+
+      - name: Upload test coverage to CodeCov
+        uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: true
