@@ -292,7 +292,7 @@ const resolveUidForLink = (url, courseData, courseUidsLookup, pathLookup) => {
       // link directly to the static content
       return stripS3(linkedFile["file_location"])
     }
-  } else if (linkedCourse) {
+  } else if (linkedCourse && pathLookup[linkedCourse["uid"]]) {
     return path.join(BASEURL_SHORTCODE, pathLookup[linkedCourse["uid"]])
   }
 
