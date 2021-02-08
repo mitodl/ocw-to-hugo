@@ -128,7 +128,13 @@ describe("turndown", () => {
         what's-happening-right-now guest lecturers.</p>
     </div>`
     const markdown = await html2markdown(inputHTML)
-    assert.include(markdown, "The students' grades were based on the following activities:")
-    assert.include(markdown, `"Spiritual" material refers to lectures not considered part of the core skill set; the "[Right Now](http://web.mit.edu/fnl/volume/254/winston.html)" material refers to lectures given by what's-happening-right-now guest lecturers.`)
+    assert.include(
+      markdown,
+      "The students' grades were based on the following activities:"
+    )
+    assert.include(
+      markdown,
+      `"Spiritual" material refers to lectures not considered part of the core skill set; the "[Right Now](http://web.mit.edu/fnl/volume/254/winston.html)" material refers to lectures given by what's-happening-right-now guest lecturers.`
+    )
   })
 })
