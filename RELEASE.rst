@@ -1,6 +1,14 @@
 Release Notes
 =============
 
+Version 1.10.0
+--------------
+
+- Refactor link processing (#176)
+- parent title (#172)
+- add quote shortcode (#170)
+- add instructor_insights layout (#169)
+
 Version 1.9.0 (Released January 19, 2021)
 -------------
 
