@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.10.0
+Version 1.10.0 (Released February 08, 2021)
 --------------
 
 - Refactor link processing (#176)
