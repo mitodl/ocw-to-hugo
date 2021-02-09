@@ -223,13 +223,7 @@ const generateCourseHomeMarkdown = (
     title:     "",
     type:      "course",
     layout:    "course_home",
-    course_id: courseData["short_url"],
-    menu:      {
-      [courseData["short_url"]]: {
-        identifier: pageId,
-        weight:     -10
-      }
-    }
+    course_id: courseData["short_url"]
   }
   try {
     return `---\n${yaml.safeDump(

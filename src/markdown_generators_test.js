@@ -309,15 +309,6 @@ describe("markdown generators", () => {
       ])
     })
 
-    it("sets the menu index of the course home page to -10 to ensure it is at the top", () => {
-      assert.equal(
-        -10,
-        courseHomeFrontMatter["menu"][singleCourseJsonData["short_url"]][
-          "weight"
-        ]
-      )
-    })
-
     it("calls yaml.safeDump once", () => {
       expect(safeDump).to.be.calledOnce
     })
