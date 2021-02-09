@@ -109,4 +109,56 @@ describe("turndown", () => {
       `{{< quote "I think stories are an important element of education, and if you strip them out, you don't have much left that can possibly be inspiring." "— Patrick Winston" >}}`
     )
   })
+
+  it("should remove pie charts surrounded in a div with the class edu_grading without removing unrelated content", async () => {
+    const inputHTML = `<div class="onehalf alpha">
+      <p>TOP TEXT</p>
+      <div class="edu_grading" style="clear: both; position: relative;">
+        <div><canvas width="175" height="175" id="canvas5" style="width: 175px; height: 175px;"></canvas>
+          <script>
+            PIE CHART SCRIPT
+          </script>
+        </div>
+        <div class="edu_breakdown_key" style="float: right; width: 185px; margin-top: -180px;">
+          LEGEND
+        </div>
+        <h3 class="subsubhead">SUB HEADER TEXT</h3>
+        <p>INSIDE DIV TEXT</p>
+        <div class="clear">&nbsp;</div>
+      </div>
+      <p>OUTSIDE DIV TEXT</p>
+    </div>`
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(
+      markdown,
+      "TOP TEXT\n\n### SUB HEADER TEXT\nINSIDE DIV TEXT\n\nOUTSIDE DIV TEXT"
+    )
+  })
+
+  it("should remove pie charts surrounded in a div with the class edu_hours_left", async () => {
+    const inputHTML = `<div style="clear: both; position: relative;"></div>
+      <div class="edu_hours_left"><canvas id="canvas2" height="100" width="100"
+          style="width: 100px; height: 100px;"></canvas>
+        <script type="text/javascript">
+          var pieData = [{
+              value: 28.6,
+              color: "#eee"
+            },
+            {
+              value: 71.4,
+              color: "#931101"
+            }
+    
+          ];
+          var myPie = new Chart(document.getElementById("canvas2").getContext("2d")).Pie(pieData);
+        </script> 25 hours per week
+      </div>
+      <div class="edu_hours_right">
+        RIGHT TEXT
+      </div>
+      <div class="clear">&nbsp;</div>
+    </div>`
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(markdown, "RIGHT TEXT")
+  })
 })

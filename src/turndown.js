@@ -262,6 +262,57 @@ turndownService.addRule("baseurlshortcode", {
 })
 
 /**
+ * Remove pie charts with the surrounding div of class edu_grading
+ **/
+turndownService.addRule("edu_grading", {
+  filter: (node, options) => {
+    if (node.nodeName === "DIV" && node.getAttribute("class")) {
+      if (node.getAttribute("class").includes("edu_grading")) {
+        return true
+      }
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    // filter out the pie chart and legend, converting the rest to markdown
+    return Array.from(node.childNodes)
+      .filter(child => {
+        if (
+          !(
+            child.nodeName === "DIV" &&
+            child.childNodes[0].nodeName === "CANVAS"
+          ) &&
+          !(
+            child.nodeName === "DIV" &&
+            child.getAttribute("class") === "edu_breakdown_key"
+          )
+        ) {
+          return true
+        }
+      })
+      .map(child => turndownService.turndown(child.outerHTML))
+      .join("\n")
+  }
+})
+
+/**
+ * Remove pie charts with the surrounding div of class edu_hours_left
+ **/
+turndownService.addRule("edu_hours_left", {
+  filter: (node, options) => {
+    if (node.nodeName === "DIV" && node.getAttribute("class")) {
+      if (node.getAttribute("class").includes("edu_hours_left")) {
+        return true
+      }
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    return ""
+  }
+})
+
+/**
  * Render h4 tags as an h5 instead
  */
 turndownService.addRule("h4", {
