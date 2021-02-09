@@ -134,4 +134,31 @@ describe("turndown", () => {
       "TOP TEXT\n\n### SUB HEADER TEXT\nINSIDE DIV TEXT\n\nOUTSIDE DIV TEXT"
     )
   })
+
+  it("should remove pie charts surrounded in a div with the class edu_hours_left", async () => {
+    const inputHTML = `<div style="clear: both; position: relative;"></div>
+      <div class="edu_hours_left"><canvas id="canvas2" height="100" width="100"
+          style="width: 100px; height: 100px;"></canvas>
+        <script type="text/javascript">
+          var pieData = [{
+              value: 28.6,
+              color: "#eee"
+            },
+            {
+              value: 71.4,
+              color: "#931101"
+            }
+    
+          ];
+          var myPie = new Chart(document.getElementById("canvas2").getContext("2d")).Pie(pieData);
+        </script> 25 hours per week
+      </div>
+      <div class="edu_hours_right">
+        RIGHT TEXT
+      </div>
+      <div class="clear">&nbsp;</div>
+    </div>`
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(markdown, "RIGHT TEXT")
+  })
 })
