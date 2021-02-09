@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 1.10.1
+--------------
+
+- remove instructor insights pie charts (#184)
+- Update and fix link processing (#175)
+- Fix code coverage (#183)
+
 Version 1.10.0 (Released February 08, 2021)
 --------------
 
