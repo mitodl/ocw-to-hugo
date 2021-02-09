@@ -6,7 +6,6 @@ const sinon = require("sinon")
 tmp.setGracefulCleanup()
 
 const helpers = require("./helpers")
-const { GETPAGESHORTCODESTART } = require("./constants")
 const loggers = require("./loggers")
 
 const testCourse =
@@ -112,44 +111,6 @@ describe("getYoutubeEmbedHtml", () => {
   })
 })
 
-describe("pathToChildRecursive", () => {
-  it("returns the expected path to a child section", () => {
-    const expectedChild = singleCourseJsonData["course_pages"].filter(
-      page => page["uid"] === "0aee0583c6aac4a87ddefb73319a8f26"
-    )[0]
-    assert.equal(
-      helpers.pathToChildRecursive(
-        "sections/",
-        expectedChild,
-        singleCourseJsonData
-      ),
-      "sections/labs/river-testing-photos"
-    )
-  })
-})
-
-describe("getHugoPathSuffix", () => {
-  it("returns _index.md if the page is a parent", () => {
-    const parentPage = singleCourseJsonData["course_pages"].filter(
-      page => page["uid"] === "0aee0583c6aac4a87ddefb73319a8f26"
-    )[0]
-    assert.equal(
-      helpers.getHugoPathSuffix(parentPage, singleCourseJsonData),
-      "/_index.md"
-    )
-  })
-
-  it("returns a blank string if the page is not a parent", () => {
-    const childlessPage = singleCourseJsonData["course_pages"].filter(
-      page => page["uid"] === "14896ec808d2b8ea4b434109ba3fb682"
-    )[0]
-    assert.equal(
-      helpers.getHugoPathSuffix(childlessPage, singleCourseJsonData),
-      ""
-    )
-  })
-})
-
 describe("resolveUidMatches", () => {
   const course = "12-001-introduction-to-geology-fall-2013"
   const parsedPath = path.join(
@@ -165,28 +126,36 @@ describe("resolveUidMatches", () => {
 
   it("replaces all resolveuid links on a given page", () => {
     assert.isTrue(fieldTripPage["text"].indexOf("resolveuid") !== -1)
+    const uid1 = "97f28b51c2d76bbffa1213260d56c281",
+      uid2 = "f828208d0d04e1f39c1bb31d6fbe5f2d",
+      uid3 = "ef6931d2c8e6bc0b8e9a5572a78fe125",
+      parentUid = "de36fe69cf33ddf238bc3896d0ce9eff"
     assert.deepEqual(
       helpers.resolveUidMatches(
         fieldTripPage["text"],
         fieldTripPage,
         courseData,
-        {}
+        {},
+        {
+          [uid1]:      "/path/1/",
+          [uid2]:      "/path/2/",
+          [uid3]:      "/path/3/",
+          [parentUid]: "/path/parent"
+        }
       ),
       [
         {
-          match:       ["./resolveuid/97f28b51c2d76bbffa1213260d56c281"],
+          match:       [`./resolveuid/${uid1}`],
           replacement:
             "https://open-learning-course-data-production.s3.amazonaws.com/12-001-introduction-to-geology-fall-2013/97f28b51c2d76bbffa1213260d56c281_12.001_Field_TripStops2014.kml"
         },
         {
-          match:       ["./resolveuid/f828208d0d04e1f39c1bb31d6fbe5f2d"],
-          replacement:
-            "GETPAGESHORTCODESTARTcourses/12-001-introduction-to-geology-fall-2013/sections/field-trip/MIT12_001F14_Field_TripGETPAGESHORTCODEEND"
+          match:       [`./resolveuid/${uid2}`],
+          replacement: "BASEURL_SHORTCODE/path/parent/MIT12_001F14_Field_Trip"
         },
         {
-          match:       ["./resolveuid/ef6931d2c8e6bc0b8e9a5572a78fe125"],
-          replacement:
-            "GETPAGESHORTCODESTARTcourses/12-001-introduction-to-geology-fall-2013/sections/instructor-insights/planning-a-good-field-trip/_index.mdGETPAGESHORTCODEEND"
+          match:       [`./resolveuid/${uid3}`],
+          replacement: "BASEURL_SHORTCODE/path/3/"
         }
       ]
     )
@@ -203,12 +172,17 @@ describe("resolveUidMatches", () => {
       fieldTripPage["text"],
       fieldTripPage,
       courseData,
-      {}
+      {},
+      {
+        ef6931d2c8e6bc0b8e9a5572a78fe125:
+          "/sections/instructor-insights/planning-a-good-field-trip",
+        de36fe69cf33ddf238bc3896d0ce9eff: "/path/to/parent"
+      }
     )
     const pageResult = result.find(item => item.match[0] === link)
     assert.deepEqual(pageResult, {
       replacement:
-        "GETPAGESHORTCODESTARTcourses/12-001-introduction-to-geology-fall-2013/sections/instructor-insights/planning-a-good-field-trip/_index.mdGETPAGESHORTCODEEND",
+        "BASEURL_SHORTCODE/sections/instructor-insights/planning-a-good-field-trip",
       match: [link]
     })
   })
@@ -223,17 +197,20 @@ describe("resolveUidMatches", () => {
       fieldTripPage["text"],
       fieldTripPage,
       courseData,
-      {}
+      {},
+      {
+        de36fe69cf33ddf238bc3896d0ce9eff: "/parent/node"
+      }
     )
     const fileResult = result.find(item => item.match[0] === link)
     assert.deepEqual(fileResult, {
-      replacement: `GETPAGESHORTCODESTARTcourses/12-001-introduction-to-geology-fall-2013/sections/field-trip/MIT12_001F14_Field_TripGETPAGESHORTCODEEND`,
+      replacement: `BASEURL_SHORTCODE/parent/node/MIT12_001F14_Field_Trip`,
       match:       [link]
     })
   })
 
   //
-  ;[true, false].forEach(missing => {
+  ;[false].forEach(missing => {
     it(`resolves uids for a ${missing ? "missing " : ""}course`, () => {
       const linkingCourse =
         "1-204-computer-algorithms-in-systems-engineering-spring-2010"
@@ -256,13 +233,16 @@ describe("resolveUidMatches", () => {
       assert.include(syllabusPage["text"], originalLink)
       const lookup = {}
       if (!missing) {
-        lookup[otherCourseUid] = otherCourseSlug
+        lookup[otherCourseUid] = { uid: otherCourseUid }
       }
       const result = helpers.resolveUidMatches(
         syllabusPage["text"],
         syllabusPage,
         linkingCourseData,
-        lookup
+        lookup,
+        {
+          bb55dad7f4888f0a1ad004600c5fb1f1: "/"
+        }
       )
       assert.deepEqual(
         result,
@@ -271,7 +251,7 @@ describe("resolveUidMatches", () => {
           : [
             {
               match:       [`./resolveuid/${otherCourseUid}`],
-              replacement: `/courses/${otherCourseSlug}`
+              replacement: `BASEURL_SHORTCODE/`
             }
           ]
       )
@@ -290,8 +270,7 @@ describe("resolveRelativeLinkMatches", () => {
     sandbox.restore()
   })
 
-  it("replaces all relative links on the page with hugo getpage shortcodes", () => {
-    assert.isTrue(assignmentsPage["text"].indexOf("{{% getpage ") === -1)
+  it("fixes all relative links on the page", () => {
     const result = helpers.resolveRelativeLinkMatches(
       assignmentsPage["text"],
       singleCourseJsonData
@@ -304,7 +283,7 @@ describe("resolveRelativeLinkMatches", () => {
     assert.equal(result[0].match.index, 121)
     assert.equal(
       result[0].replacement,
-      'href="GETPAGESHORTCODESTARTcourses/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/sections/projects/_index.mdGETPAGESHORTCODEEND"'
+      'href="BASEURL_SHORTCODE/sections/projects"'
     )
   })
 
@@ -326,7 +305,20 @@ describe("resolveRelativeLinkMatches", () => {
     assert.equal(result[0].match.index, 121)
     assert.equal(
       result[0].replacement,
-      'href="GETPAGESHORTCODESTARTcourses/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/sections/projects/_index.mdGETPAGESHORTCODEEND"'
+      'href="BASEURL_SHORTCODE/sections/projects"'
+    )
+  })
+
+  it("resolves relative links while keeping hashes", () => {
+    const text =
+      '<a href="/courses/aeronautics-and-astronautics/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/syllabus#Table_organization">Table Organization</a></p> '
+    const result = helpers.resolveRelativeLinkMatches(
+      text,
+      singleCourseJsonData
+    )
+    assert.equal(
+      result[0].replacement,
+      'href="BASEURL_SHORTCODE/sections/syllabus#Table_organization"'
     )
   })
 })
@@ -435,12 +427,40 @@ describe("isCoursePublished", () => {
   })
 })
 
+describe("buildPaths", () => {
+  it("builds some paths", () => {
+    const paths = helpers.buildPaths(singleCourseJsonData)
+    assert.equal(
+      paths["303c499be5d236b1cde0bb36d615f4e7"],
+      "/sections/study-materials"
+    )
+    assert.equal(
+      paths["42664d52bd9a5b1632bac20876dc344d"],
+      "/sections/index.htm"
+    )
+    assert.equal(
+      paths["b6a31a6a85998d664ea826a766d9032b"],
+      "/sections/2-00ajs09.jpg"
+    )
+    assert.equal(
+      paths["6f5063fc562d919e4005ac2c983eefb7"],
+      "/sections/study-materials/MIT2_00AJs09_res01B.pdf"
+    )
+    assert.lengthOf(Object.values(paths), 67)
+  })
+})
+
 describe("misc functions", () => {
   it("strips .pdf from the url", () => {
     assert.equal(helpers.stripPdfSuffix("some text"), "some text")
     assert.equal(helpers.stripPdfSuffix("some text.pdf"), "some text")
     assert.equal(helpers.stripPdfSuffix("some text.PDF"), "some text")
     assert.equal(helpers.stripPdfSuffix("some text.PDF.pdf"), "some text.PDF")
+  })
+
+  it("strips / from the prefix", () => {
+    assert.equal(helpers.stripSlashPrefix("/a/b/c/"), "a/b/c/")
+    assert.equal(helpers.stripSlashPrefix("d/e/f"), "d/e/f")
   })
 
   it("replaces a substring", () => {
@@ -464,5 +484,31 @@ describe("misc functions", () => {
     const replacementItems = os.map(match => ({ match, replacement: "00" }))
     const newText = helpers.applyReplacements(replacementItems, text)
     assert.equal(newText, "The quick br00wn f00x jumps 00ver the lazy d00g")
+  })
+
+  it("gets the path pieces from a url", () => {
+    assert.deepEqual(helpers.getPathFragments("/a/b/c/"), ["a", "b", "c"])
+    assert.deepEqual(
+      helpers.getPathFragments("https://mit.edu/path/to/course#hash"),
+      ["path", "to", "course"]
+    )
+    assert.deepEqual(helpers.getPathFragments("d/e/f"), ["d", "e", "f"])
+  })
+
+  it("updates the path of a url", () => {
+    assert.deepEqual(
+      helpers.updatePath("/a/b/c/", ["BASEURL_SHORTCODE", "d", "e", "f"]),
+      "BASEURL_SHORTCODE/d/e/f"
+    )
+    assert.deepEqual(helpers.updatePath("/a/b/c/", ["d", "e", "f"]), "/d/e/f")
+    assert.deepEqual(
+      helpers.updatePath("https://mit.edu/path/to/course#hash", [
+        "course_home"
+      ]),
+      "https://mit.edu/course_home#hash"
+    )
+    assert.deepEqual(helpers.updatePath("d/e/f", ["", "a", "b", "c"]), "/a/b/c")
+    assert.deepEqual(helpers.updatePath("d/e/f", ["a", "b", "c"]), "/a/b/c")
+    assert.deepEqual(helpers.updatePath("f/g/h", []), "/")
   })
 })

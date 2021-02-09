@@ -2,8 +2,6 @@ const { assert, expect } = require("chai").use(require("sinon-chai"))
 const { html2markdown } = require("./turndown")
 const {
   REPLACETHISWITHAPIPE,
-  GETPAGESHORTCODESTART,
-  GETPAGESHORTCODEEND,
   AWS_REGEX,
   INPUT_COURSE_DATE_FORMAT,
   SUPPORTED_IFRAME_EMBEDS
@@ -64,12 +62,9 @@ describe("turndown", () => {
   })
 
   it("should properly escape square brackets inside link text", async () => {
-    const problematicHTML = `<a href="${GETPAGESHORTCODESTART}courses/${singleCourseId}/syllabus${GETPAGESHORTCODEEND}">[R&amp;T]</a>`
+    const problematicHTML = `<a href="syllabus">[R&amp;T]</a>`
     const markdown = await html2markdown(problematicHTML)
-    assert.equal(
-      markdown,
-      `[\\[R&T\\]]({{% getpage "courses/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/syllabus" %}})`
-    )
+    assert.equal(markdown, `[\\[R&T\\]](syllabus)`)
   })
 
   it("should generate an anchor shortcode for an a tag with a name attribute", async () => {

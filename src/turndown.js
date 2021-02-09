@@ -9,9 +9,8 @@ const { gfm, tables } = turndownPluginGfm
 
 const {
   REPLACETHISWITHAPIPE,
-  GETPAGESHORTCODESTART,
-  GETPAGESHORTCODEEND,
   AWS_REGEX,
+  BASEURL_SHORTCODE,
   INPUT_COURSE_DATE_FORMAT,
   SUPPORTED_IFRAME_EMBEDS
 } = require("./constants")
@@ -204,40 +203,6 @@ turndownService.addRule("iframe", {
 })
 
 /**
- * Build links with Hugo shortcodes to course sections
- **/
-turndownService.addRule("getpageshortcode", {
-  filter: (node, options) => {
-    if (node.nodeName === "A" && node.getAttribute("href")) {
-      if (node.getAttribute("href").includes(GETPAGESHORTCODESTART)) {
-        return true
-      }
-    }
-    return false
-  },
-  replacement: (content, node, options) => {
-    const children = Array.from(node.childNodes)
-    if (!children.filter(child => child.nodeName === "IMG").length > 0) {
-      // if this link doesn't contain an image, escape the content
-      // except first make sure there are no pre-escaped square brackets
-      content = turndownService.escape(
-        content.replace(/\\\[/g, "[").replace(/\\\]/g, "]")
-      )
-    }
-    const ref = turndownService
-      .escape(
-        node
-          .getAttribute("href")
-          .replace(GETPAGESHORTCODESTART, '{{% getpage "')
-          .replace(GETPAGESHORTCODEEND, '" %}}')
-      )
-      .split("\\_")
-      .join("_")
-    return `[${content}](${ref})`
-  }
-})
-
-/**
  * Build quote element shortcodes for instructor insights sections
  **/
 turndownService.addRule("quoteshortcode", {
@@ -265,6 +230,34 @@ turndownService.addRule("quoteshortcode", {
     } catch (err) {
       loggers.fileLogger.error(err)
     }
+  }
+})
+
+turndownService.addRule("baseurlshortcode", {
+  filter: (node, options) => {
+    if (node.nodeName === "A" && node.getAttribute("href")) {
+      if (node.getAttribute("href").includes(BASEURL_SHORTCODE)) {
+        return true
+      }
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    const children = Array.from(node.childNodes)
+    if (!children.filter(child => child.nodeName === "IMG").length > 0) {
+      // if this link doesn't contain an image, escape the content
+      // except first make sure there are no pre-escaped square brackets
+      content = turndownService.escape(
+        content.replace(/\\\[/g, "[").replace(/\\\]/g, "]")
+      )
+    }
+    const ref = turndownService
+      .escape(
+        node.getAttribute("href").replace(BASEURL_SHORTCODE, "{{< baseurl >}}")
+      )
+      .split("\\_")
+      .join("_")
+    return `[${content}](${ref})`
   }
 })
 
