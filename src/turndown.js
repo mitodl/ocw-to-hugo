@@ -262,7 +262,7 @@ turndownService.addRule("baseurlshortcode", {
 })
 
 /**
- * Remove pie charts with the surrunding div of class edu_grading
+ * Remove pie charts with the surrounding div of class edu_grading
  **/
 turndownService.addRule("edu_grading", {
   filter: (node, options) => {
@@ -296,7 +296,7 @@ turndownService.addRule("edu_grading", {
 })
 
 /**
- * Remove pie charts with the surrunding div of class edu_hours_left
+ * Remove pie charts with the surrounding div of class edu_hours_left
  **/
 turndownService.addRule("edu_hours_left", {
   filter: (node, options) => {
