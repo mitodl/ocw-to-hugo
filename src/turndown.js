@@ -274,22 +274,24 @@ turndownService.addRule("edu_grading", {
     return false
   },
   replacement: (content, node, options) => {
-    const replacements = []
-    const children = Array.from(node.childNodes)
-    children.forEach(child => {
-      if (
-        !(
-          child.nodeName === "DIV" && child.childNodes[0].nodeName === "CANVAS"
-        ) &&
-        !(
-          child.nodeName === "DIV" &&
-          child.getAttribute("class") === "edu_breakdown_key"
-        )
-      ) {
-        replacements.push(turndownService.turndown(child.innerHTML))
-      }
-    })
-    return replacements.join("\n")
+    // filter out the pie chart and legend, converting the rest to markdown
+    return Array.from(node.childNodes)
+      .filter(child => {
+        if (
+          !(
+            child.nodeName === "DIV" &&
+            child.childNodes[0].nodeName === "CANVAS"
+          ) &&
+          !(
+            child.nodeName === "DIV" &&
+            child.getAttribute("class") === "edu_breakdown_key"
+          )
+        ) {
+          return true
+        }
+      })
+      .map(child => turndownService.turndown(child.innerHTML))
+      .join("\n")
   }
 })
 
