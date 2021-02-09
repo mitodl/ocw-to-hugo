@@ -290,7 +290,7 @@ turndownService.addRule("edu_grading", {
           return true
         }
       })
-      .map(child => turndownService.turndown(child.innerHTML))
+      .map(child => turndownService.turndown(child.outerHTML))
       .join("\n")
   }
 })

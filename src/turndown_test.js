@@ -131,7 +131,7 @@ describe("turndown", () => {
     const markdown = await html2markdown(inputHTML)
     assert.equal(
       markdown,
-      "TOP TEXT\n\nSUB HEADER TEXT\nINSIDE DIV TEXT\n\nOUTSIDE DIV TEXT"
+      "TOP TEXT\n\n### SUB HEADER TEXT\nINSIDE DIV TEXT\n\nOUTSIDE DIV TEXT"
     )
   })
 })
