@@ -26,13 +26,21 @@ describe("file operations", () => {
     singleCourseId,
     `${singleCourseId}_parsed.json`
   )
-  let singleCourseRawData, singleCourseJsonData, singleCourseMarkdownData
+  let singleCourseRawData,
+    singleCourseJsonData,
+    singleCourseMarkdownData,
+    pathLookup
 
-  beforeEach(() => {
+  beforeEach(async () => {
     singleCourseRawData = require("fs").readFileSync(singleCourseMasterJsonPath)
     singleCourseJsonData = JSON.parse(singleCourseRawData)
+    pathLookup = await fileOperations.buildPathsForAllCourses(
+      "test_data/courses",
+      [singleCourseId]
+    )
     singleCourseMarkdownData = markdownGenerators.generateMarkdownFromJson(
-      singleCourseJsonData
+      singleCourseJsonData,
+      pathLookup
     )
   })
 
@@ -208,37 +216,34 @@ describe("file operations", () => {
     })
 
     it("calls readFile on the master json file", async () => {
-      const courseUidLookup = { singleCourseId: "uid" }
       await fileOperations.scanCourse(
         testDataPath,
         outputPath,
         singleCourseId,
-        courseUidLookup
+        pathLookup
       )
       expect(readFileStub).to.be.calledWithExactly(singleCourseMasterJsonPath)
     }).timeout(5000)
 
     it("calls generateMarkdownFromJson on the course data", async () => {
-      const courseUidLookup = { singleCourseId: "uid" }
       await fileOperations.scanCourse(
         testDataPath,
         outputPath,
         singleCourseId,
-        courseUidLookup
+        pathLookup
       )
       expect(generateMarkdownFromJson).to.be.calledOnceWithExactly(
         singleCourseJsonData,
-        courseUidLookup
+        pathLookup
       )
     }).timeout(5000)
 
     it("calls generateDataTemplate on the course data", async () => {
-      const courseUidLookup = { singleCourseId: "uid" }
       await fileOperations.scanCourse(
         testDataPath,
         outputPath,
         singleCourseId,
-        courseUidLookup
+        pathLookup
       )
       expect(generateDataTemplate).to.be.calledOnceWithExactly(
         singleCourseJsonData
@@ -247,12 +252,11 @@ describe("file operations", () => {
 
     it("skips a course that has been unpublished", async () => {
       readFileStub.restore()
-      const courseUidLookup = { unpublishedCourseId: "uid" }
       await fileOperations.scanCourse(
         testDataPath,
         outputPath,
         unpublishedCourseId,
-        courseUidLookup
+        pathLookup
       )
       expect(generateMarkdownFromJson).to.be.not.called
       expect(generateDataTemplate).to.be.not.called
@@ -320,6 +324,32 @@ describe("file operations", () => {
         )
         expect(writeFileStub).to.be.calledWith(filePath, file["data"])
       }
+    })
+  })
+
+  describe("buildPathsForAllCourses", () => {
+    it("builds some paths", async () => {
+      const paths = await fileOperations.buildPathsForAllCourses(
+        "test_data/courses",
+        [
+          singleCourseId,
+          unpublishedCourseId,
+          "12-001-introduction-to-geology-fall-2013"
+        ]
+      )
+      assert.deepEqual(paths["93e58d46191f9fc3c54ec80752ad3b80"], [
+        "12-001-introduction-to-geology-fall-2013",
+        "/sections/lecture-notes-and-slides/MIT12_001F13_Lec5Notes.pdf"
+      ])
+      assert.deepEqual(paths["877f0e43412db8b16e5b2864cf8bf1cc"], [
+        "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009",
+        "/sections/labs"
+      ])
+      assert.deepEqual(paths["d9aad1541f1a9d3c0f7b0dcf9531a9a1"], [
+        "12-001-introduction-to-geology-fall-2013",
+        "/"
+      ])
+      assert.isUndefined(paths[unpublishedCourseId])
     })
   })
 })

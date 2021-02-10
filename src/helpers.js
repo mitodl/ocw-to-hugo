@@ -12,6 +12,21 @@ const {
 const loggers = require("./loggers")
 const runOptions = {}
 
+const makeCourseUrlPrefix = (courseId, otherCourseId) => {
+  if (!courseId) {
+    throw new Error(`Missing course id ${courseId}`)
+  }
+  if (!otherCourseId) {
+    throw new Error(`Missing other course id ${otherCourseId}`)
+  }
+
+  if (courseId === otherCourseId) {
+    return BASEURL_SHORTCODE
+  } else {
+    return `/courses/${courseId}`
+  }
+}
+
 const distinct = (value, index, self) => {
   return self.indexOf(value) === index
 }
@@ -211,7 +226,7 @@ const buildPathRecursive = (item, itemsLookup, courseUid, pathLookup) => {
   pathLookup[uid] = path.join(pathLookup[parentUid], page[filenameKey])
 }
 
-const buildPaths = courseData => {
+const buildPathsForCourse = courseData => {
   const courseUid = courseData["uid"]
   const pathLookup = {}
   const itemsLookup = {}
@@ -259,7 +274,8 @@ const applyReplacements = (matchAndReplacements, text) => {
   return text
 }
 
-const resolveUidForLink = (url, courseData, courseUidsLookup, pathLookup) => {
+const resolveUidForLink = (url, courseData, pathLookup) => {
+  const courseId = courseData["short_url"]
   const [uid, ...urlParts] = getPathFragments(url).reverse()
   // filter course_pages on the UID in the URL
   const linkedPage = courseData["course_pages"].find(
@@ -269,12 +285,12 @@ const resolveUidForLink = (url, courseData, courseUidsLookup, pathLookup) => {
   const linkedFile = courseData["course_files"].find(
     file => file["uid"] === uid
   )
-  const linkedCourse = courseUidsLookup[uid]
   if (linkedPage) {
     // a page has been found for this UID
-    const pagePath = pathLookup[uid]
-    if (pagePath) {
-      return path.join(BASEURL_SHORTCODE, pagePath)
+    const pagePathTuple = pathLookup[uid]
+    if (pagePathTuple) {
+      const [course, pagePath] = pagePathTuple
+      return path.join(makeCourseUrlPrefix(course, courseId), pagePath)
     }
     return null
   } else if (linkedFile) {
@@ -283,17 +299,25 @@ const resolveUidForLink = (url, courseData, courseUidsLookup, pathLookup) => {
 
     if (linkedFile["file_type"] === "application/pdf") {
       // create a link to the generated PDF viewer page for this PDF file
-      const parent = pathLookup[parentUid]
-      if (parent) {
-        const pdfPath = path.join(BASEURL_SHORTCODE, parent, linkedFile["id"])
+      const parentTuple = pathLookup[parentUid]
+      if (parentTuple) {
+        const [course, parent] = parentTuple
+        const pdfPath = path.join(
+          makeCourseUrlPrefix(course, courseId),
+          parent,
+          linkedFile["id"]
+        )
         return stripPdfSuffix(pdfPath)
       }
     } else {
       // link directly to the static content
       return stripS3(linkedFile["file_location"])
     }
-  } else if (linkedCourse && pathLookup[linkedCourse["uid"]]) {
-    return path.join(BASEURL_SHORTCODE, pathLookup[linkedCourse["uid"]])
+  }
+
+  if (pathLookup[uid]) {
+    const [course, itemPath] = pathLookup[uid]
+    return path.join(makeCourseUrlPrefix(course, courseId), itemPath)
   }
 
   return null
@@ -303,21 +327,14 @@ const resolveUidForLink = (url, courseData, courseUidsLookup, pathLookup) => {
  * @param {string} htmlStr
  * @param {object} page
  * @param {object} courseData
- * @param {object} courseUidsLookup
  * @param {object} pathLookup
  *
  * The purpose of this function is to resolve "resolveuid" links in OCW HTML.
- * It takes 5 parameters; an HTML string to parse, the page that the string came from,
- * the course data object, a lookup from uid to course, and a lookup from uid to path.
+ * It takes 4 parameters; an HTML string to parse, the page that the string came from,
+ * the course data object, and a lookup from uid to [course-id, path].
  *
  */
-const resolveUidMatches = (
-  htmlStr,
-  page,
-  courseData,
-  courseUidsLookup,
-  pathLookup
-) => {
+const resolveUidMatches = (htmlStr, page, courseData, pathLookup) => {
   try {
     /**
      * resolveuid links are formatted as, for example:
@@ -331,12 +348,7 @@ const resolveUidMatches = (
 
     return matches
       .map(match => {
-        const replacement = resolveUidForLink(
-          match[0],
-          courseData,
-          courseUidsLookup,
-          pathLookup
-        )
+        const replacement = resolveUidForLink(match[0], courseData, pathLookup)
         if (replacement !== null) {
           return {
             match,
@@ -533,7 +545,7 @@ module.exports = {
   resolveUidMatches,
   resolveRelativeLinkMatches,
   resolveYouTubeEmbedMatches,
-  buildPaths,
+  buildPathsForCourse,
   htmlSafeText,
   stripS3,
   escapeDoubleQuotes,

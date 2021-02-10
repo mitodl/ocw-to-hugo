@@ -35,6 +35,32 @@ const writeBoilerplate = async (outputPath, remove) => {
   }
 }
 
+const buildPathsForAllCourses = async (inputPath, courseList) => {
+  const pathLookup = {}
+
+  for (const course of courseList) {
+    if (!(await directoryExists(path.join(inputPath, course)))) {
+      throw new Error(`Missing course directory for ${course}`)
+    }
+
+    const courseMarkdownPath = path.join(inputPath, course)
+    const masterJsonFile = await getMasterJsonFileName(courseMarkdownPath)
+    if (masterJsonFile) {
+      const courseData = JSON.parse(await fsPromises.readFile(masterJsonFile))
+      if (helpers.isCoursePublished(courseData)) {
+        const coursePathLookup = helpers.buildPathsForCourse(courseData)
+        for (const [uid, path] of Object.entries(coursePathLookup)) {
+          pathLookup[uid] = [course, path]
+        }
+
+        const courseUid = courseData["uid"]
+        pathLookup[courseUid] = [course, "/"]
+      }
+    }
+  }
+  return pathLookup
+}
+
 const scanCourses = async (inputPath, outputPath) => {
   /*
     This function scans the input directory for course folders
@@ -69,35 +95,19 @@ const scanCourses = async (inputPath, outputPath) => {
     return
   }
 
-  // populate the course uid mapping
-  const courseUidsLookup = {}
-  for (const course of courseList) {
-    if (!(await directoryExists(path.join(inputPath, course)))) {
-      throw new Error(`Missing course directory for ${course}`)
-    }
-
-    const courseUid = await getCourseUid(inputPath, course)
-    courseUidsLookup[courseUid] = course
-  }
+  console.log(`Generating paths for ${numCourses} courses...`)
+  const pathLookup = await buildPathsForAllCourses(inputPath, courseList)
+  console.log(`Generated ${Object.values(pathLookup).length} paths.`)
 
   console.log(`Converting ${numCourses} courses to Hugo markdown...`)
   progressBar.start(numCourses, 0)
   for (const course of courseList) {
-    await scanCourse(inputPath, outputPath, course, courseUidsLookup)
+    await scanCourse(inputPath, outputPath, course, pathLookup)
     progressBar.increment()
   }
 }
 
-const getCourseUid = async (inputPath, course) => {
-  const coursePath = path.join(inputPath, course)
-  const masterJsonFile = await getMasterJsonFileName(coursePath)
-  if (masterJsonFile) {
-    const courseData = JSON.parse(await fsPromises.readFile(masterJsonFile))
-    return courseData["uid"]
-  }
-}
-
-const scanCourse = async (inputPath, outputPath, course, courseUidsLookup) => {
+const scanCourse = async (inputPath, outputPath, course, pathLookup) => {
   /*
     This function scans a course directory for a master json file and processes it
   */
@@ -109,7 +119,7 @@ const scanCourse = async (inputPath, outputPath, course, courseUidsLookup) => {
     if (helpers.isCoursePublished(courseData)) {
       const markdownData = markdownGenerators.generateMarkdownFromJson(
         courseData,
-        courseUidsLookup
+        pathLookup
       )
       const dataTemplate = dataTemplateGenerators.generateDataTemplate(
         courseData
@@ -186,5 +196,6 @@ module.exports = {
   scanCourses,
   scanCourse,
   getMasterJsonFileName,
-  writeMarkdownFilesRecursive
+  writeMarkdownFilesRecursive,
+  buildPathsForAllCourses
 }
