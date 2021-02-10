@@ -10,6 +10,7 @@ tmp.setGracefulCleanup()
 const loggers = require("./loggers")
 const markdownGenerators = require("./markdown_generators")
 const helpers = require("./helpers")
+const fileOperations = require("./file_operations")
 
 const testDataPath = "test_data/courses"
 const singleCourseId =
@@ -45,9 +46,10 @@ describe("markdown generators", () => {
     imageGalleryImages,
     videoGalleryPages,
     courseImageFeaturesFrontMatter,
-    courseVideoFeaturesFrontMatter
+    courseVideoFeaturesFrontMatter,
+    pathLookup
 
-  beforeEach(() => {
+  beforeEach(async () => {
     singleCourseRawData = fs.readFileSync(singleCourseParsedJsonPath)
     singleCourseJsonData = JSON.parse(singleCourseRawData)
     imageGalleryCourseRawData = fs.readFileSync(
@@ -75,16 +77,20 @@ describe("markdown generators", () => {
       page => page["is_media_gallery"]
     )
 
+    pathLookup = await fileOperations.buildPathsForAllCourses(
+      "test_data/courses",
+      [singleCourseId, videoGalleryCourseId, imageGalleryCourseId]
+    )
     courseImageFeaturesFrontMatter = markdownGenerators.generateCourseFeaturesMarkdown(
       imageGalleryPages[0],
       imageGalleryCourseJsonData,
-      {}
+      pathLookup
     )
 
     courseVideoFeaturesFrontMatter = markdownGenerators.generateCourseFeaturesMarkdown(
       videoGalleryPages[0],
       videoGalleryCourseJsonData,
-      {}
+      pathLookup
     )
   })
 
@@ -92,7 +98,8 @@ describe("markdown generators", () => {
     let singleCourseMarkdownData
     beforeEach(() => {
       singleCourseMarkdownData = markdownGenerators.generateMarkdownFromJson(
-        singleCourseJsonData
+        singleCourseJsonData,
+        pathLookup
       )
     })
     const assertCourseIdRecursive = (sectionMarkdownData, courseId) => {
@@ -211,7 +218,8 @@ describe("markdown generators", () => {
 
     it("sets the instructor_insights layout on Instructor Insights pages", () => {
       const markdownData = markdownGenerators.generateMarkdownFromJson(
-        imageGalleryCourseJsonData
+        imageGalleryCourseJsonData,
+        pathLookup
       )
       markdownData.forEach(sectionMarkdownData => {
         const frontMatter = yaml.safeLoad(
@@ -231,7 +239,8 @@ describe("markdown generators", () => {
 
     it("sets a parent_title property on second tier pages", () => {
       const markdownData = markdownGenerators.generateMarkdownFromJson(
-        imageGalleryCourseJsonData
+        imageGalleryCourseJsonData,
+        pathLookup
       )
       markdownData.forEach(sectionMarkdownData => {
         const frontMatter = yaml.safeLoad(

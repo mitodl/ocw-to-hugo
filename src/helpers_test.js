@@ -130,17 +130,17 @@ describe("resolveUidMatches", () => {
       uid2 = "f828208d0d04e1f39c1bb31d6fbe5f2d",
       uid3 = "ef6931d2c8e6bc0b8e9a5572a78fe125",
       parentUid = "de36fe69cf33ddf238bc3896d0ce9eff"
+    const courseId = courseData["short_url"]
     assert.deepEqual(
       helpers.resolveUidMatches(
         fieldTripPage["text"],
         fieldTripPage,
         courseData,
-        {},
         {
-          [uid1]:      "/path/1/",
-          [uid2]:      "/path/2/",
-          [uid3]:      "/path/3/",
-          [parentUid]: "/path/parent"
+          [uid1]:      [courseId, "/path/1/"],
+          [uid2]:      [courseId, "/path/2/"],
+          [uid3]:      [courseId, "/path/3/"],
+          [parentUid]: [courseId, "/path/parent"]
         }
       ),
       [
@@ -168,15 +168,17 @@ describe("resolveUidMatches", () => {
       fieldTripPage["text"],
       `<a href="${link}">planning a good field trip</a>`
     )
+    const courseId = courseData["short_url"]
     const result = helpers.resolveUidMatches(
       fieldTripPage["text"],
       fieldTripPage,
       courseData,
-      {},
       {
-        ef6931d2c8e6bc0b8e9a5572a78fe125:
-          "/sections/instructor-insights/planning-a-good-field-trip",
-        de36fe69cf33ddf238bc3896d0ce9eff: "/path/to/parent"
+        ef6931d2c8e6bc0b8e9a5572a78fe125: [
+          courseId,
+          "/sections/instructor-insights/planning-a-good-field-trip"
+        ],
+        de36fe69cf33ddf238bc3896d0ce9eff: [courseId, "/path/to/parent"]
       }
     )
     const pageResult = result.find(item => item.match[0] === link)
@@ -193,13 +195,13 @@ describe("resolveUidMatches", () => {
       fieldTripPage["text"],
       `<a href="${link}">Field Trip Guide (PDF - 4.2MB)</a>`
     )
+    const courseId = courseData["short_url"]
     const result = helpers.resolveUidMatches(
       fieldTripPage["text"],
       fieldTripPage,
       courseData,
-      {},
       {
-        de36fe69cf33ddf238bc3896d0ce9eff: "/parent/node"
+        de36fe69cf33ddf238bc3896d0ce9eff: [courseId, "/parent/node"]
       }
     )
     const fileResult = result.find(item => item.match[0] === link)
@@ -210,8 +212,10 @@ describe("resolveUidMatches", () => {
   })
 
   //
-  ;[false].forEach(missing => {
-    it(`resolves uids for a ${missing ? "missing " : ""}course`, () => {
+  ;[true, false].forEach(external => {
+    it(`resolves uids for an ${
+      external ? "external" : "internal"
+    } course link`, () => {
       const linkingCourse =
         "1-204-computer-algorithms-in-systems-engineering-spring-2010"
       const linkingCourseParsedPath = path.join(
@@ -226,36 +230,56 @@ describe("resolveUidMatches", () => {
       const syllabusPage = linkingCourseData["course_pages"].find(
         page => page["uid"] === "7b7843dfbb2f3b5946b25de9abdf10f8"
       )
-      const otherCourseUid = "bb55dad7f4888f0a1ad004600c5fb1f1"
-      const otherCourseSlug =
-        "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
-      const originalLink = `<a href="./resolveuid/bb55dad7f4888f0a1ad004600c5fb1f1"><em>1.001 Introduction to Computers and Engineering Problem Solving</em></a>`
+      const uid = "bb55dad7f4888f0a1ad004600c5fb1f1"
+      const originalLink = `<a href="./resolveuid/${uid}"><em>1.001 Introduction to Computers and Engineering Problem Solving</em></a>`
       assert.include(syllabusPage["text"], originalLink)
-      const lookup = {}
-      if (!missing) {
-        lookup[otherCourseUid] = { uid: otherCourseUid }
-      }
+      const outsideCourse = "a-nother-course-id"
+      const course = external ? outsideCourse : linkingCourse
       const result = helpers.resolveUidMatches(
-        syllabusPage["text"],
+        originalLink,
         syllabusPage,
         linkingCourseData,
-        lookup,
         {
-          bb55dad7f4888f0a1ad004600c5fb1f1: "/"
+          [uid]: [course, "/"]
         }
       )
-      assert.deepEqual(
-        result,
-        missing
-          ? []
-          : [
-            {
-              match:       [`./resolveuid/${otherCourseUid}`],
-              replacement: `BASEURL_SHORTCODE/`
-            }
-          ]
-      )
+      assert.deepEqual(result, [
+        external
+          ? {
+            match:       [`./resolveuid/${uid}`],
+            replacement: `/courses/${course}/`
+          }
+          : {
+            match:       [`./resolveuid/${uid}`],
+            replacement: `BASEURL_SHORTCODE/`
+          }
+      ])
     })
+  })
+
+  it(`resolves uids which don't match anything`, () => {
+    const linkingCourse =
+      "1-204-computer-algorithms-in-systems-engineering-spring-2010"
+    const linkingCourseParsedPath = path.join(
+      "test_data",
+      "courses",
+      linkingCourse,
+      `${linkingCourse}_parsed.json`
+    )
+    const linkingCourseData = JSON.parse(
+      fs.readFileSync(linkingCourseParsedPath)
+    )
+    const syllabusPage = linkingCourseData["course_pages"].find(
+      page => page["uid"] === "7b7843dfbb2f3b5946b25de9abdf10f8"
+    )
+    const originalLink = `<a href="./resolveuid/bb55dad7f4888f0a1ad004600abcdef"><em>1.001 Introduction to Computers and Engineering Problem Solving</em></a>`
+    const result = helpers.resolveUidMatches(
+      originalLink,
+      syllabusPage,
+      linkingCourseData,
+      {}
+    )
+    assert.deepEqual(result, [])
   })
 })
 
@@ -427,9 +451,9 @@ describe("isCoursePublished", () => {
   })
 })
 
-describe("buildPaths", () => {
+describe("buildPathsForCourse", () => {
   it("builds some paths", () => {
-    const paths = helpers.buildPaths(singleCourseJsonData)
+    const paths = helpers.buildPathsForCourse(singleCourseJsonData)
     assert.equal(
       paths["303c499be5d236b1cde0bb36d615f4e7"],
       "/sections/study-materials"

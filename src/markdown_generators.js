@@ -14,16 +14,10 @@ const helpers = require("./helpers")
 const loggers = require("./loggers")
 const { html2markdown } = require("./turndown")
 
-const fixLinks = (htmlStr, page, courseData, courseUidsLookup, pathLookup) => {
+const fixLinks = (htmlStr, page, courseData, pathLookup) => {
   if (htmlStr && page) {
     const matchAndReplacements = [
-      ...helpers.resolveUidMatches(
-        htmlStr,
-        page,
-        courseData,
-        courseUidsLookup,
-        pathLookup
-      ),
+      ...helpers.resolveUidMatches(htmlStr, page, courseData, pathLookup),
       ...helpers.resolveRelativeLinkMatches(htmlStr, courseData),
       ...helpers.resolveYouTubeEmbedMatches(htmlStr, courseData)
     ]
@@ -35,7 +29,7 @@ const fixLinks = (htmlStr, page, courseData, courseUidsLookup, pathLookup) => {
   return htmlStr
 }
 
-const generateMarkdownFromJson = (courseData, courseUidsLookup) => {
+const generateMarkdownFromJson = (courseData, pathLookup) => {
   /**
     This function takes JSON data parsed from a parsed.json file and returns markdown data
     */
@@ -47,32 +41,20 @@ const generateMarkdownFromJson = (courseData, courseUidsLookup) => {
       page["type"] !== "SRHomePage" &&
       page["type"] !== "DownloadSection"
   )
-  const pathLookup = helpers.buildPaths(courseData, courseUidsLookup)
 
   return [
     {
       name: "_index.md",
-      data: generateCourseHomeMarkdown(courseData, courseUidsLookup, pathLookup)
+      data: generateCourseHomeMarkdown(courseData, pathLookup)
     },
     ...rootSections.map(
-      page =>
-        generateMarkdownRecursive(
-          page,
-          courseUidsLookup,
-          courseData,
-          pathLookup
-        ),
+      page => generateMarkdownRecursive(page, courseData, pathLookup),
       this
     )
   ]
 }
 
-const generateMarkdownRecursive = (
-  page,
-  courseUidsLookup,
-  courseData,
-  pathLookup
-) => {
+const generateMarkdownRecursive = (page, courseData, pathLookup) => {
   const children = courseData["course_pages"].filter(
     coursePage => coursePage["parent_uid"] === page["uid"]
   )
@@ -125,10 +107,10 @@ const generateMarkdownRecursive = (
   courseSectionMarkdown += generateCourseSectionMarkdown(
     page,
     courseData,
-    courseUidsLookup,
     pathLookup
   )
-  const pathToChild = helpers.stripSlashPrefix(pathLookup[page["uid"]])
+  const [, childPath] = pathLookup[page["uid"]]
+  const pathToChild = helpers.stripSlashPrefix(childPath)
   return {
     name:
       isParent || hasFiles || hasMedia
@@ -136,13 +118,7 @@ const generateMarkdownRecursive = (
         : `${pathToChild}.md`,
     data:     courseSectionMarkdown,
     children: children.map(
-      page =>
-        generateMarkdownRecursive(
-          page,
-          courseUidsLookup,
-          courseData,
-          pathLookup
-        ),
+      page => generateMarkdownRecursive(page, courseData, pathLookup),
       this
     ),
     files: pdfFiles
@@ -181,11 +157,7 @@ const generateMarkdownRecursive = (
   }
 }
 
-const generateCourseHomeMarkdown = (
-  courseData,
-  courseUidsLookup,
-  pathLookup
-) => {
+const generateCourseHomeMarkdown = (courseData, pathLookup) => {
   /**
     Generate the front matter metadata for the course home page given course_data JSON
     */
@@ -200,7 +172,6 @@ const generateCourseHomeMarkdown = (
         courseData["description"],
         courseHomePage,
         courseData,
-        courseUidsLookup,
         pathLookup
       )
     )
@@ -211,7 +182,6 @@ const generateCourseHomeMarkdown = (
         courseData["other_information_text"],
         courseHomePage,
         courseData,
-        courseUidsLookup,
         pathLookup
       )
     )
@@ -288,34 +258,17 @@ const generateCourseSectionFrontMatter = (
   return `---\n${yaml.safeDump(courseSectionFrontMatter)}---\n`
 }
 
-const formatHTMLMarkDown = (
-  page,
-  courseData,
-  courseUidsLookup,
-  section,
-  pathLookup
-) => {
+const formatHTMLMarkDown = (page, courseData, section, pathLookup) => {
   return page[section]
     ? `\n${helpers.unescapeBackticks(
       html2markdown(
-        fixLinks(
-          page[section] || "",
-          page,
-          courseData,
-          courseUidsLookup,
-          pathLookup
-        )
+        fixLinks(page[section] || "", page, courseData, pathLookup)
       )
     )}`
     : ""
 }
 
-const generateCourseSectionMarkdown = (
-  page,
-  courseData,
-  courseUidsLookup,
-  pathLookup
-) => {
+const generateCourseSectionMarkdown = (page, courseData, pathLookup) => {
   /**
     Generate markdown a given course section page
     */
@@ -323,20 +276,13 @@ const generateCourseSectionMarkdown = (
     return `${formatHTMLMarkDown(
       page,
       courseData,
-      courseUidsLookup,
       "text",
       pathLookup
     )}${generateCourseFeaturesMarkdown(
       page,
       courseData,
       pathLookup
-    )}${formatHTMLMarkDown(
-      page,
-      courseData,
-      courseUidsLookup,
-      "bottomtext",
-      pathLookup
-    )}`
+    )}${formatHTMLMarkDown(page, courseData, "bottomtext", pathLookup)}`
   } catch (err) {
     loggers.fileLogger.error(err)
     return page["text"]
@@ -367,8 +313,9 @@ const generateVideoGalleryMarkdown = (page, courseData, pathLookup) => {
 
   return videos
     .map(video => {
+      const [, videoUrl] = pathLookup[video["uid"]]
       const videoArgs = {
-        href:    pathLookup[video["uid"]],
+        href:    videoUrl,
         section: helpers.htmlSafeText(
           helpers.unescapeBackticks(html2markdown(page.title))
         ),
