@@ -109,7 +109,7 @@ const generateMarkdownRecursive = (page, courseData, pathLookup) => {
     courseData,
     pathLookup
   )
-  const [, childPath] = pathLookup[page["uid"]]
+  const { path: childPath } = pathLookup[page["uid"]]
   const pathToChild = helpers.stripSlashPrefix(childPath)
   return {
     name:
@@ -313,7 +313,7 @@ const generateVideoGalleryMarkdown = (page, courseData, pathLookup) => {
 
   return videos
     .map(video => {
-      const [, videoUrl] = pathLookup[video["uid"]]
+      const { path: videoUrl } = pathLookup[video["uid"]]
       const videoArgs = {
         href:    videoUrl,
         section: helpers.htmlSafeText(

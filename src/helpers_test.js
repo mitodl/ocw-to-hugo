@@ -7,6 +7,7 @@ tmp.setGracefulCleanup()
 
 const helpers = require("./helpers")
 const loggers = require("./loggers")
+const fileOperations = require("./file_operations")
 
 const testCourse =
   "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
@@ -137,21 +138,20 @@ describe("resolveUidMatches", () => {
         fieldTripPage,
         courseData,
         {
-          [uid1]:      [courseId, "/path/1/"],
-          [uid2]:      [courseId, "/path/2/"],
-          [uid3]:      [courseId, "/path/3/"],
-          [parentUid]: [courseId, "/path/parent"]
+          [uid1]:      { course: courseId, path: "/path/1/" },
+          [uid2]:      { course: courseId, path: "/path/2/" },
+          [uid3]:      { course: courseId, path: "/path/3/" },
+          [parentUid]: { course: courseId, path: "/path/parent" }
         }
       ),
       [
         {
           match:       [`./resolveuid/${uid1}`],
-          replacement:
-            "https://open-learning-course-data-production.s3.amazonaws.com/12-001-introduction-to-geology-fall-2013/97f28b51c2d76bbffa1213260d56c281_12.001_Field_TripStops2014.kml"
+          replacement: "BASEURL_SHORTCODE/path/1/"
         },
         {
           match:       [`./resolveuid/${uid2}`],
-          replacement: "BASEURL_SHORTCODE/path/parent/MIT12_001F14_Field_Trip"
+          replacement: "BASEURL_SHORTCODE/path/2/"
         },
         {
           match:       [`./resolveuid/${uid3}`],
@@ -174,11 +174,14 @@ describe("resolveUidMatches", () => {
       fieldTripPage,
       courseData,
       {
-        ef6931d2c8e6bc0b8e9a5572a78fe125: [
-          courseId,
-          "/sections/instructor-insights/planning-a-good-field-trip"
-        ],
-        de36fe69cf33ddf238bc3896d0ce9eff: [courseId, "/path/to/parent"]
+        ef6931d2c8e6bc0b8e9a5572a78fe125: {
+          course: courseId,
+          path:   "/sections/instructor-insights/planning-a-good-field-trip"
+        },
+        de36fe69cf33ddf238bc3896d0ce9eff: {
+          course: courseId,
+          path:   "/path/to/parent"
+        }
       }
     )
     const pageResult = result.find(item => item.match[0] === link)
@@ -189,24 +192,23 @@ describe("resolveUidMatches", () => {
     })
   })
 
-  it("resolves a uid for a file", () => {
+  it("resolves a uid for a file", async () => {
     const link = "./resolveuid/f828208d0d04e1f39c1bb31d6fbe5f2d"
     assert.include(
       fieldTripPage["text"],
       `<a href="${link}">Field Trip Guide (PDF - 4.2MB)</a>`
     )
-    const courseId = courseData["short_url"]
     const result = helpers.resolveUidMatches(
       fieldTripPage["text"],
       fieldTripPage,
       courseData,
-      {
-        de36fe69cf33ddf238bc3896d0ce9eff: [courseId, "/parent/node"]
-      }
+      await fileOperations.buildPathsForAllCourses("test_data/courses", [
+        course
+      ])
     )
     const fileResult = result.find(item => item.match[0] === link)
     assert.deepEqual(fileResult, {
-      replacement: `BASEURL_SHORTCODE/parent/node/MIT12_001F14_Field_Trip`,
+      replacement: `BASEURL_SHORTCODE/sections/field-trip/MIT12_001F14_Field_Trip`,
       match:       [link]
     })
   })
@@ -240,7 +242,7 @@ describe("resolveUidMatches", () => {
         syllabusPage,
         linkingCourseData,
         {
-          [uid]: [course, "/"]
+          [uid]: { course: course, path: "/" }
         }
       )
       assert.deepEqual(result, [

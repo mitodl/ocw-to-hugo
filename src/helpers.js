@@ -7,6 +7,7 @@ const DEPARTMENTS_JSON = require("./departments.json")
 const {
   AWS_REGEX,
   BASEURL_SHORTCODE,
+  FILE_TYPE,
   INPUT_COURSE_DATE_FORMAT
 } = require("./constants")
 const loggers = require("./loggers")
@@ -279,46 +280,37 @@ const applyReplacements = (matchAndReplacements, text) => {
 const resolveUidForLink = (url, courseData, pathLookup) => {
   const courseId = courseData["short_url"]
   const [uid, ...urlParts] = getPathFragments(url).reverse()
-  // filter course_pages on the UID in the URL
-  const linkedPage = courseData["course_pages"].find(
-    coursePage => coursePage["uid"] === uid
-  )
-  // filter course_files on the UID in the URL
-  const linkedFile = courseData["course_files"].find(
-    file => file["uid"] === uid
-  )
-  if (linkedPage) {
-    // a page has been found for this UID
-    const pagePathTuple = pathLookup[uid]
-    if (pagePathTuple) {
-      const [course, pagePath] = pagePathTuple
-      return path.join(makeCourseUrlPrefix(course, courseId), pagePath)
-    }
-    return null
-  } else if (linkedFile) {
-    // a course_file has been found for this UID
-    const parentUid = linkedFile["parent_uid"]
-
-    if (linkedFile["file_type"] === "application/pdf") {
-      // create a link to the generated PDF viewer page for this PDF file
-      const parentTuple = pathLookup[parentUid]
-      if (parentTuple) {
-        const [course, parent] = parentTuple
-        const pdfPath = path.join(
-          makeCourseUrlPrefix(course, courseId),
-          parent,
-          linkedFile["id"]
-        )
-        return stripPdfSuffix(pdfPath)
-      }
-    } else {
-      // link directly to the static content
-      return stripS3(linkedFile["file_location"])
-    }
-  }
 
   if (pathLookup[uid]) {
-    const [course, itemPath] = pathLookup[uid]
+    const {
+      course,
+      path: itemPath,
+      fileType,
+      type,
+      parentUid,
+      id,
+      fileLocation
+    } = pathLookup[uid]
+
+    if (type === FILE_TYPE) {
+      if (fileType === "application/pdf") {
+        // create a link to the generated PDF viewer page for this PDF file
+        const parentTuple = pathLookup[parentUid]
+        if (parentTuple) {
+          const { course, path: parent } = parentTuple
+          const pdfPath = path.join(
+            makeCourseUrlPrefix(course, courseId),
+            parent,
+            id
+          )
+          return stripPdfSuffix(pdfPath)
+        }
+      } else {
+        // link directly to the static content
+        return stripS3(fileLocation)
+      }
+    }
+
     return path.join(makeCourseUrlPrefix(course, courseId), itemPath)
   }
 

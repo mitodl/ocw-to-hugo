@@ -8,7 +8,11 @@ const cliProgress = require("cli-progress")
 const {
   MISSING_COURSE_ERROR_MESSAGE,
   NO_COURSES_FOUND_MESSAGE,
-  BOILERPLATE_MARKDOWN
+  BOILERPLATE_MARKDOWN,
+  COURSE_TYPE,
+  EMBEDDED_MEDIA_PAGE_TYPE,
+  FILE_TYPE,
+  PAGE_TYPE
 } = require("./constants")
 const { directoryExists } = require("./helpers")
 const markdownGenerators = require("./markdown_generators")
@@ -35,6 +39,36 @@ const writeBoilerplate = async (outputPath, remove) => {
   }
 }
 
+const makeUidInfo = courseData => {
+  // extract some pieces of information to populate a lookup object for use with resolveUid
+  // or other places which may need a little bit of context on external items
+
+  const types = {
+    [courseData["uid"]]: { type: COURSE_TYPE }
+  }
+  for (const embedded of Object.values(courseData["course_embedded_media"])) {
+    types[embedded["uid"]] = {
+      type:      EMBEDDED_MEDIA_PAGE_TYPE,
+      parentUid: embedded["parent_uid"]
+    }
+  }
+
+  for (const file of courseData["course_files"]) {
+    types[file["uid"]] = {
+      type:      FILE_TYPE,
+      fileType:  file["file_type"],
+      id:        file["id"],
+      parentUid: file["parent_uid"]
+    }
+  }
+
+  for (const page of courseData["course_pages"]) {
+    types[page["uid"]] = { type: PAGE_TYPE, parentUid: page["parent_uid"] }
+  }
+
+  return types
+}
+
 const buildPathsForAllCourses = async (inputPath, courseList) => {
   const pathLookup = {}
 
@@ -47,14 +81,18 @@ const buildPathsForAllCourses = async (inputPath, courseList) => {
     const masterJsonFile = await getMasterJsonFileName(courseMarkdownPath)
     if (masterJsonFile) {
       const courseData = JSON.parse(await fsPromises.readFile(masterJsonFile))
+      const uidInfoLookup = makeUidInfo(courseData)
+
       if (helpers.isCoursePublished(courseData)) {
         const coursePathLookup = helpers.buildPathsForCourse(courseData)
         for (const [uid, path] of Object.entries(coursePathLookup)) {
-          pathLookup[uid] = [course, path]
+          const info = uidInfoLookup[uid] || {}
+          pathLookup[uid] = { course, path, ...info }
         }
 
         const courseUid = courseData["uid"]
-        pathLookup[courseUid] = [course, "/"]
+        const courseInfo = uidInfoLookup[courseUid] || {}
+        pathLookup[courseUid] = { course, path: "/", ...courseInfo }
       }
     }
   }

@@ -7,8 +7,14 @@ const rimraf = require("rimraf")
 const yaml = require("js-yaml")
 
 const {
+  FILE_TYPE,
   NO_COURSES_FOUND_MESSAGE,
-  BOILERPLATE_MARKDOWN
+  BOILERPLATE_MARKDOWN,
+  PAGE_TYPE,
+  COURSE_TYPE,
+  EMBEDDED_MEDIA_PAGE_TYPE,
+  EMBEDDED_MEDIA_TYPE,
+  INSTRUCTOR_TYPE
 } = require("./constants")
 const helpers = require("./helpers")
 const fileOperations = require("./file_operations")
@@ -334,21 +340,36 @@ describe("file operations", () => {
         [
           singleCourseId,
           unpublishedCourseId,
-          "12-001-introduction-to-geology-fall-2013"
+          "12-001-introduction-to-geology-fall-2013",
+          "ec-711-d-lab-energy-spring-2011"
         ]
       )
-      assert.deepEqual(paths["93e58d46191f9fc3c54ec80752ad3b80"], [
-        "12-001-introduction-to-geology-fall-2013",
-        "/sections/lecture-notes-and-slides/MIT12_001F13_Lec5Notes.pdf"
-      ])
-      assert.deepEqual(paths["877f0e43412db8b16e5b2864cf8bf1cc"], [
-        "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009",
-        "/sections/labs"
-      ])
-      assert.deepEqual(paths["d9aad1541f1a9d3c0f7b0dcf9531a9a1"], [
-        "12-001-introduction-to-geology-fall-2013",
-        "/"
-      ])
+      assert.deepEqual(paths["93e58d46191f9fc3c54ec80752ad3b80"], {
+        course:    "12-001-introduction-to-geology-fall-2013",
+        path:      "/sections/lecture-notes-and-slides/MIT12_001F13_Lec5Notes.pdf",
+        fileType:  "application/pdf",
+        id:        "MIT12_001F13_Lec5Notes.pdf",
+        parentUid: "7a74d241d2fe5d877f747158998d8ed3",
+        type:      FILE_TYPE
+      })
+      assert.deepEqual(paths["877f0e43412db8b16e5b2864cf8bf1cc"], {
+        course:
+          "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009",
+        path:      "/sections/labs",
+        type:      PAGE_TYPE,
+        parentUid: "e395587c58555f1fe564e8afd75899e6"
+      })
+      assert.deepEqual(paths["d9aad1541f1a9d3c0f7b0dcf9531a9a1"], {
+        course: "12-001-introduction-to-geology-fall-2013",
+        path:   "/",
+        type:   COURSE_TYPE
+      })
+      assert.deepEqual(paths["b03952e4bdfcea4962271aeae1dedb3f"], {
+        course:    "ec-711-d-lab-energy-spring-2011",
+        path:      "/sections/intro-energy-basics-human-power/lab-1-human-power",
+        type:      EMBEDDED_MEDIA_PAGE_TYPE,
+        parentUid: "32a22e0de0add67342ce41445297fce7"
+      })
       assert.isUndefined(paths[unpublishedCourseId])
     })
   })
