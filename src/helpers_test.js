@@ -192,7 +192,7 @@ describe("resolveUidMatches", () => {
     })
   })
 
-  it("resolves a uid for a file", async () => {
+  it("resolves a uid for a PDF file", async () => {
     const link = "./resolveuid/f828208d0d04e1f39c1bb31d6fbe5f2d"
     assert.include(
       fieldTripPage["text"],
@@ -210,6 +210,25 @@ describe("resolveUidMatches", () => {
     assert.deepEqual(fileResult, {
       replacement: `BASEURL_SHORTCODE/sections/field-trip/MIT12_001F14_Field_Trip`,
       match:       [link]
+    })
+  })
+
+  it("resolves a uid for a non-pdf file", async () => {
+    const link = "./resolveuid/915b6ae8ee3ce0531360df600464d389"
+    const text = `<a href='${link}'>link</a>`
+    const result = helpers.resolveUidMatches(
+      text,
+      fieldTripPage,
+      courseData,
+      await fileOperations.buildPathsForAllCourses("test_data/courses", [
+        course
+      ])
+    )
+    const fileResult = result.find(item => item.match[0] === link)
+    assert.deepEqual(fileResult, {
+      replacement:
+        "https://open-learning-course-data-production.s3.amazonaws.com/12-001-introduction-to-geology-fall-2013/915b6ae8ee3ce0531360df600464d389_IMG_20141011_092912.jpg",
+      match: [link]
     })
   })
 
@@ -368,6 +387,42 @@ describe("resolveRelativeLinkMatches", () => {
           : 'href="BASEURL_SHORTCODE/sections/syllabus#Table_organization"'
       )
     })
+  })
+
+  //
+  ;["index.htm", "index.html"].forEach(page => {
+    it(`treats links ending with ${page} like a course link`, () => {
+      const text = `<a href="/courses/aeronautics-and-astronautics/${testCourse}/${page}#Table_organization">Table Organization</a></p> `
+      const result = helpers.resolveRelativeLinkMatches(
+        text,
+        singleCourseJsonData
+      )
+      assert.equal(
+        result[0].replacement,
+        'href="BASEURL_SHORTCODE/#Table_organization"'
+      )
+    })
+  })
+
+  it("handles links with multiple sections appropriately", () => {
+    const text = `<a href="/courses/aeronautics-and-astronautics/${testCourse}/a/b/c/d/e#Table_organization">Table Organization</a></p> `
+    const result = helpers.resolveRelativeLinkMatches(
+      text,
+      singleCourseJsonData
+    )
+    assert.equal(
+      result[0].replacement,
+      'href="BASEURL_SHORTCODE/sections/a/b/c/d/e#Table_organization"'
+    )
+  })
+
+  it("handles non-course relative links by leaving them as is", () => {
+    const text = `<a href="/a/e/e#Table_organization">Table Organization</a></p> `
+    const result = helpers.resolveRelativeLinkMatches(
+      text,
+      singleCourseJsonData
+    )
+    assert.lengthOf(result, 0)
   })
 })
 

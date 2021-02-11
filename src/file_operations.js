@@ -55,10 +55,11 @@ const makeUidInfo = courseData => {
 
   for (const file of courseData["course_files"]) {
     types[file["uid"]] = {
-      type:      FILE_TYPE,
-      fileType:  file["file_type"],
-      id:        file["id"],
-      parentUid: file["parent_uid"]
+      type:         FILE_TYPE,
+      fileType:     file["file_type"],
+      id:           file["id"],
+      parentUid:    file["parent_uid"],
+      fileLocation: file["file_location"]
     }
   }
 

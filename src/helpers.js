@@ -374,29 +374,36 @@ const resolveRelativeLink = (url, courseData) => {
      * 2: course ID ("18-01-single-variable-calculus-fall-2006")
      * 3 - ?: section and subsections with the page / file at the end
      */
+    if (parts[0] !== "courses") {
+      return null
+    }
+
     const courseId = parts[2]
     if (courseId) {
       if (parts.length === 3) {
         // course home page link
         return updatePath(url, [makeCourseUrlPrefix(courseId, thisCourseId)])
       }
-      const [page, ...sections] = parts.reverse()
+      const sections = parts.slice(3, parts.length - 1)
+      const page = parts[parts.length - 1]
 
-      if (page.includes(".") && !page.includes(".htm")) {
+      const extension = path.extname(page)
+      if (extension && !extension.includes(".htm")) {
         // page has a file extension and isn't HTML
         for (const media of courseData["course_files"]) {
           if (media["file_location"]) {
             if (
               media["file_type"] === "application/pdf" &&
-              media["file_location"].includes(page)
+              media["file_location"].endsWith(`/${page}`)
             ) {
               // construct url to Hugo PDF viewer page
               return updatePath(url, [
                 makeCourseUrlPrefix(courseId, thisCourseId),
                 "sections",
+                ...sections,
                 stripPdfSuffix(page)
               ])
-            } else if (media["file_location"].includes(page)) {
+            } else if (media["file_location"].endsWith(`/${page}`)) {
               // write link directly to file
               return stripS3(media["file_location"])
             }
@@ -404,17 +411,15 @@ const resolveRelativeLink = (url, courseData) => {
         }
       } else {
         // match page from url to the short_url property on a course page
-        for (const coursePage of courseData["course_pages"]) {
-          if (coursePage["short_url"].toLowerCase() === page.toLowerCase()) {
-            const pageName = page.replace(/(index)?\.html?/g, "")
-
-            return updatePath(url, [
-              makeCourseUrlPrefix(courseId, thisCourseId),
-              "sections",
-              pageName
-            ])
-          }
+        const isIndex = page.startsWith("index.htm")
+        const paths = [...sections]
+        if (!isIndex) {
+          paths.push(page)
         }
+        return updatePath(url, [
+          makeCourseUrlPrefix(courseId, thisCourseId),
+          ...(paths.length ? ["sections", ...paths] : [])
+        ])
       }
     }
   }

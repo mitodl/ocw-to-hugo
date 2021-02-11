@@ -345,12 +345,14 @@ describe("file operations", () => {
         ]
       )
       assert.deepEqual(paths["93e58d46191f9fc3c54ec80752ad3b80"], {
-        course:    "12-001-introduction-to-geology-fall-2013",
-        path:      "/sections/lecture-notes-and-slides/MIT12_001F13_Lec5Notes.pdf",
-        fileType:  "application/pdf",
-        id:        "MIT12_001F13_Lec5Notes.pdf",
-        parentUid: "7a74d241d2fe5d877f747158998d8ed3",
-        type:      FILE_TYPE
+        course:       "12-001-introduction-to-geology-fall-2013",
+        path:         "/sections/lecture-notes-and-slides/MIT12_001F13_Lec5Notes.pdf",
+        fileType:     "application/pdf",
+        id:           "MIT12_001F13_Lec5Notes.pdf",
+        parentUid:    "7a74d241d2fe5d877f747158998d8ed3",
+        fileLocation:
+          "https://open-learning-course-data-production.s3.amazonaws.com/12-001-introduction-to-geology-fall-2013/93e58d46191f9fc3c54ec80752ad3b80_MIT12_001F13_Lec5Notes.pdf",
+        type: FILE_TYPE
       })
       assert.deepEqual(paths["877f0e43412db8b16e5b2864cf8bf1cc"], {
         course:
