@@ -342,8 +342,30 @@ describe("resolveRelativeLinkMatches", () => {
     )
     assert.equal(
       result[0].replacement,
-      'href="BASEURL_SHORTCODE/sections/syllabus#Table_organization"'
+      'href="/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/sections/syllabus#Table_organization"'
     )
+  })
+
+  //
+  ;[true, false].forEach(external => {
+    it(`resolves relative links for ${
+      external ? "external courses" : "the same course"
+    }`, () => {
+      const otherCourseId =
+        "16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"
+      const courseId = external ? otherCourseId : testCourse
+      const text = `<a href="/courses/aeronautics-and-astronautics/${courseId}/syllabus#Table_organization">Table Organization</a></p> `
+      const result = helpers.resolveRelativeLinkMatches(
+        text,
+        singleCourseJsonData
+      )
+      assert.equal(
+        result[0].replacement,
+        external
+          ? `href="/courses/${otherCourseId}/sections/syllabus#Table_organization"`
+          : 'href="BASEURL_SHORTCODE/sections/syllabus#Table_organization"'
+      )
+    })
   })
 })
 

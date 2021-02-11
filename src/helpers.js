@@ -115,6 +115,8 @@ const getPathFragments = url =>
 const updatePath = (url, pathPieces) => {
   const hasBaseUrl = pathPieces[0] && pathPieces[0] === BASEURL_SHORTCODE
   if (hasBaseUrl) {
+    // cut out the shortcode here and add it back in the end
+    // so we don't mangle it in the URL object
     pathPieces = pathPieces.slice(1)
   }
 
@@ -396,7 +398,11 @@ const resolveRelativeLink = (url, courseData) => {
         page = parts.slice(parts.length - 1, parts.length)[0]
       }
       // build the base of the Hugo url
-      const basePieces = [BASEURL_SHORTCODE, "sections", ...sections]
+      const basePieces = [
+        makeCourseUrlPrefix(courseId, courseData["short_url"]),
+        "sections",
+        ...sections
+      ]
       if (page.includes(".") && !page.includes(".htm")) {
         // page has a file extension and isn't HTML
         for (const media of courseData["course_files"]) {
