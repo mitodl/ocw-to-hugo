@@ -343,6 +343,20 @@ describe("resolveRelativeLinkMatches", () => {
     )
   })
 
+  it("resolves a link for a PDF in the same course", () => {
+    const text = `2010. (<a href="/courses/some-text-here/${testCourse}/readings/MIT2_00AJs09_lec02.pdf">PDF</a>`
+
+    const result = helpers.resolveRelativeLinkMatches(
+      text,
+      singleCourseJsonData,
+      pathLookup
+    )
+    assert.equal(
+      result[0].replacement,
+      'href="BASEURL_SHORTCODE/sections/study-materials/MIT2_00AJs09_lec02"'
+    )
+  })
+
   it("resolves a link for a PDF in another course", () => {
     const text =
       '2010. (<a href="/courses/some-text-here/12-001-introduction-to-geology-fall-2013/readings/MIT12_001F14_Field_Trip.pdf">PDF</a>'
@@ -354,7 +368,7 @@ describe("resolveRelativeLinkMatches", () => {
     )
     assert.equal(
       result[0].replacement,
-      'href="/courses/12-001-introduction-to-geology-fall-2013/sections/lecture-notes-and-slides/MIT12_001F13_Lec22Notes"'
+      'href="/courses/12-001-introduction-to-geology-fall-2013/sections/field-trip/MIT12_001F14_Field_Trip"'
     )
   })
 
