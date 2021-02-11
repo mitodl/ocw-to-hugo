@@ -18,7 +18,7 @@ const fixLinks = (htmlStr, page, courseData, pathLookup) => {
   if (htmlStr && page) {
     const matchAndReplacements = [
       ...helpers.resolveUidMatches(htmlStr, page, courseData, pathLookup),
-      ...helpers.resolveRelativeLinkMatches(htmlStr, courseData),
+      ...helpers.resolveRelativeLinkMatches(htmlStr, courseData, pathLookup),
       ...helpers.resolveYouTubeEmbedMatches(htmlStr, courseData)
     ]
     htmlStr = helpers.applyReplacements(matchAndReplacements, htmlStr)
@@ -109,7 +109,7 @@ const generateMarkdownRecursive = (page, courseData, pathLookup) => {
     courseData,
     pathLookup
   )
-  const { path: childPath } = pathLookup[page["uid"]]
+  const { path: childPath } = pathLookup.byUid[page["uid"]]
   const pathToChild = helpers.stripSlashPrefix(childPath)
   return {
     name:
@@ -313,7 +313,7 @@ const generateVideoGalleryMarkdown = (page, courseData, pathLookup) => {
 
   return videos
     .map(video => {
-      const { path: videoUrl } = pathLookup[video["uid"]]
+      const { path: videoUrl } = pathLookup.byUid[video["uid"]]
       const videoArgs = {
         href:    videoUrl,
         section: helpers.htmlSafeText(

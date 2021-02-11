@@ -138,10 +138,12 @@ describe("resolveUidMatches", () => {
         fieldTripPage,
         courseData,
         {
-          [uid1]:      { course: courseId, path: "/path/1/" },
-          [uid2]:      { course: courseId, path: "/path/2/" },
-          [uid3]:      { course: courseId, path: "/path/3/" },
-          [parentUid]: { course: courseId, path: "/path/parent" }
+          byUid: {
+            [uid1]:      { course: courseId, path: "/path/1/" },
+            [uid2]:      { course: courseId, path: "/path/2/" },
+            [uid3]:      { course: courseId, path: "/path/3/" },
+            [parentUid]: { course: courseId, path: "/path/parent" }
+          }
         }
       ),
       [
@@ -174,13 +176,15 @@ describe("resolveUidMatches", () => {
       fieldTripPage,
       courseData,
       {
-        ef6931d2c8e6bc0b8e9a5572a78fe125: {
-          course: courseId,
-          path:   "/sections/instructor-insights/planning-a-good-field-trip"
-        },
-        de36fe69cf33ddf238bc3896d0ce9eff: {
-          course: courseId,
-          path:   "/path/to/parent"
+        byUid: {
+          ef6931d2c8e6bc0b8e9a5572a78fe125: {
+            course: courseId,
+            path:   "/sections/instructor-insights/planning-a-good-field-trip"
+          },
+          de36fe69cf33ddf238bc3896d0ce9eff: {
+            course: courseId,
+            path:   "/path/to/parent"
+          }
         }
       }
     )
@@ -261,7 +265,9 @@ describe("resolveUidMatches", () => {
         syllabusPage,
         linkingCourseData,
         {
-          [uid]: { course: course, path: "/" }
+          byUid: {
+            [uid]: { course: course, path: "/" }
+          }
         }
       )
       assert.deepEqual(result, [
@@ -305,10 +311,14 @@ describe("resolveUidMatches", () => {
 })
 
 describe("resolveRelativeLinkMatches", () => {
-  let sandbox
+  let sandbox, pathLookup
 
-  beforeEach(() => {
+  beforeEach(async () => {
     sandbox = sinon.createSandbox()
+    pathLookup = await fileOperations.buildPathsForAllCourses(
+      "test_data/courses",
+      [testCourse, "12-001-introduction-to-geology-fall-2013"]
+    )
   })
 
   afterEach(() => {
@@ -318,7 +328,8 @@ describe("resolveRelativeLinkMatches", () => {
   it("fixes all relative links on the page", () => {
     const result = helpers.resolveRelativeLinkMatches(
       assignmentsPage["text"],
-      singleCourseJsonData
+      singleCourseJsonData,
+      pathLookup
     )
     assert.lengthOf(result, 1)
     assert.equal(
@@ -332,6 +343,33 @@ describe("resolveRelativeLinkMatches", () => {
     )
   })
 
+  it("resolves a link for a PDF in another course", () => {
+    const text =
+      '2010. (<a href="/courses/some-text-here/12-001-introduction-to-geology-fall-2013/readings/MIT12_001F14_Field_Trip.pdf">PDF</a>'
+
+    const result = helpers.resolveRelativeLinkMatches(
+      text,
+      singleCourseJsonData,
+      pathLookup
+    )
+    assert.equal(
+      result[0].replacement,
+      'href="/courses/12-001-introduction-to-geology-fall-2013/sections/lecture-notes-and-slides/MIT12_001F13_Lec22Notes"'
+    )
+  })
+
+  it("doesn't resolve a link for a PDF in another course if that course is missing", () => {
+    const text =
+      '2010. (<a href="/courses/civil-and-environmental-engineering/1-011-project-evaluation-spring-2011/readings/MIT1_011S11_read16a.pdf">PDF</a>'
+
+    const result = helpers.resolveRelativeLinkMatches(
+      text,
+      singleCourseJsonData,
+      pathLookup
+    )
+    assert.lengthOf(result, 0)
+  })
+
   it("handles a missing media file location", () => {
     sandbox.stub(loggers.memoryTransport, "log").callsFake((...args) => {
       throw new Error(`Error caught: ${args}`)
@@ -340,7 +378,8 @@ describe("resolveRelativeLinkMatches", () => {
     delete singleCourseJsonData.course_files[0].file_location
     const result = helpers.resolveRelativeLinkMatches(
       text,
-      singleCourseJsonData
+      singleCourseJsonData,
+      pathLookup
     )
     assert.lengthOf(result, 1)
     assert.equal(
@@ -359,7 +398,8 @@ describe("resolveRelativeLinkMatches", () => {
       '<a href="/courses/aeronautics-and-astronautics/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/syllabus#Table_organization">Table Organization</a></p> '
     const result = helpers.resolveRelativeLinkMatches(
       text,
-      singleCourseJsonData
+      singleCourseJsonData,
+      pathLookup
     )
     assert.equal(
       result[0].replacement,
@@ -378,7 +418,8 @@ describe("resolveRelativeLinkMatches", () => {
       const text = `<a href="/courses/aeronautics-and-astronautics/${courseId}/syllabus#Table_organization">Table Organization</a></p> `
       const result = helpers.resolveRelativeLinkMatches(
         text,
-        singleCourseJsonData
+        singleCourseJsonData,
+        pathLookup
       )
       assert.equal(
         result[0].replacement,
@@ -395,7 +436,8 @@ describe("resolveRelativeLinkMatches", () => {
       const text = `<a href="/courses/aeronautics-and-astronautics/${testCourse}/${page}#Table_organization">Table Organization</a></p> `
       const result = helpers.resolveRelativeLinkMatches(
         text,
-        singleCourseJsonData
+        singleCourseJsonData,
+        pathLookup
       )
       assert.equal(
         result[0].replacement,
@@ -408,7 +450,8 @@ describe("resolveRelativeLinkMatches", () => {
     const text = `<a href="/courses/aeronautics-and-astronautics/${testCourse}/a/b/c/d/e#Table_organization">Table Organization</a></p> `
     const result = helpers.resolveRelativeLinkMatches(
       text,
-      singleCourseJsonData
+      singleCourseJsonData,
+      pathLookup
     )
     assert.equal(
       result[0].replacement,
@@ -420,7 +463,8 @@ describe("resolveRelativeLinkMatches", () => {
     const text = `<a href="/a/e/e#Table_organization">Table Organization</a></p> `
     const result = helpers.resolveRelativeLinkMatches(
       text,
-      singleCourseJsonData
+      singleCourseJsonData,
+      pathLookup
     )
     assert.lengthOf(result, 0)
   })

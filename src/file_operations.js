@@ -72,11 +72,14 @@ const makeUidInfo = courseData => {
 
 const buildPathsForAllCourses = async (inputPath, courseList) => {
   const pathLookup = {}
+  const courseLookup = {}
 
   for (const course of courseList) {
     if (!(await directoryExists(path.join(inputPath, course)))) {
       throw new Error(`Missing course directory for ${course}`)
     }
+    const courseLookupList = []
+    courseLookup[course] = courseLookupList
 
     const courseMarkdownPath = path.join(inputPath, course)
     const masterJsonFile = await getMasterJsonFileName(courseMarkdownPath)
@@ -88,16 +91,21 @@ const buildPathsForAllCourses = async (inputPath, courseList) => {
         const coursePathLookup = helpers.buildPathsForCourse(courseData)
         for (const [uid, path] of Object.entries(coursePathLookup)) {
           const info = uidInfoLookup[uid] || {}
-          pathLookup[uid] = { course, path, ...info }
+          const pathObj = { course, path, uid, ...info }
+          pathLookup[uid] = pathObj
+          courseLookupList.push(pathObj)
         }
 
         const courseUid = courseData["uid"]
         const courseInfo = uidInfoLookup[courseUid] || {}
-        pathLookup[courseUid] = { course, path: "/", ...courseInfo }
+        const pathObj = { course, path: "/", uid: courseUid, ...courseInfo }
+        pathLookup[courseUid] = pathObj
+        courseLookupList.push(pathObj)
       }
     }
   }
-  return pathLookup
+
+  return { byUid: pathLookup, byCourse: courseLookup }
 }
 
 const scanCourses = async (inputPath, outputPath) => {

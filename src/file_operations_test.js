@@ -335,7 +335,7 @@ describe("file operations", () => {
 
   describe("buildPathsForAllCourses", () => {
     it("builds some paths", async () => {
-      const paths = await fileOperations.buildPathsForAllCourses(
+      const pathLookup = await fileOperations.buildPathsForAllCourses(
         "test_data/courses",
         [
           singleCourseId,
@@ -344,7 +344,8 @@ describe("file operations", () => {
           "ec-711-d-lab-energy-spring-2011"
         ]
       )
-      assert.deepEqual(paths["93e58d46191f9fc3c54ec80752ad3b80"], {
+      const uids = pathLookup.byUid
+      assert.deepEqual(uids["93e58d46191f9fc3c54ec80752ad3b80"], {
         course:       "12-001-introduction-to-geology-fall-2013",
         path:         "/sections/lecture-notes-and-slides/MIT12_001F13_Lec5Notes.pdf",
         fileType:     "application/pdf",
@@ -352,27 +353,39 @@ describe("file operations", () => {
         parentUid:    "7a74d241d2fe5d877f747158998d8ed3",
         fileLocation:
           "https://open-learning-course-data-production.s3.amazonaws.com/12-001-introduction-to-geology-fall-2013/93e58d46191f9fc3c54ec80752ad3b80_MIT12_001F13_Lec5Notes.pdf",
+        uid:  "93e58d46191f9fc3c54ec80752ad3b80",
         type: FILE_TYPE
       })
-      assert.deepEqual(paths["877f0e43412db8b16e5b2864cf8bf1cc"], {
+      assert.deepEqual(uids["877f0e43412db8b16e5b2864cf8bf1cc"], {
         course:
           "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009",
         path:      "/sections/labs",
         type:      PAGE_TYPE,
-        parentUid: "e395587c58555f1fe564e8afd75899e6"
+        parentUid: "e395587c58555f1fe564e8afd75899e6",
+        uid:       "877f0e43412db8b16e5b2864cf8bf1cc"
       })
-      assert.deepEqual(paths["d9aad1541f1a9d3c0f7b0dcf9531a9a1"], {
+      assert.deepEqual(uids["d9aad1541f1a9d3c0f7b0dcf9531a9a1"], {
         course: "12-001-introduction-to-geology-fall-2013",
         path:   "/",
-        type:   COURSE_TYPE
+        type:   COURSE_TYPE,
+        uid:    "d9aad1541f1a9d3c0f7b0dcf9531a9a1"
       })
-      assert.deepEqual(paths["b03952e4bdfcea4962271aeae1dedb3f"], {
+      assert.deepEqual(uids["b03952e4bdfcea4962271aeae1dedb3f"], {
         course:    "ec-711-d-lab-energy-spring-2011",
         path:      "/sections/intro-energy-basics-human-power/lab-1-human-power",
         type:      EMBEDDED_MEDIA_PAGE_TYPE,
-        parentUid: "32a22e0de0add67342ce41445297fce7"
+        parentUid: "32a22e0de0add67342ce41445297fce7",
+        uid:       "b03952e4bdfcea4962271aeae1dedb3f"
       })
-      assert.isUndefined(paths[unpublishedCourseId])
+      assert.isUndefined(uids[unpublishedCourseId])
+
+      const pathsByCourse = pathLookup.byCourse
+      assert.lengthOf(Object.values(pathsByCourse), 4)
+      const paths = pathsByCourse["ec-711-d-lab-energy-spring-2011"]
+      assert.lengthOf(paths, 77)
+      for (const pathObj of paths) {
+        assert.deepEqual(pathObj, uids[pathObj.uid])
+      }
     })
   })
 })

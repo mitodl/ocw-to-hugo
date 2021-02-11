@@ -277,33 +277,43 @@ const applyReplacements = (matchAndReplacements, text) => {
   return text
 }
 
+const makePdfLink = (thisCourseId, pathObj, pathLookup) => {
+  const {
+    course,
+    path: itemPath,
+    fileType,
+    type,
+    parentUid,
+    id,
+    fileLocation
+  } = pathObj
+  const parentTuple = pathLookup.byUid[parentUid]
+  if (parentTuple) {
+    const { course, path: parent } = parentTuple
+    const pdfPath = path.join(
+      makeCourseUrlPrefix(course, thisCourseId),
+      parent,
+      id
+    )
+    return stripPdfSuffix(pdfPath)
+  }
+  return null
+}
+
 const resolveUidForLink = (url, courseData, pathLookup) => {
   const courseId = courseData["short_url"]
   const [uid, ...urlParts] = getPathFragments(url).reverse()
 
-  if (pathLookup[uid]) {
-    const {
-      course,
-      path: itemPath,
-      fileType,
-      type,
-      parentUid,
-      id,
-      fileLocation
-    } = pathLookup[uid]
+  if (pathLookup.byUid[uid]) {
+    const pathObj = pathLookup.byUid[uid]
+    const { course, path: itemPath, fileType, type, fileLocation } = pathObj
 
     if (type === FILE_TYPE) {
       if (fileType === "application/pdf") {
         // create a link to the generated PDF viewer page for this PDF file
-        const parentTuple = pathLookup[parentUid]
-        if (parentTuple) {
-          const { course, path: parent } = parentTuple
-          const pdfPath = path.join(
-            makeCourseUrlPrefix(course, courseId),
-            parent,
-            id
-          )
-          return stripPdfSuffix(pdfPath)
+        const pdfLink = makePdfLink(courseId, pathObj, pathLookup)
+        if (pdfLink) {
+          return pdfLink
         }
       } else {
         // link directly to the static content
@@ -358,7 +368,7 @@ const resolveUidMatches = (htmlStr, page, courseData, pathLookup) => {
   return []
 }
 
-const resolveRelativeLink = (url, courseData) => {
+const resolveRelativeLink = (url, courseData, pathLookup) => {
   // ensure that this is not resolveuid or an external link
   const thisCourseId = courseData["short_url"]
   if (!url.includes("resolveuid") && url[0] === "/") {
@@ -388,24 +398,17 @@ const resolveRelativeLink = (url, courseData) => {
       const page = parts[parts.length - 1]
 
       const extension = path.extname(page)
-      if (extension && !extension.includes(".htm")) {
+      if (extension && !extension.startsWith(".htm")) {
         // page has a file extension and isn't HTML
-        for (const media of courseData["course_files"]) {
-          if (media["file_location"]) {
-            if (
-              media["file_type"] === "application/pdf" &&
-              media["file_location"].endsWith(`/${page}`)
-            ) {
-              // construct url to Hugo PDF viewer page
-              return updatePath(url, [
-                makeCourseUrlPrefix(courseId, thisCourseId),
-                "sections",
-                ...sections,
-                stripPdfSuffix(page)
-              ])
-            } else if (media["file_location"].endsWith(`/${page}`)) {
-              // write link directly to file
-              return stripS3(media["file_location"])
+        const paths = pathLookup.byCourse[courseId] || []
+        for (const pathObj of paths) {
+          if (
+            pathObj.type === FILE_TYPE &&
+            pathObj.fileType === "application/pdf"
+          ) {
+            const pdfLink = makePdfLink(thisCourseId, pathObj, pathLookup)
+            if (pdfLink) {
+              return pdfLink
             }
           }
         }
@@ -416,6 +419,7 @@ const resolveRelativeLink = (url, courseData) => {
         if (!isIndex) {
           paths.push(page)
         }
+
         return updatePath(url, [
           makeCourseUrlPrefix(courseId, thisCourseId),
           ...(paths.length ? ["sections", ...paths] : [])
@@ -430,13 +434,14 @@ const resolveRelativeLink = (url, courseData) => {
 /**
  * @param {string} htmlStr
  * @param {object} courseData
+ * @param {object} pathLookup
  *
  * The purpose of this function is to find relatively linked content
  * in a given HTML string and try to resolve that URL to the static content
  * or course section it is supposed to point to.
  *
  */
-const resolveRelativeLinkMatches = (htmlStr, courseData) => {
+const resolveRelativeLinkMatches = (htmlStr, courseData, pathLookup) => {
   try {
     // find and iterate all href tags
     const matches = Array.from(
@@ -446,7 +451,7 @@ const resolveRelativeLinkMatches = (htmlStr, courseData) => {
       .map(match => {
         const url = match.groups.url1 || match.groups.url2
 
-        const replacement = resolveRelativeLink(url, courseData)
+        const replacement = resolveRelativeLink(url, courseData, pathLookup)
         if (replacement !== null) {
           return { match, replacement: `href="${replacement}"` }
         }
@@ -454,6 +459,7 @@ const resolveRelativeLinkMatches = (htmlStr, courseData) => {
       })
       .filter(Boolean)
   } catch (err) {
+    console.error(err)
     loggers.fileLogger.error(err)
   }
   return []
