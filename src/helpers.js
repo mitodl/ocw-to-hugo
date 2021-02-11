@@ -360,6 +360,7 @@ const resolveUidMatches = (htmlStr, page, courseData, pathLookup) => {
 
 const resolveRelativeLink = (url, courseData) => {
   // ensure that this is not resolveuid or an external link
+  const thisCourseId = courseData["short_url"]
   if (!url.includes("resolveuid") && url[0] === "/") {
     // split the url into its parts
     const parts = getPathFragments(url)
@@ -375,26 +376,12 @@ const resolveRelativeLink = (url, courseData) => {
      */
     const courseId = parts[2]
     if (courseId) {
-      const layers = parts.length - 3
-      let sections = []
-      let page = null
-      if (layers === 0) {
+      if (parts.length === 3) {
         // course home page link
-        page = "index.htm"
-      } else if (layers === 1) {
-        // root section link
-        page = parts[3]
-      } else {
-        // this is a link to something in a subsection, slice out the layers and page
-        sections = parts.slice(parts.length - layers, parts.length - 1)
-        page = parts.slice(parts.length - 1, parts.length)[0]
+        return updatePath(url, [makeCourseUrlPrefix(courseId, thisCourseId)])
       }
-      // build the base of the Hugo url
-      const basePieces = [
-        makeCourseUrlPrefix(courseId, courseData["short_url"]),
-        "sections",
-        ...sections
-      ]
+      const [page, ...sections] = parts.reverse()
+
       if (page.includes(".") && !page.includes(".htm")) {
         // page has a file extension and isn't HTML
         for (const media of courseData["course_files"]) {
@@ -404,7 +391,11 @@ const resolveRelativeLink = (url, courseData) => {
               media["file_location"].includes(page)
             ) {
               // construct url to Hugo PDF viewer page
-              return updatePath(url, [...basePieces, stripPdfSuffix(page)])
+              return updatePath(url, [
+                makeCourseUrlPrefix(courseId, thisCourseId),
+                "sections",
+                stripPdfSuffix(page)
+              ])
             } else if (media["file_location"].includes(page)) {
               // write link directly to file
               return stripS3(media["file_location"])
@@ -417,7 +408,11 @@ const resolveRelativeLink = (url, courseData) => {
           if (coursePage["short_url"].toLowerCase() === page.toLowerCase()) {
             const pageName = page.replace(/(index)?\.html?/g, "")
 
-            return updatePath(url, [...basePieces, pageName])
+            return updatePath(url, [
+              makeCourseUrlPrefix(courseId, thisCourseId),
+              "sections",
+              pageName
+            ])
           }
         }
       }
