@@ -278,15 +278,7 @@ const applyReplacements = (matchAndReplacements, text) => {
 }
 
 const makePdfLink = (thisCourseId, pathObj, pathLookup) => {
-  const {
-    course,
-    path: itemPath,
-    fileType,
-    type,
-    parentUid,
-    id,
-    fileLocation
-  } = pathObj
+  const { parentUid, id } = pathObj
   const parentTuple = pathLookup.byUid[parentUid]
   if (parentTuple) {
     const { course, path: parent } = parentTuple
@@ -404,12 +396,15 @@ const resolveRelativeLink = (url, courseData, pathLookup) => {
         for (const pathObj of paths) {
           if (
             pathObj.type === FILE_TYPE &&
-            pathObj.fileType === "application/pdf" &&
             pathObj.fileLocation.includes(page)
           ) {
-            const pdfLink = makePdfLink(thisCourseId, pathObj, pathLookup)
-            if (pdfLink) {
-              return pdfLink
+            if (pathObj.fileType === "application/pdf") {
+              const pdfLink = makePdfLink(thisCourseId, pathObj, pathLookup)
+              if (pdfLink) {
+                return pdfLink
+              }
+            } else {
+              return stripS3(pathObj.fileLocation)
             }
           }
         }

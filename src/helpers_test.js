@@ -482,6 +482,19 @@ describe("resolveRelativeLinkMatches", () => {
     )
     assert.lengthOf(result, 0)
   })
+
+  it("handles relative links to static assets by adding an S3 link", () => {
+    const text = `<a href="/courses/aeronautics-and-astronautics/${testCourse}/labs/12.jpg">Table Organization</a></p> `
+    const result = helpers.resolveRelativeLinkMatches(
+      text,
+      singleCourseJsonData,
+      pathLookup
+    )
+    assert.equal(
+      result[0].replacement,
+      'href="https://open-learning-course-data-production.s3.amazonaws.com/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/365bce6e8357a07d939a271972558376_12.jpg"'
+    )
+  })
 })
 
 describe("resolveYouTubeEmbedMatches", () => {
