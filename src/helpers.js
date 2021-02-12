@@ -460,7 +460,6 @@ const resolveRelativeLinkMatches = (htmlStr, courseData, pathLookup) => {
       })
       .filter(Boolean)
   } catch (err) {
-    console.error(err)
     loggers.fileLogger.error(err)
   }
   return []
