@@ -394,10 +394,7 @@ const resolveRelativeLink = (url, courseData, pathLookup) => {
         // page has a file extension and isn't HTML
         const paths = pathLookup.byCourse[courseId] || []
         for (const pathObj of paths) {
-          if (
-            pathObj.type === FILE_TYPE &&
-            pathObj.fileLocation.includes(page)
-          ) {
+          if (pathObj.type === FILE_TYPE && page === pathObj.id) {
             if (pathObj.fileType === "application/pdf") {
               const pdfLink = makePdfLink(thisCourseId, pathObj, pathLookup)
               if (pdfLink) {

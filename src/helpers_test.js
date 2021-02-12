@@ -317,7 +317,11 @@ describe("resolveRelativeLinkMatches", () => {
     sandbox = sinon.createSandbox()
     pathLookup = await fileOperations.buildPathsForAllCourses(
       "test_data/courses",
-      [testCourse, "12-001-introduction-to-geology-fall-2013"]
+      [
+        testCourse,
+        "12-001-introduction-to-geology-fall-2013",
+        "16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"
+      ]
     )
   })
 
@@ -495,6 +499,29 @@ describe("resolveRelativeLinkMatches", () => {
       'href="https://open-learning-course-data-production.s3.amazonaws.com/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/365bce6e8357a07d939a271972558376_12.jpg"'
     )
   })
+
+  it("picks the correct PDF link", () => {
+    const courseId = "16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"
+    const parsedPath = path.join(
+      "test_data",
+      "courses",
+      courseId,
+      `${courseId}_parsed.json`
+    )
+    const courseData = JSON.parse(fs.readFileSync(parsedPath))
+
+    const text = `<a href="/courses/aeronautics-and-astronautics/${courseId}/comps-programming/m19.pdf">`
+    const result = helpers.resolveRelativeLinkMatches(
+      text,
+      courseData,
+      pathLookup
+    )
+    assert.equal(
+      result[0].replacement,
+      'href="BASEURL_SHORTCODE/sections/comps-programming/m19"'
+    )
+  })
+
 })
 
 describe("resolveYouTubeEmbedMatches", () => {
