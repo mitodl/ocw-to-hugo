@@ -501,7 +501,8 @@ describe("resolveRelativeLinkMatches", () => {
   })
 
   it("picks the correct PDF link", () => {
-    const courseId = "16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"
+    const courseId =
+      "16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"
     const parsedPath = path.join(
       "test_data",
       "courses",
@@ -521,7 +522,6 @@ describe("resolveRelativeLinkMatches", () => {
       'href="BASEURL_SHORTCODE/sections/comps-programming/m19"'
     )
   })
-
 })
 
 describe("resolveYouTubeEmbedMatches", () => {
