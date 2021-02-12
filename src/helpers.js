@@ -396,8 +396,20 @@ const resolveRelativeLink = (url, courseData, pathLookup) => {
         for (const pathObj of paths) {
           if (pathObj.type === FILE_TYPE && page === pathObj.id) {
             if (pathObj.fileType === "application/pdf") {
-              const pdfLink = makePdfLink(thisCourseId, pathObj, pathLookup)
-              if (pdfLink) {
+              const pdfLink = makePdfLink(
+                thisCourseId,
+                pathObj,
+                pathLookup,
+                sections
+              )
+              const parentPathSections = path
+                .dirname(pathObj.path)
+                .split("/")
+                .slice(2)
+              if (
+                pdfLink &&
+                parentPathSections.join("/") === sections.join("/")
+              ) {
                 return pdfLink
               }
             } else {

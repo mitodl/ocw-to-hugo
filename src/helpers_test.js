@@ -348,7 +348,7 @@ describe("resolveRelativeLinkMatches", () => {
   })
 
   it("resolves a link for a PDF in the same course", () => {
-    const text = `2010. (<a href="/courses/some-text-here/${testCourse}/readings/MIT2_00AJs09_lec02.pdf">PDF</a>`
+    const text = `2010. (<a href="/courses/some-text-here/${testCourse}/study-materials/MIT2_00AJs09_lec02.pdf">PDF</a>`
 
     const result = helpers.resolveRelativeLinkMatches(
       text,
@@ -363,7 +363,7 @@ describe("resolveRelativeLinkMatches", () => {
 
   it("resolves a link for a PDF in another course", () => {
     const text =
-      '2010. (<a href="/courses/some-text-here/12-001-introduction-to-geology-fall-2013/readings/MIT12_001F14_Field_Trip.pdf">PDF</a>'
+      '2010. (<a href="/courses/some-text-here/12-001-introduction-to-geology-fall-2013/field-trip/MIT12_001F14_Field_Trip.pdf">PDF</a>'
 
     const result = helpers.resolveRelativeLinkMatches(
       text,
@@ -520,6 +520,29 @@ describe("resolveRelativeLinkMatches", () => {
     assert.equal(
       result[0].replacement,
       'href="BASEURL_SHORTCODE/sections/comps-programming/m19"'
+    )
+  })
+
+  it("picks the correct PDF when there are two items with the same filename but with different parents", () => {
+    const courseId =
+      "16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"
+    const parsedPath = path.join(
+      "test_data",
+      "courses",
+      courseId,
+      `${courseId}_parsed.json`
+    )
+    const courseData = JSON.parse(fs.readFileSync(parsedPath))
+
+    const text = `<a href="/courses/aeronautics-and-astronautics/${courseId}/signals-systems/objectives.pdf">PDF</a>`
+    const result = helpers.resolveRelativeLinkMatches(
+      text,
+      courseData,
+      pathLookup
+    )
+    assert.equal(
+      result[0].replacement,
+      'href="BASEURL_SHORTCODE/sections/signals-systems/objectives"'
     )
   })
 })
