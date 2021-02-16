@@ -1,6 +1,16 @@
 Release Notes
 =============
 
+Version 1.11.0
+--------------
+
+- Fix external links (#191)
+- remove course home from left nav (#185)
+- Handle external course links (#187)
+- remove instructor insights pie charts (#184)
+- Update and fix link processing (#175)
+- Fix code coverage (#183)
+
 Version 1.10.0 (Released February 08, 2021)
 --------------
 
