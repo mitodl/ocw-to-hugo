@@ -7,6 +7,7 @@ tmp.setGracefulCleanup()
 
 const helpers = require("./helpers")
 const loggers = require("./loggers")
+const fileOperations = require("./file_operations")
 
 const testCourse =
   "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
@@ -137,21 +138,22 @@ describe("resolveUidMatches", () => {
         fieldTripPage,
         courseData,
         {
-          [uid1]:      [courseId, "/path/1/"],
-          [uid2]:      [courseId, "/path/2/"],
-          [uid3]:      [courseId, "/path/3/"],
-          [parentUid]: [courseId, "/path/parent"]
+          byUid: {
+            [uid1]:      { course: courseId, path: "/path/1/" },
+            [uid2]:      { course: courseId, path: "/path/2/" },
+            [uid3]:      { course: courseId, path: "/path/3/" },
+            [parentUid]: { course: courseId, path: "/path/parent" }
+          }
         }
       ),
       [
         {
           match:       [`./resolveuid/${uid1}`],
-          replacement:
-            "https://open-learning-course-data-production.s3.amazonaws.com/12-001-introduction-to-geology-fall-2013/97f28b51c2d76bbffa1213260d56c281_12.001_Field_TripStops2014.kml"
+          replacement: "BASEURL_SHORTCODE/path/1/"
         },
         {
           match:       [`./resolveuid/${uid2}`],
-          replacement: "BASEURL_SHORTCODE/path/parent/MIT12_001F14_Field_Trip"
+          replacement: "BASEURL_SHORTCODE/path/2/"
         },
         {
           match:       [`./resolveuid/${uid3}`],
@@ -174,11 +176,16 @@ describe("resolveUidMatches", () => {
       fieldTripPage,
       courseData,
       {
-        ef6931d2c8e6bc0b8e9a5572a78fe125: [
-          courseId,
-          "/sections/instructor-insights/planning-a-good-field-trip"
-        ],
-        de36fe69cf33ddf238bc3896d0ce9eff: [courseId, "/path/to/parent"]
+        byUid: {
+          ef6931d2c8e6bc0b8e9a5572a78fe125: {
+            course: courseId,
+            path:   "/sections/instructor-insights/planning-a-good-field-trip"
+          },
+          de36fe69cf33ddf238bc3896d0ce9eff: {
+            course: courseId,
+            path:   "/path/to/parent"
+          }
+        }
       }
     )
     const pageResult = result.find(item => item.match[0] === link)
@@ -189,25 +196,43 @@ describe("resolveUidMatches", () => {
     })
   })
 
-  it("resolves a uid for a file", () => {
+  it("resolves a uid for a PDF file", async () => {
     const link = "./resolveuid/f828208d0d04e1f39c1bb31d6fbe5f2d"
     assert.include(
       fieldTripPage["text"],
       `<a href="${link}">Field Trip Guide (PDF - 4.2MB)</a>`
     )
-    const courseId = courseData["short_url"]
     const result = helpers.resolveUidMatches(
       fieldTripPage["text"],
       fieldTripPage,
       courseData,
-      {
-        de36fe69cf33ddf238bc3896d0ce9eff: [courseId, "/parent/node"]
-      }
+      await fileOperations.buildPathsForAllCourses("test_data/courses", [
+        course
+      ])
     )
     const fileResult = result.find(item => item.match[0] === link)
     assert.deepEqual(fileResult, {
-      replacement: `BASEURL_SHORTCODE/parent/node/MIT12_001F14_Field_Trip`,
+      replacement: `BASEURL_SHORTCODE/sections/field-trip/MIT12_001F14_Field_Trip`,
       match:       [link]
+    })
+  })
+
+  it("resolves a uid for a non-pdf file", async () => {
+    const link = "./resolveuid/915b6ae8ee3ce0531360df600464d389"
+    const text = `<a href='${link}'>link</a>`
+    const result = helpers.resolveUidMatches(
+      text,
+      fieldTripPage,
+      courseData,
+      await fileOperations.buildPathsForAllCourses("test_data/courses", [
+        course
+      ])
+    )
+    const fileResult = result.find(item => item.match[0] === link)
+    assert.deepEqual(fileResult, {
+      replacement:
+        "https://open-learning-course-data-production.s3.amazonaws.com/12-001-introduction-to-geology-fall-2013/915b6ae8ee3ce0531360df600464d389_IMG_20141011_092912.jpg",
+      match: [link]
     })
   })
 
@@ -240,7 +265,9 @@ describe("resolveUidMatches", () => {
         syllabusPage,
         linkingCourseData,
         {
-          [uid]: [course, "/"]
+          byUid: {
+            [uid]: { course: course, path: "/" }
+          }
         }
       )
       assert.deepEqual(result, [
@@ -284,10 +311,18 @@ describe("resolveUidMatches", () => {
 })
 
 describe("resolveRelativeLinkMatches", () => {
-  let sandbox
+  let sandbox, pathLookup
 
-  beforeEach(() => {
+  beforeEach(async () => {
     sandbox = sinon.createSandbox()
+    pathLookup = await fileOperations.buildPathsForAllCourses(
+      "test_data/courses",
+      [
+        testCourse,
+        "12-001-introduction-to-geology-fall-2013",
+        "16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"
+      ]
+    )
   })
 
   afterEach(() => {
@@ -297,7 +332,8 @@ describe("resolveRelativeLinkMatches", () => {
   it("fixes all relative links on the page", () => {
     const result = helpers.resolveRelativeLinkMatches(
       assignmentsPage["text"],
-      singleCourseJsonData
+      singleCourseJsonData,
+      pathLookup
     )
     assert.lengthOf(result, 1)
     assert.equal(
@@ -311,6 +347,47 @@ describe("resolveRelativeLinkMatches", () => {
     )
   })
 
+  it("resolves a link for a PDF in the same course", () => {
+    const text = `2010. (<a href="/courses/some-text-here/${testCourse}/study-materials/MIT2_00AJs09_lec02.pdf">PDF</a>`
+
+    const result = helpers.resolveRelativeLinkMatches(
+      text,
+      singleCourseJsonData,
+      pathLookup
+    )
+    assert.equal(
+      result[0].replacement,
+      'href="BASEURL_SHORTCODE/sections/study-materials/MIT2_00AJs09_lec02"'
+    )
+  })
+
+  it("resolves a link for a PDF in another course", () => {
+    const text =
+      '2010. (<a href="/courses/some-text-here/12-001-introduction-to-geology-fall-2013/field-trip/MIT12_001F14_Field_Trip.pdf">PDF</a>'
+
+    const result = helpers.resolveRelativeLinkMatches(
+      text,
+      singleCourseJsonData,
+      pathLookup
+    )
+    assert.equal(
+      result[0].replacement,
+      'href="/courses/12-001-introduction-to-geology-fall-2013/sections/field-trip/MIT12_001F14_Field_Trip"'
+    )
+  })
+
+  it("doesn't resolve a link for a PDF in another course if that course is missing", () => {
+    const text =
+      '2010. (<a href="/courses/civil-and-environmental-engineering/1-011-project-evaluation-spring-2011/readings/MIT1_011S11_read16a.pdf">PDF</a>'
+
+    const result = helpers.resolveRelativeLinkMatches(
+      text,
+      singleCourseJsonData,
+      pathLookup
+    )
+    assert.lengthOf(result, 0)
+  })
+
   it("handles a missing media file location", () => {
     sandbox.stub(loggers.memoryTransport, "log").callsFake((...args) => {
       throw new Error(`Error caught: ${args}`)
@@ -319,7 +396,8 @@ describe("resolveRelativeLinkMatches", () => {
     delete singleCourseJsonData.course_files[0].file_location
     const result = helpers.resolveRelativeLinkMatches(
       text,
-      singleCourseJsonData
+      singleCourseJsonData,
+      pathLookup
     )
     assert.lengthOf(result, 1)
     assert.equal(
@@ -338,11 +416,133 @@ describe("resolveRelativeLinkMatches", () => {
       '<a href="/courses/aeronautics-and-astronautics/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/syllabus#Table_organization">Table Organization</a></p> '
     const result = helpers.resolveRelativeLinkMatches(
       text,
-      singleCourseJsonData
+      singleCourseJsonData,
+      pathLookup
     )
     assert.equal(
       result[0].replacement,
-      'href="BASEURL_SHORTCODE/sections/syllabus#Table_organization"'
+      'href="/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/sections/syllabus#Table_organization"'
+    )
+  })
+
+  //
+  ;[true, false].forEach(external => {
+    it(`resolves relative links for ${
+      external ? "external courses" : "the same course"
+    }`, () => {
+      const otherCourseId =
+        "16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"
+      const courseId = external ? otherCourseId : testCourse
+      const text = `<a href="/courses/aeronautics-and-astronautics/${courseId}/syllabus#Table_organization">Table Organization</a></p> `
+      const result = helpers.resolveRelativeLinkMatches(
+        text,
+        singleCourseJsonData,
+        pathLookup
+      )
+      assert.equal(
+        result[0].replacement,
+        external
+          ? `href="/courses/${otherCourseId}/sections/syllabus#Table_organization"`
+          : 'href="BASEURL_SHORTCODE/sections/syllabus#Table_organization"'
+      )
+    })
+  })
+
+  //
+  ;["index.htm", "index.html"].forEach(page => {
+    it(`treats links ending with ${page} like a course link`, () => {
+      const text = `<a href="/courses/aeronautics-and-astronautics/${testCourse}/${page}#Table_organization">Table Organization</a></p> `
+      const result = helpers.resolveRelativeLinkMatches(
+        text,
+        singleCourseJsonData,
+        pathLookup
+      )
+      assert.equal(
+        result[0].replacement,
+        'href="BASEURL_SHORTCODE/#Table_organization"'
+      )
+    })
+  })
+
+  it("handles links with multiple sections appropriately", () => {
+    const text = `<a href="/courses/aeronautics-and-astronautics/${testCourse}/a/b/c/d/e#Table_organization">Table Organization</a></p> `
+    const result = helpers.resolveRelativeLinkMatches(
+      text,
+      singleCourseJsonData,
+      pathLookup
+    )
+    assert.equal(
+      result[0].replacement,
+      'href="BASEURL_SHORTCODE/sections/a/b/c/d/e#Table_organization"'
+    )
+  })
+
+  it("handles non-course relative links by leaving them as is", () => {
+    const text = `<a href="/a/e/e#Table_organization">Table Organization</a></p> `
+    const result = helpers.resolveRelativeLinkMatches(
+      text,
+      singleCourseJsonData,
+      pathLookup
+    )
+    assert.lengthOf(result, 0)
+  })
+
+  it("handles relative links to static assets by adding an S3 link", () => {
+    const text = `<a href="/courses/aeronautics-and-astronautics/${testCourse}/labs/12.jpg">Table Organization</a></p> `
+    const result = helpers.resolveRelativeLinkMatches(
+      text,
+      singleCourseJsonData,
+      pathLookup
+    )
+    assert.equal(
+      result[0].replacement,
+      'href="https://open-learning-course-data-production.s3.amazonaws.com/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/365bce6e8357a07d939a271972558376_12.jpg"'
+    )
+  })
+
+  it("picks the correct PDF link", () => {
+    const courseId =
+      "16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"
+    const parsedPath = path.join(
+      "test_data",
+      "courses",
+      courseId,
+      `${courseId}_parsed.json`
+    )
+    const courseData = JSON.parse(fs.readFileSync(parsedPath))
+
+    const text = `<a href="/courses/aeronautics-and-astronautics/${courseId}/comps-programming/m19.pdf">`
+    const result = helpers.resolveRelativeLinkMatches(
+      text,
+      courseData,
+      pathLookup
+    )
+    assert.equal(
+      result[0].replacement,
+      'href="BASEURL_SHORTCODE/sections/comps-programming/m19"'
+    )
+  })
+
+  it("picks the correct PDF when there are two items with the same filename but with different parents", () => {
+    const courseId =
+      "16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"
+    const parsedPath = path.join(
+      "test_data",
+      "courses",
+      courseId,
+      `${courseId}_parsed.json`
+    )
+    const courseData = JSON.parse(fs.readFileSync(parsedPath))
+
+    const text = `<a href="/courses/aeronautics-and-astronautics/${courseId}/signals-systems/objectives.pdf">PDF</a>`
+    const result = helpers.resolveRelativeLinkMatches(
+      text,
+      courseData,
+      pathLookup
+    )
+    assert.equal(
+      result[0].replacement,
+      'href="BASEURL_SHORTCODE/sections/signals-systems/objectives"'
     )
   })
 })

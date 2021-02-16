@@ -41,5 +41,13 @@ module.exports = {
       hugoShortcode: "simplecast",
       getID:         url => url.pathname.replace("/", "")
     }
-  }
+  },
+
+  // These are internal values for keeping track of uids.
+  // None of these are used by the plone source data and none should be present in the output JSON.
+  EMBEDDED_MEDIA_PAGE_TYPE: "embedded-media-page-type",
+  COURSE_TYPE:              "course-type",
+  FILE_TYPE:                "file-type",
+  PAGE_TYPE:                "page-type",
+  INSTRUCTOR_TYPE:          "instructor-type"
 }

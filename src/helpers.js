@@ -7,6 +7,7 @@ const DEPARTMENTS_JSON = require("./departments.json")
 const {
   AWS_REGEX,
   BASEURL_SHORTCODE,
+  FILE_TYPE,
   INPUT_COURSE_DATE_FORMAT
 } = require("./constants")
 const loggers = require("./loggers")
@@ -115,6 +116,8 @@ const getPathFragments = url =>
 const updatePath = (url, pathPieces) => {
   const hasBaseUrl = pathPieces[0] && pathPieces[0] === BASEURL_SHORTCODE
   if (hasBaseUrl) {
+    // cut out the shortcode here and add it back in the end
+    // so we don't mangle it in the URL object
     pathPieces = pathPieces.slice(1)
   }
 
@@ -274,49 +277,42 @@ const applyReplacements = (matchAndReplacements, text) => {
   return text
 }
 
+const makePdfLink = (thisCourseId, pathObj, pathLookup) => {
+  const { parentUid, id } = pathObj
+  const parentTuple = pathLookup.byUid[parentUid]
+  if (parentTuple) {
+    const { course, path: parent } = parentTuple
+    const pdfPath = path.join(
+      makeCourseUrlPrefix(course, thisCourseId),
+      parent,
+      id
+    )
+    return stripPdfSuffix(pdfPath)
+  }
+  return null
+}
+
 const resolveUidForLink = (url, courseData, pathLookup) => {
   const courseId = courseData["short_url"]
   const [uid, ...urlParts] = getPathFragments(url).reverse()
-  // filter course_pages on the UID in the URL
-  const linkedPage = courseData["course_pages"].find(
-    coursePage => coursePage["uid"] === uid
-  )
-  // filter course_files on the UID in the URL
-  const linkedFile = courseData["course_files"].find(
-    file => file["uid"] === uid
-  )
-  if (linkedPage) {
-    // a page has been found for this UID
-    const pagePathTuple = pathLookup[uid]
-    if (pagePathTuple) {
-      const [course, pagePath] = pagePathTuple
-      return path.join(makeCourseUrlPrefix(course, courseId), pagePath)
-    }
-    return null
-  } else if (linkedFile) {
-    // a course_file has been found for this UID
-    const parentUid = linkedFile["parent_uid"]
 
-    if (linkedFile["file_type"] === "application/pdf") {
-      // create a link to the generated PDF viewer page for this PDF file
-      const parentTuple = pathLookup[parentUid]
-      if (parentTuple) {
-        const [course, parent] = parentTuple
-        const pdfPath = path.join(
-          makeCourseUrlPrefix(course, courseId),
-          parent,
-          linkedFile["id"]
-        )
-        return stripPdfSuffix(pdfPath)
+  if (pathLookup.byUid[uid]) {
+    const pathObj = pathLookup.byUid[uid]
+    const { course, path: itemPath, fileType, type, fileLocation } = pathObj
+
+    if (type === FILE_TYPE) {
+      if (fileType === "application/pdf") {
+        // create a link to the generated PDF viewer page for this PDF file
+        const pdfLink = makePdfLink(courseId, pathObj, pathLookup)
+        if (pdfLink) {
+          return pdfLink
+        }
+      } else {
+        // link directly to the static content
+        return stripS3(fileLocation)
       }
-    } else {
-      // link directly to the static content
-      return stripS3(linkedFile["file_location"])
     }
-  }
 
-  if (pathLookup[uid]) {
-    const [course, itemPath] = pathLookup[uid]
     return path.join(makeCourseUrlPrefix(course, courseId), itemPath)
   }
 
@@ -364,8 +360,9 @@ const resolveUidMatches = (htmlStr, page, courseData, pathLookup) => {
   return []
 }
 
-const resolveRelativeLink = (url, courseData) => {
+const resolveRelativeLink = (url, courseData, pathLookup) => {
   // ensure that this is not resolveuid or an external link
+  const thisCourseId = courseData["short_url"]
   if (!url.includes("resolveuid") && url[0] === "/") {
     // split the url into its parts
     const parts = getPathFragments(url)
@@ -379,49 +376,59 @@ const resolveRelativeLink = (url, courseData) => {
      * 2: course ID ("18-01-single-variable-calculus-fall-2006")
      * 3 - ?: section and subsections with the page / file at the end
      */
+    if (parts[0] !== "courses") {
+      return null
+    }
+
     const courseId = parts[2]
     if (courseId) {
-      const layers = parts.length - 3
-      let sections = []
-      let page = null
-      if (layers === 0) {
+      if (parts.length === 3) {
         // course home page link
-        page = "index.htm"
-      } else if (layers === 1) {
-        // root section link
-        page = parts[3]
-      } else {
-        // this is a link to something in a subsection, slice out the layers and page
-        sections = parts.slice(parts.length - layers, parts.length - 1)
-        page = parts.slice(parts.length - 1, parts.length)[0]
+        return updatePath(url, [makeCourseUrlPrefix(courseId, thisCourseId)])
       }
-      // build the base of the Hugo url
-      const basePieces = [BASEURL_SHORTCODE, "sections", ...sections]
-      if (page.includes(".") && !page.includes(".htm")) {
+      const sections = parts.slice(3, parts.length - 1)
+      const page = parts[parts.length - 1]
+
+      const extension = path.extname(page)
+      if (extension && !extension.startsWith(".htm")) {
         // page has a file extension and isn't HTML
-        for (const media of courseData["course_files"]) {
-          if (media["file_location"]) {
-            if (
-              media["file_type"] === "application/pdf" &&
-              media["file_location"].includes(page)
-            ) {
-              // construct url to Hugo PDF viewer page
-              return updatePath(url, [...basePieces, stripPdfSuffix(page)])
-            } else if (media["file_location"].includes(page)) {
-              // write link directly to file
-              return stripS3(media["file_location"])
+        const paths = pathLookup.byCourse[courseId] || []
+        for (const pathObj of paths) {
+          if (pathObj.type === FILE_TYPE && page === pathObj.id) {
+            if (pathObj.fileType === "application/pdf") {
+              const pdfLink = makePdfLink(
+                thisCourseId,
+                pathObj,
+                pathLookup,
+                sections
+              )
+              const parentPathSections = path
+                .dirname(pathObj.path)
+                .split("/")
+                .slice(2)
+              if (
+                pdfLink &&
+                parentPathSections.join("/") === sections.join("/")
+              ) {
+                return pdfLink
+              }
+            } else {
+              return stripS3(pathObj.fileLocation)
             }
           }
         }
       } else {
         // match page from url to the short_url property on a course page
-        for (const coursePage of courseData["course_pages"]) {
-          if (coursePage["short_url"].toLowerCase() === page.toLowerCase()) {
-            const pageName = page.replace(/(index)?\.html?/g, "")
-
-            return updatePath(url, [...basePieces, pageName])
-          }
+        const isIndex = page.startsWith("index.htm")
+        const paths = [...sections]
+        if (!isIndex) {
+          paths.push(page)
         }
+
+        return updatePath(url, [
+          makeCourseUrlPrefix(courseId, thisCourseId),
+          ...(paths.length ? ["sections", ...paths] : [])
+        ])
       }
     }
   }
@@ -432,13 +439,14 @@ const resolveRelativeLink = (url, courseData) => {
 /**
  * @param {string} htmlStr
  * @param {object} courseData
+ * @param {object} pathLookup
  *
  * The purpose of this function is to find relatively linked content
  * in a given HTML string and try to resolve that URL to the static content
  * or course section it is supposed to point to.
  *
  */
-const resolveRelativeLinkMatches = (htmlStr, courseData) => {
+const resolveRelativeLinkMatches = (htmlStr, courseData, pathLookup) => {
   try {
     // find and iterate all href tags
     const matches = Array.from(
@@ -448,7 +456,7 @@ const resolveRelativeLinkMatches = (htmlStr, courseData) => {
       .map(match => {
         const url = match.groups.url1 || match.groups.url2
 
-        const replacement = resolveRelativeLink(url, courseData)
+        const replacement = resolveRelativeLink(url, courseData, pathLookup)
         if (replacement !== null) {
           return { match, replacement: `href="${replacement}"` }
         }
