@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.11.0
+Version 1.11.0 (Released February 17, 2021)
 --------------
 
 - Fix external links (#191)
