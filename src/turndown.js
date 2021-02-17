@@ -281,16 +281,23 @@ turndownService.addRule("edu_grading", {
           !(
             child.nodeName === "DIV" &&
             child.childNodes[0].nodeName === "CANVAS"
-          ) &&
-          !(
-            child.nodeName === "DIV" &&
-            child.getAttribute("class") === "edu_breakdown_key"
           )
         ) {
           return true
         }
       })
-      .map(child => turndownService.turndown(child.outerHTML))
+      .map(child => {
+        if (
+          child.nodeName === "DIV" &&
+          child.getAttribute("class") === "edu_breakdown_key"
+        ) {
+          return `${Array.from(child.childNodes)
+            .map(keyItem => {
+              return `- ${keyItem.textContent.trim()}`
+            })
+            .join("\n")}\n`
+        } else return turndownService.turndown(child.outerHTML)
+      })
       .join("\n")
   }
 })
