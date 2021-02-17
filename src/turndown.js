@@ -313,6 +313,35 @@ turndownService.addRule("edu_hours_left", {
 })
 
 /**
+ * Remove semester breakdown chart
+ **/
+turndownService.addRule("edu_breakdown", {
+  filter: (node, options) => {
+    if (node.nodeName === "DIV") {
+      const children = Array.from(node.childNodes)
+      const header = children.find(child => child.nodeName === "H2")
+      const chart = children.find(
+        child =>
+          child.nodeName === "TABLE" &&
+          child.getAttribute("class") === "edu_breakdown"
+      )
+      const key = children.find(
+        child =>
+          child.nodeName === "DIV" &&
+          child.getAttribute("class") === "edu_breakdown_key"
+      )
+      if (header && chart && key) {
+        return true
+      }
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    return ""
+  }
+})
+
+/**
  * Render h4 tags as an h5 instead
  */
 turndownService.addRule("h4", {
