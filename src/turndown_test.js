@@ -166,4 +166,50 @@ describe("turndown", () => {
     const markdown = await html2markdown(inputHTML)
     assert.equal(markdown, "RIGHT TEXT")
   })
+
+  it("should remove the edu_breakdown section, its key and header", async () => {
+    const inputHTML = `<div class="onehalf no_title omega">
+      <h2 style="margin-top: -10px;" class="subhead">Semester Breakdown</h2>
+      <table class="edu_breakdown">
+        <thead>
+          <tr>
+            <th style="padding-bottom: 8px;" class="week_col" scope="col">WEEK</th>
+            <th style="padding-bottom: 8px;" class="day_col" scope="col">M</th>
+            <th style="padding-bottom: 8px;" class="day_col" scope="col">T</th>
+            <th style="padding-bottom: 8px;" class="day_col" scope="col">W</th>
+            <th style="padding-bottom: 8px;" class="day_col" scope="col">Th</th>
+            <th style="padding-bottom: 8px;" class="day_col" scope="col">F</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td><img alt="No classes throughout MIT." src="/images/educator/edu_b-noclass.png"></td>
+            <td><img alt="No session scheduled." src="/images/educator/edu_b-blank.png"></td>
+            <td><img alt="No session scheduled." src="/images/educator/edu_b-blank.png"></td>
+            <td><img alt="No session scheduled." src="/images/educator/edu_b-blank.png"></td>
+            <td><img alt="No session scheduled." src="/images/educator/edu_b-blank.png"></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="edu_breakdown_key">
+        <div style="float: left;">
+          <div><img
+              alt="Displays the color and pattern used on the preceding table to indicate dates when classes are not held at MIT."
+              src="/images/educator/edu_b-noclass-key.png"> No classes throughout MIT</div>
+          <div><img alt="Displays the color used on the preceding table to indicate dates when class meetings are held."
+              src="/images/educator/edu_b-lecture-key.png"> Class meeting</div>
+        </div>
+        <div style="float: right;">
+          <div><img
+              alt="Displays the color used on the preceding table to indicate dates when no class session is scheduled."
+              src="/images/educator/edu_b-blank-key.png"> No class session scheduled</div>
+          <div><img alt="Displays the symbol used on the preceding table to indicate project presentations are held."
+              src="/images/educator/edu_b-preslab-key.png"> Project presentations</div>
+        </div>
+      </div>
+    </div>`
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(markdown, "")
+  })
 })
