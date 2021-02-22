@@ -144,7 +144,7 @@ const scanCourses = async (inputPath, outputPath) => {
 
   console.log(`Generating paths for ${numCourses} courses...`)
   const pathLookup = await buildPathsForAllCourses(inputPath, courseList)
-  console.log(`Generated ${Object.values(pathLookup).length} paths.`)
+  console.log(`Generated ${Object.values(pathLookup.byUid).length} paths.`)
 
   console.log(`Converting ${numCourses} courses to Hugo markdown...`)
   progressBar.start(numCourses, 0)
