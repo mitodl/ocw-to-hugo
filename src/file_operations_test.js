@@ -92,7 +92,8 @@ describe("file operations", () => {
     const sandbox = sinon.createSandbox()
     const inputPath = "test_data/courses"
     const outputPath = tmp.dirSync({ prefix: "output" }).name
-    const logMessage = "Converting 7 courses to Hugo markdown..."
+    const courseLogMessage = "Converting 7 courses to Hugo markdown..."
+    const pathsLogMessage = "Generated 1612 paths."
     const course1Name =
       "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
     const course1Path = path.join(inputPath, course1Name)
@@ -186,7 +187,12 @@ describe("file operations", () => {
 
     it("scans the four test courses and reports to console", async () => {
       await fileOperations.scanCourses(inputPath, outputPath)
-      expect(consoleLog).calledWithExactly(logMessage)
+      expect(consoleLog).calledWithExactly(courseLogMessage)
+    }).timeout(5000)
+
+    it("reports the correct amount of paths found to the console", async () => {
+      await fileOperations.scanCourses(inputPath, outputPath)
+      expect(consoleLog).calledWithExactly(pathsLogMessage)
     }).timeout(5000)
 
     it("calls lstat for each test course", async () => {
