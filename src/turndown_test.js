@@ -120,7 +120,12 @@ describe("turndown", () => {
           </script>
         </div>
         <div class="edu_breakdown_key" style="float: right; width: 185px; margin-top: -180px;">
-          LEGEND
+          <div><img src="/images/educator/edu_b-lab-key.png">
+            Item 1</div>
+          <div><img src="/images/educator/edu_b-lecture-key.png">
+            Item 2</div>
+          <div><img src="/images/educator/edu_b-present-key.png">
+            Item 3</div>
         </div>
         <h3 class="subsubhead">SUB HEADER TEXT</h3>
         <p>INSIDE DIV TEXT</p>
@@ -131,7 +136,7 @@ describe("turndown", () => {
     const markdown = await html2markdown(inputHTML)
     assert.equal(
       markdown,
-      "TOP TEXT\n\n### SUB HEADER TEXT\nINSIDE DIV TEXT\n\nOUTSIDE DIV TEXT"
+      "TOP TEXT\n\n- Item 1\n- Item 2\n- Item 3\n\n### SUB HEADER TEXT\nINSIDE DIV TEXT\n\nOUTSIDE DIV TEXT"
     )
   })
 
