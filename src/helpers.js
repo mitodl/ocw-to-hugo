@@ -285,7 +285,7 @@ const makePdfLink = (thisCourseId, pathObj, pathLookup) => {
     const pdfPath = path.join(
       makeCourseUrlPrefix(course, thisCourseId),
       parent,
-      id
+      id.toLowerCase()
     )
     return stripPdfSuffix(pdfPath)
   }

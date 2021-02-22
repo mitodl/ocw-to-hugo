@@ -212,7 +212,7 @@ describe("resolveUidMatches", () => {
     )
     const fileResult = result.find(item => item.match[0] === link)
     assert.deepEqual(fileResult, {
-      replacement: `BASEURL_SHORTCODE/sections/field-trip/MIT12_001F14_Field_Trip`,
+      replacement: `BASEURL_SHORTCODE/sections/field-trip/mit12_001f14_field_trip`,
       match:       [link]
     })
   })
@@ -357,7 +357,7 @@ describe("resolveRelativeLinkMatches", () => {
     )
     assert.equal(
       result[0].replacement,
-      'href="BASEURL_SHORTCODE/sections/study-materials/MIT2_00AJs09_lec02"'
+      'href="BASEURL_SHORTCODE/sections/study-materials/mit2_00ajs09_lec02"'
     )
   })
 
@@ -372,13 +372,13 @@ describe("resolveRelativeLinkMatches", () => {
     )
     assert.equal(
       result[0].replacement,
-      'href="/courses/12-001-introduction-to-geology-fall-2013/sections/field-trip/MIT12_001F14_Field_Trip"'
+      'href="/courses/12-001-introduction-to-geology-fall-2013/sections/field-trip/mit12_001f14_field_trip"'
     )
   })
 
   it("doesn't resolve a link for a PDF in another course if that course is missing", () => {
     const text =
-      '2010. (<a href="/courses/civil-and-environmental-engineering/1-011-project-evaluation-spring-2011/readings/MIT1_011S11_read16a.pdf">PDF</a>'
+      '2010. (<a href="/courses/civil-and-environmental-engineering/1-011-project-evaluation-spring-2011/readings/mit1_011s11_read16a.pdf">PDF</a>'
 
     const result = helpers.resolveRelativeLinkMatches(
       text,
