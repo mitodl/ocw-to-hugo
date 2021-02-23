@@ -17,6 +17,8 @@ const singleCourseId =
   "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
 const imageGalleryCourseId = "12-001-introduction-to-geology-fall-2013"
 const videoGalleryCourseId = "ec-711-d-lab-energy-spring-2011"
+const courseHomePdfCourseId =
+  "8-02-physics-ii-electricity-and-magnetism-spring-2007"
 const singleCourseParsedJsonPath = path.join(
   testDataPath,
   singleCourseId,
@@ -33,6 +35,11 @@ const videoGalleryCourseParsedJsonPath = path.join(
   videoGalleryCourseId,
   `${videoGalleryCourseId}_parsed.json`
 )
+const courseHomePdfCourseParsedJsonPath = path.join(
+  testDataPath,
+  courseHomePdfCourseId,
+  `${courseHomePdfCourseId}_parsed.json`
+)
 
 describe("markdown generators", () => {
   let singleCourseRawData,
@@ -41,6 +48,8 @@ describe("markdown generators", () => {
     imageGalleryCourseJsonData,
     videoGalleryCourseRawData,
     videoGalleryCourseJsonData,
+    courseHomePdfCourseRawData,
+    courseHomePdfCourseJsonData,
     coursePagesWithText,
     imageGalleryPages,
     imageGalleryImages,
@@ -62,6 +71,11 @@ describe("markdown generators", () => {
     )
     videoGalleryCourseJsonData = JSON.parse(videoGalleryCourseRawData)
 
+    courseHomePdfCourseRawData = fs.readFileSync(
+      courseHomePdfCourseParsedJsonPath
+    )
+    courseHomePdfCourseJsonData = JSON.parse(courseHomePdfCourseRawData)
+
     coursePagesWithText = singleCourseJsonData["course_pages"].filter(
       page => page["text"]
     )
@@ -79,7 +93,12 @@ describe("markdown generators", () => {
 
     pathLookup = await fileOperations.buildPathsForAllCourses(
       "test_data/courses",
-      [singleCourseId, videoGalleryCourseId, imageGalleryCourseId]
+      [
+        singleCourseId,
+        videoGalleryCourseId,
+        imageGalleryCourseId,
+        courseHomePdfCourseId
+      ]
     )
     courseImageFeaturesFrontMatter = markdownGenerators.generateCourseFeaturesMarkdown(
       imageGalleryPages[0],
@@ -337,6 +356,42 @@ describe("markdown generators", () => {
         ...singleCourseJsonData,
         instructors: ""
       })
+    })
+  })
+
+  describe("generateCourseHomePdfMarkdown", () => {
+    let fileName, courseHomePdfMarkdown
+
+    const expectedObject = {
+      title:       "acknowledgements.pdf",
+      description:
+        "This resource contains acknowledgements to the persons who helped build this course.",
+      type:          "course",
+      layout:        "pdf",
+      uid:           "d7d1fabcb57a6d4a9cc96f04348dedfd",
+      file_type:     "application/pdf",
+      file_location:
+        "https://open-learning-course-data-production.s3.amazonaws.com/8-02-physics-ii-electricity-and-magnetism-spring-2007/d7d1fabcb57a6d4a9cc96f04348dedfd_acknowledgements.pdf",
+      course_id: "8-02-physics-ii-electricity-and-magnetism-spring-2007"
+    }
+
+    beforeEach(() => {
+      const pdfMarkdownFile = markdownGenerators.generateCourseHomePdfMarkdown(
+        courseHomePdfCourseJsonData,
+        pathLookup
+      )[0]
+      fileName = pdfMarkdownFile["name"]
+      courseHomePdfMarkdown = yaml.safeLoad(
+        pdfMarkdownFile["data"].replace(/---\n/g, "")
+      )
+    })
+
+    it("creates an acknowledgements.md file", () => {
+      assert.equal(fileName, "/acknowledgements.md")
+    })
+
+    it("the various properties of the front matter are what they're expected to be", () => {
+      assert.deepEqual(courseHomePdfMarkdown, expectedObject)
     })
   })
 
