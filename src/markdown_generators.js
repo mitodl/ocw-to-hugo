@@ -1,15 +1,7 @@
 const path = require("path")
 const yaml = require("js-yaml")
-const markdown = require("markdown-doc-builder").default
-const TurndownService = require("turndown")
-const turndownPluginGfm = require("turndown-plugin-gfm")
 const stripHtml = require("string-strip-html")
 
-const {
-  REPLACETHISWITHAPIPE,
-  AWS_REGEX,
-  SUPPORTED_IFRAME_EMBEDS
-} = require("./constants")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
 const { html2markdown } = require("./turndown")
@@ -44,8 +36,9 @@ const generateMarkdownFromJson = (courseData, pathLookup) => {
 
   return [
     {
-      name: "_index.md",
-      data: generateCourseHomeMarkdown(courseData, pathLookup)
+      name:  "_index.md",
+      data:  generateCourseHomeMarkdown(courseData, pathLookup),
+      files: generateCourseHomePdfMarkdown(courseData, pathLookup)
     },
     ...rootSections.map(
       page => generateMarkdownRecursive(page, courseData, pathLookup),
@@ -203,6 +196,26 @@ const generateCourseHomeMarkdown = (courseData, pathLookup) => {
     loggers.fileLogger.error(err)
     return null
   }
+}
+
+const generateCourseHomePdfMarkdown = (courseData, pathLookup) => {
+  /**
+   * Generate markdown files representing PDF viewer pages for PDF's mentioned on the course home page
+   */
+
+  return courseData["course_files"]
+    .filter(
+      file =>
+        file["file_type"] === "application/pdf" &&
+        file["parent_uid"] === courseData["uid"]
+    )
+    .map(file => {
+      const { path: parentPath } = pathLookup.byUid[file["parent_uid"]]
+      return {
+        name: `${path.join(parentPath, helpers.stripPdfSuffix(file["id"]))}.md`,
+        data: generatePdfMarkdown(file, courseData)
+      }
+    })
 }
 
 const generateCourseSectionFrontMatter = (
@@ -388,6 +401,7 @@ const generateCourseFeaturesMarkdown = (page, courseData, pathLookup) => {
 module.exports = {
   generateMarkdownFromJson,
   generateCourseHomeMarkdown,
+  generateCourseHomePdfMarkdown,
   generateCourseSectionFrontMatter,
   generateCourseSectionMarkdown,
   generateCourseFeaturesMarkdown,
