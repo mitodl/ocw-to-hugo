@@ -216,7 +216,6 @@ const generateCourseHomePdfMarkdown = (courseData, pathLookup) => {
         data: generatePdfMarkdown(file, courseData)
       }
     })
-    .filter(Boolean)
 }
 
 const generateCourseSectionFrontMatter = (
