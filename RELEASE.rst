@@ -1,6 +1,14 @@
 Release Notes
 =============
 
+Version 1.12.0 (Released February 25, 2021)
+--------------
+
+- fix path generation log message (#203)
+- add turndown rule to match and remove semester breakdown chart, header and key (#200)
+- lowercase pdf name in links (#201)
+- modify pie chart turndown rule to include the text content of the key inside edu_breakdown_key (#199)
+
 Version 1.11.0 (Released February 17, 2021)
 --------------
 
