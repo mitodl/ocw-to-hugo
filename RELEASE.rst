@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.12.0
+Version 1.12.0 (Released February 25, 2021)
 --------------
 
 - fix path generation log message (#203)
