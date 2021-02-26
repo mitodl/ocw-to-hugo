@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.12.1
+--------------
+
+- create pdf viewer pages for course home page pdfs (#205)
+
 Version 1.12.0 (Released February 25, 2021)
 --------------
 
