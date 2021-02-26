@@ -357,10 +357,10 @@ turndownService.addRule("approx_img", {
     return false
   },
   replacement: (content, node, options) => {
-    const matches =
-      node.getAttribute("src").match(/(\/|_)[0-9]+-approx.png/g) || []
-    if (matches.length > 0) {
-      const amount = matches[0].substring(1).replace("-approx.png", "")
+    const match =
+      node.getAttribute("src").match(/(\/|_)(?<amount>[0-9]+)-approx.png/) || []
+    if (match) {
+      const amount = match.groups.amount
       return `{{< approx-students ${amount} >}}`
     }
   }
