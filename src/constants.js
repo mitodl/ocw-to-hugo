@@ -1,6 +1,7 @@
 module.exports = {
-  REPLACETHISWITHAPIPE:       "REPLACETHISWITHAPIPE",
-  BASEURL_SHORTCODE:          "BASEURL_SHORTCODE",
+  REPLACETHISWITHAPIPE:                "REPLACETHISWITHAPIPE",
+  BASEURL_SHORTCODE:                   "BASEURL_SHORTCODE",
+  YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS: "youtube-placeholder",
   MISSING_JSON_ERROR_MESSAGE:
     "To download courses from AWS, you must specify the -c argument.  For more information, see README.md",
   MISSING_COURSE_ERROR_MESSAGE:

@@ -8,7 +8,8 @@ const {
   AWS_REGEX,
   BASEURL_SHORTCODE,
   FILE_TYPE,
-  INPUT_COURSE_DATE_FORMAT
+  INPUT_COURSE_DATE_FORMAT,
+  YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS
 } = require("./constants")
 const loggers = require("./loggers")
 const runOptions = {}
@@ -194,7 +195,10 @@ const getYoutubeEmbedCode = media => {
     return embeddedMedia["id"] === "Video-YouTube-Stream"
   })
   return youTubeMedia
-    .map(embeddedMedia => `{{< youtube ${embeddedMedia["media_location"]} >}}`)
+    .map(
+      embeddedMedia =>
+        `<div class="${YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS}">${embeddedMedia["media_location"]}</div>`
+    )
     .join("")
 }
 
@@ -502,6 +506,8 @@ const escapeDoubleQuotes = text => text.replace(/"/g, "&quot;")
 
 const unescapeBackticks = text => text.replace(/\\`/g, "&grave;")
 
+const unescapeUnderscores = text => text.replace(/\\_/g, "_")
+
 const isCoursePublished = courseData => {
   const lastPublishedToProduction = moment(
     courseData["last_published_to_production"],
@@ -558,6 +564,7 @@ module.exports = {
   stripS3,
   escapeDoubleQuotes,
   unescapeBackticks,
+  unescapeUnderscores,
   isCoursePublished,
   runOptions,
   stripPdfSuffix,

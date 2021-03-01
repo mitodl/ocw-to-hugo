@@ -1,15 +1,6 @@
-const { assert, expect } = require("chai").use(require("sinon-chai"))
+const { assert } = require("chai").use(require("sinon-chai"))
 const { html2markdown } = require("./turndown")
-const {
-  REPLACETHISWITHAPIPE,
-  AWS_REGEX,
-  INPUT_COURSE_DATE_FORMAT,
-  SUPPORTED_IFRAME_EMBEDS
-} = require("./constants")
-const markdownGenerators = require("./markdown_generators")
-
-const singleCourseId =
-  "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
+const { YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS } = require("./constants")
 
 describe("turndown", () => {
   describe("tables", () => {
@@ -211,5 +202,12 @@ describe("turndown", () => {
     </div>`
     const markdown = await html2markdown(inputHTML)
     assert.equal(markdown, "")
+  })
+
+  it("should properly create youtube shortcodes from placeholder divs", async () => {
+    const testId = "F3N5EkMX_ks"
+    const inputHTML = `<div class="${YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS}">${testId}</div>`
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(markdown, `{{< youtube ${testId} >}}`)
   })
 })
