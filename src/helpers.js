@@ -506,8 +506,6 @@ const escapeDoubleQuotes = text => text.replace(/"/g, "&quot;")
 
 const unescapeBackticks = text => text.replace(/\\`/g, "&grave;")
 
-const unescapeUnderscores = text => text.replace(/\\_/g, "_")
-
 const isCoursePublished = courseData => {
   const lastPublishedToProduction = moment(
     courseData["last_published_to_production"],
@@ -564,7 +562,6 @@ module.exports = {
   stripS3,
   escapeDoubleQuotes,
   unescapeBackticks,
-  unescapeUnderscores,
   isCoursePublished,
   runOptions,
   stripPdfSuffix,
