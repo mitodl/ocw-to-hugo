@@ -356,14 +356,10 @@ turndownService.addRule("h4", {
 turndownService.addRule("youtube_shortcodes", {
   filter: (node, options) => {
     const nodeClass = node.getAttribute("class")
-    if (
+    return (
       node.nodeName === "DIV" &&
-      nodeClass &&
-      nodeClass.includes(YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS)
-    ) {
-      return true
-    }
-    return false
+      nodeClass === YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS
+    )
   },
   replacement: (content, node, options) => {
     const mediaLocation = node.textContent
