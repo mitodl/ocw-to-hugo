@@ -571,7 +571,7 @@ describe("resolveYouTubeEmbedMatches", () => {
     match.index = 10
     assert.deepEqual(results, [
       {
-        replacement: "{{< youtube LnSvSfXUmVs >}}",
+        replacement: '<div class="youtube-placeholder">LnSvSfXUmVs</div>',
         match
       }
     ])

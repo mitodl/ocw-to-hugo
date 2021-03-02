@@ -1,18 +1,13 @@
-const path = require("path")
-const yaml = require("js-yaml")
-const markdown = require("markdown-doc-builder").default
 const TurndownService = require("turndown")
 const turndownPluginGfm = require("turndown-plugin-gfm")
-const moment = require("moment")
-const stripHtml = require("string-strip-html")
 const { gfm, tables } = turndownPluginGfm
 
 const {
   REPLACETHISWITHAPIPE,
   AWS_REGEX,
   BASEURL_SHORTCODE,
-  INPUT_COURSE_DATE_FORMAT,
-  SUPPORTED_IFRAME_EMBEDS
+  SUPPORTED_IFRAME_EMBEDS,
+  YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS
 } = require("./constants")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
@@ -355,6 +350,20 @@ turndownService.addRule("h4", {
   filter:      ["h4"],
   replacement: (content, node, options) => {
     return `##### ${content}`
+  }
+})
+
+turndownService.addRule("youtube_shortcodes", {
+  filter: (node, options) => {
+    const nodeClass = node.getAttribute("class")
+    return (
+      node.nodeName === "DIV" &&
+      nodeClass === YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS
+    )
+  },
+  replacement: (content, node, options) => {
+    const mediaLocation = node.textContent
+    return `{{< youtube ${mediaLocation} >}}`
   }
 })
 
