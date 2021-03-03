@@ -54,7 +54,8 @@ const generateMarkdownRecursive = (page, courseData, pathLookup) => {
   const pdfFiles = courseData["course_files"].filter(
     file =>
       file["file_type"] === "application/pdf" &&
-      file["parent_uid"] === page["uid"]
+      file["parent_uid"] === page["uid"] &&
+      file["file_location"]
   )
   const coursePageEmbeddedMedia = Object.values(
     courseData["course_embedded_media"]
@@ -301,7 +302,6 @@ const generatePdfMarkdown = (file, courseData) => {
   /**
   Generate the front matter metadata for a PDF file
   */
-  console.log(`generating pdf markdown for ${courseData["short_url"]} - ${file["title"]}`)
   const pdfFrontMatter = {
     title:         file["title"],
     description:   file["description"],
