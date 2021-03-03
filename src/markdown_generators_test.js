@@ -391,12 +391,17 @@ describe("markdown generators", () => {
     })
 
     it("skips files with no file_location set", () => {
-      const copiedJsonData = JSON.parse(JSON.stringify(courseHomePdfCourseJsonData))
+      const copiedJsonData = JSON.parse(
+        JSON.stringify(courseHomePdfCourseJsonData)
+      )
       copiedJsonData["course_files"].map(file => {
         file["file_location"] = undefined
         return file
       })
-      const pdfMarkdownFiles = markdownGenerators.generateCourseHomePdfMarkdown(copiedJsonData, pathLookup)
+      const pdfMarkdownFiles = markdownGenerators.generateCourseHomePdfMarkdown(
+        copiedJsonData,
+        pathLookup
+      )
       assert.equal(pdfMarkdownFiles.length, 0)
     })
 
