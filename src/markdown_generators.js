@@ -207,7 +207,8 @@ const generateCourseHomePdfMarkdown = (courseData, pathLookup) => {
     .filter(
       file =>
         file["file_type"] === "application/pdf" &&
-        file["parent_uid"] === courseData["uid"]
+        file["parent_uid"] === courseData["uid"] &&
+        file["file_location"]
     )
     .map(file => {
       const { path: parentPath } = pathLookup.byUid[file["parent_uid"]]
@@ -300,6 +301,7 @@ const generatePdfMarkdown = (file, courseData) => {
   /**
   Generate the front matter metadata for a PDF file
   */
+  console.log(`generating pdf markdown for ${courseData["short_url"]} - ${file["title"]}`)
   const pdfFrontMatter = {
     title:         file["title"],
     description:   file["description"],
