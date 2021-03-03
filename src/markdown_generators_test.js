@@ -390,6 +390,16 @@ describe("markdown generators", () => {
       assert.equal(fileName, "/acknowledgements.md")
     })
 
+    it("skips files with no file_location set", () => {
+      const copiedJsonData = JSON.parse(JSON.stringify(courseHomePdfCourseJsonData))
+      copiedJsonData["course_files"].map(file => {
+        file["file_location"] = undefined
+        return file
+      })
+      const pdfMarkdownFiles = markdownGenerators.generateCourseHomePdfMarkdown(copiedJsonData, pathLookup)
+      assert.equal(pdfMarkdownFiles.length, 0)
+    })
+
     it("the various properties of the front matter are what they're expected to be", () => {
       assert.deepEqual(courseHomePdfMarkdown, expectedObject)
     })
