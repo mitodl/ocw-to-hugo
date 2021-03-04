@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.12.1
+Version 1.12.1 (Released March 04, 2021)
 --------------
 
 - youtube shortcode refactor (#211)
