@@ -210,4 +210,16 @@ describe("turndown", () => {
     const markdown = await html2markdown(inputHTML)
     assert.equal(markdown, `{{< youtube ${testId} >}}`)
   })
+
+  it(`replaces "approximate students" images with a shortcode`, async () => {
+    const inputHTML = `<img src="/courses/electrical-engineering-and-computer-science/6-034-artificial-intelligence-fall-2010/instructor-insights/300-approx.png" alt="300-approx.png" width="105" height="105">`
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(markdown, "{{< approx-students 300 >}}")
+  })
+
+  it(`replaces "approximate students" images prefixed with a UID with a shortcode`, async () => {
+    const inputHTML = `<img src="https://open-learning-course-data-production.s3.amazonaws.com/6-034-artificial-intelligence-fall-2010/bb94a5ee3b0f0351808e14b34829d67a_300-approx.png" width="105" height="105">`
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(markdown, "{{< approx-students 300 >}}")
+  })
 })

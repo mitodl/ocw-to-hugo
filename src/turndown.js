@@ -344,6 +344,29 @@ turndownService.addRule("edu_breakdown", {
 })
 
 /**
+ * Catch "approx" images and render as HTML instead
+ */
+turndownService.addRule("approx_img", {
+  filter: (node, options) => {
+    if (
+      node.nodeName === "IMG" &&
+      node.getAttribute("src").includes("-approx.png")
+    ) {
+      return true
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    const match =
+      node.getAttribute("src").match(/(\/|_)(?<amount>[0-9]+)-approx.png/) || []
+    if (match) {
+      const amount = match.groups.amount
+      return `{{< approx-students ${amount} >}}`
+    }
+  }
+})
+
+/**
  * Render h4 tags as an h5 instead
  */
 turndownService.addRule("h4", {
