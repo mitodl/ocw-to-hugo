@@ -142,9 +142,8 @@ const scanCourse = async (inputPath, outputPath, course, pathLookup) => {
   /*
     This function scans a course directory for a master json file and processes it
   */
-  const markdownPath = path.join(outputPath, "content", "courses")
-  const courseMarkdownPath = path.join(inputPath, course)
-  const masterJsonFile = await getMasterJsonFileName(courseMarkdownPath)
+  const courseInputPath = path.join(inputPath, course)
+  const masterJsonFile = await getMasterJsonFileName(courseInputPath)
   if (masterJsonFile) {
     const courseData = JSON.parse(await fsPromises.readFile(masterJsonFile))
     if (helpers.isCoursePublished(courseData)) {
@@ -156,11 +155,11 @@ const scanCourse = async (inputPath, outputPath, course, pathLookup) => {
         courseData
       )
       await writeMarkdownFilesRecursive(
-        path.join(markdownPath, courseData["short_url"]),
+        path.join(outputPath, courseData["short_url"], "content"),
         markdownData
       )
       await writeDataTemplate(
-        path.join(outputPath, "data", "courses"),
+        path.join(outputPath, courseData["short_url"], "data"),
         dataTemplate
       )
     }
@@ -208,7 +207,7 @@ const writeMarkdownFilesRecursive = async (outputPath, markdownData) => {
 
 const writeDataTemplate = async (outputPath, dataTemplate) => {
   await helpers.createOrOverwriteFile(
-    path.join(outputPath, `${dataTemplate["course_id"]}.json`),
+    path.join(outputPath, "course.json"),
     JSON.stringify(dataTemplate)
   )
 }
