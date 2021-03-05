@@ -11,31 +11,6 @@ module.exports = {
   AWS_REGEX: new RegExp(
     /https?:\/\/open-learning-course-data(.*)\.s3\.amazonaws.com/g
   ),
-  BOILERPLATE_MARKDOWN: [
-    {
-      path:    "content",
-      name:    "_index.md",
-      content: {
-        title: ""
-      }
-    },
-    {
-      path:    "content/search",
-      name:    "_index.md",
-      content: {
-        title: "Search",
-        type:  "search"
-      }
-    },
-    {
-      path:    "content/courses",
-      name:    "_index.md",
-      content: {
-        title: "Courses",
-        type:  "courseindex"
-      }
-    }
-  ],
   INPUT_COURSE_DATE_FORMAT: "YYYY/M/D H:m:s.SSS",
   SUPPORTED_IFRAME_EMBEDS:  {
     "player.simplecast.com": {

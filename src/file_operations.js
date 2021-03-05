@@ -8,7 +8,6 @@ const cliProgress = require("cli-progress")
 const {
   MISSING_COURSE_ERROR_MESSAGE,
   NO_COURSES_FOUND_MESSAGE,
-  BOILERPLATE_MARKDOWN,
   COURSE_TYPE,
   EMBEDDED_MEDIA_PAGE_TYPE,
   FILE_TYPE,
@@ -23,21 +22,6 @@ const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
   cliProgress.Presets.shades_classic
 )
-
-const writeBoilerplate = async (outputPath, remove) => {
-  if (remove) {
-    console.log(`Removing the contents of ${outputPath}...`)
-    await fsPromises.rmdir(outputPath, { recursive: true })
-  }
-  for (const file of BOILERPLATE_MARKDOWN) {
-    if (!(await directoryExists(file.path))) {
-      const filePath = path.join(outputPath, file.path)
-      const content = `---\n${yaml.safeDump(file.content)}---\n`
-      await fsPromises.mkdir(filePath, { recursive: true })
-      await fsPromises.writeFile(path.join(filePath, file.name), content)
-    }
-  }
-}
 
 const makeUidInfo = courseData => {
   // extract some pieces of information to populate a lookup object for use with resolveUid
@@ -239,7 +223,6 @@ const writeSectionFiles = async (key, section, outputPath) => {
 }
 
 module.exports = {
-  writeBoilerplate,
   scanCourses,
   scanCourse,
   getMasterJsonFileName,

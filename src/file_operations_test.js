@@ -4,23 +4,18 @@ const sinon = require("sinon")
 const { assert, expect } = require("chai").use(require("sinon-chai"))
 const tmp = require("tmp")
 const rimraf = require("rimraf")
-const yaml = require("js-yaml")
 
 const {
   FILE_TYPE,
   NO_COURSES_FOUND_MESSAGE,
-  BOILERPLATE_MARKDOWN,
   PAGE_TYPE,
   COURSE_TYPE,
-  EMBEDDED_MEDIA_PAGE_TYPE,
-  EMBEDDED_MEDIA_TYPE,
-  INSTRUCTOR_TYPE
+  EMBEDDED_MEDIA_PAGE_TYPE
 } = require("./constants")
 const helpers = require("./helpers")
 const fileOperations = require("./file_operations")
 const markdownGenerators = require("./markdown_generators")
 const dataTemplateGenerators = require("./data_template_generators")
-const { fileExists } = require("./helpers")
 
 describe("file operations", () => {
   const testDataPath = "test_data/courses"
@@ -48,43 +43,6 @@ describe("file operations", () => {
       singleCourseJsonData,
       pathLookup
     )
-  })
-
-  describe("writeBoilerplate", () => {
-    const sandbox = sinon.createSandbox()
-    let consoleLog
-
-    beforeEach(() => {
-      consoleLog = sandbox.stub(console, "log")
-    })
-
-    afterEach(() => {
-      sandbox.restore()
-    })
-
-    it("writes the files as expected", async () => {
-      const outputPath = tmp.dirSync({ prefix: "output" }).name
-      await fileOperations.writeBoilerplate(outputPath, false)
-      for (const file of BOILERPLATE_MARKDOWN) {
-        const expectedContent = `---\n${yaml.safeDump(file.content)}---\n`
-        const tmpFileContents = await fsPromises.readFile(
-          path.join(outputPath, file.path, file.name)
-        )
-        assert.equal(tmpFileContents, expectedContent)
-      }
-    })
-
-    it("clears the destination directory if the argument is passed to do so", async () => {
-      const outputPath = tmp.dirSync({ prefix: "output" }).name
-      const testFilePath = path.join(outputPath, "test.txt")
-      await helpers.createOrOverwriteFile(
-        testFilePath,
-        "this file should be removed"
-      )
-      await fileOperations.writeBoilerplate(outputPath, true)
-      const testFileExists = await fileExists(testFilePath)
-      assert.isFalse(testFileExists)
-    })
   })
 
   describe("scanCourses", () => {
