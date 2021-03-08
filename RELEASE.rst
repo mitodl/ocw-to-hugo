@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.13.0
+--------------
+
+- approx-students turndown rule (#208)
+
 Version 1.12.1 (Released March 04, 2021)
 --------------
 
