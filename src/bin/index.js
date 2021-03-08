@@ -73,7 +73,8 @@ const run = async () => {
   }
   if (options.rm) {
     console.log(`Removing the contents of ${options.output}...`)
-    await rmdir(`${options.output}/*`, { recursive: true })
+    await rmdir(options.output, { recursive: true })
+    await mkdir(options.output)
   }
   await scanCourses(options.input, options.output)
 }
