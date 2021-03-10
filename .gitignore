@@ -13,7 +13,6 @@ private/*
 *.DS_Store
 *~
 *.pem
-*.log
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -61,6 +60,10 @@ coverage.xml
 .pytest_cache/
 coverage/
 .nyc_output
+
+# Logging
+reporting/
+*.log
 
 # Environments
 .env

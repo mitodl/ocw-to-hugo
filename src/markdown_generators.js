@@ -93,14 +93,35 @@ turndownService.addRule("table", {
 
 const helpers = require("./helpers")
 const loggers = require("./loggers")
+const reporting = require("./reporting")
 const { html2markdown } = require("./turndown")
 
 const fixLinks = (htmlStr, page, courseData, pathLookup) => {
   if (htmlStr && page) {
+    const youtubeReplacements = helpers.resolveYouTubeEmbedMatches(
+      htmlStr,
+      courseData
+    )
+    for (const { match, replacement } of youtubeReplacements) {
+      const inlineEmbedId = match[0]
+      const embeddedMedia = courseData["course_embedded_media"][inlineEmbedId]
+      const parentPage = courseData["course_pages"].find(
+        page => page["uid"] === embeddedMedia["parent_uid"]
+      )
+      const fileName = `inline_embed_id_${
+        inlineEmbedId.includes(":") ? "with" : "without"
+      }_colon.csv`
+      reporting.logToCsv(fileName, {
+        legacy_url:      embeddedMedia["technical_location"],
+        ocwnext_url:     `https://ocwnext.odl.mit.edu/courses/${courseData["short_url"]}/`,
+        inline_embed_id: inlineEmbedId,
+        title:           embeddedMedia["title"]
+      })
+    }
     const matchAndReplacements = [
       ...helpers.resolveUidMatches(htmlStr, page, courseData, pathLookup),
       ...helpers.resolveRelativeLinkMatches(htmlStr, courseData, pathLookup),
-      ...helpers.resolveYouTubeEmbedMatches(htmlStr, courseData)
+      ...youtubeReplacements
     ]
     htmlStr = helpers.applyReplacements(matchAndReplacements, htmlStr)
 
