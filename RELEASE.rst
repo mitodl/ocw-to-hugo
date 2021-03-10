@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.13.0
+Version 1.13.0 (Released March 10, 2021)
 --------------
 
 - single course output structure (#216)
