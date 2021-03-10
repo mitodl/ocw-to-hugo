@@ -3,7 +3,8 @@
 
 const yargs = require("yargs")
 const { downloadCourses } = require("../aws_sync")
-const { writeBoilerplate, scanCourses } = require("../file_operations")
+const { scanCourses } = require("../file_operations")
+const { rmdir, mkdir } = require("../fsPromises")
 
 const { MISSING_JSON_ERROR_MESSAGE } = require("../constants")
 const loggers = require("../loggers")
@@ -70,7 +71,11 @@ const run = async () => {
   } else if (options.download && !options.courses) {
     throw new Error(MISSING_JSON_ERROR_MESSAGE)
   }
-  await writeBoilerplate(options.output, options.rm)
+  if (options.rm) {
+    console.log(`Removing the contents of ${options.output}...`)
+    await rmdir(options.output, { recursive: true })
+    await mkdir(options.output)
+  }
   await scanCourses(options.input, options.output)
 }
 

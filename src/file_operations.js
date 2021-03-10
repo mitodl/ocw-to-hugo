@@ -8,7 +8,6 @@ const cliProgress = require("cli-progress")
 const {
   MISSING_COURSE_ERROR_MESSAGE,
   NO_COURSES_FOUND_MESSAGE,
-  BOILERPLATE_MARKDOWN,
   COURSE_TYPE,
   EMBEDDED_MEDIA_PAGE_TYPE,
   FILE_TYPE,
@@ -23,21 +22,6 @@ const progressBar = new cliProgress.SingleBar(
   { stopOnComplete: true },
   cliProgress.Presets.shades_classic
 )
-
-const writeBoilerplate = async (outputPath, remove) => {
-  if (remove) {
-    console.log(`Removing the contents of ${outputPath}...`)
-    await fsPromises.rmdir(outputPath, { recursive: true })
-  }
-  for (const file of BOILERPLATE_MARKDOWN) {
-    if (!(await directoryExists(file.path))) {
-      const filePath = path.join(outputPath, file.path)
-      const content = `---\n${yaml.safeDump(file.content)}---\n`
-      await fsPromises.mkdir(filePath, { recursive: true })
-      await fsPromises.writeFile(path.join(filePath, file.name), content)
-    }
-  }
-}
 
 const makeUidInfo = courseData => {
   // extract some pieces of information to populate a lookup object for use with resolveUid
@@ -158,9 +142,8 @@ const scanCourse = async (inputPath, outputPath, course, pathLookup) => {
   /*
     This function scans a course directory for a master json file and processes it
   */
-  const markdownPath = path.join(outputPath, "content", "courses")
-  const courseMarkdownPath = path.join(inputPath, course)
-  const masterJsonFile = await getMasterJsonFileName(courseMarkdownPath)
+  const courseInputPath = path.join(inputPath, course)
+  const masterJsonFile = await getMasterJsonFileName(courseInputPath)
   if (masterJsonFile) {
     const courseData = JSON.parse(await fsPromises.readFile(masterJsonFile))
     if (helpers.isCoursePublished(courseData)) {
@@ -172,11 +155,11 @@ const scanCourse = async (inputPath, outputPath, course, pathLookup) => {
         courseData
       )
       await writeMarkdownFilesRecursive(
-        path.join(markdownPath, courseData["short_url"]),
+        path.join(outputPath, courseData["short_url"], "content"),
         markdownData
       )
       await writeDataTemplate(
-        path.join(outputPath, "data", "courses"),
+        path.join(outputPath, courseData["short_url"], "data"),
         dataTemplate
       )
     }
@@ -224,7 +207,7 @@ const writeMarkdownFilesRecursive = async (outputPath, markdownData) => {
 
 const writeDataTemplate = async (outputPath, dataTemplate) => {
   await helpers.createOrOverwriteFile(
-    path.join(outputPath, `${dataTemplate["course_id"]}.json`),
+    path.join(outputPath, "course.json"),
     JSON.stringify(dataTemplate)
   )
 }
@@ -239,7 +222,6 @@ const writeSectionFiles = async (key, section, outputPath) => {
 }
 
 module.exports = {
-  writeBoilerplate,
   scanCourses,
   scanCourse,
   getMasterJsonFileName,
