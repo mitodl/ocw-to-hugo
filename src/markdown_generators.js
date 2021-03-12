@@ -248,14 +248,14 @@ const generateCourseSectionFrontMatter = (
 
   if (inRootNav || listInLeftNav) {
     courseSectionFrontMatter["menu"] = {
-      [courseId]: {
+      leftnav: {
         identifier: pageId,
         name:       shortTitle || "",
         weight:     menuIndex
       }
     }
     if (parentId) {
-      courseSectionFrontMatter["menu"][courseId]["parent"] = parentId
+      courseSectionFrontMatter["menu"]["leftnav"]["parent"] = parentId
     }
   }
 
