@@ -431,7 +431,7 @@ describe("markdown generators", () => {
     it("sets the menu index to 10", () => {
       assert.equal(
         10,
-        courseSectionFrontMatter["menu"][singleCourseJsonData["short_url"]][
+        courseSectionFrontMatter["menu"]["leftnav"][
           "weight"
         ]
       )
@@ -482,7 +482,7 @@ describe("markdown generators", () => {
       )
       assert.equal(
         10,
-        courseSectionFrontMatter["menu"][singleCourseJsonData["short_url"]][
+        courseSectionFrontMatter["menu"]["leftnav"][
           "weight"
         ]
       )
