@@ -429,12 +429,7 @@ describe("markdown generators", () => {
     })
 
     it("sets the menu index to 10", () => {
-      assert.equal(
-        10,
-        courseSectionFrontMatter["menu"]["leftnav"][
-          "weight"
-        ]
-      )
+      assert.equal(10, courseSectionFrontMatter["menu"]["leftnav"]["weight"])
     })
 
     it("calls yaml.safeDump once", () => {
@@ -480,12 +475,7 @@ describe("markdown generators", () => {
           )
           .replace(/---\n/g, "")
       )
-      assert.equal(
-        10,
-        courseSectionFrontMatter["menu"]["leftnav"][
-          "weight"
-        ]
-      )
+      assert.equal(10, courseSectionFrontMatter["menu"]["leftnav"]["weight"])
     })
 
     it("handles missing short_page_title correctly", async () => {
