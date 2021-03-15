@@ -1,6 +1,7 @@
 const TurndownService = require("turndown")
 const turndownPluginGfm = require("turndown-plugin-gfm")
 const { gfm, tables } = turndownPluginGfm
+const GfmEscape = require("gfm-escape")
 
 const {
   REPLACETHISWITHAPIPE,
@@ -8,11 +9,40 @@ const {
   BASEURL_SHORTCODE,
   SUPPORTED_IFRAME_EMBEDS,
   YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS,
-  IRREGULAR_WHITESPACE_REGEX
+  IRREGULAR_WHITESPACE_REGEX,
+  GFM_ESCAPE_RULES
 } = require("./constants")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
 
+// var escapes = [
+//   [/\\/g, '\\\\'],
+//   [/\*/g, '\\*'],
+//   [/^-/g, '\\-'],
+//   [/^\+ /g, '\\+ '],
+//   [/^(=+)/g, '\\$1'],
+//   [/^(#{1,6}) /g, '\\$1 '],
+//   [/`/g, '\\`'],
+//   [/^~~~/g, '\\~~~'],
+//   [/\[/g, '\\['],
+//   [/\]/g, '\\]'],
+//   [/^>/g, '\\>'],
+//   [/_/g, '\\_'],
+//   [/^(\d+)\. /g, '$1\\. ']
+// ]
+
+// TurndownService.prototype.escape = markdownString => {
+//   return escapes.reduce(function (accumulator, escape) {
+//     if (markdownString.includes("[")) {
+//       loggers.fileLogger.info(markdownString)
+//     }
+//     return accumulator.replace(escape[0], escape[1])
+//   }, markdownString)
+// }
+const linkEscaper = new GfmEscape(GFM_ESCAPE_RULES, GfmEscape.Syntax.linkDestination)
+// TurndownService.prototype.escape = markdownString => {
+//   return escaper.escape(markdownString)
+// }
 const turndownService = new TurndownService({
   codeBlockStyle: "fenced"
 })
@@ -129,6 +159,22 @@ turndownService.addRule("inlinecodeblockfix", {
   }
 })
 
+turndownService.addRule("anchorshortcode", {
+  filter: (node, options) => {
+    if (node.nodeName === "A") {
+      return true
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    const name = node.getAttribute("name")
+    const href = node.getAttribute("href")
+    return `{{< anchor "${name}"${
+      href ? ` "${href}"` : ""
+    } >}}${content}{{< /anchor >}}`
+  }
+})
+
 /**
  * Build anchor link shortcodes
  **/
@@ -175,6 +221,18 @@ if (helpers.runOptions.stripS3) {
     }
   })
 }
+
+turndownService.addRule("unescapelinktext", {
+  filter: (node, options) => {
+    if (node.nodeName === "A" && !node.getAttribute("name") && node.getAttribute("href")) {
+      return true
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    return `[${content.replace(/\\(?!(\]|\[))/g, "")}](${node.getAttribute("href")})`
+  }
+})
 
 // add support for embedded content from various sources
 turndownService.addRule("iframe", {
