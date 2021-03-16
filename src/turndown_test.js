@@ -1,6 +1,9 @@
 const { assert } = require("chai").use(require("sinon-chai"))
 const { html2markdown } = require("./turndown")
-const { YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS } = require("./constants")
+const {
+  YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS,
+  IRREGULAR_WHITESPACE_REGEX
+} = require("./constants")
 
 describe("turndown", () => {
   describe("tables", () => {
@@ -34,6 +37,10 @@ describe("turndown", () => {
         <td>&mdash;</td>
         <td>&mdash;</td>
       </tr>
+      <tr class="alt-row">
+        <td>TEST</td>
+        <td> &nbsp; </td>
+      </tr>
     </tbody>
   </table>`
 
@@ -59,6 +66,10 @@ describe("turndown", () => {
           "| {{< td-colspan 4 >}}{{< br >}}{{< br >}}**Wrapped in a paragraph**{{< br >}}{{< br >}}{{< /td-colspan >}} ||||"
         )
       )
+    })
+
+    it("should remove irregular whitespace characters", () => {
+      assert.isNull(markdown.match(IRREGULAR_WHITESPACE_REGEX))
     })
   })
 

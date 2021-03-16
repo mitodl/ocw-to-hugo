@@ -7,7 +7,8 @@ const {
   AWS_REGEX,
   BASEURL_SHORTCODE,
   SUPPORTED_IFRAME_EMBEDS,
-  YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS
+  YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS,
+  IRREGULAR_WHITESPACE_REGEX
 } = require("./constants")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
@@ -51,6 +52,17 @@ turndownService.addRule("table", {
       .replace(/\|{{< br >}}\|/g, "|\n|")
       // Fourth, replace the pipe marker we added earlier with the HTML character entity for a pipe
       .replace(/REPLACETHISWITHAPIPE/g, "&#124;")
+    //Lastly, we scan and replace irregular whitespace characters with a non-breaking space character entity
+    content = content
+      .split("\n")
+      .map(row => {
+        row = row.replace(IRREGULAR_WHITESPACE_REGEX, "| &nbsp; |")
+        if (row.match(/{{< \/td-colspan >}} \|+( &nbsp; \|)/g)) {
+          row = row.replace(" &nbsp; |", "|")
+        }
+        return row
+      })
+      .join("\n")
     return content
   }
 })
