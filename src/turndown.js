@@ -55,6 +55,9 @@ turndownService.addRule("table", {
   }
 })
 
+/**
+ * Catch cells with a colspan attribute and rewrite them with a shortcode
+ **/
 turndownService.addRule("colspan", {
   filter:      node => node.nodeName === "TD" && node.getAttribute("colspan"),
   replacement: (content, node, options) => {
