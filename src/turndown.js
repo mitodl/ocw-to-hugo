@@ -64,7 +64,7 @@ turndownService.addRule("colspan", {
     const totalColumns = parseInt(node.getAttribute("colspan"))
     return `| {{< td-colspan ${totalColumns} >}}${content}{{< /td-colspan >}} |${"|".repeat(
       totalColumns - 1
-    )}\n`
+    )}`
   }
 })
 
