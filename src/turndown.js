@@ -159,7 +159,7 @@ turndownService.addRule("inlinecodeblockfix", {
   }
 })
 
-turndownService.addRule("anchorshortcode", {
+turndownService.addRule("links", {
   filter: (node, options) => {
     if (node.nodeName === "A") {
       return true
@@ -167,11 +167,7 @@ turndownService.addRule("anchorshortcode", {
     return false
   },
   replacement: (content, node, options) => {
-    const name = node.getAttribute("name")
-    const href = node.getAttribute("href")
-    return `{{< anchor "${name}"${
-      href ? ` "${href}"` : ""
-    } >}}${content}{{< /anchor >}}`
+    return `[${content}](${node.getAttribute("href")})`
   }
 })
 
