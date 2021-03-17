@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 1.14.0
+--------------
+
+- better colspan handling (#227)
+- use leftnav for menu name (#225)
+
 Version 1.13.0 (Released March 10, 2021)
 --------------
 
