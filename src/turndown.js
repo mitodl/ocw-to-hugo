@@ -7,7 +7,8 @@ const {
   AWS_REGEX,
   BASEURL_SHORTCODE,
   SUPPORTED_IFRAME_EMBEDS,
-  YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS
+  YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS,
+  IRREGULAR_WHITESPACE_REGEX
 } = require("./constants")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
@@ -51,32 +52,31 @@ turndownService.addRule("table", {
       .replace(/\|{{< br >}}\|/g, "|\n|")
       // Fourth, replace the pipe marker we added earlier with the HTML character entity for a pipe
       .replace(/REPLACETHISWITHAPIPE/g, "&#124;")
-    /**
-     * This finds table header rows by matching a cell with only one bold string.
-     * Regex breakdown by capturing group:
-     * 1. Positive lookbehind that finds a pipe followed by a space and two asterisks
-     * 2. Matches any amount of alphanumeric characters
-     * 3. Positive lookahead that matches two asterisks followed by a space, a pipe and
-     * a newline or carriage return
-     */
-    if (content.match(/(?<=\| \*\*)(.*?)(?=\*\* \|\r?\n|\r)/g)) {
-      // Get the amount of columns by matching three hyphens and counting
-      const totalColumns = content.match(/---/g || []).length
-      // Style headers so that they aren't bound by the width of one cell
-      content.match(/\| \*\*(.*)\*\* \|\r?\n|\r/g).forEach(element => {
-        const headerContent = element
-          .replace(/\| \*\*/g, "")
-          .replace(/\*\* \|\r?\n|\r/g, "")
-        // Wrap header content in the fullwidth-cell shortcode and insert spaces to set line height
-        content = content.replace(
-          element,
-          `| {{< fullwidth-cell >}}**${headerContent}**{{< /fullwidth-cell >}} |${" &nbsp; |".repeat(
-            totalColumns - 1
-          )}\n`
-        )
+    //Lastly, we scan and replace irregular whitespace characters with a non-breaking space character entity
+    content = content
+      .split("\n")
+      .map(row => {
+        row = row.replace(IRREGULAR_WHITESPACE_REGEX, "| &nbsp; |")
+        if (row.match(/{{< \/td-colspan >}} \|+( &nbsp; \|)/g)) {
+          row = row.replace(" &nbsp; |", "|")
+        }
+        return row
       })
-      return content
-    } else return content
+      .join("\n")
+    return content
+  }
+})
+
+/**
+ * Catch cells with a colspan attribute and rewrite them with a shortcode
+ **/
+turndownService.addRule("colspan", {
+  filter:      node => node.nodeName === "TD" && node.getAttribute("colspan"),
+  replacement: (content, node, options) => {
+    const totalColumns = parseInt(node.getAttribute("colspan"))
+    return `| {{< td-colspan ${totalColumns} >}}${content}{{< /td-colspan >}} |${"|".repeat(
+      totalColumns - 1
+    )}`
   }
 })
 

@@ -11,8 +11,10 @@ module.exports = {
   AWS_REGEX: new RegExp(
     /https?:\/\/open-learning-course-data(.*)\.s3\.amazonaws.com/g
   ),
-  INPUT_COURSE_DATE_FORMAT: "YYYY/M/D H:m:s.SSS",
-  SUPPORTED_IFRAME_EMBEDS:  {
+  // eslint-disable-next-line no-irregular-whitespace
+  IRREGULAR_WHITESPACE_REGEX: new RegExp(/(\|   )+\|/g),
+  INPUT_COURSE_DATE_FORMAT:   "YYYY/M/D H:m:s.SSS",
+  SUPPORTED_IFRAME_EMBEDS:    {
     "player.simplecast.com": {
       hugoShortcode: "simplecast",
       getID:         url => url.pathname.replace("/", "")
