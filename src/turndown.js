@@ -1,7 +1,6 @@
 const TurndownService = require("turndown")
 const turndownPluginGfm = require("turndown-plugin-gfm")
 const { gfm, tables } = turndownPluginGfm
-const GfmEscape = require("gfm-escape")
 
 const {
   REPLACETHISWITHAPIPE,
@@ -9,40 +8,11 @@ const {
   BASEURL_SHORTCODE,
   SUPPORTED_IFRAME_EMBEDS,
   YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS,
-  IRREGULAR_WHITESPACE_REGEX,
-  GFM_ESCAPE_RULES
+  IRREGULAR_WHITESPACE_REGEX
 } = require("./constants")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
 
-// var escapes = [
-//   [/\\/g, '\\\\'],
-//   [/\*/g, '\\*'],
-//   [/^-/g, '\\-'],
-//   [/^\+ /g, '\\+ '],
-//   [/^(=+)/g, '\\$1'],
-//   [/^(#{1,6}) /g, '\\$1 '],
-//   [/`/g, '\\`'],
-//   [/^~~~/g, '\\~~~'],
-//   [/\[/g, '\\['],
-//   [/\]/g, '\\]'],
-//   [/^>/g, '\\>'],
-//   [/_/g, '\\_'],
-//   [/^(\d+)\. /g, '$1\\. ']
-// ]
-
-// TurndownService.prototype.escape = markdownString => {
-//   return escapes.reduce(function (accumulator, escape) {
-//     if (markdownString.includes("[")) {
-//       loggers.fileLogger.info(markdownString)
-//     }
-//     return accumulator.replace(escape[0], escape[1])
-//   }, markdownString)
-// }
-const linkEscaper = new GfmEscape(GFM_ESCAPE_RULES, GfmEscape.Syntax.linkDestination)
-// TurndownService.prototype.escape = markdownString => {
-//   return escaper.escape(markdownString)
-// }
 const turndownService = new TurndownService({
   codeBlockStyle: "fenced"
 })
@@ -159,18 +129,6 @@ turndownService.addRule("inlinecodeblockfix", {
   }
 })
 
-turndownService.addRule("links", {
-  filter: (node, options) => {
-    if (node.nodeName === "A") {
-      return true
-    }
-    return false
-  },
-  replacement: (content, node, options) => {
-    return `[${content}](${node.getAttribute("href")})`
-  }
-})
-
 /**
  * Build anchor link shortcodes
  **/
@@ -217,18 +175,6 @@ if (helpers.runOptions.stripS3) {
     }
   })
 }
-
-turndownService.addRule("unescapelinktext", {
-  filter: (node, options) => {
-    if (node.nodeName === "A" && !node.getAttribute("name") && node.getAttribute("href")) {
-      return true
-    }
-    return false
-  },
-  replacement: (content, node, options) => {
-    return `[${content.replace(/\\(?!(\]|\[))/g, "")}](${node.getAttribute("href")})`
-  }
-})
 
 // add support for embedded content from various sources
 turndownService.addRule("iframe", {
@@ -292,21 +238,9 @@ turndownService.addRule("baseurlshortcode", {
     return false
   },
   replacement: (content, node, options) => {
-    const children = Array.from(node.childNodes)
-    if (!children.filter(child => child.nodeName === "IMG").length > 0) {
-      // if this link doesn't contain an image, escape the content
-      // except first make sure there are no pre-escaped square brackets
-      content = turndownService.escape(
-        content.replace(/\\\[/g, "[").replace(/\\\]/g, "]")
-      )
-    }
-    const ref = turndownService
-      .escape(
-        node.getAttribute("href").replace(BASEURL_SHORTCODE, "{{< baseurl >}}")
-      )
-      .split("\\_")
-      .join("_")
-    return `[${content}](${ref})`
+    return `[${content}](${node
+      .getAttribute("href")
+      .replace(BASEURL_SHORTCODE, "{{< baseurl >}}")})`
   }
 })
 

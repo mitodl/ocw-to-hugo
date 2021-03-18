@@ -1441,13 +1441,6 @@ get-stdin@^7.0.0:
   resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-7.0.0.tgz#8d5de98f15171a125c5e516643c7a6d0ea8a96f6"
   integrity sha512-zRKcywvrXlXsA0v0i9Io4KDRaAw7+a1ZpjRwl9Wox8PFlVCCHra7E9c4kqXCoCM9nR5tBkaTTZRBoCm60bFqTQ==
 
-gfm-escape@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/gfm-escape/-/gfm-escape-0.2.0.tgz#88dff80791c01008a2d49d9a388de2902bacc3f2"
-  integrity sha512-xUh/UUY/riL9zuz1pWjMvJjbYCRk3EzA+/4JltIlALW8swprpgiWPBaImeSzRNnnnzvvylPEdtzQ/576ckLusA==
-  dependencies:
-    union-replacer "^2.0.1"
-
 glob@7.1.3:
   version "7.1.3"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.3.tgz#3960832d3f1574108342dafd3a67b332c0969df1"
@@ -3212,11 +3205,6 @@ typescript@^3.2.1:
   version "3.8.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.8.3.tgz#409eb8544ea0335711205869ec458ab109ee1061"
   integrity sha512-MYlEfn5VrLNsgudQTVJeNaQFUAI7DkhnOjdpAp4T+ku1TfQClewlbSuTVHiA+8skNBgaf02TL/kLOvig4y3G8w==
-
-union-replacer@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/union-replacer/-/union-replacer-2.0.1.tgz#7d29b3e964c13d9c4ef9401564e29e9e13aee6db"
-  integrity sha512-cD0EEWSP+EtZS0+mLThL2NYnyigOyB91j9jdlT/QDlhvHiPQ1co4xZESpTqnfOSZZbjijoYggpvzATlpisu4AQ==
 
 uri-js@^4.2.2:
   version "4.2.2"

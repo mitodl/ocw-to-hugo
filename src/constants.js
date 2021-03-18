@@ -27,30 +27,5 @@ module.exports = {
   COURSE_TYPE:              "course-type",
   FILE_TYPE:                "file-type",
   PAGE_TYPE:                "page-type",
-  INSTRUCTOR_TYPE:          "instructor-type",
-  GFM_ESCAPE_RULES:         {
-    strikethrough: {
-      // default false
-      optimizeForDoubleTilde: false
-    },
-    extAutolink: {
-      // default false
-      breakUrl:               false,
-      breakWww:               false,
-      breaker:                "<!-- -->",
-      allowedTransformations: ["entities", "commonmark"],
-      allowAddHttpScheme:     false,
-      inImage:                false
-    },
-    table:                 true, // default false
-    emphasisNonDelimiters: {
-      // default true
-      maxIntrawordUnderscoreRun: undefined
-    },
-    linkTitle: {
-      // default true
-      delimiters:             ['"', "'", "()"],
-      alwaysEscapeDelimiters: []
-    }
-  }
+  INSTRUCTOR_TYPE:          "instructor-type"
 }
