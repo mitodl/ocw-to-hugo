@@ -86,6 +86,12 @@ describe("turndown", () => {
     assert.equal(markdown, `[\\[R&T\\]](syllabus)`)
   })
 
+  it("should not escape other markdown characters inside link text", async () => {
+    const problematicHTML = `<a href="syllabus"><strong>bold test</strong</a>`
+    const markdown = await html2markdown(problematicHTML)
+    assert.equal(markdown, `[**bold test**](syllabus)`)
+  })
+
   it("should generate an anchor shortcode for an a tag with a name attribute", async () => {
     const inputHTML = `<a name="test">test</a>`
     const markdown = await html2markdown(inputHTML)
