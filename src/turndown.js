@@ -41,19 +41,19 @@ turndownService.addRule("table", {
     // Regenerate markdown for this table with cell edits
     content = turndownService.turndown(node)
     content = content
-      // First, isolate the table by getting the contents between the first and last pipe
+      // Isolate the table by getting the contents between the first and last pipe
       .substring(content.indexOf("|"), content.lastIndexOf("|"))
-      // Second, replace all newlines and carriage returns with line break shortcodes
+      // Replace all newlines and carriage returns with line break shortcodes
       .replace(/\r?\n|\r/g, "{{< br >}}")
       /**
-       * Third, replace all line break shortcodes in between two pipes with a newline
+       * Replace all line break shortcodes in between two pipes with a newline
        * character between two pipes to recreate the rows
        */
       .replace(/\|{{< br >}}\|/g, "|\n|")
-      // Fourth, replace the pipe marker we added earlier with the HTML character entity for a pipe
+      // Replace the pipe marker we added earlier with the HTML character entity for a pipe
       .replace(/REPLACETHISWITHAPIPE/g, "&#124;")
-    //Lastly, we scan and replace irregular whitespace characters with a non-breaking space character entity
-    content = content
+
+      // Scan and replace irregular whitespace characters with a non-breaking space character entity
       .split("\n")
       .map(row => {
         row = row.replace(IRREGULAR_WHITESPACE_REGEX, "| &nbsp; |")
@@ -64,6 +64,14 @@ turndownService.addRule("table", {
       })
       .join("\n")
     return content
+  }
+})
+
+turndownService.addRule("tableheadings", {
+  filter: node =>
+    node.nodeName.match(/H[1-6]/) && hasParentNodeRecursive(node, "TABLE"),
+  replacement: (content, node, options) => {
+    return `{{< h ${node.nodeName.charAt(1)} >}}${content}{{< /h >}}`
   }
 })
 
@@ -380,6 +388,14 @@ turndownService.addRule("youtube_shortcodes", {
 
 function html2markdown(text) {
   return turndownService.turndown(text)
+}
+
+function hasParentNodeRecursive(node, parentNodeName) {
+  if (node.parentNode) {
+    if (node.parentNode.nodeName === parentNodeName) {
+      return true
+    } else return hasParentNodeRecursive(node.parentNode, parentNodeName)
+  } else return false
 }
 
 module.exports = { html2markdown }
