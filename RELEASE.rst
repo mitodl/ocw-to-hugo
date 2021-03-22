@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.15.0
+Version 1.15.0 (Released March 22, 2021)
 --------------
 
 - remove unnecessary escape calls (#230)
