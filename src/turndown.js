@@ -50,6 +50,9 @@ turndownService.addRule("table", {
        * character between two pipes to recreate the rows
        */
       .replace(/\|{{< br >}}\|/g, "|\n|")
+      // Add a padding of a single space around double line breaks
+      // These generally occur if the contents of a table cell are wrapped in a p or div tag
+      .replace(/{{< br >}}{{< br >}}/g, " {{< br >}}{{< br >}} ")
       // Replace the pipe marker we added earlier with the HTML character entity for a pipe
       .replace(/REPLACETHISWITHAPIPE/g, "&#124;")
 
