@@ -158,6 +158,10 @@ const scanCourse = async (inputPath, outputPath, course, pathLookup) => {
         path.join(outputPath, courseData["short_url"], "content"),
         markdownData
       )
+      await writeExternalLinks(
+        path.join(outputPath, courseData["short_url"], "config", "_default"),
+        courseData["short_url"]
+      )
       await writeDataTemplate(
         path.join(outputPath, courseData["short_url"], "data"),
         dataTemplate
@@ -209,6 +213,20 @@ const writeDataTemplate = async (outputPath, dataTemplate) => {
   await helpers.createOrOverwriteFile(
     path.join(outputPath, "course.json"),
     JSON.stringify(dataTemplate)
+  )
+}
+
+const writeExternalLinks = async (outputPath, courseId) => {
+  let weight = 1000
+  const externalLinksConfig = `${helpers
+    .getExternalLinks(courseId)
+    .map(externalLink => {
+      weight += 10
+      return `[[leftnav]]\n\tname = "${externalLink["title"]}"\n\turl = "${externalLink["url"]}"\n\tweight = ${weight}`
+    })}`
+  await helpers.createOrOverwriteFile(
+    path.join(outputPath, "menus.toml"),
+    externalLinksConfig
   )
 }
 
