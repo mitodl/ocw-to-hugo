@@ -85,9 +85,9 @@ const getDepartments = courseData => {
   } else return []
 }
 
-const getExternalLinks = courseId => {
+const getExternalLinks = courseData => {
   return EXTERNAL_LINKS_JSON.filter(
-    externalLink => externalLink["course_id"] === courseId
+    externalLink => externalLink["course_id"] === courseData["short_url"]
   )
 }
 
