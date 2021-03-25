@@ -38,7 +38,8 @@ describe("turndown", () => {
         <td>&mdash;</td>
       </tr>
       <tr class="alt-row">
-        <td>TEST</td>
+        <td><h1>TEST</h1></td>
+        <td><h2>TEST 2</h2></td>
         <td> &nbsp; </td>
       </tr>
     </tbody>
@@ -70,6 +71,11 @@ describe("turndown", () => {
 
     it("should remove irregular whitespace characters", () => {
       assert.isNull(markdown.match(IRREGULAR_WHITESPACE_REGEX))
+    })
+
+    it("should transform heading tags into heading shortcodes", () => {
+      assert.isTrue(markdown.includes("{{< h 1 >}}TEST{{< /h >}}"))
+      assert.isTrue(markdown.includes("{{< h 2 >}}TEST 2{{< /h >}}"))
     })
   })
 
