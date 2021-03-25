@@ -34,8 +34,8 @@ describe("turndown", () => {
       <tr class="alt-row">
         <td>L 2</td>
         <td>Test table section 2</td>
-        <td>&mdash;</td>
-        <td>&mdash;</td>
+        <td><h1>TEST</h1></td>
+        <td><h2>TEST 2</h2></td>
       </tr>
       <tr class="alt-row">
         <td><p><em>italics wrapped in a paragraph</em></p></td>
