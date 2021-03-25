@@ -34,13 +34,14 @@ describe("turndown", () => {
       <tr class="alt-row">
         <td>L 2</td>
         <td>Test table section 2</td>
-        <td>&mdash;</td>
-        <td>&mdash;</td>
-      </tr>
-      <tr class="alt-row">
         <td><h1>TEST</h1></td>
         <td><h2>TEST 2</h2></td>
-        <td> &nbsp; </td>
+      </tr>
+      <tr class="alt-row">
+        <td><p><em>italics wrapped in a paragraph</em></p></td>
+        <td><div><em>italics wrapped in a div</em></div></td>
+        <td><p><strong>strong wrapped in a paragrah</strong></p></td>
+        <td><div><strong>strong wrapped in a div</strong></div></td>
       </tr>
     </tbody>
   </table>`
@@ -64,7 +65,15 @@ describe("turndown", () => {
     it("should handle headers properly if they're wrapped in a p tag", () => {
       assert.isTrue(
         markdown.includes(
-          "| {{< td-colspan 4 >}}{{< br >}}{{< br >}}**Wrapped in a paragraph**{{< br >}}{{< br >}}{{< /td-colspan >}} ||||"
+          "| {{< td-colspan 4 >}} {{< br >}}{{< br >}} **Wrapped in a paragraph** {{< br >}}{{< br >}} {{< /td-colspan >}} ||||"
+        )
+      )
+    })
+
+    it("should properly pad line breaks in cells with containers as to not break formatting", () => {
+      assert.isTrue(
+        markdown.includes(
+          "|  {{< br >}}{{< br >}} _italics wrapped in a paragraph_ {{< br >}}{{< br >}}  |  {{< br >}}{{< br >}} _italics wrapped in a div_ {{< br >}}{{< br >}}  |  {{< br >}}{{< br >}} **strong wrapped in a paragrah** {{< br >}}{{< br >}}  |  {{< br >}}{{< br >}} **strong wrapped in a div** {{< br >}}{{< br >}}"
         )
       )
     })
