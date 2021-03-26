@@ -29,7 +29,7 @@ describe("generateExternalLinksMenu", () => {
   })
 
   it("generates the expected menu for the example course", () => {
-    const expectedValue = `[[leftnav]]\n\tname = "Online Publication"\n\turl = "https://biology.mit.edu/undergraduate/current-students/subject-offerings/covid-19-sars-cov-2-and-the-pandemic/"\n\tweight = 1010`
+    const expectedValue = `[[leftnav]]\n\tname = "Online Publication"\n\turl = "https://biology.mit.edu/undergraduate/current-students/subject-offerings/covid-19-sars-cov-2-and-the-pandemic/"\n\tweight = 1000`
     assert.equal(expectedValue, courseExternalLinksMenu)
   })
 })

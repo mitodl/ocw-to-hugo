@@ -1,10 +1,8 @@
 const { getExternalLinks } = require("./helpers")
 
 const generateExternalLinksMenu = courseData => {
-  let weight = 1000
-  return `${getExternalLinks(courseData).map(externalLink => {
-    weight += 10
-    return `[[leftnav]]\n\tname = "${externalLink["title"]}"\n\turl = "${externalLink["url"]}"\n\tweight = ${weight}`
+  return `${getExternalLinks(courseData).map((externalLink, index) => {
+    return `[[leftnav]]\n\tname = "${externalLink["title"]}"\n\turl = "${externalLink["url"]}"\n\tweight = ${index * 10 + 1000}`
   })}`
 }
 
