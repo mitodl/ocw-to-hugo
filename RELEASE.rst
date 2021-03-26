@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 1.15.1
+--------------
+
+- pad double line breaks with spaces (#238)
+- add turndown rule for headings inside a table to transform them into shortcodes (#234)
+
 Version 1.15.0 (Released March 22, 2021)
 --------------
 
