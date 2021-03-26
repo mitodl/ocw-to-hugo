@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.15.1
+Version 1.15.1 (Released March 26, 2021)
 --------------
 
 - pad double line breaks with spaces (#238)
