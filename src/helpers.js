@@ -4,6 +4,7 @@ const moment = require("moment")
 
 const fsPromises = require("./fsPromises")
 const DEPARTMENTS_JSON = require("./departments.json")
+const EXTERNAL_LINKS_JSON = require("./external_links.json")
 const {
   AWS_REGEX,
   BASEURL_SHORTCODE,
@@ -82,6 +83,12 @@ const getDepartments = courseData => {
     }
     return [...new Set(departments)].filter(Boolean)
   } else return []
+}
+
+const getExternalLinks = courseData => {
+  return EXTERNAL_LINKS_JSON.filter(
+    externalLink => externalLink["course_id"] === courseData["short_url"]
+  )
 }
 
 const getCourseNumbers = courseData => {
@@ -549,6 +556,7 @@ module.exports = {
   fileExists,
   findDepartmentByNumber,
   getDepartments,
+  getExternalLinks,
   getCourseNumbers,
   getCourseFeatureObject,
   getCourseSectionFromFeatureUrl,

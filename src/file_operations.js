@@ -2,7 +2,6 @@
 
 const fsPromises = require("./fsPromises")
 const path = require("path")
-const yaml = require("js-yaml")
 const cliProgress = require("cli-progress")
 
 const {
@@ -15,6 +14,7 @@ const {
 } = require("./constants")
 const { directoryExists } = require("./helpers")
 const markdownGenerators = require("./markdown_generators")
+const configGenerators = require("./config_generators")
 const dataTemplateGenerators = require("./data_template_generators")
 const helpers = require("./helpers")
 
@@ -158,6 +158,10 @@ const scanCourse = async (inputPath, outputPath, course, pathLookup) => {
         path.join(outputPath, courseData["short_url"], "content"),
         markdownData
       )
+      await writeExternalLinks(
+        path.join(outputPath, courseData["short_url"], "config", "_default"),
+        courseData
+      )
       await writeDataTemplate(
         path.join(outputPath, courseData["short_url"], "data"),
         dataTemplate
@@ -209,6 +213,13 @@ const writeDataTemplate = async (outputPath, dataTemplate) => {
   await helpers.createOrOverwriteFile(
     path.join(outputPath, "course.json"),
     JSON.stringify(dataTemplate)
+  )
+}
+
+const writeExternalLinks = async (outputPath, courseData) => {
+  await helpers.createOrOverwriteFile(
+    path.join(outputPath, "menus.toml"),
+    configGenerators.generateExternalLinksMenu(courseData)
   )
 }
 

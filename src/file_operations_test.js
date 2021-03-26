@@ -15,6 +15,7 @@ const {
 const helpers = require("./helpers")
 const fileOperations = require("./file_operations")
 const markdownGenerators = require("./markdown_generators")
+const configGenerators = require("./config_generators")
 const dataTemplateGenerators = require("./data_template_generators")
 
 describe("file operations", () => {
@@ -50,8 +51,8 @@ describe("file operations", () => {
     const sandbox = sinon.createSandbox()
     const inputPath = "test_data/courses"
     const outputPath = tmp.dirSync({ prefix: "output" }).name
-    const courseLogMessage = "Converting 8 courses to Hugo markdown..."
-    const pathsLogMessage = "Generated 1931 paths."
+    const courseLogMessage = "Converting 9 courses to Hugo markdown..."
+    const pathsLogMessage = "Generated 1937 paths."
     const course1Name =
       "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
     const course1Path = path.join(inputPath, course1Name)
@@ -140,7 +141,7 @@ describe("file operations", () => {
 
     it("calls readdir many times, once for courses and once for each course", async () => {
       await fileOperations.scanCourses(inputPath, outputPath)
-      assert.equal(readdirStub.callCount, 17)
+      assert.equal(readdirStub.callCount, 19)
     }).timeout(5000)
 
     it("scans the four test courses and reports to console", async () => {
@@ -163,7 +164,10 @@ describe("file operations", () => {
   })
 
   describe("scanCourse", () => {
-    let readFileStub, generateMarkdownFromJson, generateDataTemplate
+    let readFileStub,
+      generateMarkdownFromJson,
+      writeExternalLinks,
+      generateDataTemplate
     const sandbox = sinon.createSandbox()
     const outputPath = tmp.dirSync({ prefix: "output" }).name
 
@@ -174,6 +178,10 @@ describe("file operations", () => {
       generateMarkdownFromJson = sandbox.spy(
         markdownGenerators,
         "generateMarkdownFromJson"
+      )
+      writeExternalLinks = sandbox.spy(
+        configGenerators,
+        "generateExternalLinksMenu"
       )
       generateDataTemplate = sandbox.spy(
         dataTemplateGenerators,
@@ -205,6 +213,18 @@ describe("file operations", () => {
       expect(generateMarkdownFromJson).to.be.calledOnceWithExactly(
         singleCourseJsonData,
         pathLookup
+      )
+    }).timeout(5000)
+
+    it("calls writeExternalLinks on the course data", async () => {
+      await fileOperations.scanCourse(
+        testDataPath,
+        outputPath,
+        singleCourseId,
+        pathLookup
+      )
+      expect(writeExternalLinks).to.be.calledOnceWithExactly(
+        singleCourseJsonData
       )
     }).timeout(5000)
 
