@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.16.0
+Version 1.16.0 (Released March 30, 2021)
 --------------
 
 - external nav links (#239)
