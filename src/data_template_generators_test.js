@@ -74,17 +74,33 @@ describe("generateDataTemplate", () => {
 
   it("sets the instructors property to the instructors found in the instuctors node of the course json data", () => {
     singleCourseJsonData["instructors"].forEach((instructor, index) => {
-      const expectedValue = `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`
+      const expectedParams = encodeURIComponent(
+        `"${instructor["first_name"]} ${instructor["last_name"]}"`
+      )
+      const expectedValue = {
+        instructor: `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`,
+        url:        `/search/?q=${expectedParams}`
+      }
       const foundValue = courseDataTemplate["instructors"][index]
-      assert.equal(expectedValue, foundValue)
+      assert.deepEqual(expectedValue, foundValue)
     })
   })
 
-  it("sets the department property to the deparentment found on the url property of the course json data, title cased with hyphens replaced with spaces", () => {
-    assert.equal("Mechanical Engineering", courseDataTemplate["departments"][0])
-    assert.equal(
-      "Aeronautics and Astronautics",
-      courseDataTemplate["departments"][1]
+  it("sets the department property to the department found on the url property of the course json data, title cased with hyphens replaced with spaces", () => {
+    assert.deepEqual(
+      [
+        {
+          department: "Mechanical Engineering",
+          url:        `/search/?d=${encodeURIComponent("Mechanical Engineering")}`
+        },
+        {
+          department: "Aeronautics and Astronautics",
+          url:        `/search/?d=${encodeURIComponent(
+            "Aeronautics and Astronautics"
+          )}`
+        }
+      ],
+      courseDataTemplate["departments"]
     )
   })
 
@@ -117,8 +133,14 @@ describe("generateDataTemplate", () => {
   })
 
   it("sets the level property on the course data template to course_level in the course json data", () => {
-    const expectedValue = singleCourseJsonData["course_level"]
+    const level = singleCourseJsonData["course_level"]
     const foundValue = courseDataTemplate["level"]
-    assert.equal(expectedValue, foundValue)
+    assert.deepEqual(
+      {
+        level: level,
+        url:   "/search/?l=Undergraduate"
+      },
+      foundValue
+    )
   })
 })

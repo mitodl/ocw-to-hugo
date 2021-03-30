@@ -44,14 +44,16 @@ describe("findDepartmentByNumber", () => {
 
 describe("getDepartments", () => {
   it("returns the expected departments for a given course json input", () => {
-    assert.equal(
-      helpers.getDepartments(singleCourseJsonData)[0],
-      "Mechanical Engineering"
-    )
-    assert.equal(
-      helpers.getDepartments(singleCourseJsonData)[1],
-      "Aeronautics and Astronautics"
-    )
+    assert.deepEqual(helpers.getDepartments(singleCourseJsonData), [
+      {
+        department: "Mechanical Engineering",
+        url:        `/search/?d=${encodeURIComponent("Mechanical Engineering")}`
+      },
+      {
+        department: "Aeronautics and Astronautics",
+        url:        `/search/?d=${encodeURIComponent("Aeronautics and Astronautics")}`
+      }
+    ])
   })
 })
 
