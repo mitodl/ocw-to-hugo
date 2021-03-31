@@ -68,14 +68,9 @@ const findDepartmentByNumber = departmentNumber =>
   DEPARTMENTS_LOOKUP.get(departmentNumber.toString())
 
 const getDepartments = courseData => {
-  const extraCourseNumbers = courseData["extra_course_number"] || []
-  let departmentNumbers = [
-    courseData["department_number"],
-    ...extraCourseNumbers.map(
-      extraCourseNumber =>
-        extraCourseNumber["linked_course_number_col"].split(".")[0]
-    )
-  ]
+  let departmentNumbers = getCourseNumbers(courseData).map(
+    number => number.split(".")[0]
+  )
   // deduplicate and remove numbers that don't match with our list
   departmentNumbers = [...new Set(departmentNumbers)].filter(
     findDepartmentByNumber
@@ -93,17 +88,13 @@ const getExternalLinks = courseData => {
 }
 
 const getCourseNumbers = courseData => {
-  let courseNumbers = [
-    `${courseData["department_number"]}.${courseData["master_course_number"]}`
-  ]
-  if (courseData["extra_course_number"]) {
-    courseNumbers = courseNumbers.concat(
-      courseData["extra_course_number"].map(
-        extraCourseNumber => extraCourseNumber["linked_course_number_col"]
-      )
+  const extraCourseNumbers = courseData["extra_course_number"] || []
+  return [
+    `${courseData["department_number"]}.${courseData["master_course_number"]}`,
+    ...extraCourseNumbers.map(
+      extraCourseNumber => extraCourseNumber["linked_course_number_col"]
     )
-  }
-  return courseNumbers
+  ]
 }
 
 const getCourseFeatureObject = courseFeature => {
