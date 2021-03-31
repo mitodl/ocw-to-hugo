@@ -25,7 +25,7 @@ const generateDataTemplate = courseData => {
         INPUT_COURSE_DATE_FORMAT
       ).format()
       : "",
-    instructors: (courseData["instructors"] ?? []).map(instructor => {
+    instructors: (courseData["instructors"] || []).map(instructor => {
       const name = `${instructor["first_name"]} ${instructor["last_name"]}`
       return {
         instructor: `Prof. ${name}`,

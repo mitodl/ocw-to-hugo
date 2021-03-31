@@ -68,7 +68,7 @@ const findDepartmentByNumber = departmentNumber =>
   DEPARTMENTS_LOOKUP.get(departmentNumber.toString())
 
 const getDepartments = courseData => {
-  const extraCourseNumbers = courseData["extra_course_number"] ?? []
+  const extraCourseNumbers = courseData["extra_course_number"] || []
   let departmentNumbers = [
     courseData["department_number"],
     ...extraCourseNumbers.map(
