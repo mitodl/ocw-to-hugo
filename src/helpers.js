@@ -580,6 +580,7 @@ module.exports = {
   getCourseSectionFromFeatureUrl,
   getConsolidatedTopics,
   getYoutubeEmbedCode,
+  getVideoPageLink,
   resolveUidMatches,
   resolveRelativeLinkMatches,
   resolveYouTubeEmbedMatches,
