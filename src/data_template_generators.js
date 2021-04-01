@@ -25,12 +25,13 @@ const generateDataTemplate = courseData => {
         INPUT_COURSE_DATE_FORMAT
       ).format()
       : "",
-    instructors: courseData["instructors"]
-      ? courseData["instructors"].map(
-        instructor =>
-          `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`
-      )
-      : [],
+    instructors: (courseData["instructors"] || []).map(instructor => {
+      const name = `${instructor["first_name"]} ${instructor["last_name"]}`
+      return {
+        instructor: `Prof. ${name}`,
+        url:        helpers.makeCourseInfoUrl(name, "q")
+      }
+    }),
     departments:     helpers.getDepartments(courseData),
     course_features: courseData["course_features"].map(courseFeature =>
       helpers.getCourseFeatureObject(courseFeature)
@@ -38,7 +39,10 @@ const generateDataTemplate = courseData => {
     topics:         helpers.getConsolidatedTopics(courseData["course_collections"]),
     course_numbers: helpers.getCourseNumbers(courseData),
     term:           `${courseData["from_semester"]} ${courseData["from_year"]}`,
-    level:          courseData["course_level"]
+    level:          {
+      level: courseData["course_level"],
+      url:   helpers.makeCourseInfoUrl(courseData["course_level"], "level")
+    }
   }
 }
 

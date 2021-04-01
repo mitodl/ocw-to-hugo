@@ -2,6 +2,9 @@ const _ = require("lodash")
 const path = require("path")
 const moment = require("moment")
 
+const {
+  serializeSearchParams
+} = require("@mitodl/course-search-utils/dist/url_utils")
 const fsPromises = require("./fsPromises")
 const DEPARTMENTS_JSON = require("./departments.json")
 const EXTERNAL_LINKS_JSON = require("./external_links.json")
@@ -58,31 +61,24 @@ const createOrOverwriteFile = async (file, body) => {
   await fsPromises.writeFile(file, body)
 }
 
+const DEPARTMENTS_LOOKUP = new Map(
+  DEPARTMENTS_JSON.map(department => [department["depNo"], department])
+)
 const findDepartmentByNumber = departmentNumber =>
-  DEPARTMENTS_JSON.find(
-    department => department["depNo"] === departmentNumber.toString()
-  )
+  DEPARTMENTS_LOOKUP.get(departmentNumber.toString())
 
 const getDepartments = courseData => {
-  const primaryDepartmentNumber = courseData["department_number"]
-  const department = findDepartmentByNumber(primaryDepartmentNumber)
-  if (department) {
-    let departments = [department["title"]]
-    if (courseData["extra_course_number"]) {
-      departments = departments.concat(
-        courseData["extra_course_number"].map(extraCourseNumber => {
-          const extraDepartmentNumber = extraCourseNumber[
-            "linked_course_number_col"
-          ].split(".")[0]
-          const department = findDepartmentByNumber(extraDepartmentNumber)
-          if (department) {
-            return department["title"]
-          } else return null
-        })
-      )
-    }
-    return [...new Set(departments)].filter(Boolean)
-  } else return []
+  let departmentNumbers = getCourseNumbers(courseData).map(
+    number => number.split(".")[0]
+  )
+  // deduplicate and remove numbers that don't match with our list
+  departmentNumbers = [...new Set(departmentNumbers)].filter(
+    findDepartmentByNumber
+  )
+  return departmentNumbers.map(findDepartmentByNumber).map(department => ({
+    department: department.title,
+    url:        makeCourseInfoUrl(department.title, "department_name")
+  }))
 }
 
 const getExternalLinks = courseData => {
@@ -92,17 +88,13 @@ const getExternalLinks = courseData => {
 }
 
 const getCourseNumbers = courseData => {
-  let courseNumbers = [
-    `${courseData["department_number"]}.${courseData["master_course_number"]}`
-  ]
-  if (courseData["extra_course_number"]) {
-    courseNumbers = courseNumbers.concat(
-      courseData["extra_course_number"].map(
-        extraCourseNumber => extraCourseNumber["linked_course_number_col"]
-      )
+  const extraCourseNumbers = courseData["extra_course_number"] || []
+  return [
+    `${courseData["department_number"]}.${courseData["master_course_number"]}`,
+    ...extraCourseNumbers.map(
+      extraCourseNumber => extraCourseNumber["linked_course_number_col"]
     )
-  }
-  return courseNumbers
+  ]
 }
 
 const getCourseFeatureObject = courseFeature => {
@@ -152,6 +144,19 @@ const getCourseSectionFromFeatureUrl = courseFeature => {
   }
 }
 
+const makeCourseInfoUrl = (value, searchParam) =>
+  `/search/?${serializeSearchParams(
+    searchParam === "q"
+      ? {
+        text: `"${value}"`
+      }
+      : {
+        activeFacets: {
+          [searchParam]: value
+        }
+      }
+  )}`
+
 /* eslint-disable camelcase */
 const getConsolidatedTopics = courseCollections => {
   const topics = []
@@ -168,7 +173,8 @@ const getConsolidatedTopics = courseCollections => {
     if (!topicObj) {
       topicObj = {
         topic:     feature,
-        subtopics: []
+        subtopics: [],
+        url:       makeCourseInfoUrl(feature, "topics")
       }
       topics.push(topicObj)
       topicsLookup[feature] = topicObj
@@ -183,14 +189,18 @@ const getConsolidatedTopics = courseCollections => {
     if (!subtopicObj) {
       subtopicObj = {
         subtopic:     subfeature,
-        specialities: []
+        specialities: [],
+        url:          makeCourseInfoUrl(subfeature, "topics")
       }
       topicObj.subtopics.push(subtopicObj)
       subtopicsLookup[feature][subfeature] = subtopicObj
     }
 
     if (speciality) {
-      subtopicObj.specialities.push(speciality)
+      subtopicObj.specialities.push({
+        speciality: speciality,
+        url:        makeCourseInfoUrl(speciality, "topics")
+      })
     }
   }
   return topics
@@ -577,5 +587,6 @@ module.exports = {
   replaceSubstring,
   applyReplacements,
   getPathFragments,
-  updatePath
+  updatePath,
+  makeCourseInfoUrl
 }

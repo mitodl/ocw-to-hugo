@@ -317,22 +317,49 @@ describe("markdown generators", () => {
           topic:     "Engineering",
           subtopics: [
             {
-              specialities: ["Systems Design"],
-              subtopic:     "Systems Engineering"
+              specialities: [
+                {
+                  speciality: "Systems Design",
+                  url:        `/search/?t=${encodeURIComponent("Systems Design")}`
+                }
+              ],
+              subtopic: "Systems Engineering",
+              url:      `/search/?t=${encodeURIComponent("Systems Engineering")}`
             },
             {
-              specialities: ["Robotics and Control Systems"],
-              subtopic:     "Electrical Engineering"
+              specialities: [
+                {
+                  speciality: "Robotics and Control Systems",
+                  url:        `/search/?t=${encodeURIComponent(
+                    "Robotics and Control Systems"
+                  )}`
+                }
+              ],
+              subtopic: "Electrical Engineering",
+              url:      `/search/?t=${encodeURIComponent("Electrical Engineering")}`
             },
             {
-              specialities: ["Ocean Exploration"],
-              subtopic:     "Ocean Engineering"
+              specialities: [
+                {
+                  speciality: "Ocean Exploration",
+                  url:        `/search/?t=${encodeURIComponent("Ocean Exploration")}`
+                }
+              ],
+              subtopic: "Ocean Engineering",
+              url:      `/search/?t=${encodeURIComponent("Ocean Engineering")}`
             },
             {
-              specialities: ["Mechanical Design"],
-              subtopic:     "Mechanical Engineering"
+              specialities: [
+                {
+                  speciality: "Mechanical Design",
+                  url:        `/search/?t=${encodeURIComponent("Mechanical Design")}`
+                }
+              ],
+              subtopic: "Mechanical Engineering",
+              url:      `/search/?t=${encodeURIComponent("Mechanical Engineering")}`
             }
-          ]
+          ],
+          url: `/search/?t=${encodeURIComponent("Engineering")}`
         }
       ])
     })
