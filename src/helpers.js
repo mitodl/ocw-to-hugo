@@ -507,7 +507,8 @@ const resolveYouTubeEmbedMatches = (htmlStr, courseData, pathLookup) => {
         match.index = index
         const media = courseData["course_embedded_media"][key]
         const replacement =
-          media["template_type"] !== "popup"
+          media["template_type"] !== "popup" &&
+          media["template_type"] !== "thumbnail_popup"
             ? getYoutubeEmbedCode(media)
             : getVideoPageLink(media, pathLookup)
         return { replacement, match }
