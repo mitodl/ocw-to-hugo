@@ -105,7 +105,11 @@ const getCourseFeatureObject = (courseFeature, courseData, pathLookup) => {
     featureObject["feature"] = feature
   }
   if (url) {
-    featureObject["url"] = resolveUidForLink(url, courseData, pathLookup)
+    featureObject["url"] = resolveUidForLink(
+      url,
+      courseData,
+      pathLookup
+    ).replace(BASEURL_SHORTCODE, "")
   }
   return featureObject
 }

@@ -110,15 +110,17 @@ describe("generateDataTemplate", () => {
   })
 
   it("sets the course_features property to the instructors found in the instuctors node of the course json data", () => {
-    singleCourseJsonData["course_feature_tags"].forEach((courseFeature, index) => {
-      const expectedValue = helpers.getCourseFeatureObject(
-        courseFeature,
-        singleCourseJsonData,
-        pathLookup
-      )
-      const foundValue = courseDataTemplate["course_features"][index]
-      sinon.assert.match(expectedValue, foundValue)
-    })
+    singleCourseJsonData["course_feature_tags"].forEach(
+      (courseFeature, index) => {
+        const expectedValue = helpers.getCourseFeatureObject(
+          courseFeature,
+          singleCourseJsonData,
+          pathLookup
+        )
+        const foundValue = courseDataTemplate["course_features"][index]
+        sinon.assert.match(expectedValue, foundValue)
+      }
+    )
   })
 
   it("sets the topics property on the course data template to a consolidated list of topics from the course_collections property of the course json data", () => {
