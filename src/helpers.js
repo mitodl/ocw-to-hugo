@@ -98,7 +98,7 @@ const getCourseNumbers = courseData => {
 }
 
 const getCourseFeatureObject = (courseFeature, courseData, pathLookup) => {
-  const feature = courseFeature["feature"]
+  const feature = courseFeature["course_feature_tag"]
   const url = courseFeature["ocw_feature_url"]
   const featureObject = {}
   if (feature) {

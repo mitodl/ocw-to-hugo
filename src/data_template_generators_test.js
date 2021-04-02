@@ -109,8 +109,8 @@ describe("generateDataTemplate", () => {
     )
   })
 
-  it("sets the course_features property to the instructors found in the instuctors node of the course json data", async () => {
-    singleCourseJsonData["course_features"].forEach((courseFeature, index) => {
+  it("sets the course_features property to the instructors found in the instuctors node of the course json data", () => {
+    singleCourseJsonData["course_feature_tags"].forEach((courseFeature, index) => {
       const expectedValue = helpers.getCourseFeatureObject(
         courseFeature,
         singleCourseJsonData,
