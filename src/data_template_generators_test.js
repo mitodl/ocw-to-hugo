@@ -6,6 +6,7 @@ const { assert, expect } = require("chai").use(require("sinon-chai"))
 const tmp = require("tmp")
 
 const { INPUT_COURSE_DATE_FORMAT } = require("./constants")
+const fileOperations = require("./file_operations")
 const { generateDataTemplate } = require("./data_template_generators")
 const helpers = require("./helpers")
 
@@ -22,11 +23,15 @@ const singleCourseJsonData = JSON.parse(singleCourseRawData)
 
 describe("generateDataTemplate", () => {
   const sandbox = sinon.createSandbox()
-  let consoleLog, courseDataTemplate
+  let consoleLog, courseDataTemplate, pathLookup
 
-  beforeEach(() => {
+  beforeEach(async () => {
     consoleLog = sandbox.stub(console, "log")
-    courseDataTemplate = generateDataTemplate(singleCourseJsonData)
+    pathLookup = await fileOperations.buildPathsForAllCourses(
+      "test_data/courses",
+      [singleCourseId]
+    )
+    courseDataTemplate = generateDataTemplate(singleCourseJsonData, pathLookup)
   })
 
   afterEach(() => {
@@ -104,9 +109,13 @@ describe("generateDataTemplate", () => {
     )
   })
 
-  it("sets the course_features property to the instructors found in the instuctors node of the course json data", () => {
+  it("sets the course_features property to the instructors found in the instuctors node of the course json data", async () => {
     singleCourseJsonData["course_features"].forEach((courseFeature, index) => {
-      const expectedValue = helpers.getCourseFeatureObject(courseFeature)
+      const expectedValue = helpers.getCourseFeatureObject(
+        courseFeature,
+        singleCourseJsonData,
+        pathLookup
+      )
       const foundValue = courseDataTemplate["course_features"][index]
       sinon.assert.match(expectedValue, foundValue)
     })

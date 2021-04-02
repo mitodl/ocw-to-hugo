@@ -97,15 +97,15 @@ const getCourseNumbers = courseData => {
   ]
 }
 
-const getCourseFeatureObject = courseFeature => {
-  const feature = courseFeature["ocw_feature"]
-  const subfeature = courseFeature["ocw_subfeature"]
+const getCourseFeatureObject = (courseFeature, courseData, pathLookup) => {
+  const feature = courseFeature["feature"]
+  const url = courseFeature["ocw_feature_url"]
   const featureObject = {}
   if (feature) {
     featureObject["feature"] = feature
   }
-  if (subfeature) {
-    featureObject["subfeature"] = subfeature
+  if (url) {
+    featureObject["url"] = resolveUidForLink(url, courseData, pathLookup)
   }
   return featureObject
 }

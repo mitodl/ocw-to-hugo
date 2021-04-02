@@ -236,7 +236,8 @@ describe("file operations", () => {
         pathLookup
       )
       expect(generateDataTemplate).to.be.calledOnceWithExactly(
-        singleCourseJsonData
+        singleCourseJsonData,
+        pathLookup
       )
     }).timeout(5000)
 

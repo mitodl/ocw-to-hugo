@@ -64,10 +64,17 @@ describe("getCourseNumbers", () => {
   })
 })
 
-describe("getCourseFeatureObject", () => {
-  it("returns the expected object from a course feature object", () => {
+describe("getCourseFeatureObject", async () => {
+  const pathLookup = await fileOperations.buildPathsForAllCourses(
+    "test_data/courses",
+    [testCourse]
+  )
+
+  it("returns the expected object from a course feature object", async () => {
     const featureObject = helpers.getCourseFeatureObject(
-      singleCourseJsonData["course_features"][2]
+      singleCourseJsonData["course_feature_tags"][2],
+      singleCourseJsonData,
+      pathLookup
     )
     assert.equal(featureObject["feature"], "Assignments")
     assert.equal(featureObject["subfeature"], "design with examples")
@@ -75,7 +82,9 @@ describe("getCourseFeatureObject", () => {
 
   it("subfeature is undefined on the course feature object if it's blank in the input data", () => {
     const featureObject = helpers.getCourseFeatureObject(
-      singleCourseJsonData["course_features"][0]
+      singleCourseJsonData["course_feature_tags"][0],
+      singleCourseJsonData,
+      pathLookup
     )
     assert.equal(featureObject["feature"], "Image Gallery")
     assert.equal(featureObject["subfeature"], undefined)

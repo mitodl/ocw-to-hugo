@@ -3,7 +3,7 @@ const moment = require("moment")
 const { INPUT_COURSE_DATE_FORMAT } = require("./constants")
 const helpers = require("./helpers")
 
-const generateDataTemplate = courseData => {
+const generateDataTemplate = (courseData, pathLookup) => {
   return {
     course_id:        courseData["short_url"],
     course_title:     courseData["title"],
@@ -33,8 +33,8 @@ const generateDataTemplate = courseData => {
       }
     }),
     departments:     helpers.getDepartments(courseData),
-    course_features: courseData["course_features"].map(courseFeature =>
-      helpers.getCourseFeatureObject(courseFeature)
+    course_features: courseData["course_feature_tags"].map(courseFeature =>
+      helpers.getCourseFeatureObject(courseFeature, courseData, pathLookup)
     ),
     topics:         helpers.getConsolidatedTopics(courseData["course_collections"]),
     course_numbers: helpers.getCourseNumbers(courseData),

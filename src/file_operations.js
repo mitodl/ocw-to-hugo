@@ -152,7 +152,8 @@ const scanCourse = async (inputPath, outputPath, course, pathLookup) => {
         pathLookup
       )
       const dataTemplate = dataTemplateGenerators.generateDataTemplate(
-        courseData
+        courseData,
+        pathLookup
       )
       await writeMarkdownFilesRecursive(
         path.join(outputPath, courseData["short_url"], "content"),
