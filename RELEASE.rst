@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.16.1
+Version 1.16.1 (Released April 02, 2021)
 --------------
 
 - Add course info links (#244)
