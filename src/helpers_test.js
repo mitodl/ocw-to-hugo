@@ -560,7 +560,7 @@ describe("resolveYouTubeEmbedMatches", () => {
     sandbox.restore()
   })
 
-  it("resolves youtube embed links", () => {
+  it("resolves youtube embed links", async () => {
     const youtubeKey =
       "99525203lab5:savoniuswindturbineconstructionandtesting48221462"
     const htmlStr = `some text ${youtubeKey} other text`
@@ -568,7 +568,15 @@ describe("resolveYouTubeEmbedMatches", () => {
     const courseData = JSON.parse(
       fs.readFileSync(`test_data/courses/${courseId}/${courseId}_parsed.json`)
     )
-    const results = helpers.resolveYouTubeEmbedMatches(htmlStr, courseData)
+    const pathLookup = await fileOperations.buildPathsForAllCourses(
+      "test_data/courses",
+      [courseId]
+    )
+    const results = helpers.resolveYouTubeEmbedMatches(
+      htmlStr,
+      courseData,
+      pathLookup
+    )
     const match = [youtubeKey]
     match.index = 10
     assert.deepEqual(results, [
@@ -579,6 +587,35 @@ describe("resolveYouTubeEmbedMatches", () => {
     ])
     // verify that if there is a key not present in the html, it is skipped
     assert.lengthOf(Object.values(courseData["course_embedded_media"]), 21)
+  })
+
+  it("resolves youtube popup links", async () => {
+    const youtubeKey = "16382356instructorinterview:courseiteration55791478"
+    const htmlStr = `some text ${youtubeKey} other text`
+    const courseId = "21g-107-chinese-i-streamlined-fall-2014"
+    const courseData = JSON.parse(
+      fs.readFileSync(`test_data/courses/${courseId}/${courseId}_parsed.json`)
+    )
+    const pathLookup = await fileOperations.buildPathsForAllCourses(
+      "test_data/courses",
+      [courseId]
+    )
+    const results = helpers.resolveYouTubeEmbedMatches(
+      htmlStr,
+      courseData,
+      pathLookup
+    )
+    const match = [youtubeKey]
+    match.index = 10
+    assert.deepEqual(results, [
+      {
+        replacement:
+          '<a href = "/sections/instructor-insights/instructor-interview-course-iteration">Instructor Interview: Incorporating Authentic Text Going Forward</a>',
+        match
+      }
+    ])
+    // verify that if there is a key not present in the html, it is skipped
+    assert.lengthOf(Object.values(courseData["course_embedded_media"]), 11)
   })
 })
 

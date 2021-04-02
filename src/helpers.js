@@ -219,6 +219,12 @@ const getYoutubeEmbedCode = media => {
     .join("")
 }
 
+const getVideoPageLink = (media, pathLookup) => {
+  return `<a href = "${pathLookup.byUid[media["uid"]].path}">${
+    media["title"]
+  }</a>`
+}
+
 const buildPathRecursive = (item, itemsLookup, courseUid, pathLookup) => {
   const { filenameKey, page } = item
   const uid = page["uid"]
@@ -490,7 +496,7 @@ const resolveRelativeLinkMatches = (htmlStr, courseData, pathLookup) => {
   return []
 }
 
-const resolveYouTubeEmbedMatches = (htmlStr, courseData) => {
+const resolveYouTubeEmbedMatches = (htmlStr, courseData, pathLookup) => {
   return Object.keys(courseData["course_embedded_media"])
     .map(key => {
       const index = htmlStr.indexOf(key)
@@ -499,9 +505,12 @@ const resolveYouTubeEmbedMatches = (htmlStr, courseData) => {
         // to be used with applyReplacements above
         const match = [key]
         match.index = index
-        const replacement = getYoutubeEmbedCode(
-          courseData["course_embedded_media"][key]
-        )
+        const media = courseData["course_embedded_media"][key]
+        const replacement =
+          media["template_type"] !== "popup" &&
+          media["template_type"] !== "thumbnail_popup"
+            ? getYoutubeEmbedCode(media)
+            : getVideoPageLink(media, pathLookup)
         return { replacement, match }
       }
       return null
@@ -572,6 +581,7 @@ module.exports = {
   getCourseSectionFromFeatureUrl,
   getConsolidatedTopics,
   getYoutubeEmbedCode,
+  getVideoPageLink,
   resolveUidMatches,
   resolveRelativeLinkMatches,
   resolveYouTubeEmbedMatches,

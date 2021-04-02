@@ -11,7 +11,7 @@ const fixLinks = (htmlStr, page, courseData, pathLookup) => {
     const matchAndReplacements = [
       ...helpers.resolveUidMatches(htmlStr, page, courseData, pathLookup),
       ...helpers.resolveRelativeLinkMatches(htmlStr, courseData, pathLookup),
-      ...helpers.resolveYouTubeEmbedMatches(htmlStr, courseData)
+      ...helpers.resolveYouTubeEmbedMatches(htmlStr, courseData, pathLookup)
     ]
     htmlStr = helpers.applyReplacements(matchAndReplacements, htmlStr)
 
