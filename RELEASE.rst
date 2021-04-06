@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 1.17.0
+--------------
+
+- video page baseurl (#252)
+- popup video links (#246)
+
 Version 1.16.1 (Released April 02, 2021)
 --------------
 
