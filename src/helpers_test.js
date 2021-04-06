@@ -610,7 +610,7 @@ describe("resolveYouTubeEmbedMatches", () => {
     assert.deepEqual(results, [
       {
         replacement:
-          '<a href = "/sections/instructor-insights/instructor-interview-course-iteration">Instructor Interview: Incorporating Authentic Text Going Forward</a>',
+          '<a href = "BASEURL_SHORTCODE/sections/instructor-insights/instructor-interview-course-iteration">Instructor Interview: Incorporating Authentic Text Going Forward</a>',
         match
       }
     ])
