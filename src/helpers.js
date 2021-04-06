@@ -220,9 +220,10 @@ const getYoutubeEmbedCode = media => {
 }
 
 const getVideoPageLink = (media, pathLookup) => {
-  return `<a href = "${pathLookup.byUid[media["uid"]].path}">${
-    media["title"]
-  }</a>`
+  return `<a href = "${path.join(
+    BASEURL_SHORTCODE,
+    pathLookup.byUid[media["uid"]].path
+  )}">${media["title"]}</a>`
 }
 
 const buildPathRecursive = (item, itemsLookup, courseUid, pathLookup) => {
