@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.17.0
+Version 1.17.0 (Released April 07, 2021)
 --------------
 
 - video page baseurl (#252)
