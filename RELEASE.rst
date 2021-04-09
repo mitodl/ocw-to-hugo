@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.17.1
+--------------
+
+- use course_feature_tags (#249)
+
 Version 1.17.0 (Released April 07, 2021)
 --------------
 
