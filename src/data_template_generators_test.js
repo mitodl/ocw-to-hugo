@@ -12,7 +12,7 @@ const helpers = require("./helpers")
 
 const testDataPath = "test_data/courses"
 const singleCourseId =
-  "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
+  "res-ec-001-exploring-fairness-in-machine-learning-for-international-development-spring-2020"
 const singleCourseParsedJsonPath = path.join(
   testDataPath,
   singleCourseId,
@@ -79,12 +79,12 @@ describe("generateDataTemplate", () => {
 
   it("sets the instructors property to the instructors found in the instuctors node of the course json data", () => {
     singleCourseJsonData["instructors"].forEach((instructor, index) => {
-      const expectedParams = encodeURIComponent(
-        `"${instructor["first_name"]} ${instructor["last_name"]}"`
-      )
+      const expectedName = `${
+        instructor["salutation"] ? instructor["salutation"] : "Prof."
+      } ${instructor["first_name"]} ${instructor["last_name"]}`
       const expectedValue = {
-        instructor: `Prof. ${instructor["first_name"]} ${instructor["last_name"]}`,
-        url:        `/search/?q=${expectedParams}`
+        instructor: expectedName,
+        url:        `/search/?q=${encodeURIComponent(`"${expectedName}"`)}`
       }
       const foundValue = courseDataTemplate["instructors"][index]
       assert.deepEqual(expectedValue, foundValue)
@@ -95,14 +95,8 @@ describe("generateDataTemplate", () => {
     assert.deepEqual(
       [
         {
-          department: "Mechanical Engineering",
-          url:        `/search/?d=${encodeURIComponent("Mechanical Engineering")}`
-        },
-        {
-          department: "Aeronautics and Astronautics",
-          url:        `/search/?d=${encodeURIComponent(
-            "Aeronautics and Astronautics"
-          )}`
+          department: "Supplemental Resources",
+          url:        `/search/?d=${encodeURIComponent("Supplemental Resources")}`
         }
       ],
       courseDataTemplate["departments"]
@@ -149,7 +143,7 @@ describe("generateDataTemplate", () => {
     assert.deepEqual(
       {
         level: level,
-        url:   "/search/?l=Undergraduate"
+        url:   "/search/?l=Non%20Credit"
       },
       foundValue
     )

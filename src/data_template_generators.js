@@ -26,9 +26,11 @@ const generateDataTemplate = (courseData, pathLookup) => {
       ).format()
       : "",
     instructors: (courseData["instructors"] || []).map(instructor => {
-      const name = `${instructor["first_name"]} ${instructor["last_name"]}`
+      const name = `${
+        instructor["salutation"] ? instructor["salutation"] : "Prof."
+      } ${instructor["first_name"]} ${instructor["last_name"]}`
       return {
-        instructor: `Prof. ${name}`,
+        instructor: name,
         url:        helpers.makeCourseInfoUrl(name, "q")
       }
     }),
