@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.18.0
+--------------
+
+- use salutation if it exists (#258)
+
 Version 1.17.1 (Released April 09, 2021)
 --------------
 
