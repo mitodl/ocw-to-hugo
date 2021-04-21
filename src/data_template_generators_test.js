@@ -79,12 +79,12 @@ describe("generateDataTemplate", () => {
 
   it("sets the instructors property to the instructors found in the instuctors node of the course json data", () => {
     singleCourseJsonData["instructors"].forEach((instructor, index) => {
-      const expectedName = `${
-        instructor["salutation"] ? instructor["salutation"] : "Prof."
-      } ${instructor["first_name"]} ${instructor["last_name"]}`
+      const expectedName = `${instructor["first_name"]} ${instructor["last_name"]}`
       const expectedValue = {
-        instructor: expectedName,
-        url:        `/search/?q=${encodeURIComponent(`"${expectedName}"`)}`
+        instructor: `${
+          instructor["salutation"] ? instructor["salutation"] : "Prof."
+        } ${expectedName}`,
+        url: `/search/?q=${encodeURIComponent(`"${expectedName}"`)}`
       }
       const foundValue = courseDataTemplate["instructors"][index]
       assert.deepEqual(expectedValue, foundValue)
