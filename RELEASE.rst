@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.19.0
+Version 1.19.0 (Released April 28, 2021)
 --------------
 
 - Bump y18n from 4.0.0 to 4.0.1 (#245)
