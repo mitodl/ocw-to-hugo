@@ -47,6 +47,7 @@ If the `-c` option has been specified, processing will be filtered by the course
 | `--strips3`       | No  | `true or false` | Strip the s3 base URL from all OCW resources |
 | `--staticPrefix`       | No  | `/path/to/static/assets` | When `--strips3` is set to true, replace the s3 base URL with this string |
 | `--rm` | No | `true or false` | Clear the contents of the path passed with `-o` before the conversion run |
+| `--verbose` | No | `true or false` | Run the build in verbose mode, which will print errors encountered during the conversion to the console and exit with a code 1 |
 
 ## Environment Variables
 | Variable | Description  |
