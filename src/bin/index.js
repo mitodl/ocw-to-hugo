@@ -83,7 +83,6 @@ run()
   .catch(err => {
     console.error("Error:", err)
     loggers.fileLogger.error(err)
-    process.exit(1)
   })
   .then(() => {
     if (loggers.memoryTransport.logs.length) {
