@@ -11,8 +11,7 @@ const { generateDataTemplate } = require("./data_template_generators")
 const helpers = require("./helpers")
 
 const testDataPath = "test_data/courses"
-const singleCourseId =
-  "16-89j-space-systems-engineering-spring-2007"
+const singleCourseId = "16-89j-space-systems-engineering-spring-2007"
 const singleCourseParsedJsonPath = path.join(
   testDataPath,
   singleCourseId,
@@ -97,11 +96,15 @@ describe("generateDataTemplate", () => {
       [
         {
           department: "Aeronautics and Astronautics",
-          url:        `/search/?d=${encodeURIComponent("Aeronautics and Astronautics")}`
+          url:        `/search/?d=${encodeURIComponent(
+            "Aeronautics and Astronautics"
+          )}`
         },
         {
           department: "Institute for Data, Systems, and Society",
-          url:        `/search/?d=${encodeURIComponent("Institute for Data, Systems, and Society")}`
+          url:        `/search/?d=${encodeURIComponent(
+            "Institute for Data, Systems, and Society"
+          )}`
         }
       ],
       courseDataTemplate["departments"]
@@ -131,10 +134,12 @@ describe("generateDataTemplate", () => {
   })
 
   it("sets the course_number property on the course data template to data parsed from sort_as and extra_course_number properties in the course json data", () => {
-    helpers.getCourseNumbers(singleCourseJsonData).forEach((expectedValue, index) => {
-      const foundValue = courseDataTemplate["course_numbers"][index]
-      assert.equal(expectedValue, foundValue)
-    })
+    helpers
+      .getCourseNumbers(singleCourseJsonData)
+      .forEach((expectedValue, index) => {
+        const foundValue = courseDataTemplate["course_numbers"][index]
+        assert.equal(expectedValue, foundValue)
+      })
   })
 
   it("sets the term property on the course data template to from_semester and from_year in the course json data", () => {
