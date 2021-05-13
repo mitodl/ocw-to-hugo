@@ -180,13 +180,32 @@ const generateCourseHomeMarkdown = (courseData, pathLookup) => {
     )
     : ""
 
+  const masterSubjects = courseData["other_version_parent_uids"]
+  const otherVersionsText = masterSubjects
+    ? `${masterSubjects
+      .map(masterSubject => {
+        const otherVersions = pathLookup.byMasterSubject[masterSubject]
+        return otherVersions
+          .map(otherVersion => {
+            return `[${otherVersion["course_number"]} ${otherVersion[
+              "title"
+            ].toUpperCase()}](/courses/${otherVersion["course_id"]}) | ${
+              otherVersion["course_number"].endsWith("SC") ? "SCHOLAR, " : ""
+            } ${otherVersion["term"].toUpperCase()}`
+          })
+          .join("\n")
+      })
+      .join("")}`
+    : ""
+
   const pageId = courseHomePage ? courseHomePage["uid"] : ""
   const frontMatter = {
-    uid:       pageId,
-    title:     "",
-    type:      "course",
-    layout:    "course_home",
-    course_id: courseData["short_url"]
+    uid:                 pageId,
+    title:               "",
+    type:                "course",
+    layout:              "course_home",
+    course_id:           courseData["short_url"],
+    other_versions_text: otherVersionsText
   }
   try {
     return `---\n${yaml.safeDump(
