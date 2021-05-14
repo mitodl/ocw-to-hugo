@@ -381,9 +381,22 @@ describe("file operations", () => {
           "8-02x-physics-ii-electricity-magnetism-with-an-experimental-focus-spring-2005"
         ]
       )
-      assert.lengthOf(pathLookup.byMasterSubject["206222b741b31eab7b4b2771202c4bbd"], 2)
-      assert.equal(pathLookup.byMasterSubject["206222b741b31eab7b4b2771202c4bbd"][0]["course_id"], "8-02-physics-ii-electricity-and-magnetism-spring-2007")
-      assert.equal(pathLookup.byMasterSubject["206222b741b31eab7b4b2771202c4bbd"][1]["course_id"], "8-02x-physics-ii-electricity-magnetism-with-an-experimental-focus-spring-2005")
+      assert.lengthOf(
+        pathLookup.byMasterSubject["206222b741b31eab7b4b2771202c4bbd"],
+        2
+      )
+      assert.equal(
+        pathLookup.byMasterSubject["206222b741b31eab7b4b2771202c4bbd"][0][
+          "course_id"
+        ],
+        "8-02-physics-ii-electricity-and-magnetism-spring-2007"
+      )
+      assert.equal(
+        pathLookup.byMasterSubject["206222b741b31eab7b4b2771202c4bbd"][1][
+          "course_id"
+        ],
+        "8-02x-physics-ii-electricity-magnetism-with-an-experimental-focus-spring-2005"
+      )
     })
   })
 })

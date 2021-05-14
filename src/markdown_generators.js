@@ -181,25 +181,26 @@ const generateCourseHomeMarkdown = (courseData, pathLookup) => {
     : ""
 
   const masterSubjects = courseData["other_version_parent_uids"]
-  const otherVersionsText = masterSubjects && pathLookup
-    ? masterSubjects
-      .map(masterSubject => {
-        const otherVersions = pathLookup.byMasterSubject[
-          masterSubject
-        ].filter(
-          otherVersion =>
-            otherVersion["course_id"] !== courseData["short_url"]
-        )
-        return otherVersions.map(otherVersion => {
-          return `[${otherVersion["course_number"]} ${otherVersion[
-            "title"
-          ].toUpperCase()}](/courses/${otherVersion["course_id"]}) | ${
-            otherVersion["course_number"].endsWith("SC") ? "SCHOLAR, " : ""
-          } ${otherVersion["term"].toUpperCase()}`
+  const otherVersionsText =
+    masterSubjects && pathLookup
+      ? masterSubjects
+        .map(masterSubject => {
+          const otherVersions = pathLookup.byMasterSubject[
+            masterSubject
+          ].filter(
+            otherVersion =>
+              otherVersion["course_id"] !== courseData["short_url"]
+          )
+          return otherVersions.map(otherVersion => {
+            return `[${otherVersion["course_number"]} ${otherVersion[
+              "title"
+            ].toUpperCase()}](/courses/${otherVersion["course_id"]}) | ${
+              otherVersion["course_number"].endsWith("SC") ? "SCHOLAR, " : ""
+            } ${otherVersion["term"].toUpperCase()}`
+          })
         })
-      })
-      .flat()
-    : []
+        .flat()
+      : []
 
   const pageId = courseHomePage ? courseHomePage["uid"] : ""
   const frontMatter = {
