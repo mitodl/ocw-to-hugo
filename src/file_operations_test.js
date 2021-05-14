@@ -365,7 +365,7 @@ describe("file operations", () => {
       assert.isUndefined(uids[unpublishedCourseId])
 
       const pathsByCourse = pathLookup.byCourse
-      assert.lengthOf(Object.values(pathsByCourse), 6)
+      assert.lengthOf(Object.values(pathsByCourse), 4)
       const paths = pathsByCourse["ec-711-d-lab-energy-spring-2011"]
       assert.lengthOf(paths, 77)
       for (const pathObj of paths) {
