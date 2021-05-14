@@ -184,7 +184,12 @@ const generateCourseHomeMarkdown = (courseData, pathLookup) => {
   const otherVersionsText = masterSubjects
     ? `${masterSubjects
       .map(masterSubject => {
-        const otherVersions = pathLookup.byMasterSubject[masterSubject]
+        const otherVersions = pathLookup.byMasterSubject[
+          masterSubject
+        ].filter(
+          otherVersion =>
+            otherVersion["course_id"] !== courseData["short_url"]
+        )
         return otherVersions
           .map(otherVersion => {
             return `[${otherVersion["course_number"]} ${otherVersion[
