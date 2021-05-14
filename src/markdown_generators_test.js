@@ -270,7 +270,11 @@ describe("markdown generators", () => {
   })
 
   describe("generateCourseHomeMarkdown", () => {
-    let courseHomeMarkdown, courseHomeFrontMatter, safeDump
+    let courseHomeMarkdown,
+      courseHomeFrontMatter,
+      getCourseNumbers,
+      getConsolidatedTopics,
+      safeDump
     const sandbox = sinon.createSandbox()
 
     beforeEach(async () => {
