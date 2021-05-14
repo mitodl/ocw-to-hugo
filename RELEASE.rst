@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 1.19.1
+--------------
+
+- Add 11.405 to external link list (#277)
+- upgrade a few packages
+
 Version 1.19.0 (Released April 28, 2021)
 --------------
 
