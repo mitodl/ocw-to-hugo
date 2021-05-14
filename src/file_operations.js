@@ -97,9 +97,9 @@ const buildPathsForAllCourses = async (inputPath, courseList) => {
               title:         courseData["title"],
               term:          `${courseData["from_semester"]} ${courseData["from_year"]}`
             }
-            if (!masterSubjectLookup[masterSubject]) {
-              masterSubjectLookup[masterSubject] = [otherVersion]
-            } else masterSubjectLookup[masterSubject].push(otherVersion)
+            masterSubjectLookup[masterSubject]
+              ? masterSubjectLookup[masterSubject].push(otherVersion)
+              : (masterSubjectLookup[masterSubject] = [otherVersion])
           })
         }
       }
