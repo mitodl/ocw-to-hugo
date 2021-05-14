@@ -51,8 +51,8 @@ describe("file operations", () => {
     const sandbox = sinon.createSandbox()
     const inputPath = "test_data/courses"
     const outputPath = tmp.dirSync({ prefix: "output" }).name
-    const courseLogMessage = "Converting 11 courses to Hugo markdown..."
-    const pathsLogMessage = "Generated 2109 paths."
+    const courseLogMessage = "Converting 12 courses to Hugo markdown..."
+    const pathsLogMessage = "Generated 2220 paths."
     const course1Name =
       "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
     const course1Path = path.join(inputPath, course1Name)
@@ -141,7 +141,7 @@ describe("file operations", () => {
 
     it("calls readdir many times, once for courses and once for each course", async () => {
       await fileOperations.scanCourses(inputPath, outputPath)
-      assert.equal(readdirStub.callCount, 23)
+      assert.equal(readdirStub.callCount, 25)
     }).timeout(5000)
 
     it("scans the four test courses and reports to console", async () => {
@@ -365,12 +365,25 @@ describe("file operations", () => {
       assert.isUndefined(uids[unpublishedCourseId])
 
       const pathsByCourse = pathLookup.byCourse
-      assert.lengthOf(Object.values(pathsByCourse), 4)
+      assert.lengthOf(Object.values(pathsByCourse), 6)
       const paths = pathsByCourse["ec-711-d-lab-energy-spring-2011"]
       assert.lengthOf(paths, 77)
       for (const pathObj of paths) {
         assert.deepEqual(pathObj, uids[pathObj.uid])
       }
+    })
+
+    it("builds a masterSubject lookup with two courses linked by master_subject", async () => {
+      const pathLookup = await fileOperations.buildPathsForAllCourses(
+        "test_data/courses",
+        [
+          "8-02-physics-ii-electricity-and-magnetism-spring-2007",
+          "8-02x-physics-ii-electricity-magnetism-with-an-experimental-focus-spring-2005"
+        ]
+      )
+      assert.lengthOf(pathLookup.byMasterSubject["206222b741b31eab7b4b2771202c4bbd"], 2)
+      assert.equal(pathLookup.byMasterSubject["206222b741b31eab7b4b2771202c4bbd"][0]["course_id"], "8-02-physics-ii-electricity-and-magnetism-spring-2007")
+      assert.equal(pathLookup.byMasterSubject["206222b741b31eab7b4b2771202c4bbd"][1]["course_id"], "8-02x-physics-ii-electricity-magnetism-with-an-experimental-focus-spring-2005")
     })
   })
 })
