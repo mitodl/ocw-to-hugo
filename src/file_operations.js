@@ -87,6 +87,7 @@ const buildPathsForAllCourses = async (inputPath, courseList) => {
         pathLookup[courseUid] = pathObj
         courseLookupList.push(pathObj)
 
+        // If this course has master subjects defined, add this course to the lookup
         const courseId = courseData["short_url"]
         const masterSubjects = courseData["other_version_parent_uids"]
         if (masterSubjects) {
@@ -234,7 +235,7 @@ const writeMarkdownFilesRecursive = async (outputPath, markdownData) => {
 const writeDataTemplate = async (outputPath, dataTemplate) => {
   await helpers.createOrOverwriteFile(
     path.join(outputPath, "course.json"),
-    JSON.stringify(dataTemplate)
+    JSON.stringify(dataTemplate, null, 2)
   )
 }
 
