@@ -88,12 +88,11 @@ const buildPathsForAllCourses = async (inputPath, courseList) => {
         courseLookupList.push(pathObj)
 
         // If this course has master subjects defined, add this course to the lookup
-        const courseId = courseData["short_url"]
         const masterSubjects = courseData["other_version_parent_uids"]
         if (masterSubjects) {
           masterSubjects.forEach(masterSubject => {
             const otherVersion = {
-              course_id:     courseId,
+              course_id:     courseData["short_url"],
               course_number: `${courseData["department_number"]}.${courseData["master_course_number"]}`,
               title:         courseData["title"],
               term:          `${courseData["from_semester"]} ${courseData["from_year"]}`
