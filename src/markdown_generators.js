@@ -181,7 +181,7 @@ const generateCourseHomeMarkdown = (courseData, pathLookup) => {
     : ""
 
   const masterSubjects = courseData["other_version_parent_uids"]
-  const otherVersionsText = masterSubjects
+  const otherVersionsText = masterSubjects && pathLookup
     ? masterSubjects
       .map(masterSubject => {
         const otherVersions = pathLookup.byMasterSubject[
