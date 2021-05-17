@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 1.20.0
+--------------
+
+- display updated course numbers (#279)
+- add lookup for other versions based on master subject (#283)
+- remove default salutation
+
 Version 1.19.1 (Released May 14, 2021)
 --------------
 
