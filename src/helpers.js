@@ -88,13 +88,35 @@ const getExternalLinks = courseData => {
 }
 
 const getCourseNumbers = courseData => {
-  const extraCourseNumbers = courseData["extra_course_number"] || []
-  return [
+  const primaryCourseNumber = getUpdatedCourseNumber(
     `${courseData["department_number"]}.${courseData["master_course_number"]}`,
-    ...extraCourseNumbers.map(
-      extraCourseNumber => extraCourseNumber["linked_course_number_col"]
+    courseData
+  )
+  return [primaryCourseNumber, ...getExtraCourseNumbers(courseData)]
+}
+
+const getExtraCourseNumbers = courseData => {
+  const extraCourseNumbers = courseData["extra_course_number"] || []
+  return extraCourseNumbers.map(extraCourseNumber =>
+    getUpdatedCourseNumber(
+      extraCourseNumber["linked_course_number_col"],
+      courseData
     )
-  ]
+  )
+}
+
+const getUpdatedCourseNumber = (oldCourseNumber, courseData) => {
+  let newCourseNumber = oldCourseNumber
+  const courseNumberUpdates = courseData["new_course_numbers"] || []
+  if (courseNumberUpdates) {
+    const updatedCourseNumber = courseNumberUpdates.find(
+      update => update["old_course_number_col"] === oldCourseNumber
+    )
+    if (updatedCourseNumber) {
+      newCourseNumber = `${updatedCourseNumber["new_course_number_col"]} (formerly ${oldCourseNumber})`
+    }
+  }
+  return newCourseNumber
 }
 
 const getCourseFeatureObject = (courseFeature, courseData, pathLookup) => {
