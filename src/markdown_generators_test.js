@@ -17,8 +17,7 @@ const singleCourseId =
   "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
 const imageGalleryCourseId = "12-001-introduction-to-geology-fall-2013"
 const videoGalleryCourseId = "ec-711-d-lab-energy-spring-2011"
-const courseHomePdfCourseId =
-  "8-02-physics-ii-electricity-and-magnetism-spring-2007"
+const physicsCourseId = "8-02-physics-ii-electricity-and-magnetism-spring-2007"
 const singleCourseParsedJsonPath = path.join(
   testDataPath,
   singleCourseId,
@@ -35,10 +34,10 @@ const videoGalleryCourseParsedJsonPath = path.join(
   videoGalleryCourseId,
   `${videoGalleryCourseId}_parsed.json`
 )
-const courseHomePdfCourseParsedJsonPath = path.join(
+const physicsCourseParsedJsonPath = path.join(
   testDataPath,
-  courseHomePdfCourseId,
-  `${courseHomePdfCourseId}_parsed.json`
+  physicsCourseId,
+  `${physicsCourseId}_parsed.json`
 )
 
 describe("markdown generators", () => {
@@ -48,8 +47,8 @@ describe("markdown generators", () => {
     imageGalleryCourseJsonData,
     videoGalleryCourseRawData,
     videoGalleryCourseJsonData,
-    courseHomePdfCourseRawData,
-    courseHomePdfCourseJsonData,
+    physicsCourseRawData,
+    physicsCourseJsonData,
     coursePagesWithText,
     imageGalleryPages,
     imageGalleryImages,
@@ -71,10 +70,8 @@ describe("markdown generators", () => {
     )
     videoGalleryCourseJsonData = JSON.parse(videoGalleryCourseRawData)
 
-    courseHomePdfCourseRawData = fs.readFileSync(
-      courseHomePdfCourseParsedJsonPath
-    )
-    courseHomePdfCourseJsonData = JSON.parse(courseHomePdfCourseRawData)
+    physicsCourseRawData = fs.readFileSync(physicsCourseParsedJsonPath)
+    physicsCourseJsonData = JSON.parse(physicsCourseRawData)
 
     coursePagesWithText = singleCourseJsonData["course_pages"].filter(
       page => page["text"]
@@ -97,7 +94,7 @@ describe("markdown generators", () => {
         singleCourseId,
         videoGalleryCourseId,
         imageGalleryCourseId,
-        courseHomePdfCourseId
+        physicsCourseId
       ]
     )
     courseImageFeaturesFrontMatter = markdownGenerators.generateCourseFeaturesMarkdown(
@@ -280,12 +277,20 @@ describe("markdown generators", () => {
       safeDump
     const sandbox = sinon.createSandbox()
 
-    beforeEach(() => {
+    beforeEach(async () => {
       getCourseNumbers = sandbox.spy(helpers, "getCourseNumbers")
       getConsolidatedTopics = sandbox.spy(helpers, "getConsolidatedTopics")
       safeDump = sandbox.spy(yaml, "safeDump")
+      const pathLookup = await fileOperations.buildPathsForAllCourses(
+        "test_data/courses",
+        [
+          physicsCourseId,
+          "8-02x-physics-ii-electricity-magnetism-with-an-experimental-focus-spring-2005"
+        ]
+      )
       courseHomeMarkdown = markdownGenerators.generateCourseHomeMarkdown(
-        singleCourseJsonData
+        physicsCourseJsonData,
+        pathLookup
       )
       courseHomeFrontMatter = yaml.safeLoad(
         courseHomeMarkdown.split("---\n")[1]
@@ -303,7 +308,7 @@ describe("markdown generators", () => {
     })
 
     it("sets the uid property to the uid of the course home page from the source data", () => {
-      const expectedValue = "42664d52bd9a5b1632bac20876dc344d"
+      const expectedValue = "a187a05ae5ef2fb5f508bfce0069138d"
       const foundValue = courseHomeFrontMatter["uid"]
       assert.equal(expectedValue, foundValue)
     })
@@ -364,6 +369,14 @@ describe("markdown generators", () => {
       ])
     })
 
+    it("sets the expected text in other_versions", () => {
+      const expectedValue = [
+        "[8.02X PHYSICS II: ELECTRICITY & MAGNETISM WITH AN EXPERIMENTAL FOCUS](/courses/8-02x-physics-ii-electricity-magnetism-with-an-experimental-focus-spring-2005) |  SPRING 2005"
+      ]
+      const foundValue = courseHomeFrontMatter["other_versions"]
+      assert.deepEqual(expectedValue, foundValue)
+    })
+
     it("calls yaml.safeDump once", () => {
       expect(safeDump).to.be.calledOnce
     })
@@ -404,7 +417,7 @@ describe("markdown generators", () => {
 
     beforeEach(() => {
       const pdfMarkdownFile = markdownGenerators.generateCourseHomePdfMarkdown(
-        courseHomePdfCourseJsonData,
+        physicsCourseJsonData,
         pathLookup
       )[0]
       fileName = pdfMarkdownFile["name"]

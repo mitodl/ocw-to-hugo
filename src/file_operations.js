@@ -57,6 +57,7 @@ const makeUidInfo = courseData => {
 const buildPathsForAllCourses = async (inputPath, courseList) => {
   const pathLookup = {}
   const courseLookup = {}
+  const masterSubjectLookup = {}
 
   for (const course of courseList) {
     if (!(await directoryExists(path.join(inputPath, course)))) {
@@ -85,11 +86,31 @@ const buildPathsForAllCourses = async (inputPath, courseList) => {
         const pathObj = { course, path: "/", uid: courseUid, ...courseInfo }
         pathLookup[courseUid] = pathObj
         courseLookupList.push(pathObj)
+
+        // If this course has master subjects defined, add this course to the lookup
+        const masterSubjects = courseData["other_version_parent_uids"]
+        if (masterSubjects) {
+          masterSubjects.forEach(masterSubject => {
+            const otherVersion = {
+              course_id:     courseData["short_url"],
+              course_number: `${courseData["department_number"]}.${courseData["master_course_number"]}`,
+              title:         courseData["title"],
+              term:          `${courseData["from_semester"]} ${courseData["from_year"]}`
+            }
+            masterSubjectLookup[masterSubject]
+              ? masterSubjectLookup[masterSubject].push(otherVersion)
+              : (masterSubjectLookup[masterSubject] = [otherVersion])
+          })
+        }
       }
     }
   }
 
-  return { byUid: pathLookup, byCourse: courseLookup }
+  return {
+    byUid:           pathLookup,
+    byCourse:        courseLookup,
+    byMasterSubject: masterSubjectLookup
+  }
 }
 
 const scanCourses = async (inputPath, outputPath) => {
@@ -213,7 +234,7 @@ const writeMarkdownFilesRecursive = async (outputPath, markdownData) => {
 const writeDataTemplate = async (outputPath, dataTemplate) => {
   await helpers.createOrOverwriteFile(
     path.join(outputPath, "course.json"),
-    JSON.stringify(dataTemplate)
+    JSON.stringify(dataTemplate, null, 2)
   )
 }
 
