@@ -52,7 +52,7 @@ describe("file operations", () => {
     const inputPath = "test_data/courses"
     const outputPath = tmp.dirSync({ prefix: "output" }).name
     const courseLogMessage = "Converting 12 courses to Hugo markdown..."
-    const pathsLogMessage = "Generated 2220 paths."
+    const pathsLogMessage = "Generated 2185 paths."
     const course1Name =
       "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
     const course1Path = path.join(inputPath, course1Name)
