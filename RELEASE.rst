@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.20.0
+Version 1.20.0 (Released May 18, 2021)
 --------------
 
 - display updated course numbers (#279)
