@@ -14,9 +14,6 @@ const fixLinks = (htmlStr, page, courseData, pathLookup) => {
       ...helpers.resolveYouTubeEmbedMatches(htmlStr, courseData, pathLookup)
     ]
     htmlStr = helpers.applyReplacements(matchAndReplacements, htmlStr)
-
-    // this will be merged into resolveRelativeLinkMatches in a future PR
-    htmlStr = htmlStr.replace(/http:\/\/ocw.mit.edu/g, "")
   }
   return htmlStr
 }
@@ -59,13 +56,43 @@ const generateMarkdownRecursive = (page, courseData, pathLookup) => {
   const coursePageEmbeddedMedia = Object.values(
     courseData["course_embedded_media"]
   )
-    .map(embeddedMedia => {
-      embeddedMedia["course_id"] = courseData["short_url"]
-      embeddedMedia["type"] = "course"
-      embeddedMedia["layout"] = "video"
-      return embeddedMedia
+    .filter(
+      courseEmbeddedMedia => courseEmbeddedMedia["parent_uid"] === page["uid"]
+    )
+    .map(courseEmbeddedMedia => {
+      const embeddedMediaItems = courseEmbeddedMedia["embedded_media"].map(
+        embeddedMedia => {
+          let technicalLocation = embeddedMedia["technical_location"]
+          if (technicalLocation) {
+            const replacement = helpers.resolveRelativeLink(
+              technicalLocation,
+              courseData,
+              pathLookup
+            )
+            if (replacement) {
+              technicalLocation = replacement
+            }
+          }
+
+          if (technicalLocation) {
+            return {
+              ...embeddedMedia,
+              technical_location: technicalLocation
+            }
+          } else {
+            return embeddedMedia
+          }
+        }
+      )
+
+      return {
+        ...courseEmbeddedMedia,
+        course_id:      courseData["short_url"],
+        type:           "course",
+        layout:         "video",
+        embedded_media: embeddedMediaItems
+      }
     })
-    .filter(embeddedMedia => embeddedMedia["parent_uid"] === page["uid"])
   const parents = courseData["course_pages"].filter(
     coursePage => coursePage["uid"] === page["parent_uid"]
   )

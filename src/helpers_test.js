@@ -388,15 +388,17 @@ describe("resolveRelativeLinkMatches", () => {
   })
 
   it("doesn't resolve a link for a PDF in another course if that course is missing", () => {
-    const text =
-      '2010. (<a href="/courses/civil-and-environmental-engineering/1-011-project-evaluation-spring-2011/readings/mit1_011s11_read16a.pdf">PDF</a>'
+    const link =
+      "/courses/civil-and-environmental-engineering/1-011-project-evaluation-spring-2011/readings/mit1_011s11_read16a.pdf"
+    const text = `2010. (<a href="${link}">PDF</a>`
 
     const result = helpers.resolveRelativeLinkMatches(
       text,
       singleCourseJsonData,
       pathLookup
     )
-    assert.lengthOf(result, 0)
+    assert.lengthOf(result, 1)
+    assert.deepEqual(result[0].match[0], `href="${link}"`)
   })
 
   it("handles a missing media file location", () => {
@@ -410,7 +412,7 @@ describe("resolveRelativeLinkMatches", () => {
       singleCourseJsonData,
       pathLookup
     )
-    assert.lengthOf(result, 1)
+    assert.lengthOf(result, 2)
     assert.equal(
       result[0].match[0],
       `href="/courses/mechanical-engineering/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/projects"`
@@ -420,6 +422,11 @@ describe("resolveRelativeLinkMatches", () => {
       result[0].replacement,
       'href="BASEURL_SHORTCODE/sections/projects"'
     )
+    const link =
+      "/courses/mathematics/18-01-single-variable-calculus-fall-2006/exams/prfinalsol.pdf"
+    assert.equal(result[1].match[0], `href="${link}"`)
+    assert.equal(result[1].match.index, 5623)
+    assert.equal(result[1].replacement, `href="${link}"`)
   })
 
   it("resolves relative links while keeping hashes", () => {
@@ -489,13 +496,15 @@ describe("resolveRelativeLinkMatches", () => {
   })
 
   it("handles non-course relative links by leaving them as is", () => {
-    const text = `<a href="/a/e/e#Table_organization">Table Organization</a></p> `
+    const link = "/a/e/e#Table_organization"
+    const text = `<a href="${link}">Table Organization</a></p> `
     const result = helpers.resolveRelativeLinkMatches(
       text,
       singleCourseJsonData,
       pathLookup
     )
-    assert.lengthOf(result, 0)
+    assert.lengthOf(result, 1)
+    assert.equal(result[0].replacement, `href="${link}"`)
   })
 
   it("handles relative links to static assets by adding an S3 link", () => {
@@ -555,6 +564,20 @@ describe("resolveRelativeLinkMatches", () => {
       result[0].replacement,
       'href="BASEURL_SHORTCODE/sections/signals-systems/objectives"'
     )
+  })
+  ;["http://ocw.mit.edu", "https://ocw.mit.edu"].forEach(prefix => {
+    it(`strips ${prefix} and handles the URL like a relative URL`, () => {
+      const text = `<a href="${prefix}/courses/aeronautics-and-astronautics/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/syllabus#Table_organization">Table Organization</a></p> `
+      const result = helpers.resolveRelativeLinkMatches(
+        text,
+        singleCourseJsonData,
+        pathLookup
+      )
+      assert.equal(
+        result[0].replacement,
+        'href="/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/sections/syllabus#Table_organization"'
+      )
+    })
   })
 })
 

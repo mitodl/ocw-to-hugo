@@ -18,6 +18,7 @@ const singleCourseId =
 const imageGalleryCourseId = "12-001-introduction-to-geology-fall-2013"
 const videoGalleryCourseId = "ec-711-d-lab-energy-spring-2011"
 const physicsCourseId = "8-02-physics-ii-electricity-and-magnetism-spring-2007"
+const subtitlesCourseId = "21g-107-chinese-i-streamlined-fall-2014"
 const singleCourseParsedJsonPath = path.join(
   testDataPath,
   singleCourseId,
@@ -28,7 +29,6 @@ const imageGalleryCourseParsedJsonPath = path.join(
   imageGalleryCourseId,
   `${imageGalleryCourseId}_parsed.json`
 )
-
 const videoGalleryCourseParsedJsonPath = path.join(
   testDataPath,
   videoGalleryCourseId,
@@ -38,6 +38,11 @@ const physicsCourseParsedJsonPath = path.join(
   testDataPath,
   physicsCourseId,
   `${physicsCourseId}_parsed.json`
+)
+const subtitlesCourseParsedJsonPath = path.join(
+  testDataPath,
+  subtitlesCourseId,
+  `${subtitlesCourseId}_parsed.json`
 )
 
 describe("markdown generators", () => {
@@ -49,6 +54,8 @@ describe("markdown generators", () => {
     videoGalleryCourseJsonData,
     physicsCourseRawData,
     physicsCourseJsonData,
+    subtitlesCourseRawData,
+    subtitlesCourseJsonData,
     coursePagesWithText,
     imageGalleryPages,
     imageGalleryImages,
@@ -73,6 +80,9 @@ describe("markdown generators", () => {
     physicsCourseRawData = fs.readFileSync(physicsCourseParsedJsonPath)
     physicsCourseJsonData = JSON.parse(physicsCourseRawData)
 
+    subtitlesCourseRawData = fs.readFileSync(subtitlesCourseParsedJsonPath)
+    subtitlesCourseJsonData = JSON.parse(subtitlesCourseRawData)
+
     coursePagesWithText = singleCourseJsonData["course_pages"].filter(
       page => page["text"]
     )
@@ -94,7 +104,8 @@ describe("markdown generators", () => {
         singleCourseId,
         videoGalleryCourseId,
         imageGalleryCourseId,
-        physicsCourseId
+        physicsCourseId,
+        subtitlesCourseId
       ]
     )
     courseImageFeaturesFrontMatter = markdownGenerators.generateCourseFeaturesMarkdown(
@@ -266,6 +277,21 @@ describe("markdown generators", () => {
           assert.equal(frontMatter["parent_title"], "Instructor Insights")
         }
       })
+    })
+
+    it("resolves urls inside embedded media urls", () => {
+      const markdownData = markdownGenerators.generateMarkdownFromJson(
+        subtitlesCourseJsonData,
+        pathLookup
+      )
+
+      const embeddedMedia = yaml.safeLoad(
+        markdownData[3].media[0].data.split("---\n")[1]
+      )
+      assert.equal(
+        embeddedMedia.embedded_media[6].technical_location,
+        "BASEURL_SHORTCODE/sections/instructor-insights/instructor-interview-meet-the-educator/m_gqolc3clm"
+      )
     })
   })
 

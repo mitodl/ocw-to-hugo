@@ -417,7 +417,13 @@ const resolveUidMatches = (htmlStr, page, courseData, pathLookup) => {
 const resolveRelativeLink = (url, courseData, pathLookup) => {
   // ensure that this is not resolveuid or an external link
   const thisCourseId = courseData["short_url"]
-  if (!url.includes("resolveuid") && url[0] === "/") {
+  if (url.includes("resolveuid")) {
+    // handled in resolveUidForLink
+    return null
+  }
+
+  url = url.replace(/^https?:\/\/ocw\.mit\.edu\//, "/")
+  if (url.startsWith("/")) {
     // split the url into its parts
     const parts = getPathFragments(url)
     /**
@@ -430,12 +436,8 @@ const resolveRelativeLink = (url, courseData, pathLookup) => {
      * 2: course ID ("18-01-single-variable-calculus-fall-2006")
      * 3 - ?: section and subsections with the page / file at the end
      */
-    if (parts[0] !== "courses") {
-      return null
-    }
-
-    const courseId = parts[2]
-    if (courseId) {
+    if (parts[0] === "courses" && parts[2]) {
+      const courseId = parts[2]
       if (parts.length === 3) {
         // course home page link
         return updatePath(url, [makeCourseUrlPrefix(courseId, thisCourseId)])
@@ -485,6 +487,10 @@ const resolveRelativeLink = (url, courseData, pathLookup) => {
         ])
       }
     }
+
+    // if nothing matches, we should still replace the url in case it had a legacy prefix
+    // some urls like /ans7870 will be rewritten using varnish on the server, so they should stay the same
+    return url
   }
 
   return null
@@ -611,6 +617,7 @@ module.exports = {
   getVideoPageLink,
   resolveUidMatches,
   resolveRelativeLinkMatches,
+  resolveRelativeLink,
   resolveYouTubeEmbedMatches,
   buildPathsForCourse,
   htmlSafeText,
