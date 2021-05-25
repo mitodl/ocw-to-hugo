@@ -47,7 +47,12 @@ const generateDataTemplate = (courseData, pathLookup) => {
     level:          {
       level: courseData["course_level"],
       url:   helpers.makeCourseInfoUrl(courseData["course_level"], "level")
-    }
+    },
+    other_versions: helpers.getOtherVersions(
+      courseData["other_version_parent_uids"],
+      courseData["short_url"],
+      pathLookup
+    )
   }
 }
 

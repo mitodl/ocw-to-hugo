@@ -20,17 +20,34 @@ const singleCourseParsedJsonPath = path.join(
 const singleCourseRawData = fs.readFileSync(singleCourseParsedJsonPath)
 const singleCourseJsonData = JSON.parse(singleCourseRawData)
 
+const physicsCourseId = "8-02-physics-ii-electricity-and-magnetism-spring-2007"
+const physicsCourseParsedJsonPath = path.join(
+  testDataPath,
+  physicsCourseId,
+  `${physicsCourseId}_parsed.json`
+)
+const physicsCourseRawData = fs.readFileSync(physicsCourseParsedJsonPath)
+const physicsCourseJsonData = JSON.parse(physicsCourseRawData)
+
 describe("generateDataTemplate", () => {
   const sandbox = sinon.createSandbox()
-  let consoleLog, courseDataTemplate, pathLookup
+  let consoleLog, courseDataTemplate, pathLookup, physicsCourseDataTemplate
 
   beforeEach(async () => {
     consoleLog = sandbox.stub(console, "log")
     pathLookup = await fileOperations.buildPathsForAllCourses(
       "test_data/courses",
-      [singleCourseId]
+      [
+        singleCourseId,
+        physicsCourseId,
+        "8-02x-physics-ii-electricity-magnetism-with-an-experimental-focus-spring-2005"
+      ]
     )
     courseDataTemplate = generateDataTemplate(singleCourseJsonData, pathLookup)
+    physicsCourseDataTemplate = generateDataTemplate(
+      physicsCourseJsonData,
+      pathLookup
+    )
   })
 
   afterEach(() => {
@@ -155,5 +172,13 @@ describe("generateDataTemplate", () => {
       },
       foundValue
     )
+  })
+
+  it("sets the expected text in other_versions", () => {
+    const expectedValue = [
+      "[8.02X PHYSICS II: ELECTRICITY & MAGNETISM WITH AN EXPERIMENTAL FOCUS](/courses/8-02x-physics-ii-electricity-magnetism-with-an-experimental-focus-spring-2005) |  SPRING 2005"
+    ]
+    const foundValue = physicsCourseDataTemplate["other_versions"]
+    assert.deepEqual(expectedValue, foundValue)
   })
 })
