@@ -35,7 +35,7 @@ const generateMarkdownFromJson = (courseData, pathLookup) => {
     {
       name:  "_index.md",
       data:  generateCourseHomeMarkdown(courseData, pathLookup),
-      files: generateCourseHomePdfMarkdown(courseData, pathLookup)
+      files: generatePagePdfMarkdown(courseData, pathLookup)
     },
     ...rootSections.map(
       page => generateMarkdownRecursive(page, courseData, pathLookup),
@@ -248,16 +248,16 @@ const generateCourseHomeMarkdown = (courseData, pathLookup) => {
   }
 }
 
-const generateCourseHomePdfMarkdown = (courseData, pathLookup) => {
+const generatePagePdfMarkdown = (courseData, pathLookup) => {
   /**
-   * Generate markdown files representing PDF viewer pages for PDF's mentioned on the course home page
+   * Generate markdown files representing PDF viewer pages for PDF's mentioned on a page in the site
    */
 
   return courseData["course_files"]
     .filter(
       file =>
         file["file_type"] === "application/pdf" &&
-        file["parent_uid"] === courseData["uid"]
+        pathLookup.byUid[file["parent_uid"]]
     )
     .map(file => {
       const { path: parentPath } = pathLookup.byUid[file["parent_uid"]]
@@ -451,7 +451,7 @@ const generateCourseFeaturesMarkdown = (page, courseData, pathLookup) => {
 module.exports = {
   generateMarkdownFromJson,
   generateCourseHomeMarkdown,
-  generateCourseHomePdfMarkdown,
+  generatePagePdfMarkdown,
   generateCourseSectionFrontMatter,
   generateCourseSectionMarkdown,
   generateCourseFeaturesMarkdown,
