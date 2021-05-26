@@ -283,10 +283,7 @@ describe("markdown generators", () => {
       safeDump = sandbox.spy(yaml, "safeDump")
       const pathLookup = await fileOperations.buildPathsForAllCourses(
         "test_data/courses",
-        [
-          physicsCourseId,
-          "8-02x-physics-ii-electricity-magnetism-with-an-experimental-focus-spring-2005"
-        ]
+        [physicsCourseId, "8-01sc-classical-mechanics-fall-2016"]
       )
       courseHomeMarkdown = markdownGenerators.generateCourseHomeMarkdown(
         physicsCourseJsonData,
@@ -367,14 +364,6 @@ describe("markdown generators", () => {
           url: `/search/?t=${encodeURIComponent("Engineering")}`
         }
       ])
-    })
-
-    it("sets the expected text in other_versions", () => {
-      const expectedValue = [
-        "[8.02X PHYSICS II: ELECTRICITY & MAGNETISM WITH AN EXPERIMENTAL FOCUS](/courses/8-02x-physics-ii-electricity-magnetism-with-an-experimental-focus-spring-2005) |  SPRING 2005"
-      ]
-      const foundValue = courseHomeFrontMatter["other_versions"]
-      assert.deepEqual(expectedValue, foundValue)
     })
 
     it("calls yaml.safeDump once", () => {

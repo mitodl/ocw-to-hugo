@@ -576,6 +576,25 @@ const isCoursePublished = courseData => {
   } else return true
 }
 
+const getOtherVersions = (masterSubjects, courseId, pathLookup) => {
+  return masterSubjects && pathLookup
+    ? masterSubjects
+      .map(masterSubject => {
+        const otherVersions = pathLookup.byMasterSubject[
+          masterSubject
+        ].filter(otherVersion => otherVersion["course_id"] !== courseId)
+        return otherVersions.map(otherVersion => {
+          return `[${otherVersion["course_number"]} ${otherVersion[
+            "title"
+          ].toUpperCase()}](/courses/${otherVersion["course_id"]}) | ${
+            otherVersion["course_number"].endsWith("SC") ? "SCHOLAR, " : ""
+          } ${otherVersion["term"].toUpperCase()}`
+        })
+      })
+      .flat()
+    : []
+}
+
 const stripSuffix = suffix => text => {
   if (text.toLowerCase().endsWith(suffix.toLowerCase())) {
     return text.slice(0, -suffix.length)
@@ -618,6 +637,7 @@ module.exports = {
   escapeDoubleQuotes,
   unescapeBackticks,
   isCoursePublished,
+  getOtherVersions,
   runOptions,
   stripPdfSuffix,
   stripSlashPrefix,
