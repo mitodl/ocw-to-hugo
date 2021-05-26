@@ -20,7 +20,8 @@ const singleCourseParsedJsonPath = path.join(
 const singleCourseRawData = fs.readFileSync(singleCourseParsedJsonPath)
 const singleCourseJsonData = JSON.parse(singleCourseRawData)
 
-const physicsCourseId = "8-02-physics-ii-electricity-and-magnetism-spring-2007"
+const physicsCourseId =
+  "8-01x-physics-i-classical-mechanics-with-an-experimental-focus-fall-2002"
 const physicsCourseParsedJsonPath = path.join(
   testDataPath,
   physicsCourseId,
@@ -37,11 +38,7 @@ describe("generateDataTemplate", () => {
     consoleLog = sandbox.stub(console, "log")
     pathLookup = await fileOperations.buildPathsForAllCourses(
       "test_data/courses",
-      [
-        singleCourseId,
-        physicsCourseId,
-        "8-02x-physics-ii-electricity-magnetism-with-an-experimental-focus-spring-2005"
-      ]
+      [singleCourseId, physicsCourseId, "8-01sc-classical-mechanics-fall-2016"]
     )
     courseDataTemplate = generateDataTemplate(singleCourseJsonData, pathLookup)
     physicsCourseDataTemplate = generateDataTemplate(
@@ -176,7 +173,7 @@ describe("generateDataTemplate", () => {
 
   it("sets the expected text in other_versions", () => {
     const expectedValue = [
-      "[8.02X PHYSICS II: ELECTRICITY & MAGNETISM WITH AN EXPERIMENTAL FOCUS](/courses/8-02x-physics-ii-electricity-magnetism-with-an-experimental-focus-spring-2005) |  SPRING 2005"
+      "[8.01SC CLASSICAL MECHANICS](/courses/8-01sc-classical-mechanics-fall-2016) | SCHOLAR,  FALL 2016"
     ]
     const foundValue = physicsCourseDataTemplate["other_versions"]
     assert.deepEqual(expectedValue, foundValue)

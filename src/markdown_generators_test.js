@@ -283,10 +283,7 @@ describe("markdown generators", () => {
       safeDump = sandbox.spy(yaml, "safeDump")
       const pathLookup = await fileOperations.buildPathsForAllCourses(
         "test_data/courses",
-        [
-          physicsCourseId,
-          "8-02x-physics-ii-electricity-magnetism-with-an-experimental-focus-spring-2005"
-        ]
+        [physicsCourseId, "8-01sc-classical-mechanics-fall-2016"]
       )
       courseHomeMarkdown = markdownGenerators.generateCourseHomeMarkdown(
         physicsCourseJsonData,
