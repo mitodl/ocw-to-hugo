@@ -598,7 +598,7 @@ const getOtherVersions = (masterSubjects, courseId, pathLookup) => {
 const getOpenLearningLibraryVersions = openLearningLibraryRelated => {
   return openLearningLibraryRelated
     ? openLearningLibraryRelated.map(openLearningLibraryVersion => {
-      return `[${openLearningLibraryVersion["course"]}](${openLearningLibraryVersion["url"]})`
+      return `[${openLearningLibraryVersion["course"]}](${openLearningLibraryVersion["url"]}) | OPEN LEARNING LIBRARY`
     })
     : []
 }
