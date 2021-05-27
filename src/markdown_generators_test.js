@@ -290,7 +290,7 @@ describe("markdown generators", () => {
       )
       assert.equal(
         embeddedMedia.embedded_media[6].technical_location,
-        "BASEURL_SHORTCODE/sections/instructor-insights/instructor-interview-meet-the-educator/m_gqolc3clm"
+        "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/acf8cbbcf3ada9e7b0d390c8b4f8b1e6_M_gQolc3clM.pdf"
       )
     })
   })

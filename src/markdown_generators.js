@@ -67,7 +67,8 @@ const generateMarkdownRecursive = (page, courseData, pathLookup) => {
             const replacement = helpers.resolveRelativeLink(
               technicalLocation,
               courseData,
-              pathLookup
+              pathLookup,
+              true
             )
             if (replacement) {
               technicalLocation = replacement

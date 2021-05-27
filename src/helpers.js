@@ -414,7 +414,7 @@ const resolveUidMatches = (htmlStr, page, courseData, pathLookup) => {
   return []
 }
 
-const resolveRelativeLink = (url, courseData, pathLookup) => {
+const resolveRelativeLink = (url, courseData, pathLookup, useDirectLink) => {
   // ensure that this is not resolveuid or an external link
   const thisCourseId = courseData["short_url"]
   if (url.includes("resolveuid")) {
@@ -451,7 +451,7 @@ const resolveRelativeLink = (url, courseData, pathLookup) => {
         const paths = pathLookup.byCourse[courseId] || []
         for (const pathObj of paths) {
           if (pathObj.type === FILE_TYPE && page === pathObj.id) {
-            if (pathObj.fileType === "application/pdf") {
+            if (pathObj.fileType === "application/pdf" && !useDirectLink) {
               const pdfLink = makePdfLink(
                 thisCourseId,
                 pathObj,
@@ -516,7 +516,12 @@ const resolveRelativeLinkMatches = (htmlStr, courseData, pathLookup) => {
       .map(match => {
         const url = match.groups.url1 || match.groups.url2
 
-        const replacement = resolveRelativeLink(url, courseData, pathLookup)
+        const replacement = resolveRelativeLink(
+          url,
+          courseData,
+          pathLookup,
+          false
+        )
         if (replacement !== null) {
           return { match, replacement: `href="${replacement}"` }
         }
