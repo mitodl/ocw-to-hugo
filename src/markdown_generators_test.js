@@ -119,6 +119,8 @@ describe("markdown generators", () => {
       videoGalleryCourseJsonData,
       pathLookup
     )
+    helpers.runOptions.strips3 = false
+    helpers.runOptions.staticPrefix = ""
   })
 
   describe("generateMarkdownFromJson", () => {
@@ -279,19 +281,35 @@ describe("markdown generators", () => {
       })
     })
 
-    it("resolves urls inside embedded media urls", () => {
-      const markdownData = markdownGenerators.generateMarkdownFromJson(
-        subtitlesCourseJsonData,
-        pathLookup
-      )
-
-      const embeddedMedia = yaml.safeLoad(
-        markdownData[3].media[0].data.split("---\n")[1]
-      )
-      assert.equal(
-        embeddedMedia.embedded_media[6].technical_location,
+    //
+    ;[
+      [
+        true,
+        "https://example.com//21g-107-chinese-i-streamlined-fall-2014/acf8cbbcf3ada9e7b0d390c8b4f8b1e6_M_gQolc3clM.pdf"
+      ],
+      [
+        false,
         "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/acf8cbbcf3ada9e7b0d390c8b4f8b1e6_M_gQolc3clM.pdf"
-      )
+      ]
+    ].forEach(([useStripS3, expectedUrl]) => {
+      it(`resolves urls inside embedded media urls when stripS3=${String(
+        useStripS3
+      )}`, () => {
+        helpers.runOptions.strips3 = useStripS3
+        helpers.runOptions.staticPrefix = "https://example.com/"
+        const markdownData = markdownGenerators.generateMarkdownFromJson(
+          subtitlesCourseJsonData,
+          pathLookup
+        )
+
+        const embeddedMedia = yaml.safeLoad(
+          markdownData[3].media[0].data.split("---\n")[1]
+        )
+        assert.equal(
+          embeddedMedia.embedded_media[6].technical_location,
+          expectedUrl
+        )
+      })
     })
   })
 

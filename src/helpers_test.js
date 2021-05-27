@@ -565,6 +565,8 @@ describe("resolveRelativeLinkMatches", () => {
       'href="BASEURL_SHORTCODE/sections/signals-systems/objectives"'
     )
   })
+
+  //
   ;["http://ocw.mit.edu", "https://ocw.mit.edu"].forEach(prefix => {
     it(`strips ${prefix} and handles the URL like a relative URL`, () => {
       const text = `<a href="${prefix}/courses/aeronautics-and-astronautics/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/syllabus#Table_organization">Table Organization</a></p> `
