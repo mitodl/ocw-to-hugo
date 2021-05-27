@@ -52,6 +52,9 @@ const generateDataTemplate = (courseData, pathLookup) => {
       courseData["other_version_parent_uids"],
       courseData["short_url"],
       pathLookup
+    ),
+    open_learning_library_versions: helpers.getOpenLearningLibraryVersions(
+      courseData["open_learning_library_related"]
     )
   }
 }
