@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.21.0
+Version 1.21.0 (Released May 27, 2021)
 --------------
 
 - move other_versions to course.json (#292)
