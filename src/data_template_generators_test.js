@@ -20,8 +20,7 @@ const singleCourseParsedJsonPath = path.join(
 const singleCourseRawData = fs.readFileSync(singleCourseParsedJsonPath)
 const singleCourseJsonData = JSON.parse(singleCourseRawData)
 
-const physicsCourseId =
-  "8-01x-physics-i-classical-mechanics-with-an-experimental-focus-fall-2002"
+const physicsCourseId = "8-01sc-classical-mechanics-fall-2016"
 const physicsCourseParsedJsonPath = path.join(
   testDataPath,
   physicsCourseId,
@@ -38,7 +37,11 @@ describe("generateDataTemplate", () => {
     consoleLog = sandbox.stub(console, "log")
     pathLookup = await fileOperations.buildPathsForAllCourses(
       "test_data/courses",
-      [singleCourseId, physicsCourseId, "8-01sc-classical-mechanics-fall-2016"]
+      [
+        singleCourseId,
+        physicsCourseId,
+        "8-01x-physics-i-classical-mechanics-with-an-experimental-focus-fall-2002"
+      ]
     )
     courseDataTemplate = generateDataTemplate(singleCourseJsonData, pathLookup)
     physicsCourseDataTemplate = generateDataTemplate(
@@ -173,9 +176,21 @@ describe("generateDataTemplate", () => {
 
   it("sets the expected text in other_versions", () => {
     const expectedValue = [
-      "[8.01SC CLASSICAL MECHANICS](/courses/8-01sc-classical-mechanics-fall-2016) | SCHOLAR,  FALL 2016"
+      "[8.01X PHYSICS I: CLASSICAL MECHANICS WITH AN EXPERIMENTAL FOCUS](/courses/8-01x-physics-i-classical-mechanics-with-an-experimental-focus-fall-2002) |  FALL 2002"
     ]
     const foundValue = physicsCourseDataTemplate["other_versions"]
+    assert.deepEqual(expectedValue, foundValue)
+  })
+
+  it("sets the expected text in open_learning_library_versions", () => {
+    const expectedValue = [
+      "[8.01.1x Mechanics-Kinematics and Dynamics](https://openlearninglibrary.mit.edu/courses/course-v1:MITx+8.01.1x+3T2018/about) | OPEN LEARNING LIBRARY",
+      "[8.01.2x Mechanics-Momentum and Energy](https://openlearninglibrary.mit.edu/courses/course-v1:MITx+8.01.2x+3T2018/about) | OPEN LEARNING LIBRARY",
+      "[8.01.3x Mechanics-Rotational Dynamics](https://openlearninglibrary.mit.edu/courses/course-v1:MITx+8.01.3x+1T2019/about) | OPEN LEARNING LIBRARY",
+      "[8.01.4x Mechanics-Simple Harmonic Motion](https://openlearninglibrary.mit.edu/courses/course-v1:MITx+8.01.4x+1T2019/about) | OPEN LEARNING LIBRARY"
+    ]
+    const foundValue =
+      physicsCourseDataTemplate["open_learning_library_versions"]
     assert.deepEqual(expectedValue, foundValue)
   })
 })
