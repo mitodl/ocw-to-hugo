@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.21.1
+--------------
+
+- Resolve legacy subtitle URLs (#290)
+
 Version 1.21.0 (Released May 27, 2021)
 --------------
 
