@@ -606,6 +606,14 @@ const getOtherVersions = (masterSubjects, courseId, pathLookup) => {
     : []
 }
 
+const getOpenLearningLibraryVersions = openLearningLibraryRelated => {
+  return openLearningLibraryRelated
+    ? openLearningLibraryRelated.map(openLearningLibraryVersion => {
+      return `[${openLearningLibraryVersion["course"]}](${openLearningLibraryVersion["url"]}) | OPEN LEARNING LIBRARY`
+    })
+    : []
+}
+
 const stripSuffix = suffix => text => {
   if (text.toLowerCase().endsWith(suffix.toLowerCase())) {
     return text.slice(0, -suffix.length)
@@ -650,6 +658,7 @@ module.exports = {
   unescapeBackticks,
   isCoursePublished,
   getOtherVersions,
+  getOpenLearningLibraryVersions,
   runOptions,
   stripPdfSuffix,
   stripSlashPrefix,
