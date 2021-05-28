@@ -14,9 +14,6 @@ const fixLinks = (htmlStr, page, courseData, pathLookup) => {
       ...helpers.resolveYouTubeEmbedMatches(htmlStr, courseData, pathLookup)
     ]
     htmlStr = helpers.applyReplacements(matchAndReplacements, htmlStr)
-
-    // this will be merged into resolveRelativeLinkMatches in a future PR
-    htmlStr = htmlStr.replace(/http:\/\/ocw.mit.edu/g, "")
   }
   return htmlStr
 }
@@ -38,7 +35,7 @@ const generateMarkdownFromJson = (courseData, pathLookup) => {
     {
       name:  "_index.md",
       data:  generateCourseHomeMarkdown(courseData, pathLookup),
-      files: generateCourseHomePdfMarkdown(courseData, pathLookup)
+      files: generatePagePdfMarkdown(courseData, pathLookup)
     },
     ...rootSections.map(
       page => generateMarkdownRecursive(page, courseData, pathLookup),
@@ -59,13 +56,44 @@ const generateMarkdownRecursive = (page, courseData, pathLookup) => {
   const coursePageEmbeddedMedia = Object.values(
     courseData["course_embedded_media"]
   )
-    .map(embeddedMedia => {
-      embeddedMedia["course_id"] = courseData["short_url"]
-      embeddedMedia["type"] = "course"
-      embeddedMedia["layout"] = "video"
-      return embeddedMedia
+    .filter(
+      courseEmbeddedMedia => courseEmbeddedMedia["parent_uid"] === page["uid"]
+    )
+    .map(courseEmbeddedMedia => {
+      const embeddedMediaItems = courseEmbeddedMedia["embedded_media"].map(
+        embeddedMedia => {
+          let technicalLocation = embeddedMedia["technical_location"]
+          if (technicalLocation) {
+            const replacement = helpers.resolveRelativeLink(
+              technicalLocation,
+              courseData,
+              pathLookup,
+              true
+            )
+            if (replacement) {
+              technicalLocation = replacement
+            }
+          }
+
+          if (technicalLocation) {
+            return {
+              ...embeddedMedia,
+              technical_location: technicalLocation
+            }
+          } else {
+            return embeddedMedia
+          }
+        }
+      )
+
+      return {
+        ...courseEmbeddedMedia,
+        course_id:      courseData["short_url"],
+        type:           "course",
+        layout:         "video",
+        embedded_media: embeddedMediaItems
+      }
     })
-    .filter(embeddedMedia => embeddedMedia["parent_uid"] === page["uid"])
   const parents = courseData["course_pages"].filter(
     coursePage => coursePage["uid"] === page["parent_uid"]
   )
@@ -198,16 +226,16 @@ const generateCourseHomeMarkdown = (courseData, pathLookup) => {
   }
 }
 
-const generateCourseHomePdfMarkdown = (courseData, pathLookup) => {
+const generatePagePdfMarkdown = (courseData, pathLookup) => {
   /**
-   * Generate markdown files representing PDF viewer pages for PDF's mentioned on the course home page
+   * Generate markdown files representing PDF viewer pages for PDF's mentioned on a page in the site
    */
 
   return courseData["course_files"]
     .filter(
       file =>
         file["file_type"] === "application/pdf" &&
-        file["parent_uid"] === courseData["uid"]
+        pathLookup.byUid[file["parent_uid"]]
     )
     .map(file => {
       const { path: parentPath } = pathLookup.byUid[file["parent_uid"]]
@@ -401,7 +429,7 @@ const generateCourseFeaturesMarkdown = (page, courseData, pathLookup) => {
 module.exports = {
   generateMarkdownFromJson,
   generateCourseHomeMarkdown,
-  generateCourseHomePdfMarkdown,
+  generatePagePdfMarkdown,
   generateCourseSectionFrontMatter,
   generateCourseSectionMarkdown,
   generateCourseFeaturesMarkdown,
