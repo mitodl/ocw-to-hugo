@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.22.0
+Version 1.22.0 (Released June 01, 2021)
 --------------
 
 - open learning library (#296)
