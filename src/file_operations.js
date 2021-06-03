@@ -180,6 +180,9 @@ const scanCourse = async (inputPath, outputPath, course, pathLookup) => {
         path.join(outputPath, courseData["short_url"], "content"),
         markdownData
       )
+      await writeHugoConfig(
+        path.join(outputPath, courseData["short_url"], "config", "_default")
+      )
       await writeExternalLinks(
         path.join(outputPath, courseData["short_url"], "config", "_default"),
         courseData
@@ -238,9 +241,16 @@ const writeDataTemplate = async (outputPath, dataTemplate) => {
   )
 }
 
+const writeHugoConfig = async outputPath => {
+  await helpers.createOrOverwriteFile(
+    path.join(outputPath, "config.yaml"),
+    configGenerators.generateHugoConfig()
+  )
+}
+
 const writeExternalLinks = async (outputPath, courseData) => {
   await helpers.createOrOverwriteFile(
-    path.join(outputPath, "menus.toml"),
+    path.join(outputPath, "menus.yaml"),
     configGenerators.generateExternalLinksMenu(courseData)
   )
 }

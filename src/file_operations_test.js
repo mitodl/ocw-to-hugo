@@ -166,6 +166,7 @@ describe("file operations", () => {
   describe("scanCourse", () => {
     let readFileStub,
       generateMarkdownFromJson,
+      writeHugoConfig,
       writeExternalLinks,
       generateDataTemplate
     const sandbox = sinon.createSandbox()
@@ -179,6 +180,7 @@ describe("file operations", () => {
         markdownGenerators,
         "generateMarkdownFromJson"
       )
+      writeHugoConfig = sandbox.spy(configGenerators, "generateHugoConfig")
       writeExternalLinks = sandbox.spy(
         configGenerators,
         "generateExternalLinksMenu"
@@ -214,6 +216,16 @@ describe("file operations", () => {
         singleCourseJsonData,
         pathLookup
       )
+    }).timeout(5000)
+
+    it("calls writeHugoConfig", async () => {
+      await fileOperations.scanCourse(
+        testDataPath,
+        outputPath,
+        singleCourseId,
+        pathLookup
+      )
+      expect(writeExternalLinks).to.be.calledOnce
     }).timeout(5000)
 
     it("calls writeExternalLinks on the course data", async () => {
