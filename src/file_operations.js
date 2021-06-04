@@ -180,17 +180,18 @@ const scanCourse = async (inputPath, outputPath, course, pathLookup) => {
         path.join(outputPath, courseData["short_url"], "content"),
         markdownData
       )
-      await writeHugoConfig(
-        path.join(outputPath, courseData["short_url"], "config", "_default")
-      )
-      await writeExternalLinks(
-        path.join(outputPath, courseData["short_url"], "config", "_default"),
-        courseData
-      )
       await writeDataTemplate(
         path.join(outputPath, courseData["short_url"], "data"),
         dataTemplate
       )
+      const configDir = path.join(
+        outputPath,
+        courseData["short_url"],
+        "config",
+        "_default"
+      )
+      await writeHugoConfig(configDir)
+      await writeExternalLinks(configDir, courseData)
     }
   }
 }
