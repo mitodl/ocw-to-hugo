@@ -28,7 +28,15 @@ const makeUidInfo = courseData => {
   // or other places which may need a little bit of context on external items
 
   const types = {
-    [courseData["uid"]]: { type: COURSE_TYPE }
+    [courseData["uid"]]: {
+      type:                 COURSE_TYPE,
+      short_url:            courseData["short_url"],
+      title:                courseData["title"],
+      from_semester:        courseData["from_semester"],
+      from_year:            courseData["from_year"],
+      master_course_number: courseData["master_course_number"],
+      department_number:    courseData["department_number"]
+    }
   }
   for (const embedded of Object.values(courseData["course_embedded_media"])) {
     types[embedded["uid"]] = {
@@ -88,28 +96,21 @@ const buildPathsForAllCourses = async (inputPath, courseList) => {
         courseLookupList.push(pathObj)
 
         // If this course has master subjects defined, add this course to the lookup
-        const masterSubjects = courseData["other_version_parent_uids"]
-        if (masterSubjects) {
-          masterSubjects.forEach(masterSubject => {
-            const otherVersion = {
-              course_id:     courseData["short_url"],
-              course_number: `${courseData["department_number"]}.${courseData["master_course_number"]}`,
-              title:         courseData["title"],
-              term:          `${courseData["from_semester"]} ${courseData["from_year"]}`
-            }
-            masterSubjectLookup[masterSubject]
-              ? masterSubjectLookup[masterSubject].push(otherVersion)
-              : (masterSubjectLookup[masterSubject] = [otherVersion])
-          })
+        const masterSubjects = courseData["other_version_parent_uids"] || []
+        for (const uid of masterSubjects) {
+          if (!masterSubjectLookup[uid]) {
+            masterSubjectLookup[uid] = []
+          }
+          masterSubjectLookup[uid].push(courseUid)
         }
       }
     }
   }
 
   return {
-    byUid:           pathLookup,
-    byCourse:        courseLookup,
-    byMasterSubject: masterSubjectLookup
+    byUid:                  pathLookup,
+    byCourse:               courseLookup,
+    coursesByMasterSubject: masterSubjectLookup
   }
 }
 

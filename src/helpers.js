@@ -18,7 +18,9 @@ const {
 const loggers = require("./loggers")
 const runOptions = {}
 
-const makeCourseUrlPrefix = (courseId, otherCourseId) => {
+const makeCourseUrlPrefix = courseId => `/courses/${courseId}`
+
+const makeCourseUrlPrefixOrShortcode = (courseId, otherCourseId) => {
   if (!courseId) {
     throw new Error(`Missing course id ${courseId}`)
   }
@@ -29,7 +31,7 @@ const makeCourseUrlPrefix = (courseId, otherCourseId) => {
   if (courseId === otherCourseId) {
     return BASEURL_SHORTCODE
   } else {
-    return `/courses/${courseId}`
+    return makeCourseUrlPrefix(courseId)
   }
 }
 
@@ -337,7 +339,7 @@ const makePdfLink = (thisCourseId, pathObj, pathLookup) => {
   if (parentTuple) {
     const { course, path: parent } = parentTuple
     const pdfPath = path.join(
-      makeCourseUrlPrefix(course, thisCourseId),
+      makeCourseUrlPrefixOrShortcode(course, thisCourseId),
       parent,
       id.toLowerCase()
     )
@@ -367,7 +369,7 @@ const resolveUidForLink = (url, courseData, pathLookup) => {
       }
     }
 
-    return path.join(makeCourseUrlPrefix(course, courseId), itemPath)
+    return path.join(makeCourseUrlPrefixOrShortcode(course, courseId), itemPath)
   }
 
   return null
@@ -440,7 +442,9 @@ const resolveRelativeLink = (url, courseData, pathLookup, useDirectLink) => {
       const courseId = parts[2]
       if (parts.length === 3) {
         // course home page link
-        return updatePath(url, [makeCourseUrlPrefix(courseId, thisCourseId)])
+        return updatePath(url, [
+          makeCourseUrlPrefixOrShortcode(courseId, thisCourseId)
+        ])
       }
       const sections = parts.slice(3, parts.length - 1)
       const page = parts[parts.length - 1]
@@ -482,7 +486,7 @@ const resolveRelativeLink = (url, courseData, pathLookup, useDirectLink) => {
         }
 
         return updatePath(url, [
-          makeCourseUrlPrefix(courseId, thisCourseId),
+          makeCourseUrlPrefixOrShortcode(courseId, thisCourseId),
           ...(paths.length ? ["sections", ...paths] : [])
         ])
       }
@@ -587,23 +591,33 @@ const isCoursePublished = courseData => {
   } else return true
 }
 
+const makeOtherVersionString = otherCourse => {
+  const courseId = otherCourse["short_url"]
+  const courseNumber = `${otherCourse["department_number"]}.${otherCourse["master_course_number"]}`
+  const title = otherCourse["title"]
+  const term = `${otherCourse["from_semester"]} ${otherCourse["from_year"]}`
+  const scholarText = courseNumber.endsWith("SC") ? "SCHOLAR, " : ""
+
+  const courseUrl = makeCourseUrlPrefix(courseId)
+  return `[${courseNumber} ${title.toUpperCase()}](${courseUrl}) | ${scholarText} ${term.toUpperCase()}`
+}
+
 const getOtherVersions = (masterSubjects, courseId, pathLookup) => {
-  return masterSubjects && pathLookup
-    ? masterSubjects
-      .map(masterSubject => {
-        const otherVersions = pathLookup.byMasterSubject[
-          masterSubject
-        ].filter(otherVersion => otherVersion["course_id"] !== courseId)
-        return otherVersions.map(otherVersion => {
-          return `[${otherVersion["course_number"]} ${otherVersion[
-            "title"
-          ].toUpperCase()}](/courses/${otherVersion["course_id"]}) | ${
-            otherVersion["course_number"].endsWith("SC") ? "SCHOLAR, " : ""
-          } ${otherVersion["term"].toUpperCase()}`
-        })
-      })
-      .flat()
-    : []
+  const masterSubjectUids = masterSubjects || []
+  const otherVersions = []
+  for (const masterSubjectUid of masterSubjectUids) {
+    const otherCourseUids = pathLookup.coursesByMasterSubject[masterSubjectUid]
+    for (const otherCourseUid of otherCourseUids) {
+      const otherCourseId = pathLookup.byUid[otherCourseUid].course
+      if (otherCourseId === courseId) {
+        continue
+      }
+      const otherCourse = pathLookup.byUid[otherCourseUid]
+      otherVersions.push(makeOtherVersionString(otherCourse))
+    }
+  }
+
+  return otherVersions
 }
 
 const getOpenLearningLibraryVersions = openLearningLibraryRelated => {

@@ -350,10 +350,16 @@ describe("file operations", () => {
         uid:       "877f0e43412db8b16e5b2864cf8bf1cc"
       })
       assert.deepEqual(uids["d9aad1541f1a9d3c0f7b0dcf9531a9a1"], {
-        course: "12-001-introduction-to-geology-fall-2013",
-        path:   "/",
-        type:   COURSE_TYPE,
-        uid:    "d9aad1541f1a9d3c0f7b0dcf9531a9a1"
+        course:               "12-001-introduction-to-geology-fall-2013",
+        path:                 "/",
+        type:                 COURSE_TYPE,
+        uid:                  "d9aad1541f1a9d3c0f7b0dcf9531a9a1",
+        department_number:    "12",
+        from_semester:        "Fall",
+        from_year:            "2013",
+        master_course_number: "001",
+        short_url:            "12-001-introduction-to-geology-fall-2013",
+        title:                "Introduction to Geology"
       })
       assert.deepEqual(uids["b03952e4bdfcea4962271aeae1dedb3f"], {
         course:    "ec-711-d-lab-energy-spring-2011",
@@ -374,28 +380,19 @@ describe("file operations", () => {
     })
 
     it("builds a masterSubject lookup with two courses linked by master_subject", async () => {
+      const courseList = [
+        "8-01x-physics-i-classical-mechanics-with-an-experimental-focus-fall-2002",
+        "8-01sc-classical-mechanics-fall-2016"
+      ]
       const pathLookup = await fileOperations.buildPathsForAllCourses(
         "test_data/courses",
-        [
-          "8-01x-physics-i-classical-mechanics-with-an-experimental-focus-fall-2002",
-          "8-01sc-classical-mechanics-fall-2016"
-        ]
+        courseList
       )
-      assert.lengthOf(
-        pathLookup.byMasterSubject["977c90d0c4bb1443f1edd0cdc3ad25c3"],
-        2
-      )
-      assert.equal(
-        pathLookup.byMasterSubject["977c90d0c4bb1443f1edd0cdc3ad25c3"][0][
-          "course_id"
-        ],
-        "8-01x-physics-i-classical-mechanics-with-an-experimental-focus-fall-2002"
-      )
-      assert.equal(
-        pathLookup.byMasterSubject["977c90d0c4bb1443f1edd0cdc3ad25c3"][1][
-          "course_id"
-        ],
-        "8-01sc-classical-mechanics-fall-2016"
+      assert.deepEqual(
+        pathLookup.coursesByMasterSubject[
+          "977c90d0c4bb1443f1edd0cdc3ad25c3"
+        ].map(_uid => pathLookup.byUid[_uid]["short_url"]),
+        courseList
       )
     })
   })
