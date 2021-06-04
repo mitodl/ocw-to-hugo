@@ -182,6 +182,24 @@ describe("generateDataTemplate", () => {
     assert.deepEqual(expectedValue, foundValue)
   })
 
+  it("sets the expected text in other_versions which mentions scholars", () => {
+    const courseId =
+      "8-01x-physics-i-classical-mechanics-with-an-experimental-focus-fall-2002"
+    const jsonPath = path.join(
+      testDataPath,
+      courseId,
+      `${courseId}_parsed.json`
+    )
+    const rawData = fs.readFileSync(jsonPath)
+    const json = JSON.parse(rawData)
+    const template = generateDataTemplate(json, pathLookup)
+    const expectedValue = [
+      "[8.01SC CLASSICAL MECHANICS](/courses/8-01sc-classical-mechanics-fall-2016) | SCHOLAR,  FALL 2016"
+    ]
+    const foundValue = template["other_versions"]
+    assert.deepEqual(expectedValue, foundValue)
+  })
+
   it("sets the expected text in open_learning_library_versions", () => {
     const expectedValue = [
       "[8.01.1x Mechanics-Kinematics and Dynamics](https://openlearninglibrary.mit.edu/courses/course-v1:MITx+8.01.1x+3T2018/about) | OPEN LEARNING LIBRARY",
