@@ -2,15 +2,6 @@ const yaml = require("js-yaml")
 
 const { getExternalLinks } = require("./helpers")
 
-const generateHugoConfig = () => {
-  return yaml.safeDump({
-    baseUrl:      "/",
-    languageCode: "en-us",
-    title:        "MIT OpenCourseWare",
-    theme:        ["base-theme", "course"]
-  })
-}
-
 const generateExternalLinksMenu = courseData => {
   return yaml.safeDump({
     leftnav: getExternalLinks(courseData).map((externalLink, index) => {
@@ -24,6 +15,5 @@ const generateExternalLinksMenu = courseData => {
 }
 
 module.exports = {
-  generateHugoConfig,
   generateExternalLinksMenu
 }

@@ -190,7 +190,6 @@ const scanCourse = async (inputPath, outputPath, course, pathLookup) => {
         "config",
         "_default"
       )
-      await writeHugoConfig(configDir)
       await writeExternalLinks(configDir, courseData)
     }
   }
@@ -239,13 +238,6 @@ const writeDataTemplate = async (outputPath, dataTemplate) => {
   await helpers.createOrOverwriteFile(
     path.join(outputPath, "course.json"),
     JSON.stringify(dataTemplate, null, 2)
-  )
-}
-
-const writeHugoConfig = async outputPath => {
-  await helpers.createOrOverwriteFile(
-    path.join(outputPath, "config.yaml"),
-    configGenerators.generateHugoConfig()
   )
 }
 
