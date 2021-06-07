@@ -52,7 +52,7 @@ describe("file operations", () => {
     const inputPath = "test_data/courses"
     const outputPath = tmp.dirSync({ prefix: "output" }).name
     const courseLogMessage = "Converting 13 courses to Hugo markdown..."
-    const pathsLogMessage = "Generated 3148 paths."
+    const pathsLogMessage = "Generated 3159 paths."
     const course1Name =
       "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
     const course1Path = path.join(inputPath, course1Name)
@@ -359,7 +359,8 @@ describe("file operations", () => {
         from_year:            "2013",
         master_course_number: "001",
         short_url:            "12-001-introduction-to-geology-fall-2013",
-        title:                "Introduction to Geology"
+        title:                "Introduction to Geology",
+        published:            true
       })
       assert.deepEqual(uids["b03952e4bdfcea4962271aeae1dedb3f"], {
         course:    "ec-711-d-lab-energy-spring-2011",

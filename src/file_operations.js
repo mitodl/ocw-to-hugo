@@ -91,10 +91,6 @@ const buildCoursePathLookup = async (inputPath, courseList) => {
     const courseLookupList = []
     courseLookup[course] = courseLookupList
 
-    if (!helpers.isCoursePublished(courseData)) {
-      continue
-    }
-
     // add paths for uids found within course and include extra data which is useful for lookup purposes
     const uidInfoLookup = makeUidInfo(courseData)
     const coursePathLookup = helpers.buildPathsForCourse(courseData)
@@ -108,7 +104,13 @@ const buildCoursePathLookup = async (inputPath, courseList) => {
     // and also do the course home page
     const courseUid = courseData["uid"]
     const courseInfo = uidInfoLookup[courseUid] || {}
-    const pathObj = { course, path: "/", uid: courseUid, ...courseInfo }
+    const pathObj = {
+      course,
+      path:      "/",
+      uid:       courseUid,
+      published: helpers.isCoursePublished(courseData),
+      ...courseInfo
+    }
     pathLookup[courseUid] = pathObj
     courseLookupList.push(pathObj)
   }
