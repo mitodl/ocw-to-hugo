@@ -141,7 +141,7 @@ describe("file operations", () => {
 
     it("calls readdir many times, once for courses and once for each course", async () => {
       await fileOperations.scanCourses(inputPath, outputPath)
-      assert.equal(readdirStub.callCount, 27)
+      assert.equal(readdirStub.callCount, 40)
     }).timeout(10000)
 
     it("scans the test courses and reports to console", async () => {

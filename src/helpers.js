@@ -608,11 +608,11 @@ const getOtherVersions = (masterSubjects, courseId, pathLookup) => {
   for (const masterSubjectUid of masterSubjectUids) {
     const otherCourseUids = pathLookup.coursesByMasterSubject[masterSubjectUid]
     for (const otherCourseUid of otherCourseUids) {
-      const otherCourseId = pathLookup.byUid[otherCourseUid].course
-      if (otherCourseId === courseId) {
+      const otherCourse = pathLookup.byUid[otherCourseUid]
+      if (otherCourse.course === courseId) {
         continue
       }
-      const otherCourse = pathLookup.byUid[otherCourseUid]
+
       otherVersions.push(makeOtherVersionString(otherCourse))
     }
   }

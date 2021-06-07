@@ -62,50 +62,91 @@ const makeUidInfo = courseData => {
   return types
 }
 
-const buildPathsForAllCourses = async (inputPath, courseList) => {
-  const pathLookup = {}
-  const courseLookup = {}
-  const masterSubjectLookup = {}
-
+async function* iterateParsedJson(inputPath, courseList) {
   for (const course of courseList) {
     if (!(await directoryExists(path.join(inputPath, course)))) {
       throw new Error(`Missing course directory for ${course}`)
     }
+
+    const coursePath = path.join(inputPath, course)
+    const masterJsonFile = await getMasterJsonFileName(coursePath)
+
+    if (!masterJsonFile) {
+      continue
+    }
+
+    const courseData = JSON.parse(await fsPromises.readFile(masterJsonFile))
+    yield { course, courseData }
+  }
+}
+
+const buildCoursePathLookup = async (inputPath, courseList) => {
+  const courseLookup = {}
+  const pathLookup = {}
+
+  for await (const { course, courseData } of iterateParsedJson(
+    inputPath,
+    courseList
+  )) {
     const courseLookupList = []
     courseLookup[course] = courseLookupList
 
-    const courseMarkdownPath = path.join(inputPath, course)
-    const masterJsonFile = await getMasterJsonFileName(courseMarkdownPath)
-    if (masterJsonFile) {
-      const courseData = JSON.parse(await fsPromises.readFile(masterJsonFile))
-      const uidInfoLookup = makeUidInfo(courseData)
+    if (!helpers.isCoursePublished(courseData)) {
+      continue
+    }
 
-      if (helpers.isCoursePublished(courseData)) {
-        const coursePathLookup = helpers.buildPathsForCourse(courseData)
-        for (const [uid, path] of Object.entries(coursePathLookup)) {
-          const info = uidInfoLookup[uid] || {}
-          const pathObj = { course, path, uid, ...info }
-          pathLookup[uid] = pathObj
-          courseLookupList.push(pathObj)
-        }
+    // add paths for uids found within course and include extra data which is useful for lookup purposes
+    const uidInfoLookup = makeUidInfo(courseData)
+    const coursePathLookup = helpers.buildPathsForCourse(courseData)
+    for (const [uid, path] of Object.entries(coursePathLookup)) {
+      const info = uidInfoLookup[uid] || {}
+      const pathObj = { course, path, uid, ...info }
+      pathLookup[uid] = pathObj
+      courseLookupList.push(pathObj)
+    }
 
-        const courseUid = courseData["uid"]
-        const courseInfo = uidInfoLookup[courseUid] || {}
-        const pathObj = { course, path: "/", uid: courseUid, ...courseInfo }
-        pathLookup[courseUid] = pathObj
-        courseLookupList.push(pathObj)
+    // and also do the course home page
+    const courseUid = courseData["uid"]
+    const courseInfo = uidInfoLookup[courseUid] || {}
+    const pathObj = { course, path: "/", uid: courseUid, ...courseInfo }
+    pathLookup[courseUid] = pathObj
+    courseLookupList.push(pathObj)
+  }
 
-        // If this course has master subjects defined, add this course to the lookup
-        const masterSubjects = courseData["other_version_parent_uids"] || []
-        for (const uid of masterSubjects) {
-          if (!masterSubjectLookup[uid]) {
-            masterSubjectLookup[uid] = []
-          }
-          masterSubjectLookup[uid].push(courseUid)
-        }
+  return { pathLookup, courseLookup }
+}
+
+const buildMasterSubjectLookup = async (inputPath, courseList) => {
+  const lookup = {}
+
+  for await (const { courseData } of iterateParsedJson(inputPath, courseList)) {
+    if (!helpers.isCoursePublished(courseData)) {
+      continue
+    }
+
+    const courseUid = courseData["uid"]
+    // If this course has master subjects defined, add this course to the lookup
+    const masterSubjects = courseData["other_version_parent_uids"] || []
+    for (const uid of masterSubjects) {
+      if (!lookup[uid]) {
+        lookup[uid] = []
       }
+      lookup[uid].push(courseUid)
     }
   }
+
+  return lookup
+}
+
+const buildPathsForAllCourses = async (inputPath, courseList) => {
+  const { pathLookup, courseLookup } = await buildCoursePathLookup(
+    inputPath,
+    courseList
+  )
+  const masterSubjectLookup = await buildMasterSubjectLookup(
+    inputPath,
+    courseList
+  )
 
   return {
     byUid:                  pathLookup,
