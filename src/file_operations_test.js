@@ -142,17 +142,17 @@ describe("file operations", () => {
     it("calls readdir many times, once for courses and once for each course", async () => {
       await fileOperations.scanCourses(inputPath, outputPath)
       assert.equal(readdirStub.callCount, 27)
-    }).timeout(5000)
+    }).timeout(10000)
 
     it("scans the test courses and reports to console", async () => {
       await fileOperations.scanCourses(inputPath, outputPath)
       expect(consoleLog).calledWithExactly(courseLogMessage)
-    }).timeout(5000)
+    }).timeout(10000)
 
     it("reports the correct amount of paths found to the console", async () => {
       await fileOperations.scanCourses(inputPath, outputPath)
       expect(consoleLog).calledWithExactly(pathsLogMessage)
-    }).timeout(5000)
+    }).timeout(10000)
 
     it("calls lstat for each test course", async () => {
       await fileOperations.scanCourses(inputPath, outputPath)
@@ -160,7 +160,7 @@ describe("file operations", () => {
       expect(lstatStub).to.be.calledWithExactly(course2Path)
       expect(lstatStub).to.be.calledWithExactly(course3Path)
       expect(lstatStub).to.be.calledWithExactly(course4Path)
-    }).timeout(5000)
+    }).timeout(10000)
   })
 
   describe("scanCourse", () => {
@@ -201,7 +201,7 @@ describe("file operations", () => {
         pathLookup
       )
       expect(readFileStub).to.be.calledWithExactly(singleCourseMasterJsonPath)
-    }).timeout(5000)
+    }).timeout(10000)
 
     it("calls generateMarkdownFromJson on the course data", async () => {
       await fileOperations.scanCourse(
@@ -214,7 +214,7 @@ describe("file operations", () => {
         singleCourseJsonData,
         pathLookup
       )
-    }).timeout(5000)
+    }).timeout(10000)
 
     it("calls writeExternalLinks on the course data", async () => {
       await fileOperations.scanCourse(
@@ -226,7 +226,7 @@ describe("file operations", () => {
       expect(writeExternalLinks).to.be.calledOnceWithExactly(
         singleCourseJsonData
       )
-    }).timeout(5000)
+    }).timeout(10000)
 
     it("calls generateDataTemplate on the course data", async () => {
       await fileOperations.scanCourse(
@@ -239,7 +239,7 @@ describe("file operations", () => {
         singleCourseJsonData,
         pathLookup
       )
-    }).timeout(5000)
+    }).timeout(10000)
 
     it("skips a course that has been unpublished", async () => {
       readFileStub.restore()
@@ -251,7 +251,7 @@ describe("file operations", () => {
       )
       expect(generateMarkdownFromJson).to.be.not.called
       expect(generateDataTemplate).to.be.not.called
-    }).timeout(5000)
+    }).timeout(10000)
   })
 
   describe("getMasterJsonFileName", () => {

@@ -1,4 +1,5 @@
 const fs = require("fs")
+const yaml = require("js-yaml")
 const path = require("path")
 const sinon = require("sinon")
 const { assert, expect } = require("chai").use(require("sinon-chai"))
@@ -29,7 +30,16 @@ describe("generateExternalLinksMenu", () => {
   })
 
   it("generates the expected menu for the example course", () => {
-    const expectedValue = `[[leftnav]]\n\tname = "Online Publication"\n\turl = "https://biology.mit.edu/undergraduate/current-students/subject-offerings/covid-19-sars-cov-2-and-the-pandemic/"\n\tweight = 1000`
+    const expectedValue = yaml.safeDump({
+      leftnav: [
+        {
+          name: "Online Publication",
+          url:
+            "https://biology.mit.edu/undergraduate/current-students/subject-offerings/covid-19-sars-cov-2-and-the-pandemic/",
+          weight: 1000
+        }
+      ]
+    })
     assert.equal(expectedValue, courseExternalLinksMenu)
   })
 })

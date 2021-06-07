@@ -1,12 +1,15 @@
+const yaml = require("js-yaml")
+
 const { getExternalLinks } = require("./helpers")
 
-const generateExternalLinksMenu = courseData => {
-  return `${getExternalLinks(courseData).map((externalLink, index) => {
-    return `[[leftnav]]\n\tname = "${externalLink["title"]}"\n\turl = "${
-      externalLink["url"]
-    }"\n\tweight = ${index * 10 + 1000}`
-  })}`
-}
+const generateExternalLinksMenu = courseData =>
+  yaml.safeDump({
+    leftnav: getExternalLinks(courseData).map((externalLink, index) => ({
+      name:   externalLink["title"],
+      url:    externalLink["url"],
+      weight: index * 10 + 1000
+    }))
+  })
 
 module.exports = {
   generateExternalLinksMenu
