@@ -53,6 +53,10 @@ const generateDataTemplate = (courseData, pathLookup) => {
       courseData["short_url"],
       pathLookup
     ),
+    archived_versions: helpers.getArchivedVersions(
+      courseData["short_url"],
+      pathLookup
+    ),
     open_learning_library_versions: helpers.getOpenLearningLibraryVersions(
       courseData["open_learning_library_related"]
     )

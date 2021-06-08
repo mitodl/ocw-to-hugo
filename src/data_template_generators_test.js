@@ -40,7 +40,11 @@ describe("generateDataTemplate", () => {
       [
         singleCourseId,
         physicsCourseId,
-        "8-01x-physics-i-classical-mechanics-with-an-experimental-focus-fall-2002"
+        "8-01x-physics-i-classical-mechanics-with-an-experimental-focus-fall-2002",
+        "17-40-american-foreign-policy-past-present-and-future-fall-2017",
+        "17-40-american-foreign-policy-past-present-future-fall-2010",
+        "17-40-american-foreign-policy-past-present-and-future-fall-2004",
+        "17-40-american-foreign-policy-past-present-and-future-fall-2002"
       ]
     )
     courseDataTemplate = generateDataTemplate(singleCourseJsonData, pathLookup)
@@ -197,6 +201,26 @@ describe("generateDataTemplate", () => {
       "[8.01SC CLASSICAL MECHANICS](/courses/8-01sc-classical-mechanics-fall-2016) | SCHOLAR,  FALL 2016"
     ]
     const foundValue = template["other_versions"]
+    assert.deepEqual(expectedValue, foundValue)
+  })
+
+  it("sets archived versions with dspace urls", () => {
+    const courseId =
+      "17-40-american-foreign-policy-past-present-and-future-fall-2017"
+    const jsonPath = path.join(
+      testDataPath,
+      courseId,
+      `${courseId}_parsed.json`
+    )
+    const rawData = fs.readFileSync(jsonPath)
+    const json = JSON.parse(rawData)
+    const template = generateDataTemplate(json, pathLookup)
+    const expectedValue = [
+      "[17.40 AMERICAN FOREIGN POLICY: PAST, PRESENT, FUTURE](https://dspace.mit.edu/handle/1721.1/116542) |  FALL 2010",
+      "[17.40 AMERICAN FOREIGN POLICY: PAST, PRESENT, AND FUTURE](https://dspace.mit.edu/handle/1721.1/71203) |  FALL 2004",
+      "[17.40 AMERICAN FOREIGN POLICY: PAST, PRESENT, AND FUTURE](https://dspace.mit.edu/handle/1721.1/35797) |  FALL 2002"
+    ]
+    const foundValue = template["archived_versions"]
     assert.deepEqual(expectedValue, foundValue)
   })
 

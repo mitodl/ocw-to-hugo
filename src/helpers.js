@@ -591,14 +591,12 @@ const isCoursePublished = courseData => {
   } else return true
 }
 
-const makeOtherVersionString = otherCourse => {
-  const courseId = otherCourse["short_url"]
+const makeOtherVersionString = (otherCourse, courseUrl) => {
   const courseNumber = `${otherCourse["department_number"]}.${otherCourse["master_course_number"]}`
   const title = otherCourse["title"]
   const term = `${otherCourse["from_semester"]} ${otherCourse["from_year"]}`
   const scholarText = courseNumber.endsWith("SC") ? "SCHOLAR, " : ""
 
-  const courseUrl = makeCourseUrlPrefix(courseId)
   return `[${courseNumber} ${title.toUpperCase()}](${courseUrl}) | ${scholarText} ${term.toUpperCase()}`
 }
 
@@ -613,11 +611,19 @@ const getOtherVersions = (masterSubjects, courseId, pathLookup) => {
         continue
       }
 
-      otherVersions.push(makeOtherVersionString(otherCourse))
+      const courseUrl = makeCourseUrlPrefix(otherCourse.course)
+      otherVersions.push(makeOtherVersionString(otherCourse, courseUrl))
     }
   }
 
   return otherVersions
+}
+
+const getArchivedVersions = (courseId, pathLookup) => {
+  const archived = pathLookup.archivedCoursesByCourse[courseId] || []
+  return archived.map(({ uid, dspaceUrl }) =>
+    makeOtherVersionString(pathLookup.byUid[uid], dspaceUrl)
+  )
 }
 
 const getOpenLearningLibraryVersions = openLearningLibraryRelated => {
@@ -647,6 +653,27 @@ const stripSlashPrefix = stripPrefix("/")
 const replaceSubstring = (text, index, length, substring) =>
   `${text.substring(0, index)}${substring}${text.substring(index + length)}`
 
+const parseDspaceUrl = url => {
+  if (!url) {
+    return null
+  }
+
+  const regexes = [
+    /https?:\/\/dspace.mit.edu\/handle\/\/?([\d.]+\/\d+)/,
+    /https?:\/\/hdl\.handle\.net\/([\d.]+\/\d+)/,
+    /hdl:\/\/([\d.]+\/\d+)/
+  ]
+
+  for (const regex of regexes) {
+    const match = url.match(regex)
+    if (match) {
+      return match[1]
+    }
+  }
+
+  return null
+}
+
 module.exports = {
   distinct,
   directoryExists,
@@ -672,6 +699,7 @@ module.exports = {
   unescapeBackticks,
   isCoursePublished,
   getOtherVersions,
+  getArchivedVersions,
   getOpenLearningLibraryVersions,
   runOptions,
   stripPdfSuffix,
@@ -680,5 +708,6 @@ module.exports = {
   applyReplacements,
   getPathFragments,
   updatePath,
-  makeCourseInfoUrl
+  makeCourseInfoUrl,
+  parseDspaceUrl
 }

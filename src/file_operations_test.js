@@ -51,8 +51,8 @@ describe("file operations", () => {
     const sandbox = sinon.createSandbox()
     const inputPath = "test_data/courses"
     const outputPath = tmp.dirSync({ prefix: "output" }).name
-    const courseLogMessage = "Converting 13 courses to Hugo markdown..."
-    const pathsLogMessage = "Generated 3159 paths."
+    const courseLogMessage = "Converting 17 courses to Hugo markdown..."
+    const pathsLogMessage = "Generated 3254 paths."
     const course1Name =
       "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
     const course1Path = path.join(inputPath, course1Name)
@@ -139,9 +139,9 @@ describe("file operations", () => {
       )
     })
 
-    it("calls readdir many times, once for courses and once for each course", async () => {
+    it("calls readdir many times", async () => {
       await fileOperations.scanCourses(inputPath, outputPath)
-      assert.equal(readdirStub.callCount, 40)
+      assert.equal(readdirStub.callCount, 86)
     }).timeout(10000)
 
     it("scans the test courses and reports to console", async () => {
@@ -395,6 +395,52 @@ describe("file operations", () => {
         ].map(_uid => pathLookup.byUid[_uid]["short_url"]),
         courseList
       )
+    })
+
+    it("builds an archive lookup", async () => {
+      const courseList = [
+        "17-40-american-foreign-policy-past-present-and-future-fall-2017",
+        "17-40-american-foreign-policy-past-present-future-fall-2010",
+        "17-40-american-foreign-policy-past-present-and-future-fall-2004",
+        "17-40-american-foreign-policy-past-present-and-future-fall-2002"
+      ]
+      const pathLookup = await fileOperations.buildPathsForAllCourses(
+        "test_data/courses",
+        courseList
+      )
+      assert.deepEqual(pathLookup.archivedCoursesByCourse, {
+        "17-40-american-foreign-policy-past-present-and-future-fall-2017": [
+          {
+            uid:       "63f8b9a35b43334791ef00ce6c390d63",
+            dspaceUrl: "https://dspace.mit.edu/handle/1721.1/116542"
+          },
+          {
+            uid:       "871cd91454dc801a6d59bb24b474ec67",
+            dspaceUrl: "https://dspace.mit.edu/handle/1721.1/71203"
+          },
+          {
+            uid:       "a291b546e0a4d15375ed0d04b236da5a",
+            dspaceUrl: "https://dspace.mit.edu/handle/1721.1/35797"
+          }
+        ],
+        "17-40-american-foreign-policy-past-present-future-fall-2010": [
+          {
+            uid:       "871cd91454dc801a6d59bb24b474ec67",
+            dspaceUrl: "https://dspace.mit.edu/handle/1721.1/71203"
+          },
+          {
+            uid:       "a291b546e0a4d15375ed0d04b236da5a",
+            dspaceUrl: "https://dspace.mit.edu/handle/1721.1/35797"
+          }
+        ],
+        "17-40-american-foreign-policy-past-present-and-future-fall-2004": [
+          {
+            uid:       "a291b546e0a4d15375ed0d04b236da5a",
+            dspaceUrl: "https://dspace.mit.edu/handle/1721.1/35797"
+          }
+        ],
+        "17-40-american-foreign-policy-past-present-and-future-fall-2002": []
+      })
     })
   })
 })

@@ -140,6 +140,92 @@ const buildMasterSubjectLookup = async (inputPath, courseList) => {
   return lookup
 }
 
+const buildArchivedParentUidLookupRecurse = (
+  courseUid,
+  isUpdateOfLookup,
+  parentUids,
+  done
+) => {
+  const newParentUids = (isUpdateOfLookup[courseUid] || []).filter(
+    uid => !done[uid]
+  )
+  for (const parentUid of newParentUids) {
+    parentUids.push(parentUid)
+    done[parentUid] = true
+  }
+
+  for (const parentUid of newParentUids) {
+    buildArchivedParentUidLookupRecurse(
+      parentUid,
+      isUpdateOfLookup,
+      parentUids,
+      done
+    )
+  }
+}
+
+const buildArchivedParentUidLookup = (courseUids, isUpdateOfLookup) => {
+  const parentUidsLookup = {}
+  for (const courseUid of courseUids) {
+    const done = { [courseUid]: true }
+    const parentUids = []
+    buildArchivedParentUidLookupRecurse(
+      courseUid,
+      isUpdateOfLookup,
+      parentUids,
+      done
+    )
+    parentUidsLookup[courseUid] = parentUids
+  }
+  return parentUidsLookup
+}
+
+const buildArchivedLookup = async (inputPath, courseList) => {
+  const dspaceLookup = {} // uid -> dspace
+  const isUpdateOfLookup = {} // uid -> parent uid
+  const courseUids = []
+
+  // populate dspace lookup and initialize parent lookup
+  for await (const { courseData } of iterateParsedJson(inputPath, courseList)) {
+    const courseUid = courseData["uid"]
+    courseUids.push(courseUid)
+
+    const dspace = helpers.parseDspaceUrl(courseData["dspace_handle"])
+    if (dspace) {
+      dspaceLookup[courseUid] = dspace
+    }
+
+    isUpdateOfLookup[courseUid] = courseData["is_update_of"] || []
+  }
+
+  // uid -> list of uids, not just for the immediate parent but all the way up
+  const parentUidsLookup = buildArchivedParentUidLookup(
+    courseUids,
+    isUpdateOfLookup
+  )
+  const archivedLookup = {} // course name -> list of { uid: parent course uid, dspace: reconstructed dspace link }
+
+  for await (const { course, courseData } of iterateParsedJson(
+    inputPath,
+    courseList
+  )) {
+    const parentUids = parentUidsLookup[courseData["uid"]]
+    archivedLookup[course] = []
+
+    for (const parentUid of parentUids) {
+      const dspace = dspaceLookup[parentUid]
+      if (dspace) {
+        archivedLookup[course].push({
+          uid:       parentUid,
+          dspaceUrl: `https://dspace.mit.edu/handle/${dspace}`
+        })
+      }
+    }
+  }
+
+  return archivedLookup
+}
+
 const buildPathsForAllCourses = async (inputPath, courseList) => {
   const { pathLookup, courseLookup } = await buildCoursePathLookup(
     inputPath,
@@ -149,11 +235,13 @@ const buildPathsForAllCourses = async (inputPath, courseList) => {
     inputPath,
     courseList
   )
+  const archivedLookup = await buildArchivedLookup(inputPath, courseList)
 
   return {
-    byUid:                  pathLookup,
-    byCourse:               courseLookup,
-    coursesByMasterSubject: masterSubjectLookup
+    byUid:                   pathLookup,
+    byCourse:                courseLookup,
+    coursesByMasterSubject:  masterSubjectLookup,
+    archivedCoursesByCourse: archivedLookup
   }
 }
 

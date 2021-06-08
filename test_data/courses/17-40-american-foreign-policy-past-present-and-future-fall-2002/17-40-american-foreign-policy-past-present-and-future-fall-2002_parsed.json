@@ -1,0 +1,243 @@
+{
+    "course_collections": [],
+    "course_embedded_media": {},
+    "course_feature_tags": [],
+    "course_features": [],
+    "course_files": [],
+    "course_foreign_files": [],
+    "course_level": "Undergraduate",
+    "course_pages": [
+        {
+            "bottomtext": null,
+            "description": "\nCourse mission: to explain and evaluate past and present United States policies. What caused the United States' past involvement in foreign wars and interventions? Were the results of U.S. policies good or bad? Would other policies have better served the U.S. and/or the wider world? Were the beliefs that guided U.S. policy true or false? If false, what explains these misperceptions? General theories that bear on the causes and consequences of American policy will be applied to explain and evaluate past and present policies.\nThe history of United States foreign policy in the 20th century is covered in detail. Functional topics are also covered: U.S. military policy, U.S. foreign economic policy, and U.S. policy on human rights and democracy overseas. Finally, we will predict and prescribe for the future. What policies should the U.S. adopt toward current problems and crises? These problems include the war against Al Qaeda and the wider war on terror; Iraq and Saddam Hussein; the Taiwan Straits; the Central African conflicts; and more. What should be the U.S. stance on global environmental and human rights questions?",
+            "file_location": "c5c3f2419576d164e9753a8b082740d9_index.htm.html",
+            "is_image_gallery": null,
+            "is_media_gallery": false,
+            "list_in_left_nav": null,
+            "order_index": 2,
+            "parent_uid": "a291b546e0a4d15375ed0d04b236da5a",
+            "short_page_title": null,
+            "short_url": "index.htm",
+            "text": "",
+            "title": "Course Home",
+            "type": "CourseHomeSection",
+            "uid": "c5c3f2419576d164e9753a8b082740d9",
+            "url": "/courses/political-science/17-40-american-foreign-policy-past-present-and-future-fall-2002/index.htm"
+        },
+        {
+            "bottomtext": "",
+            "description": "The syllabus contains information on the course mission, format and requirements, assignments and exams, and a list of books to purchase.",
+            "file_location": "401d814af91101acbeb9a5f6d78ddddd_syllabus.html",
+            "is_image_gallery": false,
+            "is_media_gallery": false,
+            "list_in_left_nav": false,
+            "order_index": 3,
+            "parent_uid": "a291b546e0a4d15375ed0d04b236da5a",
+            "short_page_title": "Syllabus",
+            "short_url": "syllabus",
+            "text": "",
+            "title": "Syllabus",
+            "type": "CourseSection",
+            "uid": "401d814af91101acbeb9a5f6d78ddddd",
+            "url": "/courses/political-science/17-40-american-foreign-policy-past-present-and-future-fall-2002/syllabus"
+        },
+        {
+            "bottomtext": "",
+            "description": "Schedule of lecture topics, readings, and assignments/quizzes.",
+            "file_location": "efc62971a5bbf6106aaeb05053732d4d_calendar.html",
+            "is_image_gallery": false,
+            "is_media_gallery": false,
+            "list_in_left_nav": false,
+            "order_index": 4,
+            "parent_uid": "a291b546e0a4d15375ed0d04b236da5a",
+            "short_page_title": "Calendar",
+            "short_url": "calendar",
+            "text": "",
+            "title": "Calendar",
+            "type": "CourseSection",
+            "uid": "efc62971a5bbf6106aaeb05053732d4d",
+            "url": "/courses/political-science/17-40-american-foreign-policy-past-present-and-future-fall-2002/calendar"
+        },
+        {
+            "bottomtext": "",
+            "description": "Bibliography of required and suggested readings.",
+            "file_location": "f4b0b92a813c52674c5cb7d527b9a197_readings.html",
+            "is_image_gallery": false,
+            "is_media_gallery": false,
+            "list_in_left_nav": false,
+            "order_index": 5,
+            "parent_uid": "a291b546e0a4d15375ed0d04b236da5a",
+            "short_page_title": "Readings",
+            "short_url": "readings",
+            "text": "",
+            "title": "Readings",
+            "type": "CourseSection",
+            "uid": "f4b0b92a813c52674c5cb7d527b9a197",
+            "url": "/courses/political-science/17-40-american-foreign-policy-past-present-and-future-fall-2002/readings"
+        },
+        {
+            "bottomtext": "",
+            "description": "Complete set of lecture notes from the course.",
+            "file_location": "3253938e94c04e510e41ce155ff916cf_lecture-notes.html",
+            "is_image_gallery": false,
+            "is_media_gallery": false,
+            "list_in_left_nav": false,
+            "order_index": 6,
+            "parent_uid": "a291b546e0a4d15375ed0d04b236da5a",
+            "short_page_title": "Lecture Notes",
+            "short_url": "lecture-notes",
+            "text": "",
+            "title": "Lecture Notes",
+            "type": "CourseSection",
+            "uid": "3253938e94c04e510e41ce155ff916cf",
+            "url": "/courses/political-science/17-40-american-foreign-policy-past-present-and-future-fall-2002/lecture-notes"
+        },
+        {
+            "bottomtext": "",
+            "description": "Paper assignments and presentation assignments.",
+            "file_location": "e89dc6425a3c4bcb6c05c31e9bde246c_assignments.html",
+            "is_image_gallery": false,
+            "is_media_gallery": false,
+            "list_in_left_nav": false,
+            "order_index": 7,
+            "parent_uid": "a291b546e0a4d15375ed0d04b236da5a",
+            "short_page_title": "Assignments",
+            "short_url": "assignments",
+            "text": "",
+            "title": "Assignments",
+            "type": "CourseSection",
+            "uid": "e89dc6425a3c4bcb6c05c31e9bde246c",
+            "url": "/courses/political-science/17-40-american-foreign-policy-past-present-and-future-fall-2002/assignments"
+        },
+        {
+            "bottomtext": "",
+            "description": "Quotes from Dr. Van Evera's lectures.",
+            "file_location": "5ffc9fa0dff74fb8152435a0a58c89b5_study-materials.html",
+            "is_image_gallery": false,
+            "is_media_gallery": false,
+            "list_in_left_nav": false,
+            "order_index": 8,
+            "parent_uid": "a291b546e0a4d15375ed0d04b236da5a",
+            "short_page_title": "Study Materials",
+            "short_url": "study-materials",
+            "text": "",
+            "title": "Study Materials",
+            "type": "CourseSection",
+            "uid": "5ffc9fa0dff74fb8152435a0a58c89b5",
+            "url": "/courses/political-science/17-40-american-foreign-policy-past-present-and-future-fall-2002/study-materials"
+        },
+        {
+            "bottomtext": "",
+            "description": "Links page: Intergovernmental Organizations (IGOs); Non-governmental Organizations (NGOs); Indexes of International Relations and Foreign Policy Websites; International Relations and Foreign Policy Links.",
+            "file_location": "bfe6c611f921e9558383cd0431b96c2a_related-resources.html",
+            "is_image_gallery": false,
+            "is_media_gallery": false,
+            "list_in_left_nav": false,
+            "order_index": 9,
+            "parent_uid": "a291b546e0a4d15375ed0d04b236da5a",
+            "short_page_title": "Related Resources",
+            "short_url": "related-resources",
+            "text": "",
+            "title": "Related Resources",
+            "type": "CourseSection",
+            "uid": "bfe6c611f921e9558383cd0431b96c2a",
+            "url": "/courses/political-science/17-40-american-foreign-policy-past-present-and-future-fall-2002/related-resources"
+        }
+    ],
+    "department_number": "17",
+    "description": "\nCourse mission: to explain and evaluate past and present United States policies. What caused the United States' past involvement in foreign wars and interventions? Were the results of U.S. policies good or bad? Would other policies have better served the U.S. and/or the wider world? Were the beliefs that guided U.S. policy true or false? If false, what explains these misperceptions? General theories that bear on the causes and consequences of American policy will be applied to explain and evaluate past and present policies.\nThe history of United States foreign policy in the 20th century is covered in detail. Functional topics are also covered: U.S. military policy, U.S. foreign economic policy, and U.S. policy on human rights and democracy overseas. Finally, we will predict and prescribe for the future. What policies should the U.S. adopt toward current problems and crises? These problems include the war against Al Qaeda and the wider war on terror; Iraq and Saddam Hussein; the Taiwan Straits; the Central African conflicts; and more. What should be the U.S. stance on global environmental and human rights questions?",
+    "dspace_handle": "hdl://1721.1/35797",
+    "extra_course_number": [],
+    "features_tracking": [],
+    "first_published_to_production": "2003/09/18 12:32:04 GMT-4",
+    "from_semester": "Fall",
+    "from_year": "2002",
+    "image_alternate_text": "",
+    "image_caption_text": "",
+    "image_description": "",
+    "image_src": "",
+    "instructors": [
+        {
+            "department": "Political Science",
+            "directory_title": "Professor",
+            "first_name": "Stephen",
+            "last_name": "Van Evera",
+            "middle_initial": "",
+            "suffix": "",
+            "title": "Van Evera, Stephen",
+            "uid": "555a4b0bfd37ef29e3644b6d9753b702"
+        }
+    ],
+    "is_update_of": null,
+    "language": "",
+    "last_published_to_production": "2003/09/18 12:32:04 GMT-4",
+    "last_unpublishing_date": "2006/09/29 06:05:23 GMT-4",
+    "master_course_number": "40",
+    "new_course_numbers": [],
+    "open_learning_library_related": [],
+    "other_information_text": "",
+    "other_version_parent_uids": null,
+    "retirement_date": "2007/01/24 23:22:55 US/Eastern",
+    "short_url": "17-40-american-foreign-policy-past-present-and-future-fall-2002",
+    "sort_as": "17.40",
+    "tags": [
+        {
+            "name": "American Foreign Policy"
+        },
+        {
+            "name": "wars"
+        },
+        {
+            "name": "interventions"
+        },
+        {
+            "name": "Cold War"
+        },
+        {
+            "name": "Korean War"
+        },
+        {
+            "name": "Vietnam war"
+        },
+        {
+            "name": "Cuban missile crisis"
+        },
+        {
+            "name": "CIA"
+        },
+        {
+            "name": "Iran"
+        },
+        {
+            "name": "Guatemala"
+        },
+        {
+            "name": "Iraq"
+        },
+        {
+            "name": "Afghanistan"
+        },
+        {
+            "name": "China"
+        },
+        {
+            "name": "human rights"
+        },
+        {
+            "name": "environment"
+        },
+        {
+            "name": "foreign economic policy"
+        },
+        {
+            "name": "military policy"
+        }
+    ],
+    "thumbnail_image_description": "",
+    "thumbnail_image_src": "",
+    "title": "American Foreign Policy: Past, Present, and Future",
+    "to_semester": "-1",
+    "to_year": "-1",
+    "uid": "a291b546e0a4d15375ed0d04b236da5a",
+    "url": "/courses/political-science/17-40-american-foreign-policy-past-present-and-future-fall-2002"
+}

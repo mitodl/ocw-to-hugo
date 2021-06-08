@@ -808,4 +808,19 @@ describe("misc functions", () => {
     assert.deepEqual(helpers.updatePath("d/e/f", ["a", "b", "c"]), "/a/b/c")
     assert.deepEqual(helpers.updatePath("f/g/h", []), "/")
   })
+
+  //
+  ;[
+    ["https://dspace.mit.edu/handle/1721.1/75001", "1721.1/75001"],
+    ["http://dspace.mit.edu/handle/1721.1/75001", "1721.1/75001"],
+    ["https://hdl.handle.net/172.1/12345", "172.1/12345"],
+    ["http://hdl.handle.net/172.1/12345", "172.1/12345"],
+    ["hdl://23.45/456", "23.45/456"],
+    ["www.cnn.com", null],
+    ["/", null]
+  ].forEach(([url, expected]) => {
+    it(`parses a dspace URL like ${url}`, () => {
+      assert.equal(helpers.parseDspaceUrl(url), expected)
+    })
+  })
 })
