@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.23.0
+--------------
+
+- move menus.toml to menus.yaml (#300)
+
 Version 1.22.0 (Released June 01, 2021)
 --------------
 
