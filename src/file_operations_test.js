@@ -51,8 +51,8 @@ describe("file operations", () => {
     const sandbox = sinon.createSandbox()
     const inputPath = "test_data/courses"
     const outputPath = tmp.dirSync({ prefix: "output" }).name
-    const courseLogMessage = "Converting 13 courses to Hugo markdown..."
-    const pathsLogMessage = "Generated 3148 paths."
+    const courseLogMessage = "Converting 17 courses to Hugo markdown..."
+    const pathsLogMessage = "Generated 3254 paths."
     const course1Name =
       "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
     const course1Path = path.join(inputPath, course1Name)
@@ -139,9 +139,9 @@ describe("file operations", () => {
       )
     })
 
-    it("calls readdir many times, once for courses and once for each course", async () => {
+    it("calls readdir many times", async () => {
       await fileOperations.scanCourses(inputPath, outputPath)
-      assert.equal(readdirStub.callCount, 27)
+      assert.equal(readdirStub.callCount, 86)
     }).timeout(10000)
 
     it("scans the test courses and reports to console", async () => {
@@ -350,10 +350,17 @@ describe("file operations", () => {
         uid:       "877f0e43412db8b16e5b2864cf8bf1cc"
       })
       assert.deepEqual(uids["d9aad1541f1a9d3c0f7b0dcf9531a9a1"], {
-        course: "12-001-introduction-to-geology-fall-2013",
-        path:   "/",
-        type:   COURSE_TYPE,
-        uid:    "d9aad1541f1a9d3c0f7b0dcf9531a9a1"
+        course:               "12-001-introduction-to-geology-fall-2013",
+        path:                 "/",
+        type:                 COURSE_TYPE,
+        uid:                  "d9aad1541f1a9d3c0f7b0dcf9531a9a1",
+        department_number:    "12",
+        from_semester:        "Fall",
+        from_year:            "2013",
+        master_course_number: "001",
+        short_url:            "12-001-introduction-to-geology-fall-2013",
+        title:                "Introduction to Geology",
+        published:            true
       })
       assert.deepEqual(uids["b03952e4bdfcea4962271aeae1dedb3f"], {
         course:    "ec-711-d-lab-energy-spring-2011",
@@ -374,29 +381,66 @@ describe("file operations", () => {
     })
 
     it("builds a masterSubject lookup with two courses linked by master_subject", async () => {
+      const courseList = [
+        "8-01x-physics-i-classical-mechanics-with-an-experimental-focus-fall-2002",
+        "8-01sc-classical-mechanics-fall-2016"
+      ]
       const pathLookup = await fileOperations.buildPathsForAllCourses(
         "test_data/courses",
-        [
-          "8-01x-physics-i-classical-mechanics-with-an-experimental-focus-fall-2002",
-          "8-01sc-classical-mechanics-fall-2016"
-        ]
+        courseList
       )
-      assert.lengthOf(
-        pathLookup.byMasterSubject["977c90d0c4bb1443f1edd0cdc3ad25c3"],
-        2
+      assert.deepEqual(
+        pathLookup.coursesByMasterSubject[
+          "977c90d0c4bb1443f1edd0cdc3ad25c3"
+        ].map(_uid => pathLookup.byUid[_uid]["short_url"]),
+        courseList
       )
-      assert.equal(
-        pathLookup.byMasterSubject["977c90d0c4bb1443f1edd0cdc3ad25c3"][0][
-          "course_id"
+    })
+
+    it("builds an archive lookup", async () => {
+      const courseList = [
+        "17-40-american-foreign-policy-past-present-and-future-fall-2017",
+        "17-40-american-foreign-policy-past-present-future-fall-2010",
+        "17-40-american-foreign-policy-past-present-and-future-fall-2004",
+        "17-40-american-foreign-policy-past-present-and-future-fall-2002"
+      ]
+      const pathLookup = await fileOperations.buildPathsForAllCourses(
+        "test_data/courses",
+        courseList
+      )
+      assert.deepEqual(pathLookup.archivedCoursesByCourse, {
+        "17-40-american-foreign-policy-past-present-and-future-fall-2017": [
+          {
+            uid:       "63f8b9a35b43334791ef00ce6c390d63",
+            dspaceUrl: "https://dspace.mit.edu/handle/1721.1/116542"
+          },
+          {
+            uid:       "871cd91454dc801a6d59bb24b474ec67",
+            dspaceUrl: "https://dspace.mit.edu/handle/1721.1/71203"
+          },
+          {
+            uid:       "a291b546e0a4d15375ed0d04b236da5a",
+            dspaceUrl: "https://dspace.mit.edu/handle/1721.1/35797"
+          }
         ],
-        "8-01x-physics-i-classical-mechanics-with-an-experimental-focus-fall-2002"
-      )
-      assert.equal(
-        pathLookup.byMasterSubject["977c90d0c4bb1443f1edd0cdc3ad25c3"][1][
-          "course_id"
+        "17-40-american-foreign-policy-past-present-future-fall-2010": [
+          {
+            uid:       "871cd91454dc801a6d59bb24b474ec67",
+            dspaceUrl: "https://dspace.mit.edu/handle/1721.1/71203"
+          },
+          {
+            uid:       "a291b546e0a4d15375ed0d04b236da5a",
+            dspaceUrl: "https://dspace.mit.edu/handle/1721.1/35797"
+          }
         ],
-        "8-01sc-classical-mechanics-fall-2016"
-      )
+        "17-40-american-foreign-policy-past-present-and-future-fall-2004": [
+          {
+            uid:       "a291b546e0a4d15375ed0d04b236da5a",
+            dspaceUrl: "https://dspace.mit.edu/handle/1721.1/35797"
+          }
+        ],
+        "17-40-american-foreign-policy-past-present-and-future-fall-2002": []
+      })
     })
   })
 })
