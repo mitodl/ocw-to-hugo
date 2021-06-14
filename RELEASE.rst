@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.24.0
+--------------
+
+- Handle archived courses (#301)
+
 Version 1.23.0 (Released June 11, 2021)
 --------------
 
