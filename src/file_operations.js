@@ -23,11 +23,11 @@ const progressBar = new cliProgress.SingleBar(
   cliProgress.Presets.shades_classic
 )
 
-const makeUidInfo = courseData => {
+const makeUidInfoLookup = courseData => {
   // extract some pieces of information to populate a lookup object for use with resolveUid
   // or other places which may need a little bit of context on external items
 
-  const types = {
+  const uidLookupObjects = {
     [courseData["uid"]]: {
       type:                 COURSE_TYPE,
       short_url:            courseData["short_url"],
@@ -39,14 +39,14 @@ const makeUidInfo = courseData => {
     }
   }
   for (const embedded of Object.values(courseData["course_embedded_media"])) {
-    types[embedded["uid"]] = {
+    uidLookupObjects[embedded["uid"]] = {
       type:      EMBEDDED_MEDIA_PAGE_TYPE,
       parentUid: embedded["parent_uid"]
     }
   }
 
   for (const file of courseData["course_files"]) {
-    types[file["uid"]] = {
+    uidLookupObjects[file["uid"]] = {
       type:         FILE_TYPE,
       fileType:     file["file_type"],
       id:           file["id"],
@@ -56,10 +56,13 @@ const makeUidInfo = courseData => {
   }
 
   for (const page of courseData["course_pages"]) {
-    types[page["uid"]] = { type: PAGE_TYPE, parentUid: page["parent_uid"] }
+    uidLookupObjects[page["uid"]] = {
+      type:      PAGE_TYPE,
+      parentUid: page["parent_uid"]
+    }
   }
 
-  return types
+  return uidLookupObjects
 }
 
 async function* iterateParsedJson(inputPath, courseList) {
@@ -92,7 +95,7 @@ const buildCoursePathLookup = async (inputPath, courseList) => {
     courseLookup[course] = courseLookupList
 
     // add paths for uids found within course and include extra data which is useful for lookup purposes
-    const uidInfoLookup = makeUidInfo(courseData)
+    const uidInfoLookup = makeUidInfoLookup(courseData)
     const coursePathLookup = helpers.buildPathsForCourse(courseData)
     for (const [uid, path] of Object.entries(coursePathLookup)) {
       const info = uidInfoLookup[uid] || {}
