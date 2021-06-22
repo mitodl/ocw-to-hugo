@@ -245,6 +245,63 @@ describe("markdown generators", () => {
       })
     })
 
+    const findMarkdown = (uid, markdownData) => {
+      for (const section of markdownData) {
+        const frontmatter = yaml.safeLoad(section["data"].split("---\n")[1])
+        if (frontmatter["uid"] === uid) {
+          return frontmatter
+        }
+
+        const found = findMarkdown(uid, section["children"] || [])
+        if (found) {
+          return found
+        }
+      }
+    }
+
+    describe("left_list_in_nav", () => {
+      [
+        ["4ba4f6f4059e9bd271b612edaf4e2157", true, null, null],
+        ["ce088e3778d0b7c9c849d4b38b029687", true, false, "Syllabus"],
+        ["e843f795081ac616d0cebdff6e956e33", false, true, "Co-Teaching"]
+      ].forEach(([pageUid, isRootLevel, listInLeftNav, expectedMenuName]) => {
+        it(`handles left_list_in_nav properly for a page is ${
+          isRootLevel ? "at" : "not at"
+        } the root level and when listInLeftNav=${String(
+          listInLeftNav
+        )}`, () => {
+          const courseJson = imageGalleryCourseJsonData
+          const markdownData = markdownGenerators.generateMarkdownFromJson(
+            courseJson,
+            pathLookup
+          )
+          const page = courseJson["course_pages"].find(
+            _page => _page["uid"] === pageUid
+          )
+          assert.equal(page["list_in_left_nav"], listInLeftNav)
+          if (isRootLevel) {
+            assert.equal(courseJson["uid"], page["parent_uid"])
+          }
+          const parsedMarkdown = findMarkdown(pageUid, markdownData)
+
+          if (!expectedMenuName) {
+            assert.isUndefined(parsedMarkdown["menu"])
+          } else {
+            const expectedMenu = {
+              leftnav: {
+                identifier: pageUid,
+                name:       expectedMenuName
+              }
+            }
+            if (!isRootLevel) {
+              expectedMenu["leftnav"]["parent"] = page["parent_uid"]
+            }
+            assert.deepEqual(parsedMarkdown["menu"], expectedMenu)
+          }
+        })
+      })
+    })
+
     it("sets the instructor_insights layout on Instructor Insights pages", () => {
       const markdownData = markdownGenerators.generateMarkdownFromJson(
         imageGalleryCourseJsonData,
@@ -501,7 +558,6 @@ describe("markdown generators", () => {
             null,
             true,
             false,
-            10,
             false,
             singleCourseJsonData["short_url"]
           )
@@ -515,10 +571,6 @@ describe("markdown generators", () => {
 
     it("sets the title property to the title passed in", () => {
       assert.equal("Syllabus", courseSectionFrontMatter["title"])
-    })
-
-    it("sets the menu index to 10", () => {
-      assert.equal(10, courseSectionFrontMatter["menu"]["leftnav"]["weight"])
     })
 
     it("calls yaml.safeDump once", () => {
@@ -537,34 +589,12 @@ describe("markdown generators", () => {
             null,
             false,
             false,
-            10,
             false,
             singleCourseJsonData["short_url"]
           )
           .replace(/---\n/g, "")
       )
       expect(courseSectionFrontMatter["menu"]).to.be.undefined
-    })
-
-    it("creates a menu entry if list_in_left_nav is true and it's not a root section", () => {
-      courseSectionFrontMatter = yaml.safeLoad(
-        markdownGenerators
-          .generateCourseSectionFrontMatter(
-            "Syllabus",
-            null,
-            "course_section",
-            "Syllabus",
-            "syllabus",
-            null,
-            true,
-            false,
-            10,
-            false,
-            singleCourseJsonData["short_url"]
-          )
-          .replace(/---\n/g, "")
-      )
-      assert.equal(10, courseSectionFrontMatter["menu"]["leftnav"]["weight"])
     })
 
     it("handles missing short_page_title correctly", async () => {
@@ -577,7 +607,6 @@ describe("markdown generators", () => {
         null,
         true,
         false,
-        10,
         false,
         singleCourseJsonData["short_url"]
       )

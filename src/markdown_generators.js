@@ -22,7 +22,6 @@ const generateMarkdownFromJson = (courseData, pathLookup) => {
   /**
     This function takes JSON data parsed from a parsed.json file and returns markdown data
     */
-  this["menuIndex"] = 0
   const rootSections = courseData["course_pages"].filter(
     page =>
       page["parent_uid"] === courseData["uid"] &&
@@ -94,37 +93,33 @@ const generateMarkdownRecursive = (page, courseData, pathLookup) => {
         embedded_media: embeddedMediaItems
       }
     })
-  const parents = courseData["course_pages"].filter(
+  const parent = courseData["course_pages"].find(
     coursePage => coursePage["uid"] === page["parent_uid"]
   )
   const isParent = children.length > 0
   const hasFiles = pdfFiles.length > 0
   const hasMedia = coursePageEmbeddedMedia.length > 0
-  const hasParent = parents.length > 0
-  const parent = hasParent ? parents[0] : null
   const inRootNav = page["parent_uid"] === courseData["uid"]
   const isInstructorInsightsSection =
     page["type"] === "ThisCourseAtMITSection" ||
     page["short_url"] === "instructor-insights" ||
-    (hasParent && parent["type"] === "ThisCourseAtMITSection") ||
-    (hasParent && parent["short_url"] === "instructor-insights")
+    (parent && parent["type"] === "ThisCourseAtMITSection") ||
+    (parent && parent["short_url"] === "instructor-insights")
   const layout = isInstructorInsightsSection
     ? "instructor_insights"
     : "course_section"
   let courseSectionMarkdown = generateCourseSectionFrontMatter(
     page["title"],
-    hasParent ? parent["title"] : null,
+    parent ? parent["title"] : null,
     layout,
     page["short_page_title"],
     page["uid"],
-    hasParent ? parent["uid"] : null,
+    parent ? parent["uid"] : null,
     inRootNav,
     page["is_media_gallery"],
-    (this["menuIndex"] + 1) * 10,
     page["list_in_left_nav"],
     courseData["short_url"]
   )
-  this["menuIndex"]++
   courseSectionMarkdown += generateCourseSectionMarkdown(
     page,
     courseData,
@@ -255,7 +250,6 @@ const generateCourseSectionFrontMatter = (
   parentId,
   inRootNav,
   isMediaGallery,
-  menuIndex,
   listInLeftNav,
   courseId
 ) => {
@@ -278,8 +272,7 @@ const generateCourseSectionFrontMatter = (
     courseSectionFrontMatter["menu"] = {
       leftnav: {
         identifier: pageId,
-        name:       shortTitle || "",
-        weight:     menuIndex
+        name:       shortTitle || ""
       }
     }
     if (parentId) {
