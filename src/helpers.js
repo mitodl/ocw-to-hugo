@@ -240,9 +240,14 @@ const getYoutubeEmbedCode = media => {
     return embeddedMedia["id"] === "Video-YouTube-Stream"
   })
   const youTubeCaptions = media["embedded_media"].filter(embeddedMedia => {
-    return embeddedMedia["title"] === "3play caption file" && embeddedMedia["id"].endsWith(".vtt")
+    return (
+      embeddedMedia["title"] === "3play caption file" &&
+      embeddedMedia["id"].endsWith(".vtt")
+    )
   })
-  const location = youTubeCaptions.length ? youTubeCaptions[0]["technical_location"] : ""
+  const location = youTubeCaptions.length
+    ? youTubeCaptions[0]["technical_location"]
+    : ""
   return youTubeMedia
     .map(
       embeddedMedia =>
