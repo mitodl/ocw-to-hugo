@@ -239,10 +239,14 @@ const getYoutubeEmbedCode = media => {
   const youTubeMedia = media["embedded_media"].filter(embeddedMedia => {
     return embeddedMedia["id"] === "Video-YouTube-Stream"
   })
+  const id = youTubeMedia[0].match(/[a-z]+$/i)
+  const youTubeCaptions = media["embedded_media"].find(embeddedMedia => {
+    return embeddedMedia["id"] === `${id}.vtt`
+  })
   return youTubeMedia
     .map(
       embeddedMedia =>
-        `<div class="${YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS}">${embeddedMedia["media_location"]}</div>`
+        `<div class="${YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS}">${embeddedMedia["media_location"]};${youTubeCaptions["technical_location"]}</div>`
     )
     .join("")
 }

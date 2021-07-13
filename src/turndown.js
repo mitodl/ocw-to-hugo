@@ -384,8 +384,8 @@ turndownService.addRule("youtube_shortcodes", {
     )
   },
   replacement: (content, node, options) => {
-    const mediaLocation = node.textContent
-    return `{{< youtube ${mediaLocation} >}}`
+    const [mediaLocation, captionLocation] = node.textContent.split(";")
+    return `{{< youtube ${mediaLocation} ${captionLocation}>}}`
   }
 })
 
