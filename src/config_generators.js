@@ -1,16 +1,21 @@
 const yaml = require("js-yaml")
 
-const { getExternalLinks } = require("./helpers")
+const { getInternalMenuItems, getExternalMenuItems } = require("./helpers")
 
-const generateExternalLinksMenu = courseData =>
-  yaml.safeDump({
-    leftnav: getExternalLinks(courseData).map((externalLink, index) => ({
+const generateMenuItems = courseData => {
+  const internalMenuItems = getInternalMenuItems(courseData)
+  const externalMenuItems = getExternalMenuItems(courseData).map(
+    (externalLink, index) => ({
       name:   externalLink["title"],
       url:    externalLink["url"],
       weight: index * 10 + 1000
-    }))
+    })
+  )
+  return yaml.safeDump({
+    leftnav: internalMenuItems.concat(externalMenuItems)
   })
+}
 
 module.exports = {
-  generateExternalLinksMenu
+  generateMenuItems
 }
