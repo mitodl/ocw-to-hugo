@@ -325,7 +325,7 @@ const scanCourse = async (inputPath, outputPath, course, pathLookup) => {
         "config",
         "_default"
       )
-      await writeMenuConfig(configDir, courseData)
+      await writeMenuConfig(configDir, courseData, pathLookup)
     }
   }
 }
@@ -376,10 +376,10 @@ const writeDataTemplate = async (outputPath, dataTemplate) => {
   )
 }
 
-const writeMenuConfig = async (outputPath, courseData) => {
+const writeMenuConfig = async (outputPath, courseData, pathLookup) => {
   await helpers.createOrOverwriteFile(
     path.join(outputPath, "menus.yaml"),
-    configGenerators.generateMenuItems(courseData)
+    configGenerators.generateMenuItems(courseData, pathLookup)
   )
 }
 

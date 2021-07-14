@@ -93,17 +93,18 @@ const getRootSections = courseData => {
   )
 }
 
-const getInternalMenuItems = courseData => {
+const getInternalMenuItems = (courseData, pathLookup) => {
   this["menuIndex"] = 0
   this["menuItems"] = []
   getRootSections(courseData).map(
-    coursePage => generatePageMenuItemsRecursive(coursePage, courseData),
+    coursePage =>
+      generatePageMenuItemsRecursive(coursePage, courseData, pathLookup),
     this
   )
   return this["menuItems"]
 }
 
-const generatePageMenuItemsRecursive = (page, courseData) => {
+const generatePageMenuItemsRecursive = (page, courseData, pathLookup) => {
   const parents = courseData["course_pages"].filter(
     coursePage => coursePage["uid"] === page["parent_uid"]
   )
@@ -121,6 +122,7 @@ const generatePageMenuItemsRecursive = (page, courseData) => {
     const menuItem = {
       identifier: page["uid"],
       name:       shortTitle || "",
+      url:        pathLookup.byUid[page["uid"]]["path"],
       weight:     menuIndex
     }
     if (parentId) {
@@ -128,7 +130,10 @@ const generatePageMenuItemsRecursive = (page, courseData) => {
     }
     this["menuIndex"]++
     this["menuItems"].push(menuItem)
-    children.map(page => generatePageMenuItemsRecursive(page, courseData), this)
+    children.map(
+      page => generatePageMenuItemsRecursive(page, courseData, pathLookup),
+      this
+    )
   }
 }
 

@@ -2,8 +2,8 @@ const yaml = require("js-yaml")
 
 const { getInternalMenuItems, getExternalMenuItems } = require("./helpers")
 
-const generateMenuItems = courseData => {
-  const internalMenuItems = getInternalMenuItems(courseData)
+const generateMenuItems = (courseData, pathLookup) => {
+  const internalMenuItems = getInternalMenuItems(courseData, pathLookup)
   const externalMenuItems = getExternalMenuItems(courseData).map(
     (externalLink, index) => ({
       name:   externalLink["title"],
