@@ -193,7 +193,7 @@ describe("turndown", () => {
               value: 71.4,
               color: "#931101"
             }
-    
+
           ];
           var myPie = new Chart(document.getElementById("canvas2").getContext("2d")).Pie(pieData);
         </script> 25 hours per week
@@ -255,9 +255,10 @@ describe("turndown", () => {
 
   it("should properly create youtube shortcodes from placeholder divs", async () => {
     const testId = "F3N5EkMX_ks"
-    const inputHTML = `<div class="${YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS}">${testId}</div>`
+    const location = "https://example.com"
+    const inputHTML = `<div class="${YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS}">${testId}|${location}</div>`
     const markdown = await html2markdown(inputHTML)
-    assert.equal(markdown, `{{< youtube ${testId} >}}`)
+    assert.equal(markdown, `{{< youtube ${testId} ${location} >}}`)
   })
 
   it(`replaces "approximate students" images with a shortcode`, async () => {

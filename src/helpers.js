@@ -239,10 +239,19 @@ const getYoutubeEmbedCode = media => {
   const youTubeMedia = media["embedded_media"].filter(embeddedMedia => {
     return embeddedMedia["id"] === "Video-YouTube-Stream"
   })
+  const youTubeCaptions = media["embedded_media"].filter(embeddedMedia => {
+    return (
+      embeddedMedia["title"] === "3play caption file" &&
+      embeddedMedia["id"].endsWith(".vtt")
+    )
+  })
+  const location = youTubeCaptions.length
+    ? youTubeCaptions[0]["technical_location"]
+    : ""
   return youTubeMedia
     .map(
       embeddedMedia =>
-        `<div class="${YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS}">${embeddedMedia["media_location"]}</div>`
+        `<div class="${YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS}">${embeddedMedia["media_location"]}|${location}</div>`
     )
     .join("")
 }
