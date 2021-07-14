@@ -166,7 +166,7 @@ describe("file operations", () => {
   describe("scanCourse", () => {
     let readFileStub,
       generateMarkdownFromJson,
-      writeExternalLinks,
+      generateMenuItems,
       generateDataTemplate
     const sandbox = sinon.createSandbox()
     const outputPath = tmp.dirSync({ prefix: "output" }).name
@@ -179,10 +179,7 @@ describe("file operations", () => {
         markdownGenerators,
         "generateMarkdownFromJson"
       )
-      writeExternalLinks = sandbox.spy(
-        configGenerators,
-        "generateExternalLinksMenu"
-      )
+      generateMenuItems = sandbox.spy(configGenerators, "generateMenuItems")
       generateDataTemplate = sandbox.spy(
         dataTemplateGenerators,
         "generateDataTemplate"
@@ -223,8 +220,9 @@ describe("file operations", () => {
         singleCourseId,
         pathLookup
       )
-      expect(writeExternalLinks).to.be.calledOnceWithExactly(
-        singleCourseJsonData
+      expect(generateMenuItems).to.be.calledOnceWithExactly(
+        singleCourseJsonData,
+        pathLookup
       )
     }).timeout(10000)
 
