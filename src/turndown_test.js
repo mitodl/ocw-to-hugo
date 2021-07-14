@@ -258,7 +258,7 @@ describe("turndown", () => {
     const location = "https://example.com"
     const inputHTML = `<div class="${YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS}">${testId}|${location}</div>`
     const markdown = await html2markdown(inputHTML)
-    assert.equal(markdown, `{{< youtube ${testId} ${location}>}}`)
+    assert.equal(markdown, `{{< youtube ${testId} ${location} >}}`)
   })
 
   it(`replaces "approximate students" images with a shortcode`, async () => {
