@@ -251,7 +251,7 @@ const getYoutubeEmbedCode = media => {
   return youTubeMedia
     .map(
       embeddedMedia =>
-        `<div class="${YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS}">${embeddedMedia["media_location"]}|${location}</div>`
+        `<div class="${YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS}">${embeddedMedia["media_location"]};${location}</div>`
     )
     .join("")
 }
