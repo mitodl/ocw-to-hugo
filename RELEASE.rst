@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.24.2
+--------------
+
+- add captions location as a param to youtube shortcode (#310)
+
 Version 1.24.1 (Released July 15, 2021)
 --------------
 
