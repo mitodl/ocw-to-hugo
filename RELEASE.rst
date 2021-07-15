@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.24.1
+Version 1.24.1 (Released July 15, 2021)
 --------------
 
 - add external link to ... (#307)
