@@ -36,7 +36,8 @@ const generateDataTemplate = (courseData, pathLookup) => {
         first_name:     instructor["first_name"],
         last_name:      instructor["last_name"],
         middle_initial: instructor["middle_initial"],
-        salutation:     instructor["salutation"]
+        salutation:     instructor["salutation"],
+        uid:            instructor["uid"]
       }
     }),
     departments:     helpers.getDepartments(courseData),
