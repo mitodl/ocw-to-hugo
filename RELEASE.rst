@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.24.3
+--------------
+
+- Fix issue with a pipe being treated as a string (#314)
+
 Version 1.24.2 (Released July 15, 2021)
 --------------
 
