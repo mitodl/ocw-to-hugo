@@ -98,18 +98,26 @@ describe("generateDataTemplate", () => {
   })
 
   it("sets the instructors property to the instructors found in the instuctors node of the course json data", () => {
-    singleCourseJsonData["instructors"].forEach((instructor, index) => {
-      const expectedName = instructor["salutation"]
-        ? `${instructor["salutation"]} ${instructor["first_name"]} ${instructor["last_name"]}`
-        : `${instructor["first_name"]} ${instructor["last_name"]}`
-
-      const expectedValue = {
-        instructor: expectedName,
-        url:        `/search/?q=${encodeURIComponent(`"${expectedName}"`)}`
+    assert.deepEqual(courseDataTemplate["instructors"], [
+      {
+        first_name:     "Edward",
+        last_name:      "Crawley",
+        middle_initial: "",
+        salutation:     "Prof.",
+        instructor:     "Prof. Edward Crawley",
+        url:            "/search/?q=%22Prof.%20Edward%20Crawley%22",
+        uid:            "e042c8f9995fcc110a2a5aafa674c5e6"
+      },
+      {
+        first_name:     "Olivier",
+        last_name:      "de Weck",
+        middle_initial: "",
+        salutation:     "Prof.",
+        instructor:     "Prof. Olivier de Weck",
+        url:            "/search/?q=%22Prof.%20Olivier%20de%20Weck%22",
+        uid:            "07d4f0555edfebf2c2477bbf2d19dd91"
       }
-      const foundValue = courseDataTemplate["instructors"][index]
-      assert.deepEqual(expectedValue, foundValue)
-    })
+    ])
   })
 
   it("sets the department property to the department found on the url property of the course json data, title cased with hyphens replaced with spaces", () => {
