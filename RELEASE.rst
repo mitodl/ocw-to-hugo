@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 1.25.0
+--------------
+
+- move nav items to config file (#311)
+- Add other pieces of instructor data to course json (#313)
+
 Version 1.24.3 (Released July 15, 2021)
 --------------
 
