@@ -83,7 +83,61 @@ const getDepartments = courseData => {
   }))
 }
 
-const getExternalLinks = courseData => {
+const getRootSections = courseData => {
+  return courseData["course_pages"].filter(
+    page =>
+      page["parent_uid"] === courseData["uid"] &&
+      page["type"] !== "CourseHomeSection" &&
+      page["type"] !== "SRHomePage" &&
+      page["type"] !== "DownloadSection"
+  )
+}
+
+const getInternalMenuItems = (courseData, pathLookup) => {
+  this["menuIndex"] = 0
+  this["menuItems"] = []
+  getRootSections(courseData).map(
+    coursePage =>
+      generatePageMenuItemsRecursive(coursePage, courseData, pathLookup),
+    this
+  )
+  return this["menuItems"]
+}
+
+const generatePageMenuItemsRecursive = (page, courseData, pathLookup) => {
+  const parents = courseData["course_pages"].filter(
+    coursePage => coursePage["uid"] === page["parent_uid"]
+  )
+  const children = courseData["course_pages"].filter(
+    coursePage => coursePage["parent_uid"] === page["uid"]
+  )
+  const shortTitle = page["short_page_title"]
+  const hasParent = parents.length > 0
+  const parent = hasParent ? parents[0] : null
+  const parentId = hasParent ? parent["uid"] : null
+  const inRootNav = page["parent_uid"] === courseData["uid"]
+  const menuIndex = (this["menuIndex"] + 1) * 10
+  const listInLeftNav = page["list_in_left_nav"]
+  if (inRootNav || listInLeftNav) {
+    const menuItem = {
+      identifier: page["uid"],
+      name:       shortTitle || "",
+      url:        pathLookup.byUid[page["uid"]]["path"],
+      weight:     menuIndex
+    }
+    if (parentId) {
+      menuItem["parent"] = parentId
+    }
+    this["menuIndex"]++
+    this["menuItems"].push(menuItem)
+    children.map(
+      page => generatePageMenuItemsRecursive(page, courseData, pathLookup),
+      this
+    )
+  }
+}
+
+const getExternalMenuItems = courseData => {
   return EXTERNAL_LINKS_JSON.filter(
     externalLink => externalLink["course_id"] === courseData["short_url"]
   )
@@ -690,7 +744,9 @@ module.exports = {
   fileExists,
   findDepartmentByNumber,
   getDepartments,
-  getExternalLinks,
+  getRootSections,
+  getInternalMenuItems,
+  getExternalMenuItems,
   getCourseNumbers,
   getCourseFeatureObject,
   getCourseSectionFromFeatureUrl,

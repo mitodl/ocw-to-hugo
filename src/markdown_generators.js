@@ -22,14 +22,7 @@ const generateMarkdownFromJson = (courseData, pathLookup) => {
   /**
     This function takes JSON data parsed from a parsed.json file and returns markdown data
     */
-  this["menuIndex"] = 0
-  const rootSections = courseData["course_pages"].filter(
-    page =>
-      page["parent_uid"] === courseData["uid"] &&
-      page["type"] !== "CourseHomeSection" &&
-      page["type"] !== "SRHomePage" &&
-      page["type"] !== "DownloadSection"
-  )
+  const rootSections = helpers.getRootSections(courseData)
 
   return [
     {
@@ -102,7 +95,6 @@ const generateMarkdownRecursive = (page, courseData, pathLookup) => {
   const hasMedia = coursePageEmbeddedMedia.length > 0
   const hasParent = parents.length > 0
   const parent = hasParent ? parents[0] : null
-  const inRootNav = page["parent_uid"] === courseData["uid"]
   const isInstructorInsightsSection =
     page["type"] === "ThisCourseAtMITSection" ||
     page["short_url"] === "instructor-insights" ||
@@ -115,16 +107,10 @@ const generateMarkdownRecursive = (page, courseData, pathLookup) => {
     page["title"],
     hasParent ? parent["title"] : null,
     layout,
-    page["short_page_title"],
     page["uid"],
-    hasParent ? parent["uid"] : null,
-    inRootNav,
     page["is_media_gallery"],
-    (this["menuIndex"] + 1) * 10,
-    page["list_in_left_nav"],
     courseData["short_url"]
   )
-  this["menuIndex"]++
   courseSectionMarkdown += generateCourseSectionMarkdown(
     page,
     courseData,
@@ -250,17 +236,12 @@ const generateCourseSectionFrontMatter = (
   title,
   parentTitle,
   layout,
-  shortTitle,
   pageId,
-  parentId,
-  inRootNav,
   isMediaGallery,
-  menuIndex,
-  listInLeftNav,
   courseId
 ) => {
   /**
-    Generate the front matter metadata for a course section given a title and menu index
+    Generate the front matter metadata for a course section
     */
   const courseSectionFrontMatter = {
     uid:       pageId,
@@ -272,19 +253,6 @@ const generateCourseSectionFrontMatter = (
 
   if (parentTitle) {
     courseSectionFrontMatter["parent_title"] = parentTitle
-  }
-
-  if (inRootNav || listInLeftNav) {
-    courseSectionFrontMatter["menu"] = {
-      leftnav: {
-        identifier: pageId,
-        name:       shortTitle || "",
-        weight:     menuIndex
-      }
-    }
-    if (parentId) {
-      courseSectionFrontMatter["menu"]["leftnav"]["parent"] = parentId
-    }
   }
 
   if (isMediaGallery) {

@@ -1,5 +1,5 @@
 const path = require("path")
-const { assert } = require("chai")
+const { assert, expect } = require("chai")
 const fs = require("fs")
 const tmp = require("tmp")
 const sinon = require("sinon")
@@ -9,6 +9,7 @@ const helpers = require("./helpers")
 const loggers = require("./loggers")
 const fileOperations = require("./file_operations")
 
+const testDataPath = "test_data/courses"
 const testCourse =
   "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
 const singleCourseInputPath = `test_data/courses/${testCourse}`
@@ -32,6 +33,16 @@ const unpublishedCourseRawData = fs.readFileSync(
 )
 const unpublishedCourseJsonData = JSON.parse(unpublishedCourseRawData)
 
+const externalNavCourseId =
+  "7-00-covid-19-sars-cov-2-and-the-pandemic-fall-2020"
+const externalNavParsedJsonPath = path.join(
+  testDataPath,
+  externalNavCourseId,
+  `${externalNavCourseId}_parsed.json`
+)
+const externalNavRawData = fs.readFileSync(externalNavParsedJsonPath)
+const externalNavCourseJsonData = JSON.parse(externalNavRawData)
+
 describe("findDepartmentByNumber", () => {
   it("returns the expected department for a given department number integer", () => {
     assert.equal(helpers.findDepartmentByNumber(18)["title"], "Mathematics")
@@ -54,6 +65,99 @@ describe("getDepartments", () => {
         url:        `/search/?d=${encodeURIComponent("Aeronautics and Astronautics")}`
       }
     ])
+  })
+})
+
+describe("getRootSections", () => {
+  it("returns the expected root course sections for a given course json input", () => {
+    const rootSections = helpers
+      .getRootSections(singleCourseJsonData)
+      .map(rootSection => rootSection["short_url"])
+    const expectedRootSections = [
+      "syllabus",
+      "calendar",
+      "study-materials",
+      "labs",
+      "assignments",
+      "projects",
+      "related-resources"
+    ]
+    assert.deepEqual(rootSections, expectedRootSections)
+  })
+})
+
+describe("getInternalMenuItems", () => {
+  it("returns the expected menu items for internal course sections", async () => {
+    const pathLookup = await fileOperations.buildPathsForAllCourses(
+      "test_data/courses",
+      [testCourse]
+    )
+    const menuItems = helpers.getInternalMenuItems(
+      singleCourseJsonData,
+      pathLookup
+    )
+    const expectedMenuItems = [
+      {
+        identifier: "14896ec808d2b8ea4b434109ba3fb682",
+        name:       "Syllabus",
+        url:        "/sections/syllabus",
+        weight:     10
+      },
+      {
+        identifier: "94beff3d30e5e7bc06fd9421fe63803d",
+        name:       "Calendar",
+        url:        "/sections/calendar",
+        weight:     20
+      },
+      {
+        identifier: "303c499be5d236b1cde0bb36d615f4e7",
+        name:       "Study Materials",
+        url:        "/sections/study-materials",
+        weight:     30
+      },
+      {
+        identifier: "877f0e43412db8b16e5b2864cf8bf1cc",
+        name:       "Labs",
+        url:        "/sections/labs",
+        weight:     40
+      },
+      {
+        identifier: "1016059a65d256e4e12de4f25591a1b8",
+        name:       "Assignments",
+        url:        "/sections/assignments",
+        weight:     50
+      },
+      {
+        identifier: "293500564c0073c5971dfc2bbf334afc",
+        name:       "Projects",
+        url:        "/sections/projects",
+        weight:     60
+      },
+      {
+        identifier: "9759c68f7ab55cc86388d95ca05794f4",
+        name:       "Related Resources",
+        url:        "/sections/related-resources",
+        weight:     70
+      }
+    ]
+    assert.deepEqual(menuItems, expectedMenuItems)
+  })
+})
+
+describe("getExternalMenuItems", () => {
+  it("returns the expected external nav items for a given course json input", () => {
+    const externalMenuItems = helpers.getExternalMenuItems(
+      externalNavCourseJsonData
+    )
+    const expectedMenuItems = [
+      {
+        course_id: "7-00-covid-19-sars-cov-2-and-the-pandemic-fall-2020",
+        title:     "Online Publication",
+        url:
+          "https://biology.mit.edu/undergraduate/current-students/subject-offerings/covid-19-sars-cov-2-and-the-pandemic/"
+      }
+    ]
+    assert.deepEqual(externalMenuItems, expectedMenuItems)
   })
 })
 

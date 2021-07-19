@@ -517,10 +517,6 @@ describe("markdown generators", () => {
       assert.equal("Syllabus", courseSectionFrontMatter["title"])
     })
 
-    it("sets the menu index to 10", () => {
-      assert.equal(10, courseSectionFrontMatter["menu"]["leftnav"]["weight"])
-    })
-
     it("calls yaml.safeDump once", () => {
       expect(safeDump).to.be.calledOnce
     })
@@ -546,38 +542,12 @@ describe("markdown generators", () => {
       expect(courseSectionFrontMatter["menu"]).to.be.undefined
     })
 
-    it("creates a menu entry if list_in_left_nav is true and it's not a root section", () => {
-      courseSectionFrontMatter = yaml.safeLoad(
-        markdownGenerators
-          .generateCourseSectionFrontMatter(
-            "Syllabus",
-            null,
-            "course_section",
-            "Syllabus",
-            "syllabus",
-            null,
-            true,
-            false,
-            10,
-            false,
-            singleCourseJsonData["short_url"]
-          )
-          .replace(/---\n/g, "")
-      )
-      assert.equal(10, courseSectionFrontMatter["menu"]["leftnav"]["weight"])
-    })
-
     it("handles missing short_page_title correctly", async () => {
       const yaml = markdownGenerators.generateCourseSectionFrontMatter(
         "Syllabus",
         null,
         "course_section",
-        "Syllabus",
         "syllabus",
-        null,
-        true,
-        false,
-        10,
         false,
         singleCourseJsonData["short_url"]
       )
