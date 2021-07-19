@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.25.0
+Version 1.25.0 (Released July 19, 2021)
 --------------
 
 - move nav items to config file (#311)
