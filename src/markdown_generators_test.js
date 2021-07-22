@@ -316,13 +316,11 @@ describe("markdown generators", () => {
   describe("generateCourseHomeMarkdown", () => {
     let courseHomeMarkdown,
       courseHomeFrontMatter,
-      getCourseNumbers,
       getConsolidatedTopics,
       safeDump
     const sandbox = sinon.createSandbox()
 
     beforeEach(async () => {
-      getCourseNumbers = sandbox.spy(helpers, "getCourseNumbers")
       getConsolidatedTopics = sandbox.spy(helpers, "getConsolidatedTopics")
       safeDump = sandbox.spy(yaml, "safeDump")
       const pathLookup = await fileOperations.buildPathsForAllCourses(

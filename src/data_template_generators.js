@@ -46,10 +46,11 @@ const generateDataTemplate = (courseData, pathLookup) => {
         helpers.getCourseFeatureObject(courseFeature, courseData, pathLookup)
       )
       : [],
-    topics:         helpers.getConsolidatedTopics(courseData["course_collections"]),
-    course_numbers: helpers.getCourseNumbers(courseData),
-    term:           `${courseData["from_semester"]} ${courseData["from_year"]}`,
-    level:          {
+    topics:                helpers.getConsolidatedTopics(courseData["course_collections"]),
+    primary_course_number: helpers.getPrimaryCourseNumber(courseData),
+    extra_course_numbers:  helpers.getExtraCourseNumbers(courseData),
+    term:                  `${courseData["from_semester"]} ${courseData["from_year"]}`,
+    level:                 {
       level: courseData["course_level"],
       url:   helpers.makeCourseInfoUrl(courseData["course_level"], "level")
     },

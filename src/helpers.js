@@ -70,9 +70,10 @@ const findDepartmentByNumber = departmentNumber =>
   DEPARTMENTS_LOOKUP.get(departmentNumber.toString())
 
 const getDepartments = courseData => {
-  let departmentNumbers = getCourseNumbers(courseData).map(
-    number => number.split(".")[0]
-  )
+  let departmentNumbers = [
+    getPrimaryCourseNumber(courseData),
+    ...getExtraCourseNumbers(courseData)
+  ].map(number => number.split(".")[0])
   // deduplicate and remove numbers that don't match with our list
   departmentNumbers = [...new Set(departmentNumbers)].filter(
     findDepartmentByNumber
@@ -143,12 +144,11 @@ const getExternalMenuItems = courseData => {
   )
 }
 
-const getCourseNumbers = courseData => {
-  const primaryCourseNumber = getUpdatedCourseNumber(
+const getPrimaryCourseNumber = courseData => {
+  return getUpdatedCourseNumber(
     `${courseData["department_number"]}.${courseData["master_course_number"]}`,
     courseData
   )
-  return [primaryCourseNumber, ...getExtraCourseNumbers(courseData)]
 }
 
 const getExtraCourseNumbers = courseData => {
@@ -747,7 +747,8 @@ module.exports = {
   getRootSections,
   getInternalMenuItems,
   getExternalMenuItems,
-  getCourseNumbers,
+  getPrimaryCourseNumber,
+  getExtraCourseNumbers,
   getCourseFeatureObject,
   getCourseSectionFromFeatureUrl,
   getConsolidatedTopics,

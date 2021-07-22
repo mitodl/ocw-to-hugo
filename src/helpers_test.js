@@ -161,10 +161,18 @@ describe("getExternalMenuItems", () => {
   })
 })
 
-describe("getCourseNumbers", () => {
-  it("returns the expected course numbers for a given course json input", () => {
-    assert.equal(helpers.getCourseNumbers(singleCourseJsonData)[0], "2.00AJ")
-    assert.equal(helpers.getCourseNumbers(singleCourseJsonData)[1], "16.00AJ")
+describe("getPrimaryCourseNumber", () => {
+  it("returns the expected primary course number for a given course json input", () => {
+    assert.equal(helpers.getPrimaryCourseNumber(singleCourseJsonData), "2.00AJ")
+  })
+})
+
+describe("getExtraCourseNumbers", () => {
+  it("returns the expected extra course numbers for a given course json input", () => {
+    assert.equal(
+      helpers.getExtraCourseNumbers(singleCourseJsonData)[0],
+      "16.00AJ"
+    )
   })
 })
 
