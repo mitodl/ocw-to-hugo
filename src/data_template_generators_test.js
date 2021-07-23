@@ -162,10 +162,10 @@ describe("generateDataTemplate", () => {
     sinon.assert.match(expectedValue, foundValue)
   })
 
-  it("sets the course_number property on the course data template to data parsed from sort_as and extra_course_number properties in the course json data", () => {
-    const expectedValues = helpers.getCourseNumbers(singleCourseJsonData)
-    const foundValues = courseDataTemplate["course_numbers"]
-    assert.deepEqual(expectedValues, foundValues)
+  it("sets the primary_course_number property on the course data template to data parsed from department_number and master_course_number in the course json data", () => {
+    const expectedValue = helpers.getPrimaryCourseNumber(singleCourseJsonData)
+    const foundValues = courseDataTemplate["primary_course_number"]
+    assert.equal(expectedValue, foundValues)
   })
 
   it("sets the term property on the course data template to from_semester and from_year in the course json data", () => {
