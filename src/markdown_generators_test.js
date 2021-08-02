@@ -266,7 +266,7 @@ describe("markdown generators", () => {
       })
     })
 
-    it("sets a parent_title property on second tier pages", () => {
+    it("sets a parent_uid and parent_title property on second tier pages", () => {
       const markdownData = markdownGenerators.generateMarkdownFromJson(
         imageGalleryCourseJsonData,
         pathLookup
@@ -275,8 +275,23 @@ describe("markdown generators", () => {
         const frontMatter = yaml.safeLoad(
           sectionMarkdownData["data"].split("---\n")[1]
         )
-        if (frontMatter["uid"] === "eb66e88131e84c5dae78ba67407a1fc6") {
-          assert.equal(frontMatter["parent_title"], "Instructor Insights")
+        if (
+          frontMatter["uid"] === "1c2cb2ad1c70fd66f19e20103dc94595" &&
+          sectionMarkdownData["children"].length > 0
+        ) {
+          sectionMarkdownData["children"].forEach(childSection => {
+            const childFrontMatter = yaml.safeLoad(
+              childSection["data"].split("---\n")[1]
+            )
+            assert.equal(
+              childFrontMatter["parent_uid"],
+              "1c2cb2ad1c70fd66f19e20103dc94595"
+            )
+            assert.equal(
+              childFrontMatter["parent_title"],
+              "Instructor Insights"
+            )
+          })
         }
       })
     })
@@ -450,6 +465,7 @@ describe("markdown generators", () => {
         type:          "course",
         layout:        "pdf",
         uid:           "d7d1fabcb57a6d4a9cc96f04348dedfd",
+        parent_uid:    "8d3bdda7363b3a4b18d9d5b7c4083899",
         file_type:     "application/pdf",
         file_location:
           "https://open-learning-course-data-production.s3.amazonaws.com/8-02-physics-ii-electricity-and-magnetism-spring-2007/d7d1fabcb57a6d4a9cc96f04348dedfd_acknowledgements.pdf",
@@ -474,6 +490,7 @@ describe("markdown generators", () => {
         type:          "course",
         layout:        "pdf",
         uid:           "a1bfc34ccf08ddf8474627b9a13d6ca8",
+        parent_uid:    "0daf498714598983aa855689f242c83b",
         file_type:     "application/pdf",
         file_location:
           "https://open-learning-course-data-production.s3.amazonaws.com/8-02-physics-ii-electricity-and-magnetism-spring-2007/a1bfc34ccf08ddf8474627b9a13d6ca8_summary_w12d2.pdf",
@@ -493,13 +510,9 @@ describe("markdown generators", () => {
           .generateCourseSectionFrontMatter(
             "Syllabus",
             null,
-            "course_section",
-            "Syllabus",
-            "syllabus",
             null,
-            true,
-            false,
-            10,
+            "course_section",
+            "syllabus",
             false,
             singleCourseJsonData["short_url"]
           )
@@ -525,13 +538,9 @@ describe("markdown generators", () => {
           .generateCourseSectionFrontMatter(
             "Syllabus",
             null,
-            "course_section",
-            "Syllabus",
-            "syllabus",
             null,
-            false,
-            false,
-            10,
+            "course_section",
+            "syllabus",
             false,
             singleCourseJsonData["short_url"]
           )
@@ -543,6 +552,7 @@ describe("markdown generators", () => {
     it("handles missing short_page_title correctly", async () => {
       const yaml = markdownGenerators.generateCourseSectionFrontMatter(
         "Syllabus",
+        null,
         null,
         "course_section",
         "syllabus",

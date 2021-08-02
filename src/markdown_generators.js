@@ -105,6 +105,7 @@ const generateMarkdownRecursive = (page, courseData, pathLookup) => {
     : "course_section"
   let courseSectionMarkdown = generateCourseSectionFrontMatter(
     page["title"],
+    hasParent ? parent["uid"] : null,
     hasParent ? parent["title"] : null,
     layout,
     page["uid"],
@@ -234,6 +235,7 @@ const generatePagePdfMarkdown = (courseData, pathLookup) => {
 
 const generateCourseSectionFrontMatter = (
   title,
+  parentUid,
   parentTitle,
   layout,
   pageId,
@@ -251,6 +253,9 @@ const generateCourseSectionFrontMatter = (
     layout:    layout
   }
 
+  if (parentUid) {
+    courseSectionFrontMatter["parent_uid"] = parentUid
+  }
   if (parentTitle) {
     courseSectionFrontMatter["parent_title"] = parentTitle
   }
@@ -302,6 +307,7 @@ const generatePdfMarkdown = (file, courseData) => {
     type:          "course",
     layout:        "pdf",
     uid:           file["uid"],
+    parent_uid:    file["parent_uid"],
     file_type:     file["file_type"],
     file_location: helpers.stripS3(file["file_location"]),
     course_id:     courseData["short_url"]
