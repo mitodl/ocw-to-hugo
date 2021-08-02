@@ -307,6 +307,7 @@ const generatePdfMarkdown = (file, courseData) => {
     type:          "course",
     layout:        "pdf",
     uid:           file["uid"],
+    parent_uid:    file["parent_uid"],
     file_type:     file["file_type"],
     file_location: helpers.stripS3(file["file_location"]),
     course_id:     courseData["short_url"]

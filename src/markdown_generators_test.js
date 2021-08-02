@@ -465,6 +465,7 @@ describe("markdown generators", () => {
         type:          "course",
         layout:        "pdf",
         uid:           "d7d1fabcb57a6d4a9cc96f04348dedfd",
+        parent_uid:    "8d3bdda7363b3a4b18d9d5b7c4083899",
         file_type:     "application/pdf",
         file_location:
           "https://open-learning-course-data-production.s3.amazonaws.com/8-02-physics-ii-electricity-and-magnetism-spring-2007/d7d1fabcb57a6d4a9cc96f04348dedfd_acknowledgements.pdf",
@@ -489,6 +490,7 @@ describe("markdown generators", () => {
         type:          "course",
         layout:        "pdf",
         uid:           "a1bfc34ccf08ddf8474627b9a13d6ca8",
+        parent_uid:    "0daf498714598983aa855689f242c83b",
         file_type:     "application/pdf",
         file_location:
           "https://open-learning-course-data-production.s3.amazonaws.com/8-02-physics-ii-electricity-and-magnetism-spring-2007/a1bfc34ccf08ddf8474627b9a13d6ca8_summary_w12d2.pdf",
