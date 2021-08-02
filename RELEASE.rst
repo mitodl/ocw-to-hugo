@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.26.0
+--------------
+
+- add parent_uid to the front matter on sections that have a parent (#320)
+
 Version 1.25.1 (Released July 23, 2021)
 --------------
 
