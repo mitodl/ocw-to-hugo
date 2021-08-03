@@ -7,6 +7,7 @@ const tmp = require("tmp")
 
 const { INPUT_COURSE_DATE_FORMAT } = require("./constants")
 const fileOperations = require("./file_operations")
+const markdownGenerators = require("./markdown_generators")
 const { generateDataTemplate } = require("./data_template_generators")
 const helpers = require("./helpers")
 
@@ -67,6 +68,15 @@ describe("generateDataTemplate", () => {
   it("sets the course_title property to the title property of the course json data", () => {
     const expectedValue = singleCourseJsonData["title"]
     const foundValue = courseDataTemplate["course_title"]
+    assert.equal(expectedValue, foundValue)
+  })
+
+  it("sets the course_description property to the markdown converted course description and other information text", () => {
+    const expectedValue = markdownGenerators.generateCourseDescription(
+      singleCourseJsonData,
+      pathLookup
+    )
+    const foundValue = courseDataTemplate["course_description"]
     assert.equal(expectedValue, foundValue)
   })
 
