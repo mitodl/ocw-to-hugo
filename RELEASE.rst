@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.26.1
+Version 1.26.1 (Released August 04, 2021)
 --------------
 
 - move course description to the course data template (#323)
