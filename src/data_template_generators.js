@@ -1,13 +1,15 @@
 const moment = require("moment")
 
+const { generateCourseDescription } = require("./markdown_generators")
 const { INPUT_COURSE_DATE_FORMAT } = require("./constants")
 const helpers = require("./helpers")
 
 const generateDataTemplate = (courseData, pathLookup) => {
   return {
-    course_id:        courseData["short_url"],
-    course_title:     courseData["title"],
-    course_image_url: helpers.stripS3(
+    course_id:          courseData["short_url"],
+    course_title:       courseData["title"],
+    course_description: generateCourseDescription(courseData, pathLookup),
+    course_image_url:   helpers.stripS3(
       courseData["image_src"] ? courseData["image_src"] : ""
     ),
     course_thumbnail_image_url: helpers.stripS3(

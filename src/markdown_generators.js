@@ -174,26 +174,6 @@ const generateCourseHomeMarkdown = (courseData, pathLookup) => {
       coursePage["type"] === "CourseHomeSection" ||
       coursePage["type"] === "SRHomePage"
   )
-  const courseDescription = courseData["description"]
-    ? html2markdown(
-      fixLinks(
-        courseData["description"],
-        courseHomePage,
-        courseData,
-        pathLookup
-      )
-    )
-    : ""
-  const otherInformationText = courseData["other_information_text"]
-    ? html2markdown(
-      fixLinks(
-        courseData["other_information_text"],
-        courseHomePage,
-        courseData,
-        pathLookup
-      )
-    )
-    : ""
 
   const pageId = courseHomePage ? courseHomePage["uid"] : ""
   const frontMatter = {
@@ -204,9 +184,7 @@ const generateCourseHomeMarkdown = (courseData, pathLookup) => {
     course_id: courseData["short_url"]
   }
   try {
-    return `---\n${yaml.safeDump(
-      frontMatter
-    )}---\n${courseDescription}\n${otherInformationText}`
+    return `---\n${yaml.safeDump(frontMatter)}---\n`
   } catch (err) {
     loggers.fileLogger.error(err)
     return null
@@ -400,6 +378,40 @@ const generateCourseFeaturesMarkdown = (page, courseData, pathLookup) => {
   return ""
 }
 
+const generateCourseDescription = (courseData, pathLookup) => {
+  const courseHomePage = courseData["course_pages"].find(
+    coursePage =>
+      coursePage["type"] === "CourseHomeSection" ||
+      coursePage["type"] === "SRHomePage"
+  )
+  const courseDescription = courseData["description"]
+    ? html2markdown(
+      fixLinks(
+        courseData["description"],
+        courseHomePage,
+        courseData,
+        pathLookup
+      )
+    )
+    : ""
+  const otherInformationText = courseData["other_information_text"]
+    ? html2markdown(
+      fixLinks(
+        courseData["other_information_text"],
+        courseHomePage,
+        courseData,
+        pathLookup
+      )
+    )
+    : ""
+  try {
+    return `${courseDescription}\n${otherInformationText}`
+  } catch (err) {
+    loggers.fileLogger.error(err)
+    return null
+  }
+}
+
 module.exports = {
   generateMarkdownFromJson,
   generateCourseHomeMarkdown,
@@ -407,5 +419,6 @@ module.exports = {
   generateCourseSectionFrontMatter,
   generateCourseSectionMarkdown,
   generateCourseFeaturesMarkdown,
+  generateCourseDescription,
   fixLinks
 }
