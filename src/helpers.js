@@ -10,10 +10,12 @@ const DEPARTMENTS_JSON = require("./departments.json")
 const EXTERNAL_LINKS_JSON = require("./external_links.json")
 const {
   AWS_REGEX,
-  BASEURL_SHORTCODE,
+  BASEURL_PLACEHOLDER,
+  BASEURL_PLACEHOLDER_REGEX,
   FILE_TYPE,
   INPUT_COURSE_DATE_FORMAT,
-  YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS
+  YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS,
+  ROOT_RELATIVE_REGEX
 } = require("./constants")
 const loggers = require("./loggers")
 const runOptions = {}
@@ -29,7 +31,7 @@ const makeCourseUrlPrefixOrShortcode = (courseId, otherCourseId) => {
   }
 
   if (courseId === otherCourseId) {
-    return BASEURL_SHORTCODE
+    return BASEURL_PLACEHOLDER
   } else {
     return makeCourseUrlPrefix(courseId)
   }
@@ -187,7 +189,7 @@ const getCourseFeatureObject = (courseFeature, courseData, pathLookup) => {
       url,
       courseData,
       pathLookup
-    ).replace(BASEURL_SHORTCODE, "")
+    ).replace(BASEURL_PLACEHOLDER_REGEX, "")
   }
   return featureObject
 }
@@ -196,7 +198,7 @@ const FAKE_BASE_URL = "https://sentinel.example.com"
 const getPathFragments = url =>
   new URL(url, FAKE_BASE_URL).pathname.split("/").filter(Boolean)
 const updatePath = (url, pathPieces) => {
-  const hasBaseUrl = pathPieces[0] && pathPieces[0] === BASEURL_SHORTCODE
+  const hasBaseUrl = pathPieces[0] && pathPieces[0] === BASEURL_PLACEHOLDER
   if (hasBaseUrl) {
     // cut out the shortcode here and add it back in the end
     // so we don't mangle it in the URL object
@@ -210,7 +212,7 @@ const updatePath = (url, pathPieces) => {
     newUrl = newUrl.slice(FAKE_BASE_URL.length)
   }
   if (hasBaseUrl) {
-    newUrl = path.join(BASEURL_SHORTCODE, newUrl)
+    newUrl = path.join(BASEURL_PLACEHOLDER, newUrl)
   }
   return newUrl
 }
@@ -312,7 +314,7 @@ const getYoutubeEmbedCode = media => {
 
 const getVideoPageLink = (media, pathLookup) => {
   return `<a href = "${path.join(
-    BASEURL_SHORTCODE,
+    BASEURL_PLACEHOLDER,
     pathLookup.byUid[media["uid"]].path
   )}">${media["title"]}</a>`
 }
@@ -737,6 +739,12 @@ const parseDspaceUrl = url => {
   return null
 }
 
+const rootRelativeToDocumentRelative = text => {
+  return text
+    .replace(BASEURL_PLACEHOLDER_REGEX, "")
+    .replace(ROOT_RELATIVE_REGEX, '<a href="')
+}
+
 module.exports = {
   distinct,
   directoryExists,
@@ -775,5 +783,6 @@ module.exports = {
   getPathFragments,
   updatePath,
   makeCourseInfoUrl,
-  parseDspaceUrl
+  parseDspaceUrl,
+  rootRelativeToDocumentRelative
 }

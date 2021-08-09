@@ -8,6 +8,7 @@ tmp.setGracefulCleanup()
 const helpers = require("./helpers")
 const loggers = require("./loggers")
 const fileOperations = require("./file_operations")
+const { BASEURL_SHORTCODE, BASEURL_PLACEHOLDER } = require("./constants")
 
 const testDataPath = "test_data/courses"
 const testCourse =
@@ -272,15 +273,15 @@ describe("resolveUidMatches", () => {
       [
         {
           match:       [`./resolveuid/${uid1}`],
-          replacement: "BASEURL_SHORTCODE/path/1/"
+          replacement: "BASEURL_PLACEHOLDER/path/1/"
         },
         {
           match:       [`./resolveuid/${uid2}`],
-          replacement: "BASEURL_SHORTCODE/path/2/"
+          replacement: "BASEURL_PLACEHOLDER/path/2/"
         },
         {
           match:       [`./resolveuid/${uid3}`],
-          replacement: "BASEURL_SHORTCODE/path/3/"
+          replacement: "BASEURL_PLACEHOLDER/path/3/"
         }
       ]
     )
@@ -314,7 +315,7 @@ describe("resolveUidMatches", () => {
     const pageResult = result.find(item => item.match[0] === link)
     assert.deepEqual(pageResult, {
       replacement:
-        "BASEURL_SHORTCODE/sections/instructor-insights/planning-a-good-field-trip",
+        "BASEURL_PLACEHOLDER/sections/instructor-insights/planning-a-good-field-trip",
       match: [link]
     })
   })
@@ -335,7 +336,7 @@ describe("resolveUidMatches", () => {
     )
     const fileResult = result.find(item => item.match[0] === link)
     assert.deepEqual(fileResult, {
-      replacement: `BASEURL_SHORTCODE/sections/field-trip/mit12_001f14_field_trip`,
+      replacement: `BASEURL_PLACEHOLDER/sections/field-trip/mit12_001f14_field_trip`,
       match:       [link]
     })
   })
@@ -401,7 +402,7 @@ describe("resolveUidMatches", () => {
           }
           : {
             match:       [`./resolveuid/${uid}`],
-            replacement: `BASEURL_SHORTCODE/`
+            replacement: `BASEURL_PLACEHOLDER/`
           }
       ])
     })
@@ -466,7 +467,7 @@ describe("resolveRelativeLinkMatches", () => {
     assert.equal(result[0].match.index, 121)
     assert.equal(
       result[0].replacement,
-      'href="BASEURL_SHORTCODE/sections/projects"'
+      'href="BASEURL_PLACEHOLDER/sections/projects"'
     )
   })
 
@@ -480,7 +481,7 @@ describe("resolveRelativeLinkMatches", () => {
     )
     assert.equal(
       result[0].replacement,
-      'href="BASEURL_SHORTCODE/sections/study-materials/mit2_00ajs09_lec02"'
+      'href="BASEURL_PLACEHOLDER/sections/study-materials/mit2_00ajs09_lec02"'
     )
   })
 
@@ -532,7 +533,7 @@ describe("resolveRelativeLinkMatches", () => {
     assert.equal(result[0].match.index, 121)
     assert.equal(
       result[0].replacement,
-      'href="BASEURL_SHORTCODE/sections/projects"'
+      'href="BASEURL_PLACEHOLDER/sections/projects"'
     )
     const link =
       "/courses/mathematics/18-01-single-variable-calculus-fall-2006/exams/prfinalsol.pdf"
@@ -573,7 +574,7 @@ describe("resolveRelativeLinkMatches", () => {
         result[0].replacement,
         external
           ? `href="/courses/${otherCourseId}/sections/syllabus#Table_organization"`
-          : 'href="BASEURL_SHORTCODE/sections/syllabus#Table_organization"'
+          : 'href="BASEURL_PLACEHOLDER/sections/syllabus#Table_organization"'
       )
     })
   })
@@ -589,7 +590,7 @@ describe("resolveRelativeLinkMatches", () => {
       )
       assert.equal(
         result[0].replacement,
-        'href="BASEURL_SHORTCODE/#Table_organization"'
+        'href="BASEURL_PLACEHOLDER/#Table_organization"'
       )
     })
   })
@@ -603,7 +604,7 @@ describe("resolveRelativeLinkMatches", () => {
     )
     assert.equal(
       result[0].replacement,
-      'href="BASEURL_SHORTCODE/sections/a/b/c/d/e#Table_organization"'
+      'href="BASEURL_PLACEHOLDER/sections/a/b/c/d/e#Table_organization"'
     )
   })
 
@@ -651,7 +652,7 @@ describe("resolveRelativeLinkMatches", () => {
     )
     assert.equal(
       result[0].replacement,
-      'href="BASEURL_SHORTCODE/sections/comps-programming/m19"'
+      'href="BASEURL_PLACEHOLDER/sections/comps-programming/m19"'
     )
   })
 
@@ -674,7 +675,7 @@ describe("resolveRelativeLinkMatches", () => {
     )
     assert.equal(
       result[0].replacement,
-      'href="BASEURL_SHORTCODE/sections/signals-systems/objectives"'
+      'href="BASEURL_PLACEHOLDER/sections/signals-systems/objectives"'
     )
   })
 
@@ -756,7 +757,7 @@ describe("resolveYouTubeEmbedMatches", () => {
     assert.deepEqual(results, [
       {
         replacement:
-          '<a href = "BASEURL_SHORTCODE/sections/instructor-insights/instructor-interview-course-iteration">Instructor Interview: Incorporating Authentic Text Going Forward</a>',
+          '<a href = "BASEURL_PLACEHOLDER/sections/instructor-insights/instructor-interview-course-iteration">Instructor Interview: Incorporating Authentic Text Going Forward</a>',
         match
       }
     ])
@@ -906,8 +907,8 @@ describe("misc functions", () => {
 
   it("updates the path of a url", () => {
     assert.deepEqual(
-      helpers.updatePath("/a/b/c/", ["BASEURL_SHORTCODE", "d", "e", "f"]),
-      "BASEURL_SHORTCODE/d/e/f"
+      helpers.updatePath("/a/b/c/", ["BASEURL_PLACEHOLDER", "d", "e", "f"]),
+      "BASEURL_PLACEHOLDER/d/e/f"
     )
     assert.deepEqual(helpers.updatePath("/a/b/c/", ["d", "e", "f"]), "/d/e/f")
     assert.deepEqual(
@@ -934,5 +935,12 @@ describe("misc functions", () => {
     it(`parses a dspace URL like ${url}`, () => {
       assert.equal(helpers.parseDspaceUrl(url), expected)
     })
+  })
+
+  it("turns root relative urls into document relative urls", () => {
+    const input = `<a href="${BASEURL_PLACEHOLDER}/projects/tools">Tools</a>`
+    const output = helpers.rootRelativeToDocumentRelative(input)
+    const expected = `<a href="projects/tools">Tools</a>`
+    assert.equal(output, expected)
   })
 })

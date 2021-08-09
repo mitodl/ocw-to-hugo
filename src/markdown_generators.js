@@ -2,6 +2,7 @@ const path = require("path")
 const yaml = require("js-yaml")
 const stripHtml = require("string-strip-html")
 
+const { BASEURL_PLACEHOLDER_REGEX } = require("./constants")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
 const { html2markdown } = require("./turndown")
@@ -386,21 +387,25 @@ const generateCourseDescription = (courseData, pathLookup) => {
   )
   const courseDescription = courseData["description"]
     ? html2markdown(
-      fixLinks(
-        courseData["description"],
-        courseHomePage,
-        courseData,
-        pathLookup
+      helpers.rootRelativeToDocumentRelative(
+        fixLinks(
+          courseData["description"],
+          courseHomePage,
+          courseData,
+          pathLookup
+        )
       )
     )
     : ""
   const otherInformationText = courseData["other_information_text"]
     ? html2markdown(
-      fixLinks(
-        courseData["other_information_text"],
-        courseHomePage,
-        courseData,
-        pathLookup
+      helpers.rootRelativeToDocumentRelative(
+        fixLinks(
+          courseData["other_information_text"],
+          courseHomePage,
+          courseData,
+          pathLookup
+        )
       )
     )
     : ""
