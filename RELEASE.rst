@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.27.0
+--------------
+
+- for the course_description property of the data template, transform all urls to document relative (#326)
+
 Version 1.26.1 (Released August 04, 2021)
 --------------
 
