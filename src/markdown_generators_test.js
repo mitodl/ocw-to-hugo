@@ -172,7 +172,7 @@ describe("markdown generators", () => {
         )
         .map(page => page["short_url"])
       expectedSections.forEach(expectedSection => {
-        let filename = `sections/${expectedSection}`
+        let filename = `pages/${expectedSection}`
         const sectionMarkdownData = singleCourseMarkdownData.filter(
           section =>
             section["name"] === `${filename}.md` ||
@@ -210,7 +210,7 @@ describe("markdown generators", () => {
           ).filter(embeddedMedia => embeddedMedia["parent_uid"] === sectionUid)
           expectedChildren.forEach(expectedChild => {
             const childFilename = path.join(
-              "sections/",
+              "pages/",
               expectedChild["url"].split("/")[4],
               "river-testing-photos.md"
             )
@@ -222,7 +222,7 @@ describe("markdown generators", () => {
             )[0]
             const fragmentUrlPieces = fragment.url.split("/")
             const fileFilename = path.join(
-              "sections",
+              "pages",
               fragmentUrlPieces[fragmentUrlPieces.length - 1],
               `${expectedFile["id"].replace(".pdf", "")}.md`
             )
@@ -236,12 +236,6 @@ describe("markdown generators", () => {
             assert.include(mediaMarkdownFileNames, mediaFilename)
           })
         }
-      })
-    })
-
-    it("puts the course_id in every course page's markdown", () => {
-      singleCourseMarkdownData.forEach(sectionMarkdownData => {
-        assertCourseIdRecursive(sectionMarkdownData, singleCourseId)
       })
     })
 
@@ -462,14 +456,12 @@ describe("markdown generators", () => {
         title:       "acknowledgements.pdf",
         description:
           "This resource contains acknowledgements to the persons who helped build this course.",
-        type:          "course",
         layout:        "pdf",
         uid:           "d7d1fabcb57a6d4a9cc96f04348dedfd",
         parent_uid:    "8d3bdda7363b3a4b18d9d5b7c4083899",
         file_type:     "application/pdf",
         file_location:
-          "https://open-learning-course-data-production.s3.amazonaws.com/8-02-physics-ii-electricity-and-magnetism-spring-2007/d7d1fabcb57a6d4a9cc96f04348dedfd_acknowledgements.pdf",
-        course_id: "8-02-physics-ii-electricity-and-magnetism-spring-2007"
+          "https://open-learning-course-data-production.s3.amazonaws.com/8-02-physics-ii-electricity-and-magnetism-spring-2007/d7d1fabcb57a6d4a9cc96f04348dedfd_acknowledgements.pdf"
       })
     })
 
@@ -482,19 +474,17 @@ describe("markdown generators", () => {
       const markdown = yaml.safeLoad(
         pdfMarkdownFile["data"].replace(/---\n/g, "")
       )
-      assert.equal(fileName, "/sections/readings/summary_w12d2.md")
+      assert.equal(fileName, "/pages/readings/summary_w12d2.md")
       assert.deepEqual(markdown, {
         title:       "summary_w12d2.pdf",
         description:
           "This file talks about how electricity and magnetism interact with each other and also considers finalizing Maxwell?s Equations, their result ? electromagnetic (EM) radiation and how energy flows in electric and magnetic fields.",
-        type:          "course",
         layout:        "pdf",
         uid:           "a1bfc34ccf08ddf8474627b9a13d6ca8",
         parent_uid:    "0daf498714598983aa855689f242c83b",
         file_type:     "application/pdf",
         file_location:
-          "https://open-learning-course-data-production.s3.amazonaws.com/8-02-physics-ii-electricity-and-magnetism-spring-2007/a1bfc34ccf08ddf8474627b9a13d6ca8_summary_w12d2.pdf",
-        course_id: "8-02-physics-ii-electricity-and-magnetism-spring-2007"
+          "https://open-learning-course-data-production.s3.amazonaws.com/8-02-physics-ii-electricity-and-magnetism-spring-2007/a1bfc34ccf08ddf8474627b9a13d6ca8_summary_w12d2.pdf"
       })
     })
   })

@@ -326,9 +326,9 @@ const buildPathRecursive = (item, itemsLookup, courseUid, pathLookup) => {
   const parentItem = itemsLookup[parentUid]
 
   if (courseUid === parentUid) {
-    // course is the parent, so link should be off of /sections
+    // course is the parent, so link should be off of /pages
     const filename = page[filenameKey]
-    pathLookup[uid] = path.join("/sections", filename)
+    pathLookup[uid] = path.join("/pages", filename)
     return
   }
 
@@ -552,7 +552,7 @@ const resolveRelativeLink = (url, courseData, pathLookup, useDirectLink) => {
 
         return updatePath(url, [
           makeCourseUrlPrefixOrShortcode(courseId, thisCourseId),
-          ...(paths.length ? ["sections", ...paths] : [])
+          ...(paths.length ? ["pages", ...paths] : [])
         ])
       }
     }

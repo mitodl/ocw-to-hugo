@@ -59,12 +59,6 @@ describe("generateDataTemplate", () => {
     sandbox.restore()
   })
 
-  it("sets the course_id property to the short_url property of the course json data", () => {
-    const expectedValue = singleCourseJsonData["short_url"]
-    const foundValue = courseDataTemplate["course_id"]
-    assert.equal(expectedValue, foundValue)
-  })
-
   it("sets the course_title property to the title property of the course json data", () => {
     const expectedValue = singleCourseJsonData["title"]
     const foundValue = courseDataTemplate["course_title"]
