@@ -25,17 +25,10 @@ const generateMarkdownFromJson = (courseData, pathLookup) => {
     */
   const rootSections = helpers.getRootSections(courseData)
 
-  return [
-    {
-      name:  "_index.md",
-      data:  generateCourseHomeMarkdown(courseData, pathLookup),
-      files: generatePagePdfMarkdown(courseData, pathLookup)
-    },
-    ...rootSections.map(
-      page => generateMarkdownRecursive(page, courseData, pathLookup),
-      this
-    )
-  ]
+  return rootSections.map(
+    page => generateMarkdownRecursive(page, courseData, pathLookup),
+    this
+  )
 }
 
 const generateMarkdownRecursive = (page, courseData, pathLookup) => {
@@ -159,29 +152,6 @@ const generateMarkdownRecursive = (page, courseData, pathLookup) => {
         }
       })
       .filter(media => media)
-  }
-}
-
-const generateCourseHomeMarkdown = (courseData, pathLookup) => {
-  /**
-    Generate the front matter metadata for the course home page given course_data JSON
-    */
-  const courseHomePage = courseData["course_pages"].find(
-    coursePage =>
-      coursePage["type"] === "CourseHomeSection" ||
-      coursePage["type"] === "SRHomePage"
-  )
-
-  const pageId = courseHomePage ? courseHomePage["uid"] : ""
-  const frontMatter = {
-    uid:   pageId,
-    title: ""
-  }
-  try {
-    return `---\n${yaml.safeDump(frontMatter)}---\n`
-  } catch (err) {
-    loggers.fileLogger.error(err)
-    return null
   }
 }
 
@@ -411,7 +381,6 @@ const generateCourseDescription = (courseData, pathLookup) => {
 
 module.exports = {
   generateMarkdownFromJson,
-  generateCourseHomeMarkdown,
   generatePagePdfMarkdown,
   generateCourseSectionFrontMatter,
   generateCourseSectionMarkdown,
