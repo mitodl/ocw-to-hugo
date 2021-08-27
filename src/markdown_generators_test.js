@@ -124,10 +124,10 @@ describe("markdown generators", () => {
   })
 
   describe("generateMarkdownFromJson", () => {
-    let singleCourseMarkdownData
+    let videoGalleryCourseMarkdownData
     beforeEach(() => {
-      singleCourseMarkdownData = markdownGenerators.generateMarkdownFromJson(
-        singleCourseJsonData,
+      videoGalleryCourseMarkdownData = markdownGenerators.generateMarkdownFromJson(
+        videoGalleryCourseJsonData,
         pathLookup
       )
     })
@@ -158,14 +158,16 @@ describe("markdown generators", () => {
     }
 
     it("contains the course home page and other expected sections", () => {
-      const markdownFileNames = singleCourseMarkdownData.map(markdownData => {
-        return markdownData["name"]
-      })
+      const markdownFileNames = videoGalleryCourseMarkdownData.map(
+        markdownData => {
+          return markdownData["name"]
+        }
+      )
       assert.include(markdownFileNames, "_index.md")
-      const expectedSections = singleCourseJsonData["course_pages"]
+      const expectedSections = videoGalleryCourseJsonData["course_pages"]
         .filter(
           page =>
-            page["parent_uid"] === singleCourseJsonData["uid"] &&
+            page["parent_uid"] === videoGalleryCourseJsonData["uid"] &&
             page["type"] !== "CourseHomeSection" &&
             page["type"] !== "SRHomePage" &&
             page["type"] !== "DownloadSection"
@@ -173,7 +175,7 @@ describe("markdown generators", () => {
         .map(page => page["short_url"])
       expectedSections.forEach(expectedSection => {
         let filename = `pages/${expectedSection}`
-        const sectionMarkdownData = singleCourseMarkdownData.filter(
+        const sectionMarkdownData = videoGalleryCourseMarkdownData.filter(
           section =>
             section["name"] === `${filename}.md` ||
             section["name"] === `${filename}/_index.md`
@@ -185,7 +187,7 @@ describe("markdown generators", () => {
         filename = hasChildren ? `${filename}/_index.md` : `${filename}.md`
         assert.include(markdownFileNames, filename)
         if (hasChildren) {
-          const sectionUid = singleCourseJsonData["course_pages"].filter(
+          const sectionUid = videoGalleryCourseJsonData["course_pages"].filter(
             page => page["short_url"] === expectedSection
           )[0]["uid"]
           const childMarkdownFileNames = sectionMarkdownData["children"].map(
@@ -197,41 +199,55 @@ describe("markdown generators", () => {
           const mediaMarkdownFileNames = sectionMarkdownData["media"].map(
             markdownData => markdownData["name"]
           )
-          const expectedChildren = singleCourseJsonData["course_pages"].filter(
-            page => page["parent_uid"] === sectionUid
-          )
-          const expectedFiles = singleCourseJsonData["course_files"].filter(
+          const expectedChildren = videoGalleryCourseJsonData[
+            "course_pages"
+          ].filter(page => page["parent_uid"] === sectionUid)
+          const expectedFiles = videoGalleryCourseJsonData[
+            "course_files"
+          ].filter(
             file =>
               file["parent_uid"] === sectionUid &&
               file["file_type"] === "application/pdf"
           )
           const expectedMedia = Object.values(
-            singleCourseJsonData["course_embedded_media"]
+            videoGalleryCourseJsonData["course_embedded_media"]
           ).filter(embeddedMedia => embeddedMedia["parent_uid"] === sectionUid)
           expectedChildren.forEach(expectedChild => {
-            const childFilename = path.join(
-              "pages/",
-              expectedChild["url"].split("/")[4],
-              "river-testing-photos.md"
+            const isParent =
+              videoGalleryCourseJsonData["course_pages"].filter(
+                coursePage => coursePage["parent_uid"] === expectedChild["uid"]
+              ).length > 0
+            const hasFiles =
+              videoGalleryCourseJsonData["course_files"].filter(
+                file =>
+                  file["file_type"] === "application/pdf" &&
+                  file["parent_uid"] === expectedChild["uid"]
+              ).length > 0
+            const hasMedia =
+              Object.values(
+                videoGalleryCourseJsonData["course_embedded_media"]
+              ).filter(
+                courseEmbeddedMedia =>
+                  courseEmbeddedMedia["parent_uid"] === expectedChild["uid"]
+              ).length > 0
+            const pathToChild = helpers.stripSlashPrefix(
+              pathLookup.byUid[expectedChild["uid"]].path
             )
+            const childFilename =
+              isParent || hasFiles || hasMedia
+                ? path.join(pathToChild, "_index.md")
+                : `${pathToChild}.md`
             assert.include(childMarkdownFileNames, childFilename)
           })
           expectedFiles.forEach(expectedFile => {
-            const fragment = singleCourseJsonData["course_pages"].filter(
-              coursePage => coursePage["short_url"] === expectedSection
-            )[0]
-            const fragmentUrlPieces = fragment.url.split("/")
-            const fileFilename = path.join(
-              "pages",
-              fragmentUrlPieces[fragmentUrlPieces.length - 1],
-              `${expectedFile["id"].replace(".pdf", "")}.md`
-            )
+            const fileFilename = `${helpers.stripSlashPrefix(
+              helpers.stripPdfSuffix(pathLookup.byUid[expectedFile["uid"]].path)
+            )}.md`
             assert.include(fileMarkdownFileNames, fileFilename)
           })
           expectedMedia.forEach(expectedFile => {
-            const mediaFilename = `/${path.join(
-              "sections/",
-              expectedFile["short_url"]
+            const mediaFilename = `${helpers.stripSlashPrefix(
+              pathLookup.byUid[expectedFile["uid"]].path
             )}.md`
             assert.include(mediaMarkdownFileNames, mediaFilename)
           })
