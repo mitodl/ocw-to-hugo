@@ -6,7 +6,6 @@ const helpers = require("./helpers")
 
 const generateDataTemplate = (courseData, pathLookup) => {
   return {
-    course_id:          courseData["short_url"],
     course_title:       courseData["title"],
     course_description: generateCourseDescription(courseData, pathLookup),
     course_image_url:   helpers.stripS3(

@@ -40,13 +40,13 @@ describe("generateMenuItems", () => {
         {
           identifier: "b6c8c090d7079126837f7dda4af627c7",
           name:       "Syllabus",
-          url:        "/sections/onlinecourse",
+          url:        "/pages/onlinecourse",
           weight:     10
         },
         {
           identifier: "2c792bd745905d336e5077b0ae1237e1",
           name:       "Calendar",
-          url:        "/sections/calendar",
+          url:        "/pages/calendar",
           weight:     20
         },
         {

@@ -82,8 +82,6 @@ const generateMarkdownRecursive = (page, courseData, pathLookup) => {
 
       return {
         ...courseEmbeddedMedia,
-        course_id:      courseData["short_url"],
-        type:           "course",
         layout:         "video",
         embedded_media: embeddedMediaItems
       }
@@ -101,9 +99,7 @@ const generateMarkdownRecursive = (page, courseData, pathLookup) => {
     page["short_url"] === "instructor-insights" ||
     (hasParent && parent["type"] === "ThisCourseAtMITSection") ||
     (hasParent && parent["short_url"] === "instructor-insights")
-  const layout = isInstructorInsightsSection
-    ? "instructor_insights"
-    : "course_section"
+  const layout = isInstructorInsightsSection ? "instructor_insights" : null
   let courseSectionMarkdown = generateCourseSectionFrontMatter(
     page["title"],
     hasParent ? parent["uid"] : null,
@@ -178,11 +174,8 @@ const generateCourseHomeMarkdown = (courseData, pathLookup) => {
 
   const pageId = courseHomePage ? courseHomePage["uid"] : ""
   const frontMatter = {
-    uid:       pageId,
-    title:     "",
-    type:      "course",
-    layout:    "course_home",
-    course_id: courseData["short_url"]
+    uid:   pageId,
+    title: ""
   }
   try {
     return `---\n${yaml.safeDump(frontMatter)}---\n`
@@ -225,11 +218,8 @@ const generateCourseSectionFrontMatter = (
     Generate the front matter metadata for a course section
     */
   const courseSectionFrontMatter = {
-    uid:       pageId,
-    title:     title,
-    course_id: courseId,
-    type:      "course",
-    layout:    layout
+    uid:   pageId,
+    title: title
   }
 
   if (parentUid) {
@@ -241,6 +231,10 @@ const generateCourseSectionFrontMatter = (
 
   if (isMediaGallery) {
     courseSectionFrontMatter["is_media_gallery"] = true
+  }
+
+  if (layout) {
+    courseSectionFrontMatter["layout"] = layout
   }
   return `---\n${yaml.safeDump(courseSectionFrontMatter)}---\n`
 }
@@ -283,13 +277,11 @@ const generatePdfMarkdown = (file, courseData) => {
   const pdfFrontMatter = {
     title:         file["title"],
     description:   file["description"],
-    type:          "course",
     layout:        "pdf",
     uid:           file["uid"],
     parent_uid:    file["parent_uid"],
     file_type:     file["file_type"],
-    file_location: helpers.stripS3(file["file_location"]),
-    course_id:     courseData["short_url"]
+    file_location: helpers.stripS3(file["file_location"])
   }
   return `---\n${yaml.safeDump(pdfFrontMatter)}---\n`
 }

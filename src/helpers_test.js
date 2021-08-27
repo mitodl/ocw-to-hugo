@@ -101,43 +101,43 @@ describe("getInternalMenuItems", () => {
       {
         identifier: "14896ec808d2b8ea4b434109ba3fb682",
         name:       "Syllabus",
-        url:        "/sections/syllabus",
+        url:        "/pages/syllabus",
         weight:     10
       },
       {
         identifier: "94beff3d30e5e7bc06fd9421fe63803d",
         name:       "Calendar",
-        url:        "/sections/calendar",
+        url:        "/pages/calendar",
         weight:     20
       },
       {
         identifier: "303c499be5d236b1cde0bb36d615f4e7",
         name:       "Study Materials",
-        url:        "/sections/study-materials",
+        url:        "/pages/study-materials",
         weight:     30
       },
       {
         identifier: "877f0e43412db8b16e5b2864cf8bf1cc",
         name:       "Labs",
-        url:        "/sections/labs",
+        url:        "/pages/labs",
         weight:     40
       },
       {
         identifier: "1016059a65d256e4e12de4f25591a1b8",
         name:       "Assignments",
-        url:        "/sections/assignments",
+        url:        "/pages/assignments",
         weight:     50
       },
       {
         identifier: "293500564c0073c5971dfc2bbf334afc",
         name:       "Projects",
-        url:        "/sections/projects",
+        url:        "/pages/projects",
         weight:     60
       },
       {
         identifier: "9759c68f7ab55cc86388d95ca05794f4",
         name:       "Related Resources",
-        url:        "/sections/related-resources",
+        url:        "/pages/related-resources",
         weight:     70
       }
     ]
@@ -303,7 +303,7 @@ describe("resolveUidMatches", () => {
         byUid: {
           ef6931d2c8e6bc0b8e9a5572a78fe125: {
             course: courseId,
-            path:   "/sections/instructor-insights/planning-a-good-field-trip"
+            path:   "/pages/instructor-insights/planning-a-good-field-trip"
           },
           de36fe69cf33ddf238bc3896d0ce9eff: {
             course: courseId,
@@ -315,7 +315,7 @@ describe("resolveUidMatches", () => {
     const pageResult = result.find(item => item.match[0] === link)
     assert.deepEqual(pageResult, {
       replacement:
-        "BASEURL_PLACEHOLDER/sections/instructor-insights/planning-a-good-field-trip",
+        "BASEURL_PLACEHOLDER/pages/instructor-insights/planning-a-good-field-trip",
       match: [link]
     })
   })
@@ -336,7 +336,7 @@ describe("resolveUidMatches", () => {
     )
     const fileResult = result.find(item => item.match[0] === link)
     assert.deepEqual(fileResult, {
-      replacement: `BASEURL_PLACEHOLDER/sections/field-trip/mit12_001f14_field_trip`,
+      replacement: `BASEURL_PLACEHOLDER/pages/field-trip/mit12_001f14_field_trip`,
       match:       [link]
     })
   })
@@ -467,7 +467,7 @@ describe("resolveRelativeLinkMatches", () => {
     assert.equal(result[0].match.index, 121)
     assert.equal(
       result[0].replacement,
-      'href="BASEURL_PLACEHOLDER/sections/projects"'
+      'href="BASEURL_PLACEHOLDER/pages/projects"'
     )
   })
 
@@ -481,7 +481,7 @@ describe("resolveRelativeLinkMatches", () => {
     )
     assert.equal(
       result[0].replacement,
-      'href="BASEURL_PLACEHOLDER/sections/study-materials/mit2_00ajs09_lec02"'
+      'href="BASEURL_PLACEHOLDER/pages/study-materials/mit2_00ajs09_lec02"'
     )
   })
 
@@ -496,7 +496,7 @@ describe("resolveRelativeLinkMatches", () => {
     )
     assert.equal(
       result[0].replacement,
-      'href="/courses/12-001-introduction-to-geology-fall-2013/sections/field-trip/mit12_001f14_field_trip"'
+      'href="/courses/12-001-introduction-to-geology-fall-2013/pages/field-trip/mit12_001f14_field_trip"'
     )
   })
 
@@ -533,7 +533,7 @@ describe("resolveRelativeLinkMatches", () => {
     assert.equal(result[0].match.index, 121)
     assert.equal(
       result[0].replacement,
-      'href="BASEURL_PLACEHOLDER/sections/projects"'
+      'href="BASEURL_PLACEHOLDER/pages/projects"'
     )
     const link =
       "/courses/mathematics/18-01-single-variable-calculus-fall-2006/exams/prfinalsol.pdf"
@@ -552,7 +552,7 @@ describe("resolveRelativeLinkMatches", () => {
     )
     assert.equal(
       result[0].replacement,
-      'href="/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/sections/syllabus#Table_organization"'
+      'href="/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/pages/syllabus#Table_organization"'
     )
   })
 
@@ -573,8 +573,8 @@ describe("resolveRelativeLinkMatches", () => {
       assert.equal(
         result[0].replacement,
         external
-          ? `href="/courses/${otherCourseId}/sections/syllabus#Table_organization"`
-          : 'href="BASEURL_PLACEHOLDER/sections/syllabus#Table_organization"'
+          ? `href="/courses/${otherCourseId}/pages/syllabus#Table_organization"`
+          : 'href="BASEURL_PLACEHOLDER/pages/syllabus#Table_organization"'
       )
     })
   })
@@ -604,7 +604,7 @@ describe("resolveRelativeLinkMatches", () => {
     )
     assert.equal(
       result[0].replacement,
-      'href="BASEURL_PLACEHOLDER/sections/a/b/c/d/e#Table_organization"'
+      'href="BASEURL_PLACEHOLDER/pages/a/b/c/d/e#Table_organization"'
     )
   })
 
@@ -652,7 +652,7 @@ describe("resolveRelativeLinkMatches", () => {
     )
     assert.equal(
       result[0].replacement,
-      'href="BASEURL_PLACEHOLDER/sections/comps-programming/m19"'
+      'href="BASEURL_PLACEHOLDER/pages/comps-programming/m19"'
     )
   })
 
@@ -675,7 +675,7 @@ describe("resolveRelativeLinkMatches", () => {
     )
     assert.equal(
       result[0].replacement,
-      'href="BASEURL_PLACEHOLDER/sections/signals-systems/objectives"'
+      'href="BASEURL_PLACEHOLDER/pages/signals-systems/objectives"'
     )
   })
 
@@ -690,7 +690,7 @@ describe("resolveRelativeLinkMatches", () => {
       )
       assert.equal(
         result[0].replacement,
-        'href="/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/sections/syllabus#Table_organization"'
+        'href="/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/pages/syllabus#Table_organization"'
       )
     })
   })
@@ -757,7 +757,7 @@ describe("resolveYouTubeEmbedMatches", () => {
     assert.deepEqual(results, [
       {
         replacement:
-          '<a href = "BASEURL_PLACEHOLDER/sections/instructor-insights/instructor-interview-course-iteration">Instructor Interview: Incorporating Authentic Text Going Forward</a>',
+          '<a href = "BASEURL_PLACEHOLDER/pages/instructor-insights/instructor-interview-course-iteration">Instructor Interview: Incorporating Authentic Text Going Forward</a>',
         match
       }
     ])
@@ -842,19 +842,16 @@ describe("buildPathsForCourse", () => {
     const paths = helpers.buildPathsForCourse(singleCourseJsonData)
     assert.equal(
       paths["303c499be5d236b1cde0bb36d615f4e7"],
-      "/sections/study-materials"
+      "/pages/study-materials"
     )
-    assert.equal(
-      paths["42664d52bd9a5b1632bac20876dc344d"],
-      "/sections/index.htm"
-    )
+    assert.equal(paths["42664d52bd9a5b1632bac20876dc344d"], "/pages/index.htm")
     assert.equal(
       paths["b6a31a6a85998d664ea826a766d9032b"],
-      "/sections/2-00ajs09.jpg"
+      "/pages/2-00ajs09.jpg"
     )
     assert.equal(
       paths["6f5063fc562d919e4005ac2c983eefb7"],
-      "/sections/study-materials/MIT2_00AJs09_res01B.pdf"
+      "/pages/study-materials/MIT2_00AJs09_res01B.pdf"
     )
     assert.lengthOf(Object.values(paths), 67)
   })
