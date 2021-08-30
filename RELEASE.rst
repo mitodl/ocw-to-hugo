@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.28.1
+Version 1.28.1 (Released August 30, 2021)
 --------------
 
 - Remove course home page from markdown generation (#332)
