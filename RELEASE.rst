@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.28.0
+--------------
+
+- adjust output to more closely match exported courses from ocw-studio (#331)
+
 Version 1.27.0 (Released August 10, 2021)
 --------------
 
