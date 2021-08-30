@@ -163,8 +163,7 @@ describe("markdown generators", () => {
           return markdownData["name"]
         }
       )
-      assert.include(markdownFileNames, "_index.md")
-      const expectedSections = videoGalleryCourseJsonData["course_pages"]
+      const expectedSections = singleCourseJsonData["course_pages"]
         .filter(
           page =>
             page["parent_uid"] === videoGalleryCourseJsonData["uid"] &&
@@ -328,7 +327,7 @@ describe("markdown generators", () => {
         )
 
         const embeddedMedia = yaml.safeLoad(
-          markdownData[3].media[0].data.split("---\n")[1]
+          markdownData[2].media[0].data.split("---\n")[1]
         )
         assert.equal(
           embeddedMedia.embedded_media[6].technical_location,
@@ -338,43 +337,17 @@ describe("markdown generators", () => {
     })
   })
 
-  describe("generateCourseHomeMarkdown", () => {
-    let courseHomeMarkdown,
-      courseHomeFrontMatter,
-      getConsolidatedTopics,
-      safeDump
+  describe("getConsolidatedTopics", () => {
+    let getConsolidatedTopics, safeDump
     const sandbox = sinon.createSandbox()
 
     beforeEach(async () => {
       getConsolidatedTopics = sandbox.spy(helpers, "getConsolidatedTopics")
       safeDump = sandbox.spy(yaml, "safeDump")
-      const pathLookup = await fileOperations.buildPathsForAllCourses(
-        "test_data/courses",
-        [physicsCourseId, "8-01sc-classical-mechanics-fall-2016"]
-      )
-      courseHomeMarkdown = markdownGenerators.generateCourseHomeMarkdown(
-        physicsCourseJsonData,
-        pathLookup
-      )
-      courseHomeFrontMatter = yaml.safeLoad(
-        courseHomeMarkdown.split("---\n")[1]
-      )
     })
 
     afterEach(() => {
       sandbox.restore()
-    })
-
-    it(`sets the title of the page to an empty string for course pages`, () => {
-      const expectedValue = ""
-      const foundValue = courseHomeFrontMatter["title"]
-      assert.equal(expectedValue, foundValue)
-    })
-
-    it("sets the uid property to the uid of the course home page from the source data", () => {
-      const expectedValue = "a187a05ae5ef2fb5f508bfce0069138d"
-      const foundValue = courseHomeFrontMatter["uid"]
-      assert.equal(expectedValue, foundValue)
     })
 
     it("sets the topics property on the course info object to data parsed from course_collections in the course json data", () => {
@@ -431,27 +404,6 @@ describe("markdown generators", () => {
           url: `/search/?t=${encodeURIComponent("Engineering")}`
         }
       ])
-    })
-
-    it("calls yaml.safeDump once", () => {
-      expect(safeDump).to.be.calledOnce
-    })
-
-    it("doesn't error if the page is missing", () => {
-      sandbox.stub(loggers.memoryTransport, "log").callsFake((...args) => {
-        throw new Error(`Error caught: ${args}`)
-      })
-      courseHomeMarkdown = markdownGenerators.generateCourseHomeMarkdown(
-        singleCourseJsonData
-      )
-      assert.include(courseHomeMarkdown, "title: ''")
-    })
-
-    it("handles an empty string for instructors", () => {
-      markdownGenerators.generateCourseHomeMarkdown({
-        ...singleCourseJsonData,
-        instructors: ""
-      })
     })
   })
 
