@@ -5,11 +5,10 @@ const { gfm, tables } = turndownPluginGfm
 const {
   REPLACETHISWITHAPIPE,
   AWS_REGEX,
-  BASEURL_PLACEHOLDER,
-  BASEURL_SHORTCODE,
   SUPPORTED_IFRAME_EMBEDS,
   YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS,
-  IRREGULAR_WHITESPACE_REGEX
+  IRREGULAR_WHITESPACE_REGEX,
+  BASEURL_PLACEHOLDER_REGEX
 } = require("./constants")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
@@ -243,7 +242,7 @@ turndownService.addRule("quoteshortcode", {
 turndownService.addRule("baseurlshortcode", {
   filter: (node, options) => {
     if (node.nodeName === "A" && node.getAttribute("href")) {
-      if (node.getAttribute("href").includes(BASEURL_PLACEHOLDER)) {
+      if (node.getAttribute("href").match(BASEURL_PLACEHOLDER_REGEX)) {
         return true
       }
     }
@@ -252,7 +251,7 @@ turndownService.addRule("baseurlshortcode", {
   replacement: (content, node, options) => {
     return `[${content}](${node
       .getAttribute("href")
-      .replace(BASEURL_PLACEHOLDER, BASEURL_SHORTCODE)})`
+      .replace(BASEURL_PLACEHOLDER_REGEX, "{{< baseurl >}}")})`
   }
 })
 

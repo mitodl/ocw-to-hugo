@@ -2,24 +2,27 @@ const path = require("path")
 const yaml = require("js-yaml")
 const stripHtml = require("string-strip-html")
 
-const { BASEURL_PLACEHOLDER_REGEX } = require("./constants")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
 const { html2markdown } = require("./turndown")
+const {
+  RESOURCE_TYPE_OTHER,
+  RESOURCE_TYPE_DOCUMENT,
+  RESOURCE_TYPE_IMAGE,
+  RESOURCE_TYPE_VIDEO
+} = require("./constants")
 
 const fixLinks = (
   htmlStr,
-  page,
   courseData,
   pathLookup,
   useShortcodes,
   isRelativeToRoot
 ) => {
-  if (htmlStr && page) {
+  if (htmlStr) {
     const matchAndReplacements = [
       ...helpers.resolveUidMatches(
         htmlStr,
-        page,
         courseData,
         pathLookup,
         useShortcodes,
@@ -51,68 +54,61 @@ const generateMarkdownFromJson = (courseData, pathLookup) => {
     */
   const rootSections = helpers.getRootSections(courseData)
 
-  return rootSections.map(
-    page => generateMarkdownRecursive(page, courseData, pathLookup),
-    this
-  )
+  return [
+    ...rootSections.map(
+      page => generateMarkdownRecursive(page, courseData, pathLookup),
+      this
+    ),
+    ...generateResourceMarkdown(courseData, pathLookup)
+  ]
+}
+
+const generateResourceMarkdown = (courseData, pathLookup) => {
+  const filesMarkdown = courseData["course_files"].map(file => {
+    try {
+      const { path: resourcePath } = pathLookup.byUid[file["uid"]]
+
+      return {
+        name: `${resourcePath}.md`,
+        data: generateResourceMarkdownForFile(file)
+      }
+    } catch (err) {
+      loggers.fileLogger.error(err)
+      return null
+    }
+  })
+  const mediaMarkdown = Object.values(courseData["course_embedded_media"])
+    .filter(
+      media =>
+        media["embedded_media"].filter(
+          embeddedMedia => embeddedMedia["id"] === "Video-YouTube-Stream"
+        ).length > 0
+    )
+    .map(media => {
+      try {
+        const { path: resourcePath } = pathLookup.byUid[media["uid"]]
+
+        return {
+          name: `${resourcePath}.md`,
+          data: generateResourceMarkdownForVideo(media, courseData, pathLookup)
+        }
+      } catch (err) {
+        loggers.fileLogger.error(err)
+        return null
+      }
+    })
+
+  return [...filesMarkdown, ...mediaMarkdown].filter(Boolean)
 }
 
 const generateMarkdownRecursive = (page, courseData, pathLookup) => {
-  const children = courseData["course_pages"].filter(
+  const pages = courseData["course_pages"].filter(
     coursePage => coursePage["parent_uid"] === page["uid"]
   )
-  const pdfFiles = courseData["course_files"].filter(
-    file =>
-      file["file_type"] === "application/pdf" &&
-      file["parent_uid"] === page["uid"]
-  )
-  const coursePageEmbeddedMedia = Object.values(
-    courseData["course_embedded_media"]
-  )
-    .filter(
-      courseEmbeddedMedia => courseEmbeddedMedia["parent_uid"] === page["uid"]
-    )
-    .map(courseEmbeddedMedia => {
-      const embeddedMediaItems = courseEmbeddedMedia["embedded_media"].map(
-        embeddedMedia => {
-          let technicalLocation = embeddedMedia["technical_location"]
-          if (technicalLocation) {
-            const replacement = helpers.resolveRelativeLink(
-              technicalLocation,
-              courseData,
-              pathLookup,
-              true,
-              true,
-              false
-            )
-            if (replacement) {
-              technicalLocation = replacement
-            }
-          }
-
-          if (technicalLocation) {
-            return {
-              ...embeddedMedia,
-              technical_location: technicalLocation
-            }
-          } else {
-            return embeddedMedia
-          }
-        }
-      )
-
-      return {
-        ...courseEmbeddedMedia,
-        layout:         "video",
-        embedded_media: embeddedMediaItems
-      }
-    })
   const parents = courseData["course_pages"].filter(
     coursePage => coursePage["uid"] === page["parent_uid"]
   )
-  const isParent = children.length > 0
-  const hasFiles = pdfFiles.length > 0
-  const hasMedia = coursePageEmbeddedMedia.length > 0
+  const hasPages = pages.length > 0
   const hasParent = parents.length > 0
   const parent = hasParent ? parents[0] : null
   const isInstructorInsightsSection =
@@ -138,69 +134,13 @@ const generateMarkdownRecursive = (page, courseData, pathLookup) => {
   const { path: childPath } = pathLookup.byUid[page["uid"]]
   const pathToChild = helpers.stripSlashPrefix(childPath)
   return {
-    name:
-      isParent || hasFiles || hasMedia
-        ? path.join(pathToChild, "_index.md")
-        : `${pathToChild}.md`,
+    name:     hasPages ? path.join(pathToChild, "_index.md") : `${pathToChild}.md`,
     data:     courseSectionMarkdown,
-    children: children.map(
-      page => generateMarkdownRecursive(page, courseData, pathLookup),
+    children: pages.map(
+      child => generateMarkdownRecursive(child, courseData, pathLookup),
       this
-    ),
-    files: pdfFiles
-      .map(file => {
-        try {
-          if (file["id"]) {
-            return {
-              name: `${path.join(
-                pathToChild,
-                helpers.stripPdfSuffix(file["id"])
-              )}.md`,
-              data: generatePdfMarkdown(file, courseData)
-            }
-          }
-        } catch (err) {
-          loggers.fileLogger.error(err)
-          return null
-        }
-      })
-      .filter(file => file),
-    media: coursePageEmbeddedMedia
-      .map(media => {
-        try {
-          if (media["short_url"]) {
-            return {
-              name: `${path.join(pathToChild, media["short_url"])}.md`,
-              data: `---\n${yaml.safeDump(media)}---\n`
-            }
-          }
-        } catch (err) {
-          loggers.fileLogger.error(err)
-          return null
-        }
-      })
-      .filter(media => media)
-  }
-}
-
-const generatePagePdfMarkdown = (courseData, pathLookup) => {
-  /**
-   * Generate markdown files representing PDF viewer pages for PDF's mentioned on a page in the site
-   */
-
-  return courseData["course_files"]
-    .filter(
-      file =>
-        file["file_type"] === "application/pdf" &&
-        pathLookup.byUid[file["parent_uid"]]
     )
-    .map(file => {
-      const { path: parentPath } = pathLookup.byUid[file["parent_uid"]]
-      return {
-        name: `${path.join(parentPath, helpers.stripPdfSuffix(file["id"]))}.md`,
-        data: generatePdfMarkdown(file, courseData)
-      }
-    })
+  }
 }
 
 const generateCourseSectionFrontMatter = (
@@ -237,19 +177,10 @@ const generateCourseSectionFrontMatter = (
   return `---\n${yaml.safeDump(courseSectionFrontMatter)}---\n`
 }
 
-const formatHTMLMarkDown = (page, courseData, section, pathLookup) => {
-  return page[section]
+const formatHTMLMarkDown = (html, courseData, pathLookup) => {
+  return html
     ? `\n${helpers.unescapeBackticks(
-      html2markdown(
-        fixLinks(
-          page[section] || "",
-          page,
-          courseData,
-          pathLookup,
-          true,
-          false
-        )
-      )
+      html2markdown(fixLinks(html || "", courseData, pathLookup, true, false))
     )}`
     : ""
 }
@@ -260,35 +191,99 @@ const generateCourseSectionMarkdown = (page, courseData, pathLookup) => {
     */
   try {
     return `${formatHTMLMarkDown(
-      page,
+      page["text"],
       courseData,
-      "text",
       pathLookup
     )}${generateCourseFeaturesMarkdown(
       page,
       courseData,
       pathLookup
-    )}${formatHTMLMarkDown(page, courseData, "bottomtext", pathLookup)}`
+    )}${formatHTMLMarkDown(page["bottomtext"], courseData, pathLookup)}`
   } catch (err) {
     loggers.fileLogger.error(err)
     return page["text"]
   }
 }
 
-const generatePdfMarkdown = (file, courseData) => {
+const getResourceType = mimeType => {
+  switch (mimeType) {
+  case "application/pdf":
+    return RESOURCE_TYPE_DOCUMENT
+  case "image/gif":
+  case "image/jpeg":
+  case "image/png":
+  case "image/svg+xml":
+  case "image/tiff":
+    return RESOURCE_TYPE_IMAGE
+  default:
+    return RESOURCE_TYPE_OTHER
+  }
+}
+
+const generateResourceMarkdownForFile = file => {
   /**
   Generate the front matter metadata for a PDF file
   */
-  const pdfFrontMatter = {
+  const frontMatter = {
     title:         file["title"],
     description:   file["description"],
-    layout:        "pdf",
     uid:           file["uid"],
-    parent_uid:    file["parent_uid"],
+    resourcetype:  getResourceType(file["file_type"]),
     file_type:     file["file_type"],
-    file_location: helpers.stripS3(file["file_location"])
+    file_location: helpers.stripS3(file["file_location"]),
+    layout:        "resource"
   }
-  return `---\n${yaml.safeDump(pdfFrontMatter)}---\n`
+
+  return `---\n${yaml.safeDump(frontMatter)}---\n`
+}
+
+const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
+  const youtubeId = media["embedded_media"].find(
+    embeddedMedia => embeddedMedia["id"] === "Video-YouTube-Stream"
+  )["media_location"]
+  const captionsFile = media["embedded_media"].find(
+    embeddedMedia =>
+      embeddedMedia["id"].endsWith(".vtt") &&
+      embeddedMedia["title"] === "3play caption file"
+  )
+  let captionsFileLocation = captionsFile
+    ? captionsFile.technical_location
+    : null
+  if (captionsFileLocation) {
+    const replacement = helpers.resolveRelativeLink(
+      captionsFileLocation,
+      courseData,
+      pathLookup,
+      true,
+      true,
+      false
+    )
+    if (replacement) {
+      captionsFileLocation = replacement
+    }
+  }
+
+  const frontMatter = {
+    title:          media["title"],
+    description:    "",
+    uid:            media["uid"],
+    resourceType:   RESOURCE_TYPE_VIDEO,
+    video_metadata: {
+      youtube_id: youtubeId
+    },
+    video_files: {
+      video_captions_file: captionsFileLocation
+    },
+    layout: "resource"
+  }
+
+  const body = formatHTMLMarkDown(
+    media["about_this_resource_text"],
+    courseData,
+    pathLookup
+  )
+
+  return `---\n${yaml.safeDump(frontMatter)}---\n${body}`
 }
 
 const generateVideoGalleryMarkdown = (page, courseData, pathLookup) => {
@@ -385,21 +380,13 @@ const generateCourseDescription = (courseData, pathLookup) => {
   )
   const courseDescription = courseData["description"]
     ? html2markdown(
-      fixLinks(
-        courseData["description"],
-        courseHomePage,
-        courseData,
-        pathLookup,
-        false,
-        true
-      )
+      fixLinks(courseData["description"], courseData, pathLookup, false, true)
     )
     : ""
   const otherInformationText = courseData["other_information_text"]
     ? html2markdown(
       fixLinks(
         courseData["other_information_text"],
-        courseHomePage,
         courseData,
         pathLookup,
         false,
@@ -417,7 +404,6 @@ const generateCourseDescription = (courseData, pathLookup) => {
 
 module.exports = {
   generateMarkdownFromJson,
-  generatePagePdfMarkdown,
   generateCourseSectionFrontMatter,
   generateCourseSectionMarkdown,
   generateCourseFeaturesMarkdown,

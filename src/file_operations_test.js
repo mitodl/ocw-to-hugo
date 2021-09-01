@@ -300,12 +300,7 @@ describe("file operations", () => {
       singleCourseMarkdownData
         .filter(file => file["name"] !== "_index.md")
         .forEach(file => {
-          if (file["children"].length > 0) {
-            const child = singleCourseJsonData["course_pages"].filter(
-              page =>
-                path.join("pages", page["short_url"], "_index.md") ===
-                file["name"]
-            )[0]
+          if (file["children"] && ["children"].length > 0) {
             expect(mkDirStub).to.be.calledWith(
               path.join(outputPath, singleCourseId, "pages")
             )
@@ -341,7 +336,7 @@ describe("file operations", () => {
         course:        "12-001-introduction-to-geology-fall-2013",
         unalteredPath:
           "/pages/lecture-notes-and-slides/MIT12_001F13_Lec5Notes.pdf",
-        path:         "/pages/lecture-notes-and-slides/mit12_001f13_lec5notes",
+        path:         "/resources/mit12_001f13_lec5notes",
         fileType:     "application/pdf",
         id:           "MIT12_001F13_Lec5Notes.pdf",
         parentUid:    "7a74d241d2fe5d877f747158998d8ed3",
@@ -375,7 +370,8 @@ describe("file operations", () => {
       })
       assert.deepEqual(uids["b03952e4bdfcea4962271aeae1dedb3f"], {
         course:        "ec-711-d-lab-energy-spring-2011",
-        path:          "/pages/intro-energy-basics-human-power/lab-1-human-power",
+        path:          "/resources/lab-1-human-power",
+        short_url:     "lab-1-human-power",
         unalteredPath:
           "/pages/intro-energy-basics-human-power/lab-1-human-power",
         type:      EMBEDDED_MEDIA_PAGE_TYPE,

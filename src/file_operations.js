@@ -41,7 +41,8 @@ const makeUidInfoLookup = courseData => {
   for (const embedded of Object.values(courseData["course_embedded_media"])) {
     uidLookupObjects[embedded["uid"]] = {
       type:      EMBEDDED_MEDIA_PAGE_TYPE,
-      parentUid: embedded["parent_uid"]
+      parentUid: embedded["parent_uid"],
+      short_url: embedded["short_url"]
     }
   }
 
@@ -377,8 +378,6 @@ const writeMarkdownFilesRecursive = async (outputPath, markdownData) => {
   for (const section of markdownData) {
     const sectionPath = path.join(outputPath, section["name"])
     await helpers.createOrOverwriteFile(sectionPath, section["data"])
-    await writeSectionFiles("files", section, outputPath)
-    await writeSectionFiles("media", section, outputPath)
     if (section.hasOwnProperty("children")) {
       await writeMarkdownFilesRecursive(outputPath, section["children"])
     }
@@ -397,15 +396,6 @@ const writeMenuConfig = async (outputPath, courseData, pathLookup) => {
     path.join(outputPath, "menus.yaml"),
     configGenerators.generateMenuItems(courseData, pathLookup)
   )
-}
-
-const writeSectionFiles = async (key, section, outputPath) => {
-  if (section.hasOwnProperty(key)) {
-    for (const file of section[key]) {
-      const filePath = path.join(outputPath, file["name"])
-      await helpers.createOrOverwriteFile(filePath, file["data"])
-    }
-  }
 }
 
 module.exports = {

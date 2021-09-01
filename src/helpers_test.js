@@ -248,7 +248,6 @@ describe("resolveUidMatches", () => {
     assert.deepEqual(
       helpers.resolveUidMatches(
         fieldTripPage["text"],
-        fieldTripPage,
         courseData,
         {
           byUid: {
@@ -288,7 +287,6 @@ describe("resolveUidMatches", () => {
     const courseId = courseData["short_url"]
     const result = helpers.resolveUidMatches(
       fieldTripPage["text"],
-      fieldTripPage,
       courseData,
       {
         byUid: {
@@ -318,15 +316,11 @@ describe("resolveUidMatches", () => {
     [
       false,
       false,
-      "/courses/12-001-introduction-to-geology-fall-2013/pages/field-trip/mit12_001f14_field_trip"
+      "/courses/12-001-introduction-to-geology-fall-2013/resources/mit12_001f14_field_trip"
     ],
-    [false, true, "pages/field-trip/mit12_001f14_field_trip"],
-    [
-      true,
-      false,
-      "BASEURL_PLACEHOLDER/pages/field-trip/mit12_001f14_field_trip"
-    ],
-    [true, true, "BASEURL_PLACEHOLDER/pages/field-trip/mit12_001f14_field_trip"]
+    [false, true, "resources/mit12_001f14_field_trip"],
+    [true, false, "BASEURL_PLACEHOLDER/resources/mit12_001f14_field_trip"],
+    [true, true, "BASEURL_PLACEHOLDER/resources/mit12_001f14_field_trip"]
   ].forEach(([useShortcodes, isRelativeToRoot, expected]) => {
     it(`resolves a uid for a PDF file when useShortcodes=${String(
       useShortcodes
@@ -338,7 +332,6 @@ describe("resolveUidMatches", () => {
       )
       const result = helpers.resolveUidMatches(
         fieldTripPage["text"],
-        fieldTripPage,
         courseData,
         await fileOperations.buildPathsForAllCourses("test_data/courses", [
           course
@@ -359,7 +352,6 @@ describe("resolveUidMatches", () => {
     const text = `<a href='${link}'>link</a>`
     const result = helpers.resolveUidMatches(
       text,
-      fieldTripPage,
       courseData,
       await fileOperations.buildPathsForAllCourses("test_data/courses", [
         course
@@ -369,9 +361,8 @@ describe("resolveUidMatches", () => {
     )
     const fileResult = result.find(item => item.match[0] === link)
     assert.deepEqual(fileResult, {
-      replacement:
-        "https://open-learning-course-data-production.s3.amazonaws.com/12-001-introduction-to-geology-fall-2013/915b6ae8ee3ce0531360df600464d389_IMG_20141011_092912.jpg",
-      match: [link]
+      replacement: "BASEURL_PLACEHOLDER/resources/img_20141011_092912",
+      match:       [link]
     })
   })
 
@@ -401,7 +392,6 @@ describe("resolveUidMatches", () => {
       const course = external ? outsideCourse : linkingCourse
       const result = helpers.resolveUidMatches(
         originalLink,
-        syllabusPage,
         linkingCourseData,
         {
           byUid: {
@@ -443,7 +433,6 @@ describe("resolveUidMatches", () => {
     const originalLink = `<a href="./resolveuid/bb55dad7f4888f0a1ad004600abcdef"><em>1.001 Introduction to Computers and Engineering Problem Solving</em></a>`
     const result = helpers.resolveUidMatches(
       originalLink,
-      syllabusPage,
       linkingCourseData,
       {},
       true,
@@ -504,7 +493,7 @@ describe("resolveRelativeLinkMatches", () => {
     )
     assert.equal(
       result[0].replacement,
-      'href="BASEURL_PLACEHOLDER/pages/study-materials/mit2_00ajs09_lec02"'
+      'href="BASEURL_PLACEHOLDER/resources/mit2_00ajs09_lec02"'
     )
   })
 
@@ -521,7 +510,7 @@ describe("resolveRelativeLinkMatches", () => {
     )
     assert.equal(
       result[0].replacement,
-      'href="/courses/12-001-introduction-to-geology-fall-2013/pages/field-trip/mit12_001f14_field_trip"'
+      'href="/courses/12-001-introduction-to-geology-fall-2013/resources/mit12_001f14_field_trip"'
     )
   })
 
@@ -668,7 +657,7 @@ describe("resolveRelativeLinkMatches", () => {
     )
     assert.equal(
       result[0].replacement,
-      'href="https://open-learning-course-data-production.s3.amazonaws.com/2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009/365bce6e8357a07d939a271972558376_12.jpg"'
+      'href="BASEURL_PLACEHOLDER/resources/12"'
     )
   })
 
@@ -693,7 +682,7 @@ describe("resolveRelativeLinkMatches", () => {
     )
     assert.equal(
       result[0].replacement,
-      'href="BASEURL_PLACEHOLDER/pages/comps-programming/m19"'
+      'href="BASEURL_PLACEHOLDER/resources/m19"'
     )
   })
 
@@ -702,11 +691,11 @@ describe("resolveRelativeLinkMatches", () => {
     [
       false,
       false,
-      "/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/pages/signals-systems/objectives"
+      "/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/resources/objectives-1"
     ],
-    [false, true, "pages/signals-systems/objectives"],
-    [true, false, "BASEURL_PLACEHOLDER/pages/signals-systems/objectives"],
-    [true, true, "BASEURL_PLACEHOLDER/pages/signals-systems/objectives"]
+    [false, true, "resources/objectives-1"],
+    [true, false, "BASEURL_PLACEHOLDER/resources/objectives-1"],
+    [true, true, "BASEURL_PLACEHOLDER/resources/objectives-1"]
   ].forEach(([useShortcodes, isRelativeToRoot, expected]) => {
     it(`picks the correct PDF when there are two items with the same filename but with different parents, when useShortcodes=${String(
       useShortcodes
@@ -795,22 +784,18 @@ describe("resolveYouTubeEmbedMatches", () => {
     [
       false,
       false,
-      "/courses/21g-107-chinese-i-streamlined-fall-2014/pages/instructor-insights/instructor-interview-course-iteration"
+      "/courses/21g-107-chinese-i-streamlined-fall-2014/resources/instructor-interview-course-iteration"
     ],
-    [
-      false,
-      true,
-      "pages/instructor-insights/instructor-interview-course-iteration"
-    ],
+    [false, true, "resources/instructor-interview-course-iteration"],
     [
       true,
       false,
-      "BASEURL_PLACEHOLDER/pages/instructor-insights/instructor-interview-course-iteration"
+      "BASEURL_PLACEHOLDER/resources/instructor-interview-course-iteration"
     ],
     [
       true,
       true,
-      "BASEURL_PLACEHOLDER/pages/instructor-insights/instructor-interview-course-iteration"
+      "BASEURL_PLACEHOLDER/resources/instructor-interview-course-iteration"
     ]
   ].forEach(([useShortcodes, isRelativeToRoot, expected]) => {
     it(`resolves youtube popup links when useShortcodes=${String(
@@ -931,11 +916,11 @@ describe("buildPathsForCourse", () => {
       unalteredPath: "/pages/index.htm"
     })
     assert.deepEqual(paths["b6a31a6a85998d664ea826a766d9032b"], {
-      path:          "/pages/2-00ajs09.jpg",
+      path:          "/resources/2-00ajs09",
       unalteredPath: "/pages/2-00ajs09.jpg"
     })
     assert.deepEqual(paths["6f5063fc562d919e4005ac2c983eefb7"], {
-      path:          "/pages/study-materials/mit2_00ajs09_res01b",
+      path:          "/resources/mit2_00ajs09_res01b",
       unalteredPath: "/pages/study-materials/MIT2_00AJs09_res01B.pdf"
     })
     assert.lengthOf(Object.values(paths), 67)
@@ -943,11 +928,17 @@ describe("buildPathsForCourse", () => {
 })
 
 describe("misc functions", () => {
-  it("strips .pdf from the url", () => {
-    assert.equal(helpers.stripPdfSuffix("some text"), "some text")
-    assert.equal(helpers.stripPdfSuffix("some text.pdf"), "some text")
-    assert.equal(helpers.stripPdfSuffix("some text.PDF"), "some text")
-    assert.equal(helpers.stripPdfSuffix("some text.PDF.pdf"), "some text.PDF")
+  it("strips a suffix", () => {
+    const stripPdfSuffix = helpers.stripSuffix(".pdf")
+    assert.equal(stripPdfSuffix("some text"), "some text")
+    assert.equal(stripPdfSuffix("some text.pdf"), "some text")
+    assert.equal(stripPdfSuffix("some text.PDF"), "some text")
+    assert.equal(stripPdfSuffix("some text.PDF.pdf"), "some text.PDF")
+  })
+
+  it("doesn't strip anything if there is no suffix", () => {
+    const stripNothing = helpers.stripSuffix("")
+    assert.equal(stripNothing("something"), "something")
   })
 
   it("strips / from the prefix", () => {

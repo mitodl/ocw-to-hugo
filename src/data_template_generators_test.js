@@ -104,7 +104,7 @@ describe("generateDataTemplate", () => {
       [
         true,
         `/courses/physics/${physicsCourseId}/acknowledgements.pdf`,
-        "pages/acknowledgements.pdf"
+        "resources/acknowledgements"
       ],
       [
         false,
@@ -114,7 +114,7 @@ describe("generateDataTemplate", () => {
     ].forEach(([sameCourse, url, expected]) => {
       it(`handles links properly in the course description, when the link is to ${
         sameCourse ? "the same" : "a different"
-      } course`, () => {
+      } course, for key=${key}`, () => {
         physicsCourseJsonData = {
           ...physicsCourseJsonData,
           description:            "",

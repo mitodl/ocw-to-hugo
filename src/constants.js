@@ -29,5 +29,11 @@ module.exports = {
   COURSE_TYPE:              "course-type",
   FILE_TYPE:                "file-type",
   PAGE_TYPE:                "page-type",
-  INSTRUCTOR_TYPE:          "instructor-type"
+  INSTRUCTOR_TYPE:          "instructor-type",
+
+  // resourcetype options
+  RESOURCE_TYPE_IMAGE:    "Image",
+  RESOURCE_TYPE_VIDEO:    "Video",
+  RESOURCE_TYPE_OTHER:    "Other",
+  RESOURCE_TYPE_DOCUMENT: "Document"
 }
