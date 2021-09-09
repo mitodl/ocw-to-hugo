@@ -3,7 +3,6 @@ module.exports = {
   BASEURL_PLACEHOLDER:                 "BASEURL_PLACEHOLDER",
   BASEURL_PLACEHOLDER_REGEX:           new RegExp("BASEURL_PLACEHOLDER", "g"),
   BASEURL_SHORTCODE:                   "{{< baseurl >}}",
-  ROOT_RELATIVE_REGEX:                 /<a href="\//g,
   YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS: "youtube-placeholder",
   MISSING_JSON_ERROR_MESSAGE:
     "To download courses from AWS, you must specify the -c argument.  For more information, see README.md",

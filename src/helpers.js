@@ -15,7 +15,10 @@ const {
   FILE_TYPE,
   INPUT_COURSE_DATE_FORMAT,
   YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS,
-  ROOT_RELATIVE_REGEX
+  ROOT_RELATIVE_REGEX,
+  EMBEDDED_MEDIA_PAGE_TYPE,
+  RESOURCE_PLACEHOLDER,
+  COURSE_TYPE
 } = require("./constants")
 const loggers = require("./loggers")
 const runOptions = {}
@@ -188,8 +191,10 @@ const getCourseFeatureObject = (courseFeature, courseData, pathLookup) => {
     featureObject["url"] = resolveUidForLink(
       url,
       courseData,
-      pathLookup
-    ).replace(BASEURL_PLACEHOLDER_REGEX, "")
+      pathLookup,
+      false,
+      true
+    )
   }
   return featureObject
 }
@@ -197,7 +202,7 @@ const getCourseFeatureObject = (courseFeature, courseData, pathLookup) => {
 const FAKE_BASE_URL = "https://sentinel.example.com"
 const getPathFragments = url =>
   new URL(url, FAKE_BASE_URL).pathname.split("/").filter(Boolean)
-const updatePath = (url, pathPieces) => {
+const updatePath = (url, pathPieces, isRelativeToRoot) => {
   const hasBaseUrl = pathPieces[0] && pathPieces[0] === BASEURL_PLACEHOLDER
   if (hasBaseUrl) {
     // cut out the shortcode here and add it back in the end
@@ -214,18 +219,10 @@ const updatePath = (url, pathPieces) => {
   if (hasBaseUrl) {
     newUrl = path.join(BASEURL_PLACEHOLDER, newUrl)
   }
-  return newUrl
-}
-
-const getCourseSectionFromFeatureUrl = courseFeature => {
-  const featureUrl = courseFeature["ocw_feature_url"]
-  if (!featureUrl.includes("resolveuid")) {
-    let [last, ...urlParts] = getPathFragments(featureUrl).reverse()
-    last = last.replace(/^index.html?$/, "")
-    return updatePath(featureUrl, [...urlParts, last])
-  } else {
-    return featureUrl
+  if (isRelativeToRoot) {
+    newUrl = stripSlashPrefix(newUrl)
   }
+  return newUrl
 }
 
 const makeCourseInfoUrl = (value, searchParam) =>
@@ -312,23 +309,24 @@ const getYoutubeEmbedCode = media => {
     .join("")
 }
 
-const getVideoPageLink = (media, pathLookup) => {
-  return `<a href = "${path.join(
-    BASEURL_PLACEHOLDER,
-    pathLookup.byUid[media["uid"]].path
-  )}">${media["title"]}</a>`
-}
-
-const buildPathRecursive = (item, itemsLookup, courseUid, pathLookup) => {
+const buildPathRecursive = (
+  item,
+  itemsLookup,
+  courseUid,
+  pathLookup,
+  uidInfoLookup
+) => {
   const { filenameKey, page } = item
   const uid = page["uid"]
+  const uidInfo = uidInfoLookup[uid]
   const parentUid = page["parent_uid"]
   const parentItem = itemsLookup[parentUid]
 
   if (courseUid === parentUid) {
     // course is the parent, so link should be off of /pages
     const filename = page[filenameKey]
-    pathLookup[uid] = path.join("/pages", filename)
+    const pagePath = path.join("/pages", filename)
+    pathLookup[uid] = { path: pagePath, unalteredPath: pagePath }
     return
   }
 
@@ -338,7 +336,13 @@ const buildPathRecursive = (item, itemsLookup, courseUid, pathLookup) => {
   }
 
   if (!pathLookup[parentUid]) {
-    buildPathRecursive(parentItem, itemsLookup, courseUid, pathLookup)
+    buildPathRecursive(
+      parentItem,
+      itemsLookup,
+      courseUid,
+      pathLookup,
+      uidInfoLookup
+    )
     if (!pathLookup[parentUid]) {
       loggers.fileLogger.error(
         `Unable to find path for ${parentUid}, parent of ${uid}`
@@ -347,10 +351,31 @@ const buildPathRecursive = (item, itemsLookup, courseUid, pathLookup) => {
     }
   }
 
-  pathLookup[uid] = path.join(pathLookup[parentUid], page[filenameKey])
+  const unalteredPath = path.join(
+    pathLookup[parentUid].unalteredPath,
+    page[filenameKey]
+  )
+  if (
+    uidInfo &&
+    uidInfo["type"] === FILE_TYPE &&
+    uidInfo["fileType"] === "application/pdf"
+  ) {
+    pathLookup[uid] = {
+      path: path.join(
+        pathLookup[parentUid].path,
+        stripPdfSuffix(page[filenameKey].toLowerCase())
+      ),
+      unalteredPath
+    }
+  } else {
+    pathLookup[uid] = {
+      path: path.join(pathLookup[parentUid].path, page[filenameKey]),
+      unalteredPath
+    }
+  }
 }
 
-const buildPathsForCourse = courseData => {
+const buildPathsForCourse = (courseData, uidInfoLookup) => {
   const courseUid = courseData["uid"]
   const pathLookup = {}
   const itemsLookup = {}
@@ -372,7 +397,7 @@ const buildPathsForCourse = courseData => {
   }
 
   for (const item of Object.values(itemsLookup)) {
-    buildPathRecursive(item, itemsLookup, courseUid, pathLookup)
+    buildPathRecursive(item, itemsLookup, courseUid, pathLookup, uidInfoLookup)
   }
 
   return pathLookup
@@ -398,43 +423,70 @@ const applyReplacements = (matchAndReplacements, text) => {
   return text
 }
 
-const makePdfLink = (thisCourseId, pathObj, pathLookup) => {
-  const { parentUid, id } = pathObj
-  const parentTuple = pathLookup.byUid[parentUid]
-  if (parentTuple) {
-    const { course, path: parent } = parentTuple
-    const pdfPath = path.join(
-      makeCourseUrlPrefixOrShortcode(course, thisCourseId),
-      parent,
-      id.toLowerCase()
-    )
-    return stripPdfSuffix(pdfPath)
+const constructInternalLink = (
+  linkCourse,
+  pathRelativeToCourseRoot,
+  linkType,
+  uid,
+  pageCourse,
+  useShortcodes,
+  isRelativeToRoot
+) => {
+  const isSameCourse = linkCourse === pageCourse
+  const strippedPath =
+    pathRelativeToCourseRoot !== "/"
+      ? stripSlashPrefix(pathRelativeToCourseRoot)
+      : pathRelativeToCourseRoot
+
+  if (!useShortcodes) {
+    // course.json can't use shortcodes at the moment. However the course description is only shown on the course
+    // home page so we can make links relative to the course home page. Other fields may need the full link
+    if (isSameCourse && isRelativeToRoot) {
+      return strippedPath
+    } else {
+      return path.join("/courses", linkCourse, strippedPath)
+    }
   }
-  return null
+
+  if ([FILE_TYPE, EMBEDDED_MEDIA_PAGE_TYPE].includes(linkType)) {
+    // TODO: resource shortcode in future PR
+  }
+
+  if (isSameCourse) {
+    return path.join(BASEURL_PLACEHOLDER, strippedPath)
+  } else {
+    return path.join("/courses", linkCourse, strippedPath)
+  }
 }
 
-const resolveUidForLink = (url, courseData, pathLookup) => {
+const resolveUidForLink = (
+  url,
+  courseData,
+  pathLookup,
+  useShortcodes,
+  isRelativeToRoot
+) => {
   const courseId = courseData["short_url"]
-  const [uid, ...urlParts] = getPathFragments(url).reverse()
+  const [uid] = getPathFragments(url).reverse()
 
   if (pathLookup.byUid[uid]) {
     const pathObj = pathLookup.byUid[uid]
     const { course, path: itemPath, fileType, type, fileLocation } = pathObj
 
-    if (type === FILE_TYPE) {
-      if (fileType === "application/pdf") {
-        // create a link to the generated PDF viewer page for this PDF file
-        const pdfLink = makePdfLink(courseId, pathObj, pathLookup)
-        if (pdfLink) {
-          return pdfLink
-        }
-      } else {
-        // link directly to the static content
-        return stripS3(fileLocation)
-      }
+    if (type === FILE_TYPE && fileType !== "application/pdf") {
+      // link directly to the static content
+      return stripS3(fileLocation)
     }
 
-    return path.join(makeCourseUrlPrefixOrShortcode(course, courseId), itemPath)
+    return constructInternalLink(
+      course,
+      itemPath,
+      type,
+      uid,
+      courseId,
+      useShortcodes,
+      isRelativeToRoot
+    )
   }
 
   return null
@@ -445,13 +497,19 @@ const resolveUidForLink = (url, courseData, pathLookup) => {
  * @param {object} page
  * @param {object} courseData
  * @param {object} pathLookup
+ * @param {boolean} useShortcodes
+ * @param {boolean} isRelativeToRoot
  *
- * The purpose of this function is to resolve "resolveuid" links in OCW HTML.
- * It takes 4 parameters; an HTML string to parse, the page that the string came from,
- * the course data object, and a lookup from uid to [course-id, path].
- *
+ * Resolve "resolveuid" links in OCW HTML.
  */
-const resolveUidMatches = (htmlStr, page, courseData, pathLookup) => {
+const resolveUidMatches = (
+  htmlStr,
+  page,
+  courseData,
+  pathLookup,
+  useShortcodes,
+  isRelativeToRoot
+) => {
   try {
     /**
      * resolveuid links are formatted as, for example:
@@ -465,7 +523,13 @@ const resolveUidMatches = (htmlStr, page, courseData, pathLookup) => {
 
     return matches
       .map(match => {
-        const replacement = resolveUidForLink(match[0], courseData, pathLookup)
+        const replacement = resolveUidForLink(
+          match[0],
+          courseData,
+          pathLookup,
+          useShortcodes,
+          isRelativeToRoot
+        )
         if (replacement !== null) {
           return {
             match,
@@ -481,7 +545,14 @@ const resolveUidMatches = (htmlStr, page, courseData, pathLookup) => {
   return []
 }
 
-const resolveRelativeLink = (url, courseData, pathLookup, useDirectLink) => {
+const resolveRelativeLink = (
+  url,
+  courseData,
+  pathLookup,
+  useDirectLink,
+  useShortcodes,
+  isRelativeToRoot
+) => {
   // ensure that this is not resolveuid or an external link
   const thisCourseId = courseData["short_url"]
   if (url.includes("resolveuid")) {
@@ -505,11 +576,19 @@ const resolveRelativeLink = (url, courseData, pathLookup, useDirectLink) => {
      */
     if (parts[0] === "courses" && parts[2]) {
       const courseId = parts[2]
+      const paths = pathLookup.byCourse[courseId] || []
       if (parts.length === 3) {
         // course home page link
-        return updatePath(url, [
-          makeCourseUrlPrefixOrShortcode(courseId, thisCourseId)
-        ])
+        const internalLink = constructInternalLink(
+          courseId,
+          "",
+          COURSE_TYPE,
+          null,
+          thisCourseId,
+          useShortcodes,
+          isRelativeToRoot
+        )
+        return updatePath(url, getPathFragments(internalLink), isRelativeToRoot)
       }
       const sections = parts.slice(3, parts.length - 1)
       const page = parts[parts.length - 1]
@@ -517,26 +596,23 @@ const resolveRelativeLink = (url, courseData, pathLookup, useDirectLink) => {
       const extension = path.extname(page)
       if (extension && !extension.startsWith(".htm")) {
         // page has a file extension and isn't HTML
-        const paths = pathLookup.byCourse[courseId] || []
         for (const pathObj of paths) {
-          if (pathObj.type === FILE_TYPE && page === pathObj.id) {
+          if (
+            pathObj.type === FILE_TYPE &&
+            pathObj.unalteredPath ===
+              `/${["pages", ...sections, page].join("/")}`
+          ) {
             if (pathObj.fileType === "application/pdf" && !useDirectLink) {
-              const pdfLink = makePdfLink(
+              const { type, course, path, uid } = pathObj
+              return constructInternalLink(
+                course,
+                path,
+                type,
+                uid,
                 thisCourseId,
-                pathObj,
-                pathLookup,
-                sections
+                useShortcodes,
+                isRelativeToRoot
               )
-              const parentPathSections = path
-                .dirname(pathObj.path)
-                .split("/")
-                .slice(2)
-              if (
-                pdfLink &&
-                parentPathSections.join("/") === sections.join("/")
-              ) {
-                return pdfLink
-              }
             } else {
               return stripS3(pathObj.fileLocation)
             }
@@ -550,10 +626,17 @@ const resolveRelativeLink = (url, courseData, pathLookup, useDirectLink) => {
           paths.push(page)
         }
 
-        return updatePath(url, [
-          makeCourseUrlPrefixOrShortcode(courseId, thisCourseId),
-          ...(paths.length ? ["pages", ...paths] : [])
-        ])
+        const itemPath = path.join(...(paths.length ? ["pages", ...paths] : []))
+        const internalLink = constructInternalLink(
+          courseId,
+          itemPath,
+          null,
+          null,
+          thisCourseId,
+          useShortcodes,
+          isRelativeToRoot
+        )
+        return updatePath(url, getPathFragments(internalLink), isRelativeToRoot)
       }
     }
 
@@ -569,13 +652,21 @@ const resolveRelativeLink = (url, courseData, pathLookup, useDirectLink) => {
  * @param {string} htmlStr
  * @param {object} courseData
  * @param {object} pathLookup
+ * @param {boolean} useShortcodes
+ * @param {boolean} isRelativeToRoot
  *
  * The purpose of this function is to find relatively linked content
  * in a given HTML string and try to resolve that URL to the static content
  * or course section it is supposed to point to.
  *
  */
-const resolveRelativeLinkMatches = (htmlStr, courseData, pathLookup) => {
+const resolveRelativeLinkMatches = (
+  htmlStr,
+  courseData,
+  pathLookup,
+  useShortcodes,
+  isRelativeToRoot
+) => {
   try {
     // find and iterate all href tags
     const matches = Array.from(
@@ -583,13 +674,15 @@ const resolveRelativeLinkMatches = (htmlStr, courseData, pathLookup) => {
     )
     return matches
       .map(match => {
-        const url = match.groups.url1 || match.groups.url2
+        const url = match.groups.url1 || match.groups.url2 || ""
 
         const replacement = resolveRelativeLink(
           url,
           courseData,
           pathLookup,
-          false
+          false,
+          useShortcodes,
+          isRelativeToRoot
         )
         if (replacement !== null) {
           return { match, replacement: `href="${replacement}"` }
@@ -603,7 +696,13 @@ const resolveRelativeLinkMatches = (htmlStr, courseData, pathLookup) => {
   return []
 }
 
-const resolveYouTubeEmbedMatches = (htmlStr, courseData, pathLookup) => {
+const resolveYouTubeEmbedMatches = (
+  htmlStr,
+  courseData,
+  pathLookup,
+  useShortcodes,
+  isRelativeToRoot
+) => {
   return Object.keys(courseData["course_embedded_media"])
     .map(key => {
       const index = htmlStr.indexOf(key)
@@ -613,11 +712,23 @@ const resolveYouTubeEmbedMatches = (htmlStr, courseData, pathLookup) => {
         const match = [key]
         match.index = index
         const media = courseData["course_embedded_media"][key]
+
+        const { course, path, type, uid } = pathLookup.byUid[media["uid"]]
+        const link = constructInternalLink(
+          course,
+          path,
+          type,
+          uid,
+          courseData["short_url"],
+          useShortcodes,
+          isRelativeToRoot
+        )
+
         const replacement =
           media["template_type"] !== "popup" &&
           media["template_type"] !== "thumbnail_popup"
             ? getYoutubeEmbedCode(media)
-            : getVideoPageLink(media, pathLookup)
+            : `<a href = "${link}">${media["title"]}</a>`
         return { replacement, match }
       }
       return null
@@ -765,10 +876,8 @@ module.exports = {
   getPrimaryCourseNumber,
   getExtraCourseNumbers,
   getCourseFeatureObject,
-  getCourseSectionFromFeatureUrl,
   getConsolidatedTopics,
   getYoutubeEmbedCode,
-  getVideoPageLink,
   resolveUidMatches,
   resolveRelativeLinkMatches,
   resolveRelativeLink,

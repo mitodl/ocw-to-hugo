@@ -7,12 +7,38 @@ const helpers = require("./helpers")
 const loggers = require("./loggers")
 const { html2markdown } = require("./turndown")
 
-const fixLinks = (htmlStr, page, courseData, pathLookup) => {
+const fixLinks = (
+  htmlStr,
+  page,
+  courseData,
+  pathLookup,
+  useShortcodes,
+  isRelativeToRoot
+) => {
   if (htmlStr && page) {
     const matchAndReplacements = [
-      ...helpers.resolveUidMatches(htmlStr, page, courseData, pathLookup),
-      ...helpers.resolveRelativeLinkMatches(htmlStr, courseData, pathLookup),
-      ...helpers.resolveYouTubeEmbedMatches(htmlStr, courseData, pathLookup)
+      ...helpers.resolveUidMatches(
+        htmlStr,
+        page,
+        courseData,
+        pathLookup,
+        useShortcodes,
+        isRelativeToRoot
+      ),
+      ...helpers.resolveRelativeLinkMatches(
+        htmlStr,
+        courseData,
+        pathLookup,
+        useShortcodes,
+        isRelativeToRoot
+      ),
+      ...helpers.resolveYouTubeEmbedMatches(
+        htmlStr,
+        courseData,
+        pathLookup,
+        useShortcodes,
+        isRelativeToRoot
+      )
     ]
     htmlStr = helpers.applyReplacements(matchAndReplacements, htmlStr)
   }
@@ -55,7 +81,9 @@ const generateMarkdownRecursive = (page, courseData, pathLookup) => {
               technicalLocation,
               courseData,
               pathLookup,
-              true
+              true,
+              true,
+              false
             )
             if (replacement) {
               technicalLocation = replacement
@@ -213,7 +241,14 @@ const formatHTMLMarkDown = (page, courseData, section, pathLookup) => {
   return page[section]
     ? `\n${helpers.unescapeBackticks(
       html2markdown(
-        fixLinks(page[section] || "", page, courseData, pathLookup)
+        fixLinks(
+          page[section] || "",
+          page,
+          courseData,
+          pathLookup,
+          true,
+          false
+        )
       )
     )}`
     : ""
@@ -349,25 +384,25 @@ const generateCourseDescription = (courseData, pathLookup) => {
   )
   const courseDescription = courseData["description"]
     ? html2markdown(
-      helpers.rootRelativeToDocumentRelative(
-        fixLinks(
-          courseData["description"],
-          courseHomePage,
-          courseData,
-          pathLookup
-        )
+      fixLinks(
+        courseData["description"],
+        courseHomePage,
+        courseData,
+        pathLookup,
+        false,
+        true
       )
     )
     : ""
   const otherInformationText = courseData["other_information_text"]
     ? html2markdown(
-      helpers.rootRelativeToDocumentRelative(
-        fixLinks(
-          courseData["other_information_text"],
-          courseHomePage,
-          courseData,
-          pathLookup
-        )
+      fixLinks(
+        courseData["other_information_text"],
+        courseHomePage,
+        courseData,
+        pathLookup,
+        false,
+        true
       )
     )
     : ""

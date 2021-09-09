@@ -204,17 +204,6 @@ describe("getCourseFeatureObject", async () => {
   })
 })
 
-describe("getCourseSectionFromFeatureUrl", () => {
-  it("returns the expected course section from a course feature object", () => {
-    assert.equal(
-      helpers.getCourseSectionFromFeatureUrl(
-        singleCourseJsonData["course_features"][2]
-      ),
-      "./resolveuid/293500564c0073c5971dfc2bbf334afc"
-    )
-  })
-})
-
 describe("getYoutubeEmbedHtml", () => {
   it("returned html strings contain the youtube media url for each embedded media", () => {
     let html = ""
@@ -268,7 +257,9 @@ describe("resolveUidMatches", () => {
             [uid3]:      { course: courseId, path: "/path/3/" },
             [parentUid]: { course: courseId, path: "/path/parent" }
           }
-        }
+        },
+        true,
+        false
       ),
       [
         {
@@ -310,7 +301,9 @@ describe("resolveUidMatches", () => {
             path:   "/path/to/parent"
           }
         }
-      }
+      },
+      true,
+      false
     )
     const pageResult = result.find(item => item.match[0] === link)
     assert.deepEqual(pageResult, {
@@ -320,24 +313,44 @@ describe("resolveUidMatches", () => {
     })
   })
 
-  it("resolves a uid for a PDF file", async () => {
-    const link = "./resolveuid/f828208d0d04e1f39c1bb31d6fbe5f2d"
-    assert.include(
-      fieldTripPage["text"],
-      `<a href="${link}">Field Trip Guide (PDF - 4.2MB)</a>`
-    )
-    const result = helpers.resolveUidMatches(
-      fieldTripPage["text"],
-      fieldTripPage,
-      courseData,
-      await fileOperations.buildPathsForAllCourses("test_data/courses", [
-        course
-      ])
-    )
-    const fileResult = result.find(item => item.match[0] === link)
-    assert.deepEqual(fileResult, {
-      replacement: `BASEURL_PLACEHOLDER/pages/field-trip/mit12_001f14_field_trip`,
-      match:       [link]
+  //
+  ;[
+    [
+      false,
+      false,
+      "/courses/12-001-introduction-to-geology-fall-2013/pages/field-trip/mit12_001f14_field_trip"
+    ],
+    [false, true, "pages/field-trip/mit12_001f14_field_trip"],
+    [
+      true,
+      false,
+      "BASEURL_PLACEHOLDER/pages/field-trip/mit12_001f14_field_trip"
+    ],
+    [true, true, "BASEURL_PLACEHOLDER/pages/field-trip/mit12_001f14_field_trip"]
+  ].forEach(([useShortcodes, isRelativeToRoot, expected]) => {
+    it(`resolves a uid for a PDF file when useShortcodes=${String(
+      useShortcodes
+    )} and isRelativeToRoot=${String(isRelativeToRoot)}`, async () => {
+      const link = "./resolveuid/f828208d0d04e1f39c1bb31d6fbe5f2d"
+      assert.include(
+        fieldTripPage["text"],
+        `<a href="${link}">Field Trip Guide (PDF - 4.2MB)</a>`
+      )
+      const result = helpers.resolveUidMatches(
+        fieldTripPage["text"],
+        fieldTripPage,
+        courseData,
+        await fileOperations.buildPathsForAllCourses("test_data/courses", [
+          course
+        ]),
+        useShortcodes,
+        isRelativeToRoot
+      )
+      const fileResult = result.find(item => item.match[0] === link)
+      assert.deepEqual(fileResult, {
+        replacement: expected,
+        match:       [link]
+      })
     })
   })
 
@@ -350,7 +363,9 @@ describe("resolveUidMatches", () => {
       courseData,
       await fileOperations.buildPathsForAllCourses("test_data/courses", [
         course
-      ])
+      ]),
+      true,
+      false
     )
     const fileResult = result.find(item => item.match[0] === link)
     assert.deepEqual(fileResult, {
@@ -392,7 +407,9 @@ describe("resolveUidMatches", () => {
           byUid: {
             [uid]: { course: course, path: "/" }
           }
-        }
+        },
+        true,
+        false
       )
       assert.deepEqual(result, [
         external
@@ -428,7 +445,9 @@ describe("resolveUidMatches", () => {
       originalLink,
       syllabusPage,
       linkingCourseData,
-      {}
+      {},
+      true,
+      false
     )
     assert.deepEqual(result, [])
   })
@@ -457,7 +476,9 @@ describe("resolveRelativeLinkMatches", () => {
     const result = helpers.resolveRelativeLinkMatches(
       assignmentsPage["text"],
       singleCourseJsonData,
-      pathLookup
+      pathLookup,
+      true,
+      false
     )
     assert.lengthOf(result, 1)
     assert.equal(
@@ -477,7 +498,9 @@ describe("resolveRelativeLinkMatches", () => {
     const result = helpers.resolveRelativeLinkMatches(
       text,
       singleCourseJsonData,
-      pathLookup
+      pathLookup,
+      true,
+      false
     )
     assert.equal(
       result[0].replacement,
@@ -492,7 +515,9 @@ describe("resolveRelativeLinkMatches", () => {
     const result = helpers.resolveRelativeLinkMatches(
       text,
       singleCourseJsonData,
-      pathLookup
+      pathLookup,
+      true,
+      false
     )
     assert.equal(
       result[0].replacement,
@@ -508,7 +533,9 @@ describe("resolveRelativeLinkMatches", () => {
     const result = helpers.resolveRelativeLinkMatches(
       text,
       singleCourseJsonData,
-      pathLookup
+      pathLookup,
+      true,
+      false
     )
     assert.lengthOf(result, 1)
     assert.deepEqual(result[0].match[0], `href="${link}"`)
@@ -523,7 +550,9 @@ describe("resolveRelativeLinkMatches", () => {
     const result = helpers.resolveRelativeLinkMatches(
       text,
       singleCourseJsonData,
-      pathLookup
+      pathLookup,
+      true,
+      false
     )
     assert.lengthOf(result, 2)
     assert.equal(
@@ -568,7 +597,9 @@ describe("resolveRelativeLinkMatches", () => {
       const result = helpers.resolveRelativeLinkMatches(
         text,
         singleCourseJsonData,
-        pathLookup
+        pathLookup,
+        true,
+        false
       )
       assert.equal(
         result[0].replacement,
@@ -586,7 +617,9 @@ describe("resolveRelativeLinkMatches", () => {
       const result = helpers.resolveRelativeLinkMatches(
         text,
         singleCourseJsonData,
-        pathLookup
+        pathLookup,
+        true,
+        false
       )
       assert.equal(
         result[0].replacement,
@@ -600,7 +633,9 @@ describe("resolveRelativeLinkMatches", () => {
     const result = helpers.resolveRelativeLinkMatches(
       text,
       singleCourseJsonData,
-      pathLookup
+      pathLookup,
+      true,
+      false
     )
     assert.equal(
       result[0].replacement,
@@ -614,7 +649,9 @@ describe("resolveRelativeLinkMatches", () => {
     const result = helpers.resolveRelativeLinkMatches(
       text,
       singleCourseJsonData,
-      pathLookup
+      pathLookup,
+      true,
+      false
     )
     assert.lengthOf(result, 1)
     assert.equal(result[0].replacement, `href="${link}"`)
@@ -625,7 +662,9 @@ describe("resolveRelativeLinkMatches", () => {
     const result = helpers.resolveRelativeLinkMatches(
       text,
       singleCourseJsonData,
-      pathLookup
+      pathLookup,
+      true,
+      false
     )
     assert.equal(
       result[0].replacement,
@@ -648,7 +687,9 @@ describe("resolveRelativeLinkMatches", () => {
     const result = helpers.resolveRelativeLinkMatches(
       text,
       courseData,
-      pathLookup
+      pathLookup,
+      true,
+      false
     )
     assert.equal(
       result[0].replacement,
@@ -656,27 +697,40 @@ describe("resolveRelativeLinkMatches", () => {
     )
   })
 
-  it("picks the correct PDF when there are two items with the same filename but with different parents", () => {
-    const courseId =
-      "16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"
-    const parsedPath = path.join(
-      "test_data",
-      "courses",
-      courseId,
-      `${courseId}_parsed.json`
-    )
-    const courseData = JSON.parse(fs.readFileSync(parsedPath))
+  //
+  ;[
+    [
+      false,
+      false,
+      "/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/pages/signals-systems/objectives"
+    ],
+    [false, true, "pages/signals-systems/objectives"],
+    [true, false, "BASEURL_PLACEHOLDER/pages/signals-systems/objectives"],
+    [true, true, "BASEURL_PLACEHOLDER/pages/signals-systems/objectives"]
+  ].forEach(([useShortcodes, isRelativeToRoot, expected]) => {
+    it(`picks the correct PDF when there are two items with the same filename but with different parents, when useShortcodes=${String(
+      useShortcodes
+    )} and isRelativeToRoot=${String(isRelativeToRoot)}`, () => {
+      const courseId =
+        "16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"
+      const parsedPath = path.join(
+        "test_data",
+        "courses",
+        courseId,
+        `${courseId}_parsed.json`
+      )
+      const courseData = JSON.parse(fs.readFileSync(parsedPath))
 
-    const text = `<a href="/courses/aeronautics-and-astronautics/${courseId}/signals-systems/objectives.pdf">PDF</a>`
-    const result = helpers.resolveRelativeLinkMatches(
-      text,
-      courseData,
-      pathLookup
-    )
-    assert.equal(
-      result[0].replacement,
-      'href="BASEURL_PLACEHOLDER/pages/signals-systems/objectives"'
-    )
+      const text = `<a href="/courses/aeronautics-and-astronautics/${courseId}/signals-systems/objectives.pdf">PDF</a>`
+      const result = helpers.resolveRelativeLinkMatches(
+        text,
+        courseData,
+        pathLookup,
+        useShortcodes,
+        isRelativeToRoot
+      )
+      assert.equal(result[0].replacement, `href="${expected}"`)
+    })
   })
 
   //
@@ -736,33 +790,60 @@ describe("resolveYouTubeEmbedMatches", () => {
     assert.lengthOf(Object.values(courseData["course_embedded_media"]), 21)
   })
 
-  it("resolves youtube popup links", async () => {
-    const youtubeKey = "16382356instructorinterview:courseiteration55791478"
-    const htmlStr = `some text ${youtubeKey} other text`
-    const courseId = "21g-107-chinese-i-streamlined-fall-2014"
-    const courseData = JSON.parse(
-      fs.readFileSync(`test_data/courses/${courseId}/${courseId}_parsed.json`)
-    )
-    const pathLookup = await fileOperations.buildPathsForAllCourses(
-      "test_data/courses",
-      [courseId]
-    )
-    const results = helpers.resolveYouTubeEmbedMatches(
-      htmlStr,
-      courseData,
-      pathLookup
-    )
-    const match = [youtubeKey]
-    match.index = 10
-    assert.deepEqual(results, [
-      {
-        replacement:
-          '<a href = "BASEURL_PLACEHOLDER/pages/instructor-insights/instructor-interview-course-iteration">Instructor Interview: Incorporating Authentic Text Going Forward</a>',
-        match
-      }
-    ])
-    // verify that if there is a key not present in the html, it is skipped
-    assert.lengthOf(Object.values(courseData["course_embedded_media"]), 11)
+  //
+  ;[
+    [
+      false,
+      false,
+      "/courses/21g-107-chinese-i-streamlined-fall-2014/pages/instructor-insights/instructor-interview-course-iteration"
+    ],
+    [
+      false,
+      true,
+      "pages/instructor-insights/instructor-interview-course-iteration"
+    ],
+    [
+      true,
+      false,
+      "BASEURL_PLACEHOLDER/pages/instructor-insights/instructor-interview-course-iteration"
+    ],
+    [
+      true,
+      true,
+      "BASEURL_PLACEHOLDER/pages/instructor-insights/instructor-interview-course-iteration"
+    ]
+  ].forEach(([useShortcodes, isRelativeToRoot, expected]) => {
+    it(`resolves youtube popup links when useShortcodes=${String(
+      useShortcodes
+    )} and isRelativeToRoot=${String(isRelativeToRoot)}`, async () => {
+      const youtubeKey = "16382356instructorinterview:courseiteration55791478"
+      const htmlStr = `some text ${youtubeKey} other text`
+      const courseId = "21g-107-chinese-i-streamlined-fall-2014"
+      const courseData = JSON.parse(
+        fs.readFileSync(`test_data/courses/${courseId}/${courseId}_parsed.json`)
+      )
+      const pathLookup = await fileOperations.buildPathsForAllCourses(
+        "test_data/courses",
+        [courseId]
+      )
+      const results = helpers.resolveYouTubeEmbedMatches(
+        htmlStr,
+        courseData,
+        pathLookup,
+        useShortcodes,
+        isRelativeToRoot
+      )
+      const match = [youtubeKey]
+      match.index = 10
+      assert.deepEqual(results, [
+        {
+          replacement: `<a href = "${expected}">Instructor Interview: Incorporating Authentic Text Going Forward</a>`,
+          match
+        }
+      ])
+      // verify that if there is a key not present in the html, it is skipped
+      assert.lengthOf(Object.values(courseData["course_embedded_media"]), 11)
+    })
   })
 })
 
@@ -839,20 +920,24 @@ describe("isCoursePublished", () => {
 
 describe("buildPathsForCourse", () => {
   it("builds some paths", () => {
-    const paths = helpers.buildPathsForCourse(singleCourseJsonData)
-    assert.equal(
-      paths["303c499be5d236b1cde0bb36d615f4e7"],
-      "/pages/study-materials"
-    )
-    assert.equal(paths["42664d52bd9a5b1632bac20876dc344d"], "/pages/index.htm")
-    assert.equal(
-      paths["b6a31a6a85998d664ea826a766d9032b"],
-      "/pages/2-00ajs09.jpg"
-    )
-    assert.equal(
-      paths["6f5063fc562d919e4005ac2c983eefb7"],
-      "/pages/study-materials/MIT2_00AJs09_res01B.pdf"
-    )
+    const uidLookup = fileOperations.makeUidInfoLookup(singleCourseJsonData)
+    const paths = helpers.buildPathsForCourse(singleCourseJsonData, uidLookup)
+    assert.deepEqual(paths["303c499be5d236b1cde0bb36d615f4e7"], {
+      path:          "/pages/study-materials",
+      unalteredPath: "/pages/study-materials"
+    })
+    assert.deepEqual(paths["42664d52bd9a5b1632bac20876dc344d"], {
+      path:          "/pages/index.htm",
+      unalteredPath: "/pages/index.htm"
+    })
+    assert.deepEqual(paths["b6a31a6a85998d664ea826a766d9032b"], {
+      path:          "/pages/2-00ajs09.jpg",
+      unalteredPath: "/pages/2-00ajs09.jpg"
+    })
+    assert.deepEqual(paths["6f5063fc562d919e4005ac2c983eefb7"], {
+      path:          "/pages/study-materials/mit2_00ajs09_res01b",
+      unalteredPath: "/pages/study-materials/MIT2_00AJs09_res01B.pdf"
+    })
     assert.lengthOf(Object.values(paths), 67)
   })
 })
