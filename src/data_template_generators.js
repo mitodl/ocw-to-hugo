@@ -26,21 +26,11 @@ const generateDataTemplate = (courseData, pathLookup) => {
         INPUT_COURSE_DATE_FORMAT
       ).format()
       : "",
-    instructors: (courseData["instructors"] || []).map(instructor => {
-      const name = instructor["salutation"]
-        ? `${instructor["salutation"]} ${instructor["first_name"]} ${instructor["last_name"]}`
-        : `${instructor["first_name"]} ${instructor["last_name"]}`
-
-      return {
-        instructor:     name,
-        url:            helpers.makeCourseInfoUrl(name, "q"),
-        first_name:     instructor["first_name"],
-        last_name:      instructor["last_name"],
-        middle_initial: instructor["middle_initial"],
-        salutation:     instructor["salutation"],
-        uid:            instructor["uid"]
-      }
-    }),
+    instructors: {
+      content: (courseData["instructors"] || []).map(instructor =>
+        helpers.addDashesToUid(instructor["uid"])
+      )
+    },
     departments:     helpers.getDepartments(courseData),
     course_features: courseData["course_feature_tags"]
       ? courseData["course_feature_tags"].map(courseFeature =>
