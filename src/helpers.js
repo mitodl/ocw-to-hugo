@@ -11,34 +11,16 @@ const EXTERNAL_LINKS_JSON = require("./external_links.json")
 const {
   AWS_REGEX,
   BASEURL_PLACEHOLDER,
-  BASEURL_PLACEHOLDER_REGEX,
   FILE_TYPE,
   INPUT_COURSE_DATE_FORMAT,
   YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS,
-  ROOT_RELATIVE_REGEX,
   EMBEDDED_MEDIA_PAGE_TYPE,
-  RESOURCE_PLACEHOLDER,
   COURSE_TYPE
 } = require("./constants")
 const loggers = require("./loggers")
 const runOptions = {}
 
 const makeCourseUrlPrefix = courseId => `/courses/${courseId}`
-
-const makeCourseUrlPrefixOrShortcode = (courseId, otherCourseId) => {
-  if (!courseId) {
-    throw new Error(`Missing course id ${courseId}`)
-  }
-  if (!otherCourseId) {
-    throw new Error(`Missing other course id ${otherCourseId}`)
-  }
-
-  if (courseId === otherCourseId) {
-    return BASEURL_PLACEHOLDER
-  } else {
-    return makeCourseUrlPrefix(courseId)
-  }
-}
 
 const distinct = (value, index, self) => {
   return self.indexOf(value) === index
