@@ -29,7 +29,8 @@ const generateDataTemplate = (courseData, pathLookup) => {
     instructors: {
       content: (courseData["instructors"] || []).map(instructor =>
         helpers.addDashesToUid(instructor["uid"])
-      )
+      ),
+      website: "ocw-www"
     },
     departments:     helpers.getDepartments(courseData),
     course_features: courseData["course_feature_tags"]

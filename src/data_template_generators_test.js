@@ -102,10 +102,13 @@ describe("generateDataTemplate", () => {
   })
 
   it("sets an array of instructor uids under the instructors -> content property", () => {
-    assert.deepEqual(courseDataTemplate["instructors"]["content"], [
-      "e042c8f9-995f-cc11-0a2a-5aafa674c5e6",
-      "07d4f055-5edf-ebf2-c247-7bbf2d19dd91"
-    ])
+    assert.deepEqual(courseDataTemplate["instructors"], {
+      content: [
+        "e042c8f9-995f-cc11-0a2a-5aafa674c5e6",
+        "07d4f055-5edf-ebf2-c247-7bbf2d19dd91"
+      ],
+      website: "ocw-www"
+    })
   })
 
   it("sets the department property to the department found on the url property of the course json data, title cased with hyphens replaced with spaces", () => {
