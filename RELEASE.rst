@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.29.0
+--------------
+
+- instructors by uid (#341)
+
 Version 1.28.1 (Released August 30, 2021)
 --------------
 
