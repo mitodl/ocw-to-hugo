@@ -832,12 +832,6 @@ const parseDspaceUrl = url => {
   return null
 }
 
-const rootRelativeToDocumentRelative = text => {
-  return text
-    .replace(BASEURL_PLACEHOLDER_REGEX, "")
-    .replace(ROOT_RELATIVE_REGEX, '<a href="')
-}
-
 const addDashesToUid = uid => {
   return `${uid.substr(0, 8)}-${uid.substr(8, 4)}-${uid.substr(
     12,
@@ -882,6 +876,5 @@ module.exports = {
   updatePath,
   makeCourseInfoUrl,
   parseDspaceUrl,
-  rootRelativeToDocumentRelative,
   addDashesToUid
 }
