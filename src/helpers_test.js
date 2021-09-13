@@ -940,4 +940,11 @@ describe("misc functions", () => {
     const expected = `<a href="projects/tools">Tools</a>`
     assert.equal(output, expected)
   })
+
+  it("adds dashes to a uid imported from Plone in the proper spots", () => {
+    const input = "e042c8f9995fcc110a2a5aafa674c5e6"
+    const output = helpers.addDashesToUid(input)
+    const expected = "e042c8f9-995f-cc11-0a2a-5aafa674c5e6"
+    assert.equal(output, expected)
+  })
 })

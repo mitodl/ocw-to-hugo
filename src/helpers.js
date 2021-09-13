@@ -745,6 +745,13 @@ const rootRelativeToDocumentRelative = text => {
     .replace(ROOT_RELATIVE_REGEX, '<a href="')
 }
 
+const addDashesToUid = uid => {
+  return `${uid.substr(0, 8)}-${uid.substr(8, 4)}-${uid.substr(
+    12,
+    4
+  )}-${uid.substr(16, 4)}-${uid.substr(20)}`
+}
+
 module.exports = {
   distinct,
   directoryExists,
@@ -784,5 +791,6 @@ module.exports = {
   updatePath,
   makeCourseInfoUrl,
   parseDspaceUrl,
-  rootRelativeToDocumentRelative
+  rootRelativeToDocumentRelative,
+  addDashesToUid
 }
