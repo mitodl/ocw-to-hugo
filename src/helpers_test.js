@@ -1019,13 +1019,6 @@ describe("misc functions", () => {
     })
   })
 
-  it("turns root relative urls into document relative urls", () => {
-    const input = `<a href="${BASEURL_PLACEHOLDER}/projects/tools">Tools</a>`
-    const output = helpers.rootRelativeToDocumentRelative(input)
-    const expected = `<a href="projects/tools">Tools</a>`
-    assert.equal(output, expected)
-  })
-
   it("adds dashes to a uid imported from Plone in the proper spots", () => {
     const input = "e042c8f9995fcc110a2a5aafa674c5e6"
     const output = helpers.addDashesToUid(input)
