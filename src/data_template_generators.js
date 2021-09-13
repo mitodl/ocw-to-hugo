@@ -61,6 +61,29 @@ const generateDataTemplate = (courseData, pathLookup) => {
   }
 }
 
+const generateLegacyDataTemplate = (courseData, pathLookup) => {
+  const dataTemplate = generateDataTemplate(courseData, pathLookup)
+  dataTemplate["instructors"] = (courseData["instructors"] || []).map(
+    instructor => {
+      const name = instructor["salutation"]
+        ? `${instructor["salutation"]} ${instructor["first_name"]} ${instructor["last_name"]}`
+        : `${instructor["first_name"]} ${instructor["last_name"]}`
+
+      return {
+        instructor:     name,
+        url:            helpers.makeCourseInfoUrl(name, "q"),
+        first_name:     instructor["first_name"],
+        last_name:      instructor["last_name"],
+        middle_initial: instructor["middle_initial"],
+        salutation:     instructor["salutation"],
+        uid:            instructor["uid"]
+      }
+    }
+  )
+  return dataTemplate
+}
+
 module.exports = {
-  generateDataTemplate
+  generateDataTemplate,
+  generateLegacyDataTemplate
 }
