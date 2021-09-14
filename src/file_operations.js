@@ -96,10 +96,15 @@ const buildCoursePathLookup = async (inputPath, courseList) => {
 
     // add paths for uids found within course and include extra data which is useful for lookup purposes
     const uidInfoLookup = makeUidInfoLookup(courseData)
-    const coursePathLookup = helpers.buildPathsForCourse(courseData)
-    for (const [uid, path] of Object.entries(coursePathLookup)) {
+    const coursePathLookup = helpers.buildPathsForCourse(
+      courseData,
+      uidInfoLookup
+    )
+    for (const [uid, { path, unalteredPath }] of Object.entries(
+      coursePathLookup
+    )) {
       const info = uidInfoLookup[uid] || {}
-      const pathObj = { course, path, uid, ...info }
+      const pathObj = { course, path, unalteredPath, uid, ...info }
       pathLookup[uid] = pathObj
       courseLookupList.push(pathObj)
     }
@@ -109,9 +114,10 @@ const buildCoursePathLookup = async (inputPath, courseList) => {
     const courseInfo = uidInfoLookup[courseUid] || {}
     const pathObj = {
       course,
-      path:      "/",
-      uid:       courseUid,
-      published: helpers.isCoursePublished(courseData),
+      path:          "/",
+      unalteredPath: "/",
+      uid:           courseUid,
+      published:     helpers.isCoursePublished(courseData),
       ...courseInfo
     }
     pathLookup[courseUid] = pathObj
@@ -397,5 +403,6 @@ module.exports = {
   scanCourse,
   getMasterJsonFileName,
   writeMarkdownFilesRecursive,
-  buildPathsForAllCourses
+  buildPathsForAllCourses,
+  makeUidInfoLookup
 }
