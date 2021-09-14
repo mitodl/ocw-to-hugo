@@ -417,10 +417,12 @@ describe("generateDataTemplate", () => {
 
 describe("generateLegacyDataTemplate", () => {
   const sandbox = sinon.createSandbox()
-  let consoleLog, courseDataTemplate, pathLookup, physicsCourseDataTemplate
+  let consoleLog, courseDataTemplate, pathLookup, singleCourseJsonData
 
   beforeEach(async () => {
     consoleLog = sandbox.stub(console, "log")
+    const singleCourseRawData = fs.readFileSync(singleCourseParsedJsonPath)
+    singleCourseJsonData = JSON.parse(singleCourseRawData)
     pathLookup = await fileOperations.buildPathsForAllCourses(
       "test_data/courses",
       [singleCourseId]
