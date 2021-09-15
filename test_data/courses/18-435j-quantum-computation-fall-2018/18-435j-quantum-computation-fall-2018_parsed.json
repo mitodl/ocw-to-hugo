@@ -1,1 +1,353 @@
-{"uid": "4a3de01ced0b5d2a16ccb8058ef95670", "title": "Quantum Computation", "description": "<p>This course provides an introduction to the theory and practice of quantum computation. Topics covered include: physics of information processing, quantum algorithms including the factoring algorithm and Grover's search algorithm, quantum error correction, quantum communication, and cryptography.</p>", "other_information_text": "", "first_published_to_production": "2020/10/22 17:58:29.016 Universal", "last_published_to_production": "2020/10/22 17:58:29.016 Universal", "last_unpublishing_date": "2020/10/23 17:16:16.126 Universal", "retirement_date": null, "sort_as": "18.435J", "department_number": "18", "master_course_number": "435J", "other_version_parent_uids": ["5134d52f8226b8012c9f956fcdd79c9c"], "from_semester": "Fall", "from_year": "2018", "to_semester": "-1", "to_year": "-1", "course_level": "Graduate", "url": "/courses/mathematics/18-435j-quantum-computation-fall-2018", "short_url": "18-435j-quantum-computation-fall-2018", "image_src": "", "thumbnail_image_src": "", "image_description": "", "thumbnail_image_description": "", "image_alternate_text": "A close-up image of an electronic component.", "image_caption_text": "<p>Photograph of a chip constructed by D-Wave Systems Inc. designed to operate as a 128-qubit superconducting adiabatic quantum optimization processor, mounted in a sample holder. (Photo courtesy of <a href=\"https://commons.wikimedia.org/wiki/File:DWave_128chip.jpg\">D-Wave Systems Inc. on Wikimedia</a>. License: CC BY.)</p>", "tags": [{"name": "quantum computation"}, {"name": "Boolean algebra"}, {"name": "quantum logic"}, {"name": "quantum algorithms"}, {"name": "quantum bit"}, {"name": "quantum error correction"}, {"name": "quantum communication"}, {"name": "quantum information"}, {"name": "quantum mechanics"}, {"name": "cryptography"}, {"name": "entropy"}, {"name": "superposition"}, {"name": "teleportation"}], "instructors": [{"middle_initial": "", "first_name": "Aram", "last_name": "Harrow", "suffix": "", "title": "", "department": "", "directory_title": "", "uid": "1bed481185f7da5b2f9c1556911a4fc4"}, {"middle_initial": "", "first_name": "Seth", "last_name": "Lloyd", "suffix": "", "title": "Lloyd, Seth", "department": "Mechanical Engineering", "directory_title": "Professor", "uid": "c9805ee21e4f310f1e1cb1519b9373ec"}], "language": "en-US", "extra_course_number": [{"linked_course_number_col": "2.111J", "sort_as_col": "2.111J", "linked_course_type_col": "Graduate"}, {"linked_course_number_col": "8.370J", "sort_as_col": "8.370J", "linked_course_type_col": "Graduate"}], "course_collections": [{"ocw_feature": "Engineering", "ocw_subfeature": "Computer Science", "ocw_feature_url": "", "ocw_speciality": "Algorithms and Data Structures", "ocw_feature_notes": ""}, {"ocw_feature": "Engineering", "ocw_subfeature": "Computer Science", "ocw_feature_url": "", "ocw_speciality": "Cryptography", "ocw_feature_notes": ""}, {"ocw_feature": "Engineering", "ocw_subfeature": "Computer Science", "ocw_feature_url": "", "ocw_speciality": "Theory of Computation", "ocw_feature_notes": ""}, {"ocw_feature": "Mathematics", "ocw_subfeature": "Computation", "ocw_feature_url": "", "ocw_speciality": "", "ocw_feature_notes": ""}, {"ocw_feature": "Mathematics", "ocw_subfeature": "Discrete Mathematics", "ocw_feature_url": "", "ocw_speciality": "", "ocw_feature_notes": ""}, {"ocw_feature": "Science", "ocw_subfeature": "Physics", "ocw_feature_url": "", "ocw_speciality": "Quantum Mechanics", "ocw_feature_notes": ""}], "course_pages": [{"order_index": null, "uid": "d74cf7b4572bfbde439dea934e688678", "parent_uid": "4a3de01ced0b5d2a16ccb8058ef95670", "title": "Course Home", "short_page_title": null, "text": "", "url": "/courses/mathematics/18-435j-quantum-computation-fall-2018/index.htm", "short_url": "index.htm", "description": "<p>This course provides an introduction to the theory and practice of quantum computation. Topics covered include: physics of information processing, quantum algorithms including the factoring algorithm and Grover's search algorithm, quantum error correction, quantum communication, and cryptography.</p>", "type": "CourseHomeSection", "is_image_gallery": null, "is_media_gallery": false, "list_in_left_nav": null, "file_location": "d74cf7b4572bfbde439dea934e688678_index.htm.html", "bottomtext": null}, {"order_index": null, "uid": "4e5a195c0617b08f155b9a40fab906bd", "parent_uid": "4a3de01ced0b5d2a16ccb8058ef95670", "title": "Syllabus", "short_page_title": "Syllabus", "text": "<h2 class=\"subhead\">Course Meeting Times</h2>\r\n<p>Lectures: 2 sessions / week, 1.5 hours / session</p>\r\n<h2 class=\"subhead\">Prerequisite</h2>\r\n<p>There are no formal prerequisites, but permission from the instructor is required.</p>\r\n<h2 class=\"subhead\">Course Description</h2>\r\n<p>This course provides an introduction to the theory and practice of quantum computation. Topics covered include: physics of information processing, quantum algorithms including the factoring algorithm and Grover's search algorithm, quantum error correction, quantum communication, and cryptography.</p>\r\n<h2 class=\"subhead\">Textbook</h2>\r\n<p><a href=\"http://www.amazon.com/dp/9781107002173/?tag=mitopencourse-20\"><img border=\"0\" align=\"absMiddle\" src=\"/images/a_logo_17.gif\" alt=\"Buy at Amazon\" /></a> Nielsen, Michael A., and Isaac L. Chuang. 2019. Quantum computation and quantum information. Cambridge: Cambridge University Press. ISBN: 9781107002173.</p>\r\n<h2 class=\"subhead\">Problem Sets and Exams</h2>\r\n<p>There are weekly problem sets, one midterm quiz, and a final exam.</p>\r\n<h2 class=\"subhead\">Grading Policy</h2>\r\n<div class=\"maintabletemplate\">\r\n<table class=\"tablewidth50\" summary=\"See table caption for summary.\">\r\n    <caption class=\"invisible\">Grading criteria.</caption> <!-- BEGIN TABLE HEADER (for MIT OCW Table Template 2.51) -->\r\n    <thead>\r\n        <tr>\r\n            <th scope=\"col\">ACTIVITIES</th>\r\n            <th scope=\"col\">PERCENTAGES</th>\r\n        </tr>\r\n    </thead>\r\n    <tbody>\r\n        <tr class=\"row\">\r\n            <td>Problem sets</td>\r\n            <td>20%</td>\r\n        </tr>\r\n        <tr class=\"alt-row\">\r\n            <td>Mid-term quiz</td>\r\n            <td>25%</td>\r\n        </tr>\r\n        <tr class=\"row\">\r\n            <td>Final Exam</td>\r\n            <td>50%</td>\r\n        </tr>\r\n        <tr class=\"alt-row\">\r\n            <td>Attitude</td>\r\n            <td>5%</td>\r\n        </tr>\r\n    </tbody>\r\n</table>\r\n</div>\r\n<p>&nbsp;</p>", "url": "/courses/mathematics/18-435j-quantum-computation-fall-2018/syllabus", "short_url": "syllabus", "description": "This section describes the course prerequisites, content, requirements, and grading.", "type": "CourseSection", "is_image_gallery": false, "is_media_gallery": false, "list_in_left_nav": false, "file_location": "4e5a195c0617b08f155b9a40fab906bd_syllabus.html", "bottomtext": ""}, {"order_index": null, "uid": "a25cc4d93aca61f7ca9f02bc34d6623b", "parent_uid": "4a3de01ced0b5d2a16ccb8058ef95670", "title": "Calendar", "short_page_title": "Calendar", "text": "", "url": "/courses/mathematics/18-435j-quantum-computation-fall-2018/calendar", "short_url": "calendar", "description": "", "type": "CourseSection", "is_image_gallery": false, "is_media_gallery": false, "list_in_left_nav": false, "file_location": "a25cc4d93aca61f7ca9f02bc34d6623b_calendar.html", "bottomtext": ""}, {"order_index": null, "uid": "fcf2087e657ccb176e9272fd33a78e18", "parent_uid": "4a3de01ced0b5d2a16ccb8058ef95670", "title": "Lecture Notes", "short_page_title": "Lecture Notes", "text": "", "url": "/courses/mathematics/18-435j-quantum-computation-fall-2018/lecture-notes", "short_url": "lecture-notes", "description": "", "type": "CourseSection", "is_image_gallery": false, "is_media_gallery": false, "list_in_left_nav": false, "file_location": "fcf2087e657ccb176e9272fd33a78e18_lecture-notes.html", "bottomtext": ""}, {"order_index": null, "uid": "86c07f806e540c1a16a53a44e6a34449", "parent_uid": "4a3de01ced0b5d2a16ccb8058ef95670", "title": "Video Lectures", "short_page_title": "Video Lectures", "text": "", "url": "/courses/mathematics/18-435j-quantum-computation-fall-2018/video-lectures", "short_url": "video-lectures", "description": "", "type": "CourseSection", "is_image_gallery": false, "is_media_gallery": false, "list_in_left_nav": false, "file_location": "86c07f806e540c1a16a53a44e6a34449_video-lectures.html", "bottomtext": ""}, {"order_index": null, "uid": "870b38d529674096bf7adfb3a6e3d7f0", "parent_uid": "4a3de01ced0b5d2a16ccb8058ef95670", "title": "Assignments", "short_page_title": "Assignments", "text": "", "url": "/courses/mathematics/18-435j-quantum-computation-fall-2018/assignments", "short_url": "assignments", "description": "", "type": "CourseSection", "is_image_gallery": false, "is_media_gallery": false, "list_in_left_nav": false, "file_location": "870b38d529674096bf7adfb3a6e3d7f0_assignments.html", "bottomtext": ""}, {"order_index": null, "uid": "eb4f82aea35f510a4344e67b9f86cfb6", "parent_uid": "4a3de01ced0b5d2a16ccb8058ef95670", "title": "Exams", "short_page_title": "Exams", "text": "", "url": "/courses/mathematics/18-435j-quantum-computation-fall-2018/exams", "short_url": "exams", "description": "", "type": "CourseSection", "is_image_gallery": false, "is_media_gallery": false, "list_in_left_nav": false, "file_location": "eb4f82aea35f510a4344e67b9f86cfb6_exams.html", "bottomtext": ""}, {"order_index": null, "uid": "9ef553acdeb1452c47f90648e9d258f0", "parent_uid": "4a3de01ced0b5d2a16ccb8058ef95670", "title": "Download Course Materials", "short_page_title": "Download Course Materials", "text": "<div id=\"download_inner_main\"><p class=\"ptext\">This package contains the same content as the online version of the course, except for any audio/video materials and other interactive file types.</p><p class=\"ptext\">For help downloading and using course materials, read our <a href=\"https://ocw.mit.edu/help/faq-technology/\">frequently asked questions</a>.</p></div>", "url": "/courses/mathematics/18-435j-quantum-computation-fall-2018/download-course-materials", "short_url": "download-course-materials", "description": "", "type": "DownloadSection", "is_image_gallery": false, "is_media_gallery": false, "list_in_left_nav": false, "file_location": "9ef553acdeb1452c47f90648e9d258f0_download-course-materials.html", "bottomtext": ""}], "course_features": [{"ocw_feature": "AV lectures", "ocw_subfeature": "Video", "ocw_feature_url": "./resolveuid/86c07f806e540c1a16a53a44e6a34449", "ocw_speciality": "", "ocw_feature_notes": ""}], "course_feature_tags": [{"course_feature_tag": "Lecture Videos", "ocw_feature_url": "./resolveuid/86c07f806e540c1a16a53a44e6a34449"}], "course_files": [{"order_index": null, "uid": "f724d8ca5edfa47589f9a837307f5a67", "id": "18-435jf18.jpg", "parent_uid": "4a3de01ced0b5d2a16ccb8058ef95670", "title": "18-435jf18.jpg", "caption": "", "file_type": "image/jpeg", "alt_text": "", "credit": "", "platform_requirements": "", "description": "", "type": "OCWImage", "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/f724d8ca5edfa47589f9a837307f5a67_18-435jf18.jpg"}, {"order_index": null, "uid": "6f2035723c1ff783db4c85c11a564bd6", "id": "18-435jf18-th.jpg", "parent_uid": "4a3de01ced0b5d2a16ccb8058ef95670", "title": "18-435jf18-th.jpg", "caption": "", "file_type": "image/jpeg", "alt_text": "", "credit": "", "platform_requirements": "", "description": "", "type": "OCWImage", "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/6f2035723c1ff783db4c85c11a564bd6_18-435jf18-th.jpg"}], "course_embedded_media": {}, "course_foreign_files": [], "open_learning_library_related": [], "course_id": "18.435J"}
+{
+    "course_collections": [
+        {
+            "ocw_feature": "Engineering",
+            "ocw_feature_notes": "",
+            "ocw_feature_url": "",
+            "ocw_speciality": "Algorithms and Data Structures",
+            "ocw_subfeature": "Computer Science"
+        },
+        {
+            "ocw_feature": "Engineering",
+            "ocw_feature_notes": "",
+            "ocw_feature_url": "",
+            "ocw_speciality": "Cryptography",
+            "ocw_subfeature": "Computer Science"
+        },
+        {
+            "ocw_feature": "Engineering",
+            "ocw_feature_notes": "",
+            "ocw_feature_url": "",
+            "ocw_speciality": "Theory of Computation",
+            "ocw_subfeature": "Computer Science"
+        },
+        {
+            "ocw_feature": "Mathematics",
+            "ocw_feature_notes": "",
+            "ocw_feature_url": "",
+            "ocw_speciality": "",
+            "ocw_subfeature": "Computation"
+        },
+        {
+            "ocw_feature": "Mathematics",
+            "ocw_feature_notes": "",
+            "ocw_feature_url": "",
+            "ocw_speciality": "",
+            "ocw_subfeature": "Discrete Mathematics"
+        },
+        {
+            "ocw_feature": "Science",
+            "ocw_feature_notes": "",
+            "ocw_feature_url": "",
+            "ocw_speciality": "Quantum Mechanics",
+            "ocw_subfeature": "Physics"
+        }
+    ],
+    "course_embedded_media": {},
+    "course_feature_tags": [
+        {
+            "course_feature_tag": "Lecture Videos",
+            "ocw_feature_url": "./resolveuid/86c07f806e540c1a16a53a44e6a34449"
+        }
+    ],
+    "course_features": [
+        {
+            "ocw_feature": "AV lectures",
+            "ocw_feature_notes": "",
+            "ocw_feature_url": "./resolveuid/86c07f806e540c1a16a53a44e6a34449",
+            "ocw_speciality": "",
+            "ocw_subfeature": "Video"
+        }
+    ],
+    "course_files": [
+        {
+            "alt_text": "",
+            "caption": "",
+            "credit": "",
+            "description": "",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/18-435j-quantum-computation-fall-2018/f724d8ca5edfa47589f9a837307f5a67_18-435jf18.jpg",
+            "file_type": "image/jpeg",
+            "id": "18-435jf18.jpg",
+            "order_index": 10,
+            "parent_uid": "4a3de01ced0b5d2a16ccb8058ef95670",
+            "platform_requirements": "",
+            "title": "18-435jf18.jpg",
+            "type": "OCWImage",
+            "uid": "f724d8ca5edfa47589f9a837307f5a67"
+        },
+        {
+            "alt_text": "",
+            "caption": "",
+            "credit": "",
+            "description": "",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/18-435j-quantum-computation-fall-2018/6f2035723c1ff783db4c85c11a564bd6_18-435jf18-th.jpg",
+            "file_type": "image/jpeg",
+            "id": "18-435jf18-th.jpg",
+            "order_index": 11,
+            "parent_uid": "4a3de01ced0b5d2a16ccb8058ef95670",
+            "platform_requirements": "",
+            "title": "18-435jf18-th.jpg",
+            "type": "OCWImage",
+            "uid": "6f2035723c1ff783db4c85c11a564bd6"
+        }
+    ],
+    "course_foreign_files": [],
+    "course_level": "Graduate",
+    "course_pages": [
+        {
+            "bottomtext": null,
+            "description": "<p>This course provides an introduction to the theory and practice of quantum computation. Topics covered include: physics of information processing, quantum algorithms including the factoring algorithm and Grover's search algorithm, quantum error correction, quantum communication, and cryptography.</p>",
+            "file_location": "d74cf7b4572bfbde439dea934e688678_index.htm.html",
+            "is_image_gallery": null,
+            "is_media_gallery": false,
+            "list_in_left_nav": null,
+            "order_index": 2,
+            "parent_uid": "4a3de01ced0b5d2a16ccb8058ef95670",
+            "short_page_title": null,
+            "short_url": "index.htm",
+            "text": "",
+            "title": "Course Home",
+            "type": "CourseHomeSection",
+            "uid": "d74cf7b4572bfbde439dea934e688678",
+            "url": "/courses/mathematics/18-435j-quantum-computation-fall-2018/index.htm"
+        },
+        {
+            "bottomtext": "",
+            "description": "This section describes the course prerequisites, content, requirements, and grading.",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/18-435j-quantum-computation-fall-2018/4e5a195c0617b08f155b9a40fab906bd_syllabus.html",
+            "is_image_gallery": false,
+            "is_media_gallery": false,
+            "list_in_left_nav": false,
+            "order_index": 3,
+            "parent_uid": "4a3de01ced0b5d2a16ccb8058ef95670",
+            "short_page_title": "Syllabus",
+            "short_url": "syllabus",
+            "text": "<h2 class=\"subhead\">Course Meeting Times</h2>\r\n<p>Lectures: 2 sessions / week, 1.5 hours / session</p>\r\n<h2 class=\"subhead\">Prerequisite</h2>\r\n<p>There are no formal prerequisites, but permission from the instructor is required.</p>\r\n<h2 class=\"subhead\">Course Description</h2>\r\n<p>This course provides an introduction to the theory and practice of quantum computation. Topics covered include: physics of information processing, quantum algorithms including the factoring algorithm and Grover's search algorithm, quantum error correction, quantum communication, and cryptography.</p>\r\n<h2 class=\"subhead\">Textbook</h2>\r\n<p> Nielsen, Michael A., and Isaac L. Chuang. 2019. Quantum computation and quantum information. Cambridge: Cambridge University Press. ISBN: 9781107002173.</p>\r\n<h2 class=\"subhead\">Problem Sets and Exams</h2>\r\n<p>There are weekly problem sets, one midterm quiz, and a final exam.</p>\r\n<h2 class=\"subhead\">Grading Policy</h2>\r\n<div class=\"maintabletemplate\">\r\n<table class=\"tablewidth50\" summary=\"See table caption for summary.\">\r\n    <caption class=\"invisible\">Grading criteria.</caption> \r\n    <thead>\r\n        <tr>\r\n            <th scope=\"col\">ACTIVITIES</th>\r\n            <th scope=\"col\">PERCENTAGES</th>\r\n        </tr>\r\n    </thead>\r\n    <tbody>\r\n        <tr class=\"row\">\r\n            <td>Problem sets</td>\r\n            <td>20%</td>\r\n        </tr>\r\n        <tr class=\"alt-row\">\r\n            <td>Mid-term quiz</td>\r\n            <td>25%</td>\r\n        </tr>\r\n        <tr class=\"row\">\r\n            <td>Final Exam</td>\r\n            <td>50%</td>\r\n        </tr>\r\n        <tr class=\"alt-row\">\r\n            <td>Attitude</td>\r\n            <td>5%</td>\r\n        </tr>\r\n    </tbody>\r\n</table>\r\n</div>\r\n<p>&nbsp;</p>",
+            "title": "Syllabus",
+            "type": "CourseSection",
+            "uid": "4e5a195c0617b08f155b9a40fab906bd",
+            "url": "/courses/mathematics/18-435j-quantum-computation-fall-2018/syllabus"
+        },
+        {
+            "bottomtext": "",
+            "description": "",
+            "file_location": "a25cc4d93aca61f7ca9f02bc34d6623b_calendar.html",
+            "is_image_gallery": false,
+            "is_media_gallery": false,
+            "list_in_left_nav": false,
+            "order_index": 4,
+            "parent_uid": "4a3de01ced0b5d2a16ccb8058ef95670",
+            "short_page_title": "Calendar",
+            "short_url": "calendar",
+            "text": "",
+            "title": "Calendar",
+            "type": "CourseSection",
+            "uid": "a25cc4d93aca61f7ca9f02bc34d6623b",
+            "url": "/courses/mathematics/18-435j-quantum-computation-fall-2018/calendar"
+        },
+        {
+            "bottomtext": "",
+            "description": "",
+            "file_location": "fcf2087e657ccb176e9272fd33a78e18_lecture-notes.html",
+            "is_image_gallery": false,
+            "is_media_gallery": false,
+            "list_in_left_nav": false,
+            "order_index": 5,
+            "parent_uid": "4a3de01ced0b5d2a16ccb8058ef95670",
+            "short_page_title": "Lecture Notes",
+            "short_url": "lecture-notes",
+            "text": "",
+            "title": "Lecture Notes",
+            "type": "CourseSection",
+            "uid": "fcf2087e657ccb176e9272fd33a78e18",
+            "url": "/courses/mathematics/18-435j-quantum-computation-fall-2018/lecture-notes"
+        },
+        {
+            "bottomtext": "",
+            "description": "",
+            "file_location": "86c07f806e540c1a16a53a44e6a34449_video-lectures.html",
+            "is_image_gallery": false,
+            "is_media_gallery": false,
+            "list_in_left_nav": false,
+            "order_index": 6,
+            "parent_uid": "4a3de01ced0b5d2a16ccb8058ef95670",
+            "short_page_title": "Video Lectures",
+            "short_url": "video-lectures",
+            "text": "",
+            "title": "Video Lectures",
+            "type": "CourseSection",
+            "uid": "86c07f806e540c1a16a53a44e6a34449",
+            "url": "/courses/mathematics/18-435j-quantum-computation-fall-2018/video-lectures"
+        },
+        {
+            "bottomtext": "",
+            "description": "",
+            "file_location": "870b38d529674096bf7adfb3a6e3d7f0_assignments.html",
+            "is_image_gallery": false,
+            "is_media_gallery": false,
+            "list_in_left_nav": false,
+            "order_index": 7,
+            "parent_uid": "4a3de01ced0b5d2a16ccb8058ef95670",
+            "short_page_title": "Assignments",
+            "short_url": "assignments",
+            "text": "",
+            "title": "Assignments",
+            "type": "CourseSection",
+            "uid": "870b38d529674096bf7adfb3a6e3d7f0",
+            "url": "/courses/mathematics/18-435j-quantum-computation-fall-2018/assignments"
+        },
+        {
+            "bottomtext": "",
+            "description": "",
+            "file_location": "eb4f82aea35f510a4344e67b9f86cfb6_exams.html",
+            "is_image_gallery": false,
+            "is_media_gallery": false,
+            "list_in_left_nav": false,
+            "order_index": 8,
+            "parent_uid": "4a3de01ced0b5d2a16ccb8058ef95670",
+            "short_page_title": "Exams",
+            "short_url": "exams",
+            "text": "",
+            "title": "Exams",
+            "type": "CourseSection",
+            "uid": "eb4f82aea35f510a4344e67b9f86cfb6",
+            "url": "/courses/mathematics/18-435j-quantum-computation-fall-2018/exams"
+        },
+        {
+            "bottomtext": "",
+            "description": "",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/18-435j-quantum-computation-fall-2018/9ef553acdeb1452c47f90648e9d258f0_download-course-materials.html",
+            "is_image_gallery": false,
+            "is_media_gallery": false,
+            "list_in_left_nav": false,
+            "order_index": 9,
+            "parent_uid": "4a3de01ced0b5d2a16ccb8058ef95670",
+            "short_page_title": "Download Course Materials",
+            "short_url": "download-course-materials",
+            "text": "<div id=\"download_inner_main\"><p class=\"ptext\">This package contains the same content as the online version of the course, except for any audio/video materials and other interactive file types.</p><p class=\"ptext\">For help downloading and using course materials, read our <a href=\"https://ocw.mit.edu/help/faq-technology/\">frequently asked questions</a>.</p></div>",
+            "title": "Download Course Materials",
+            "type": "DownloadSection",
+            "uid": "9ef553acdeb1452c47f90648e9d258f0",
+            "url": "/courses/mathematics/18-435j-quantum-computation-fall-2018/download-course-materials"
+        }
+    ],
+    "department_number": "18",
+    "description": "<p>This course provides an introduction to the theory and practice of quantum computation. Topics covered include: physics of information processing, quantum algorithms including the factoring algorithm and Grover's search algorithm, quantum error correction, quantum communication, and cryptography.</p>",
+    "dspace_handle": "",
+    "extra_course_number": [
+        {
+            "linked_course_number_col": "2.111J",
+            "linked_course_type_col": "Graduate",
+            "sort_as_col": "2.111J"
+        },
+        {
+            "linked_course_number_col": "8.370J",
+            "linked_course_type_col": "Graduate",
+            "sort_as_col": "8.370J"
+        }
+    ],
+    "features_tracking": [
+        {
+            "ocw_feature": "Captions/Transcript",
+            "ocw_feature_notes": "",
+            "ocw_feature_url": "/courses/mathematics/18-435j-quantum-computation-fall-2018/video-lectures/index.htm",
+            "ocw_speciality": "",
+            "ocw_subfeature": ""
+        }
+    ],
+    "first_published_to_production": "2020/10/22 17:58:29.016 Universal",
+    "from_semester": "Fall",
+    "from_year": "2018",
+    "image_alternate_text": "A close-up image of an electronic component.",
+    "image_caption_text": "<p>Photograph of a chip constructed by D-Wave Systems Inc. designed to operate as a 128-qubit superconducting adiabatic quantum optimization processor, mounted in a sample holder. (Photo courtesy of <a href=\"https://commons.wikimedia.org/wiki/File:DWave_128chip.jpg\">D-Wave Systems Inc. on Wikimedia</a>. License: CC BY.)</p>",
+    "image_description": "",
+    "image_src": "https://open-learning-course-data-production.s3.amazonaws.com/18-435j-quantum-computation-fall-2018/f724d8ca5edfa47589f9a837307f5a67_18-435jf18.jpg",
+    "instructors": [
+        {
+            "department": "",
+            "directory_title": "",
+            "first_name": "Aram",
+            "last_name": "Harrow",
+            "middle_initial": "",
+            "salutation": "Prof.",
+            "suffix": "",
+            "title": "",
+            "uid": "1bed481185f7da5b2f9c1556911a4fc4"
+        },
+        {
+            "department": "Mechanical Engineering",
+            "directory_title": "Professor",
+            "first_name": "Seth",
+            "last_name": "Lloyd",
+            "middle_initial": "",
+            "salutation": "Prof.",
+            "suffix": "",
+            "title": "Lloyd, Seth",
+            "uid": "c9805ee21e4f310f1e1cb1519b9373ec"
+        }
+    ],
+    "is_update_of": [
+        "d2d3092992438e664102a4039f063df3"
+    ],
+    "language": "en-US",
+    "last_published_to_production": "2020/10/22 17:58:29.016 Universal",
+    "last_unpublishing_date": "2020/10/23 17:16:16.126 Universal",
+    "master_course_number": "435J",
+    "new_course_numbers": [],
+    "open_learning_library_related": [],
+    "other_information_text": "",
+    "other_version_parent_uids": [
+        "5134d52f8226b8012c9f956fcdd79c9c"
+    ],
+    "retirement_date": null,
+    "short_url": "18-435j-quantum-computation-fall-2018",
+    "sort_as": "18.435J",
+    "tags": [
+        {
+            "name": "quantum computation"
+        },
+        {
+            "name": "Boolean algebra"
+        },
+        {
+            "name": "quantum logic"
+        },
+        {
+            "name": "quantum algorithms"
+        },
+        {
+            "name": "quantum bit"
+        },
+        {
+            "name": "quantum error correction"
+        },
+        {
+            "name": "quantum communication"
+        },
+        {
+            "name": "quantum information"
+        },
+        {
+            "name": "quantum mechanics"
+        },
+        {
+            "name": "cryptography"
+        },
+        {
+            "name": "entropy"
+        },
+        {
+            "name": "superposition"
+        },
+        {
+            "name": "teleportation"
+        }
+    ],
+    "thumbnail_image_description": "",
+    "thumbnail_image_src": "https://open-learning-course-data-production.s3.amazonaws.com/18-435j-quantum-computation-fall-2018/6f2035723c1ff783db4c85c11a564bd6_18-435jf18-th.jpg",
+    "title": "Quantum Computation",
+    "to_semester": "-1",
+    "to_year": "-1",
+    "uid": "4a3de01ced0b5d2a16ccb8058ef95670",
+    "url": "/courses/mathematics/18-435j-quantum-computation-fall-2018"
+}
