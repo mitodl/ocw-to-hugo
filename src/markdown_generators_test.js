@@ -230,11 +230,11 @@ describe("markdown generators", () => {
     ;[
       [
         true,
-        "https://example.com//21g-107-chinese-i-streamlined-fall-2014/acf8cbbcf3ada9e7b0d390c8b4f8b1e6_M_gQolc3clM.pdf"
+        "https://example.com//21g-107-chinese-i-streamlined-fall-2014/dbc1d8158cd7b01299773a888630a83e_4afZKY-INNA.pdf"
       ],
       [
         false,
-        "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/acf8cbbcf3ada9e7b0d390c8b4f8b1e6_M_gQolc3clM.pdf"
+        "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/dbc1d8158cd7b01299773a888630a83e_4afZKY-INNA.pdf"
       ]
     ].forEach(([useStripS3, expectedUrl]) => {
       it(`resolves urls inside embedded media urls when stripS3=${String(
