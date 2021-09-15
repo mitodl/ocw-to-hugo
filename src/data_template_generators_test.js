@@ -8,7 +8,10 @@ const tmp = require("tmp")
 const { INPUT_COURSE_DATE_FORMAT } = require("./constants")
 const fileOperations = require("./file_operations")
 const markdownGenerators = require("./markdown_generators")
-const { generateDataTemplate } = require("./data_template_generators")
+const {
+  generateDataTemplate,
+  generateLegacyDataTemplate
+} = require("./data_template_generators")
 const helpers = require("./helpers")
 
 const testDataPath = "test_data/courses"
@@ -409,5 +412,51 @@ describe("generateDataTemplate", () => {
     )
     const foundValue = courseDataTemplate["open_learning_library_versions"]
     assert.deepEqual(expectedValue, foundValue)
+  })
+})
+
+describe("generateLegacyDataTemplate", () => {
+  const sandbox = sinon.createSandbox()
+  let consoleLog, courseDataTemplate, pathLookup, singleCourseJsonData
+
+  beforeEach(async () => {
+    consoleLog = sandbox.stub(console, "log")
+    const singleCourseRawData = fs.readFileSync(singleCourseParsedJsonPath)
+    singleCourseJsonData = JSON.parse(singleCourseRawData)
+    pathLookup = await fileOperations.buildPathsForAllCourses(
+      "test_data/courses",
+      [singleCourseId]
+    )
+    courseDataTemplate = generateLegacyDataTemplate(
+      singleCourseJsonData,
+      pathLookup
+    )
+  })
+
+  afterEach(() => {
+    sandbox.restore()
+  })
+
+  it("sets the instructors property to the instructors found in the instuctors node of the course json data", () => {
+    assert.deepEqual(courseDataTemplate["instructors"], [
+      {
+        first_name:     "Edward",
+        last_name:      "Crawley",
+        middle_initial: "",
+        salutation:     "Prof.",
+        instructor:     "Prof. Edward Crawley",
+        url:            "/search/?q=%22Prof.%20Edward%20Crawley%22",
+        uid:            "e042c8f9995fcc110a2a5aafa674c5e6"
+      },
+      {
+        first_name:     "Olivier",
+        last_name:      "de Weck",
+        middle_initial: "",
+        salutation:     "Prof.",
+        instructor:     "Prof. Olivier de Weck",
+        url:            "/search/?q=%22Prof.%20Olivier%20de%20Weck%22",
+        uid:            "07d4f0555edfebf2c2477bbf2d19dd91"
+      }
+    ])
   })
 })

@@ -167,7 +167,8 @@ describe("file operations", () => {
     let readFileStub,
       generateMarkdownFromJson,
       generateMenuItems,
-      generateDataTemplate
+      generateDataTemplate,
+      generateLegacyDataTemplate
     const sandbox = sinon.createSandbox()
     const outputPath = tmp.dirSync({ prefix: "output" }).name
 
@@ -183,6 +184,10 @@ describe("file operations", () => {
       generateDataTemplate = sandbox.spy(
         dataTemplateGenerators,
         "generateDataTemplate"
+      )
+      generateLegacyDataTemplate = sandbox.spy(
+        dataTemplateGenerators,
+        "generateLegacyDataTemplate"
       )
     })
 
@@ -226,7 +231,7 @@ describe("file operations", () => {
       )
     }).timeout(10000)
 
-    it("calls generateDataTemplate on the course data", async () => {
+    it("calls generateDataTemplate and generateLegacyDataTemplate on the course data", async () => {
       await fileOperations.scanCourse(
         testDataPath,
         outputPath,
@@ -234,6 +239,10 @@ describe("file operations", () => {
         pathLookup
       )
       expect(generateDataTemplate).to.be.calledOnceWithExactly(
+        singleCourseJsonData,
+        pathLookup
+      )
+      expect(generateLegacyDataTemplate).to.be.calledWithExactly(
         singleCourseJsonData,
         pathLookup
       )

@@ -317,13 +317,23 @@ const scanCourse = async (inputPath, outputPath, course, pathLookup) => {
         courseData,
         pathLookup
       )
+      const legacyDataTemplate = dataTemplateGenerators.generateLegacyDataTemplate(
+        courseData,
+        pathLookup
+      )
       await writeMarkdownFilesRecursive(
         path.join(outputPath, courseData["short_url"], "content"),
         markdownData
       )
       await writeDataTemplate(
         path.join(outputPath, courseData["short_url"], "data"),
+        "course.json",
         dataTemplate
+      )
+      await writeDataTemplate(
+        path.join(outputPath, courseData["short_url"], "data"),
+        "course_legacy.json",
+        legacyDataTemplate
       )
       const configDir = path.join(
         outputPath,
@@ -375,9 +385,9 @@ const writeMarkdownFilesRecursive = async (outputPath, markdownData) => {
   }
 }
 
-const writeDataTemplate = async (outputPath, dataTemplate) => {
+const writeDataTemplate = async (outputPath, fileName, dataTemplate) => {
   await helpers.createOrOverwriteFile(
-    path.join(outputPath, "course.json"),
+    path.join(outputPath, fileName),
     JSON.stringify(dataTemplate, null, 2)
   )
 }
