@@ -295,6 +295,7 @@ const generateVideoGalleryMarkdown = (page, courseData, pathLookup) => {
   const videos = Object.values(courseData["course_embedded_media"]).filter(
     obj => obj["parent_uid"] === page["uid"]
   )
+  videos.sort((a, b) => a.order_index - b.order_index)
 
   return videos
     .map(video => {
