@@ -521,11 +521,21 @@ describe("markdown generators", () => {
     })
 
     it("renders 2 video-gallery-item shortcodes", () => {
-      assert.equal(
-        (courseVideoFeaturesFrontMatter.match(/{{< video-gallery-item /g) || [])
-          .length,
-        2
+      const matches = courseVideoFeaturesFrontMatter.match(
+        /{{< video-gallery-item [^>]+ >}}/g
       )
+      assert.deepEqual(matches, [
+        '{{< video-gallery-item href="/pages/intro-energy-basics-human-power/lecture-1-introduction-to-energy" ' +
+          'section="Week 1: Introduction, Energy Basics & Human Power" title="Lecture 1: Introduction to Energy" ' +
+          'description="Description: This lecture introduces fundamental energy concepts: energy around in the world, energy units, ' +
+          "a quick electricity review, and some estimation practice activities. The session ends with a syllabus overview. " +
+          'Speaker: Amy Banzaert" thumbnail="https://img.youtube.com/vi/SbpeBF8D_m4/default.jpg" >}}',
+        '{{< video-gallery-item href="/pages/intro-energy-basics-human-power/lab-1-human-power" ' +
+          'section="Week 1: Introduction, Energy Basics & Human Power" title="Lab 1: Human Power" ' +
+          'description="Description: This lab consists of three parts: Water pumping, with a PVC hand pump and a ' +
+          "cement rocker pump Water carrying, with a tump line, head carry, hand carry, and Q-drum Woodshop training " +
+          'Speaker: Amy Banzaert, Amit Gandhi" thumbnail="https://img.youtube.com/vi/7MzwxhtVfFc/default.jpg" >}}'
+      ])
     })
   })
 })
