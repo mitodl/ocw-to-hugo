@@ -86,43 +86,43 @@ describe("helper functions", () => {
       )
       const expectedMenuItems = [
         {
-          identifier: "14896ec808d2b8ea4b434109ba3fb682",
+          identifier: "14896ec8-08d2-b8ea-4b43-4109ba3fb682",
           name:       "Syllabus",
           url:        "/pages/syllabus",
           weight:     10
         },
         {
-          identifier: "94beff3d30e5e7bc06fd9421fe63803d",
+          identifier: "94beff3d-30e5-e7bc-06fd-9421fe63803d",
           name:       "Calendar",
           url:        "/pages/calendar",
           weight:     20
         },
         {
-          identifier: "303c499be5d236b1cde0bb36d615f4e7",
+          identifier: "303c499b-e5d2-36b1-cde0-bb36d615f4e7",
           name:       "Study Materials",
           url:        "/pages/study-materials",
           weight:     30
         },
         {
-          identifier: "877f0e43412db8b16e5b2864cf8bf1cc",
+          identifier: "877f0e43-412d-b8b1-6e5b-2864cf8bf1cc",
           name:       "Labs",
           url:        "/pages/labs",
           weight:     40
         },
         {
-          identifier: "1016059a65d256e4e12de4f25591a1b8",
+          identifier: "1016059a-65d2-56e4-e12d-e4f25591a1b8",
           name:       "Assignments",
           url:        "/pages/assignments",
           weight:     50
         },
         {
-          identifier: "293500564c0073c5971dfc2bbf334afc",
+          identifier: "29350056-4c00-73c5-971d-fc2bbf334afc",
           name:       "Projects",
           url:        "/pages/projects",
           weight:     60
         },
         {
-          identifier: "9759c68f7ab55cc86388d95ca05794f4",
+          identifier: "9759c68f-7ab5-5cc8-6388-d95ca05794f4",
           name:       "Related Resources",
           url:        "/pages/related-resources",
           weight:     70

@@ -323,7 +323,7 @@ describe("generateLegacyDataTemplate", () => {
         salutation:     "Prof.",
         instructor:     "Prof. Edward Crawley",
         url:            "/search/?q=%22Prof.%20Edward%20Crawley%22",
-        uid:            "e042c8f9995fcc110a2a5aafa674c5e6"
+        uid:            "e042c8f9-995f-cc11-0a2a-5aafa674c5e6"
       },
       {
         first_name:     "Olivier",
@@ -332,7 +332,7 @@ describe("generateLegacyDataTemplate", () => {
         salutation:     "Prof.",
         instructor:     "Prof. Olivier de Weck",
         url:            "/search/?q=%22Prof.%20Olivier%20de%20Weck%22",
-        uid:            "07d4f0555edfebf2c2477bbf2d19dd91"
+        uid:            "07d4f055-5edf-ebf2-c247-7bbf2d19dd91"
       }
     ])
   })

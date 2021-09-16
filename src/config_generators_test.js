@@ -30,13 +30,13 @@ describe("generateMenuItems", () => {
     const expectedValue = yaml.safeDump({
       leftnav: [
         {
-          identifier: "b6c8c090d7079126837f7dda4af627c7",
+          identifier: "b6c8c090-d707-9126-837f-7dda4af627c7",
           name:       "Syllabus",
           url:        "/pages/onlinecourse",
           weight:     10
         },
         {
-          identifier: "2c792bd745905d336e5077b0ae1237e1",
+          identifier: "2c792bd7-4590-5d33-6e50-77b0ae1237e1",
           name:       "Calendar",
           url:        "/pages/calendar",
           weight:     20

@@ -85,7 +85,7 @@ const generateLegacyDataTemplate = (courseData, pathLookup) => {
         last_name:      instructor["last_name"],
         middle_initial: instructor["middle_initial"],
         salutation:     instructor["salutation"],
-        uid:            instructor["uid"]
+        uid:            helpers.addDashesToUid(instructor["uid"])
       }
     }
   )
