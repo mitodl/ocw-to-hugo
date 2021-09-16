@@ -20,12 +20,6 @@ const generateDataTemplate = (courseData, pathLookup) => {
     course_image_caption_text: courseData["image_caption_text"]
       ? courseData["image_caption_text"]
       : "",
-    publishdate: courseData["first_published_to_production"]
-      ? moment(
-        courseData["first_published_to_production"],
-        INPUT_COURSE_DATE_FORMAT
-      ).format()
-      : "",
     instructors: {
       content: (courseData["instructors"] || []).map(instructor =>
         helpers.addDashesToUid(instructor["uid"])
@@ -60,6 +54,12 @@ const generateDataTemplate = (courseData, pathLookup) => {
 
 const generateLegacyDataTemplate = (courseData, pathLookup) => {
   const dataTemplate = generateDataTemplate(courseData, pathLookup)
+  dataTemplate["publishdate"] = courseData["first_published_to_production"]
+    ? moment(
+      courseData["first_published_to_production"],
+      INPUT_COURSE_DATE_FORMAT
+    ).format()
+    : ""
   delete dataTemplate["department_numbers"]
   dataTemplate["departments"] = helpers.getDepartments(courseData)
   dataTemplate["level"] = {
