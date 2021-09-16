@@ -32,21 +32,18 @@ const generateDataTemplate = (courseData, pathLookup) => {
       ),
       website: "ocw-www"
     },
-    departments:     helpers.getDepartments(courseData),
-    course_features: courseData["course_feature_tags"]
-      ? courseData["course_feature_tags"].map(courseFeature =>
-        helpers.getCourseFeatureObject(courseFeature, courseData, pathLookup)
+    department_numbers: helpers.getDepartmentNumbers(courseData),
+    course_features:    courseData["course_feature_tags"]
+      ? courseData["course_feature_tags"].map(
+        courseFeature => courseFeature["course_feature_tag"]
       )
       : [],
     topics:                helpers.getConsolidatedTopics(courseData["course_collections"]),
     primary_course_number: helpers.getPrimaryCourseNumber(courseData),
-    extra_course_numbers:  helpers.getExtraCourseNumbers(courseData),
+    extra_course_numbers:  helpers.getExtraCourseNumbers(courseData).join(", "),
     term:                  `${courseData["from_semester"]} ${courseData["from_year"]}`,
-    level:                 {
-      level: courseData["course_level"],
-      url:   helpers.makeCourseInfoUrl(courseData["course_level"], "level")
-    },
-    other_versions: helpers.getOtherVersions(
+    level:                 courseData["course_level"],
+    other_versions:        helpers.getOtherVersions(
       courseData["other_version_parent_uids"],
       courseData["short_url"],
       pathLookup
@@ -63,6 +60,20 @@ const generateDataTemplate = (courseData, pathLookup) => {
 
 const generateLegacyDataTemplate = (courseData, pathLookup) => {
   const dataTemplate = generateDataTemplate(courseData, pathLookup)
+  delete dataTemplate["department_numbers"]
+  dataTemplate["departments"] = helpers.getDepartments(courseData)
+  dataTemplate["level"] = {
+    level: courseData["course_level"],
+    url:   helpers.makeCourseInfoUrl(courseData["course_level"], "level")
+  }
+  dataTemplate["course_features"] = courseData["course_feature_tags"]
+    ? courseData["course_feature_tags"].map(courseFeature =>
+      helpers.getCourseFeatureObject(courseFeature, courseData, pathLookup)
+    )
+    : []
+  dataTemplate["extra_course_numbers"] = helpers.getExtraCourseNumbers(
+    courseData
+  )
   dataTemplate["instructors"] = (courseData["instructors"] || []).map(
     instructor => {
       const name = instructor["salutation"]

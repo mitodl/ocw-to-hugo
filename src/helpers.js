@@ -56,19 +56,22 @@ const DEPARTMENTS_LOOKUP = new Map(
 const findDepartmentByNumber = departmentNumber =>
   DEPARTMENTS_LOOKUP.get(departmentNumber.toString())
 
-const getDepartments = courseData => {
-  let departmentNumbers = [
+const getDepartmentNumbers = courseData => {
+  const departmentNumbers = [
     getPrimaryCourseNumber(courseData),
     ...getExtraCourseNumbers(courseData)
   ].map(number => number.split(".")[0])
   // deduplicate and remove numbers that don't match with our list
-  departmentNumbers = [...new Set(departmentNumbers)].filter(
-    findDepartmentByNumber
-  )
-  return departmentNumbers.map(findDepartmentByNumber).map(department => ({
-    department: department.title,
-    url:        makeCourseInfoUrl(department.title, "department_name")
-  }))
+  return [...new Set(departmentNumbers)].filter(findDepartmentByNumber)
+}
+
+const getDepartments = courseData => {
+  return getDepartmentNumbers(courseData)
+    .map(findDepartmentByNumber)
+    .map(department => ({
+      department: department.title,
+      url:        makeCourseInfoUrl(department.title, "department_name")
+    }))
 }
 
 const getRootSections = courseData => {
@@ -845,6 +848,7 @@ module.exports = {
   createOrOverwriteFile,
   fileExists,
   findDepartmentByNumber,
+  getDepartmentNumbers,
   getDepartments,
   getRootSections,
   getInternalMenuItems,
