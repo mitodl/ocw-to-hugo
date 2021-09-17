@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.29.1
+Version 1.29.1 (Released September 17, 2021)
 --------------
 
 - Refactor path handling (#342)
