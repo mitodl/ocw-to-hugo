@@ -12,7 +12,12 @@ const {
   readCourseJson,
   singleCourseId,
   unpublishedCourseId,
-  externalNavCourseId
+  externalNavCourseId,
+  imageGalleryCourseId,
+  engineering1601Id,
+  algorithmsCourseId,
+  subtitlesCourseId,
+  videoGalleryCourseId
 } = require("./test_utils")
 
 describe("helper functions", () => {
@@ -211,14 +216,7 @@ describe("helper functions", () => {
   })
 
   describe("resolveUidMatches", () => {
-    const course = "12-001-introduction-to-geology-fall-2013"
-    const parsedPath = path.join(
-      "test_data",
-      "courses",
-      course,
-      `${course}_parsed.json`
-    )
-    const courseData = JSON.parse(fs.readFileSync(parsedPath))
+    const courseData = readCourseJson(imageGalleryCourseId)
     const fieldTripPage = courseData["course_pages"].find(
       page => page["uid"] === "de36fe69cf33ddf238bc3896d0ce9eff"
     )
@@ -319,7 +317,7 @@ describe("helper functions", () => {
           fieldTripPage["text"],
           courseData,
           await fileOperations.buildPathsForAllCourses("test_data/courses", [
-            course
+            imageGalleryCourseId
           ]),
           useShortcodes,
           isRelativeToRoot
@@ -339,7 +337,7 @@ describe("helper functions", () => {
         text,
         courseData,
         await fileOperations.buildPathsForAllCourses("test_data/courses", [
-          course
+          imageGalleryCourseId
         ]),
         true,
         false
@@ -356,17 +354,8 @@ describe("helper functions", () => {
       it(`resolves uids for an ${
         external ? "external" : "internal"
       } course link`, () => {
-        const linkingCourse =
-          "1-204-computer-algorithms-in-systems-engineering-spring-2010"
-        const linkingCourseParsedPath = path.join(
-          "test_data",
-          "courses",
-          linkingCourse,
-          `${linkingCourse}_parsed.json`
-        )
-        const linkingCourseData = JSON.parse(
-          fs.readFileSync(linkingCourseParsedPath)
-        )
+        const linkingCourse = algorithmsCourseId
+        const linkingCourseData = readCourseJson(algorithmsCourseId)
         const syllabusPage = linkingCourseData["course_pages"].find(
           page => page["uid"] === "7b7843dfbb2f3b5946b25de9abdf10f8"
         )
@@ -401,17 +390,7 @@ describe("helper functions", () => {
     })
 
     it(`resolves uids which don't match anything`, () => {
-      const linkingCourse =
-        "1-204-computer-algorithms-in-systems-engineering-spring-2010"
-      const linkingCourseParsedPath = path.join(
-        "test_data",
-        "courses",
-        linkingCourse,
-        `${linkingCourse}_parsed.json`
-      )
-      const linkingCourseData = JSON.parse(
-        fs.readFileSync(linkingCourseParsedPath)
-      )
+      const linkingCourseData = readCourseJson(algorithmsCourseId)
       const syllabusPage = linkingCourseData["course_pages"].find(
         page => page["uid"] === "7b7843dfbb2f3b5946b25de9abdf10f8"
       )
@@ -434,11 +413,7 @@ describe("helper functions", () => {
       sandbox = sinon.createSandbox()
       pathLookup = await fileOperations.buildPathsForAllCourses(
         "test_data/courses",
-        [
-          singleCourseId,
-          "12-001-introduction-to-geology-fall-2013",
-          "16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"
-        ]
+        [singleCourseId, imageGalleryCourseId, engineering1601Id]
       )
     })
 
@@ -653,17 +628,9 @@ describe("helper functions", () => {
     })
 
     it("picks the correct PDF link", () => {
-      const courseId =
-        "16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"
-      const parsedPath = path.join(
-        "test_data",
-        "courses",
-        courseId,
-        `${courseId}_parsed.json`
-      )
-      const courseData = JSON.parse(fs.readFileSync(parsedPath))
+      const courseData = readCourseJson(engineering1601Id)
 
-      const text = `<a href="/courses/aeronautics-and-astronautics/${courseId}/comps-programming/m19.pdf">`
+      const text = `<a href="/courses/aeronautics-and-astronautics/${engineering1601Id}/comps-programming/m19.pdf">`
       const result = helpers.resolveRelativeLinkMatches(
         text,
         courseData,
@@ -691,17 +658,9 @@ describe("helper functions", () => {
       it(`picks the correct PDF when there are two items with the same filename but with different parents, when useShortcodes=${String(
         useShortcodes
       )} and isRelativeToRoot=${String(isRelativeToRoot)}`, () => {
-        const courseId =
-          "16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"
-        const parsedPath = path.join(
-          "test_data",
-          "courses",
-          courseId,
-          `${courseId}_parsed.json`
-        )
-        const courseData = JSON.parse(fs.readFileSync(parsedPath))
+        const courseData = readCourseJson(engineering1601Id)
 
-        const text = `<a href="/courses/aeronautics-and-astronautics/${courseId}/signals-systems/objectives.pdf">PDF</a>`
+        const text = `<a href="/courses/aeronautics-and-astronautics/${engineering1601Id}/signals-systems/objectives.pdf">PDF</a>`
         const result = helpers.resolveRelativeLinkMatches(
           text,
           courseData,
@@ -745,13 +704,10 @@ describe("helper functions", () => {
       const youtubeKey =
         "99525203lab5:savoniuswindturbineconstructionandtesting48221462"
       const htmlStr = `some text ${youtubeKey} other text`
-      const courseId = "ec-711-d-lab-energy-spring-2011"
-      const courseData = JSON.parse(
-        fs.readFileSync(`test_data/courses/${courseId}/${courseId}_parsed.json`)
-      )
+      const courseData = readCourseJson(videoGalleryCourseId)
       const pathLookup = await fileOperations.buildPathsForAllCourses(
         "test_data/courses",
-        [courseId]
+        [videoGalleryCourseId]
       )
       const results = helpers.resolveYouTubeEmbedMatches(
         htmlStr,
@@ -794,15 +750,10 @@ describe("helper functions", () => {
       )} and isRelativeToRoot=${String(isRelativeToRoot)}`, async () => {
         const youtubeKey = "16382356instructorinterview:courseiteration55791478"
         const htmlStr = `some text ${youtubeKey} other text`
-        const courseId = "21g-107-chinese-i-streamlined-fall-2014"
-        const courseData = JSON.parse(
-          fs.readFileSync(
-            `test_data/courses/${courseId}/${courseId}_parsed.json`
-          )
-        )
+        const courseData = readCourseJson(subtitlesCourseId)
         const pathLookup = await fileOperations.buildPathsForAllCourses(
           "test_data/courses",
-          [courseId]
+          [subtitlesCourseId]
         )
         const results = helpers.resolveYouTubeEmbedMatches(
           htmlStr,

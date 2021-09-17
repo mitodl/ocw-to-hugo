@@ -26,6 +26,10 @@ const prevForeignPolicyIds = [
 ]
 const spaceSystemsId = "16-89j-space-systems-engineering-spring-2007"
 const covidCourseId = "7-00-covid-19-sars-cov-2-and-the-pandemic-fall-2020"
+const engineering1601Id =
+  "16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"
+const algorithmsCourseId =
+  "1-204-computer-algorithms-in-systems-engineering-spring-2010"
 
 const allCourseIds = [
   course100Id,
@@ -41,7 +45,9 @@ const allCourseIds = [
   foreignPolicyId,
   ...prevForeignPolicyIds,
   spaceSystemsId,
-  covidCourseId
+  covidCourseId,
+  engineering1601Id,
+  algorithmsCourseId
 ]
 
 const getParsedJsonPath = courseId =>
@@ -67,5 +73,7 @@ module.exports = {
   prevForeignPolicyIds,
   spaceSystemsId,
   covidCourseId,
+  engineering1601Id,
+  algorithmsCourseId,
   allCourseIds
 }

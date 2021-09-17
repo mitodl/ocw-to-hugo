@@ -12,7 +12,7 @@ AWSMock.setSDKInstance(AWS)
 
 const awsSync = require("./aws_sync")
 const fileOperations = require("./file_operations")
-const helpers = require("./helpers")
+const { getParsedJsonPath, course100Id } = require("./test_utils")
 
 describe("aws sync", () => {
   describe("downloadCourses", () => {
@@ -49,7 +49,6 @@ describe("aws sync", () => {
     const sandbox = sinon.createSandbox()
     let mockS3,
       consoleLog,
-      testCourse,
       testJson,
       testJsonKey,
       testJsonContents,
@@ -64,24 +63,24 @@ describe("aws sync", () => {
     beforeEach(async () => {
       consoleLog = sandbox.stub(console, "log")
 
-      testCourse =
-        "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
-      testJson = `${testCourse}_parsed.json`
-      testJsonKey = path.join(testCourse, testJson)
-      testJsonContents = fs.readFileSync(
-        path.join("test_data", "courses", testCourse, testJson)
-      )
+      testJson = `${course100Id}_parsed.json`
+      testJsonKey = path.join(course100Id, testJson)
+      testJsonContents = fs.readFileSync(getParsedJsonPath(course100Id))
       coursesDir = tmp.dirSync({
         prefix: "source"
       }).name
       destinationPath = tmp.dirSync({
         prefix: "destination"
       }).name
-      outputJsonPath = path.join(coursesDir, testCourse, testJson)
+      outputJsonPath = path.join(
+        coursesDir,
+        course100Id,
+        `${course100Id}_parsed.json`
+      )
       bucket = "open-learning-course-data-ci"
       bucketParams = {
         Bucket: bucket,
-        Prefix: testCourse
+        Prefix: course100Id
       }
       listObjectsV2Output = {
         IsTruncated: false,
@@ -95,7 +94,7 @@ describe("aws sync", () => {
           }
         ],
         Name:           "open-learning-course-data-ci",
-        Prefix:         testCourse,
+        Prefix:         course100Id,
         MaxKeys:        1000,
         CommonPrefixes: [],
         KeyCount:       1
@@ -110,7 +109,7 @@ describe("aws sync", () => {
         Metadata:      {},
         Body:          testJsonContents
       }
-      fs.mkdirSync(path.join(coursesDir, testCourse), {
+      fs.mkdirSync(path.join(coursesDir, course100Id), {
         recursive: true
       })
 
@@ -123,8 +122,8 @@ describe("aws sync", () => {
 
     afterEach(() => {
       sandbox.restore()
-      rimraf.sync(path.join(coursesDir, testCourse))
-      fs.mkdirSync(path.join(coursesDir, testCourse), {
+      rimraf.sync(path.join(coursesDir, course100Id))
+      fs.mkdirSync(path.join(coursesDir, course100Id), {
         recursive: true
       })
       AWSMock.restore("S3")
