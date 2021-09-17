@@ -327,21 +327,10 @@ const buildPathRecursive = (
     }
 
     if (!pathLookup[parentUid]) {
-      buildPathRecursive(
-        parentItem,
-        itemsLookup,
-        courseUid,
-        pathLookup,
-        uidInfoLookup,
-        resourceNameSet
+      loggers.fileLogger.error(
+        `Unable to find path for ${parentUid}, parent of ${uid}`
       )
-      if (!pathLookup[parentUid]) {
-        loggers.fileLogger.error(
-          `Unable to find path for ${parentUid}, parent of ${uid}`
-        )
-
-        return
-      }
+      return
     }
   }
 
