@@ -298,7 +298,7 @@ describe("generateLegacyDataTemplate", () => {
     spaceSystemsJsonData = readCourseJson(spaceSystemsId)
     pathLookup = await fileOperations.buildPathsForAllCourses(
       "test_data/courses",
-      [spaceSystemsId]
+      [spaceSystemsId, classicalMechanicsId]
     )
     courseDataTemplate = generateLegacyDataTemplate(
       spaceSystemsJsonData,
