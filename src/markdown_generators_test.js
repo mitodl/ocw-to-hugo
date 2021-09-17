@@ -301,8 +301,7 @@ describe("markdown generators", () => {
         video_files:    {
           video_captions_file:
             "/courses/physics/8-01sc-classical-mechanics-fall-2016/review-vectors/0.1-vectors-vs.-scalars/0.1-vectors-vs.-scalars/5ucfHd8FWKw.vtt"
-        },
-        layout: "resource"
+        }
       })
     })
   })

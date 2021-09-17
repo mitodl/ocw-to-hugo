@@ -273,8 +273,7 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
     },
     video_files: {
       video_captions_file: captionsFileLocation
-    },
-    layout: "resource"
+    }
   }
 
   const body = formatHTMLMarkDown(
