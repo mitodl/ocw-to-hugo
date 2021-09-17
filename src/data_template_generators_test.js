@@ -170,16 +170,6 @@ describe("generateDataTemplate", () => {
     )
   })
 
-  it("sets the publishdate property to the first_published_to_production property of the course json data", () => {
-    const courseDataTemplate = generateDataTemplate(
-      singleCourseJsonData,
-      pathLookup
-    )
-    assert.isTrue(
-      courseDataTemplate["publishdate"].startsWith("2008-07-17T16:06:15")
-    )
-  })
-
   it("sets an array of instructor uids under the instructors -> content property", () => {
     const courseDataTemplate = generateDataTemplate(
       singleCourseJsonData,
@@ -194,87 +184,25 @@ describe("generateDataTemplate", () => {
     })
   })
 
-  it("sets the department property to the department found on the url property of the course json data, title cased with hyphens replaced with spaces", () => {
+  it("sets the department_numbers property to the department numbers found on the url property of the course json data", () => {
     const courseDataTemplate = generateDataTemplate(
       singleCourseJsonData,
       pathLookup
     )
-    assert.deepEqual(
-      [
-        {
-          department: "Aeronautics and Astronautics",
-          url:        `/search/?d=${encodeURIComponent(
-            "Aeronautics and Astronautics"
-          )}`
-        },
-        {
-          department: "Institute for Data, Systems, and Society",
-          url:        `/search/?d=${encodeURIComponent(
-            "Institute for Data, Systems, and Society"
-          )}`
-        }
-      ],
-      courseDataTemplate["departments"]
-    )
+    assert.deepEqual(["16", "IDS"], courseDataTemplate["department_numbers"])
   })
 
-  it("sets the course_features property to the instructors found in the instuctors node of the course json data", () => {
+  it("sets the learning_resource_types property to the processed list of course_feature_tags from the course json data", () => {
     const courseDataTemplate = generateDataTemplate(
       singleCourseJsonData,
       pathLookup
     )
-    assert.deepEqual(courseDataTemplate["course_features"], [
-      {
-        feature: "Projects with Examples",
-        url:     "pages/projects"
-      },
-      {
-        feature: "Design Assignments",
-        url:     "pages/assignments"
-      },
-      {
-        feature: "Presentation Assignments with Examples",
-        url:     "pages/projects"
-      },
-      {
-        feature: "Written Assignments with Examples",
-        url:     "pages/assignments"
-      }
+    assert.deepEqual(courseDataTemplate["learning_resource_types"], [
+      "Projects with Examples",
+      "Design Assignments",
+      "Presentation Assignments with Examples",
+      "Written Assignments with Examples"
     ])
-  })
-
-  //
-  ;[
-    [true, "./resolveuid/244945a815a4b2a3af2a20384f403eab", "pages/projects"],
-    [
-      false,
-      "./resolveuid/63e325a780c79e352fb5bddb9b8b2c6a",
-      "/courses/8-01sc-classical-mechanics-fall-2016/pages/week-1-kinematics"
-    ]
-  ].forEach(([sameCourse, url, expected]) => {
-    it(`handles links in the course_features property properly when the link is for ${
-      sameCourse ? "the same" : "a different"
-    } course`, () => {
-      singleCourseJsonData["course_feature_tags"] = [
-        {
-          ocw_feature:       "Projects",
-          ocw_subfeature:    "Examples",
-          ocw_feature_url:   url,
-          ocw_speciality:    "",
-          ocw_feature_notes:
-            "Projects section; projects files; file count: 16; file format: .pdf"
-        }
-      ]
-      const courseDataTemplate = generateDataTemplate(
-        singleCourseJsonData,
-        pathLookup
-      )
-      assert.deepEqual(courseDataTemplate["course_features"], [
-        {
-          url: expected
-        }
-      ])
-    })
   })
 
   it("sets the topics property on the course data template to a consolidated list of topics from the course_collections property of the course json data", () => {
@@ -334,19 +262,12 @@ describe("generateDataTemplate", () => {
   })
 
   it("sets the level property on the course data template to course_level in the course json data", () => {
-    const level = singleCourseJsonData["course_level"]
     const courseDataTemplate = generateDataTemplate(
       singleCourseJsonData,
       pathLookup
     )
     const foundValue = courseDataTemplate["level"]
-    assert.deepEqual(
-      {
-        level: level,
-        url:   "/search/?l=Graduate"
-      },
-      foundValue
-    )
+    assert.equal(foundValue, "Graduate")
   })
 
   it("sets the expected text in other_versions", () => {
@@ -417,7 +338,7 @@ describe("generateDataTemplate", () => {
 
 describe("generateLegacyDataTemplate", () => {
   const sandbox = sinon.createSandbox()
-  let consoleLog, courseDataTemplate, pathLookup, singleCourseJsonData
+  let consoleLog, pathLookup, singleCourseJsonData
 
   beforeEach(async () => {
     consoleLog = sandbox.stub(console, "log")
@@ -425,11 +346,7 @@ describe("generateLegacyDataTemplate", () => {
     singleCourseJsonData = JSON.parse(singleCourseRawData)
     pathLookup = await fileOperations.buildPathsForAllCourses(
       "test_data/courses",
-      [singleCourseId]
-    )
-    courseDataTemplate = generateLegacyDataTemplate(
-      singleCourseJsonData,
-      pathLookup
+      [singleCourseId, mechanicsCourseId]
     )
   })
 
@@ -438,6 +355,10 @@ describe("generateLegacyDataTemplate", () => {
   })
 
   it("sets the instructors property to the instructors found in the instuctors node of the course json data", () => {
+    const courseDataTemplate = generateLegacyDataTemplate(
+      singleCourseJsonData,
+      pathLookup
+    )
     assert.deepEqual(courseDataTemplate["instructors"], [
       {
         first_name:     "Edward",
@@ -458,5 +379,114 @@ describe("generateLegacyDataTemplate", () => {
         uid:            "07d4f0555edfebf2c2477bbf2d19dd91"
       }
     ])
+  })
+
+  it("sets the publishdate property to the first_published_to_production property of the course json data", () => {
+    const courseDataTemplate = generateLegacyDataTemplate(
+      singleCourseJsonData,
+      pathLookup
+    )
+    assert.isTrue(
+      courseDataTemplate["publishdate"].startsWith("2008-07-17T16:06:15")
+    )
+  })
+
+  it("sets the level property on the course data template to course_level in the course json data", () => {
+    const courseDataTemplate = generateLegacyDataTemplate(
+      singleCourseJsonData,
+      pathLookup
+    )
+    const level = singleCourseJsonData["course_level"]
+    const foundValue = courseDataTemplate["level"]
+    assert.deepEqual(
+      {
+        level: level,
+        url:   "/search/?l=Graduate"
+      },
+      foundValue
+    )
+  })
+
+  //
+  ;[
+    [true, "./resolveuid/244945a815a4b2a3af2a20384f403eab", "pages/projects"],
+    [
+      false,
+      "./resolveuid/63e325a780c79e352fb5bddb9b8b2c6a",
+      "/courses/8-01sc-classical-mechanics-fall-2016/pages/week-1-kinematics"
+    ]
+  ].forEach(([sameCourse, url, expected]) => {
+    it(`handles links in the course_features property properly when the link is for ${
+      sameCourse ? "the same" : "a different"
+    } course`, () => {
+      singleCourseJsonData["course_feature_tags"] = [
+        {
+          ocw_feature:       "Projects",
+          ocw_subfeature:    "Examples",
+          ocw_feature_url:   url,
+          ocw_speciality:    "",
+          ocw_feature_notes:
+            "Projects section; projects files; file count: 16; file format: .pdf"
+        }
+      ]
+      const courseDataTemplate = generateLegacyDataTemplate(
+        singleCourseJsonData,
+        pathLookup
+      )
+      assert.deepEqual(courseDataTemplate["course_features"], [
+        {
+          url: expected
+        }
+      ])
+    })
+  })
+
+  it("sets the course_features property to the instructors found in the instuctors node of the course json data", () => {
+    const courseDataTemplate = generateLegacyDataTemplate(
+      singleCourseJsonData,
+      pathLookup
+    )
+    assert.deepEqual(courseDataTemplate["course_features"], [
+      {
+        feature: "Projects with Examples",
+        url:     "pages/projects"
+      },
+      {
+        feature: "Design Assignments",
+        url:     "pages/assignments"
+      },
+      {
+        feature: "Presentation Assignments with Examples",
+        url:     "pages/projects"
+      },
+      {
+        feature: "Written Assignments with Examples",
+        url:     "pages/assignments"
+      }
+    ])
+  })
+
+  it("sets the department property to the department found on the url property of the course json data, title cased with hyphens replaced with spaces", () => {
+    const courseDataTemplate = generateLegacyDataTemplate(
+      singleCourseJsonData,
+      pathLookup
+    )
+    assert.deepEqual(
+      [
+        {
+          department: "Aeronautics and Astronautics",
+          url:        `/search/?d=${encodeURIComponent(
+            "Aeronautics and Astronautics"
+          )}`
+        },
+        {
+          department: "Institute for Data, Systems, and Society",
+          url:        `/search/?d=${encodeURIComponent(
+            "Institute for Data, Systems, and Society"
+          )}`
+        }
+      ],
+      courseDataTemplate["departments"]
+    )
   })
 })
