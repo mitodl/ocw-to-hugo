@@ -258,7 +258,6 @@ describe("markdown generators", () => {
         file_location:
           "https://open-learning-course-data-production.s3.amazonaws.com/8-01sc-classical-mechanics-fall-2016/838633c70a5b59cce23f0909eaeb96d7_jsinput_freebodydraw_massive_rope_between_trees_setup.svg",
         file_type:    "image/svg+xml",
-        layout:       "resource",
         resourcetype: "Image",
         title:        "jsinput_freebodydraw_massive_rope_between_trees_setup.svg",
         uid:          "838633c70a5b59cce23f0909eaeb96d7"
@@ -372,7 +371,6 @@ describe("markdown generators", () => {
         title:       "acknowledgements.pdf",
         description:
           "This resource contains acknowledgements to the persons who helped build this course.",
-        layout:        "resource",
         resourcetype:  "Document",
         uid:           "d7d1fabcb57a6d4a9cc96f04348dedfd",
         file_type:     "application/pdf",
@@ -392,7 +390,6 @@ describe("markdown generators", () => {
         title:       "summary_w12d2.pdf",
         description:
           "This file talks about how electricity and magnetism interact with each other and also considers finalizing Maxwell?s Equations, their result ? electromagnetic (EM) radiation and how energy flows in electric and magnetic fields.",
-        layout:        "resource",
         uid:           "a1bfc34ccf08ddf8474627b9a13d6ca8",
         file_type:     "application/pdf",
         resourcetype:  "Document",
