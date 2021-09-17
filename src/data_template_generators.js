@@ -26,8 +26,8 @@ const generateDataTemplate = (courseData, pathLookup) => {
       ),
       website: "ocw-www"
     },
-    department_numbers: helpers.getDepartmentNumbers(courseData),
-    course_features:    (courseData["course_feature_tags"] || []).map(
+    department_numbers:      helpers.getDepartmentNumbers(courseData),
+    learning_resource_types: (courseData["course_feature_tags"] || []).map(
       courseFeature => courseFeature["course_feature_tag"]
     ),
     topics:                helpers.getConsolidatedTopics(courseData["course_collections"]),

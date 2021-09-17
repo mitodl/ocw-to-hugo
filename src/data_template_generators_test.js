@@ -192,12 +192,12 @@ describe("generateDataTemplate", () => {
     assert.deepEqual(["16", "IDS"], courseDataTemplate["department_numbers"])
   })
 
-  it("sets the course_features property to the instructors found in the instuctors node of the course json data", () => {
+  it("sets the learning_resource_types property to the processed list of course_feature_tags from the course json data", () => {
     const courseDataTemplate = generateDataTemplate(
       singleCourseJsonData,
       pathLookup
     )
-    assert.deepEqual(courseDataTemplate["course_features"], [
+    assert.deepEqual(courseDataTemplate["learning_resource_types"], [
       "Projects with Examples",
       "Design Assignments",
       "Presentation Assignments with Examples",
