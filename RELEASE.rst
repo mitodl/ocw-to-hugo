@@ -1,6 +1,16 @@
 Release Notes
 =============
 
+Version 1.30.0
+--------------
+
+- add course_legacy.json (#350)
+- revert 'add external links for 3 courses' (#359)
+- add external links for 3 courses,
+- Update test_data (#358)
+- Sort video lecture by order_index (#356)
+- Fix broken test for markdown files (#336)
+
 Version 1.29.1 (Released September 17, 2021)
 --------------
 
