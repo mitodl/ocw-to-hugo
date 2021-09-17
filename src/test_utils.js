@@ -30,6 +30,7 @@ const engineering1601Id =
   "16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"
 const algorithmsCourseId =
   "1-204-computer-algorithms-in-systems-engineering-spring-2010"
+const entropyCourseId = "6-050j-information-and-entropy-spring-2008"
 
 const allCourseIds = [
   course100Id,
@@ -47,7 +48,8 @@ const allCourseIds = [
   spaceSystemsId,
   covidCourseId,
   engineering1601Id,
-  algorithmsCourseId
+  algorithmsCourseId,
+  entropyCourseId
 ]
 
 const getParsedJsonPath = courseId =>
@@ -75,5 +77,6 @@ module.exports = {
   covidCourseId,
   engineering1601Id,
   algorithmsCourseId,
+  entropyCourseId,
   allCourseIds
 }

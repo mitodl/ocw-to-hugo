@@ -301,7 +301,7 @@ const makeResourceSlug = (originalFilename, resourceNameSet) => {
   return filename
 }
 
-const buildPathRecursive = (
+const buildPaths = (
   item,
   itemsLookup,
   courseUid,
@@ -377,7 +377,7 @@ const buildPathsForCourse = (courseData, uidInfoLookup) => {
 
   const resourceNameSet = new Set()
   for (const item of Object.values(itemsLookup)) {
-    buildPathRecursive(
+    buildPaths(
       item,
       itemsLookup,
       courseUid,
