@@ -22,24 +22,11 @@ const runOptions = {}
 
 const makeCourseUrlPrefix = courseId => `/courses/${courseId}`
 
-const distinct = (value, index, self) => {
-  return self.indexOf(value) === index
-}
-
 const directoryExists = async directory => {
   try {
     return (await fsPromises.lstat(directory)).isDirectory()
   } catch (err) {
     // this will happen if we don't have access to the directory or if it doesn't exist
-    return false
-  }
-}
-
-const fileExists = async path => {
-  try {
-    return (await fsPromises.lstat(path)).isFile()
-  } catch (err) {
-    // this will happen if we don't have access to the file or if it doesn't exist
     return false
   }
 }
@@ -862,10 +849,8 @@ const addDashesToUid = uid => {
 }
 
 module.exports = {
-  distinct,
   directoryExists,
   createOrOverwriteFile,
-  fileExists,
   findDepartmentByNumber,
   getDepartmentNumbers,
   getDepartments,
