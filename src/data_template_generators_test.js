@@ -1,46 +1,29 @@
 const fs = require("fs")
-const moment = require("moment")
 const path = require("path")
 const sinon = require("sinon")
 const { assert, expect } = require("chai").use(require("sinon-chai"))
-const tmp = require("tmp")
 
-const { INPUT_COURSE_DATE_FORMAT } = require("./constants")
 const fileOperations = require("./file_operations")
-const markdownGenerators = require("./markdown_generators")
 const {
   generateDataTemplate,
   generateLegacyDataTemplate
 } = require("./data_template_generators")
 const helpers = require("./helpers")
-
-const testDataPath = "test_data/courses"
-const singleCourseId = "16-89j-space-systems-engineering-spring-2007"
-const singleCourseParsedJsonPath = path.join(
-  testDataPath,
-  singleCourseId,
-  `${singleCourseId}_parsed.json`
-)
-
-const mechanicsCourseId = "8-01sc-classical-mechanics-fall-2016"
-const mechanicsCourseJsonPath = path.join(
-  testDataPath,
-  mechanicsCourseId,
-  `${mechanicsCourseId}_parsed.json`
-)
-
-const physicsCourseId = "8-02-physics-ii-electricity-and-magnetism-spring-2007"
-const physicsCourseJsonPath = path.join(
-  testDataPath,
-  physicsCourseId,
-  `${physicsCourseId}_parsed.json`
-)
+const {
+  readCourseJson,
+  spaceSystemsId,
+  classicalMechanicsId,
+  physics801xId,
+  physics802Id,
+  foreignPolicyId,
+  allCourseIds
+} = require("./test_utils")
 
 describe("generateDataTemplate", () => {
   const sandbox = sinon.createSandbox()
   let consoleLog,
     pathLookup,
-    singleCourseJsonData,
+    spaceSystemsJsonData,
     mechanicsCourseJsonData,
     physicsCourseJsonData
 
@@ -48,26 +31,12 @@ describe("generateDataTemplate", () => {
     consoleLog = sandbox.stub(console, "log")
     pathLookup = await fileOperations.buildPathsForAllCourses(
       "test_data/courses",
-      [
-        singleCourseId,
-        mechanicsCourseId,
-        physicsCourseId,
-        "8-01x-physics-i-classical-mechanics-with-an-experimental-focus-fall-2002",
-        "17-40-american-foreign-policy-past-present-and-future-fall-2017",
-        "17-40-american-foreign-policy-past-present-future-fall-2010",
-        "17-40-american-foreign-policy-past-present-and-future-fall-2004",
-        "17-40-american-foreign-policy-past-present-and-future-fall-2002"
-      ]
+      allCourseIds
     )
 
-    const singleCourseRawData = fs.readFileSync(singleCourseParsedJsonPath)
-    singleCourseJsonData = JSON.parse(singleCourseRawData)
-
-    const mechanicsCourseRawData = fs.readFileSync(mechanicsCourseJsonPath)
-    mechanicsCourseJsonData = JSON.parse(mechanicsCourseRawData)
-
-    const physicsCourseRawData = fs.readFileSync(physicsCourseJsonPath)
-    physicsCourseJsonData = JSON.parse(physicsCourseRawData)
+    spaceSystemsJsonData = readCourseJson(spaceSystemsId)
+    mechanicsCourseJsonData = readCourseJson(classicalMechanicsId)
+    physicsCourseJsonData = readCourseJson(physics802Id)
   })
 
   afterEach(() => {
@@ -76,7 +45,7 @@ describe("generateDataTemplate", () => {
 
   it("sets the course_title property to the title property of the course json data", () => {
     const courseDataTemplate = generateDataTemplate(
-      singleCourseJsonData,
+      spaceSystemsJsonData,
       pathLookup
     )
     assert.equal(
@@ -86,10 +55,10 @@ describe("generateDataTemplate", () => {
   })
 
   it("sets the course_description property to the markdown converted course description and other information text", () => {
-    singleCourseJsonData["description"] = "course description"
-    singleCourseJsonData["other_information_text"] = "some other info"
+    spaceSystemsJsonData["description"] = "course description"
+    spaceSystemsJsonData["other_information_text"] = "some other info"
     const courseDataTemplate = generateDataTemplate(
-      singleCourseJsonData,
+      spaceSystemsJsonData,
       pathLookup
     )
     assert.equal(
@@ -103,13 +72,13 @@ describe("generateDataTemplate", () => {
     [
       [
         true,
-        `/courses/physics/${physicsCourseId}/acknowledgements.pdf`,
+        `/courses/physics/${physics802Id}/acknowledgements.pdf`,
         "resources/acknowledgements"
       ],
       [
         false,
         "./resolveuid/63e325a780c79e352fb5bddb9b8b2c6a",
-        "/courses/8-01sc-classical-mechanics-fall-2016/pages/week-1-kinematics"
+        `/courses/${classicalMechanicsId}/pages/week-1-kinematics`
       ]
     ].forEach(([sameCourse, url, expected]) => {
       it(`handles links properly in the course description, when the link is to ${
@@ -134,11 +103,11 @@ describe("generateDataTemplate", () => {
   })
 
   it("handles relative links properly in course descriptions", () => {
-    singleCourseJsonData[
+    spaceSystemsJsonData[
       "description"
-    ] = `<a href="/courses/mechanical-engineering/${singleCourseId}/syllabus">syllabus</a>`
+    ] = `<a href="/courses/mechanical-engineering/${spaceSystemsId}/syllabus">syllabus</a>`
     const courseDataTemplate = generateDataTemplate(
-      singleCourseJsonData,
+      spaceSystemsJsonData,
       pathLookup
     )
     assert.equal(
@@ -149,7 +118,7 @@ describe("generateDataTemplate", () => {
 
   it("sets various image properties correctly", () => {
     const courseDataTemplate = generateDataTemplate(
-      singleCourseJsonData,
+      spaceSystemsJsonData,
       pathLookup
     )
     assert.equal(
@@ -172,7 +141,7 @@ describe("generateDataTemplate", () => {
 
   it("sets an array of instructor uids under the instructors -> content property", () => {
     const courseDataTemplate = generateDataTemplate(
-      singleCourseJsonData,
+      spaceSystemsJsonData,
       pathLookup
     )
     assert.deepEqual(courseDataTemplate["instructors"], {
@@ -186,7 +155,7 @@ describe("generateDataTemplate", () => {
 
   it("sets the department_numbers property to the department numbers found on the url property of the course json data", () => {
     const courseDataTemplate = generateDataTemplate(
-      singleCourseJsonData,
+      spaceSystemsJsonData,
       pathLookup
     )
     assert.deepEqual(["16", "IDS"], courseDataTemplate["department_numbers"])
@@ -194,7 +163,7 @@ describe("generateDataTemplate", () => {
 
   it("sets the learning_resource_types property to the processed list of course_feature_tags from the course json data", () => {
     const courseDataTemplate = generateDataTemplate(
-      singleCourseJsonData,
+      spaceSystemsJsonData,
       pathLookup
     )
     assert.deepEqual(courseDataTemplate["learning_resource_types"], [
@@ -207,7 +176,7 @@ describe("generateDataTemplate", () => {
 
   it("sets the topics property on the course data template to a consolidated list of topics from the course_collections property of the course json data", () => {
     const courseDataTemplate = generateDataTemplate(
-      singleCourseJsonData,
+      spaceSystemsJsonData,
       pathLookup
     )
     assert.deepEqual(courseDataTemplate["topics"], [
@@ -242,9 +211,9 @@ describe("generateDataTemplate", () => {
   })
 
   it("sets the primary_course_number property on the course data template to data parsed from department_number and master_course_number in the course json data", () => {
-    const expectedValue = helpers.getPrimaryCourseNumber(singleCourseJsonData)
+    const expectedValue = helpers.getPrimaryCourseNumber(spaceSystemsJsonData)
     const courseDataTemplate = generateDataTemplate(
-      singleCourseJsonData,
+      spaceSystemsJsonData,
       pathLookup
     )
     const foundValues = courseDataTemplate["primary_course_number"]
@@ -252,9 +221,9 @@ describe("generateDataTemplate", () => {
   })
 
   it("sets the term property on the course data template to from_semester and from_year in the course json data", () => {
-    const expectedValue = `${singleCourseJsonData["from_semester"]} ${singleCourseJsonData["from_year"]}`
+    const expectedValue = `${spaceSystemsJsonData["from_semester"]} ${spaceSystemsJsonData["from_year"]}`
     const courseDataTemplate = generateDataTemplate(
-      singleCourseJsonData,
+      spaceSystemsJsonData,
       pathLookup
     )
     const foundValue = courseDataTemplate["term"]
@@ -263,7 +232,7 @@ describe("generateDataTemplate", () => {
 
   it("sets the level property on the course data template to course_level in the course json data", () => {
     const courseDataTemplate = generateDataTemplate(
-      singleCourseJsonData,
+      spaceSystemsJsonData,
       pathLookup
     )
     const foundValue = courseDataTemplate["level"]
@@ -283,15 +252,7 @@ describe("generateDataTemplate", () => {
   })
 
   it("sets the expected text in other_versions which mentions scholars", () => {
-    const courseId =
-      "8-01x-physics-i-classical-mechanics-with-an-experimental-focus-fall-2002"
-    const jsonPath = path.join(
-      testDataPath,
-      courseId,
-      `${courseId}_parsed.json`
-    )
-    const rawData = fs.readFileSync(jsonPath)
-    const json = JSON.parse(rawData)
+    const json = readCourseJson(physics801xId)
     const template = generateDataTemplate(json, pathLookup)
     const expectedValue = [
       "[8.01SC CLASSICAL MECHANICS](/courses/8-01sc-classical-mechanics-fall-2016) | SCHOLAR,  FALL 2016"
@@ -301,15 +262,7 @@ describe("generateDataTemplate", () => {
   })
 
   it("sets archived versions with dspace urls", () => {
-    const courseId =
-      "17-40-american-foreign-policy-past-present-and-future-fall-2017"
-    const jsonPath = path.join(
-      testDataPath,
-      courseId,
-      `${courseId}_parsed.json`
-    )
-    const rawData = fs.readFileSync(jsonPath)
-    const json = JSON.parse(rawData)
+    const json = readCourseJson(foreignPolicyId)
     const template = generateDataTemplate(json, pathLookup)
     const expectedValue = [
       "[17.40 AMERICAN FOREIGN POLICY: PAST, PRESENT, FUTURE](https://dspace.mit.edu/handle/1721.1/116542) |  FALL 2010",
@@ -338,15 +291,18 @@ describe("generateDataTemplate", () => {
 
 describe("generateLegacyDataTemplate", () => {
   const sandbox = sinon.createSandbox()
-  let consoleLog, pathLookup, singleCourseJsonData
+  let consoleLog, courseDataTemplate, pathLookup, spaceSystemsJsonData
 
   beforeEach(async () => {
     consoleLog = sandbox.stub(console, "log")
-    const singleCourseRawData = fs.readFileSync(singleCourseParsedJsonPath)
-    singleCourseJsonData = JSON.parse(singleCourseRawData)
+    spaceSystemsJsonData = readCourseJson(spaceSystemsId)
     pathLookup = await fileOperations.buildPathsForAllCourses(
       "test_data/courses",
-      [singleCourseId, mechanicsCourseId]
+      [spaceSystemsId]
+    )
+    courseDataTemplate = generateLegacyDataTemplate(
+      spaceSystemsJsonData,
+      pathLookup
     )
   })
 
@@ -356,7 +312,7 @@ describe("generateLegacyDataTemplate", () => {
 
   it("sets the instructors property to the instructors found in the instuctors node of the course json data", () => {
     const courseDataTemplate = generateLegacyDataTemplate(
-      singleCourseJsonData,
+      spaceSystemsJsonData,
       pathLookup
     )
     assert.deepEqual(courseDataTemplate["instructors"], [
@@ -383,7 +339,7 @@ describe("generateLegacyDataTemplate", () => {
 
   it("sets the publishdate property to the first_published_to_production property of the course json data", () => {
     const courseDataTemplate = generateLegacyDataTemplate(
-      singleCourseJsonData,
+      spaceSystemsJsonData,
       pathLookup
     )
     assert.isTrue(
@@ -393,10 +349,10 @@ describe("generateLegacyDataTemplate", () => {
 
   it("sets the level property on the course data template to course_level in the course json data", () => {
     const courseDataTemplate = generateLegacyDataTemplate(
-      singleCourseJsonData,
+      spaceSystemsJsonData,
       pathLookup
     )
-    const level = singleCourseJsonData["course_level"]
+    const level = spaceSystemsJsonData["course_level"]
     const foundValue = courseDataTemplate["level"]
     assert.deepEqual(
       {
@@ -419,7 +375,7 @@ describe("generateLegacyDataTemplate", () => {
     it(`handles links in the course_features property properly when the link is for ${
       sameCourse ? "the same" : "a different"
     } course`, () => {
-      singleCourseJsonData["course_feature_tags"] = [
+      spaceSystemsJsonData["course_feature_tags"] = [
         {
           ocw_feature:       "Projects",
           ocw_subfeature:    "Examples",
@@ -430,7 +386,7 @@ describe("generateLegacyDataTemplate", () => {
         }
       ]
       const courseDataTemplate = generateLegacyDataTemplate(
-        singleCourseJsonData,
+        spaceSystemsJsonData,
         pathLookup
       )
       assert.deepEqual(courseDataTemplate["course_features"], [
@@ -443,7 +399,7 @@ describe("generateLegacyDataTemplate", () => {
 
   it("sets the course_features property to the instructors found in the instuctors node of the course json data", () => {
     const courseDataTemplate = generateLegacyDataTemplate(
-      singleCourseJsonData,
+      spaceSystemsJsonData,
       pathLookup
     )
     assert.deepEqual(courseDataTemplate["course_features"], [
@@ -468,7 +424,7 @@ describe("generateLegacyDataTemplate", () => {
 
   it("sets the department property to the department found on the url property of the course json data, title cased with hyphens replaced with spaces", () => {
     const courseDataTemplate = generateLegacyDataTemplate(
-      singleCourseJsonData,
+      spaceSystemsJsonData,
       pathLookup
     )
     assert.deepEqual(

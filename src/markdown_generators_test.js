@@ -1,25 +1,21 @@
-const path = require("path")
 const sinon = require("sinon")
 const { assert, expect } = require("chai").use(require("sinon-chai"))
-const fs = require("fs")
 const yaml = require("js-yaml")
-const markdown = require("markdown-doc-builder").default
-const tmp = require("tmp")
-tmp.setGracefulCleanup()
 
-const loggers = require("./loggers")
 const markdownGenerators = require("./markdown_generators")
 const helpers = require("./helpers")
 const fileOperations = require("./file_operations")
-
-const testDataPath = "test_data/courses"
-const singleCourseId =
-  "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
-const imageGalleryCourseId = "12-001-introduction-to-geology-fall-2013"
-const videoGalleryCourseId = "ec-711-d-lab-energy-spring-2011"
-const physicsCourseId = "8-02-physics-ii-electricity-and-magnetism-spring-2007"
-const subtitlesCourseId = "21g-107-chinese-i-streamlined-fall-2014"
-const classicalMechanicsId = "8-01sc-classical-mechanics-fall-2016"
+const {
+  testDataPath,
+  readCourseJson,
+  singleCourseId,
+  imageGalleryCourseId,
+  videoGalleryCourseId,
+  physics802Id,
+  subtitlesCourseId,
+  classicalMechanicsId,
+  allCourseIds
+} = require("./test_utils")
 
 describe("markdown generators", () => {
   let singleCourseJsonData,
@@ -36,18 +32,11 @@ describe("markdown generators", () => {
     courseVideoFeaturesFrontMatter,
     pathLookup
 
-  const readCourseJson = courseId =>
-    JSON.parse(
-      fs.readFileSync(
-        path.join(testDataPath, courseId, `${courseId}_parsed.json`)
-      )
-    )
-
   beforeEach(async () => {
     singleCourseJsonData = readCourseJson(singleCourseId)
     imageGalleryCourseJsonData = readCourseJson(imageGalleryCourseId)
     videoGalleryCourseJsonData = readCourseJson(videoGalleryCourseId)
-    physicsCourseJsonData = readCourseJson(physicsCourseId)
+    physicsCourseJsonData = readCourseJson(physics802Id)
     subtitlesCourseJsonData = readCourseJson(subtitlesCourseId)
     classicalMechanicsJsonData = readCourseJson(classicalMechanicsId)
 
@@ -67,15 +56,8 @@ describe("markdown generators", () => {
     )
 
     pathLookup = await fileOperations.buildPathsForAllCourses(
-      "test_data/courses",
-      [
-        singleCourseId,
-        videoGalleryCourseId,
-        imageGalleryCourseId,
-        physicsCourseId,
-        subtitlesCourseId,
-        classicalMechanicsId
-      ]
+      testDataPath,
+      allCourseIds
     )
     courseImageFeaturesFrontMatter = markdownGenerators.generateCourseFeaturesMarkdown(
       imageGalleryPages[0],

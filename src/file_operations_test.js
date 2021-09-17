@@ -17,25 +17,22 @@ const fileOperations = require("./file_operations")
 const markdownGenerators = require("./markdown_generators")
 const configGenerators = require("./config_generators")
 const dataTemplateGenerators = require("./data_template_generators")
+const {
+  readCourseJson,
+  singleCourseId,
+  unpublishedCourseId,
+  testDataPath,
+  course100Id,
+  videoGalleryCourseId,
+  imageGalleryCourseId,
+  getParsedJsonPath
+} = require("./test_utils")
 
 describe("file operations", () => {
-  const testDataPath = "test_data/courses"
-  const singleCourseId =
-    "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
-  const unpublishedCourseId = "18-435j-quantum-computation-fall-2018"
-  const singleCourseMasterJsonPath = path.join(
-    testDataPath,
-    singleCourseId,
-    `${singleCourseId}_parsed.json`
-  )
-  let singleCourseRawData,
-    singleCourseJsonData,
-    singleCourseMarkdownData,
-    pathLookup
+  let singleCourseJsonData, singleCourseMarkdownData, pathLookup
 
   beforeEach(async () => {
-    singleCourseRawData = require("fs").readFileSync(singleCourseMasterJsonPath)
-    singleCourseJsonData = JSON.parse(singleCourseRawData)
+    singleCourseJsonData = readCourseJson(singleCourseId)
     pathLookup = await fileOperations.buildPathsForAllCourses(
       "test_data/courses",
       [singleCourseId]
@@ -49,22 +46,13 @@ describe("file operations", () => {
   describe("scanCourses", () => {
     let readdirStub, lstatStub, consoleLog
     const sandbox = sinon.createSandbox()
-    const inputPath = "test_data/courses"
     const outputPath = tmp.dirSync({ prefix: "output" }).name
     const courseLogMessage = "Converting 17 courses to Hugo markdown..."
     const pathsLogMessage = "Generated 3471 paths."
-    const course1Name =
-      "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012"
-    const course1Path = path.join(inputPath, course1Name)
-    const course2Path = path.join(
-      inputPath,
-      "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
-    )
-    const course3Path = path.join(inputPath, "ec-711-d-lab-energy-spring-2011")
-    const course4Path = path.join(
-      inputPath,
-      "12-001-introduction-to-geology-fall-2013"
-    )
+    const course1Path = path.join(testDataPath, course100Id)
+    const course2Path = path.join(testDataPath, singleCourseId)
+    const course3Path = path.join(testDataPath, videoGalleryCourseId)
+    const course4Path = path.join(testDataPath, imageGalleryCourseId)
 
     beforeEach(() => {
       readdirStub = sandbox.spy(fsPromises, "readdir")
@@ -89,7 +77,7 @@ describe("file operations", () => {
 
     it("throws an error when you call it with no output directory", async () => {
       try {
-        await fileOperations.scanCourses(inputPath, null)
+        await fileOperations.scanCourses(testDataPath, null)
         assert.fail("No error thrown")
       } catch (err) {
         // all good
@@ -98,13 +86,13 @@ describe("file operations", () => {
 
     it("displays an error when you call it with an empty courses.json", async () => {
       helpers.runOptions.courses = "test_data/courses_blank.json"
-      await fileOperations.scanCourses(inputPath, outputPath)
+      await fileOperations.scanCourses(testDataPath, outputPath)
       expect(consoleLog).calledWithExactly(NO_COURSES_FOUND_MESSAGE)
     })
 
     it("errors when reading a course without a master JSON file", async () => {
       const coursesPath = tmp.dirSync({ prefix: "output" }).name
-      await fsPromises.mkdir(path.join(coursesPath, course1Name))
+      await fsPromises.mkdir(path.join(coursesPath, course100Id))
       helpers.runOptions.courses = "test_data/courses.json"
       try {
         await fileOperations.scanCourses(coursesPath, outputPath)
@@ -112,14 +100,14 @@ describe("file operations", () => {
       } catch (err) {
         assert.include(
           err.message,
-          `${course1Name} - Specified course was not found.`
+          `${course100Id} - Specified course was not found.`
         )
       }
     })
 
     it("doesn't error when reading a course without a master JSON file, if the courses option wasn't set", async () => {
       const coursesPath = tmp.dirSync({ prefix: "output" }).name
-      await fsPromises.mkdir(path.join(coursesPath, course1Name))
+      await fsPromises.mkdir(path.join(coursesPath, course100Id))
       await fileOperations.scanCourses(coursesPath, outputPath)
     })
 
@@ -128,7 +116,7 @@ describe("file operations", () => {
       return expect(
         fileOperations.scanCourses("test_data/empty", outputPath)
       ).to.eventually.be.rejectedWith(
-        `Missing course directory for ${course1Name}`
+        `Missing course directory for ${course100Id}`
       )
     })
 
@@ -140,22 +128,22 @@ describe("file operations", () => {
     })
 
     it("calls readdir many times", async () => {
-      await fileOperations.scanCourses(inputPath, outputPath)
+      await fileOperations.scanCourses(testDataPath, outputPath)
       assert.equal(readdirStub.callCount, 86)
     }).timeout(10000)
 
     it("scans the test courses and reports to console", async () => {
-      await fileOperations.scanCourses(inputPath, outputPath)
+      await fileOperations.scanCourses(testDataPath, outputPath)
       expect(consoleLog).calledWithExactly(courseLogMessage)
     }).timeout(10000)
 
     it("reports the correct amount of paths found to the console", async () => {
-      await fileOperations.scanCourses(inputPath, outputPath)
+      await fileOperations.scanCourses(testDataPath, outputPath)
       expect(consoleLog).calledWithExactly(pathsLogMessage)
     }).timeout(10000)
 
     it("calls lstat for each test course", async () => {
-      await fileOperations.scanCourses(inputPath, outputPath)
+      await fileOperations.scanCourses(testDataPath, outputPath)
       expect(lstatStub).to.be.calledWithExactly(course1Path)
       expect(lstatStub).to.be.calledWithExactly(course2Path)
       expect(lstatStub).to.be.calledWithExactly(course3Path)
@@ -173,6 +161,9 @@ describe("file operations", () => {
     const outputPath = tmp.dirSync({ prefix: "output" }).name
 
     beforeEach(async () => {
+      const singleCourseRawData = await fsPromises.readFile(
+        getParsedJsonPath(singleCourseId)
+      )
       readFileStub = sandbox
         .stub(fsPromises, "readFile")
         .returns(Promise.resolve(singleCourseRawData))
@@ -202,6 +193,7 @@ describe("file operations", () => {
         singleCourseId,
         pathLookup
       )
+      const singleCourseMasterJsonPath = getParsedJsonPath(singleCourseId)
       expect(readFileStub).to.be.calledWithExactly(singleCourseMasterJsonPath)
     }).timeout(10000)
 
@@ -266,7 +258,7 @@ describe("file operations", () => {
       const masterJsonFileName = await fileOperations.getMasterJsonFileName(
         path.join(testDataPath, singleCourseId)
       )
-      assert.equal(masterJsonFileName, singleCourseMasterJsonPath)
+      assert.equal(masterJsonFileName, getParsedJsonPath(singleCourseId))
     })
   })
 
