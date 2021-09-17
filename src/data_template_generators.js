@@ -27,11 +27,9 @@ const generateDataTemplate = (courseData, pathLookup) => {
       website: "ocw-www"
     },
     department_numbers: helpers.getDepartmentNumbers(courseData),
-    course_features:    courseData["course_feature_tags"]
-      ? courseData["course_feature_tags"].map(
-        courseFeature => courseFeature["course_feature_tag"]
-      )
-      : [],
+    course_features:    (courseData["course_feature_tags"] || []).map(
+      courseFeature => courseFeature["course_feature_tag"]
+    ),
     topics:                helpers.getConsolidatedTopics(courseData["course_collections"]),
     primary_course_number: helpers.getPrimaryCourseNumber(courseData),
     extra_course_numbers:  helpers.getExtraCourseNumbers(courseData).join(", "),
@@ -66,11 +64,11 @@ const generateLegacyDataTemplate = (courseData, pathLookup) => {
     level: courseData["course_level"],
     url:   helpers.makeCourseInfoUrl(courseData["course_level"], "level")
   }
-  dataTemplate["course_features"] = courseData["course_feature_tags"]
-    ? courseData["course_feature_tags"].map(courseFeature =>
-      helpers.getCourseFeatureObject(courseFeature, courseData, pathLookup)
-    )
-    : []
+  dataTemplate["course_features"] = (
+    courseData["course_feature_tags"] || []
+  ).map(courseFeature =>
+    helpers.getCourseFeatureObject(courseFeature, courseData, pathLookup)
+  )
   dataTemplate["extra_course_numbers"] = helpers.getExtraCourseNumbers(
     courseData
   )
