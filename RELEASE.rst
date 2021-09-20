@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.30.1
+Version 1.30.1 (Released September 20, 2021)
 --------------
 
 - Create page for each resource (#337)
