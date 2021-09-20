@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.30.0
+Version 1.30.0 (Released September 20, 2021)
 --------------
 
 - more ocw studio updates (#366)
