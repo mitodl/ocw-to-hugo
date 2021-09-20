@@ -22,24 +22,11 @@ const runOptions = {}
 
 const makeCourseUrlPrefix = courseId => `/courses/${courseId}`
 
-const distinct = (value, index, self) => {
-  return self.indexOf(value) === index
-}
-
 const directoryExists = async directory => {
   try {
     return (await fsPromises.lstat(directory)).isDirectory()
   } catch (err) {
     // this will happen if we don't have access to the directory or if it doesn't exist
-    return false
-  }
-}
-
-const fileExists = async path => {
-  try {
-    return (await fsPromises.lstat(path)).isFile()
-  } catch (err) {
-    // this will happen if we don't have access to the file or if it doesn't exist
     return false
   }
 }
@@ -294,40 +281,51 @@ const getYoutubeEmbedCode = media => {
     .join("")
 }
 
-const buildPathRecursive = (
+const makeResourceSlug = (originalFilename, resourceNameSet) => {
+  const originalFilenameMinusExt = stripSuffix(path.extname(originalFilename))(
+    originalFilename
+  )
+  const prefix = originalFilenameMinusExt
+    .toLowerCase()
+    .replace(/[ .]/g, "-")
+    .replace(/[^-\w]/g, "")
+  let filename = prefix
+
+  let idx = 1
+  while (resourceNameSet.has(filename)) {
+    filename = `${prefix}-${idx}`
+    idx++
+  }
+  resourceNameSet.add(filename)
+
+  return filename
+}
+
+const buildPaths = (
   item,
   itemsLookup,
   courseUid,
   pathLookup,
-  uidInfoLookup
+  uidInfoLookup,
+  resourceNameSet
 ) => {
   const { filenameKey, page } = item
   const uid = page["uid"]
   const uidInfo = uidInfoLookup[uid]
+  const isResource =
+    uidInfo &&
+    (uidInfo["type"] === FILE_TYPE ||
+      uidInfo["type"] === EMBEDDED_MEDIA_PAGE_TYPE)
   const parentUid = page["parent_uid"]
   const parentItem = itemsLookup[parentUid]
+  const parentIsCourseHomePage = courseUid === parentUid
 
-  if (courseUid === parentUid) {
-    // course is the parent, so link should be off of /pages
-    const filename = page[filenameKey]
-    const pagePath = path.join("/pages", filename)
-    pathLookup[uid] = { path: pagePath, unalteredPath: pagePath }
-    return
-  }
+  if (!parentIsCourseHomePage) {
+    if (!parentItem) {
+      loggers.fileLogger.error(`Missing parent ${parentUid}, parent of ${uid}`)
+      return
+    }
 
-  if (!parentItem) {
-    loggers.fileLogger.error(`Missing parent ${parentUid}, parent of ${uid}`)
-    return
-  }
-
-  if (!pathLookup[parentUid]) {
-    buildPathRecursive(
-      parentItem,
-      itemsLookup,
-      courseUid,
-      pathLookup,
-      uidInfoLookup
-    )
     if (!pathLookup[parentUid]) {
       loggers.fileLogger.error(
         `Unable to find path for ${parentUid}, parent of ${uid}`
@@ -337,25 +335,21 @@ const buildPathRecursive = (
   }
 
   const unalteredPath = path.join(
-    pathLookup[parentUid].unalteredPath,
+    parentIsCourseHomePage ? "/pages" : pathLookup[parentUid].path,
     page[filenameKey]
   )
-  if (
-    uidInfo &&
-    uidInfo["type"] === FILE_TYPE &&
-    uidInfo["fileType"] === "application/pdf"
-  ) {
+  if (isResource) {
     pathLookup[uid] = {
+      unalteredPath,
       path: path.join(
-        pathLookup[parentUid].path,
-        stripPdfSuffix(page[filenameKey].toLowerCase())
-      ),
-      unalteredPath
+        "/resources",
+        makeResourceSlug(uidInfo[filenameKey], resourceNameSet)
+      )
     }
   } else {
     pathLookup[uid] = {
-      path: path.join(pathLookup[parentUid].path, page[filenameKey]),
-      unalteredPath
+      unalteredPath,
+      path: unalteredPath
     }
   }
 }
@@ -381,8 +375,16 @@ const buildPathsForCourse = (courseData, uidInfoLookup) => {
     }
   }
 
+  const resourceNameSet = new Set()
   for (const item of Object.values(itemsLookup)) {
-    buildPathRecursive(item, itemsLookup, courseUid, pathLookup, uidInfoLookup)
+    buildPaths(
+      item,
+      itemsLookup,
+      courseUid,
+      pathLookup,
+      uidInfoLookup,
+      resourceNameSet
+    )
   }
 
   return pathLookup
@@ -433,10 +435,6 @@ const constructInternalLink = (
     }
   }
 
-  if ([FILE_TYPE, EMBEDDED_MEDIA_PAGE_TYPE].includes(linkType)) {
-    // TODO: resource shortcode in future PR
-  }
-
   if (isSameCourse) {
     return path.join(BASEURL_PLACEHOLDER, strippedPath)
   } else {
@@ -456,12 +454,7 @@ const resolveUidForLink = (
 
   if (pathLookup.byUid[uid]) {
     const pathObj = pathLookup.byUid[uid]
-    const { course, path: itemPath, fileType, type, fileLocation } = pathObj
-
-    if (type === FILE_TYPE && fileType !== "application/pdf") {
-      // link directly to the static content
-      return stripS3(fileLocation)
-    }
+    const { course, path: itemPath, type } = pathObj
 
     return constructInternalLink(
       course,
@@ -489,7 +482,6 @@ const resolveUidForLink = (
  */
 const resolveUidMatches = (
   htmlStr,
-  page,
   courseData,
   pathLookup,
   useShortcodes,
@@ -587,7 +579,7 @@ const resolveRelativeLink = (
             pathObj.unalteredPath ===
               `/${["pages", ...sections, page].join("/")}`
           ) {
-            if (pathObj.fileType === "application/pdf" && !useDirectLink) {
+            if (!useDirectLink) {
               const { type, course, path, uid } = pathObj
               return constructInternalLink(
                 course,
@@ -796,12 +788,15 @@ const getOpenLearningLibraryVersions = openLearningLibraryRelated => {
 }
 
 const stripSuffix = suffix => text => {
+  if (suffix.length === 0) {
+    return text
+  }
+
   if (text.toLowerCase().endsWith(suffix.toLowerCase())) {
     return text.slice(0, -suffix.length)
   }
   return text
 }
-const stripPdfSuffix = stripSuffix(".pdf")
 
 const stripPrefix = prefix => text => {
   if (text.toLowerCase().startsWith(prefix.toLowerCase())) {
@@ -843,10 +838,8 @@ const addDashesToUid = uid => {
 }
 
 module.exports = {
-  distinct,
   directoryExists,
   createOrOverwriteFile,
-  fileExists,
   findDepartmentByNumber,
   getDepartmentNumbers,
   getDepartments,
@@ -872,13 +865,14 @@ module.exports = {
   getArchivedVersions,
   getOpenLearningLibraryVersions,
   runOptions,
-  stripPdfSuffix,
+  stripSuffix,
   stripSlashPrefix,
-  replaceSubstring,
-  applyReplacements,
+  makeResourceSlug,
   getPathFragments,
   updatePath,
+  applyReplacements,
   makeCourseInfoUrl,
   parseDspaceUrl,
-  addDashesToUid
+  addDashesToUid,
+  replaceSubstring
 }

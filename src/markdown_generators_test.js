@@ -1,61 +1,29 @@
-const path = require("path")
 const sinon = require("sinon")
 const { assert, expect } = require("chai").use(require("sinon-chai"))
-const fs = require("fs")
 const yaml = require("js-yaml")
-const markdown = require("markdown-doc-builder").default
-const tmp = require("tmp")
-tmp.setGracefulCleanup()
 
-const loggers = require("./loggers")
 const markdownGenerators = require("./markdown_generators")
 const helpers = require("./helpers")
 const fileOperations = require("./file_operations")
-
-const testDataPath = "test_data/courses"
-const singleCourseId =
-  "2-00aj-exploring-sea-space-earth-fundamentals-of-engineering-design-spring-2009"
-const imageGalleryCourseId = "12-001-introduction-to-geology-fall-2013"
-const videoGalleryCourseId = "ec-711-d-lab-energy-spring-2011"
-const physicsCourseId = "8-02-physics-ii-electricity-and-magnetism-spring-2007"
-const subtitlesCourseId = "21g-107-chinese-i-streamlined-fall-2014"
-const singleCourseParsedJsonPath = path.join(
+const {
   testDataPath,
+  readCourseJson,
   singleCourseId,
-  `${singleCourseId}_parsed.json`
-)
-const imageGalleryCourseParsedJsonPath = path.join(
-  testDataPath,
   imageGalleryCourseId,
-  `${imageGalleryCourseId}_parsed.json`
-)
-const videoGalleryCourseParsedJsonPath = path.join(
-  testDataPath,
   videoGalleryCourseId,
-  `${videoGalleryCourseId}_parsed.json`
-)
-const physicsCourseParsedJsonPath = path.join(
-  testDataPath,
-  physicsCourseId,
-  `${physicsCourseId}_parsed.json`
-)
-const subtitlesCourseParsedJsonPath = path.join(
-  testDataPath,
+  physics802Id,
   subtitlesCourseId,
-  `${subtitlesCourseId}_parsed.json`
-)
+  classicalMechanicsId,
+  allCourseIds
+} = require("./test_utils")
 
 describe("markdown generators", () => {
-  let singleCourseRawData,
-    singleCourseJsonData,
-    imageGalleryCourseRawData,
+  let singleCourseJsonData,
     imageGalleryCourseJsonData,
-    videoGalleryCourseRawData,
     videoGalleryCourseJsonData,
-    physicsCourseRawData,
     physicsCourseJsonData,
-    subtitlesCourseRawData,
     subtitlesCourseJsonData,
+    classicalMechanicsJsonData,
     coursePagesWithText,
     imageGalleryPages,
     imageGalleryImages,
@@ -65,23 +33,12 @@ describe("markdown generators", () => {
     pathLookup
 
   beforeEach(async () => {
-    singleCourseRawData = fs.readFileSync(singleCourseParsedJsonPath)
-    singleCourseJsonData = JSON.parse(singleCourseRawData)
-    imageGalleryCourseRawData = fs.readFileSync(
-      imageGalleryCourseParsedJsonPath
-    )
-    imageGalleryCourseJsonData = JSON.parse(imageGalleryCourseRawData)
-
-    videoGalleryCourseRawData = fs.readFileSync(
-      videoGalleryCourseParsedJsonPath
-    )
-    videoGalleryCourseJsonData = JSON.parse(videoGalleryCourseRawData)
-
-    physicsCourseRawData = fs.readFileSync(physicsCourseParsedJsonPath)
-    physicsCourseJsonData = JSON.parse(physicsCourseRawData)
-
-    subtitlesCourseRawData = fs.readFileSync(subtitlesCourseParsedJsonPath)
-    subtitlesCourseJsonData = JSON.parse(subtitlesCourseRawData)
+    singleCourseJsonData = readCourseJson(singleCourseId)
+    imageGalleryCourseJsonData = readCourseJson(imageGalleryCourseId)
+    videoGalleryCourseJsonData = readCourseJson(videoGalleryCourseId)
+    physicsCourseJsonData = readCourseJson(physics802Id)
+    subtitlesCourseJsonData = readCourseJson(subtitlesCourseId)
+    classicalMechanicsJsonData = readCourseJson(classicalMechanicsId)
 
     coursePagesWithText = singleCourseJsonData["course_pages"].filter(
       page => page["text"]
@@ -99,14 +56,8 @@ describe("markdown generators", () => {
     )
 
     pathLookup = await fileOperations.buildPathsForAllCourses(
-      "test_data/courses",
-      [
-        singleCourseId,
-        videoGalleryCourseId,
-        imageGalleryCourseId,
-        physicsCourseId,
-        subtitlesCourseId
-      ]
+      testDataPath,
+      allCourseIds
     )
     courseImageFeaturesFrontMatter = markdownGenerators.generateCourseFeaturesMarkdown(
       imageGalleryPages[0],
@@ -136,20 +87,6 @@ describe("markdown generators", () => {
         sectionMarkdownData["data"].split("---\n")[1]
       )
       assert.equal(sectionFrontMatter["course_id"], courseId)
-      if (sectionMarkdownData["files"]) {
-        sectionMarkdownData["files"].forEach(file => {
-          const fileFrontMatter = yaml.safeLoad(file["data"].split("---\n")[1])
-          assert.equal(fileFrontMatter["course_id"], courseId)
-        })
-      }
-      if (sectionMarkdownData["media"]) {
-        sectionMarkdownData["media"].forEach(media => {
-          const mediaFrontMatter = yaml.safeLoad(
-            media["data"].split("---\n")[1]
-          )
-          assert.equal(mediaFrontMatter["course_id"], courseId)
-        })
-      }
       if (sectionMarkdownData["children"]) {
         sectionMarkdownData["children"].forEach(child => {
           assertCourseIdRecursive(child, courseId)
@@ -167,11 +104,65 @@ describe("markdown generators", () => {
         "pages/energy-storage/_index.md",
         "pages/lighting-biogas/_index.md",
         "pages/solar/_index.md",
-        "pages/wind-micro-hydro/_index.md",
-        "pages/cooking-stoves-fuel/_index.md",
-        "pages/week-7-trip-planning-and-preparations/_index.md",
-        "pages/week-8-nicaragua-trip/_index.md",
-        "pages/projects/_index.md"
+        "pages/wind-micro-hydro.md",
+        "pages/cooking-stoves-fuel.md",
+        "pages/week-7-trip-planning-and-preparations.md",
+        "pages/week-8-nicaragua-trip.md",
+        "pages/projects/_index.md",
+        "/resources/lab1s11.md",
+        "/resources/mitec_711s11_lab1_pedal.md",
+        "/resources/mitsp_775s11_pset0_rubric.md",
+        "/resources/mitec_711s11_lec01_ho2.md",
+        "/resources/mitec_711s11_lec01_ho1.md",
+        "/resources/mitec_711s11_read_react.md",
+        "/resources/mitec_711s11_lec01.md",
+        "/resources/mitec_711s11_lec02.md",
+        "/resources/mitec_711s11_lab3.md",
+        "/resources/mitec_711s11_lec3_ho1.md",
+        "/resources/mitec_711s11_lab3_pres.md",
+        "/resources/mitec_711s11_lec03.md",
+        "/resources/mitec_711s11_lec04.md",
+        "/resources/mitec_711s11_lab5.md",
+        "/resources/mitec_711s11_lec05.md",
+        "/resources/mitec_711s11_read5_fuel.md",
+        "/resources/mitec_711s11_read6a.md",
+        "/resources/mitec_711s11_read6b.md",
+        "/resources/mitec_711s11_read6c.md",
+        "/resources/mitec_711s11_lec06.md",
+        "/resources/mitec_711s11_lec07.md",
+        "/resources/mitec_711s11_trip_tips.md",
+        "/resources/mitec_711s11_trip_pack.md",
+        "/resources/mitec_711s11_trip_ltr.md",
+        "/resources/mitec_711s11_lec8.md",
+        "/resources/mitec_711s11_proj_rptchrg.md",
+        "/resources/mitec_711s11_proj_rubric.md",
+        "/resources/mitec_711s11_proj_rptseal.md",
+        "/resources/mitec_711s11_proj_teamass.md",
+        "/resources/mitec_711s11_proj_rptfire.md",
+        "/resources/mitec_711s11_proj_rpthusk.md",
+        "/resources/ec-711s11.md",
+        "/resources/ec-711s11-th.md",
+        "/resources/lab-1-human-power.md",
+        "/resources/lecture-6-cooking-stoves-fuel.md",
+        "/resources/lecture-3-lighting-trip-introduction.md",
+        "/resources/project-presentations-3-initial-design-review.md",
+        "/resources/lab-3-biogas-and-biodigesters-part-ii-activities.md",
+        "/resources/lab-6-charcoal-making-stove-testing.md",
+        "/resources/lab-4-wiring-solar-panels-part-i-lecture.md",
+        "/resources/project-presentations-4-final-design-review.md",
+        "/resources/lecture-1-introduction-to-energy.md",
+        "/resources/lab-2-solar-power-measurement-part-i-lecture.md",
+        "/resources/lecture-7-solar-cookers-creative-capacity-building-trip-preparation.md",
+        "/resources/project-presentations-2-trip-reports.md",
+        "/resources/lecture-8-project-design-process.md",
+        "/resources/lab-3-biogas-and-biodigesters-part-i-lecture.md",
+        "/resources/lecture-5-wind-and-micro-hydro-power-trip-planning.md",
+        "/resources/project-presentations-1-trip-planning.md",
+        "/resources/lecture-4.md",
+        "/resources/lab-4-wiring-solar-panels-part-ii-activities.md",
+        "/resources/lab-2-solar-power-measurement-part-ii-activities.md",
+        "/resources/lecture-2-energy-storage-microgrids-trip-preview.md",
+        "/resources/lab-5-savonius-wind-turbine-construction-and-testing.md"
       ])
     })
 
@@ -230,11 +221,11 @@ describe("markdown generators", () => {
     ;[
       [
         true,
-        "https://example.com//21g-107-chinese-i-streamlined-fall-2014/dbc1d8158cd7b01299773a888630a83e_4afZKY-INNA.pdf"
+        "https://example.com//21g-107-chinese-i-streamlined-fall-2014/acf8cbbcf3ada9e7b0d390c8b4f8b1e6_M_gQolc3clM.pdf"
       ],
       [
         false,
-        "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/dbc1d8158cd7b01299773a888630a83e_4afZKY-INNA.pdf"
+        "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/acf8cbbcf3ada9e7b0d390c8b4f8b1e6_M_gQolc3clM.pdf"
       ]
     ].forEach(([useStripS3, expectedUrl]) => {
       it(`resolves urls inside embedded media urls when stripS3=${String(
@@ -242,18 +233,56 @@ describe("markdown generators", () => {
       )}`, () => {
         helpers.runOptions.strips3 = useStripS3
         helpers.runOptions.staticPrefix = "https://example.com/"
-        const markdownData = markdownGenerators.generateMarkdownFromJson(
-          subtitlesCourseJsonData,
-          pathLookup
-        )
+        const markdownData = markdownGenerators
+          .generateMarkdownFromJson(subtitlesCourseJsonData, pathLookup)
+          .find(file => file.name === "/resources/m_gqolc3clm-1.md")
 
-        const embeddedMedia = yaml.safeLoad(
-          markdownData[2].media[0].data.split("---\n")[1]
-        )
-        assert.equal(
-          embeddedMedia.embedded_media[6].technical_location,
-          expectedUrl
-        )
+        const embeddedMedia = yaml.safeLoad(markdownData.data.split("---\n")[1])
+        assert.equal(embeddedMedia.file_location, expectedUrl)
+      })
+    })
+
+    it("generates a resource page for a non-pdf file", () => {
+      const markdownData = markdownGenerators.generateMarkdownFromJson(
+        classicalMechanicsJsonData,
+        pathLookup
+      )
+      const file = markdownData.find(
+        file =>
+          file.name ===
+          "/resources/jsinput_freebodydraw_massive_rope_between_trees_setup.md"
+      )
+      const frontmatter = yaml.safeLoad(file.data.split("---\n")[1])
+      assert.deepEqual(frontmatter, {
+        description:   "",
+        file_location:
+          "https://open-learning-course-data-production.s3.amazonaws.com/8-01sc-classical-mechanics-fall-2016/838633c70a5b59cce23f0909eaeb96d7_jsinput_freebodydraw_massive_rope_between_trees_setup.svg",
+        file_type:    "image/svg+xml",
+        resourcetype: "Image",
+        title:        "jsinput_freebodydraw_massive_rope_between_trees_setup.svg",
+        uid:          "838633c70a5b59cce23f0909eaeb96d7"
+      })
+    })
+
+    it("generates a resource page for a video resource", () => {
+      const markdownData = markdownGenerators.generateMarkdownFromJson(
+        classicalMechanicsJsonData,
+        pathLookup
+      )
+      const file = markdownData.find(
+        file => file.name === "/resources/0-1-vectors-vs.md"
+      )
+      const frontmatter = yaml.safeLoad(file.data.split("---\n")[1])
+      assert.deepEqual(frontmatter, {
+        title:          "0.1 Vectors vs. Scalars",
+        description:    "",
+        uid:            "5b89e3d0ea345f02540bac14b4acac9b",
+        resourceType:   "Video",
+        video_metadata: { youtube_id: "5ucfHd8FWKw" },
+        video_files:    {
+          video_captions_file:
+            "/courses/physics/8-01sc-classical-mechanics-fall-2016/review-vectors/0.1-vectors-vs.-scalars/0.1-vectors-vs.-scalars/5ucfHd8FWKw.vtt"
+        }
       })
     })
   })
@@ -328,50 +357,42 @@ describe("markdown generators", () => {
     })
   })
 
-  describe("generatePagePdfMarkdown", () => {
+  describe("generateResourcePageMarkdown", () => {
     it("creates an acknowledgements.md file", () => {
-      const pdfMarkdownFiles = markdownGenerators.generatePagePdfMarkdown(
+      const markdownFiles = markdownGenerators.generateMarkdownFromJson(
         physicsCourseJsonData,
         pathLookup
       )
-      assert.lengthOf(pdfMarkdownFiles, 180)
-      const pdfMarkdownFile = pdfMarkdownFiles[0]
-      const fileName = pdfMarkdownFile["name"]
-      const markdown = yaml.safeLoad(
-        pdfMarkdownFile["data"].replace(/---\n/g, "")
+      const file = markdownFiles.find(
+        file => file.name === "/resources/acknowledgements.md"
       )
-      assert.equal(fileName, "/acknowledgements.md")
+      const markdown = yaml.safeLoad(file["data"].replace(/---\n/g, ""))
       assert.deepEqual(markdown, {
         title:       "acknowledgements.pdf",
         description:
           "This resource contains acknowledgements to the persons who helped build this course.",
-        layout:        "pdf",
+        resourcetype:  "Document",
         uid:           "d7d1fabcb57a6d4a9cc96f04348dedfd",
-        parent_uid:    "8d3bdda7363b3a4b18d9d5b7c4083899",
         file_type:     "application/pdf",
         file_location:
           "https://open-learning-course-data-production.s3.amazonaws.com/8-02-physics-ii-electricity-and-magnetism-spring-2007/d7d1fabcb57a6d4a9cc96f04348dedfd_acknowledgements.pdf"
       })
     })
 
-    it("creates a pdf page for a pdf whose parent is not the course home page", () => {
-      const pdfMarkdownFile = markdownGenerators.generatePagePdfMarkdown(
-        physicsCourseJsonData,
-        pathLookup
-      )[1]
-      const fileName = pdfMarkdownFile["name"]
+    it("creates a resource page for a pdf whose parent is not the course home page", () => {
+      const pdfMarkdownFile = markdownGenerators
+        .generateMarkdownFromJson(physicsCourseJsonData, pathLookup)
+        .find(file => file.name === "/resources/summary_w12d2.md")
       const markdown = yaml.safeLoad(
         pdfMarkdownFile["data"].replace(/---\n/g, "")
       )
-      assert.equal(fileName, "/pages/readings/summary_w12d2.md")
       assert.deepEqual(markdown, {
         title:       "summary_w12d2.pdf",
         description:
           "This file talks about how electricity and magnetism interact with each other and also considers finalizing Maxwell?s Equations, their result ? electromagnetic (EM) radiation and how energy flows in electric and magnetic fields.",
-        layout:        "pdf",
         uid:           "a1bfc34ccf08ddf8474627b9a13d6ca8",
-        parent_uid:    "0daf498714598983aa855689f242c83b",
         file_type:     "application/pdf",
+        resourcetype:  "Document",
         file_location:
           "https://open-learning-course-data-production.s3.amazonaws.com/8-02-physics-ii-electricity-and-magnetism-spring-2007/a1bfc34ccf08ddf8474627b9a13d6ca8_summary_w12d2.pdf"
       })
@@ -525,12 +546,12 @@ describe("markdown generators", () => {
         /{{< video-gallery-item [^>]+ >}}/g
       )
       assert.deepEqual(matches, [
-        '{{< video-gallery-item href="/pages/intro-energy-basics-human-power/lecture-1-introduction-to-energy" ' +
+        '{{< video-gallery-item href="/resources/lecture-1-introduction-to-energy" ' +
           'section="Week 1: Introduction, Energy Basics & Human Power" title="Lecture 1: Introduction to Energy" ' +
           'description="Description: This lecture introduces fundamental energy concepts: energy around in the world, energy units, ' +
           "a quick electricity review, and some estimation practice activities. The session ends with a syllabus overview. " +
           'Speaker: Amy Banzaert" thumbnail="https://img.youtube.com/vi/SbpeBF8D_m4/default.jpg" >}}',
-        '{{< video-gallery-item href="/pages/intro-energy-basics-human-power/lab-1-human-power" ' +
+        '{{< video-gallery-item href="/resources/lab-1-human-power" ' +
           'section="Week 1: Introduction, Energy Basics & Human Power" title="Lab 1: Human Power" ' +
           'description="Description: This lab consists of three parts: Water pumping, with a PVC hand pump and a ' +
           "cement rocker pump Water carrying, with a tump line, head carry, hand carry, and Q-drum Woodshop training " +
