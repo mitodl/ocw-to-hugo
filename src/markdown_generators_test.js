@@ -305,54 +305,14 @@ describe("markdown generators", () => {
         singleCourseJsonData["course_collections"]
       )
       assert.deepEqual(topics, [
-        {
-          topic:     "Engineering",
-          subtopics: [
-            {
-              specialities: [
-                {
-                  speciality: "Systems Design",
-                  url:        `/search/?t=${encodeURIComponent("Systems Design")}`
-                }
-              ],
-              subtopic: "Systems Engineering",
-              url:      `/search/?t=${encodeURIComponent("Systems Engineering")}`
-            },
-            {
-              specialities: [
-                {
-                  speciality: "Robotics and Control Systems",
-                  url:        `/search/?t=${encodeURIComponent(
-                    "Robotics and Control Systems"
-                  )}`
-                }
-              ],
-              subtopic: "Electrical Engineering",
-              url:      `/search/?t=${encodeURIComponent("Electrical Engineering")}`
-            },
-            {
-              specialities: [
-                {
-                  speciality: "Ocean Exploration",
-                  url:        `/search/?t=${encodeURIComponent("Ocean Exploration")}`
-                }
-              ],
-              subtopic: "Ocean Engineering",
-              url:      `/search/?t=${encodeURIComponent("Ocean Engineering")}`
-            },
-            {
-              specialities: [
-                {
-                  speciality: "Mechanical Design",
-                  url:        `/search/?t=${encodeURIComponent("Mechanical Design")}`
-                }
-              ],
-              subtopic: "Mechanical Engineering",
-              url:      `/search/?t=${encodeURIComponent("Mechanical Engineering")}`
-            }
-          ],
-          url: `/search/?t=${encodeURIComponent("Engineering")}`
-        }
+        ["Engineering", "Systems Engineering", "Systems Design"],
+        [
+          "Engineering",
+          "Electrical Engineering",
+          "Robotics and Control Systems"
+        ],
+        ["Engineering", "Ocean Engineering", "Ocean Exploration"],
+        ["Engineering", "Mechanical Engineering", "Mechanical Design"]
       ])
     })
   })
