@@ -260,7 +260,7 @@ describe("markdown generators", () => {
         file_type:    "image/svg+xml",
         resourcetype: "Image",
         title:        "jsinput_freebodydraw_massive_rope_between_trees_setup.svg",
-        uid:          "838633c70a5b59cce23f0909eaeb96d7"
+        uid:          "838633c7-0a5b-59cc-e23f-0909eaeb96d7"
       })
     })
 
@@ -276,7 +276,7 @@ describe("markdown generators", () => {
       assert.deepEqual(frontmatter, {
         title:          "0.1 Vectors vs. Scalars",
         description:    "",
-        uid:            "5b89e3d0ea345f02540bac14b4acac9b",
+        uid:            "5b89e3d0-ea34-5f02-540b-ac14b4acac9b",
         resourceType:   "Video",
         video_metadata: { youtube_id: "5ucfHd8FWKw" },
         video_files:    {
@@ -332,7 +332,7 @@ describe("markdown generators", () => {
         description:
           "This resource contains acknowledgements to the persons who helped build this course.",
         resourcetype:  "Document",
-        uid:           "d7d1fabcb57a6d4a9cc96f04348dedfd",
+        uid:           "d7d1fabc-b57a-6d4a-9cc9-6f04348dedfd",
         file_type:     "application/pdf",
         file_location:
           "https://open-learning-course-data-production.s3.amazonaws.com/8-02-physics-ii-electricity-and-magnetism-spring-2007/d7d1fabcb57a6d4a9cc96f04348dedfd_acknowledgements.pdf"
@@ -350,7 +350,7 @@ describe("markdown generators", () => {
         title:       "summary_w12d2.pdf",
         description:
           "This file talks about how electricity and magnetism interact with each other and also considers finalizing Maxwell?s Equations, their result ? electromagnetic (EM) radiation and how energy flows in electric and magnetic fields.",
-        uid:           "a1bfc34ccf08ddf8474627b9a13d6ca8",
+        uid:           "a1bfc34c-cf08-ddf8-4746-27b9a13d6ca8",
         file_type:     "application/pdf",
         resourcetype:  "Document",
         file_location:

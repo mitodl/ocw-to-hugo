@@ -98,13 +98,13 @@ const generatePageMenuItemsRecursive = (page, courseData, pathLookup) => {
   const listInLeftNav = page["list_in_left_nav"]
   if (inRootNav || listInLeftNav) {
     const menuItem = {
-      identifier: page["uid"],
+      identifier: addDashesToUid(page["uid"]),
       name:       shortTitle || "",
       url:        pathLookup.byUid[page["uid"]]["path"],
       weight:     menuIndex
     }
     if (parentId) {
-      menuItem["parent"] = parentId
+      menuItem["parent"] = addDashesToUid(parentId)
     }
     this["menuIndex"]++
     this["menuItems"].push(menuItem)
@@ -792,6 +792,9 @@ const parseDspaceUrl = url => {
 }
 
 const addDashesToUid = uid => {
+  if (!uid.match(/[a-f0-9]{32}/)) {
+    return uid
+  }
   return `${uid.substr(0, 8)}-${uid.substr(8, 4)}-${uid.substr(
     12,
     4

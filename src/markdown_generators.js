@@ -156,12 +156,12 @@ const generateCourseSectionFrontMatter = (
     Generate the front matter metadata for a course section
     */
   const courseSectionFrontMatter = {
-    uid:   pageId,
+    uid:   helpers.addDashesToUid(pageId),
     title: title
   }
 
   if (parentUid) {
-    courseSectionFrontMatter["parent_uid"] = parentUid
+    courseSectionFrontMatter["parent_uid"] = helpers.addDashesToUid(parentUid)
   }
   if (parentTitle) {
     courseSectionFrontMatter["parent_title"] = parentTitle
@@ -227,7 +227,7 @@ const generateResourceMarkdownForFile = file => {
   const frontMatter = {
     title:         file["title"],
     description:   file["description"],
-    uid:           file["uid"],
+    uid:           helpers.addDashesToUid(file["uid"]),
     resourcetype:  getResourceType(file["file_type"]),
     file_type:     file["file_type"],
     file_location: helpers.stripS3(file["file_location"])
@@ -265,7 +265,7 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
   const frontMatter = {
     title:          media["title"],
     description:    "",
-    uid:            media["uid"],
+    uid:            helpers.addDashesToUid(media["uid"]),
     resourceType:   RESOURCE_TYPE_VIDEO,
     video_metadata: {
       youtube_id: youtubeId
@@ -349,9 +349,9 @@ const generateImageGalleryMarkdown = (page, courseData) => {
           .map(key => `${key}="${args[key]}"`)
           .join(" ")} >}}`
     )
-    courseFeaturesMarkdown = `${courseFeaturesMarkdown}\n{{< image-gallery id="${
+    courseFeaturesMarkdown = `${courseFeaturesMarkdown}\n{{< image-gallery id="${helpers.addDashesToUid(
       page["uid"]
-    }_nanogallery2" baseUrl="${helpers.stripS3(
+    )}_nanogallery2" baseUrl="${helpers.stripS3(
       baseUrl
     )}" >}}\n${imageShortcodes.join("\n")}\n{{</ image-gallery >}}`
   }
