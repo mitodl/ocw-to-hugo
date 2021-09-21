@@ -180,33 +180,9 @@ describe("generateDataTemplate", () => {
       pathLookup
     )
     assert.deepEqual(courseDataTemplate["topics"], [
-      {
-        subtopics: [
-          {
-            specialities: [],
-            subtopic:     "Aerospace Engineering",
-            url:          "/search/?t=Aerospace%20Engineering"
-          },
-          {
-            specialities: [],
-            subtopic:     "Systems Engineering",
-            url:          "/search/?t=Systems%20Engineering"
-          }
-        ],
-        topic: "Engineering",
-        url:   "/search/?t=Engineering"
-      },
-      {
-        subtopics: [
-          {
-            specialities: [],
-            subtopic:     "Operations Management",
-            url:          "/search/?t=Operations%20Management"
-          }
-        ],
-        topic: "Business",
-        url:   "/search/?t=Business"
-      }
+      ["Engineering", "Aerospace Engineering"],
+      ["Engineering", "Systems Engineering"],
+      ["Business", "Operations Management"]
     ])
   })
 

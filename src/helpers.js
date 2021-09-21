@@ -211,55 +211,16 @@ const makeCourseInfoUrl = (value, searchParam) =>
   )}`
 
 /* eslint-disable camelcase */
-const getConsolidatedTopics = courseCollections => {
-  const topics = []
-  const topicsLookup = {}
-  const subtopicsLookup = {}
-  for (const courseCollection of courseCollections) {
-    const {
+const getConsolidatedTopics = courseCollections =>
+  courseCollections.map(
+    ({
       ocw_feature: feature,
       ocw_subfeature: subfeature,
       ocw_speciality: speciality
-    } = courseCollection
+    }) => [feature, subfeature, speciality].filter(Boolean)
+  )
 
-    let topicObj = topicsLookup[feature]
-    if (!topicObj) {
-      topicObj = {
-        topic:     feature,
-        subtopics: [],
-        url:       makeCourseInfoUrl(feature, "topics")
-      }
-      topics.push(topicObj)
-      topicsLookup[feature] = topicObj
-      subtopicsLookup[feature] = {}
-    }
-
-    if (!subfeature) {
-      continue
-    }
-
-    let subtopicObj = subtopicsLookup[feature][subfeature]
-    if (!subtopicObj) {
-      subtopicObj = {
-        subtopic:     subfeature,
-        specialities: [],
-        url:          makeCourseInfoUrl(subfeature, "topics")
-      }
-      topicObj.subtopics.push(subtopicObj)
-      subtopicsLookup[feature][subfeature] = subtopicObj
-    }
-
-    if (speciality) {
-      subtopicObj.specialities.push({
-        speciality: speciality,
-        url:        makeCourseInfoUrl(speciality, "topics")
-      })
-    }
-  }
-  return topics
-}
 /* eslint-disable camelcase */
-
 const getYoutubeEmbedCode = media => {
   const youTubeMedia = media["embedded_media"].filter(embeddedMedia => {
     return embeddedMedia["id"] === "Video-YouTube-Stream"
