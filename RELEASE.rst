@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.30.2
+Version 1.30.2 (Released September 21, 2021)
 --------------
 
 - Change topics export schema to match ocw-studio (#370)
