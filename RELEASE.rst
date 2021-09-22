@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.30.3
+--------------
+
+- Output all uuids with dashes (#362)
+
 Version 1.30.2 (Released September 21, 2021)
 --------------
 
