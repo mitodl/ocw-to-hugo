@@ -266,7 +266,7 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
     title:          media["title"],
     description:    "",
     uid:            helpers.addDashesToUid(media["uid"]),
-    resourceType:   RESOURCE_TYPE_VIDEO,
+    resourcetype:   RESOURCE_TYPE_VIDEO,
     video_metadata: {
       youtube_id: youtubeId
     },
