@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.31.0
+--------------
+
+- Fix typo for resourcetype for video pages (#375)
+
 Version 1.30.3 (Released September 22, 2021)
 --------------
 
