@@ -277,7 +277,7 @@ describe("markdown generators", () => {
         title:          "0.1 Vectors vs. Scalars",
         description:    "",
         uid:            "5b89e3d0-ea34-5f02-540b-ac14b4acac9b",
-        resourceType:   "Video",
+        resourcetype:   "Video",
         video_metadata: { youtube_id: "5ucfHd8FWKw" },
         video_files:    {
           video_captions_file:
