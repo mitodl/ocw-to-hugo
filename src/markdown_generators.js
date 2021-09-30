@@ -149,8 +149,7 @@ const generateCourseSectionFrontMatter = (
   parentTitle,
   layout,
   pageId,
-  isMediaGallery,
-  courseId
+  isMediaGallery
 ) => {
   /**
     Generate the front matter metadata for a course section
@@ -371,11 +370,6 @@ const generateCourseFeaturesMarkdown = (page, courseData, pathLookup) => {
 }
 
 const generateCourseDescription = (courseData, pathLookup) => {
-  const courseHomePage = courseData["course_pages"].find(
-    coursePage =>
-      coursePage["type"] === "CourseHomeSection" ||
-      coursePage["type"] === "SRHomePage"
-  )
   const courseDescription = courseData["description"]
     ? html2markdown(
       fixLinks(courseData["description"], courseData, pathLookup, false, true)
