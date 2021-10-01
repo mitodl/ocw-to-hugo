@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.31.1
+--------------
+
+- move course image urls to legacy data template and set up new data template to generate ocw-studio like resource reference (#378)
+
 Version 1.31.0 (Released September 29, 2021)
 --------------
 
