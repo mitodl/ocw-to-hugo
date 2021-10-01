@@ -121,22 +121,14 @@ describe("generateDataTemplate", () => {
       spaceSystemsJsonData,
       pathLookup
     )
-    assert.equal(
-      courseDataTemplate["course_image_url"],
-      "https://open-learning-course-data-production.s3.amazonaws.com/16-89j-space-systems-engineering-spring-2007/2a01cea04000d318a1d63c46d451a0d4_16-89js07.jpg"
-    )
-    assert.equal(
-      courseDataTemplate["course_thumbnail_image_url"],
-      "https://open-learning-course-data-production.s3.amazonaws.com/16-89j-space-systems-engineering-spring-2007/9136249e26df79621171ddd1b58405a3_16-89js07-th.jpg"
-    )
-    assert.equal(
-      courseDataTemplate["course_image_alternate_text"],
-      "Artist's conception of astronauts setting up a lunar telescope array."
-    )
-    assert.equal(
-      courseDataTemplate["course_image_caption_text"],
-      '<p>Astronauts setting up a lunar telescope array. (Image courtesy of <a href="http://www.nasa.gov/mission_pages/exploration/multimedia/jfa18844_prt.htm">NASA</a>.)</p>'
-    )
+    assert.deepEqual(courseDataTemplate["course_image"], {
+      content: ["2a01cea0-4000-d318-a1d6-3c46d451a0d4"],
+      website: "16-89j-space-systems-engineering-spring-2007"
+    })
+    assert.deepEqual(courseDataTemplate["course_image_thumbnail"], {
+      content: ["9136249e-26df-7962-1171-ddd1b58405a3"],
+      website: "16-89j-space-systems-engineering-spring-2007"
+    })
   })
 
   it("sets an array of instructor uids under the instructors -> content property", () => {
@@ -284,6 +276,29 @@ describe("generateLegacyDataTemplate", () => {
 
   afterEach(() => {
     sandbox.restore()
+  })
+
+  it("sets various image properties correctly", () => {
+    const courseDataTemplate = generateLegacyDataTemplate(
+      spaceSystemsJsonData,
+      pathLookup
+    )
+    assert.equal(
+      courseDataTemplate["course_image_url"],
+      "https://open-learning-course-data-production.s3.amazonaws.com/16-89j-space-systems-engineering-spring-2007/2a01cea04000d318a1d63c46d451a0d4_16-89js07.jpg"
+    )
+    assert.equal(
+      courseDataTemplate["course_thumbnail_image_url"],
+      "https://open-learning-course-data-production.s3.amazonaws.com/16-89j-space-systems-engineering-spring-2007/9136249e26df79621171ddd1b58405a3_16-89js07-th.jpg"
+    )
+    assert.equal(
+      courseDataTemplate["course_image_alternate_text"],
+      "Artist's conception of astronauts setting up a lunar telescope array."
+    )
+    assert.equal(
+      courseDataTemplate["course_image_caption_text"],
+      '<p>Astronauts setting up a lunar telescope array. (Image courtesy of <a href="http://www.nasa.gov/mission_pages/exploration/multimedia/jfa18844_prt.htm">NASA</a>.)</p>'
+    )
   })
 
   it("sets the instructors property to the instructors found in the instuctors node of the course json data", () => {

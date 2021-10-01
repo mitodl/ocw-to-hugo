@@ -8,18 +8,14 @@ const generateDataTemplate = (courseData, pathLookup) => {
   return {
     course_title:       courseData["title"],
     course_description: generateCourseDescription(courseData, pathLookup),
-    course_image_url:   helpers.stripS3(
-      courseData["image_src"] ? courseData["image_src"] : ""
-    ),
-    course_thumbnail_image_url: helpers.stripS3(
-      courseData["thumbnail_image_src"] ? courseData["thumbnail_image_src"] : ""
-    ),
-    course_image_alternate_text: courseData["image_alternate_text"]
-      ? courseData["image_alternate_text"]
-      : "",
-    course_image_caption_text: courseData["image_caption_text"]
-      ? courseData["image_caption_text"]
-      : "",
+    course_image:       {
+      content: [helpers.getUidFromFilePath(courseData["image_src"])],
+      website: courseData["short_url"]
+    },
+    course_image_thumbnail: {
+      content: [helpers.getUidFromFilePath(courseData["thumbnail_image_src"])],
+      website: courseData["short_url"]
+    },
     instructors: {
       content: (courseData["instructors"] || []).map(instructor =>
         helpers.addDashesToUid(instructor["uid"])
@@ -52,6 +48,20 @@ const generateDataTemplate = (courseData, pathLookup) => {
 
 const generateLegacyDataTemplate = (courseData, pathLookup) => {
   const dataTemplate = generateDataTemplate(courseData, pathLookup)
+  dataTemplate["course_image_url"] = helpers.stripS3(
+    courseData["image_src"] ? courseData["image_src"] : ""
+  )
+  dataTemplate["course_thumbnail_image_url"] = helpers.stripS3(
+    courseData["thumbnail_image_src"] ? courseData["thumbnail_image_src"] : ""
+  )
+  dataTemplate["course_image_alternate_text"] = courseData[
+    "image_alternate_text"
+  ]
+    ? courseData["image_alternate_text"]
+    : ""
+  dataTemplate["course_image_caption_text"] = courseData["image_caption_text"]
+    ? courseData["image_caption_text"]
+    : ""
   dataTemplate["publishdate"] = courseData["first_published_to_production"]
     ? moment(
       courseData["first_published_to_production"],

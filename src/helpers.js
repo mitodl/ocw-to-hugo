@@ -801,6 +801,10 @@ const addDashesToUid = uid => {
   )}-${uid.substr(16, 4)}-${uid.substr(20)}`
 }
 
+const getUidFromFilePath = filePath => {
+  return addDashesToUid(path.basename(filePath).split("_")[0])
+}
+
 module.exports = {
   directoryExists,
   createOrOverwriteFile,
@@ -838,5 +842,6 @@ module.exports = {
   makeCourseInfoUrl,
   parseDspaceUrl,
   addDashesToUid,
-  replaceSubstring
+  replaceSubstring,
+  getUidFromFilePath
 }
