@@ -255,10 +255,14 @@ describe("turndown", () => {
 
   it("should properly create youtube shortcodes from placeholder divs", async () => {
     const testId = "F3N5EkMX_ks"
-    const location = "https://example.com"
-    const inputHTML = `<div class="${YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS}">${testId};${location}</div>`
+    const captionLocation = "https://example.com"
+    const transcriptLocation = "https://example2.com"
+    const inputHTML = `<div class="${YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS}">${testId};${captionLocation};${transcriptLocation}</div>`
     const markdown = await html2markdown(inputHTML)
-    assert.equal(markdown, `{{< youtube "${testId}" "${location}" >}}`)
+    assert.equal(
+      markdown,
+      `{{< youtube "${testId}" "${captionLocation}" "${transcriptLocation}">}}`
+    )
   })
 
   it(`replaces "approximate students" images with a shortcode`, async () => {

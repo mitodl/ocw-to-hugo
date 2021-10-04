@@ -17,7 +17,7 @@ const {
   engineering1601Id,
   algorithmsCourseId,
   subtitlesCourseId,
-  videoGalleryCourseId
+  embeddedYoutubeVideoCourseId
 } = require("./test_utils")
 
 describe("helper functions", () => {
@@ -701,13 +701,12 @@ describe("helper functions", () => {
     })
 
     it("resolves youtube embed links", async () => {
-      const youtubeKey =
-        "99525203lab5:savoniuswindturbineconstructionandtesting48221462"
+      const youtubeKey = "41413955welcometounit11658659"
       const htmlStr = `some text ${youtubeKey} other text`
-      const courseData = readCourseJson(videoGalleryCourseId)
+      const courseData = readCourseJson(embeddedYoutubeVideoCourseId)
       const pathLookup = await fileOperations.buildPathsForAllCourses(
         "test_data/courses",
-        [videoGalleryCourseId]
+        [embeddedYoutubeVideoCourseId]
       )
       const results = helpers.resolveYouTubeEmbedMatches(
         htmlStr,
@@ -718,12 +717,13 @@ describe("helper functions", () => {
       match.index = 10
       assert.deepEqual(results, [
         {
-          replacement: '<div class="youtube-placeholder">LnSvSfXUmVs;</div>',
+          replacement:
+            '<div class="youtube-placeholder">ag7TLcT7VPQ;https://open-learning-course-data-production.s3.amazonaws.com/15-071-the-analytics-edge-spring-2017/c25deb20f0cc5a1ea110e6ca0f4529dc_ag7TLcT7VPQ.vtt;https://open-learning-course-data-production.s3.amazonaws.com/15-071-the-analytics-edge-spring-2017/37db4d00ba4615a77f502732a8d6165d_ag7TLcT7VPQ.pdf</div>',
           match
         }
       ])
       // verify that if there is a key not present in the html, it is skipped
-      assert.lengthOf(Object.values(courseData["course_embedded_media"]), 21)
+      assert.lengthOf(Object.values(courseData["course_embedded_media"]), 194)
     })
 
     //

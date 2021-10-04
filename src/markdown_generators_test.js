@@ -281,7 +281,9 @@ describe("markdown generators", () => {
         video_metadata: { youtube_id: "5ucfHd8FWKw" },
         video_files:    {
           video_captions_file:
-            "/courses/physics/8-01sc-classical-mechanics-fall-2016/review-vectors/0.1-vectors-vs.-scalars/0.1-vectors-vs.-scalars/5ucfHd8FWKw.vtt"
+            "https://open-learning-course-data-production.s3.amazonaws.com/8-01sc-classical-mechanics-fall-2016/vttb405e96bef2cc2b243e4e246b78fe292_5ucfHd8FWKw.vtt",
+          video_transcript_file:
+            "https://open-learning-course-data-production.s3.amazonaws.com/8-01sc-classical-mechanics-fall-2016/f4cdef7d58bc4e84355cf7c58eeb7e15_5ucfHd8FWKw.pdf"
         }
       })
     })
