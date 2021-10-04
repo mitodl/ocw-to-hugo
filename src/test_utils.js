@@ -31,6 +31,7 @@ const engineering1601Id =
 const algorithmsCourseId =
   "1-204-computer-algorithms-in-systems-engineering-spring-2010"
 const entropyCourseId = "6-050j-information-and-entropy-spring-2008"
+const embeddedYoutubeVideoCourseId = "15-071-the-analytics-edge-spring-2017"
 
 const allCourseIds = [
   course100Id,
@@ -78,5 +79,6 @@ module.exports = {
   engineering1601Id,
   algorithmsCourseId,
   entropyCourseId,
+  embeddedYoutubeVideoCourseId,
   allCourseIds
 }

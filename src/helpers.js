@@ -221,23 +221,35 @@ const getConsolidatedTopics = courseCollections =>
   )
 
 /* eslint-disable camelcase */
-const getYoutubeEmbedCode = media => {
+const getYoutubeEmbedCode = (media, pathLookup) => {
   const youTubeMedia = media["embedded_media"].filter(embeddedMedia => {
     return embeddedMedia["id"] === "Video-YouTube-Stream"
   })
-  const youTubeCaptions = media["embedded_media"].filter(embeddedMedia => {
-    return (
-      embeddedMedia["title"] === "3play caption file" &&
-      embeddedMedia["id"].endsWith(".vtt")
-    )
-  })
-  const location = youTubeCaptions.length
-    ? youTubeCaptions[0]["technical_location"]
+
+  const captionsFile = media["embedded_media"].find(
+    embeddedMedia =>
+      embeddedMedia["id"].endsWith(".vtt") &&
+      embeddedMedia["title"] === "3play caption file"
+  )
+
+  const captionsFileLocation = captionsFile
+    ? stripS3(pathLookup.byUid[captionsFile.uid].fileLocation)
     : ""
+
+  const transcriptFile = media["embedded_media"].find(
+    embeddedMedia =>
+      embeddedMedia["id"].endsWith(".pdf") &&
+      embeddedMedia["title"] === "3play pdf file"
+  )
+
+  const transcriptFileLocation = transcriptFile
+    ? stripS3(pathLookup.byUid[transcriptFile.uid].fileLocation)
+    : ""
+
   return youTubeMedia
     .map(
       embeddedMedia =>
-        `<div class="${YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS}">${embeddedMedia["media_location"]};${location}</div>`
+        `<div class="${YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS}">${embeddedMedia["media_location"]};${captionsFileLocation};${transcriptFileLocation}</div>`
     )
     .join("")
 }
@@ -665,8 +677,9 @@ const resolveYouTubeEmbedMatches = (
         const replacement =
           media["template_type"] !== "popup" &&
           media["template_type"] !== "thumbnail_popup"
-            ? getYoutubeEmbedCode(media)
+            ? getYoutubeEmbedCode(media, pathLookup)
             : `<a href = "${link}">${media["title"]}</a>`
+
         return { replacement, match }
       }
       return null

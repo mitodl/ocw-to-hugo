@@ -244,22 +244,19 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
       embeddedMedia["id"].endsWith(".vtt") &&
       embeddedMedia["title"] === "3play caption file"
   )
-  let captionsFileLocation = captionsFile
-    ? captionsFile.technical_location
+  const transcriptFile = media["embedded_media"].find(
+    embeddedMedia =>
+      embeddedMedia["id"].endsWith(".pdf") &&
+      embeddedMedia["title"] === "3play pdf file"
+  )
+
+  const captionsFileLocation = captionsFile
+    ? helpers.stripS3(pathLookup.byUid[captionsFile.uid].fileLocation)
     : null
-  if (captionsFileLocation) {
-    const replacement = helpers.resolveRelativeLink(
-      captionsFileLocation,
-      courseData,
-      pathLookup,
-      true,
-      true,
-      false
-    )
-    if (replacement) {
-      captionsFileLocation = replacement
-    }
-  }
+
+  const transcriptFileLocation = transcriptFile
+    ? helpers.stripS3(pathLookup.byUid[transcriptFile.uid].fileLocation)
+    : null
 
   const frontMatter = {
     title:          media["title"],
@@ -270,7 +267,8 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
       youtube_id: youtubeId
     },
     video_files: {
-      video_captions_file: captionsFileLocation
+      video_captions_file:   captionsFileLocation,
+      video_transcript_file: transcriptFileLocation
     }
   }
 
