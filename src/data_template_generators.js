@@ -9,11 +9,11 @@ const generateDataTemplate = (courseData, pathLookup) => {
     course_title:       courseData["title"],
     course_description: generateCourseDescription(courseData, pathLookup),
     course_image:       {
-      content: [helpers.getUidFromFilePath(courseData["image_src"])],
+      content: helpers.getUidFromFilePath(courseData["image_src"]),
       website: courseData["short_url"]
     },
     course_image_thumbnail: {
-      content: [helpers.getUidFromFilePath(courseData["thumbnail_image_src"])],
+      content: helpers.getUidFromFilePath(courseData["thumbnail_image_src"]),
       website: courseData["short_url"]
     },
     instructors: {
