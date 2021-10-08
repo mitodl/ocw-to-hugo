@@ -224,12 +224,12 @@ const generateResourceMarkdownForFile = file => {
   Generate the front matter metadata for a PDF file
   */
   const frontMatter = {
-    title:         file["title"],
-    description:   file["description"],
-    uid:           helpers.addDashesToUid(file["uid"]),
-    resourcetype:  getResourceType(file["file_type"]),
-    file_type:     file["file_type"],
-    file_location: helpers.stripS3(file["file_location"])
+    title:        file["title"],
+    description:  file["description"],
+    uid:          helpers.addDashesToUid(file["uid"]),
+    resourcetype: getResourceType(file["file_type"]),
+    file_type:    file["file_type"],
+    file:         helpers.stripS3(file["file_location"])
   }
 
   return `---\n${yaml.safeDump(frontMatter)}---\n`

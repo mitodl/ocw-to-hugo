@@ -238,7 +238,7 @@ describe("markdown generators", () => {
           .find(file => file.name === "/resources/m_gqolc3clm-1.md")
 
         const embeddedMedia = yaml.safeLoad(markdownData.data.split("---\n")[1])
-        assert.equal(embeddedMedia.file_location, expectedUrl)
+        assert.equal(embeddedMedia.file, expectedUrl)
       })
     })
 
@@ -254,8 +254,8 @@ describe("markdown generators", () => {
       )
       const frontmatter = yaml.safeLoad(file.data.split("---\n")[1])
       assert.deepEqual(frontmatter, {
-        description:   "",
-        file_location:
+        description: "",
+        file:
           "https://open-learning-course-data-production.s3.amazonaws.com/8-01sc-classical-mechanics-fall-2016/838633c70a5b59cce23f0909eaeb96d7_jsinput_freebodydraw_massive_rope_between_trees_setup.svg",
         file_type:    "image/svg+xml",
         resourcetype: "Image",
@@ -333,10 +333,10 @@ describe("markdown generators", () => {
         title:       "acknowledgements.pdf",
         description:
           "This resource contains acknowledgements to the persons who helped build this course.",
-        resourcetype:  "Document",
-        uid:           "d7d1fabc-b57a-6d4a-9cc9-6f04348dedfd",
-        file_type:     "application/pdf",
-        file_location:
+        resourcetype: "Document",
+        uid:          "d7d1fabc-b57a-6d4a-9cc9-6f04348dedfd",
+        file_type:    "application/pdf",
+        file:
           "https://open-learning-course-data-production.s3.amazonaws.com/8-02-physics-ii-electricity-and-magnetism-spring-2007/d7d1fabcb57a6d4a9cc96f04348dedfd_acknowledgements.pdf"
       })
     })
@@ -352,10 +352,10 @@ describe("markdown generators", () => {
         title:       "summary_w12d2.pdf",
         description:
           "This file talks about how electricity and magnetism interact with each other and also considers finalizing Maxwell?s Equations, their result ? electromagnetic (EM) radiation and how energy flows in electric and magnetic fields.",
-        uid:           "a1bfc34c-cf08-ddf8-4746-27b9a13d6ca8",
-        file_type:     "application/pdf",
-        resourcetype:  "Document",
-        file_location:
+        uid:          "a1bfc34c-cf08-ddf8-4746-27b9a13d6ca8",
+        file_type:    "application/pdf",
+        resourcetype: "Document",
+        file:
           "https://open-learning-course-data-production.s3.amazonaws.com/8-02-physics-ii-electricity-and-magnetism-spring-2007/a1bfc34ccf08ddf8474627b9a13d6ca8_summary_w12d2.pdf"
       })
     })
