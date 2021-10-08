@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 1.32.0
+--------------
+
+- course images should be a 1:1 relationship (#386)
+- Bump path-parse from 1.0.6 to 1.0.7
+- parse transcript file
+
 Version 1.31.1 (Released October 01, 2021)
 --------------
 
