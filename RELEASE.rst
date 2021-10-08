@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.32.0
+Version 1.32.0 (Released October 08, 2021)
 --------------
 
 - course images should be a 1:1 relationship (#386)
