@@ -122,11 +122,11 @@ describe("generateDataTemplate", () => {
       pathLookup
     )
     assert.deepEqual(courseDataTemplate["course_image"], {
-      content: ["2a01cea0-4000-d318-a1d6-3c46d451a0d4"],
+      content: "2a01cea0-4000-d318-a1d6-3c46d451a0d4",
       website: "16-89j-space-systems-engineering-spring-2007"
     })
     assert.deepEqual(courseDataTemplate["course_image_thumbnail"], {
-      content: ["9136249e-26df-7962-1171-ddd1b58405a3"],
+      content: "9136249e-26df-7962-1171-ddd1b58405a3",
       website: "16-89j-space-systems-engineering-spring-2007"
     })
   })
