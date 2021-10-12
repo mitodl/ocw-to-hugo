@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.33.0
+Version 1.33.0 (Released October 12, 2021)
 --------------
 
 - file not file_location (#390)
