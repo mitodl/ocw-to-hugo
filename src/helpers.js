@@ -13,7 +13,7 @@ const {
   BASEURL_PLACEHOLDER,
   FILE_TYPE,
   INPUT_COURSE_DATE_FORMAT,
-  YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS,
+  EMBEDDED_RESOURCE_SHORTCODE_PLACEHOLDER_CLASS,
   EMBEDDED_MEDIA_PAGE_TYPE,
   COURSE_TYPE
 } = require("./constants")
@@ -222,36 +222,9 @@ const getConsolidatedTopics = courseCollections =>
 
 /* eslint-disable camelcase */
 const getYoutubeEmbedCode = (media, pathLookup) => {
-  const youTubeMedia = media["embedded_media"].filter(embeddedMedia => {
-    return embeddedMedia["id"] === "Video-YouTube-Stream"
-  })
-
-  const captionsFile = media["embedded_media"].find(
-    embeddedMedia =>
-      embeddedMedia["id"].endsWith(".vtt") &&
-      embeddedMedia["title"] === "3play caption file"
-  )
-
-  const captionsFileLocation = captionsFile
-    ? stripS3(pathLookup.byUid[captionsFile.uid].fileLocation)
-    : ""
-
-  const transcriptFile = media["embedded_media"].find(
-    embeddedMedia =>
-      embeddedMedia["id"].endsWith(".pdf") &&
-      embeddedMedia["title"] === "3play pdf file"
-  )
-
-  const transcriptFileLocation = transcriptFile
-    ? stripS3(pathLookup.byUid[transcriptFile.uid].fileLocation)
-    : ""
-
-  return youTubeMedia
-    .map(
-      embeddedMedia =>
-        `<div class="${YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS}">${embeddedMedia["media_location"]};${captionsFileLocation};${transcriptFileLocation}</div>`
-    )
-    .join("")
+  return `<div class="${EMBEDDED_RESOURCE_SHORTCODE_PLACEHOLDER_CLASS}">${addDashesToUid(
+    media["uid"]
+  )}</div>`
 }
 
 const makeResourceSlug = (originalFilename, resourceNameSet) => {

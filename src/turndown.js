@@ -6,7 +6,7 @@ const {
   REPLACETHISWITHAPIPE,
   AWS_REGEX,
   SUPPORTED_IFRAME_EMBEDS,
-  YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS,
+  EMBEDDED_RESOURCE_SHORTCODE_PLACEHOLDER_CLASS,
   IRREGULAR_WHITESPACE_REGEX,
   BASEURL_PLACEHOLDER_REGEX
 } = require("./constants")
@@ -375,21 +375,17 @@ turndownService.addRule("h4", {
   }
 })
 
-turndownService.addRule("youtube_shortcodes", {
+turndownService.addRule("resource_shortcodes", {
   filter: (node, options) => {
     const nodeClass = node.getAttribute("class")
     return (
       node.nodeName === "DIV" &&
-      nodeClass === YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS
+      nodeClass === EMBEDDED_RESOURCE_SHORTCODE_PLACEHOLDER_CLASS
     )
   },
   replacement: (content, node, options) => {
-    const [
-      mediaLocation,
-      captionLocation,
-      transcriptLocation
-    ] = node.textContent.split(";")
-    return `{{< youtube "${mediaLocation}" "${captionLocation}" "${transcriptLocation}">}}`
+    const mediaUid = node.textContent
+    return `{{< resource ${mediaUid} >}}`
   }
 })
 

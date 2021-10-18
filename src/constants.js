@@ -1,9 +1,9 @@
 module.exports = {
-  REPLACETHISWITHAPIPE:                "REPLACETHISWITHAPIPE",
-  BASEURL_PLACEHOLDER:                 "BASEURL_PLACEHOLDER",
-  BASEURL_PLACEHOLDER_REGEX:           new RegExp("BASEURL_PLACEHOLDER", "g"),
-  BASEURL_SHORTCODE:                   "{{< baseurl >}}",
-  YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS: "youtube-placeholder",
+  REPLACETHISWITHAPIPE:                          "REPLACETHISWITHAPIPE",
+  BASEURL_PLACEHOLDER:                           "BASEURL_PLACEHOLDER",
+  BASEURL_PLACEHOLDER_REGEX:                     new RegExp("BASEURL_PLACEHOLDER", "g"),
+  BASEURL_SHORTCODE:                             "{{< baseurl >}}",
+  EMBEDDED_RESOURCE_SHORTCODE_PLACEHOLDER_CLASS: "embedded_resource",
   MISSING_JSON_ERROR_MESSAGE:
     "To download courses from AWS, you must specify the -c argument.  For more information, see README.md",
   MISSING_COURSE_ERROR_MESSAGE:

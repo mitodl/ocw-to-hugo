@@ -1,7 +1,7 @@
 const { assert } = require("chai").use(require("sinon-chai"))
 const { html2markdown } = require("./turndown")
 const {
-  YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS,
+  EMBEDDED_RESOURCE_SHORTCODE_PLACEHOLDER_CLASS,
   IRREGULAR_WHITESPACE_REGEX
 } = require("./constants")
 
@@ -254,15 +254,11 @@ describe("turndown", () => {
   })
 
   it("should properly create youtube shortcodes from placeholder divs", async () => {
-    const testId = "F3N5EkMX_ks"
-    const captionLocation = "https://example.com"
-    const transcriptLocation = "https://example2.com"
-    const inputHTML = `<div class="${YOUTUBE_SHORTCODE_PLACEHOLDER_CLASS}">${testId};${captionLocation};${transcriptLocation}</div>`
+    const uid = "d1eb865e-ba7f-9989-0be1-348ba7cad5bd"
+
+    const inputHTML = `<div class="${EMBEDDED_RESOURCE_SHORTCODE_PLACEHOLDER_CLASS}">${uid}</div>`
     const markdown = await html2markdown(inputHTML)
-    assert.equal(
-      markdown,
-      `{{< youtube "${testId}" "${captionLocation}" "${transcriptLocation}">}}`
-    )
+    assert.equal(markdown, `{{< resource ${uid} >}}`)
   })
 
   it(`replaces "approximate students" images with a shortcode`, async () => {
