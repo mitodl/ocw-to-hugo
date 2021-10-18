@@ -718,7 +718,7 @@ describe("helper functions", () => {
       assert.deepEqual(results, [
         {
           replacement:
-            '<div class="youtube-placeholder">ag7TLcT7VPQ;https://open-learning-course-data-production.s3.amazonaws.com/15-071-the-analytics-edge-spring-2017/c25deb20f0cc5a1ea110e6ca0f4529dc_ag7TLcT7VPQ.vtt;https://open-learning-course-data-production.s3.amazonaws.com/15-071-the-analytics-edge-spring-2017/37db4d00ba4615a77f502732a8d6165d_ag7TLcT7VPQ.pdf</div>',
+            '<div class="embedded_resource">d1eb865e-ba7f-9989-0be1-348ba7cad5bd</div>',
           match
         }
       ])
