@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.33.1
+--------------
+
+- use resource instead of shortcode
+
 Version 1.33.0 (Released October 12, 2021)
 --------------
 
