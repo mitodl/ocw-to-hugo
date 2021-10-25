@@ -491,7 +491,9 @@ describe("markdown generators", () => {
         page,
         singleCourseJsonData
       )
-      const expected = `{{< video-gallery "${helpers.addDashesToUid(page["uid"])}" >}}`
+      const expected = `{{< video-gallery "${helpers.addDashesToUid(
+        page["uid"]
+      )}" >}}`
       assert(markdown.includes(expected))
     })
 

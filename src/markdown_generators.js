@@ -334,7 +334,9 @@ const generateCourseFeaturesMarkdown = (page, courseData) => {
     page.hasOwnProperty("is_media_gallery") &&
     page["is_media_gallery"]
   ) {
-    return `\n\n{{< video-gallery "${helpers.addDashesToUid(page["uid"])}" >}}\n\n`
+    return `\n\n{{< video-gallery "${helpers.addDashesToUid(
+      page["uid"]
+    )}" >}}\n\n`
   }
   return ""
 }
