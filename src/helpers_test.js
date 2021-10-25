@@ -14,6 +14,7 @@ const {
   unpublishedCourseId,
   externalNavCourseId,
   imageGalleryCourseId,
+  videoGalleryCourseId,
   engineering1601Id,
   algorithmsCourseId,
   subtitlesCourseId,
@@ -970,6 +971,16 @@ describe("helper functions", () => {
       const output = helpers.addDashesToUid(input)
       const expected = "e042c8f9-995f-cc11-0a2a-5aafa674c5e6"
       assert.equal(output, expected)
+    })
+
+    it("gets the video uids from a video gallery page", () => {
+      const videoGalleryCourseJsonData = readCourseJson(videoGalleryCourseId)
+      const videoGalleryPage = videoGalleryCourseJsonData["course_pages"].filter(page => page["is_media_gallery"])[0]
+      const videoUids = helpers.getVideoUidsFromPage(videoGalleryPage, videoGalleryCourseJsonData)
+      assert.deepEqual(videoUids, [
+        "1b0190b9-ac07-7e74-7121-3af5ae8e895a",
+        "b03952e4-bdfc-ea49-6227-1aeae1dedb3f"
+      ])
     })
   })
 })
