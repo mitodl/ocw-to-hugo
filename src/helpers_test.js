@@ -975,8 +975,13 @@ describe("helper functions", () => {
 
     it("gets the video uids from a video gallery page", () => {
       const videoGalleryCourseJsonData = readCourseJson(videoGalleryCourseId)
-      const videoGalleryPage = videoGalleryCourseJsonData["course_pages"].filter(page => page["is_media_gallery"])[0]
-      const videoUids = helpers.getVideoUidsFromPage(videoGalleryPage, videoGalleryCourseJsonData)
+      const videoGalleryPage = videoGalleryCourseJsonData[
+        "course_pages"
+      ].filter(page => page["is_media_gallery"])[0]
+      const videoUids = helpers.getVideoUidsFromPage(
+        videoGalleryPage,
+        videoGalleryCourseJsonData
+      )
       assert.deepEqual(videoUids, [
         "1b0190b9-ac07-7e74-7121-3af5ae8e895a",
         "b03952e4-bdfc-ea49-6227-1aeae1dedb3f"
