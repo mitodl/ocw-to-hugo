@@ -365,7 +365,7 @@ describe("file operations", () => {
         path:          "/resources/lab-1-human-power",
         short_url:     "lab-1-human-power",
         unalteredPath:
-          "/pages/intro-energy-basics-human-power/lab-1-human-power",
+          "/video_galleries/intro-energy-basics-human-power/lab-1-human-power",
         type:      EMBEDDED_MEDIA_PAGE_TYPE,
         parentUid: "32a22e0de0add67342ce41445297fce7",
         uid:       "b03952e4bdfcea4962271aeae1dedb3f"

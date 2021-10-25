@@ -279,9 +279,9 @@ const buildPaths = (
       return
     }
   }
-
+  const rootPath = page["is_media_gallery"] ? "/video_galleries" : "/pages"
   const unalteredPath = path.join(
-    parentIsCourseHomePage ? "/pages" : pathLookup[parentUid].path,
+    parentIsCourseHomePage ? rootPath : pathLookup[parentUid].path,
     page[filenameKey]
   )
   if (isResource) {
@@ -791,6 +791,15 @@ const getUidFromFilePath = filePath => {
   return addDashesToUid(path.basename(filePath).split("_")[0])
 }
 
+const getVideoUidsFromPage = (page, courseData) => {
+  const videos = Object.values(courseData["course_embedded_media"]).filter(
+    obj => obj["parent_uid"] === page["uid"]
+  )
+  videos.sort((a, b) => a.order_index - b.order_index)
+
+  return videos.map(video => addDashesToUid(video["uid"]))
+}
+
 module.exports = {
   directoryExists,
   createOrOverwriteFile,
@@ -829,5 +838,6 @@ module.exports = {
   parseDspaceUrl,
   addDashesToUid,
   replaceSubstring,
-  getUidFromFilePath
+  getUidFromFilePath,
+  getVideoUidsFromPage
 }

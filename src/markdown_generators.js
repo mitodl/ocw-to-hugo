@@ -123,7 +123,9 @@ const generateMarkdownRecursive = (page, courseData, pathLookup) => {
     hasParent ? parent["title"] : null,
     layout,
     page["uid"],
+    courseData["short_url"],
     page["is_media_gallery"],
+    helpers.getVideoUidsFromPage(page, courseData),
     courseData["short_url"]
   )
   courseSectionMarkdown += generateCourseSectionMarkdown(
@@ -149,7 +151,9 @@ const generateCourseSectionFrontMatter = (
   parentTitle,
   layout,
   pageId,
-  isMediaGallery
+  courseId,
+  isMediaGallery,
+  videoUids
 ) => {
   /**
     Generate the front matter metadata for a course section
@@ -168,6 +172,10 @@ const generateCourseSectionFrontMatter = (
 
   if (isMediaGallery) {
     courseSectionFrontMatter["is_media_gallery"] = true
+    courseSectionFrontMatter["videos"] = {
+      content: videoUids,
+      website: courseId
+    }
   }
 
   if (layout) {
@@ -281,42 +289,6 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
   return `---\n${yaml.safeDump(frontMatter)}---\n${body}`
 }
 
-const generateVideoGalleryMarkdown = (page, courseData, pathLookup) => {
-  const videos = Object.values(courseData["course_embedded_media"]).filter(
-    obj => obj["parent_uid"] === page["uid"]
-  )
-  videos.sort((a, b) => a.order_index - b.order_index)
-
-  return videos
-    .map(video => {
-      const { path: videoUrl } = pathLookup.byUid[video["uid"]]
-      const videoArgs = {
-        href:    videoUrl,
-        section: helpers.htmlSafeText(
-          helpers.unescapeBackticks(html2markdown(page.title))
-        ),
-        title: helpers.htmlSafeText(
-          helpers.unescapeBackticks(html2markdown(video.title))
-        ),
-        description: helpers.htmlSafeText(
-          helpers.unescapeBackticks(
-            stripHtml(video["about_this_resource_text"]).result
-          )
-        )
-      }
-      for (const media of video.embedded_media) {
-        if (media.type === "Thumbnail" && media.media_location) {
-          videoArgs.thumbnail = media.media_location
-        }
-      }
-      const keys = Object.keys(videoArgs)
-        .map(key => `${key}="${videoArgs[key]}"`)
-        .join(" ")
-      return `{{< video-gallery-item ${keys} >}}`
-    })
-    .join(" ")
-}
-
 const generateImageGalleryMarkdown = (page, courseData) => {
   let courseFeaturesMarkdown = ""
   const images = courseData["course_files"].filter(
@@ -358,11 +330,6 @@ const generateImageGalleryMarkdown = (page, courseData) => {
 const generateCourseFeaturesMarkdown = (page, courseData, pathLookup) => {
   if (page.hasOwnProperty("is_image_gallery") && page["is_image_gallery"]) {
     return generateImageGalleryMarkdown(page, courseData)
-  } else if (
-    page.hasOwnProperty("is_media_gallery") &&
-    page["is_media_gallery"]
-  ) {
-    return generateVideoGalleryMarkdown(page, courseData, pathLookup)
   }
   return ""
 }
