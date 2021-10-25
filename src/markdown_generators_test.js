@@ -416,6 +416,33 @@ describe("markdown generators", () => {
     it("has a section title", () => {
       assert.equal(courseSectionFrontMatter["title"], "Syllabus")
     })
+
+    it("sets the video uids if marked as a media gallery", () => {
+      courseSectionFrontMatter = yaml.safeLoad(
+        markdownGenerators
+          .generateCourseSectionFrontMatter(
+            "Class Videos",
+            null,
+            null,
+            "course_section",
+            "class_videos",
+            videoGalleryCourseJsonData["short_url"],
+            true,
+            [
+              "1b0190b9-ac07-7e74-7121-3af5ae8e895a",
+              "b03952e4-bdfc-ea49-6227-1aeae1dedb3f"
+            ]
+          )
+          .replace(/---\n/g, "")
+      )
+      assert.deepEqual(courseSectionFrontMatter["videos"], {
+        content: [
+          "1b0190b9-ac07-7e74-7121-3af5ae8e895a",
+          "b03952e4-bdfc-ea49-6227-1aeae1dedb3f"
+        ],
+        website: "ec-711-d-lab-energy-spring-2011"
+      })
+    })
   })
 
   describe("generateCourseSectionMarkdown", () => {
