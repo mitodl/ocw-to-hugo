@@ -480,6 +480,21 @@ describe("markdown generators", () => {
       assert(markdown.includes("Bottom Text"))
     })
 
+    it("renders a video-gallery shortcode if is_media_gallery is true", () => {
+      const page = {
+        ...coursePagesWithText[0],
+        text:             '<div id="top">Top Text</div>',
+        bottomtext:       '<div id="bottom">Bottom Text</div>',
+        is_media_gallery: true
+      }
+      const markdown = markdownGenerators.generateCourseSectionMarkdown(
+        page,
+        singleCourseJsonData
+      )
+      const expected = `{{< video-gallery "${helpers.addDashesToUid(page["uid"])}" >}}`
+      assert(markdown.includes(expected))
+    })
+
     it("handles missing page text gracefully", () => {
       const page = {
         ...coursePagesWithText[0],

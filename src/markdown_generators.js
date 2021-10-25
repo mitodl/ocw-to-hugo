@@ -327,9 +327,14 @@ const generateImageGalleryMarkdown = (page, courseData) => {
   return courseFeaturesMarkdown
 }
 
-const generateCourseFeaturesMarkdown = (page, courseData, pathLookup) => {
+const generateCourseFeaturesMarkdown = (page, courseData) => {
   if (page.hasOwnProperty("is_image_gallery") && page["is_image_gallery"]) {
     return generateImageGalleryMarkdown(page, courseData)
+  } else if (
+    page.hasOwnProperty("is_media_gallery") &&
+    page["is_media_gallery"]
+  ) {
+    return `\n\n{{< video-gallery "${helpers.addDashesToUid(page["uid"])}" >}}\n\n`
   }
   return ""
 }
