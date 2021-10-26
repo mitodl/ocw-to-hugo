@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.33.2
+--------------
+
+- generate video gallery front matter (#395)
+
 Version 1.33.1 (Released October 21, 2021)
 --------------
 
