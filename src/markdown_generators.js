@@ -247,6 +247,11 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
   const youtubeId = media["embedded_media"].find(
     embeddedMedia => embeddedMedia["id"] === "Video-YouTube-Stream"
   )["media_location"]
+  const thumbnailFile = media["embedded_media"].find(
+    embeddedMedia =>
+      embeddedMedia["type"] === "Thumbnail" &&
+      embeddedMedia["id"] === "Thumbnail-YouTube-JPG"
+  )
   const captionsFile = media["embedded_media"].find(
     embeddedMedia =>
       embeddedMedia["id"].endsWith(".vtt") &&
@@ -258,6 +263,9 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
       embeddedMedia["title"] === "3play pdf file"
   )
 
+  const videoThumbnailLocation = thumbnailFile
+    ? thumbnailFile.media_location
+    : null
   const captionsFileLocation = captionsFile
     ? helpers.stripS3(pathLookup.byUid[captionsFile.uid].fileLocation)
     : null
@@ -275,6 +283,7 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
       youtube_id: youtubeId
     },
     video_files: {
+      video_thumbnail_file:  videoThumbnailLocation,
       video_captions_file:   captionsFileLocation,
       video_transcript_file: transcriptFileLocation
     }

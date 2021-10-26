@@ -280,6 +280,7 @@ describe("markdown generators", () => {
         resourcetype:   "Video",
         video_metadata: { youtube_id: "5ucfHd8FWKw" },
         video_files:    {
+          video_thumbnail_file: "https://img.youtube.com/vi/5ucfHd8FWKw/default.jpg",
           video_captions_file:
             "https://open-learning-course-data-production.s3.amazonaws.com/8-01sc-classical-mechanics-fall-2016/vttb405e96bef2cc2b243e4e246b78fe292_5ucfHd8FWKw.vtt",
           video_transcript_file:
