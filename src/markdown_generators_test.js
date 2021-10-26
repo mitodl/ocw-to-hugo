@@ -100,15 +100,15 @@ describe("markdown generators", () => {
       )
       assert.deepEqual(markdownFileNames, [
         "pages/syllabus.md",
-        "pages/intro-energy-basics-human-power/_index.md",
-        "pages/energy-storage/_index.md",
-        "pages/lighting-biogas/_index.md",
-        "pages/solar/_index.md",
-        "pages/wind-micro-hydro.md",
-        "pages/cooking-stoves-fuel.md",
-        "pages/week-7-trip-planning-and-preparations.md",
-        "pages/week-8-nicaragua-trip.md",
-        "pages/projects/_index.md",
+        "video_galleries/intro-energy-basics-human-power/_index.md",
+        "video_galleries/energy-storage/_index.md",
+        "video_galleries/lighting-biogas/_index.md",
+        "video_galleries/solar/_index.md",
+        "video_galleries/wind-micro-hydro.md",
+        "video_galleries/cooking-stoves-fuel.md",
+        "video_galleries/week-7-trip-planning-and-preparations.md",
+        "video_galleries/week-8-nicaragua-trip.md",
+        "video_galleries/projects/_index.md",
         "/resources/lab1s11.md",
         "/resources/mitec_711s11_lab1_pedal.md",
         "/resources/mitsp_775s11_pset0_rubric.md",
@@ -280,6 +280,8 @@ describe("markdown generators", () => {
         resourcetype:   "Video",
         video_metadata: { youtube_id: "5ucfHd8FWKw" },
         video_files:    {
+          video_thumbnail_file:
+            "https://img.youtube.com/vi/5ucfHd8FWKw/default.jpg",
           video_captions_file:
             "https://open-learning-course-data-production.s3.amazonaws.com/8-01sc-classical-mechanics-fall-2016/vttb405e96bef2cc2b243e4e246b78fe292_5ucfHd8FWKw.vtt",
           video_transcript_file:
@@ -375,8 +377,9 @@ describe("markdown generators", () => {
             null,
             "course_section",
             "syllabus",
+            singleCourseJsonData["short_url"],
             false,
-            singleCourseJsonData["short_url"]
+            []
           )
           .replace(/---\n/g, "")
       )
@@ -404,28 +407,43 @@ describe("markdown generators", () => {
             "course_section",
             "syllabus",
             false,
-            singleCourseJsonData["short_url"]
+            singleCourseJsonData["short_url"],
+            []
           )
           .replace(/---\n/g, "")
       )
       expect(courseSectionFrontMatter["menu"]).to.be.undefined
     })
 
-    it("handles missing short_page_title correctly", async () => {
-      const yaml = markdownGenerators.generateCourseSectionFrontMatter(
-        "Syllabus",
-        null,
-        null,
-        "course_section",
-        "syllabus",
-        false,
-        singleCourseJsonData["short_url"]
-      )
-      assert.notInclude(yaml, "undefined")
-    })
-
     it("has a section title", () => {
       assert.equal(courseSectionFrontMatter["title"], "Syllabus")
+    })
+
+    it("sets the video uids if marked as a media gallery", () => {
+      courseSectionFrontMatter = yaml.safeLoad(
+        markdownGenerators
+          .generateCourseSectionFrontMatter(
+            "Class Videos",
+            null,
+            null,
+            "course_section",
+            "class_videos",
+            videoGalleryCourseJsonData["short_url"],
+            true,
+            [
+              "1b0190b9-ac07-7e74-7121-3af5ae8e895a",
+              "b03952e4-bdfc-ea49-6227-1aeae1dedb3f"
+            ]
+          )
+          .replace(/---\n/g, "")
+      )
+      assert.deepEqual(courseSectionFrontMatter["videos"], {
+        content: [
+          "1b0190b9-ac07-7e74-7121-3af5ae8e895a",
+          "b03952e4-bdfc-ea49-6227-1aeae1dedb3f"
+        ],
+        website: "ec-711-d-lab-energy-spring-2011"
+      })
     })
   })
 
@@ -462,6 +480,23 @@ describe("markdown generators", () => {
       )
       assert(markdown.includes("Top Text"))
       assert(markdown.includes("Bottom Text"))
+    })
+
+    it("renders a video-gallery shortcode if is_media_gallery is true", () => {
+      const page = {
+        ...coursePagesWithText[0],
+        text:             '<div id="top">Top Text</div>',
+        bottomtext:       '<div id="bottom">Bottom Text</div>',
+        is_media_gallery: true
+      }
+      const markdown = markdownGenerators.generateCourseSectionMarkdown(
+        page,
+        singleCourseJsonData
+      )
+      const expected = `{{< video-gallery "${helpers.addDashesToUid(
+        page["uid"]
+      )}" >}}`
+      assert(markdown.includes(expected))
     })
 
     it("handles missing page text gracefully", () => {
@@ -501,24 +536,6 @@ describe("markdown generators", () => {
         const fileName = url.substring(url.lastIndexOf("/") + 1, url.length)
         assert.include(courseImageFeaturesFrontMatter, fileName)
       })
-    })
-
-    it("renders 2 video-gallery-item shortcodes", () => {
-      const matches = courseVideoFeaturesFrontMatter.match(
-        /{{< video-gallery-item [^>]+ >}}/g
-      )
-      assert.deepEqual(matches, [
-        '{{< video-gallery-item href="/resources/lecture-1-introduction-to-energy" ' +
-          'section="Week 1: Introduction, Energy Basics & Human Power" title="Lecture 1: Introduction to Energy" ' +
-          'description="Description: This lecture introduces fundamental energy concepts: energy around in the world, energy units, ' +
-          "a quick electricity review, and some estimation practice activities. The session ends with a syllabus overview. " +
-          'Speaker: Amy Banzaert" thumbnail="https://img.youtube.com/vi/SbpeBF8D_m4/default.jpg" >}}',
-        '{{< video-gallery-item href="/resources/lab-1-human-power" ' +
-          'section="Week 1: Introduction, Energy Basics & Human Power" title="Lab 1: Human Power" ' +
-          'description="Description: This lab consists of three parts: Water pumping, with a PVC hand pump and a ' +
-          "cement rocker pump Water carrying, with a tump line, head carry, hand carry, and Q-drum Woodshop training " +
-          'Speaker: Amy Banzaert, Amit Gandhi" thumbnail="https://img.youtube.com/vi/7MzwxhtVfFc/default.jpg" >}}'
-      ])
     })
   })
 })
