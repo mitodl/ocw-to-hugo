@@ -198,13 +198,44 @@ describe("generateDataTemplate", () => {
     assert.equal(expectedValue, foundValue)
   })
 
-  it("sets the level property on the course data template to course_level in the course json data", () => {
+  it("sets the year property", () => {
     const courseDataTemplate = generateDataTemplate(
       spaceSystemsJsonData,
       pathLookup
     )
-    const foundValue = courseDataTemplate["level"]
-    assert.equal(foundValue, "Graduate")
+    const foundValue = courseDataTemplate["year"]
+    assert.equal("2007", foundValue)
+  })
+
+  describe("level", () => {
+    it("sets the level property", () => {
+      const courseDataTemplate = generateDataTemplate(
+        spaceSystemsJsonData,
+        pathLookup
+      )
+      const foundValue = courseDataTemplate["level"]
+      assert.deepEqual(foundValue, ["Graduate"])
+    })
+
+    it("sets the level property to undergraduate and graduate if the level is Both", () => {
+      spaceSystemsJsonData["course_level"] = "Both"
+      const courseDataTemplate = generateDataTemplate(
+        spaceSystemsJsonData,
+        pathLookup
+      )
+      const foundValue = courseDataTemplate["level"]
+      assert.deepEqual(foundValue, ["Undergraduate", "Graduate"])
+    })
+
+    it("sets no level property if there is no level in the input data", () => {
+      spaceSystemsJsonData["course_level"] = null
+      const courseDataTemplate = generateDataTemplate(
+        spaceSystemsJsonData,
+        pathLookup
+      )
+      const foundValue = courseDataTemplate["level"]
+      assert.deepEqual(foundValue, [])
+    })
   })
 
   it("sets the expected text in other_versions", () => {
