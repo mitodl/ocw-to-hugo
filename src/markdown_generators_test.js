@@ -280,6 +280,8 @@ describe("markdown generators", () => {
         resourcetype:   "Video",
         video_metadata: { youtube_id: "5ucfHd8FWKw" },
         video_files:    {
+          archive_url:
+            "https://archive.org/download/MIT8.01F16/MIT8_01F16_L00v01_360p.mp4",
           video_thumbnail_file:
             "https://img.youtube.com/vi/5ucfHd8FWKw/default.jpg",
           video_captions_file:
