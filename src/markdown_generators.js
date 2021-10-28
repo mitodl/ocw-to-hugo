@@ -262,6 +262,9 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
       embeddedMedia["id"].endsWith(".pdf") &&
       embeddedMedia["title"] === "3play pdf file"
   )
+  const archiveRecord = media["embedded_media"].find(
+    embeddedMedia => embeddedMedia["title"] === "Video-Internet Archive-MP4"
+  )
 
   const videoThumbnailLocation = thumbnailFile
     ? thumbnailFile.media_location
@@ -274,6 +277,8 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
     ? helpers.stripS3(pathLookup.byUid[transcriptFile.uid].fileLocation)
     : null
 
+  const archiveUrl = archiveRecord ? archiveRecord.media_location : null
+
   const frontMatter = {
     title:          media["title"],
     description:    "",
@@ -285,7 +290,8 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
     video_files: {
       video_thumbnail_file:  videoThumbnailLocation,
       video_captions_file:   captionsFileLocation,
-      video_transcript_file: transcriptFileLocation
+      video_transcript_file: transcriptFileLocation,
+      archive_url:           archiveUrl
     }
   }
 
