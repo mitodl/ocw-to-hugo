@@ -1,4 +1,45 @@
-[{
+[
+  {
+    "course_id": "2-009-product-engineering-process-fall-2019",
+    "url": "https://web.mit.edu/2.009/www/index.html",
+    "title": "2.009 PRODUCT ENGINEERING PROCESS"
+  },
+  {
+    "course_id": "2-009-product-engineering-process-fall-2019",
+    "url": "https://2s009.com/",
+    "title": "2.S009 EXPLORATIONS IN PRODUCT DESIGN"
+  },
+  {
+    "course_id": "3-012sx-structure-of-materials-spring-2019",
+    "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+3.012S.1x+1T2019/about",
+    "title": "Part 1: Fundamentals of Materials Structure"
+  },
+  {
+    "course_id": "3-012sx-structure-of-materials-spring-2019",
+    "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+3.012S.2x+1T2019/about",
+    "title": "Part 2: The Crystalline State"
+  },
+  {
+    "course_id": "3-012sx-structure-of-materials-spring-2019",
+    "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+3.012S.3x+1T2019/about",
+    "title": "Part 3: Liquid Crystals, Defects, and Diffusion"
+  },
+  {
+    "course_id": "3-15x-electrical-optical-and-magnetic-materials-and-devices-spring-2020",
+    "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITX+3.15.1x+2T2017/about",
+    "title": "I. Electronic Materials and Devices"
+  },
+  {
+    "course_id": "3-15x-electrical-optical-and-magnetic-materials-and-devices-spring-2020",
+    "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+3.15.2x+2T2017/about",
+    "title": "II. Optical Materials and Devices"
+  },
+  {
+    "course_id": "3-15x-electrical-optical-and-magnetic-materials-and-devices-spring-2020",
+    "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+3.15.3x+2T2017/about",
+    "title": "III. Magnetic Materials and Devices"
+  },
+  {
     "course_id": "7-00-covid-19-sars-cov-2-and-the-pandemic-fall-2020",
     "url": "https://biology.mit.edu/undergraduate/current-students/subject-offerings/covid-19-sars-cov-2-and-the-pandemic/",
     "title": "Online Publication"
@@ -12,6 +53,36 @@
     "course_id": "6-s191-introduction-to-deep-learning-january-iap-2020",
     "url": "http://introtodeeplearning.com/2020/index.html",
     "title": "Online Publication"
+  },
+  {
+    "course_id": "8-370x-quantum-information-science-i-spring-2018",
+    "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+8.370.1x+1T2018/about",
+    "title": "Quantum Information Science I, Part 1"
+  },
+  {
+    "course_id": "8-370x-quantum-information-science-i-spring-2018",
+    "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+8.370.2x+1T2018/about",
+    "title": "Quantum Information Science I, Part 2"
+  },
+  {
+    "course_id": "8-370x-quantum-information-science-i-spring-2018",
+    "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+8.370.3x+1T2018/about",
+    "title": "Quantum Information Science I, Part 3"
+  },
+  {
+    "course_id": "8-371x-quantum-information-science-ii-spring-2018",
+    "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+8.371.1x+2T2018/about",
+    "title": "Quantum Information Science II, Part 1"
+  },
+  {
+    "course_id": "8-371x-quantum-information-science-ii-spring-2018",
+    "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+8.371.2x+1T2018/about",
+    "title": "Quantum Information Science II, Part 2"
+  },
+  {
+    "course_id": "8-371x-quantum-information-science-ii-spring-2018",
+    "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+8.371.3x+1T2018/about",
+    "title": "Quantum Information Science II, Part 3"
   },
   {
     "course_id": "11-405-just-money-banking-as-if-society-mattered-spring-2021",
@@ -64,6 +135,11 @@
     "title": "Online Publication"
   },
   {
+    "course_id": "res-21h-001-visualizing-the-birth-of-modern-tokyo-spring-2021",
+    "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+VTx+1T2019/about",
+    "title": "Online Publication"
+  },
+  {
     "course_id": "res-8-002-a-wikitextbook-for-introductory-mechanics-fall-2009",
     "url": "https://wikis.mit.edu/confluence/display/relate",
     "title": "Online Publication"
@@ -79,9 +155,19 @@
     "title": "BLOSSOMS Online"
   },
   {
+    "course_id": "res-ec-002-lean-research-skills-for-conducting-interviews-spring-2021",
+    "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+EC.745X+1T2019/about",
+    "title": "Online Publication"
+  },
+  {
     "course_id": "res-gem4-global-enterprise-for-micro-mechanics-and-molecular-medicine-gem4-summer-2006-summer-2007",
     "url": "https://ocw.mit.edu/ans7870/GEM4/index.html",
     "title": "GEM⁴ Online"
+  },
+  {
+    "course_id": "res-hst-001-mit-little-devices-lab-fall-2021",
+    "url": "https://jfgm.scripts.mit.edu/littledeviceslab/",
+    "title": "Little Devices Lab"
   },
   {
     "course_id": "res-ll-001-introduction-to-radar-systems-spring-2007",
@@ -99,6 +185,11 @@
     "title": "Online Publication"
   },
   {
+    "course_id": "res-tll-007-case-studies-in-social-and-ethical-responsibilities-of-computing-fall-2021",
+    "url": "https://mit-serc.pubpub.org/",
+    "title": "Online Publication"
+  },
+  {
     "course_id": "res-tll-01-guidelines-for-teaching-mit-and-beyond-spring-2016",
     "url": "https://tll-archive.mit.edu/guidelines/guidelines-teaching-mit-and-beyond",
     "title": "Online Publication"
@@ -106,6 +197,16 @@
   {
     "course_id": "res-7-003-brave-new-planet-fall-2020",
     "url": "https://bravenewplanet.org/",
+    "title": "Online Publication"
+  },
+  {
+    "course_id": "res-11-550-leveraging-urban-mobility-disruptions-to-create-better-cities-spring-2021",
+    "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+11.550x+1T2021/about",
+    "title": "Online Publication"
+  },
+  {
+    "course_id": "res-15-005-healthcare-finance-15-482x-spring-2019",
+    "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+15.482x+1T2019/about",
     "title": "Online Publication"
   },
   {
@@ -129,8 +230,32 @@
     "title": "MIT Climate Primer website"
   },
   {
+    "course_id": "res-cms-001-media-literacy-in-the-age-of-deepfakes-spring-2021",
+    "url": "https://deepfakes.virtuality.mit.edu/",
+    "title": "Learning Module and Course Materials"
+  },
+  {
+    "course_id": "res-cms-154-launching-innovation-in-schools-spring-2019",
+    "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+11.154x+3T2018/about",
+    "title": "Online Publication"
+  },  {
+    "course_id": "res-cms-155-design-thinking-for-leading-and-learning-spring-2019",
+    "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+11.155x+1T2019/about",
+    "title": "Online Publication"
+  },
+  {
+    "course_id": "res-cms-501-envisioning-the-graduate-of-the-future-spring-2020",
+    "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+0.501x+2T2019/about",
+    "title": "Online Publication"
+  },
+  {
     "course_id": "res-cms-502-competency-based-education-the-why-what-and-how-spring-2020",
     "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+0.502x+1T2019/about",
+    "title": "Online Publication"
+  },
+  {
+    "course_id": "res-cms-503-becoming-a-more-equitable-educator-mindsets-and-practices-spring-2020",
+    "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+0.503x+T2020/about",
     "title": "Online Publication"
   }
 ]
