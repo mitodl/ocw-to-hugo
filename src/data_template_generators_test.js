@@ -208,33 +208,40 @@ describe("generateDataTemplate", () => {
   })
 
   describe("level", () => {
-    it("sets the level property", () => {
-      const courseDataTemplate = generateDataTemplate(
-        spaceSystemsJsonData,
-        pathLookup
-      )
-      const foundValue = courseDataTemplate["level"]
-      assert.deepEqual(foundValue, ["Graduate"])
-    })
+    [
+      ["generateDataTemplate", generateDataTemplate],
+      ["generateLegacyDataTemplate", generateLegacyDataTemplate]
+    ].forEach(([generateFuncName, generateFunc]) => {
+      describe(generateFuncName, () => {
+        it("sets the level property", () => {
+          const courseDataTemplate = generateFunc(
+            spaceSystemsJsonData,
+            pathLookup
+          )
+          const foundValue = courseDataTemplate["level"]
+          assert.deepEqual(foundValue, ["Graduate"])
+        })
 
-    it("sets the level property to undergraduate and graduate if the level is Both", () => {
-      spaceSystemsJsonData["course_level"] = "Both"
-      const courseDataTemplate = generateDataTemplate(
-        spaceSystemsJsonData,
-        pathLookup
-      )
-      const foundValue = courseDataTemplate["level"]
-      assert.deepEqual(foundValue, ["Undergraduate", "Graduate"])
-    })
+        it("sets the level property to undergraduate and graduate if the level is Both", () => {
+          spaceSystemsJsonData["course_level"] = "Both"
+          const courseDataTemplate = generateFunc(
+            spaceSystemsJsonData,
+            pathLookup
+          )
+          const foundValue = courseDataTemplate["level"]
+          assert.deepEqual(foundValue, ["Undergraduate", "Graduate"])
+        })
 
-    it("sets no level property if there is no level in the input data", () => {
-      spaceSystemsJsonData["course_level"] = null
-      const courseDataTemplate = generateDataTemplate(
-        spaceSystemsJsonData,
-        pathLookup
-      )
-      const foundValue = courseDataTemplate["level"]
-      assert.deepEqual(foundValue, [])
+        it("sets no level property if there is no level in the input data", () => {
+          spaceSystemsJsonData["course_level"] = null
+          const courseDataTemplate = generateFunc(
+            spaceSystemsJsonData,
+            pathLookup
+          )
+          const foundValue = courseDataTemplate["level"]
+          assert.deepEqual(foundValue, [])
+        })
+      })
     })
   })
 
@@ -366,22 +373,6 @@ describe("generateLegacyDataTemplate", () => {
     )
     assert.isTrue(
       courseDataTemplate["publishdate"].startsWith("2008-07-17T16:06:15")
-    )
-  })
-
-  it("sets the level property on the course data template to course_level in the course json data", () => {
-    const courseDataTemplate = generateLegacyDataTemplate(
-      spaceSystemsJsonData,
-      pathLookup
-    )
-    const level = spaceSystemsJsonData["course_level"]
-    const foundValue = courseDataTemplate["level"]
-    assert.deepEqual(
-      {
-        level: level,
-        url:   "/search/?l=Graduate"
-      },
-      foundValue
     )
   })
 

@@ -73,10 +73,6 @@ const generateLegacyDataTemplate = (courseData, pathLookup) => {
     : ""
   delete dataTemplate["department_numbers"]
   dataTemplate["departments"] = helpers.getDepartments(courseData)
-  dataTemplate["level"] = {
-    level: courseData["course_level"],
-    url:   helpers.makeCourseInfoUrl(courseData["course_level"], "level")
-  }
   dataTemplate["course_features"] = (
     courseData["course_feature_tags"] || []
   ).map(courseFeature =>
