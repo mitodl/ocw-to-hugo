@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.33.3
+Version 1.33.3 (Released November 01, 2021)
 --------------
 
 - Change term to be only the semester without year (#402)
