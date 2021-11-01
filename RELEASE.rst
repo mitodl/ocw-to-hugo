@@ -1,6 +1,15 @@
 Release Notes
 =============
 
+Version 1.33.3
+--------------
+
+- Change term to be only the semester without year (#402)
+- add external links through 10-29-2021 (#401)
+- video downloads
+- Update level, year for legacy template (#399)
+- Add term and update level in output (#398)
+
 Version 1.33.2 (Released October 26, 2021)
 --------------
 
