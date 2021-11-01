@@ -28,7 +28,7 @@ const generateDataTemplate = (courseData, pathLookup) => ({
   topics:                helpers.getConsolidatedTopics(courseData["course_collections"]),
   primary_course_number: helpers.getPrimaryCourseNumber(courseData),
   extra_course_numbers:  helpers.getExtraCourseNumbers(courseData).join(", "),
-  term:                  `${courseData["from_semester"]} ${courseData["from_year"]}`,
+  term:                  courseData["from_semester"],
   year:                  courseData["from_year"],
   level:                 !courseData["course_level"]
     ? []

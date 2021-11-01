@@ -189,7 +189,7 @@ describe("generateDataTemplate", () => {
   })
 
   it("sets the term property on the course data template to from_semester and from_year in the course json data", () => {
-    const expectedValue = `${spaceSystemsJsonData["from_semester"]} ${spaceSystemsJsonData["from_year"]}`
+    const expectedValue = spaceSystemsJsonData["from_semester"]
     const courseDataTemplate = generateDataTemplate(
       spaceSystemsJsonData,
       pathLookup
