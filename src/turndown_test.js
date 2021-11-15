@@ -137,6 +137,18 @@ describe("turndown", () => {
     )
   })
 
+  it("should return a baseurl shortcode in a link if the placeholder is there", async () => {
+    const inputHTML = `<a href="BASEURL_PLACEHOLDER/test-section/page">link text</a>`
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(markdown, "[link text]({{< baseurl >}}/test-section/page)")
+  })
+
+  it("should return a baseurl shortcode in an img src if the placeholder is there", async () => {
+    const inputHTML = `<img src="BASEURL_PLACEHOLDER/resources/image" alt="test image" />`
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(markdown, "![test image]({{< baseurl >}}/resources/image)")
+  })
+
   it("should return a quote shortcode for instructor insights quotes", async () => {
     const inputHTML = `<div class="pullquote right">
       <p class="quote">I think stories are an important element of education, and if you strip them out, you don't have
