@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.34.0
+Version 1.34.0 (Released November 16, 2021)
 --------------
 
 - tweak the baseurl turndown rule to apply to images and add tests (#406)
