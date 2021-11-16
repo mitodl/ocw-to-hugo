@@ -245,13 +245,24 @@ turndownService.addRule("baseurlshortcode", {
       if (node.getAttribute("href").match(BASEURL_PLACEHOLDER_REGEX)) {
         return true
       }
+    } else if (node.nodeName === "IMG" && node.getAttribute("src")) {
+      if (node.getAttribute("src").match(BASEURL_PLACEHOLDER_REGEX)) {
+        return true
+      }
     }
     return false
   },
   replacement: (content, node, options) => {
-    return `[${content}](${node
-      .getAttribute("href")
-      .replace(BASEURL_PLACEHOLDER_REGEX, "{{< baseurl >}}")})`
+    if (node.nodeName === "A") {
+      return `[${content}](${node
+        .getAttribute("href")
+        .replace(BASEURL_PLACEHOLDER_REGEX, "{{< baseurl >}}")})`
+    } else if (node.nodeName === "IMG") {
+      const altText = node.getAttribute("alt") ? node.getAttribute("alt") : ""
+      return `![${altText}](${node
+        .getAttribute("src")
+        .replace(BASEURL_PLACEHOLDER_REGEX, "{{< baseurl >}}")})`
+    }
   }
 })
 
