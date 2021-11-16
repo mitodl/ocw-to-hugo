@@ -50,7 +50,8 @@ const allCourseIds = [
   covidCourseId,
   engineering1601Id,
   algorithmsCourseId,
-  entropyCourseId
+  entropyCourseId,
+  embeddedYoutubeVideoCourseId
 ]
 
 const getParsedJsonPath = courseId =>

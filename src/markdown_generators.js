@@ -70,7 +70,7 @@ const generateResourceMarkdown = (courseData, pathLookup) => {
 
       return {
         name: `${resourcePath}.md`,
-        data: generateResourceMarkdownForFile(file)
+        data: generateResourceMarkdownForFile(file, courseData)
       }
     } catch (err) {
       loggers.fileLogger.error(err)
@@ -227,17 +227,39 @@ const getResourceType = mimeType => {
   }
 }
 
-const generateResourceMarkdownForFile = file => {
+const generateResourceMarkdownForFile = (file, courseData) => {
   /**
   Generate the front matter metadata for a PDF file
   */
+  const uid = helpers.addDashesToUid(file["uid"])
   const frontMatter = {
     title:        file["title"],
     description:  file["description"],
-    uid:          helpers.addDashesToUid(file["uid"]),
+    uid:          uid,
     resourcetype: getResourceType(file["file_type"]),
     file_type:    file["file_type"],
     file:         helpers.stripS3(file["file_location"])
+  }
+
+  if (frontMatter.resourcetype === RESOURCE_TYPE_IMAGE) {
+    const courseImageUid = helpers.getUidFromFilePath(courseData["image_src"])
+    const courseImageThumbnailUid = helpers.getUidFromFilePath(
+      courseData["thumbnail_image_src"]
+    )
+    const isCourseImage =
+      courseImageThumbnailUid === uid || courseImageUid === uid
+    const alt = isCourseImage
+      ? courseData["image_alternate_text"]
+      : file["alt_text"]
+    const caption = isCourseImage
+      ? courseData["image_caption_text"]
+      : file["caption"]
+
+    frontMatter["image_metadata"] = {
+      ["image-alt"]: alt || "",
+      caption:       caption || "",
+      credit:        file["credit"] || ""
+    }
   }
 
   return `---\n${yaml.safeDump(frontMatter)}---\n`
