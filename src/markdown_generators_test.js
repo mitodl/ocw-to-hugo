@@ -20,7 +20,9 @@ const {
   allCourseIds
 } = require("./test_utils")
 
-describe("markdown generators", () => {
+describe("markdown generators", function() {
+  this.timeout(5000)
+
   let singleCourseJsonData,
     imageGalleryCourseJsonData,
     videoGalleryCourseJsonData,
