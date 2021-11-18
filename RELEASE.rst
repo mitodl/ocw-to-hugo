@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.34.2
+Version 1.34.2 (Released November 18, 2021)
 --------------
 
 - Add image metadata (#409)
