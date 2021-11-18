@@ -1,8 +1,9 @@
 const moment = require("moment")
 
-const { generateCourseDescription } = require("./markdown_generators")
+const { fixLinks, generateCourseDescription } = require("./markdown_generators")
 const { INPUT_COURSE_DATE_FORMAT } = require("./constants")
 const helpers = require("./helpers")
+const { html2markdown } = require("./turndown")
 
 const generateDataTemplate = (courseData, pathLookup) => ({
   course_title:       courseData["title"],
@@ -62,9 +63,15 @@ const generateLegacyDataTemplate = (courseData, pathLookup) => {
   ]
     ? courseData["image_alternate_text"]
     : ""
-  dataTemplate["course_image_caption_text"] = courseData["image_caption_text"]
-    ? courseData["image_caption_text"]
-    : ""
+  dataTemplate["course_image_caption_text"] = html2markdown(
+    fixLinks(
+      courseData["image_caption_text"] ? courseData["image_caption_text"] : "",
+      courseData,
+      pathLookup,
+      false,
+      true
+    )
+  )
   dataTemplate["publishdate"] = courseData["first_published_to_production"]
     ? moment(
       courseData["first_published_to_production"],

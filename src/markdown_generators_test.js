@@ -310,7 +310,7 @@ describe("markdown generators", () => {
       const imageFrontmatter = files.find(file => file.uid === courseImageUid)
       assert.deepEqual(imageFrontmatter["image_metadata"], {
         caption:
-          "<p>Issac Newton is honored on the facade of Killian Court at MIT. Newton developed most of the concepts studied in classical mechanics. (Photo courtesy of Dr. Michelle Tomasik.)</p>",
+          "Issac Newton is honored on the facade of Killian Court at MIT. Newton developed most of the concepts studied in classical mechanics. (Photo courtesy of Dr. Michelle Tomasik.)",
         credit:      "Photo courtesy of Dr. Michelle Tomasik.",
         "image-alt":
           'A photo of a building with the word "Newton" engraved on the side.'
@@ -321,7 +321,7 @@ describe("markdown generators", () => {
       )
       assert.deepEqual(thumbnailFrontmatter["image_metadata"], {
         caption:
-          "<p>Issac Newton is honored on the facade of Killian Court at MIT. Newton developed most of the concepts studied in classical mechanics. (Photo courtesy of Dr. Michelle Tomasik.)</p>",
+          "Issac Newton is honored on the facade of Killian Court at MIT. Newton developed most of the concepts studied in classical mechanics. (Photo courtesy of Dr. Michelle Tomasik.)",
         credit:      "Photo courtesy of Dr. Michelle Tomasik.",
         "image-alt":
           'A photo of a building with the word "Newton" engraved on the side.'

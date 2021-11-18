@@ -70,7 +70,7 @@ const generateResourceMarkdown = (courseData, pathLookup) => {
 
       return {
         name: `${resourcePath}.md`,
-        data: generateResourceMarkdownForFile(file, courseData)
+        data: generateResourceMarkdownForFile(file, courseData, pathLookup)
       }
     } catch (err) {
       loggers.fileLogger.error(err)
@@ -227,7 +227,7 @@ const getResourceType = mimeType => {
   }
 }
 
-const generateResourceMarkdownForFile = (file, courseData) => {
+const generateResourceMarkdownForFile = (file, courseData, pathLookup) => {
   /**
   Generate the front matter metadata for a PDF file
   */
@@ -257,8 +257,10 @@ const generateResourceMarkdownForFile = (file, courseData) => {
 
     frontMatter["image_metadata"] = {
       ["image-alt"]: alt || "",
-      caption:       caption || "",
-      credit:        file["credit"] || ""
+      caption:       html2markdown(
+        fixLinks(caption || "", courseData, pathLookup, false, true)
+      ),
+      credit: file["credit"] || ""
     }
   }
 
