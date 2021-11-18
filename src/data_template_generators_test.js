@@ -335,7 +335,7 @@ describe("generateLegacyDataTemplate", () => {
     )
     assert.equal(
       courseDataTemplate["course_image_caption_text"],
-      '<p>Astronauts setting up a lunar telescope array. (Image courtesy of <a href="http://www.nasa.gov/mission_pages/exploration/multimedia/jfa18844_prt.htm">NASA</a>.)</p>'
+      "Astronauts setting up a lunar telescope array. (Image courtesy of [NASA](http://www.nasa.gov/mission_pages/exploration/multimedia/jfa18844_prt.htm).)"
     )
   })
 
