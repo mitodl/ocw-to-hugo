@@ -260,7 +260,9 @@ const generateResourceMarkdownForFile = (file, courseData, pathLookup) => {
       caption:       html2markdown(
         fixLinks(caption || "", courseData, pathLookup, false, true)
       ),
-      credit: file["credit"] || ""
+      credit: html2markdown(
+        fixLinks(file["credit"] || "", courseData, pathLookup, false, true)
+      )
     }
   }
 
