@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.34.1
+--------------
+
+- Add link to 7.00 F21 and a little sorting (#405)
+
 Version 1.34.0 (Released November 16, 2021)
 --------------
 
