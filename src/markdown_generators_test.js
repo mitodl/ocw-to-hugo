@@ -3,6 +3,8 @@ const { assert, expect } = require("chai").use(require("sinon-chai"))
 const yaml = require("js-yaml")
 
 const markdownGenerators = require("./markdown_generators")
+const dataTemplateGenerators = require("./data_template_generators")
+
 const helpers = require("./helpers")
 const fileOperations = require("./file_operations")
 const {
@@ -14,16 +16,20 @@ const {
   physics802Id,
   subtitlesCourseId,
   classicalMechanicsId,
+  embeddedYoutubeVideoCourseId,
   allCourseIds
 } = require("./test_utils")
 
-describe("markdown generators", () => {
+describe("markdown generators", function() {
+  this.timeout(5000)
+
   let singleCourseJsonData,
     imageGalleryCourseJsonData,
     videoGalleryCourseJsonData,
     physicsCourseJsonData,
     subtitlesCourseJsonData,
     classicalMechanicsJsonData,
+    embeddedYoutubeVideoJsonData,
     coursePagesWithText,
     imageGalleryPages,
     imageGalleryImages,
@@ -39,6 +45,7 @@ describe("markdown generators", () => {
     physicsCourseJsonData = readCourseJson(physics802Id)
     subtitlesCourseJsonData = readCourseJson(subtitlesCourseId)
     classicalMechanicsJsonData = readCourseJson(classicalMechanicsId)
+    embeddedYoutubeVideoJsonData = readCourseJson(embeddedYoutubeVideoCourseId)
 
     coursePagesWithText = singleCourseJsonData["course_pages"].filter(
       page => page["text"]
@@ -248,19 +255,78 @@ describe("markdown generators", () => {
         pathLookup
       )
       const file = markdownData.find(
-        file =>
-          file.name ===
-          "/resources/jsinput_freebodydraw_massive_rope_between_trees_setup.md"
+        file => file.name === "/resources/dvwkch0ocu8.md"
       )
       const frontmatter = yaml.safeLoad(file.data.split("---\n")[1])
       assert.deepEqual(frontmatter, {
         description: "",
         file:
-          "https://open-learning-course-data-production.s3.amazonaws.com/8-01sc-classical-mechanics-fall-2016/838633c70a5b59cce23f0909eaeb96d7_jsinput_freebodydraw_massive_rope_between_trees_setup.svg",
-        file_type:    "image/svg+xml",
-        resourcetype: "Image",
-        title:        "jsinput_freebodydraw_massive_rope_between_trees_setup.svg",
-        uid:          "838633c7-0a5b-59cc-e23f-0909eaeb96d7"
+          "https://open-learning-course-data-production.s3.amazonaws.com/8-01sc-classical-mechanics-fall-2016/96dd8de9796837cfb0e487cae01c2710_dvWKCH0ocu8.srt",
+        file_type:    "application/x-subrip",
+        resourcetype: "Other",
+        title:        "3play caption file",
+        uid:          "96dd8de9-7968-37cf-b0e4-87cae01c2710"
+      })
+    })
+
+    it("generates a resource page for an image", () => {
+      const markdownData = markdownGenerators.generateMarkdownFromJson(
+        embeddedYoutubeVideoJsonData,
+        pathLookup
+      )
+      const file = markdownData.find(
+        file => file.name === "/resources/shapes.md"
+      )
+      const frontmatter = yaml.safeLoad(file.data.split("---\n")[1])
+      assert.deepEqual(frontmatter, {
+        description: "Image: ",
+        file:
+          "https://open-learning-course-data-production.s3.amazonaws.com/15-071-the-analytics-edge-spring-2017/6a88ce72b6c9709cc7bd95550e3cd349_Shapes.jpg",
+        file_type:      "image/jpeg",
+        resourcetype:   "Image",
+        title:          "Shapes.jpg",
+        uid:            "6a88ce72-b6c9-709c-c7bd-95550e3cd349",
+        image_metadata: {
+          caption:     "",
+          credit:      "",
+          "image-alt":
+            "Variety of colors and shapes available in R using ggplot."
+        }
+      })
+    })
+
+    it("uses course home page image metadata for a course image or thumbnail", () => {
+      const courseJson = dataTemplateGenerators.generateLegacyDataTemplate(
+        classicalMechanicsJsonData,
+        pathLookup
+      )
+      const courseImageUid = courseJson["course_image"]["content"]
+      const courseThumbnailUid = courseJson["course_image_thumbnail"]["content"]
+      const markdownData = markdownGenerators.generateMarkdownFromJson(
+        classicalMechanicsJsonData,
+        pathLookup
+      )
+      const files = markdownData.map(file =>
+        yaml.safeLoad(file.data.split("---\n")[1])
+      )
+      const imageFrontmatter = files.find(file => file.uid === courseImageUid)
+      assert.deepEqual(imageFrontmatter["image_metadata"], {
+        caption:
+          "Issac Newton is honored on the facade of Killian Court at MIT. Newton developed most of the concepts studied in classical mechanics. (Photo courtesy of Dr. Michelle Tomasik.)",
+        credit:      "Photo courtesy of Dr. Michelle Tomasik.",
+        "image-alt":
+          'A photo of a building with the word "Newton" engraved on the side.'
+      })
+
+      const thumbnailFrontmatter = files.find(
+        file => file.uid === courseThumbnailUid
+      )
+      assert.deepEqual(thumbnailFrontmatter["image_metadata"], {
+        caption:
+          "Issac Newton is honored on the facade of Killian Court at MIT. Newton developed most of the concepts studied in classical mechanics. (Photo courtesy of Dr. Michelle Tomasik.)",
+        credit:      "Photo courtesy of Dr. Michelle Tomasik.",
+        "image-alt":
+          'A photo of a building with the word "Newton" engraved on the side.'
       })
     })
 
