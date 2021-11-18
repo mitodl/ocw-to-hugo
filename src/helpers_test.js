@@ -345,8 +345,9 @@ describe("helper functions", () => {
       )
       const fileResult = result.find(item => item.match[0] === link)
       assert.deepEqual(fileResult, {
-        replacement: "{{< resource_file 915b6ae8-ee3c-e053-1360-df600464d389 >}}",
-        match:       [link]
+        replacement:
+          "{{< resource_file 915b6ae8-ee3c-e053-1360-df600464d389 >}}",
+        match: [link]
       })
     })
 

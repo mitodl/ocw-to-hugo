@@ -18,7 +18,7 @@ const {
   COURSE_TYPE,
   RESOURCE_TYPE_OTHER,
   RESOURCE_TYPE_DOCUMENT,
-  RESOURCE_TYPE_IMAGE,
+  RESOURCE_TYPE_IMAGE
 } = require("./constants")
 const loggers = require("./loggers")
 const runOptions = {}

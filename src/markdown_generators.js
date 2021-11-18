@@ -5,10 +5,7 @@ const stripHtml = require("string-strip-html")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
 const { html2markdown } = require("./turndown")
-const {
-  RESOURCE_TYPE_IMAGE,
-  RESOURCE_TYPE_VIDEO
-} = require("./constants")
+const { RESOURCE_TYPE_IMAGE, RESOURCE_TYPE_VIDEO } = require("./constants")
 
 const fixLinks = (
   htmlStr,
