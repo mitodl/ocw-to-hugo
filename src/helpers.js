@@ -15,7 +15,10 @@ const {
   INPUT_COURSE_DATE_FORMAT,
   EMBEDDED_RESOURCE_SHORTCODE_PLACEHOLDER_CLASS,
   EMBEDDED_MEDIA_PAGE_TYPE,
-  COURSE_TYPE
+  COURSE_TYPE,
+  RESOURCE_TYPE_OTHER,
+  RESOURCE_TYPE_DOCUMENT,
+  RESOURCE_TYPE_IMAGE,
 } = require("./constants")
 const loggers = require("./loggers")
 const runOptions = {}
@@ -363,13 +366,24 @@ const constructInternalLink = (
   uid,
   pageCourse,
   useShortcodes,
-  isRelativeToRoot
+  isRelativeToRoot,
+  courseData
 ) => {
   const isSameCourse = linkCourse === pageCourse
   const strippedPath =
     pathRelativeToCourseRoot !== "/"
       ? stripSlashPrefix(pathRelativeToCourseRoot)
       : pathRelativeToCourseRoot
+
+  // if this links to an image resource, return the resource_file shortcode
+  const matchingFile = courseData["course_files"].filter(
+    file => file["uid"] === uid
+  )
+  if (matchingFile.length > 0) {
+    if (getResourceType(matchingFile[0]["file_type"]) === RESOURCE_TYPE_IMAGE) {
+      return `{{< resource_file ${addDashesToUid(uid)} >}}`
+    }
+  }
 
   if (!useShortcodes) {
     // course.json can't use shortcodes at the moment. However the course description is only shown on the course
@@ -409,7 +423,8 @@ const resolveUidForLink = (
       uid,
       courseId,
       useShortcodes,
-      isRelativeToRoot
+      isRelativeToRoot,
+      courseData
     )
   }
 
@@ -509,7 +524,8 @@ const resolveRelativeLink = (
           null,
           thisCourseId,
           useShortcodes,
-          isRelativeToRoot
+          isRelativeToRoot,
+          courseData
         )
         return updatePath(url, getPathFragments(internalLink), isRelativeToRoot)
       }
@@ -534,7 +550,8 @@ const resolveRelativeLink = (
                 uid,
                 thisCourseId,
                 useShortcodes,
-                isRelativeToRoot
+                isRelativeToRoot,
+                courseData
               )
             } else {
               return stripS3(pathObj.fileLocation)
@@ -557,7 +574,8 @@ const resolveRelativeLink = (
           null,
           thisCourseId,
           useShortcodes,
-          isRelativeToRoot
+          isRelativeToRoot,
+          courseData
         )
         return updatePath(url, getPathFragments(internalLink), isRelativeToRoot)
       }
@@ -644,7 +662,8 @@ const resolveYouTubeEmbedMatches = (
           uid,
           courseData["short_url"],
           useShortcodes,
-          isRelativeToRoot
+          isRelativeToRoot,
+          courseData
         )
 
         const replacement =
@@ -800,6 +819,21 @@ const getVideoUidsFromPage = (page, courseData) => {
   return videos.map(video => addDashesToUid(video["uid"]))
 }
 
+const getResourceType = mimeType => {
+  switch (mimeType) {
+  case "application/pdf":
+    return RESOURCE_TYPE_DOCUMENT
+  case "image/gif":
+  case "image/jpeg":
+  case "image/png":
+  case "image/svg+xml":
+  case "image/tiff":
+    return RESOURCE_TYPE_IMAGE
+  default:
+    return RESOURCE_TYPE_OTHER
+  }
+}
+
 module.exports = {
   directoryExists,
   createOrOverwriteFile,
@@ -839,5 +873,6 @@ module.exports = {
   addDashesToUid,
   replaceSubstring,
   getUidFromFilePath,
-  getVideoUidsFromPage
+  getVideoUidsFromPage,
+  getResourceType
 }
