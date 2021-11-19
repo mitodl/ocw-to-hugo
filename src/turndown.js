@@ -8,7 +8,8 @@ const {
   SUPPORTED_IFRAME_EMBEDS,
   EMBEDDED_RESOURCE_SHORTCODE_PLACEHOLDER_CLASS,
   IRREGULAR_WHITESPACE_REGEX,
-  BASEURL_PLACEHOLDER_REGEX
+  BASEURL_PLACEHOLDER_REGEX,
+  DIV_WITH_CLASS_CLASSES_REGEXES
 } = require("./constants")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
@@ -383,6 +384,23 @@ turndownService.addRule("h4", {
   filter:      ["h4"],
   replacement: (content, node, options) => {
     return `##### ${content}`
+  }
+})
+
+turndownService.addRule("div_with_class", {
+  filter: (node, options) => {
+    if (node.nodeName === "DIV" && node.getAttribute("class")) {
+      for (const classRegex of DIV_WITH_CLASS_CLASSES_REGEXES) {
+        if (classRegex.test(node.getAttribute("class"))) {
+          return true
+        }
+      }
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    const name = JSON.stringify(node.getAttribute("class"))
+    return `{{< div-with-class ${name}>}}${content}{{< /div-with-class >}}`
   }
 })
 

@@ -22,7 +22,10 @@ module.exports = {
       getID:         url => url.pathname.replace("/", "")
     }
   },
-
+  DIV_WITH_CLASS_CLASSES_REGEXES: new Array(
+    new RegExp("toggle[0-9]"),
+    new RegExp("reveal[0-9]")
+  ),
   // These are internal values for keeping track of uids.
   // None of these are used by the plone source data and none should be present in the output JSON.
   EMBEDDED_MEDIA_PAGE_TYPE: "embedded-media-page-type",
