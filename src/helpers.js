@@ -382,7 +382,7 @@ const constructInternalLink = (
   )
   if (matchingFile.length > 0) {
     if (getResourceType(matchingFile[0]["file_type"]) === RESOURCE_TYPE_IMAGE) {
-      return `${RESOURCE_FILE_PLACEHOLDER} ${uid} ${path.join(
+      return `${RESOURCE_FILE_PLACEHOLDER} ${addDashesToUid(uid)} ${path.join(
         "/",
         strippedPath
       )}`
