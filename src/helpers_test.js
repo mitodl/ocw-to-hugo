@@ -346,7 +346,7 @@ describe("helper functions", () => {
       const fileResult = result.find(item => item.match[0] === link)
       assert.deepEqual(fileResult, {
         replacement:
-          "{{< resource_file 915b6ae8-ee3c-e053-1360-df600464d389 >}}",
+          "RESOURCE_FILE_PLACEHOLDER 915b6ae8ee3ce0531360df600464d389 resources/img_20141011_092912",
         match: [link]
       })
     })
@@ -614,7 +614,7 @@ describe("helper functions", () => {
       assert.equal(result[0].replacement, `href="${link}"`)
     })
 
-    it("handles relative links to static assets by adding an S3 link", () => {
+    it("handles relative links to images by inserting a resource_file placeholder with uid and path", () => {
       const text = `<p><a href="/courses/aeronautics-and-astronautics/${singleCourseId}/labs/12.jpg">Table Organization</a></p> `
       const result = helpers.resolveRelativeLinkMatches(
         text,
@@ -625,7 +625,7 @@ describe("helper functions", () => {
       )
       assert.equal(
         result[0].replacement,
-        'href="{{< resource_file 365bce6e-8357-a07d-939a-271972558376 >}}"'
+        'href="RESOURCE_FILE_PLACEHOLDER 365bce6e8357a07d939a271972558376 resources/12"'
       )
     })
 

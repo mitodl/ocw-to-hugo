@@ -11,6 +11,7 @@ const EXTERNAL_LINKS_JSON = require("./external_links.json")
 const {
   AWS_REGEX,
   BASEURL_PLACEHOLDER,
+  RESOURCE_FILE_PLACEHOLDER,
   FILE_TYPE,
   INPUT_COURSE_DATE_FORMAT,
   EMBEDDED_RESOURCE_SHORTCODE_PLACEHOLDER_CLASS,
@@ -375,13 +376,16 @@ const constructInternalLink = (
       ? stripSlashPrefix(pathRelativeToCourseRoot)
       : pathRelativeToCourseRoot
 
-  // if this links to an image resource, return the resource_file shortcode
+  // if this links to an image resource, return the resource_file placeholder
   const matchingFile = courseData["course_files"].filter(
     file => file["uid"] === uid
   )
   if (matchingFile.length > 0) {
     if (getResourceType(matchingFile[0]["file_type"]) === RESOURCE_TYPE_IMAGE) {
-      return `{{< resource_file ${addDashesToUid(uid)} >}}`
+      return `${RESOURCE_FILE_PLACEHOLDER} ${uid} ${path.join(
+        "/",
+        strippedPath
+      )}`
     }
   }
 
