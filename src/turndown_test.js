@@ -284,4 +284,22 @@ describe("turndown", () => {
     const markdown = await html2markdown(inputHTML)
     assert.equal(markdown, "{{< approx-students 300 >}}")
   })
+
+  it(`replaces divs with "toggle" in the class name with a shortcode`, async () => {
+    const inputHTML = `<div class="toggle1">Click Me</div>`
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(
+      markdown,
+      `{{< div-with-class "toggle1">}}Click Me{{< /div-with-class >}}`
+    )
+  })
+
+  it(`replaces divs with "reveal" in the class name with a shortcode`, async () => {
+    const inputHTML = `<div class="reveal1">Show Me</div>`
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(
+      markdown,
+      `{{< div-with-class "reveal1">}}Show Me{{< /div-with-class >}}`
+    )
+  })
 })
