@@ -346,7 +346,7 @@ describe("helper functions", () => {
       const fileResult = result.find(item => item.match[0] === link)
       assert.deepEqual(fileResult, {
         replacement:
-          "RESOURCE_FILE_PLACEHOLDER 915b6ae8ee3ce0531360df600464d389 resources/img_20141011_092912",
+          "RESOURCE_FILE_PLACEHOLDER 915b6ae8ee3ce0531360df600464d389 /resources/img_20141011_092912",
         match: [link]
       })
     })
@@ -625,7 +625,7 @@ describe("helper functions", () => {
       )
       assert.equal(
         result[0].replacement,
-        'href="RESOURCE_FILE_PLACEHOLDER 365bce6e8357a07d939a271972558376 resources/12"'
+        'href="RESOURCE_FILE_PLACEHOLDER 365bce6e8357a07d939a271972558376 /resources/12"'
       )
     })
 
