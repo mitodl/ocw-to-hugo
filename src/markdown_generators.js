@@ -5,12 +5,7 @@ const stripHtml = require("string-strip-html")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
 const { html2markdown } = require("./turndown")
-const {
-  RESOURCE_TYPE_OTHER,
-  RESOURCE_TYPE_DOCUMENT,
-  RESOURCE_TYPE_IMAGE,
-  RESOURCE_TYPE_VIDEO
-} = require("./constants")
+const { RESOURCE_TYPE_IMAGE, RESOURCE_TYPE_VIDEO } = require("./constants")
 
 const fixLinks = (
   htmlStr,
@@ -212,21 +207,6 @@ const generateCourseSectionMarkdown = (page, courseData, pathLookup) => {
   }
 }
 
-const getResourceType = mimeType => {
-  switch (mimeType) {
-  case "application/pdf":
-    return RESOURCE_TYPE_DOCUMENT
-  case "image/gif":
-  case "image/jpeg":
-  case "image/png":
-  case "image/svg+xml":
-  case "image/tiff":
-    return RESOURCE_TYPE_IMAGE
-  default:
-    return RESOURCE_TYPE_OTHER
-  }
-}
-
 const generateResourceMarkdownForFile = (file, courseData, pathLookup) => {
   /**
   Generate the front matter metadata for a PDF file
@@ -236,7 +216,7 @@ const generateResourceMarkdownForFile = (file, courseData, pathLookup) => {
     title:        file["title"],
     description:  file["description"],
     uid:          uid,
-    resourcetype: getResourceType(file["file_type"]),
+    resourcetype: helpers.getResourceType(file["file_type"]),
     file_type:    file["file_type"],
     file:         helpers.stripS3(file["file_location"])
   }

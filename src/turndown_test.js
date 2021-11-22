@@ -143,10 +143,19 @@ describe("turndown", () => {
     assert.equal(markdown, "[link text]({{< baseurl >}}/test-section/page)")
   })
 
-  it("should return a baseurl shortcode in an img src if the placeholder is there", async () => {
-    const inputHTML = `<img src="BASEURL_PLACEHOLDER/resources/image" alt="test image" />`
+  it("should return a path to an image resource prefixed with the baseurl shortcode if it's linked in an a tag", async () => {
+    const inputHTML = `<a href="RESOURCE_FILE_PLACEHOLDER 05e36cd1-b32f-4b27-9fda-6173ec926253 /resources/image"" >test image</a>`
     const markdown = await html2markdown(inputHTML)
-    assert.equal(markdown, "![test image]({{< baseurl >}}/resources/image)")
+    assert.equal(markdown, "[test image]({{< baseurl >}}/resources/image)")
+  })
+
+  it("should return a resource_file shortcode in an img src if the placeholder is there", async () => {
+    const inputHTML = `<img src="RESOURCE_FILE_PLACEHOLDER 05e36cd1-b32f-4b27-9fda-6173ec926253 /resources/image" alt="test image" />`
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(
+      markdown,
+      "![test image]({{< resource_file 05e36cd1-b32f-4b27-9fda-6173ec926253 >}})"
+    )
   })
 
   it("should return a quote shortcode for instructor insights quotes", async () => {

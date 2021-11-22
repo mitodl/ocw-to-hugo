@@ -9,7 +9,8 @@ const {
   EMBEDDED_RESOURCE_SHORTCODE_PLACEHOLDER_CLASS,
   IRREGULAR_WHITESPACE_REGEX,
   BASEURL_PLACEHOLDER_REGEX,
-  DIV_WITH_CLASS_CLASSES_REGEXES
+  DIV_WITH_CLASS_CLASSES_REGEXES,
+  RESOURCE_FILE_PLACEHOLDER
 } = require("./constants")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
@@ -246,8 +247,24 @@ turndownService.addRule("baseurlshortcode", {
       if (node.getAttribute("href").match(BASEURL_PLACEHOLDER_REGEX)) {
         return true
       }
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    return `[${content}](${node
+      .getAttribute("href")
+      .replace(BASEURL_PLACEHOLDER_REGEX, "{{< baseurl >}}")})`
+  }
+})
+
+turndownService.addRule("resourcefileshortcode", {
+  filter: (node, options) => {
+    if (node.nodeName === "A" && node.getAttribute("href")) {
+      if (node.getAttribute("href").match(RESOURCE_FILE_PLACEHOLDER)) {
+        return true
+      }
     } else if (node.nodeName === "IMG" && node.getAttribute("src")) {
-      if (node.getAttribute("src").match(BASEURL_PLACEHOLDER_REGEX)) {
+      if (node.getAttribute("src").match(RESOURCE_FILE_PLACEHOLDER)) {
         return true
       }
     }
@@ -255,14 +272,14 @@ turndownService.addRule("baseurlshortcode", {
   },
   replacement: (content, node, options) => {
     if (node.nodeName === "A") {
-      return `[${content}](${node
-        .getAttribute("href")
-        .replace(BASEURL_PLACEHOLDER_REGEX, "{{< baseurl >}}")})`
+      const parts = node.getAttribute("href").split(" ")
+      const resourceUrl = parts[2]
+      return `[${content}]({{< baseurl >}}${resourceUrl})`
     } else if (node.nodeName === "IMG") {
       const altText = node.getAttribute("alt") ? node.getAttribute("alt") : ""
-      return `![${altText}](${node
-        .getAttribute("src")
-        .replace(BASEURL_PLACEHOLDER_REGEX, "{{< baseurl >}}")})`
+      const parts = node.getAttribute("src").split(" ")
+      const uid = parts[1]
+      return `![${altText}]({{< resource_file ${uid} >}})`
     }
   }
 })
