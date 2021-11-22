@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.35.0
+--------------
+
+- div-with-class
+
 Version 1.34.2 (Released November 18, 2021)
 --------------
 
