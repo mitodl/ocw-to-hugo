@@ -377,11 +377,11 @@ const constructInternalLink = (
       : pathRelativeToCourseRoot
 
   // if this links to an image resource, return the resource_file placeholder
-  const matchingFile = courseData["course_files"].filter(
+  const matchingFile = courseData["course_files"].find(
     file => file["uid"] === uid
   )
-  if (matchingFile.length > 0) {
-    if (getResourceType(matchingFile[0]["file_type"]) === RESOURCE_TYPE_IMAGE) {
+  if (matchingFile) {
+    if (getResourceType(matchingFile["file_type"]) === RESOURCE_TYPE_IMAGE) {
       return `${RESOURCE_FILE_PLACEHOLDER} ${addDashesToUid(uid)} ${path.join(
         "/",
         strippedPath
