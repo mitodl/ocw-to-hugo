@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.35.1
+Version 1.35.1 (Released November 22, 2021)
 --------------
 
 - generate resource_file shortcodes for images (#412)
