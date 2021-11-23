@@ -40,5 +40,7 @@ module.exports = {
   RESOURCE_TYPE_IMAGE:    "Image",
   RESOURCE_TYPE_VIDEO:    "Video",
   RESOURCE_TYPE_OTHER:    "Other",
-  RESOURCE_TYPE_DOCUMENT: "Document"
+  RESOURCE_TYPE_DOCUMENT: "Document",
+  // skip these filenames
+  FORBIDDEN_FILENAMES:    new Set(["index", "_index"])
 }

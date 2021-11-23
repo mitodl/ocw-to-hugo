@@ -988,5 +988,19 @@ describe("helper functions", () => {
         "b03952e4-bdfc-ea49-6227-1aeae1dedb3f"
       ])
     })
+
+    it("creates a resource slug unique from other slugs", () => {
+      [
+        ["Original file name1234[ ]--=", [], "original-file-name1234---"],
+        ["file", ["file", "file-1"], "file-2"],
+        ["index", [], "index-1"],
+        ["_index", [], "_index-1"]
+      ].forEach(([originalName, existingNames, expected]) => {
+        assert.equal(
+          helpers.makeResourceSlug(originalName, new Set(existingNames)),
+          expected
+        )
+      })
+    })
   })
 })

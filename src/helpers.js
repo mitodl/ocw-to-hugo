@@ -19,7 +19,8 @@ const {
   COURSE_TYPE,
   RESOURCE_TYPE_OTHER,
   RESOURCE_TYPE_DOCUMENT,
-  RESOURCE_TYPE_IMAGE
+  RESOURCE_TYPE_IMAGE,
+  FORBIDDEN_FILENAMES
 } = require("./constants")
 const loggers = require("./loggers")
 const runOptions = {}
@@ -242,7 +243,7 @@ const makeResourceSlug = (originalFilename, resourceNameSet) => {
   let filename = prefix
 
   let idx = 1
-  while (resourceNameSet.has(filename)) {
+  while (resourceNameSet.has(filename) || FORBIDDEN_FILENAMES.has(filename)) {
     filename = `${prefix}-${idx}`
     idx++
   }
