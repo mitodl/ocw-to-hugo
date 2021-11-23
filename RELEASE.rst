@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.35.2
+Version 1.35.2 (Released November 23, 2021)
 --------------
 
 - Don't output index.md or _index.md for resources (#416)
