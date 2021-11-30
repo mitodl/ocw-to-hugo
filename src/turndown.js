@@ -421,6 +421,174 @@ turndownService.addRule("div_with_class", {
   }
 })
 
+turndownService.addRule("multiple_choice_question", {
+  filter: (node, options) => {
+    if (node.nodeName === "DIV" && node.getAttribute("class")) {
+      if (
+        node.getAttribute("class") === "problem_question" &&
+        node.getElementsByClassName("problem_radio_input")
+      ) {
+        return true
+      }
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    const questionId = node.getAttribute("id")
+    let questionMarkdown = Array.from(
+      node.getElementsByTagName("fieldset")[0].childNodes
+    )
+      .filter(child => {
+        if (
+          child.nodeName === "DIV" &&
+          child.getAttribute("class").includes("choice") &&
+          child.getElementsByClassName("problem_radio_input")
+        ) {
+          return true
+        }
+      })
+      .map(choice => {
+        const isCorrect =
+          choice
+            .getElementsByClassName("problem_radio_input")[0]
+            .getAttribute("correct") === "true"
+        return `{{< quiz_choice isCorrect="${isCorrect}" >}}${turndownService.turndown(
+          choice.outerHTML
+        )}{{< /quiz_choice >}}`
+      })
+      .join("\n")
+    questionMarkdown = `{{< quiz_choices >}}${questionMarkdown}{{< /quiz_choices >}}`
+    const solution = helpers.getNextSibling(node, "div.problem_solution")
+
+    let solutionMarkdown = `{{< quiz_solution / >}}`
+
+    if (solution) {
+      solutionMarkdown = `{{< quiz_solution >}}${turndownService.turndown(
+        solution.outerHTML
+      )}{{< /quiz_solution >}}`
+    }
+
+    questionMarkdown = `${questionMarkdown}\n${solutionMarkdown}`
+
+    return `{{< quiz_multiple_choice questionId="${questionId}" >}}${questionMarkdown}{{< /quiz_multiple_choice >}}`
+  }
+})
+
+turndownService.addRule("multiple_choice_questions_widget", {
+  filter: (node, options) => {
+    if (node.nodeName === "SCRIPT" && node.textContent.includes("quizMulti")) {
+      return true
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    const jsParser = require("acorn")
+    const walk = require("acorn-walk")
+    const nodeText = node.textContent.replace(
+      "// There was an extra comma at the end of multiList array.",
+      ""
+    )
+
+    const quizData = jsParser.parse(nodeText, { ecmaVersion: 11 })
+
+    const dataNode = walk.findNodeAt(quizData, null, null, function(
+      type,
+      node
+    ) {
+      return (
+        type === "VariableDeclarator" && node.id && node.id.name === "quizMulti"
+      )
+    })
+
+    let dataSubstring = String(
+      nodeText.substring(dataNode.node.init.start, dataNode.node.init.end)
+    )
+
+    for (const key of ["multiList", "ques", "ans", "ansSel", "ansInfo"]) {
+      dataSubstring = dataSubstring.replace(RegExp(`${key}:`, "g"), `"${key}":`)
+    }
+
+    const data = JSON.parse(dataSubstring)
+    let markdown = ""
+    data["multiList"].forEach((question, index) => {
+      markdown = markdown.concat(
+        "\n",
+        turndownService.turndown(`<h4>Question ${index + 1}</h4>`),
+        "\n"
+      )
+      markdown = markdown.concat(
+        " ",
+        `{{< quiz_multiple_choice questionId="MCQ${index + 1}" >}}`
+      )
+
+      markdown = markdown.concat(" ", question["ques"])
+
+      markdown = markdown.concat(" ", `{{< quiz_choices >}}`)
+
+      const options = question["ansSel"]
+      options.push(question["ans"])
+      options.sort()
+
+      for (const option of options) {
+        markdown = markdown.concat(
+          " ",
+          `{{< quiz_choice isCorrect="${option ===
+            question["ans"]}" >}}${option}{{< /quiz_choice >}}`
+        )
+      }
+
+      markdown = markdown.concat(" ", `{{< /quiz_choices >}}`)
+
+      if (question["ansInfo"]) {
+        markdown = markdown.concat(
+          " ",
+          `{{< quiz_solution >}}${question["ansInfo"]}{{< /quiz_solution >}}`
+        )
+      } else {
+        markdown = markdown.concat(" ", "{{< quiz_solution / >}}")
+      }
+
+      markdown = markdown.concat(" ", `{{< /quiz_multiple_choice >}}`)
+    })
+
+    return markdown
+  }
+})
+
+turndownService.addRule("question_action", {
+  filter: (node, options) => {
+    if (node.nodeName === "DIV" && node.getAttribute("class")) {
+      if (
+        node.getAttribute("class") === "action" &&
+        helpers.getPreviousSibling(node, "div.problem_question")
+      ) {
+        return true
+      }
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    return ""
+  }
+})
+
+turndownService.addRule("question_solution", {
+  filter: (node, options) => {
+    if (node.nodeName === "DIV" && node.getAttribute("class")) {
+      if (
+        node.getAttribute("class") === "problem_solution" &&
+        helpers.getPreviousSibling(node, "div.problem_question")
+      ) {
+        return true
+      }
+    }
+    return false
+  },
+  replacement: (content, node, options) => {
+    return ""
+  }
+})
+
 turndownService.addRule("resource_shortcodes", {
   filter: (node, options) => {
     const nodeClass = node.getAttribute("class")

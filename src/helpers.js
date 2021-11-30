@@ -839,6 +839,28 @@ const getResourceType = mimeType => {
   }
 }
 
+const getPreviousSibling = (elem, selector) => {
+  let sibling = elem.previousElementSibling
+
+  if (!selector) return sibling
+
+  while (sibling) {
+    if (sibling.matches(selector)) return sibling
+    sibling = sibling.previousElementSibling
+  }
+}
+
+const getNextSibling = (elem, selector) => {
+  let sibling = elem.nextElementSibling
+
+  if (!selector) return sibling
+
+  while (sibling) {
+    if (sibling.matches(selector)) return sibling
+    sibling = sibling.nextElementSibling
+  }
+}
+
 module.exports = {
   directoryExists,
   createOrOverwriteFile,
@@ -879,5 +901,7 @@ module.exports = {
   replaceSubstring,
   getUidFromFilePath,
   getVideoUidsFromPage,
-  getResourceType
+  getResourceType,
+  getPreviousSibling,
+  getNextSibling
 }
