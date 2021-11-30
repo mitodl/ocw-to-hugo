@@ -1004,4 +1004,45 @@ describe("helper functions", () => {
       })
     })
   })
+
+  describe("getPreviousSibling and getNextSibling", () => {
+    let originNode
+
+    beforeEach(() => {
+      const domino = require("domino")
+      const testDoc = domino.createDocument(
+        `<html>
+          <div class="pick">Wrong</div>
+          <div class="pick">Previous With Selector</div>
+          <div>Previous</div>
+          <div id="origin">Wrong</div>
+          <div>Next</div>
+          <div class="pick">Next With Selector</div>
+          <div class="pick">Wrong</div>
+        </html>`
+      )
+
+      originNode = testDoc.getElementById("origin")
+    })
+
+    it("getPreviousSibling selects the correct sibling when no selector is passed", () => {
+      const sibling = helpers.getPreviousSibling(originNode)
+      assert.equal(sibling.innerHTML, "Previous")
+    })
+
+    it("getPreviousSibling selects the correct sibling when a selector is passed", () => {
+      const sibling = helpers.getPreviousSibling(originNode, ".pick")
+      assert.equal(sibling.innerHTML, "Previous With Selector")
+    })
+
+    it("getNextSibling selects the correct sibling when no selector is passed", () => {
+      const sibling = helpers.getNextSibling(originNode)
+      assert.equal(sibling.innerHTML, "Next")
+    })
+
+    it("getNextSibling selects the correct sibling when a selector is passed", () => {
+      const sibling = helpers.getNextSibling(originNode, ".pick")
+      assert.equal(sibling.innerHTML, "Next With Selector")
+    })
+  })
 })

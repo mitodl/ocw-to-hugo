@@ -311,4 +311,106 @@ describe("turndown", () => {
       `{{< div-with-class "reveal1">}}Show Me{{< /div-with-class >}}`
     )
   })
+
+  it("parses multiple choice questions", async () => {
+    const inputHTML = `
+      <p>Which is allowed in Python?</p>
+      <div id="Q2_div" class="problem_question"><fieldset><legend class="visually-hidden">Exercise 2</legend>
+      <div class="choice"><label id="Q2_input_1_label"><span id="Q2_input_1_aria_status" tabindex="-1" class="visually-hidden">&amp;nbsp;</span><input id="Q2_input_1" onclick="optionSelected(2)" name="Q2_input" class="problem_radio_input" correct="false" type="radio" /><span class="choice">x + y = 2</span><span id="Q2_input_1_normal_status" class="nostatus" aria-hidden="true">&amp;nbsp;</span></label></div>
+      <div class="choice"><label id="Q2_input_2_label"><span id="Q2_input_2_aria_status" tabindex="-1" class="visually-hidden">&amp;nbsp;</span><input id="Q2_input_2" onclick="optionSelected(2)" name="Q2_input" class="problem_radio_input" correct="false" type="radio" /><span class="choice">x*x = 2</span><span id="Q2_input_2_normal_status" class="nostatus" aria-hidden="true">&amp;nbsp;</span></label></div>
+      <div class="choice"><label id="Q2_input_3_label"><span id="Q2_input_3_aria_status" tabindex="-1" class="visually-hidden">&amp;nbsp;</span><input id="Q2_input_3" onclick="optionSelected(2)" name="Q2_input" class="problem_radio_input" correct="false" type="radio" /><span class="choice">2 = x</span><span id="Q2_input_3_normal_status" class="nostatus" aria-hidden="true">&amp;nbsp;</span></label></div>
+      <div class="choice"><label id="Q2_input_4_label"><span id="Q2_input_4_aria_status" tabindex="-1" class="visually-hidden">&amp;nbsp;</span><input id="Q2_input_4" onclick="optionSelected(2)" name="Q2_input" class="problem_radio_input" correct="true" type="radio" /><span class="choice">xy = 2</span><span id="Q2_input_4_normal_status" class="nostatus" aria-hidden="true">&amp;nbsp;</span></label></div>
+      <div class="choice"><label id="Q2_input_5_label"><span id="Q2_input_5_aria_status" tabindex="-1" class="visually-hidden">&amp;nbsp;</span><input id="Q2_input_5" onclick="optionSelected(2)" name="Q2_input" class="problem_radio_input" correct="false" type="radio" /><span class="choice">None of the Above</span><span id="Q2_input_5_normal_status" class="nostatus" aria-hidden="true">&amp;nbsp;</span></label></div>
+      </fieldset></div>
+      <div class="action"><button id="Q2_button" onclick="checkAnswer({2: 'multiple_choice'})" class="problem_mo_button">Check</button><button id="Q2_button_show" onclick="showHideVidSolution({2: 'multiple_choice'}, 2, [2])" class="problem_mo_button">Show Answer Videos</button></div>
+      <div id="S2_div" class="problem_solution" tabindex="-1">
+      <p>15286813pythonvs.math14606776</p>
+      </div>
+    `
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(
+      markdown,
+      `Which is allowed in Python?\n\n{{< quiz_multiple_choice questionId="Q2_div" >}}` +
+        `{{< quiz_choices >}}` +
+        `{{< quiz_choice isCorrect="false" >}}&nbsp;x + y = 2&nbsp;{{< /quiz_choice >}}\n` +
+        `{{< quiz_choice isCorrect="false" >}}&nbsp;x\\*x = 2&nbsp;{{< /quiz_choice >}}\n` +
+        `{{< quiz_choice isCorrect="false" >}}&nbsp;2 = x&nbsp;{{< /quiz_choice >}}\n` +
+        `{{< quiz_choice isCorrect="true" >}}&nbsp;xy = 2&nbsp;{{< /quiz_choice >}}\n` +
+        `{{< quiz_choice isCorrect="false" >}}&nbsp;None of the Above&nbsp;{{< /quiz_choice >}}` +
+        `{{< /quiz_choices >}}\n` +
+        `{{< quiz_solution >}}15286813pythonvs.math14606776{{< /quiz_solution >}}` +
+        `{{< /quiz_multiple_choice >}}`
+    )
+  })
+
+  it("parses multiple choice widget questions", async () => {
+    const inputHTML = `
+      <script type="text/javascript">
+
+        $( function($){ 
+          var quizMulti = {
+            multiList: [
+              {
+                ques: "If you compare the elasticity of short-run supply in the markets for two different goods and one market has more firms than the other, which will have a more elastic supply curve?",
+                ans: "The market with more firms.",
+                ansSel: ["The market with fewer firms.", "There is no difference.", "It depends on the specific production function."],
+                ansInfo: "The supply curve becomes flatter (more elastic) with more firms in the market, because a given increase in price calls forth more production when there are many firms rather than one."
+              },
+              {
+                ques: "In the long run, firms should decide to shut down if what condition holds?",
+                ans: "Price is less than both average cost and average variable cost.",
+                ansSel: ["Price is less than average variable cost.", "Price is less than average cost.", "Price is less than average fixed cost."],
+                ansInfo: "In the long run, all costs are variable, and thus average variable cost and average cost are equivalent. The firm will shut down if price is less than average cost. Average fixed cost is not a relevant concept in the long-run, because all costs are considered to be variable."
+              }
+            ]
+          };
+          var options = {
+            allRandom: false,
+            Random: false,
+            help: "",
+            showHTML: false,
+            animationType: 0,
+            showWrongAns: true,
+            title: "Concept test 1",   
+        };
+        $("#quizArea").jQuizMe(quizMulti, options);
+        });
+      </script>`
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(
+      markdown,
+      `##### Question 1\n ` +
+        `{{< quiz_multiple_choice questionId="MCQ1" >}} ` +
+        `If you compare the elasticity of short-run supply in the markets for ` +
+        `two different goods and one market has more firms than the other, ` +
+        `which will have a more elastic supply curve? ` +
+        `{{< quiz_choices >}} ` +
+        `{{< quiz_choice isCorrect="false" >}}It depends on the specific production function.` +
+        `{{< /quiz_choice >}} ` +
+        `{{< quiz_choice isCorrect="false" >}}The market with fewer firms.{{< /quiz_choice >}} ` +
+        `{{< quiz_choice isCorrect="true" >}}The market with more firms.{{< /quiz_choice >}} ` +
+        `{{< quiz_choice isCorrect="false" >}}There is no difference.{{< /quiz_choice >}} ` +
+        `{{< /quiz_choices >}} ` +
+        `{{< quiz_solution >}}The supply curve becomes flatter (more elastic) with more firms` +
+        ` in the market, because a given increase in price calls forth more production when` +
+        ` there are many firms rather than one.{{< /quiz_solution >}} ` +
+        `{{< /quiz_multiple_choice >}}\n` +
+        `##### Question 2\n ` +
+        `{{< quiz_multiple_choice questionId="MCQ2" >}} ` +
+        `In the long run, firms should decide to shut down if what condition holds? ` +
+        `{{< quiz_choices >}} ` +
+        `{{< quiz_choice isCorrect="false" >}}Price is less than average cost.{{< /quiz_choice >}} ` +
+        `{{< quiz_choice isCorrect="false" >}}Price is less than average fixed cost.{{< /quiz_choice >}} ` +
+        `{{< quiz_choice isCorrect="false" >}}Price is less than average variable cost.` +
+        `{{< /quiz_choice >}} ` +
+        `{{< quiz_choice isCorrect="true" >}}Price is less than both average cost and average ` +
+        `variable cost.{{< /quiz_choice >}} ` +
+        `{{< /quiz_choices >}} ` +
+        `{{< quiz_solution >}}In the long run, all costs are variable, and thus average variable ` +
+        `cost and average cost are equivalent. The firm will shut down if price is less ` +
+        `than average cost. Average fixed cost is not a relevant concept in the long-run, ` +
+        `because all costs are considered to be variable.{{< /quiz_solution >}} ` +
+        `{{< /quiz_multiple_choice >}}`
+    )
+  })
 })
