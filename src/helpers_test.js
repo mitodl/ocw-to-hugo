@@ -20,6 +20,7 @@ const {
   subtitlesCourseId,
   embeddedYoutubeVideoCourseId
 } = require("./test_utils")
+const { VIDEO_EMBEDDED_MEDIA_IDS } = require("./constants")
 
 describe("helper functions", () => {
   let singleCourseJsonData, unpublishedCourseJsonData, externalNavCourseJsonData
@@ -206,7 +207,7 @@ describe("helper functions", () => {
       Object.values(singleCourseJsonData["course_embedded_media"]).forEach(
         courseEmbeddedMedia => {
           const youTubeMedia = courseEmbeddedMedia.filter(embeddedMedia => {
-            return embeddedMedia["id"] === "Video-YouTube-Stream"
+            return VIDEO_EMBEDDED_MEDIA_IDS.has(embeddedMedia["id"])
           })
           youTubeMedia.forEach(embeddedMedia => {
             assert(html.includes(embeddedMedia["media_info"]))
