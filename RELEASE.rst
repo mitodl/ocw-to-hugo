@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.35.3
+Version 1.35.3 (Released December 02, 2021)
 --------------
 
 - make some updates to the README
