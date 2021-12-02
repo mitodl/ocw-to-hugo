@@ -42,5 +42,11 @@ module.exports = {
   RESOURCE_TYPE_OTHER:    "Other",
   RESOURCE_TYPE_DOCUMENT: "Document",
   // skip these filenames
-  FORBIDDEN_FILENAMES:    new Set(["index", "_index"])
+  FORBIDDEN_FILENAMES:    new Set(["index", "_index"]),
+
+  // video embedded media id's
+  VIDEO_EMBEDDED_MEDIA_IDS: new Set([
+    "Video-YouTube-Stream",
+    "3Play-3PlayYouTubeid-Stream"
+  ])
 }

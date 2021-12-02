@@ -5,7 +5,11 @@ const stripHtml = require("string-strip-html")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
 const { html2markdown } = require("./turndown")
-const { RESOURCE_TYPE_IMAGE, RESOURCE_TYPE_VIDEO } = require("./constants")
+const {
+  RESOURCE_TYPE_IMAGE,
+  RESOURCE_TYPE_VIDEO,
+  VIDEO_EMBEDDED_MEDIA_IDS
+} = require("./constants")
 
 const fixLinks = (
   htmlStr,
@@ -75,8 +79,8 @@ const generateResourceMarkdown = (courseData, pathLookup) => {
   const mediaMarkdown = Object.values(courseData["course_embedded_media"])
     .filter(
       media =>
-        media["embedded_media"].filter(
-          embeddedMedia => embeddedMedia["id"] === "Video-YouTube-Stream"
+        media["embedded_media"].filter(embeddedMedia =>
+          VIDEO_EMBEDDED_MEDIA_IDS.has(embeddedMedia["id"])
         ).length > 0
     )
     .map(media => {
@@ -250,8 +254,8 @@ const generateResourceMarkdownForFile = (file, courseData, pathLookup) => {
 }
 
 const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
-  const youtubeId = media["embedded_media"].find(
-    embeddedMedia => embeddedMedia["id"] === "Video-YouTube-Stream"
+  const youtubeId = media["embedded_media"].find(embeddedMedia =>
+    VIDEO_EMBEDDED_MEDIA_IDS.has(embeddedMedia["id"])
   )["media_location"]
   const thumbnailFile = media["embedded_media"].find(
     embeddedMedia =>
