@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.35.4
+--------------
+
+- make sure we also catch videos with an embedded media id of 3Play-3PlayYouTubeid-Stream (#421)
+
 Version 1.35.3 (Released December 02, 2021)
 --------------
 
