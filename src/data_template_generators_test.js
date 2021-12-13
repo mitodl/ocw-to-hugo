@@ -293,6 +293,16 @@ describe("generateDataTemplate", () => {
     const foundValue = courseDataTemplate["open_learning_library_versions"]
     assert.deepEqual(expectedValue, foundValue)
   })
+
+  it("sets the uid", () => {
+    const expectedValue = "8f538d2a-785e-a37a-d301-33ad74e8e40e"
+    const courseDataTemplate = generateDataTemplate(
+      mechanicsCourseJsonData,
+      pathLookup
+    )
+    const foundValue = courseDataTemplate["uid"]
+    assert.deepEqual(expectedValue, foundValue)
+  })
 })
 
 describe("generateLegacyDataTemplate", () => {
@@ -336,6 +346,10 @@ describe("generateLegacyDataTemplate", () => {
     assert.equal(
       courseDataTemplate["course_image_caption_text"],
       "Astronauts setting up a lunar telescope array. (Image courtesy of [NASA](http://www.nasa.gov/mission_pages/exploration/multimedia/jfa18844_prt.htm).)"
+    )
+    assert.equal(
+      courseDataTemplate["uid"],
+      "f08ec502-e326-a719-48f2-92020efec938"
     )
   })
 
