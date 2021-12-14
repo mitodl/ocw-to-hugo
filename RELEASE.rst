@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.36.0
+Version 1.36.0 (Released December 14, 2021)
 --------------
 
 - add uid to course.json and course_legacy.json
