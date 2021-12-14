@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 1.36.0
+--------------
+
+- add uid to course.json and course_legacy.json
+- parse multiple choice
+
 Version 1.35.4 (Released December 03, 2021)
 --------------
 
