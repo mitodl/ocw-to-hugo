@@ -294,13 +294,13 @@ describe("generateDataTemplate", () => {
     assert.deepEqual(expectedValue, foundValue)
   })
 
-  it("sets the uid", () => {
+  it("sets the legacy_uid", () => {
     const expectedValue = "8f538d2a-785e-a37a-d301-33ad74e8e40e"
     const courseDataTemplate = generateDataTemplate(
       mechanicsCourseJsonData,
       pathLookup
     )
-    const foundValue = courseDataTemplate["uid"]
+    const foundValue = courseDataTemplate["legacy_uid"]
     assert.deepEqual(expectedValue, foundValue)
   })
 })
@@ -348,7 +348,7 @@ describe("generateLegacyDataTemplate", () => {
       "Astronauts setting up a lunar telescope array. (Image courtesy of [NASA](http://www.nasa.gov/mission_pages/exploration/multimedia/jfa18844_prt.htm).)"
     )
     assert.equal(
-      courseDataTemplate["uid"],
+      courseDataTemplate["legacy_uid"],
       "f08ec502-e326-a719-48f2-92020efec938"
     )
   })

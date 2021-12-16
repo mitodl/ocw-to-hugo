@@ -48,7 +48,7 @@ const generateDataTemplate = (courseData, pathLookup) => ({
   open_learning_library_versions: helpers.getOpenLearningLibraryVersions(
     courseData["open_learning_library_related"]
   ),
-  uid: helpers.addDashesToUid(courseData["uid"])
+  legacy_uid: helpers.addDashesToUid(courseData["uid"])
 })
 
 const generateLegacyDataTemplate = (courseData, pathLookup) => {
