@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.36.1
+--------------
+
+- rename uid to legacy uid
+
 Version 1.36.0 (Released December 14, 2021)
 --------------
 
