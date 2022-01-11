@@ -27,6 +27,15 @@ turndownService.addRule("table", {
   }
 })
 
+turndownService.addRule("caption", {
+  filter: node =>
+    hasParentNodeRecursive(node, "TABLE") && node.nodeName === "CAPTION",
+  replacement: (content, node, options) => {
+    // TODO: implement actual handling of table captions
+    return ""
+  }
+})
+
 turndownService.addRule("th", {
   filter:      node => node.nodeName === "TH",
   replacement: (content, node, options) => {
