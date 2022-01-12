@@ -53,18 +53,10 @@ turndownService.addRule("tr", {
 turndownService.addRule("td", {
   filter:      node => node.nodeName === "TD",
   replacement: (content, node, options) => {
-    return `{{< tdopen >}}\n${content}\n{{< tdclose >}}\n`
-  }
-})
-
-/**
- * Catch cells with a colspan attribute and rewrite them with a shortcode
- **/
-turndownService.addRule("colspan", {
-  filter:      node => node.nodeName === "TD" && node.getAttribute("colspan"),
-  replacement: (content, node, options) => {
-    const totalColumns = parseInt(node.getAttribute("colspan"))
-    return `{{< td-colspan ${totalColumns} >}}\n${content}{{< tdclose >}}`
+    const colspan = node.getAttribute("colspan")
+      ? ` colspan="${node.getAttribute("colspan")}"`
+      : ""
+    return `{{< tdopen${colspan} >}}\n${content}\n{{< tdclose >}}\n`
   }
 })
 
