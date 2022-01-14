@@ -1,13 +1,9 @@
 const { assert } = require("chai").use(require("sinon-chai"))
 const { html2markdown } = require("./turndown")
-const {
-  EMBEDDED_RESOURCE_SHORTCODE_PLACEHOLDER_CLASS,
-  IRREGULAR_WHITESPACE_REGEX
-} = require("./constants")
+const { EMBEDDED_RESOURCE_SHORTCODE_PLACEHOLDER_CLASS } = require("./constants")
 
 describe("turndown", () => {
   describe("tables", () => {
-    let markdown
     const tableHTML = `<table summary="See table caption for summary." class="tablewidth100">
     <caption class="invisible">Course readings.</caption> <!-- BEGIN TABLE HEADER (for MIT OCW Table Template 2.51) -->
     <thead>
@@ -45,46 +41,119 @@ describe("turndown", () => {
       </tr>
     </tbody>
   </table>`
+    const tableMarkdown = `{{< tableopen >}}
+{{< theadopen >}}
+{{< tropen >}}
+{{< thopen >}}
+LEC #
+{{< thclose >}}
+{{< thopen >}}
+TOPICS
+{{< thclose >}}
+{{< thopen >}}
+READINGS (3D ED.)
+{{< thclose >}}
+{{< thopen >}}
+READINGS (4TH ED.)
+{{< thclose >}}
 
-    beforeEach(async () => {
-      markdown = await html2markdown(tableHTML)
-    })
+{{< trclose >}}
 
-    it("should include a table definition for 4 columns", () => {
-      assert.isTrue(markdown.includes("| --- | --- | --- | --- |"))
-    })
+{{< theadclose >}}
+{{< tropen >}}
+{{< tdopen colspan="4" >}}
+**Control and Scope**
+{{< tdclose >}}
 
-    it("should properly generate a header with the td-colspan shortcode", () => {
-      assert.isTrue(
-        markdown.includes(
-          "| {{< td-colspan 4 >}}**Control and Scope**{{< /td-colspan >}} ||||"
-        )
-      )
-    })
+{{< trclose >}}
+{{< tropen >}}
+{{< tdopen >}}
+L 1
+{{< tdclose >}}
+{{< tdopen >}}
+Course Overview, Introduction to Java
+{{< tdclose >}}
+{{< tdopen >}}
+—
+{{< tdclose >}}
+{{< tdopen >}}
+—
+{{< tdclose >}}
 
-    it("should handle headers properly if they're wrapped in a p tag", () => {
-      assert.isTrue(
-        markdown.includes(
-          "| {{< td-colspan 4 >}} {{< br >}}{{< br >}} **Wrapped in a paragraph** {{< br >}}{{< br >}} {{< /td-colspan >}} ||||"
-        )
-      )
-    })
+{{< trclose >}}
+{{< tropen >}}
+{{< tdopen colspan="4" >}}
 
-    it("should properly pad line breaks in cells with containers as to not break formatting", () => {
-      assert.isTrue(
-        markdown.includes(
-          "|  {{< br >}}{{< br >}} _italics wrapped in a paragraph_ {{< br >}}{{< br >}}  |  {{< br >}}{{< br >}} _italics wrapped in a div_ {{< br >}}{{< br >}}  |  {{< br >}}{{< br >}} **strong wrapped in a paragrah** {{< br >}}{{< br >}}  |  {{< br >}}{{< br >}} **strong wrapped in a div** {{< br >}}{{< br >}}"
-        )
-      )
-    })
 
-    it("should remove irregular whitespace characters", () => {
-      assert.isNull(markdown.match(IRREGULAR_WHITESPACE_REGEX))
-    })
+**Wrapped in a paragraph**
 
-    it("should transform heading tags into heading shortcodes", () => {
-      assert.isTrue(markdown.includes("{{< h 1 >}}TEST{{< /h >}}"))
-      assert.isTrue(markdown.includes("{{< h 2 >}}TEST 2{{< /h >}}"))
+
+{{< tdclose >}}
+
+{{< trclose >}}
+{{< tropen >}}
+{{< tdopen >}}
+L 2
+{{< tdclose >}}
+{{< tdopen >}}
+Test table section 2
+{{< tdclose >}}
+{{< tdopen >}}
+
+
+TEST
+====
+
+
+{{< tdclose >}}
+{{< tdopen >}}
+
+
+TEST 2
+------
+
+
+{{< tdclose >}}
+
+{{< trclose >}}
+{{< tropen >}}
+{{< tdopen >}}
+
+
+_italics wrapped in a paragraph_
+
+
+{{< tdclose >}}
+{{< tdopen >}}
+
+
+_italics wrapped in a div_
+
+
+{{< tdclose >}}
+{{< tdopen >}}
+
+
+**strong wrapped in a paragrah**
+
+
+{{< tdclose >}}
+{{< tdopen >}}
+
+
+**strong wrapped in a div**
+
+
+{{< tdclose >}}
+
+{{< trclose >}}
+
+{{< tableclose >}}`
+
+    it("should properly transform a table into a shortcode representation", async () => {
+      const markdown = await html2markdown(tableHTML)
+      // strip whitespace for proper comparison
+      assert.equal(markdown.replace(/\s+/g), tableMarkdown.replace(/\s+/g))
     })
   })
 
@@ -347,7 +416,7 @@ describe("turndown", () => {
     const inputHTML = `
       <script type="text/javascript">
 
-        $( function($){ 
+        $( function($){
           var quizMulti = {
             multiList: [
               {
@@ -371,7 +440,7 @@ describe("turndown", () => {
             showHTML: false,
             animationType: 0,
             showWrongAns: true,
-            title: "Concept test 1",   
+            title: "Concept test 1",
         };
         $("#quizArea").jQuizMe(quizMulti, options);
         });
