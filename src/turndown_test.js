@@ -151,9 +151,14 @@ _italics wrapped in a div_
 {{< tableclose >}}`
 
     it("should properly transform a table into a shortcode representation", async () => {
-      const markdown = await html2markdown(tableHTML)
-      // strip whitespace for proper comparison
-      assert.equal(markdown.replace(/\s+/g), tableMarkdown.replace(/\s+/g))
+      /**
+       * Turndown seems to insert some strange whitespace characters,
+       * so here we're replacing them with normal spaces.  If you run this
+       * comparison without the .replace, the test will fail but the strings
+       * are identical
+       */
+      const markdown = await html2markdown(tableHTML).replace(/[^\S\r\n]/g, " ")
+      assert.equal(markdown, tableMarkdown)
     })
   })
 
