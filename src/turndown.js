@@ -19,77 +19,58 @@ const turndownService = new TurndownService({
   codeBlockStyle: "fenced"
 })
 turndownService.use(gfm)
-turndownService.use(tables)
 
-/**
- * Sanitize markdown table content
- **/
 turndownService.addRule("table", {
-  filter:      ["table"],
+  filter:      node => node.nodeName === "TABLE",
   replacement: (content, node, options) => {
-    /**
-     * Iterate the HTML node and replace all pipes inside table
-     * cells with a marker we'll use later
-     */
-    for (let i = 0; i < node.rows.length; i++) {
-      const cells = node.rows[i].cells
-      for (let j = 0; j < cells.length; j++) {
-        cells[j].innerHTML = cells[j].innerHTML.replace(
-          /\|/g,
-          REPLACETHISWITHAPIPE
-        )
-      }
-    }
-    // Regenerate markdown for this table with cell edits
-    content = turndownService.turndown(node)
-    content = content
-      // Isolate the table by getting the contents between the first and last pipe
-      .substring(content.indexOf("|"), content.lastIndexOf("|"))
-      // Replace all newlines and carriage returns with line break shortcodes
-      .replace(/\r?\n|\r/g, "{{< br >}}")
-      /**
-       * Replace all line break shortcodes in between two pipes with a newline
-       * character between two pipes to recreate the rows
-       */
-      .replace(/\|{{< br >}}\|/g, "|\n|")
-      // Add a padding of a single space around double line breaks
-      // These generally occur if the contents of a table cell are wrapped in a p or div tag
-      .replace(/{{< br >}}{{< br >}}/g, " {{< br >}}{{< br >}} ")
-      // Replace the pipe marker we added earlier with the HTML character entity for a pipe
-      .replace(/REPLACETHISWITHAPIPE/g, "&#124;")
-
-      // Scan and replace irregular whitespace characters with a non-breaking space character entity
-      .split("\n")
-      .map(row => {
-        row = row.replace(IRREGULAR_WHITESPACE_REGEX, "| &nbsp; |")
-        if (row.match(/{{< \/td-colspan >}} \|+( &nbsp; \|)/g)) {
-          row = row.replace(" &nbsp; |", "|")
-        }
-        return row
-      })
-      .join("\n")
-    return content
+    return `{{< tableopen >}}\n${content}\n{{< tableclose >}}\n`
   }
 })
 
-turndownService.addRule("tableheadings", {
+turndownService.addRule("caption", {
   filter: node =>
-    node.nodeName.match(/H[1-6]/) && hasParentNodeRecursive(node, "TABLE"),
+    hasParentNodeRecursive(node, "TABLE") && node.nodeName === "CAPTION",
   replacement: (content, node, options) => {
-    return `{{< h ${node.nodeName.charAt(1)} >}}${content}{{< /h >}}`
+    // TODO: implement actual handling of table captions
+    return ""
   }
 })
 
-/**
- * Catch cells with a colspan attribute and rewrite them with a shortcode
- **/
-turndownService.addRule("colspan", {
-  filter:      node => node.nodeName === "TD" && node.getAttribute("colspan"),
+turndownService.addRule("th", {
+  filter:      node => node.nodeName === "TH",
   replacement: (content, node, options) => {
-    const totalColumns = parseInt(node.getAttribute("colspan"))
-    return `| {{< td-colspan ${totalColumns} >}}${content}{{< /td-colspan >}} |${"|".repeat(
-      totalColumns - 1
-    )}`
+    return `{{< thopen >}}\n${content}\n{{< thclose >}}\n`
+  }
+})
+
+turndownService.addRule("tr", {
+  filter:      node => node.nodeName === "TR",
+  replacement: (content, node, options) => {
+    return `{{< tropen >}}\n${content}\n{{< trclose >}}\n`
+  }
+})
+
+turndownService.addRule("td", {
+  filter:      node => node.nodeName === "TD",
+  replacement: (content, node, options) => {
+    const colspan = node.getAttribute("colspan")
+      ? ` colspan="${node.getAttribute("colspan")}"`
+      : ""
+    return `{{< tdopen${colspan} >}}\n${content}\n{{< tdclose >}}\n`
+  }
+})
+
+turndownService.addRule("thead", {
+  filter:      node => node.nodeName === "THEAD",
+  replacement: (content, node, options) => {
+    return `{{< theadopen >}}\n${content}\n{{< theadclose >}}\n`
+  }
+})
+
+turndownService.addRule("tfoot", {
+  filter:      node => node.nodeName === "TFOOT",
+  replacement: (content, node, options) => {
+    return `{{< tfootopen >}}\n${content}\n{{< tfootclose >}}\n`
   }
 })
 
