@@ -159,7 +159,7 @@ const generateCourseSectionFrontMatter = (
     */
   const courseSectionFrontMatter = {
     uid:   helpers.addDashesToUid(pageId),
-    title: title
+    title: helpers.replaceIrregularWhitespace(title)
   }
 
   if (parentUid) {
@@ -217,7 +217,7 @@ const generateResourceMarkdownForFile = (file, courseData, pathLookup) => {
   */
   const uid = helpers.addDashesToUid(file["uid"])
   const frontMatter = {
-    title:        file["title"],
+    title:        helpers.replaceIrregularWhitespace(file["title"]),
     description:  file["description"],
     uid:          uid,
     resourcetype: helpers.getResourceType(file["file_type"]),
@@ -290,7 +290,7 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
   const archiveUrl = archiveRecord ? archiveRecord.media_location : null
 
   const frontMatter = {
-    title:          media["title"],
+    title:          helpers.replaceIrregularWhitespace(media["title"]),
     description:    "",
     uid:            helpers.addDashesToUid(media["uid"]),
     resourcetype:   RESOURCE_TYPE_VIDEO,

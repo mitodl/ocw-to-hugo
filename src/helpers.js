@@ -861,6 +861,8 @@ const getNextSibling = (elem, selector) => {
   }
 }
 
+const replaceIrregularWhitespace = text => text.replace(/\s/g, " ")
+
 module.exports = {
   directoryExists,
   createOrOverwriteFile,
@@ -903,5 +905,6 @@ module.exports = {
   getVideoUidsFromPage,
   getResourceType,
   getPreviousSibling,
-  getNextSibling
+  getNextSibling,
+  replaceIrregularWhitespace
 }
