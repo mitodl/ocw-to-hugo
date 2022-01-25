@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.36.2
+Version 1.36.2 (Released January 25, 2022)
 --------------
 
 - shortcode table delimiters (#429)
