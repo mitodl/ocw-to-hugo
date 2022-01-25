@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.36.2
+--------------
+
+- shortcode table delimiters (#429)
+
 Version 1.36.1 (Released December 16, 2021)
 --------------
 
