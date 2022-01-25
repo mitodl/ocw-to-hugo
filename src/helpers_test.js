@@ -1044,5 +1044,13 @@ describe("helper functions", () => {
       const sibling = helpers.getNextSibling(originNode, ".pick")
       assert.equal(sibling.innerHTML, "Next With Selector")
     })
+
+    it("replaceIrregularWhitespace replaces irregular whitespace characters in a string with a regular space", () => {
+      const testText = "A\fB\nC\rD\tE\vF\u00A0G\u2028H\u2029I"
+      assert.equal(
+        helpers.replaceIrregularWhitespace(testText),
+        "A B C D E F G H I"
+      )
+    })
   })
 })
