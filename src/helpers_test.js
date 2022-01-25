@@ -1046,11 +1046,10 @@ describe("helper functions", () => {
     })
 
     it("replaceIrregularWhitespace replaces irregular whitespace characters in a string with a regular space", () => {
-      const testText =
-        "String\u00a0with\u00a0unicode\u00a0non\u00a0breaking\u00a0spaces"
+      const testText = "A\fB\nC\rD\tE\vF\u00A0G\u2028H\u2029I"
       assert.equal(
         helpers.replaceIrregularWhitespace(testText),
-        "String with unicode non breaking spaces"
+        "A B C D E F G H I"
       )
     })
   })
