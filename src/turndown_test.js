@@ -487,4 +487,31 @@ _italics wrapped in a div_
         `{{< /quiz_multiple_choice >}}`
     )
   })
+
+  it("should preserve escaped angle brackets", async () => {
+    const inputHTML = `
+&gt; Initial &gt; are escaped by turndown since they are markdown blockquotes.
+<ol>
+  <li>
+    a &lt;a second&gt;
+  </li>
+  <li>
+    b \\&lt;
+  </li>
+  <li>
+    <code>x &lt; y</code> code is not escaped
+  </li>
+<ol>
+`
+    const expectedMarkdown = `
+\\> Initial > are escaped by turndown since they are markdown blockquotes.
+
+1.  a \\<a second>
+2.  b \\\\\\<
+3.  \`x < y\` code is not escaped
+`.trim()
+
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(markdown, expectedMarkdown)
+  })
 })
