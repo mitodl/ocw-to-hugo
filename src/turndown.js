@@ -1,4 +1,4 @@
-const TurndownService = require("turndown")
+const OriginalTurndownService = require("turndown")
 const turndownPluginGfm = require("turndown-plugin-gfm")
 const { gfm, tables } = turndownPluginGfm
 
@@ -14,6 +14,43 @@ const {
 } = require("./constants")
 const helpers = require("./helpers")
 const loggers = require("./loggers")
+
+class TurndownService extends OriginalTurndownService {
+  /**
+   * By default, turndown escapes Markdown characters in HTML input. See
+   * https://github.com/mixmark-io/turndown#escaping-markdown-characters
+   *
+   * That's good. But it does NOT (usually) escape angle brackets in the output,
+   * e.g. "&lt;a dog&gt;"" turns into "<a dog>", which can be erroneously
+   * interpretted as an anchor tag. [Aside: Turndown does escape angle brackets
+   * at the beginning of a line, since those are markdown block quotes.]
+   *
+   * Below, we monkey-patch the escape method to escape OPENING angle-brackets
+   * only, unless they are already escaped. Why only opening?
+   *  - According to the GFM spec (https://github.github.com/gfm/#backslash-escapes)
+   *    escaping opening and closing brackets should be safe
+   *  - But showdown, which we use in OCW Studio, renders "\>" as "\>" instead
+   *    of ">".
+   * So don't escape the closing brackets.
+   *
+   * NOTE: This escaping needs to happen *after* turndown's default escaping,
+   * else turndown will escape the backslashes, too!
+   */
+  escape(string) {
+    /**
+     * Regex to match
+     *  1) an even number of backslashes,
+     *  2) not preceeded or followed by a backslash
+     *  3) followed by <
+     *
+     * (2) precludes from erroneously matching an odd number of backslashes.
+     */
+    const UNESCAPED_OPENING_ANGLE_BRACKET = /(?<!\\)(?:\\\\)*(?!\\)</g
+    return super
+      .escape(string)
+      .replace(UNESCAPED_OPENING_ANGLE_BRACKET, match => `\\${match}`)
+  }
+}
 
 const turndownService = new TurndownService({
   codeBlockStyle: "fenced"
