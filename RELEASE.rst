@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.36.3
+Version 1.36.3 (Released January 26, 2022)
 --------------
 
 - replace irregular whitespace in titles with a regular space (#435)
