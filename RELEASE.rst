@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.36.4
+Version 1.36.4 (Released January 27, 2022)
 --------------
 
 - make turndown escape angle brackets
