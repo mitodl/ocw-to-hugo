@@ -13,6 +13,9 @@ describe("turndown", () => {
         <th scope="col">READINGS&nbsp;(3D&nbsp;ED.)</th>
         <th scope="col">READINGS&nbsp;(4TH&nbsp;ED.)</th>
       </tr>
+      <tr>
+        <th colspan="2" rowspan="4">full colspan double rowspan test</th>
+      </tr>
     </thead> <!-- END TABLE HEADER -->
     <tbody>
       <tr class="row">
@@ -32,6 +35,9 @@ describe("turndown", () => {
         <td>Test table section 2</td>
         <td><h1>TEST</h1></td>
         <td><h2>TEST 2</h2></td>
+      </tr>
+      <tr>
+        <td colspan="2" rowspan="4">full colspan double rowspan test</td>
       </tr>
       <tr class="alt-row">
         <td><p><em>italics wrapped in a paragraph</em></p></td>
@@ -55,6 +61,12 @@ READINGS (3D ED.)
 {{< thclose >}}
 {{< thopen >}}
 READINGS (4TH ED.)
+{{< thclose >}}
+
+{{< trclose >}}
+{{< tropen >}}
+{{< thopen colspan="2" rowspan="4" >}}
+full colspan double rowspan test
 {{< thclose >}}
 
 {{< trclose >}}
@@ -113,6 +125,12 @@ TEST 2
 ------
 
 
+{{< tdclose >}}
+
+{{< trclose >}}
+{{< tropen >}}
+{{< tdopen colspan="2" rowspan="4" >}}
+full colspan double rowspan test
 {{< tdclose >}}
 
 {{< trclose >}}

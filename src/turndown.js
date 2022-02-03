@@ -76,7 +76,13 @@ turndownService.addRule("caption", {
 turndownService.addRule("th", {
   filter:      node => node.nodeName === "TH",
   replacement: (content, node, options) => {
-    return `{{< thopen >}}\n${content}\n{{< thclose >}}\n`
+    const colspan = node.getAttribute("colspan")
+      ? ` colspan="${node.getAttribute("colspan")}"`
+      : ""
+    const rowspan = node.getAttribute("rowspan")
+      ? ` rowspan="${node.getAttribute("rowspan")}"`
+      : ""
+    return `{{< thopen${colspan}${rowspan} >}}\n${content}\n{{< thclose >}}\n`
   }
 })
 
@@ -93,7 +99,10 @@ turndownService.addRule("td", {
     const colspan = node.getAttribute("colspan")
       ? ` colspan="${node.getAttribute("colspan")}"`
       : ""
-    return `{{< tdopen${colspan} >}}\n${content}\n{{< tdclose >}}\n`
+    const rowspan = node.getAttribute("rowspan")
+      ? ` rowspan="${node.getAttribute("rowspan")}"`
+      : ""
+    return `{{< tdopen${colspan}${rowspan} >}}\n${content}\n{{< tdclose >}}\n`
   }
 })
 
