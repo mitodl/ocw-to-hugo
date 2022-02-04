@@ -219,6 +219,7 @@ describe("markdown generators", function() {
               childFrontMatter["parent_title"],
               "Instructor Insights"
             )
+            assert.equal(childFrontMatter["parent_type"], "CourseSection")
           })
         }
       })
@@ -265,7 +266,8 @@ describe("markdown generators", function() {
         file_type:    "application/x-subrip",
         resourcetype: "Other",
         title:        "3play caption file",
-        uid:          "96dd8de9-7968-37cf-b0e4-87cae01c2710"
+        uid:          "96dd8de9-7968-37cf-b0e4-87cae01c2710",
+        type:         "OCWFile"
       })
     })
 
@@ -291,7 +293,11 @@ describe("markdown generators", function() {
           credit:      "",
           "image-alt":
             "Variety of colors and shapes available in R using ggplot."
-        }
+        },
+        parent_title:
+          "7.2 Visualizing the World: An Introduction to Visualization",
+        parent_type: "CourseSection",
+        type:        "OCWImage"
       })
     })
 
@@ -354,7 +360,9 @@ describe("markdown generators", function() {
             "https://open-learning-course-data-production.s3.amazonaws.com/8-01sc-classical-mechanics-fall-2016/vttb405e96bef2cc2b243e4e246b78fe292_5ucfHd8FWKw.vtt",
           video_transcript_file:
             "https://open-learning-course-data-production.s3.amazonaws.com/8-01sc-classical-mechanics-fall-2016/f4cdef7d58bc4e84355cf7c58eeb7e15_5ucfHd8FWKw.pdf"
-        }
+        },
+        parent_title: "0.1 Vectors vs. Scalars",
+        parent_type:  "CourseSection"
       })
     })
   })
@@ -407,7 +415,8 @@ describe("markdown generators", function() {
         uid:          "d7d1fabc-b57a-6d4a-9cc9-6f04348dedfd",
         file_type:    "application/pdf",
         file:
-          "https://open-learning-course-data-production.s3.amazonaws.com/8-02-physics-ii-electricity-and-magnetism-spring-2007/d7d1fabcb57a6d4a9cc96f04348dedfd_acknowledgements.pdf"
+          "https://open-learning-course-data-production.s3.amazonaws.com/8-02-physics-ii-electricity-and-magnetism-spring-2007/d7d1fabcb57a6d4a9cc96f04348dedfd_acknowledgements.pdf",
+        type: "OCWFile"
       })
     })
 
@@ -426,7 +435,10 @@ describe("markdown generators", function() {
         file_type:    "application/pdf",
         resourcetype: "Document",
         file:
-          "https://open-learning-course-data-production.s3.amazonaws.com/8-02-physics-ii-electricity-and-magnetism-spring-2007/a1bfc34ccf08ddf8474627b9a13d6ca8_summary_w12d2.pdf"
+          "https://open-learning-course-data-production.s3.amazonaws.com/8-02-physics-ii-electricity-and-magnetism-spring-2007/a1bfc34ccf08ddf8474627b9a13d6ca8_summary_w12d2.pdf",
+        parent_title: "Readings",
+        parent_type:  "CourseSection",
+        type:         "OCWFile"
       })
     })
   })
@@ -443,11 +455,13 @@ describe("markdown generators", function() {
             "Syllabus",
             null,
             null,
+            null,
             "course_section",
             "syllabus",
             singleCourseJsonData["short_url"],
             false,
-            []
+            [],
+            "CourseSection"
           )
           .replace(/---\n/g, "")
       )
@@ -472,11 +486,13 @@ describe("markdown generators", function() {
             "Syllabus",
             null,
             null,
+            null,
             "course_section",
             "syllabus",
             false,
             singleCourseJsonData["short_url"],
-            []
+            [],
+            "CourseSection"
           )
           .replace(/---\n/g, "")
       )
@@ -494,6 +510,7 @@ describe("markdown generators", function() {
             "Class Videos",
             null,
             null,
+            null,
             "course_section",
             "class_videos",
             videoGalleryCourseJsonData["short_url"],
@@ -501,7 +518,8 @@ describe("markdown generators", function() {
             [
               "1b0190b9-ac07-7e74-7121-3af5ae8e895a",
               "b03952e4-bdfc-ea49-6227-1aeae1dedb3f"
-            ]
+            ],
+            "CourseSection"
           )
           .replace(/---\n/g, "")
       )
