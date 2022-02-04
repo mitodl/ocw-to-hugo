@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 1.37.0
+--------------
+
+- add type, parent_type and parent_title
+- add code to turndown rules for th and td to process both rowspan and colspan (#444)
+
 Version 1.36.4 (Released January 27, 2022)
 --------------
 
