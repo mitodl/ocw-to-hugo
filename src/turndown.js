@@ -353,7 +353,7 @@ turndownService.addRule("edu_breakdown", {
 })
 
 /**
- * Remove semester breakdown chart
+ * Remove Classroom section
  **/
 turndownService.addRule("remove_the_classroom", {
   filter: (node, options) => {
