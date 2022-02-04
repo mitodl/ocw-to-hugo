@@ -147,6 +147,8 @@ const buildMasterSubjectLookup = async (inputPath, courseList) => {
     }
   }
 
+  console.log(lookup)
+
   return lookup
 }
 
