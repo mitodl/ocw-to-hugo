@@ -348,6 +348,56 @@ _italics wrapped in a div_
     assert.equal(markdown, "")
   })
 
+  it("removes the classroom section", async () => {
+    const inputHTML = `
+    <div class="onethird alpha">
+        <h2 class="title">Curriculum Information</h2>
+        <div>Foo bar baz</div>
+    </div>
+    <div class="twothirds omega anythingSlider anythingSlider-default activeSlider">
+        <a name="classroom"></a>
+        <h2 class="title">The Classroom</h2>
+        <div>Lots of pictures of desks</div>
+    </div>
+    <div class="clear">&nbsp;</div>
+    <div class="onehalf alpha"><a name="assessment"></a>
+        <h2 class="title">Assessment</h2>
+        <a name="not-a-classroom">meow</a>
+        <p>The students' grades were based on the following activities:</p>
+    </div>
+    <div>
+        <h2>If classroom is a child</h2>
+        <div>
+            <a name="classroom"></a>
+        </div>
+        The section should live on.
+    </div>
+    `.trim()
+    const expectedMarkdown = `
+Curriculum Information
+----------------------
+
+Foo bar baz
+
+{{< anchor "assessment" >}}{{< /anchor >}}
+
+Assessment
+----------
+
+{{< anchor "not-a-classroom" >}}meow{{< /anchor >}}
+
+The students' grades were based on the following activities:
+
+If classroom is a child
+-----------------------
+
+The section should live on.
+    `.trim()
+
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(markdown, expectedMarkdown)
+  })
+
   it("should properly create youtube shortcodes from placeholder divs", async () => {
     const uid = "d1eb865e-ba7f-9989-0be1-348ba7cad5bd"
 

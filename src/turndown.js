@@ -353,6 +353,23 @@ turndownService.addRule("edu_breakdown", {
 })
 
 /**
+ * Remove semester breakdown chart
+ **/
+turndownService.addRule("remove_the_classroom", {
+  filter: (node, options) => {
+    if (node.nodeName !== "DIV") return false
+    const children = Array.from(node.childNodes)
+    return children.some(node => {
+      if (node.nodeName !== "A") return false
+      return node.getAttribute("name") === "classroom"
+    })
+  },
+  replacement: (content, node, options) => {
+    return ""
+  }
+})
+
+/**
  * Catch "approx" images and render as HTML instead
  */
 turndownService.addRule("approx_img", {
