@@ -120,12 +120,13 @@ const generateMarkdownRecursive = (page, courseData, pathLookup) => {
     page["title"],
     hasParent ? parent["uid"] : null,
     hasParent ? parent["title"] : null,
+    hasParent ? parent["type"] : null,
     layout,
     page["uid"],
     courseData["short_url"],
     page["is_media_gallery"],
     helpers.getVideoUidsFromPage(page, courseData),
-    courseData["short_url"]
+    page["type"]
   )
   courseSectionMarkdown += generateCourseSectionMarkdown(
     page,
@@ -148,11 +149,13 @@ const generateCourseSectionFrontMatter = (
   title,
   parentUid,
   parentTitle,
+  parentType,
   layout,
   pageId,
   courseId,
   isMediaGallery,
-  videoUids
+  videoUids,
+  type
 ) => {
   /**
     Generate the front matter metadata for a course section
@@ -168,6 +171,9 @@ const generateCourseSectionFrontMatter = (
   if (parentTitle) {
     courseSectionFrontMatter["parent_title"] = parentTitle
   }
+  if (parentType) {
+    courseSectionFrontMatter["parent_type"] = parentType
+  }
 
   if (isMediaGallery) {
     courseSectionFrontMatter["is_media_gallery"] = true
@@ -179,6 +185,9 @@ const generateCourseSectionFrontMatter = (
 
   if (layout) {
     courseSectionFrontMatter["layout"] = layout
+  }
+  if (type) {
+    courseSectionFrontMatter["type"] = type
   }
   return `---\n${yaml.safeDump(courseSectionFrontMatter)}---\n`
 }
@@ -216,13 +225,24 @@ const generateResourceMarkdownForFile = (file, courseData, pathLookup) => {
   Generate the front matter metadata for a PDF file
   */
   const uid = helpers.addDashesToUid(file["uid"])
+
   const frontMatter = {
     title:        helpers.replaceIrregularWhitespace(file["title"]),
     description:  file["description"],
     uid:          uid,
     resourcetype: helpers.getResourceType(file["file_type"]),
     file_type:    file["file_type"],
-    file:         helpers.stripS3(file["file_location"])
+    file:         helpers.stripS3(file["file_location"]),
+    type:         file["type"]
+  }
+
+  const parents = courseData["course_pages"].filter(
+    coursePage => coursePage["uid"] === file["parent_uid"]
+  )
+
+  if (parents.length > 0) {
+    frontMatter["parent_type"] = parents[0]["type"]
+    frontMatter["parent_title"] = parents[0]["title"]
   }
 
   if (frontMatter.resourcetype === RESOURCE_TYPE_IMAGE) {
@@ -303,6 +323,15 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
       video_transcript_file: transcriptFileLocation,
       archive_url:           archiveUrl
     }
+  }
+
+  const parents = courseData["course_pages"].filter(
+    coursePage => coursePage["uid"] === media["parent_uid"]
+  )
+
+  if (parents.length > 0) {
+    frontMatter["parent_type"] = parents[0]["type"]
+    frontMatter["parent_title"] = parents[0]["title"]
   }
 
   const body = formatHTMLMarkDown(
