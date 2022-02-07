@@ -578,7 +578,54 @@ The section should live on.
 2.  b \\\\\\<
 3.  \`x < y\` code is not escaped
 `.trim()
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(markdown, expectedMarkdown)
+  })
 
+  it("converts superscript tags to superscript shortcodes", async () => {
+    const inputHTML = `
+    <div>
+    <p>The 25<sup>th</sup> annual Jabberwocky<sup>&reg;</sup></p>
+    
+    Some more
+      <ol>
+        <li>nesting won't work well cats<sup>me<sup>ow</sup></sup> </li>
+        <li>quotes dog<sup><strong>"woof"</strong></sup> </li>
+      </ol>
+    </div>
+    `
+    const expectedMarkdown = `
+The 25{{< sup "th" >}} annual Jabberwocky{{< sup "®" >}}
+
+Some more
+
+1.  nesting won't work well cats{{< sup "me{{< sup \\"ow\\" >}}" >}}
+2.  quotes dog{{< sup "**\\"woof\\"**" >}}
+    `.trim()
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(markdown, expectedMarkdown)
+  })
+
+  it("converts subscript tags to superscript shortcodes", async () => {
+    const inputHTML = `
+    <div>
+    <p>The 25<sub>th</sub> annual Jabberwocky<sub>&reg;</sub></p>
+    
+    Some more
+      <ol>
+        <li>nesting won't work well cats<sub>me<sub>ow</sub></sub> </li>
+        <li>quotes dog<sub><strong>"woof"</strong></sub> </li>
+      </ol>
+    </div>
+    `
+    const expectedMarkdown = `
+The 25{{< sub "th" >}} annual Jabberwocky{{< sub "®" >}}
+
+Some more
+
+1.  nesting won't work well cats{{< sub "me{{< sub \\"ow\\" >}}" >}}
+2.  quotes dog{{< sub "**\\"woof\\"**" >}}
+    `.trim()
     const markdown = await html2markdown(inputHTML)
     assert.equal(markdown, expectedMarkdown)
   })
