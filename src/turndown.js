@@ -399,6 +399,22 @@ turndownService.addRule("edu_breakdown", {
 })
 
 /**
+ * Remove Classroom section
+ **/
+turndownService.addRule("remove_the_classroom", {
+  filter: (node, options) => {
+    if (node.nodeName !== "DIV") return false
+    const children = Array.from(node.childNodes)
+    return children.some(node => {
+      return node.nodeName === "A" && node.getAttribute("name") === "classroom"
+    })
+  },
+  replacement: (content, node, options) => {
+    return ""
+  }
+})
+
+/**
  * Catch "approx" images and render as HTML instead
  */
 turndownService.addRule("approx_img", {
