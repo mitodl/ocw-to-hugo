@@ -360,8 +360,7 @@ turndownService.addRule("remove_the_classroom", {
     if (node.nodeName !== "DIV") return false
     const children = Array.from(node.childNodes)
     return children.some(node => {
-      if (node.nodeName !== "A") return false
-      return node.getAttribute("name") === "classroom"
+      return node.nodeName === "A" && node.getAttribute("name") === "classroom"
     })
   },
   replacement: (content, node, options) => {
