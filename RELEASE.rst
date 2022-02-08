@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.38.0
+--------------
+
+- Remove the classroom section (#446)
+
 Version 1.37.0 (Released February 08, 2022)
 --------------
 
