@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.37.0
+Version 1.37.0 (Released February 08, 2022)
 --------------
 
 - add type, parent_type and parent_title
