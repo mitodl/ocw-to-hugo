@@ -260,7 +260,8 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
   const thumbnailFile = media["embedded_media"].find(
     embeddedMedia =>
       embeddedMedia["type"] === "Thumbnail" &&
-      embeddedMedia["id"] === "Thumbnail-YouTube-JPG"
+      // Sometimes the id is 'Thumbnail-YouTube-JPG_1'
+      embeddedMedia["id"].startsWith("Thumbnail-YouTube-JPG")
   )
   const captionsFile = media["embedded_media"].find(
     embeddedMedia =>
