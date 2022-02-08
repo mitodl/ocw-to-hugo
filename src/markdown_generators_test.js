@@ -271,6 +271,28 @@ describe("markdown generators", function() {
       })
     })
 
+    it("includes thumbnails in markdown frontmatter", () => {
+      const markdownData = markdownGenerators.generateMarkdownFromJson(
+        embeddedYoutubeVideoJsonData,
+        pathLookup
+      )
+
+      const names = [
+        "/resources/video-1-introduction-to-the-analytics-edge-0.md",
+        "/resources/welcome-to-unit-1-1.md"
+      ]
+
+      names.forEach(name => {
+        const file = markdownData.find(file => file.name === name)
+        const frontmatter = yaml.safeLoad(file.data.split("---\n")[1])
+
+        expect(frontmatter.resourcetype).to.equal("Video")
+        expect(frontmatter.video_files.video_thumbnail_file).to.match(
+          /https:\/\/img\.youtube\.com.*\.jpg/
+        )
+      })
+    })
+
     it("generates a resource page for an image", () => {
       const markdownData = markdownGenerators.generateMarkdownFromJson(
         embeddedYoutubeVideoJsonData,
