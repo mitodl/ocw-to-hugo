@@ -582,7 +582,7 @@ The section should live on.
     assert.equal(markdown, expectedMarkdown)
   })
 
-  it("converts superscript tags to superscript shortcodes", async () => {
+  it("converts sup tags to sup shortcodes", async () => {
     const inputHTML = `
     <div>
     <p>The 25<sup>th</sup> annual Jabberwocky<sup>&reg;</sup></p>
@@ -590,7 +590,8 @@ The section should live on.
     Some more
       <ol>
         <li>nesting won't work well cats<sup>me<sup>ow</sup></sup> </li>
-        <li>quotes dog<sup><strong>"woof"</strong></sup> </li>
+        <li>boldings <sup>normal text <strong>bold woof</strong> and <em>emph</em></sup> </li>
+        <li>and quotes although <sup>who puts "quotes" in</sup> superscripts though?</li>
       </ol>
     </div>
     `
@@ -600,13 +601,14 @@ The 25{{< sup "th" >}} annual Jabberwocky{{< sup "®" >}}
 Some more
 
 1.  nesting won't work well cats{{< sup "me{{< sup \\"ow\\" >}}" >}}
-2.  quotes dog{{< sup "**\\"woof\\"**" >}}
+2.  boldings {{< sup "normal text **bold woof** and _emph_" >}}
+3.  and quotes although {{< sup "who puts \\"quotes\\" in" >}} superscripts though?
     `.trim()
     const markdown = await html2markdown(inputHTML)
     assert.equal(markdown, expectedMarkdown)
   })
 
-  it("converts subscript tags to superscript shortcodes", async () => {
+  it("converts sub tags to sub shortcodes", async () => {
     const inputHTML = `
     <div>
     <p>The 25<sub>th</sub> annual Jabberwocky<sub>&reg;</sub></p>
@@ -614,7 +616,8 @@ Some more
     Some more
       <ol>
         <li>nesting won't work well cats<sub>me<sub>ow</sub></sub> </li>
-        <li>quotes dog<sub><strong>"woof"</strong></sub> </li>
+        <li>boldings <sub>normal text <strong>bold woof</strong> and <em>emph</em></sub> </li>
+        <li>and quotes although <sub>who puts "quotes" in</sub> subscripts though?</li>
       </ol>
     </div>
     `
@@ -624,7 +627,8 @@ The 25{{< sub "th" >}} annual Jabberwocky{{< sub "®" >}}
 Some more
 
 1.  nesting won't work well cats{{< sub "me{{< sub \\"ow\\" >}}" >}}
-2.  quotes dog{{< sub "**\\"woof\\"**" >}}
+2.  boldings {{< sub "normal text **bold woof** and _emph_" >}}
+3.  and quotes although {{< sub "who puts \\"quotes\\" in" >}} subscripts though?
     `.trim()
     const markdown = await html2markdown(inputHTML)
     assert.equal(markdown, expectedMarkdown)

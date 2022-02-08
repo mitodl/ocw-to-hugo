@@ -651,7 +651,8 @@ turndownService.addRule("subscript", {
     return node.nodeName === "SUB"
   },
   replacement: (content, node, options) => {
-    return `{{< sub ${JSON.stringify(content)} >}}`
+    const quotesEscaped = JSON.stringify(content)
+    return `{{< sub ${quotesEscaped} >}}`
   }
 })
 
@@ -660,7 +661,8 @@ turndownService.addRule("superscript", {
     return node.nodeName === "SUP"
   },
   replacement: (content, node, options) => {
-    return `{{< sup ${JSON.stringify(content)} >}}`
+    const quotesEscaped = JSON.stringify(content)
+    return `{{< sup ${quotesEscaped} >}}`
   }
 })
 
