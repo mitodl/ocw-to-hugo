@@ -360,24 +360,41 @@ describe("generateLegacyDataTemplate", () => {
     )
     assert.deepEqual(courseDataTemplate["instructors"], [
       {
-        first_name:     "Edward",
-        last_name:      "Crawley",
-        middle_initial: "",
-        salutation:     "Prof.",
-        instructor:     "Prof. Edward Crawley",
-        url:            "/search/?q=%22Prof.%20Edward%20Crawley%22",
-        uid:            "e042c8f9-995f-cc11-0a2a-5aafa674c5e6"
+        first_name:      "Edward",
+        last_name:       "Crawley",
+        middle_initial:  "",
+        salutation:      "Prof.",
+        instructor:      "Prof. Edward Crawley",
+        url:             "/search/?q=%22Prof.%20Edward%20Crawley%22",
+        directory_title: "Professor",
+        title:           "Crawley, Edward",
+        department:      "Gordon Engineering Leadership Program",
+        uid:             "e042c8f9-995f-cc11-0a2a-5aafa674c5e6"
       },
       {
-        first_name:     "Olivier",
-        last_name:      "de Weck",
-        middle_initial: "",
-        salutation:     "Prof.",
-        instructor:     "Prof. Olivier de Weck",
-        url:            "/search/?q=%22Prof.%20Olivier%20de%20Weck%22",
-        uid:            "07d4f055-5edf-ebf2-c247-7bbf2d19dd91"
+        first_name:      "Olivier",
+        last_name:       "de Weck",
+        middle_initial:  "",
+        salutation:      "Prof.",
+        instructor:      "Prof. Olivier de Weck",
+        url:             "/search/?q=%22Prof.%20Olivier%20de%20Weck%22",
+        directory_title: "Associate Professor",
+        title:           "de Weck, Olivier",
+        department:      "Engineering Systems Division",
+        uid:             "07d4f055-5edf-ebf2-c247-7bbf2d19dd91"
       }
     ])
+  })
+
+  it("sets the contributor_list proprety to the contributor_list found in the instuctors node of the course json data", () => {
+    const courseDataTemplate = generateLegacyDataTemplate(
+      spaceSystemsJsonData,
+      pathLookup
+    )
+    assert.deepEqual(
+      courseDataTemplate["contributor_list"],
+      spaceSystemsJsonData["contributor_list"]
+    )
   })
 
   it("sets the publishdate property to the first_published_to_production property of the course json data", () => {
