@@ -327,7 +327,8 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
       video_transcript_file: transcriptFileLocation,
       archive_url:           archiveUrl
     },
-    optional_text: optionalText
+    optional_text:      optionalText,
+    optional_tab_title: media["optional_tab_title"] || ""
   }
 
   const parents = courseData["course_pages"].filter(
