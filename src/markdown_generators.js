@@ -296,6 +296,9 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
   const archiveRecord = media["embedded_media"].find(
     embeddedMedia => embeddedMedia["title"] === "Video-Internet Archive-MP4"
   )
+  const optionalText = html2markdown(
+    fixLinks(media["optional_text"] || "", courseData, pathLookup, false, true)
+  )
 
   const videoThumbnailLocation = thumbnailFile
     ? thumbnailFile.media_location
@@ -323,7 +326,8 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
       video_captions_file:   captionsFileLocation,
       video_transcript_file: transcriptFileLocation,
       archive_url:           archiveUrl
-    }
+    },
+    optional_text: optionalText
   }
 
   const parents = courseData["course_pages"].filter(
