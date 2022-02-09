@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 1.39.0
+--------------
+
+- Turn sub, sup tags into shortcodes (#452)
+- Include thumbnails whose ids end in JPG_1 (#453)
+
 Version 1.38.0 (Released February 08, 2022)
 --------------
 
