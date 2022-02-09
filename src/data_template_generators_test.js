@@ -408,6 +408,17 @@ describe("generateLegacyDataTemplate", () => {
     )
   })
 
+  it("sets the related_content proprety to the related_content found in the instuctors node of the course json data", () => {
+    const courseDataTemplate = generateLegacyDataTemplate(
+      spaceSystemsJsonData,
+      pathLookup
+    )
+    assert.equal(
+      courseDataTemplate["related_content"],
+      spaceSystemsJsonData["related_content"]
+    )
+  })
+
   it("sets the publishdate property to the first_published_to_production property of the course json data", () => {
     const courseDataTemplate = generateLegacyDataTemplate(
       spaceSystemsJsonData,
