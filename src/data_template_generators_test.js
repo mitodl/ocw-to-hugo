@@ -392,8 +392,8 @@ describe("generateLegacyDataTemplate", () => {
       pathLookup
     )
     assert.deepEqual(
-      courseDataTemplate["contributor_list"],
-      spaceSystemsJsonData["contributor_list"]
+      courseDataTemplate["metadata_contributor_list"],
+      spaceSystemsJsonData["metadata_contributor_list"]
     )
   })
 
