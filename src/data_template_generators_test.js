@@ -397,6 +397,17 @@ describe("generateLegacyDataTemplate", () => {
     )
   })
 
+  it("sets the highlights_text proprety to the highlights_text found in the instuctors node of the course json data", () => {
+    const courseDataTemplate = generateLegacyDataTemplate(
+      spaceSystemsJsonData,
+      pathLookup
+    )
+    assert.equal(
+      courseDataTemplate["highlights_text"],
+      spaceSystemsJsonData["highlights_text"]
+    )
+  })
+
   it("sets the publishdate property to the first_published_to_production property of the course json data", () => {
     const courseDataTemplate = generateLegacyDataTemplate(
       spaceSystemsJsonData,

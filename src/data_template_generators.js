@@ -110,6 +110,7 @@ const generateLegacyDataTemplate = (courseData, pathLookup) => {
     }
   )
   dataTemplate["contributor_list"] = courseData["contributor_list"]
+  dataTemplate["highlights_text"] = courseData["highlights_text"]
   return dataTemplate
 }
 
