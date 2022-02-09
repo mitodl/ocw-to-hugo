@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.39.0
+Version 1.39.0 (Released February 09, 2022)
 --------------
 
 - Turn sub, sup tags into shortcodes (#452)
