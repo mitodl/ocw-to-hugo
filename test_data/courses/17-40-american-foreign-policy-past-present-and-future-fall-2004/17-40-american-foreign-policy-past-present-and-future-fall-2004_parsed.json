@@ -513,6 +513,7 @@
     "first_published_to_production": "2005/04/11 06:57:03 GMT-4",
     "from_semester": "Fall",
     "from_year": "2004",
+    "highlights_text": "",
     "image_alternate_text": "A drawing of both sides of the world displayed at the equitorial meridan, with the landmasses outlined.",
     "image_caption_text": "\n<p>World map. (Map courtesy of&nbsp;<a href=\"http://www.theodora.com/maps\">Quick Maps</a>.)</p>",
     "image_description": "World map. (Map courtesy of Quick Maps.)",
@@ -537,10 +538,34 @@
     "last_published_to_production": "2010/09/08 08:11:08.249 GMT-4",
     "last_unpublishing_date": "2011/06/30 15:19:07.543 GMT-4",
     "master_course_number": "40",
+    "metadata_contributor_list": [
+        {
+            "md_contributor_entity": "Van Evera, Stephen",
+            "md_contributor_hide": "N",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "555a4b0bfd37ef29e3644b6d9753b702"
+        },
+        {
+            "md_contributor_entity": "Todd Rautenberg",
+            "md_contributor_hide": "",
+            "md_contributor_role": "Validator",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": ""
+        },
+        {
+            "md_contributor_entity": "Todd Rautenberg",
+            "md_contributor_hide": "",
+            "md_contributor_role": "Creator",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": ""
+        }
+    ],
     "new_course_numbers": [],
     "open_learning_library_related": [],
     "other_information_text": "",
     "other_version_parent_uids": null,
+    "related_content": "",
     "retirement_date": "2012/06/22 04:32:27.950 GMT-4",
     "short_url": "17-40-american-foreign-policy-past-present-and-future-fall-2004",
     "sort_as": "17.40",

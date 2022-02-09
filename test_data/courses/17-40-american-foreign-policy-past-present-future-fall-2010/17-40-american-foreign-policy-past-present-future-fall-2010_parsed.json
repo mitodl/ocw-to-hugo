@@ -473,6 +473,7 @@
     "first_published_to_production": "2011/06/30 15:02:39.064 GMT-4",
     "from_semester": "Fall",
     "from_year": "2010",
+    "highlights_text": "",
     "image_alternate_text": "Three soldiers stand together in the mountains, waiting for two helicopters to land.",
     "image_caption_text": "<p>Soldiers with the 101st Division Special Troops Battalion, 101st Airborne Division watch as two Chinook helicopters fly in to take them back to Bagram Airfield, Afghanistan, Nov. 4, 2008. Current issues and crises, like the war in Afghanistan, are discussed at the end of this course. (Image courtesy of the <a href=\"http://en.wikipedia.org/wiki/File:Inbound_Choppers_in_Afghanistan_2008.jpg\">U.S. Army</a>.)</p>",
     "image_description": "Soldiers with the 101st Division Special Troops Battalion, 101st Airborne Division watch as two Chinook helicopters fly in to take them back to Bagram Airfield, Afghanistan, Nov. 4, 2008. Current issues and crises, like the war in Afghanistan, are discussed at the end of this course. (Image courtesy of the U.S. Army.)",
@@ -497,12 +498,36 @@
     "last_published_to_production": "2017/01/20 06:33:23.910 US/Eastern",
     "last_unpublishing_date": "2018/05/24 15:13:40.498 GMT-4",
     "master_course_number": "40",
+    "metadata_contributor_list": [
+        {
+            "md_contributor_entity": "Todd Rautenberg",
+            "md_contributor_hide": "",
+            "md_contributor_role": "Creator",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": ""
+        },
+        {
+            "md_contributor_entity": "Van Evera, Stephen",
+            "md_contributor_hide": "N",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "555a4b0bfd37ef29e3644b6d9753b702"
+        },
+        {
+            "md_contributor_entity": "Todd Rautenberg",
+            "md_contributor_hide": "",
+            "md_contributor_role": "Validator",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": ""
+        }
+    ],
     "new_course_numbers": [],
     "open_learning_library_related": [],
     "other_information_text": "",
     "other_version_parent_uids": [
         "1f4a6f820defd1c1e952004fcc41df4e"
     ],
+    "related_content": "",
     "retirement_date": "2018/06/25 04:33:52.075 GMT-4",
     "short_url": "17-40-american-foreign-policy-past-present-future-fall-2010",
     "sort_as": "17.40",

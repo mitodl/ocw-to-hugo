@@ -532,6 +532,7 @@
     "first_published_to_production": "2018/05/24 15:29:03.914 GMT-4",
     "from_semester": "Fall",
     "from_year": "2017",
+    "highlights_text": "",
     "image_alternate_text": "Two smiling, suit-wearing gentlemen are flanked by two elegantly-dressed attractive women. ",
     "image_caption_text": "<p>In April 2017, President Donald Trump and First Lady Melania Trump welcomed Chinese President Xi Jingping and his wife, Mrs. Peng Liyuan, to their Mar-a-Lago estate in Palm Beach, FL for the two  leaders&rsquo; first summit meeting.&nbsp;(Image by D. Myles Cullen and courtesy of <a href=\"https://www.flickr.com/photos/148748355@N05/34617658012\">The White House</a> on flickr. This image is in the public domain. )</p>",
     "image_description": "",
@@ -556,12 +557,22 @@
     "last_published_to_production": "2018/06/25 06:39:34.690 GMT-4",
     "last_unpublishing_date": null,
     "master_course_number": "40",
+    "metadata_contributor_list": [
+        {
+            "md_contributor_entity": "Van Evera, Stephen",
+            "md_contributor_hide": "N",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "555a4b0bfd37ef29e3644b6d9753b702"
+        }
+    ],
     "new_course_numbers": [],
     "open_learning_library_related": [],
     "other_information_text": "",
     "other_version_parent_uids": [
         "1f4a6f820defd1c1e952004fcc41df4e"
     ],
+    "related_content": "",
     "retirement_date": null,
     "short_url": "17-40-american-foreign-policy-past-present-and-future-fall-2017",
     "sort_as": "17.40",

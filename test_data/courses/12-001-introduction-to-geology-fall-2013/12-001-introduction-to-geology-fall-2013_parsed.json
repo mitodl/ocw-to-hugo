@@ -1622,22 +1622,12 @@
     "first_published_to_production": "2015/02/06 17:35:37.852 US/Eastern",
     "from_semester": "Fall",
     "from_year": "2013",
+    "highlights_text": "",
     "image_alternate_text": "A map of North America with colors that represent the ages of the underlying rocks.",
     "image_caption_text": "<p>The North America Tapestry of Time and Terrain. This map is a portrait of the land surface of North America and the ages of its underlying rock formations. This digital tapestry outlines the geologic story of continental collision and break-up, mountain-building, river erosion and deposition, ice-cap glaciation, volcanism, and other events and processes that have shaped the region over the last 2.6 billion years. (Image and text courtesy of the <a href=\"http://www.usgs.gov/\">U.S. Geological Survey</a>.)</p>",
     "image_description": "The North America Tapestry of Time and Terrain. This map is a portrait of the land surface of North America and the ages of its underlying rock formations. This digital tapestry outlines the geologic story of continental collision and break-up, mountain-building, river erosion and deposition, ice-cap glaciation, volcanism, and other events and processes that have shaped the region over the last 2.6 billion years. (Image and text courtesy of the U.S. Geological Survey.)",
     "image_src": "https://open-learning-course-data-production.s3.amazonaws.com/12-001-introduction-to-geology-fall-2013/76ea2d54123485055dd1e6621b9edf6a_12-001f13.jpg",
     "instructors": [
-        {
-            "department": "",
-            "directory_title": "",
-            "first_name": "Oliver",
-            "last_name": "Jagoutz",
-            "middle_initial": "",
-            "salutation": "Prof.",
-            "suffix": "",
-            "title": "",
-            "uid": "9d34d6b3d7ac312d6f78bcfbe22b99a0"
-        },
         {
             "department": "",
             "directory_title": "",
@@ -1648,6 +1638,17 @@
             "suffix": "",
             "title": "",
             "uid": "57f6478ae1e685631f49311081e7746d"
+        },
+        {
+            "department": "",
+            "directory_title": "",
+            "first_name": "Oliver",
+            "last_name": "Jagoutz",
+            "middle_initial": "",
+            "salutation": "Prof.",
+            "suffix": "",
+            "title": "",
+            "uid": "9d34d6b3d7ac312d6f78bcfbe22b99a0"
         }
     ],
     "is_update_of": [
@@ -1657,12 +1658,36 @@
     "last_published_to_production": "2017/05/26 06:38:03.434 GMT-4",
     "last_unpublishing_date": null,
     "master_course_number": "001",
+    "metadata_contributor_list": [
+        {
+            "md_contributor_entity": "Perron, Taylor",
+            "md_contributor_hide": "N",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "57f6478ae1e685631f49311081e7746d"
+        },
+        {
+            "md_contributor_entity": "Todd Rautenberg",
+            "md_contributor_hide": "",
+            "md_contributor_role": "Creator",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": ""
+        },
+        {
+            "md_contributor_entity": "Jagoutz, Oliver",
+            "md_contributor_hide": "N",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "9d34d6b3d7ac312d6f78bcfbe22b99a0"
+        }
+    ],
     "new_course_numbers": [],
     "open_learning_library_related": [],
     "other_information_text": "",
     "other_version_parent_uids": [
         "e728d61356cd803d30eb7f9378ef7031"
     ],
+    "related_content": "",
     "retirement_date": null,
     "short_url": "12-001-introduction-to-geology-fall-2013",
     "sort_as": "12.001",

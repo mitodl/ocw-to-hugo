@@ -58,7 +58,7 @@
                     "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-course-iteration/4afZKY-INNA.srt",
                     "title": "3play caption file",
                     "type": null,
-                    "uid": "9768369234653d66f4fa9006f2c8ba58"
+                    "uid": "f48e3dfed6be29ee91f1f1b0331efcef"
                 },
                 {
                     "id": "4afZKY-INNA.pdf",
@@ -66,21 +66,21 @@
                     "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-course-iteration/4afZKY-INNA.pdf",
                     "title": "3play pdf file",
                     "type": null,
-                    "uid": "dbc1d8158cd7b01299773a888630a83e"
+                    "uid": "0d860b2f48ac3e605645f78b716cc09b"
                 },
                 {
-                    "id": "Subtitle-3Play YouTube id-SRT",
+                    "id": "Caption-3Play YouTube id-SRT",
                     "parent_uid": "4e2635ab31644e71cf791b420ea638da",
-                    "title": "Subtitle-3Play YouTube id-SRT-English - US",
-                    "type": "Subtitle",
-                    "uid": "fa6064e4798e8e1203dbefad94c4e20b"
+                    "title": "Caption-3Play YouTube id-SRT-English - US",
+                    "type": "Caption",
+                    "uid": "1d8c7dd9f363dd24e27bc96edc75ee45"
                 },
                 {
                     "id": "Transcript-3Play YouTube id-PDF",
                     "parent_uid": "4e2635ab31644e71cf791b420ea638da",
                     "title": "Transcript-3Play YouTube id-PDF-English - US",
                     "type": "Transcript",
-                    "uid": "8178a63f991d79e2e02def4f7c35a70c"
+                    "uid": "45f5a013362866bfc798963d836c40ba"
                 },
                 {
                     "id": "4afZKY-INNA.vtt",
@@ -88,13 +88,16 @@
                     "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-course-iteration/4afZKY-INNA.vtt",
                     "title": "3play caption file",
                     "type": null,
-                    "uid": "vtt9768369234653d66f4fa9006f2c8ba58"
+                    "uid": "d6305606348c523e83d32f850ec85455"
                 }
             ],
             "inline_embed_id": "16382356instructorinterview:courseiteration55791478",
+            "optional_tab_title": "",
+            "optional_text": "",
             "order_index": 58,
             "parent_uid": "4ae1516c220679142383e2f4136cf2f6",
             "related_resources_text": "",
+            "resource_index_text": "",
             "short_url": "instructor-interview-course-iteration",
             "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-course-iteration",
             "template_type": "popup",
@@ -105,22 +108,6 @@
         "19131655instructorinterview:courseiterationchinese51410709": {
             "about_this_resource_text": "",
             "embedded_media": [
-                {
-                    "id": "MIT21G_107F14_CourseIteration_zh-hans-cmn.pdf",
-                    "parent_uid": "751a9da0667ee22325e3dde67e65e4ce",
-                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-course-iteration-chinese/MIT21G_107F14_CourseIteration_zh-hans-cmn.pdf",
-                    "title": "MIT21G_107F14_CourseIteration_zh-hans-cmn",
-                    "type": null,
-                    "uid": "156ec4ccaecb623a0fb45c59347f3ded"
-                },
-                {
-                    "id": "MIT21G_107F14_CourseIteration_zh-hans-cmn.srt",
-                    "parent_uid": "751a9da0667ee22325e3dde67e65e4ce",
-                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-course-iteration-chinese/MIT21G_107F14_CourseIteration_zh-hans-cmn.srt",
-                    "title": "MIT21G_107F14_CourseIteration_zh-hans-cmn.srt",
-                    "type": null,
-                    "uid": "a21b6923cc7d0120e62851d7305f9476"
-                },
                 {
                     "id": "Video-YouTube-Stream",
                     "media_location": "6W-ZKWuK4oM",
@@ -146,20 +133,6 @@
                     "uid": "cee178d85eb594faee809e755ae9db67"
                 },
                 {
-                    "id": "Subtitle-OCW-SRT",
-                    "parent_uid": "751a9da0667ee22325e3dde67e65e4ce",
-                    "title": "Subtitle-OCW-SRT-English - US",
-                    "type": "Subtitle",
-                    "uid": "d42d41b4dc49b7dcc245b0914d0f3140"
-                },
-                {
-                    "id": "Transcript-OCW-PDF",
-                    "parent_uid": "751a9da0667ee22325e3dde67e65e4ce",
-                    "title": "Transcript-OCW-PDF-English - US",
-                    "type": "Transcript",
-                    "uid": "7b632f602409aeeca7bb09ee50ade408"
-                },
-                {
                     "id": "Video-iTunesU-MP4",
                     "media_location": "https://itunes.apple.com/us/itunes-u/id1066361132",
                     "parent_uid": "751a9da0667ee22325e3dde67e65e4ce",
@@ -168,44 +141,61 @@
                     "uid": "95e668a9996fa55a126a9c345714fc83"
                 },
                 {
+                    "id": "MIT21G_107F14_CourseIteration_zh-hans-cmn.srt",
+                    "parent_uid": "751a9da0667ee22325e3dde67e65e4ce",
+                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-course-iteration-chinese/MIT21G_107F14_CourseIteration_zh-hans-cmn.srt",
+                    "title": "MIT21G_107F14_CourseIteration_zh-hans-cmn.srt",
+                    "type": null,
+                    "uid": "a21b6923cc7d0120e62851d7305f9476"
+                },
+                {
+                    "id": "MIT21G_107F14_CourseIteration_zh-hans-cmn.pdf",
+                    "parent_uid": "751a9da0667ee22325e3dde67e65e4ce",
+                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-course-iteration-chinese/MIT21G_107F14_CourseIteration_zh-hans-cmn.pdf",
+                    "title": "MIT21G_107F14_CourseIteration_zh-hans-cmn",
+                    "type": null,
+                    "uid": "156ec4ccaecb623a0fb45c59347f3ded"
+                },
+                {
+                    "id": "Transcript-OCW-PDF",
+                    "parent_uid": "751a9da0667ee22325e3dde67e65e4ce",
+                    "title": "Transcript-OCW-PDF-Chinese - PRC",
+                    "type": "Transcript",
+                    "uid": "539e51ffc30361fd78b9a626ec250ebd"
+                },
+                {
+                    "id": "Caption-OCW-SRT",
+                    "parent_uid": "751a9da0667ee22325e3dde67e65e4ce",
+                    "title": "Caption-OCW-SRT-Chinese - PRC",
+                    "type": "Caption",
+                    "uid": "71b5934f5eb5505f09a48b9889346f48"
+                },
+                {
                     "id": "MIT21G_107F14_CourseIteration_zh-hans-cmn.vtt",
                     "parent_uid": "751a9da0667ee22325e3dde67e65e4ce",
                     "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-course-iteration-chinese/MIT21G_107F14_CourseIteration_zh-hans-cmn.vtt",
                     "title": "MIT21G_107F14_CourseIteration_zh-hans-cmn.srt",
                     "type": null,
-                    "uid": "vtta21b6923cc7d0120e62851d7305f9476"
+                    "uid": "8172808fa9b159748f468da698660642"
                 }
             ],
             "inline_embed_id": "19131655instructorinterview:courseiterationchinese51410709",
+            "optional_tab_title": "",
+            "optional_text": "",
             "order_index": 104,
             "parent_uid": "4ae1516c220679142383e2f4136cf2f6",
             "related_resources_text": "",
+            "resource_index_text": "",
             "short_url": "instructor-interview-course-iteration-chinese",
             "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-course-iteration-chinese",
             "template_type": "popup",
             "title": "\u672a\u4f86\u6559\u6750\u7684\u66f4\u65b0\u8207\u5c55\u671b / \u672a\u6765\u6559\u6750\u7684\u66f4\u65b0\u4e0e\u5c55\u671b",
-            "transcript": "",
+            "transcript": "<p>1<br />00:00:00,000 --&gt; 00:00:06,310<br />\u6240\u4ee5\u6211<br />2</p><p>00:00:06,310 --&gt; 00:00:15,930<br />\u6211\u89c9\u5f97\u6211\u73b0\u5728\u4f1a\u6162\u6162\u5730\u5f00\u59cb\uff0c\u8fd9\u5802\u8bfe\u2f64\u7528\u7684\u6559\u6750\u5462\uff0c\u6211\u4f1a\u6162\u6162\u5730\u66f4\u65b0<br />\u6211\u4eec\u2f00\u4e00\u76f4\u2f64\u7528\u8fd9\u4e2a\u2f24\u5927\u5b66\u8bed\u2f42\u6587\u5462\uff0c\u8fd9\u662f\u56e0\u4e3a\u6211<br />3</p><p>00:00:15,930 --&gt; 00:00:23,441<br />\u63a5\u8fd9\u2ed4\u95e8\u8bfe\u7684\u65f6\u5019\uff0c\u5df2\u7ecf\u8fd9\u4e2a\u8bfe\u672c\u5b9a\u4e0b\u6765\u4e86 \u90a3\u8fd9\u672c\u8bfe\u672c\u6709\u5b83\u7684\u597d\u5904\uff0c\u4e5f\u6709\u5b83\u7684\u574f\u5904\u3002<br />4</p><p>00:00:23,441 --&gt; 00:00:31,961<br />\u7136\u540e\uff0c\u6211\u63a5\u4e0b\u6765\u7684\u65f6\u5019\uff0c\u6211\u4eec\u7684\u5f20\u9526<br />\u2f7c\u8001\u5e08\u5df2\u7ecf\u505a\u4e86\u5f88\u591a\u8fd9\u4e2a\u57fa\u672c\u7684\u8fd9\u4e2a\u2f2f\u5de5\uff0c\u2f50\u6bd4\u5982\u8bf4\u5f55\u2fb3\u97f3\u554a\u8fd9\u4e9b\u5979\u90fd\u505a\u5f97\u2fae\u975e\u5e38\u5b8c\u6574<br />5</p><p>00:00:31,961 --&gt; 00:00:35,568<br />\u6240\u4ee5\u5462\uff0c\u6211\u63a5\u8fc7\u6765\u7684\u65f6\u5019\u5176\u5b9e\u662f\u2f50\u6bd4\u8f83\u8f7b\u677e\u7684\u3002<br />6</p><p>00:00:35,568 --&gt; 00:00:43,865<br />\u53ef\u662f\u6211\u53d1\u73b0\u5462\uff0c\u8fd9\u4e9b\uff0c\u8fd9\u4e2a\uff0c\u8fd9\u672c\u4e66\u7684\u597d\u5904\u5c31\u662f<br />\u5b66\u2f63\u751f\u544a\u8bc9\u6211\u5c31\u662f\u4ed6\u4eec\u5b66\u7684\u65f6\u5019\u89c9\u5f97\u5b66\u5f97\u5f88\u7a33\uff0c\u56e0\u4e3a\u6bcf\u3001<br />7</p><p>00:00:43,865 --&gt; 00:00:48,090<br />\u6bcf \u6bcf\u2f00\u4e00\u8bfe\u7684\u8fd9\u4e2a\u2ed3\u957f\u5ea6\u662f\u600e\u4e48\u6837\uff0c\u7136\u540e\u5b83\u7684\u8fd9\u4e2a<br />8</p><p>00:00:48,090 --&gt; 00:00:56,329<br />\u5f62\u5f0f\u662f\u600e\u4e48\u6837\u90fd\u662f\u5f88\u56fa\u5b9a\u7684\uff0c\u6240\u4ee5\u5b66\u2f63\u751f\u89c9\u5f97\u5b66\u8d77\u6765\u2f50\u6bd4\u8f83\u7a33<br />\u5f88\u2f24\u5927\u7684\u7f3a\u70b9\uff0c\u5b83\u7684\u8fd9\u4e2a\u4e3b\u9898\u5462\uff0c\u8ba8\u8bba\u7684\u90fd\u662f\u4e2d\u56fd\u2f42\u6587\u5316\u3002<br />9</p><p>00:00:56,329 --&gt; 00:01:04,823<br />\u4e0d\u662f\u5b66\u4e2d\u56fd\u2f42\u6587\u5316\u4e0d\u597d\uff0c\u5c31\u662f\u8bf4\u8fd9\u4e9b\u2f7c\u8001\u7684\u2f42\u6587\u5316<br />\u8ddf\u73b0\u5728\u7684\u4e2d\u56fd\u597d\u50cf\u8131\u8282\u4e86\uff0c\u6ca1\u6709\u4ec0\u4e48\uff0c\u6ca1\u6709\u4ec0\u4e48\u5173\u7cfb\u3002<br />10</p><p>00:01:04,823 --&gt; 00:01:13,962<br />\u2f50\u6bd4\u5982\u8bf4\u6211\u4eec\u5b66\u8fd9\u4e9b \u8fd9\u4e2a\u3001 \u8fd9\u4e2a\u4ee5\u524d\u7684\u793e\u4f1a\u2f08\u4eba\u662f\u600e\u4e48\u6837\u2f26\u5b50\uff0c\u8ddf\u73b0\u5728 \u4ed6\u4eec\u6ca1\u6709\u4ec0\u4e48\u5173\u7cfb\u3002<br />11<br />00:01:13,962 --&gt; 00:01:21,100<br />\u6240\u4ee5\u6211\u5728 \u53bb\u5e74\u5462\uff0c\u8fd9\u4e2a\u5feb\u73ed\u76841\uff0c\u6211\u52a0\u4e86\u2f00\u4e00\u4e9b\u8fd9\u4e2a\u2f50\u6bd4\u8f83\u73b0\u4ee3\u7684\u4e1c\u2ec4\u897f<br />12</p><p>00:01:21,100 --&gt; 00:01:27,100<br />\u8fdb\u53bb\uff0c\u90a3\u8fd9\u4e2a\uff0c\u8fd9\u8fd9\u4e9b\u3001 \u8fd9\u4e9b\u2f42\u6587\uff0c\u8fd9\u4e2a\uff0c\u5c31\u662f\u8bf4\u8fd9\u4e2a\u2f42\u6587\u7ae0\u5462\u662f\u4ece<br />13<br />00:01:27,100 --&gt; 00:01:34,970<br />\u6700\u8fd1\u51fa\u7248\u7684\u4e24\u672c\u4e66\u53eb\u505a\u300a\u73b0\u4ee3\u9605\u8bfb\u300b\uff0c\u5b83\u2fa5\u91cc\u2faf\u9762\u5462\u67096\u4e2a\u9898\u2eab\u2f6c\u76ee\uff0c\u6bcf\u4e2a\u9898\u2eab\u2f6c\u76ee\u4e0b\u2faf\u9762\u5462<br />14<br />00:01:34,970 --&gt; 00:01:37,672<br />\u6709\u4e0d\u540c\u7684\u2f54\u6c34\u5e73\uff0c\u2f24\u5927\u6982\u52064\u7ea7\u3002<br />15</p><p>00:01:37,672 --&gt; 00:01:44,186<br />\u7136\u540e\u6211\u4f9d\u7167\u4ed6\u4eec\u7684 \u2f54\u6c34\u5e73\u5462\uff0c\u9009\u53d6\u2f42\u6587\u7ae0\u8ba9\u4ed6\u4eec\u8bfb\uff0c\u2f50\u6bd4\u5982\u8bf4\u6211\u4eec\u8bfb\u4e86\u2f00\u4e00\u4e2a\u8fd9\u4e2a \u600e\u4e48\u79f0\u547c\u2f08\u4eba\u3002<br />16</p><p>00:01:44,186 --&gt; 00:01:53,200<br />\u2f50\u6bd4\u5982\u8bf4\u5148\u2f63\u751f\uff0c\u5148\u2f63\u751f\u5728\u4e2d\u2f42\u6587\u5462\uff0c\u5176\u5b9e\u6709\u5f88\u591a\u5f88\u591a\u7684\u610f\u601d<br />\u4e0d\u662f\u53ea\u662f\u8fd9\u4e2aMr\u7684\u8fd9\u4e2a\u610f\u601d\uff0c\u6240\u4ee5\u4ed6\u4eec\u4ece\u8fd9\u2fa5\u91cc\u5934\u53ef\u4ee5<br />17</p><p>00:01:53,200 --&gt; 00:01:59,362<br />\u8054\u8054\u5230\u4ed6\u4eec\u5bf9\u4e2d\u56fd\u2f42\u6587\u5316\u7684\u8ba4\u8bc6\uff0c\u6211\u89c9\u5f97\u8fd9\u4e2a\u4ed6\u4eec\u89c9\u5f97 \u8fd9\u4e2a\u2f50\u6bd4\u8f83\u3001<br />18<br />00:01:59,362 --&gt; 00:02:08,250<br />\u2f50\u6bd4\u8f83\u8ddf\u73b0\u4ee3\u6709\u5173\u7cfb\uff0c\u4ed6\u4eec\u4e5f\u89c9\u5f97\u2f50\u6bd4\u8f83\u6709\u8da3 \u6240\u4ee5\u5462\u6211\u89c9\u5f97\u6211\u4f1a\u6e10\u6e10\u5730\u52a0\u2f0a\u5165\u8fd9\u6837\u7684\u2f42\u6587\u7ae0\uff0c\u90a310<br />19<br />00:02:08,250 --&gt; 00:02:13,960<br />\u5feb\u73ed1\u4e4b\u540e\u5c31\u662f\u5feb\u73ed2\uff0c\u5c31\u662f\u6625\u5047\u7684\u65f6\u5019\uff0c\u90a3\u6211\u52a0\u7684\u2f42\u6587\u7ae0\u5c31\u4f1a\u2f50\u6bd4\u8f83\u6df1<br />20</p><p>00:02:13,960 --&gt; 00:02:23,160<br />\u6211\u53bb\u5e74\u8bfb\u4e86\u2f00\u4e00\u4e9b\uff0c\u2f50\u6bd4\u5982\u8bf4\u2eb4\u2f79\u7f51\u4e0a\u4ea4\u53cb\uff0c\u8fd8\u6709\u8fd9\u4e2a\u8fd9\u4e2a\u8fd9\u4e2a<br />\u53bb\u8fd9\u4e2a\u65c5\u6e38\u7684\u653b\u7565\uff0c\u2f50\u6bd4\u5982\u8bf4\u5f88\u591a\u2f08\u4eba\u5728\u8fd9\u4e2a\u2eb4\u2f79\u7f51\u4e0a\u5462\uff0c\u4e2d\u56fd\u2f08\u4eba\u4f1a<br />21</p><p>00:02:23,160 --&gt; 00:02:28,080<br />\u653e\u2f00\u4e00\u4e9b\u8fd9\u4e2a\u535a\u5ba2\u4e0a\u53bb\u8bf4\uff0c\u4f60\u8981\u53bb\u8fd9\u4e2a\u5730\u2f45\u65b9\u4e4b\u524d\u5462\u8981\u51c6\u5907\u4ec0\u4e48<br />22</p><p>00:02:28,080 --&gt; 00:02:37,705<br />\u8981\u505a\u4ec0\u4e48\uff0c\u6211\u8ba9\u5b66\u2f63\u751f\u53bb\u8bfb\u8fd9\u79cd\u4e1c\u2ec4\u897f\uff0c\u4ed6\u4eec\u89c9\u5f97\u5f88\u6709\u771f\u5b9e\u611f\uff0c\u56e0\u4e3a\u4ed6\u4eec\u5f88\u53ef\u80fd<br />\u4f1a\u9700\u8981\u8fd9\u6837\u7684\u2f00\u4e00\u4e2a\u2f2f\u5de5\u5177\u53bb\u4e86\u89e3\u5f53\u5730\u7684\uff0c\u4e2d\u56fd<br />23</p><p>00:02:37,705 --&gt; 00:02:46,040<br />\u5982\u679c\u4ed6\u4eec\u8981\u53bb\u4e2d\u56fd\u7684\u65f6\u5019\uff0c\u4e86\u89e3\u5f53\u5730\u7684\u60c5\u51b5\uff0c\u5f88\u591a\u2f08\u4eba\u4f1a\u7ed9\u4ed6\u4e8b\u5148\u7684\u2f00\u4e00\u4e9b\u8fd9\u4e2a<br />\u8baf\u606f\uff0c\u6211\u89c9\u5f97\u8fd9\u4e2a\u5f88\u91cd\u8981</p>",
             "uid": "751a9da0667ee22325e3dde67e65e4ce"
         },
         "21399145instructorinterview:philosophicalchinese19295233": {
             "about_this_resource_text": "",
             "embedded_media": [
-                {
-                    "id": "MIT21G_107F14_Philosophy_zh-hans-cmn.pdf",
-                    "parent_uid": "5fdcb67f1a8ee3b60fe3006920955657",
-                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-philosophical-chinese/MIT21G_107F14_Philosophy_zh-hans-cmn.pdf",
-                    "title": "MIT21G_107F14_Philosophy_zh-hans-cmn",
-                    "type": null,
-                    "uid": "b76188ba9ff71c16b939c34e1ae52d5a"
-                },
-                {
-                    "id": "MIT21G_107F14_Philosophy_zh-hans-cmn.srt",
-                    "parent_uid": "5fdcb67f1a8ee3b60fe3006920955657",
-                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-philosophical-chinese/MIT21G_107F14_Philosophy_zh-hans-cmn.srt",
-                    "title": "MIT21G_107F14_Philosophy_zh-hans-cmn.srt",
-                    "type": null,
-                    "uid": "2095733efedf570762b18d167399e80b"
-                },
                 {
                     "id": "Video-YouTube-Stream",
                     "media_location": "-laccUOh92k",
@@ -231,20 +221,6 @@
                     "uid": "2f635a93d2916c948c75851f3a777762"
                 },
                 {
-                    "id": "Subtitle-OCW-SRT",
-                    "parent_uid": "5fdcb67f1a8ee3b60fe3006920955657",
-                    "title": "Subtitle-OCW-SRT-Chinese - PRC",
-                    "type": "Subtitle",
-                    "uid": "3f7985b0727d3fd4a3d7ca31f3933517"
-                },
-                {
-                    "id": "Transcript-OCW-PDF",
-                    "parent_uid": "5fdcb67f1a8ee3b60fe3006920955657",
-                    "title": "Transcript-OCW-PDF-Chinese - PRC",
-                    "type": "Transcript",
-                    "uid": "79f6816a8911e2b250a70cbae32448a5"
-                },
-                {
                     "id": "Video-iTunesU-MP4",
                     "media_location": "https://itunes.apple.com/us/itunes-u/id1066361132",
                     "parent_uid": "5fdcb67f1a8ee3b60fe3006920955657",
@@ -253,44 +229,61 @@
                     "uid": "7ce8012be99469733585db8cdc8bfd98"
                 },
                 {
+                    "id": "MIT21G_107F14_Philosophy_zh-hans-cmn.pdf",
+                    "parent_uid": "5fdcb67f1a8ee3b60fe3006920955657",
+                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-philosophical-chinese/MIT21G_107F14_Philosophy_zh-hans-cmn.pdf",
+                    "title": "MIT21G_107F14_Philosophy_zh-hans-cmn",
+                    "type": null,
+                    "uid": "b76188ba9ff71c16b939c34e1ae52d5a"
+                },
+                {
+                    "id": "MIT21G_107F14_Philosophy_zh-hans-cmn.srt",
+                    "parent_uid": "5fdcb67f1a8ee3b60fe3006920955657",
+                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-philosophical-chinese/MIT21G_107F14_Philosophy_zh-hans-cmn.srt",
+                    "title": "MIT21G_107F14_Philosophy_zh-hans-cmn.srt",
+                    "type": null,
+                    "uid": "2095733efedf570762b18d167399e80b"
+                },
+                {
+                    "id": "Transcript-OCW-PDF",
+                    "parent_uid": "5fdcb67f1a8ee3b60fe3006920955657",
+                    "title": "Transcript-OCW-PDF-Chinese - PRC",
+                    "type": "Transcript",
+                    "uid": "a89ae65b255c5c148f9538b69452d67f"
+                },
+                {
+                    "id": "Caption-OCW-SRT",
+                    "parent_uid": "5fdcb67f1a8ee3b60fe3006920955657",
+                    "title": "Caption-OCW-SRT-Chinese - PRC",
+                    "type": "Caption",
+                    "uid": "8befee12f0bafd9590d8d21787a56165"
+                },
+                {
                     "id": "MIT21G_107F14_Philosophy_zh-hans-cmn.vtt",
                     "parent_uid": "5fdcb67f1a8ee3b60fe3006920955657",
                     "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-philosophical-chinese/MIT21G_107F14_Philosophy_zh-hans-cmn.vtt",
                     "title": "MIT21G_107F14_Philosophy_zh-hans-cmn.srt",
                     "type": null,
-                    "uid": "vtt2095733efedf570762b18d167399e80b"
+                    "uid": "c6b2e69d6d905a58a781db80f2c53260"
                 }
             ],
             "inline_embed_id": "21399145instructorinterview:philosophicalchinese19295233",
+            "optional_tab_title": "",
+            "optional_text": "",
             "order_index": 68,
             "parent_uid": "4ae1516c220679142383e2f4136cf2f6",
             "related_resources_text": "",
+            "resource_index_text": "",
             "short_url": "instructor-interview-philosophical-chinese",
             "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-philosophical-chinese",
             "template_type": "popup",
             "title": "\u4e2d\u6587\u5feb\u73ed\u7684\u6559\u5b78\u54f2\u5b78 / \u4e2d\u6587\u5feb\u73ed\u7684\u6559\u5b66\u54f2\u5b66",
-            "transcript": "",
+            "transcript": "<p>1<br />00:00:00,000 --&gt; 00:00:05,770<br />\u6211<br />2</p><p>00:00:05,770 --&gt; 00:00:11,540<br />\u6211\u7684\u6559\u5b66\u4e3b\u8981\u7684\u54f2\u5b66\u5462\u5c31\u662f\u6211\u89c9\u5f97\u2f00\u4e00\u4e2a<br />3</p><p>00:00:11,540 --&gt; 00:00:19,811<br />\u2f00\u4e00\u4e2a\u8ba9\u5b66\u2f63\u751f\u89c9\u5f97\u80fd\u591f\u653e\u677e\u7684\u73af\u5883 \u7ed9\u4ed6\u4eec\u2f00\u4e00\u4e2a\u80fd\u591f\u653e\u677e\u7684\u73af\u5883\u6765\u5b66\u8bed\u2f94\u8a00\u662f\u6700\u91cd\u8981\u7684\u3002<br />4</p><p>00:00:19,811 --&gt; 00:00:29,643<br />\u56e0\u4e3a\uff0c\u5982\u679c\u4f60\u5f88\u7d27\u5f20\uff0c\u60f3\u8c61\u4f60<br />\u2f83\u81ea\u2f30\u5df1\u5728\u5b66\u82f1\u2f42\u6587\u6216\u5b66\u522b\u7684\u8bed\u2f94\u8a00\u7684\u65f6\u5019\uff0c\u4f60\u5f88\u7d27\u5f20\uff0c\u4f60\u80af\u5b9a\u662f\u8bf4\u4e0d\u51fa\u6765<br />5</p><p>00:00:29,643 --&gt; 00:00:37,552<br />\u4f60\u53ef\u80fd\u4f1a\u8bb0\u5f97\u2f0f\u51e0\u4e2a\u80cc\u4e0b\u6765\u7684\u53e5\u2f26\u5b50\uff0c\u53ef\u662f\u4f60\u8981\u8ddf\u522b\u2f08\u4eba\u4ea4\u8c08\u7684\u65f6\u5019\u5462\uff0c\u662f\u76f8\u5f53\u56f0\u96be\u7684<br />6</p><p>00:00:37,552 --&gt; 00:00:44,178<br />\u90a3\u6211\u662f\u600e\u4e48\u5229\u2f64\u7528\u8fd9\u4e2a\u60f3\u6cd5 \u5c31\u8d2f\u7a7f\u5728\u6211\u6559\u5b66\u7684\u8fd9\u4e2a\u8bfe\uff0c\u8fd9\u4e2a\u8def\u7a0b\u2fa5\u91cc\u5934\u5462<br />7</p><p>00:00:44,178 --&gt; 00:00:52,727<br />\u5c31\u662f\u5728\u4e24\u5e74\u4ee5\u524d\uff0c\u6211\u5c31\u662f\u6709\u2f00\u4e00\u4e2a\u673a\u4f1a\u53bb\u53c2\u52a0\u2f00\u4e00\u4e2a \u2f00\u4e00\u4e2a\u2f2f\u5de5\u4f5c\u574a\uff0c\u5b83\u7684\u90a3\u4e2a\u82f1\u2f42\u6587\u7684\u540d\u5b57\u53eb\u505a<br />8<br />00:00:52,727 --&gt; 00:00:59,353<br />Responsive Classroom\uff0c\u5c31\u662f\u56de\u5e94\u5f0f\u8bfe\u5802\u6559\u5b66\u6cd5<br />9</p><p>00:00:59,353 --&gt; 00:01:03,842<br />\u5b83\u4e3b\u8981\u7684\u662f\u2f00\u4e00\u4e2a\u6559\u80b2\u6cd5\uff0c\u5b83\u5e76\u4e0d\u662f\u2f00\u4e00\u4e2a\u6559\u5b66\u6cd5<br />10<br />00:01:03,842 --&gt; 00:01:11,965<br />\u6240\u4ee5\u5462\uff0c\u5b83\u4e3b\u8981\u7684\u5bf9\u8c61\u662f\u8fd9\u4e2a\u6240\u8c13\u7684\u7f8e\u56fd\u7684\u8fd9\u4e2ak-12\uff0c\u5c31\u662f\u4ece\u5e7c\u7a1a\u56ed\u5230<br />11<br />00:01:11,965 --&gt; 00:01:18,164<br />\u2fbc\u9ad8\u4e2d12\u5e74\u7ea7\uff0c\u4e3b\u8981\u7684\u2eab\u2f6c\u76ee\u7684\u5c31\u662f \u5c31\u662f\u628a\u8fd9\u4e2a\u2f29\u5c0f\u5b69\u2f26\u5b50\u4ed6\u4eec\u8fd9\u79cd<br />12</p><p>00:01:18,164 --&gt; 00:01:27,576<br />\u5728\u8fd9\u4e2a\u4e0a\u8bfe\u7684\u2f8f\u884c\u4e3a\u4e0a\u7684\u8fd9\u4e9b\u4e0d\u597d\u7684\u5730\u2f45\u65b9\u53bb\u6389 \u56e0\u4e3a\u4f60\u628a\u8fd9\u4e9b\u7f3a\u70b9\u53bb\u6389\u540e\uff0c\u5b66\u2f63\u751f\u80fd\u591f\u66f4\u4e13\u2f3c\u5fc3\u5730<br />\u5b66\u4e60\u3002<br />13 <br />00:01:27,576 --&gt; 00:01:34,840<br />\u53ef\u662f\u5728\u2f24\u5927\u5b66\u2fa5\u91cc\uff0c\u4e0d\u9700\u8981\u2f64\u7528\u8fd9\u79cd \u2f45\u65b9\u5f0f\uff0c\u53ef\u662f\u5b83\u5176\u4e2d\u6709\u2f00\u4e00\u4e9b\u5f88\u597d\u7684\u8fd9\u4e2a<br />14</p><p>00:01:34,840 --&gt; 00:01:40,409<br />\u600e\u4e48\u8bb2\uff0c\u7b56\u7565\u5462\uff0c\u6211\u89c9\u5f97\u662f\u2fae\u975e\u5e38\u9002\u2f64\u7528\u4e8e\u8fd9\u4e2a \u2f24\u5927\u5b66\u6559\u5b66\u7684\u3002<br />15</p><p>00:01:40,409 --&gt; 00:01:49,981<br />\u2f50\u6bd4\u5982\u8bf4\uff0c\u6709\u2f00\u4e00\u4e2a\u5730\u2f45\u65b9\u4ed6\u4eec\u53eb\u505a\u5efa\u2f74\u7acb\u2f00\u4e00\u4e2a\u793e\u7fa4 \u5c31\u662f\u8ba9\u5b66\u2f63\u751f\u8fdb\u2f0a\u5165\u8fd9\u4e2a\u6559\u5ba4\u2fa5\u91cc\u5934\uff0c\u4ed6\u89c9\u5f97\u2fae\u975e\u5e38\u5b89\u5168\u3001<br />16</p><p>00:01:49,981 --&gt; 00:01:54,332<br />\u2fae\u975e\u5e38\u653e\u677e \u7136\u540e\u5f88\u80fd\u591f\u2f83\u81ea\u7136\u5730\u2f64\u7528\u8fd9\u4e2a\u4e2d\u2f42\u6587\u6765\u4ea4\u8c08<br />17</p><p>00:01:54,332 --&gt; 00:02:01,296<br />\u6211\u53ef\u4ee5\u7ed9\u4e2a\uff0c\u2f00\u4e00\u4e2a\u4f8b\u2f26\u5b50\uff0c\u5c31\u662f\u8bf4\u6211\u600e\u4e48\u5b9e\u2f64\u7528\u7684\uff0c\u5b9e\u2f64\u7528\u8fd9\u4e2a\u4f8b\u2f26\u5b50\u3002<br />18</p><p>00:02:01,296 --&gt; 00:02:08,926<br />\u2f50\u6bd4\u5982\u8bf4\u2f00\u4e00\u5f00\u59cb<br />\u7b2c\u2f00\u4e00\u5802\u8bfe\u7684\u65f6\u5019\uff0c\u8fd9\u4e9b\u534e\u88d4\u7684\u5b66\u2f63\u751f\u5462\uff0c\u4ed6\u4eec\u672c\u6765\u5c31\u4f1a\u8bf4\u4e2d\u2f42\u6587\uff0c\u53ef\u662f\u5462\u4ed6\u4eec\u5e38\u5e38\u8ddf\u6211\u8bf4\uff1a\u2f7c\u8001\u5e08\uff0c-<br />19</p><p>00:02:08,926 --&gt; 00:02:14,120<br />\u6211\u7684\u4e2d\u2f42\u6587\u4e0d\u597d \u6211\u7684\u53d1\u2fb3\u97f3\u4e0d\u597d\uff0c\u6211\u4e0d\u6562\u8ddf\u522b\u2f08\u4eba\u8bf4\uff0c\u6211\u53ea\u6562\u8ddf\u6211\u7238\u7238\u5988\u5988\u8bf4\u3002<br />20</p><p>00:02:14,120 --&gt; 00:02:19,012<br />\u6240\u4ee5\u5e76\u4e0d\u662f\u8bf4\u4ed6\u4eec\u6709\u8fd9\u4e2a \u8bed\u2f94\u8a00\u80fd\u2f12\u529b\uff0c\u4ed6\u5c31\u80fd\u591f\u8868\u73b0\u51fa\u6765\u3002<br />21</p><p>00:02:19,012 --&gt; 00:02:27,866<br />\u6240\u4ee5\u5462\uff0c\u6211\u5f00\u59cb \u6211\u60f3\u6bcf\u2f00\u4e00\u4e2a\u8bed\u2f94\u8a00\u2f7c\u8001\u5e08\u5728\u7b2c\u2f00\u4e00\u5802\u8bfe\u7684\u65f6\u5019\u90fd\u8981\u6c42\u5b66\u2f63\u751f\u2f83\u81ea\u6211\u4ecb\u7ecd<br />\u6240\u4ee5\u6211\u4e5f\u505a\u540c\u6837\u7684\u2f83\u81ea\u6211\u4ecb\u7ecd\u3002<br />22</p><p>00:02:27,866 --&gt; 00:02:34,525<br />\u53ef\u662f\u5462\uff0c\u6211\u628a\u5b83\u53d8\u6210\u2f00\u4e00\u4e2a\u4e0d\u662f\u53ea\u662f\u7b2c\u2f00\u4e00\u5802\u8bfe\u505a\uff0c\u2f7d\u800c\u662f \u2f00\u4e00\u4e2a\u89c4\u5f8b\u6027\u7684\u4e1c\u2ec4\u897f\u3002<br />23<br />00:02:34,525 --&gt; 00:02:41,220<br />\u6bcf\u6bcf\u5802\u8bfe\u6211\u2f24\u5927\u6982\u82b1 \u4e0a\u65b0\u8bfe\u4e4b\u524d\u82b15\u523010\u5206\u949f\u8ba9\u5b66\u2f63\u751f\u505a\u8fd9\u4e2a\u6d3b\u52a8<br />24</p><p>00:02:41,220 --&gt; 00:02:49,460<br />\u2f00\u4e00\u5f00\u59cb\u7684\u65f6\u5019\uff0c\u6211\u4f1a\u8ba9\u5b66\u2f63\u751f\u6bcf\u4e2a\u2f08\u4eba\u628a\u4ed6\u7684 \u540d\u5b57\u5199\u5728\u2f00\u4e00\u5f20\u5361\u2f5a\u7247\u4e0a\u5934\uff0c\u7136\u540e\u653e\u5728\u6559\u5ba4\u7684\u4e2d\u95f4<br />25</p><p>00:02:49,460 --&gt; 00:02:55,870<br /> <br />\u7136\u540e\u6211\u5462\u4f1a\u5148\u5f00\u59cb\uff0c\u6240\u4ee5\u5b66\u2f63\u751f\u77e5\u9053\u6211\u5bf9\u4ed6\u7684\u8981\u6c42\u662f\u4ec0\u4e48\u6837\uff0c\u6240\u4ee5\u8fd9\u4e2a\u6240\u8c13\u7684modeling\uff0c\u8fd9\u4e2a<br />26</p><p>00:02:55,870 --&gt; 00:02:59,669<br />\u8fd9\u4e2a\u5efa\u2f74\u7acb\u2f00\u4e00\u4e2a\u8fd9\u4e2a\u3001 \u8fd9\u4e2a\u6a21\u5f0f\u662f\u2fae\u975e\u5e38\u91cd\u8981\u7684\u3002<br />27</p><p>00:02:59,669 --&gt; 00:03:04,325<br />\u56e0\u4e3a\u6709\u65f6\u5019\u4f60\u7ed9\u2f00\u4e00\u4e2a\u8bf4\u660e\uff0c\u5b66\u2f63\u751f\u4e0d\u2ec5\u89c1\u5f97 \u61c2\u4f60\u8981\u4ed6\u4eec\u505a\u4ec0\u4e48\u3002<br />28</p><p>00:03:04,325 --&gt; 00:03:09,863<br />\u6240\u4ee5\u5462\uff0c\u6211\u5c31\u4f1a\u95ee\u8bf4\uff0c\u6211\u62bd\u5230\u2f00\u4e00\u5f20\u540d\u5b57\uff0c\u54e6\uff0c\u4ed6\u53ef\u80fd\u53eb \u53eb\u505a\u6797\u2f29\u5c0f\u660e\u3002<br />29</p><p>00:03:09,863 --&gt; 00:03:19,720<br />\u7136\u540e\u6211\u8bf4\uff1a\u6797\u2f29\u5c0f\u660e\u4f60\u597d\uff0c\u4f60\u4eca\u5929\u600e\u4e48\u6837\uff0c\u6709\u2f0f\u51e0\u5802\u8bfe\uff1f<br />\u6628\u5929\u665a\u4e0a\u600e\u4e48\u6837\uff1f\u4ed6\u4f1a\u56de\u7b54\u6211\uff0c\u56de\u7b54\u6211\u8fd9\u4e9b\u95ee\u9898\u4e4b\u540e\uff0c\u7136\u540e\u6211\u5c31\u8ddf<br />30</p><p>00:03:19,720 --&gt; 00:03:24,910<br />\u5176\u4ed6\u7684\u5b66\u2f63\u751f\u8bf4\uff1a\u54e6\uff0c\u770b\u5230\u2f7c\u8001\u5e08\u505a\u4ec0\u4e48\u4e86\u5417\uff1f\u4e0b\u2faf\u9762\u4e5f\u662f\u8f6e\u7740\u4f60\u4eec<br />31</p><p>00:03:24,910 --&gt; 00:03:30,308<br />\u4f60\u4eec\u6765\u62bd\u2f00\u4e00\u4e2a\u540d\u5b57\uff0c\u53bb\u8ddf\u4f60\u7684\u540c\u5b66\uff0c\u5c31\u662f\uff0c\u7b49\u4e8e\u8bf4\u6253\u4e2a\u62db\u547c\u3002<br />32</p><p>00:03:30,308 --&gt; 00:03:38,070<br />\u8fd9\u6837\u7684\u8bdd\uff0c\u6240\u4ee5\u4ed6\u4eec \u8fd9\u6837\u7684\u5f62\u5f0f\u5462\uff0c\u4e0b\u53bb\u7684\u8bdd\uff0c\u2f24\u5927\u6982\u8fc7\u4e86\u4e24\u4e2a\u661f\u671f\u4e4b\u540e\u5462\uff0c\u4ed6\u4eec<br />33</p><p>00:03:38,070 --&gt; 00:03:44,720<br />\u5c31\u80fd\u591f\u8ba4\u8bc6\u6240\u6709\u7684\u540c\u5b66\uff0c\u7136\u540e\u5462\uff0c\u5728\u8fd9\u4e2a\u4ea4\u8c08\u4e4b\u4e4b\u4e2d\u5462\uff0c\u6709\u7684\u65f6\u5019\u6211<br />34</p><p>00:03:44,720 --&gt; 00:03:49,745<br />\u4f1a\u8d77\uff0c\u5c31\u662f\u600e\u4e48\u8bb2\uff0c\u53bb\u53d6\u2f00\u4e00\u4e24\u4e2a\u5b66\u2f63\u751f\u505a\u4f8b\u2f26\u5b50\uff0c\u6211\u4f1a\u8bf4\uff1a\u54e6<br />35</p><p>00:03:49,745 --&gt; 00:03:54,770<br />\u6797\u2f29\u5c0f\u660e\u6628\u5929\u665a\u4e0a\u5f88\u665a\u624d\u7761\uff0c\u4f60\u4eec\u60f3\u77e5\u9053\u4e3a\u4ec0\u4e48\u5417\uff1f\u4f60\u4eec\u53ef\u4ee5\u95ee\u4ed6\u95ee\u9898<br />36</p><p>00:03:54,770 --&gt; 00:04:01,458<br />\u6240\u4ee5\u7531\u5b66\u2f63\u751f\u6765\u53d1\u95ee\uff0c\u7136\u540e\u7531\u6797\u2f29\u5c0f\u660e\u6765\u56de\u7b54\uff0c\u5c31\u662f\u2f00\u4e00\u4e2a\u5f88\u2f83\u81ea\u7136\u7684\u8fd9\u4e2a \u4ea4\u6d41\u3002<br />37</p><p>00:04:01,458 --&gt; 00:04:07,074<br />\u2f7d\u800c\u4e0d\u662f\u8bf4\uff0c\u8981\u2f64\u7528\u4ec0\u4e48\u7279\u522b\u7684\u53e5\u578b \u8981\u2f64\u7528\u4ec0\u4e48\u7279\u522b\u7684\u8bcd\u6c47\u53bb\u95ee\u8fd9\u4e2a\u3002<br />38<br />00:04:07,074 --&gt; 00:04:12,098<br />\u56e0\u4e3a\u4ed6\u662f\u95ee\u4ed6\u2f63\u751f\u6d3b\u4e0a\u7684\u4e8b\u60c5 \u5b66\u2f63\u751f\u6700\u4f1a\u8bf4\u7684\u5c31\u662f\u4ed6\u4eec\u2f63\u751f\u6d3b\u4e0a\u7684\u4e8b\u60c5\u3002<br />39</p><p>00:04:12,098 --&gt; 00:04:19,140<br />\u90a3\u6211\u6709\u2f00\u4e00\u4e2a\u5b66\u2f63\u751f\u5462\uff0c\u5c31 \u5c31\u4ed6\u521a\u5f00\u59cb\u5c31\u5f88\u4e0d\u613f\u610f\u8bf4\uff0c\u53ef\u662f\u6211\u89c9\u5f97\u5230\u540e\u6765\u4ed6\u4e5f\u53d8\u6210\u4e86\u2f00\u4e00\u4e2a\u4e60\u60ef<br />40</p><p>00:04:19,140 --&gt; 00:04:26,990<br />\u7136\u540e\u6211\u8d8a\u6765\u5c31\u662f\u4e5f\u52a0\u6df1\uff0c\u6709\u7684\u65f6\u5019\u6211\u8981\u4ed6\u4eec\u8c08\u4ed6\u4eec\u6628\u5929\u7684\u529f\u8bfe\uff0c\u6709\u7684\u65f6\u5019\u6211\u8981\u5199\u2f00\u4e00\u4e2a<br />41</p><p>00:04:26,990 --&gt; 00:04:34,510<br />\u4ec0\u4e48\u4ec0\u4e48\u6837\u7684\u5bb6\u5ead\uff0c\u4ed6\u4eec\u53ef\u4ee5\u9009\u2ec4\u897f\u73ed\u2f5b\u7259\u2f08\u4eba\u7684\u5bb6\u5ead\uff0c\u610f\u2f24\u5927\u5229\u2f08\u4eba\u7684\u5bb6\u5ead\uff0c\u6216\u2f47\u65e5\u672c\u2f08\u4eba\u7684\u5bb6\u5ead\uff0c\u90fd\u53ef\u4ee5<br />42</p><p>00:04:34,510 --&gt; 00:04:37,664<br />\u7136\u540e\u6211\u8981\u4ed6\u4eec\u4e0a\u8bfe\u7684\u65f6\u5019\u8bf4\u2f00\u4e00\u8bf4\u4ed6\u4eec\u5199\u4ec0\u4e48\u3002<br />43</p><p>00:04:37,664 --&gt; 00:04:42,517<br />\u56e0\u4e3a\u2f00\u4e00\u822c\u6765\u8bf4\uff0c\u4ed6\u4eec\u5199\u4f5c\u2f42\u6587\u662f\u7ed9\u2f7c\u8001\u5e08\u770b\u7684 \u4ed6\u5e76\u4e0d\u77e5\u9053\u540c\u5b66\u5728\u5199\u4ec0\u4e48\u3002<br />44</p><p>00:04:42,517 --&gt; 00:04:50,362<br />\u6240\u4ee5\u8ba9\u4ed6\u4eec\u8bf4\u51fa\u6765\uff0c\u5c31\u662f\u8bf4\u4ed6\u4eec\uff0c\u2f50\u6bd4\u5982\u8bf4\u6211\u5199\u4e86\u2f47\u65e5\u672c\u2f08\u4eba\u7684\u5bb6\u5ead\uff0c\u7a0d\u5fae<br />\u8bf4\u2f00\u4e00\u4e0b\u2f47\u65e5\u672c\u2f08\u4eba\u5bb6\u5ead\u6709\u4ec0\u4e48\u7279\u522b\u3002<br />45</p><p>00:04:50,362 --&gt; 00:04:58,020<br />\u7136\u540e\u5462\uff0c\u6211\u518d\u9009\u4e24\u4e2a\u540c\u5b66\u8bf4\uff0c\u8fd9\u4e2a\u2f08\u4eba\u5199\u4e86<br />\u8fd9\u4e2a\u632a\u5a01\u2f08\u4eba\u7684\u5bb6\u5ead\uff0c\u8ddf\u4f60\u4eec\u90fd\u5f88\u4e0d\u2f00\u4e00\u6837\uff0c\u4f60\u4eec\u53ef\u4ee5\u95ee\u95ee\u4ed6\u3002<br />46</p><p>00:04:58,020 --&gt; 00:05:02,516<br />\u6240\u4ee5\u5b66\u2f63\u751f\u5462\u5c31 \u5f88\u2f83\u81ea\u7136\u5730\u8bf4\u4f60\u4e3a\u4ec0\u4e48\u9009\uff0c\u4f60\u662f\u4e0d\u662f\u8ba4\u8bc6\u4ec0\u4e48\u632a\u5a01\u2f08\u4eba\uff0c\u4f60\u600e\u4e48\u3002<br />47</p><p>00:05:02,516 --&gt; 00:05:06,877<br />\u5c31\u95ee\u4e86\u5f88\u591a\u5f88\u591a\u8fd9\u79cd \u95ee\u9898\uff0c\u90fd\u662f\u5f88\u2f83\u81ea\u7136\u7684\u2f00\u4e00\u79cd\u6c9f\u901a\u3002<br />48</p><p>00:05:06,877 --&gt; 00:05:14,620<br />\u8fd9\u662f\uff0c\u5c31\u662f\u4f60\u53ef\u4ee5\u6bcf\u5929\u52a0\u2f00\u4e00\u70b9\u8fd9\u4e9b\u4e1c\u2ec4\u897f\u8fdb\u53bb \u5c31\u662f\uff0c\u628a\u4ed6\u4eec\u80fd\u591f\u8bf4\u7684\u4e1c\u2ec4\u897f\u8303\u56f4\u6269\u2f24\u5927<br />49</p><p>00:05:14,620 --&gt; 00:05:19,860<br />\u90a3\u6709\u2f00\u4e00\u4e2a\u5b66\u2f63\u751f\u5462\uff0c\u5c31\u662f\u5728\u611f\u6069\u8282\u4e4b\u540e\uff0c\u5f88\u5174\u594b\u5730\u8dd1\u6765\u544a\u8bc9\u6211<br />50 <br />00:05:19,860 --&gt; 00:05:29,580<br />\u8bf4\u4ed6\u7684\u4e2d\u2f42\u6587\u8fdb\u6b65\u4e86\u5f88\u591a\uff0c\u56e0\u4e3a\u4ed6\u5230\u4ed6\u2f00\u4e00\u4e2a\u53d4\u53d4\u5bb6\uff0c\u4ed6\u53d4\u53d4\u2f00\u4e00\u53e5\u82f1\u2f42\u6587\u90fd\u4e0d\u4f1a\u8bf4<br />\u4e5d\u2f49\u6708\u4efd\u7684\u65f6\u5019\uff0c\u4ed6\u2ec5\u89c1\u4ed6\u7684\u53d4\u53d4\uff0c\u4ed6\u4eec\u4e0d\u80fd\u6c9f\u901a<br />51</p><p>00:05:29,580 --&gt; 00:05:35,195<br />\u540e\u6765\u5462\uff0c\u611f\u6069\u8282\uff0c\u4ed6\u5bb6\u592a\u8fdc\u4e86\uff0c\u4ed6\u5c31\u53bb\u4ed6\u53d4\u53d4\u5bb6\u8fc7 \u611f\u6069\u8282\uff0c\u7136\u540e\u4ed6\u3001<br />52</p><p>00:05:35,195 --&gt; 00:05:40,446<br />\u4ed6\u56de\u6765\u4ee5\u540e\u8ddf\u6211\u8bf4\uff0c\u4ed6\u6574\u4e2a\u611f\u6069\u8282\u90fd\u8ddf\u4ed6\u53d4\u53d4\u5728\u2f64\u7528\u4e2d\u2f42\u6587 \u4ea4\u6d41\u3002<br />53</p><p>00:05:40,446 --&gt; 00:05:45,595<br />\u4ed6\u53d4\u53d4\u8bf4\u4ed6\u7684\u4e2d\u2f42\u6587\u8fdb\u6b65\u5f88\u591a\u5f88\u591a\uff0c\u4ed6\u8dd1\u6765\u544a\u8bc9\u6211\u8bf4\uff1a\u554a\uff0c\u2f7c\u8001\u5e08<br />54</p><p>00:05:45,595 --&gt; 00:05:52,905<br />\u624d\u4e24\u4e2a\u2f49\u6708\uff0c\u6211\u4e2d\u2f42\u6587\u8fdb\u6b65\u4e86\u597d\u591a\uff0c\u6211\u53d4\u53d4\u90fd\u5413\u2f00\u4e00\u8df3\uff0c\u6211\u4eec\u53ef\u4ee5\u8bf4\u597d\u591a \u7136\u540e\u4ed6\u5c31\u2fae\u975e\u5e38\u5174\u594b\u3002<br />55</p><p>00:05:52,905 --&gt; 00:06:00,360<br />\u6240\u4ee5\u6211\u5c31\u77e5\u9053\u8fd9\u4e2a\u2f45\u65b9\u5f0f\u662f \u5c31\u662f\uff0c\u600e\u4e48\u8bb2\uff0c\u5728\u5728\u5b66\u2f63\u751f\u7684\u2f9d\u8eab\u4e0a\uff0c\u6211\u770b\u5230\u4e86\u2f00\u4e00\u4e2a\u6210\u6548</p>",
             "uid": "5fdcb67f1a8ee3b60fe3006920955657"
         },
         "29100947instructorinterview:lingtchinese68139252": {
             "about_this_resource_text": "",
             "embedded_media": [
-                {
-                    "id": "MIT21G_107F14_Lingt_zh-hans-cmn.pdf",
-                    "parent_uid": "a172f60ed9a68d33fe216f52b84a4295",
-                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-lingt-chinese/MIT21G_107F14_Lingt_zh-hans-cmn.pdf",
-                    "title": "MIT21G_107F14_Lingt_zh-hans-cmn",
-                    "type": null,
-                    "uid": "38c50434559fb0561d58565b2a886836"
-                },
-                {
-                    "id": "MIT21G_107F14_Lingt_zh-hans-cmn.srt",
-                    "parent_uid": "a172f60ed9a68d33fe216f52b84a4295",
-                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-lingt-chinese/MIT21G_107F14_Lingt_zh-hans-cmn.srt",
-                    "title": "MIT21G_107F14_Lingt_zh-hans-cmn.srt",
-                    "type": null,
-                    "uid": "718434b7c03b75511c47ed542aca6e15"
-                },
                 {
                     "id": "Video-YouTube-Stream",
                     "media_location": "Vd2xO_nF1gg",
@@ -316,20 +309,6 @@
                     "uid": "4f26cf5ed2d303937e0613bf6bc55c88"
                 },
                 {
-                    "id": "Subtitle-OCW-SRT",
-                    "parent_uid": "a172f60ed9a68d33fe216f52b84a4295",
-                    "title": "Subtitle-OCW-SRT-Chinese - PRC",
-                    "type": "Subtitle",
-                    "uid": "77de0bddd12c9d261f4395829b50dbfd"
-                },
-                {
-                    "id": "Transcript-OCW-PDF",
-                    "parent_uid": "a172f60ed9a68d33fe216f52b84a4295",
-                    "title": "Transcript-OCW-PDF-Chinese - PRC",
-                    "type": "Transcript",
-                    "uid": "3f89e1eae6eed8f1c0f70e16050cef35"
-                },
-                {
                     "id": "Video-iTunesU-MP4",
                     "media_location": "https://itunes.apple.com/us/itunes-u/id1066361132",
                     "parent_uid": "a172f60ed9a68d33fe216f52b84a4295",
@@ -338,44 +317,61 @@
                     "uid": "8a6f4c52352e47c563d4adc61a0fa989"
                 },
                 {
+                    "id": "MIT21G_107F14_Lingt_zh-hans-cmn.pdf",
+                    "parent_uid": "a172f60ed9a68d33fe216f52b84a4295",
+                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-lingt-chinese/MIT21G_107F14_Lingt_zh-hans-cmn.pdf",
+                    "title": "MIT21G_107F14_Lingt_zh-hans-cmn",
+                    "type": null,
+                    "uid": "38c50434559fb0561d58565b2a886836"
+                },
+                {
+                    "id": "MIT21G_107F14_Lingt_zh-hans-cmn.srt",
+                    "parent_uid": "a172f60ed9a68d33fe216f52b84a4295",
+                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-lingt-chinese/MIT21G_107F14_Lingt_zh-hans-cmn.srt",
+                    "title": "MIT21G_107F14_Lingt_zh-hans-cmn.srt",
+                    "type": null,
+                    "uid": "718434b7c03b75511c47ed542aca6e15"
+                },
+                {
+                    "id": "Transcript-OCW-PDF",
+                    "parent_uid": "a172f60ed9a68d33fe216f52b84a4295",
+                    "title": "Transcript-OCW-PDF-Chinese - PRC",
+                    "type": "Transcript",
+                    "uid": "1b932bb6a4f3c8480ad265f43cd8ed38"
+                },
+                {
+                    "id": "Caption-OCW-SRT",
+                    "parent_uid": "a172f60ed9a68d33fe216f52b84a4295",
+                    "title": "Caption-OCW-SRT-Chinese - PRC",
+                    "type": "Caption",
+                    "uid": "aa90588d9e73dc03e0044e4ccd9dcd55"
+                },
+                {
                     "id": "MIT21G_107F14_Lingt_zh-hans-cmn.vtt",
                     "parent_uid": "a172f60ed9a68d33fe216f52b84a4295",
                     "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-lingt-chinese/MIT21G_107F14_Lingt_zh-hans-cmn.vtt",
                     "title": "MIT21G_107F14_Lingt_zh-hans-cmn.srt",
                     "type": null,
-                    "uid": "vtt718434b7c03b75511c47ed542aca6e15"
+                    "uid": "b2d4bb0946c557dca9e7d1a184e7d53e"
                 }
             ],
             "inline_embed_id": "29100947instructorinterview:lingtchinese68139252",
+            "optional_tab_title": "",
+            "optional_text": "",
             "order_index": 86,
             "parent_uid": "4ae1516c220679142383e2f4136cf2f6",
             "related_resources_text": "",
+            "resource_index_text": "",
             "short_url": "instructor-interview-lingt-chinese",
             "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-lingt-chinese",
             "template_type": "popup",
             "title": "\u4f7f\u7528Lingt\u65bc\u8ab2\u5802\u6559\u5b78 / \u4f7f\u7528Lingt\u4e8e\u8bfe\u5802\u6559\u5b66",
-            "transcript": "",
+            "transcript": "<p>1<br />00:00:00,000 --&gt; 00:00:05,449<br />[\u7a7a\u2f69\u767d\u2fb3\u97f3\u9891] \u597d\u3002<br />2<br />00:00:05,449 --&gt; 00:00:12,228<br />\u6211\u5728\u8fd9\u5802\u8bfe\u5462\uff0c\u2f64\u7528\u4e86\u2f00\u4e00\u4e2a\u8fd9\u4e2a\u2eb4\u2f79\u7f51\u4e0a\u7684\u2f2f\u5de5\u5177\u53ebLingt \u4e8b\u5b9e\u4e0a\u8fd9\u4e2a\u3001<br />3<br />00:00:12,228 --&gt; 00:00:15,832<br />\u8fd9\u4e2a\u2f2f\u5de5\u5177\u662f\u4e24\u4e2aMIT\u5b66\u2f63\u751f\u53d1\u660e \u7684\u3002<br />4</p><p>00:00:15,832 --&gt; 00:00:25,027<br />\u6240\u4ee5\u5f88\u6709\u610f\u601d\uff0c\u4ed6\u4eec\u521a\u5f00\u59cb\u53d1\u660e\uff0c\u5c31\u662f\uff0c\u5c31\u662f<br />\u8fd9\u4e2a\uff0c\u505a\u8fd9\u4e2a\u7a0b\u5f0f\u7684\u65f6\u5019\uff0c\u4ed6\u8981\u6211\u4eec\u6765\uff0c\u597d\u50cf\u5f53\u2f00\u4e00\u4e2a\u8bd5\u9a8c\u54c1<br />5</p><p>00:00:25,027 --&gt; 00:00:31,392<br />\u6240\u4ee5\u5462\uff0c\u6211\u3001 \u6211\u4e4b\u6240\u4ee5\u2f64\u7528\u8fd9\u4e2a\uff0c\u8fd9\u4e2a\u2f2f\u5de5\u5177\u5c31\u662f\u6211\u53d1\u73b0\uff0c\u6211\u8981\u6c42\u5b66\u2f63\u751f\u5728\u5bb6\u2fa5\u91cc<br />6</p><p>00:00:31,392 --&gt; 00:00:38,465<br />\u51c6\u5907\uff0c\u56e0\u4e3a\u6211\u6bcf\u5802\u8bfe\u6559\u65b0\u8bfe\u4e4b\u524d\uff0c\u8981\u5b66\u2f63\u751f\u51c6\u5907\u597d\uff0c\u6240\u4ee5\u4ed6\u4eec\u5230\u8bfe\u5802\u4e0a\u80fd\u591f\u8ba8\u8bba\u8fd9\u4e2a\u8bfe<br />7</p><p>00:00:38,465 --&gt; 00:00:47,483<br />\u6211\u4e0d\u8981\u5c31\u662f\u82b1\u65f6\u95f4\u8ddf\u4ed6\u4eec\u8bb2\u89e3\uff0c\u90a3\u6211\u53d1\u73b0\u5c31\u662f\u5b66\u2f63\u751f\u5462\u5728\u5bb6\u2fa5\u91cc<br />\u771f\u7684\u662f\u5f88\u2f64\u7528\u529f\u5728\u5b66\u4e60\uff0c\u53ef\u662f\u4ed6\u4eec\u5b66\u4e60\u7684\u65f6\u5019\u5c31\u662f\u9ed8\u8bfb<br />8</p><p>00:00:47,483 --&gt; 00:00:57,214<br />\u4ed6\u53ef\u80fd\u4e0d\u8ba4\u8bc6\u8fd9\u4e2a\u8bcd\uff0c\u4ed6\u5c31\u7ffb\u5230\u8fd9\u4e2a\u8bcd\u6c47\u8868\uff0c\u4ec0\u4e48\u610f\u601d\u4ed6\u61c2\u4e86\uff0c\u53ef\u662f\u4ed6\u5c31\u662f\u6839\u672c\u6ca1\u6709\u60f3\u8981\u53bb<br />\u600e\u4e48\u3001 \u600e\u4e48\u8bf4\u8fd9\u4e2a\u8bcd\u3002<br />9</p><p>00:00:57,214 --&gt; 00:01:05,347<br />\u6240\u4ee5\u6211\u5c31\u53d1\u73b0<br />\u6211\u4e0a\u8bfe\u505a\u68c0\u67e5\u7684\u65f6\u5019\uff0c\u6211\u53d1\u73b0\u5f88\u591a\u5b66\u2f63\u751f\uff0c\u4ed6\u61c2\u610f\u601d\uff0c\u53ef\u662f\u4ed6\u4e0d\u4f1a\u8bf4\u8fd9\u4e2a\u8bcd\uff0c\u90a3\u6211\u89c9\u5f97\u5c31\u8ddf\u6ca110</p><p>00:01:05,347 --&gt; 00:01:10,190<br />\u5b66\u4e60\u2f00\u4e00\u6837 \u56e0\u4e3a\u4f60\u5b66\u4e86\u2f00\u4e00\u4e2a\u8bcd\uff0c\u4f60\u4e0d\u4f1a\u2f64\u7528\uff0c\u4f60\u4e5f\u4e0d\u4f1a\u53d1\u2fb3\u97f3\uff0c\u8fd9\u8ddf\u6ca1\u5b66\u2f00\u4e00\u6837<br />11</p><p>00:01:10,190 --&gt; 00:01:16,410<br />\u867d\u7136\u770b\u5f97\u61c2\uff0c\u6240\u4ee5\u5462\u6211\u5c31\u60f3\u5230\u2f64\u7528\u8fd9\u4e2a\u5f55\u2fb3\u97f3\u7684\u2f45\u65b9\u5f0f\uff0c\u5c31\u662f\u4ed6\u4eec\u4e0a\u8bfe\uff0c\u4e0a\u65b0\u8bfe\u4e4b\u524d<br />12</p><p>00:01:16,410 --&gt; 00:01:23,570<br />\u6bcf\u4e2a\u2f08\u4eba\u5462\u90fd\u2f00\u4e00\u5b9a\u8981\u628a\u8bfe\u2f42\u6587\u5ff5\u2f00\u4e00\u904d\uff0c\u7136\u540e\u628a\u4ed6\u4eec\u7684\u58f0\u2fb3\u97f3\u5f55\u4e0b\u6765\uff0c\u8fd9\u6837\u903c\u4ed6\u4eec\u8981<br />13</p><p>00:01:23,570 --&gt; 00:01:30,229<br />\u82b1\u65f6\u95f4\u628a\u6bcf\u2f00\u4e00\u4e2a\u8bcd\u6c47\u90fd\u5b66\u4f1a\u600e\u4e48\u5ff5 \u90a3\u6211\u89c9\u5f97\u8fd9\u4e2a\u5462\uff0c\u6548\u679c\u5c31\u4f1a\u597d\u5f88\u591a\u3002<br />14</p><p>00:01:30,229 --&gt; 00:01:38,224<br />\u90a3\u6709\u7684\u5b66\u2f63\u751f\u5462\u4ed6\u5c31\u662f \u2fae\u975e\u5e38\u5730\u3001<br />\u2fae\u975e\u5e38\u5730\u597d\u5f3a\uff0c\u4ed6\u4f1a\u5ff5\u2f17\u5341\u904d\u4ee5\u540e\u4ed6\u624d\u5f55\uff0c\u56e0\u4e3a\u4ed6\u8981\u89c9\u5f97\u8fd9\u4e2a \u8fd9\u4e2a\u5f55\u2fb3\u97f3\u2fae\u975e\u5e38\u5730\u5b8c\u7f8e\u3002<br />15</p><p>00:01:38,224 --&gt; 00:01:46,105<br />\u90a3\u4ed6\u5ff5\u2f17\u5341\u904d\u4ee5\u540e\uff0c\u4ed6\u6839\u672c\u5c31\u662f\u8bfe\u2f42\u6587\u5c31\u80cc\u4e0b\u6765\u4e86\uff0c\u6839\u672c<br />\u6240\u4ee5\u4e0a\u8bfe\u7684\u65f6\u5019\u8981\u76f4\u63a5\u8fdb\u2f0a\u5165\u8fd9\u4e2a\u8ba8\u8bba\u7684\u65f6\u5019<br />16</p><p>00:01:46,105 --&gt; 00:01:54,150<br />\u6211\u4e0d\u2f64\u7528\u518d\u82b1\u65f6\u95f4\u89e3\u91ca\u8fd9\u4e2a\u8bcd\u600e\u4e48\u5ff5\u8fd9\u79cd\uff0c\u8fd9\u79cd \u2f50\u6bd4\u8f83\u4e0d\u91cd\u8981\u7684\u5730\u2f45</p>",
             "uid": "a172f60ed9a68d33fe216f52b84a4295"
         },
         "31539751instructorinterview:assessingchinese95288610": {
             "about_this_resource_text": "",
             "embedded_media": [
-                {
-                    "id": "MIT21G_107F14_Assessment_zh-hans-cmn.pdf",
-                    "parent_uid": "a8e8e026bdb498b05062ad2b5f671106",
-                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-assessing-chinese/MIT21G_107F14_Assessment_zh-hans-cmn.pdf",
-                    "title": "MIT21G_107F14_Assessment_zh-hans-cmn",
-                    "type": null,
-                    "uid": "08b2fd37a6ba66737e148c135e5b8721"
-                },
-                {
-                    "id": "MIT21G_107F14_Assessment_zh-hans-cmn.srt",
-                    "parent_uid": "a8e8e026bdb498b05062ad2b5f671106",
-                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-assessing-chinese/MIT21G_107F14_Assessment_zh-hans-cmn.srt",
-                    "title": "MIT21G_107F14_Assessment_zh-hans-cmn.srt",
-                    "type": null,
-                    "uid": "ab096491b95126dcd4f3085bf7ea7c87"
-                },
                 {
                     "id": "Video-YouTube-Stream",
                     "media_location": "QLVFxgVpg1w",
@@ -401,20 +397,6 @@
                     "uid": "e052dd014c07a63548c05e2f8268c012"
                 },
                 {
-                    "id": "Subtitle-OCW-SRT",
-                    "parent_uid": "a8e8e026bdb498b05062ad2b5f671106",
-                    "title": "Subtitle-OCW-SRT-Chinese - PRC",
-                    "type": "Subtitle",
-                    "uid": "71ab4e9fdbbcaf947d2a62fd78f99144"
-                },
-                {
-                    "id": "Transcript-OCW-PDF",
-                    "parent_uid": "a8e8e026bdb498b05062ad2b5f671106",
-                    "title": "Transcript-OCW-PDF-Chinese - PRC",
-                    "type": "Transcript",
-                    "uid": "690981c89aaa189d0ad6ad98dcf22132"
-                },
-                {
                     "id": "Video-iTunesU-MP4",
                     "media_location": "https://itunes.apple.com/us/itunes-u/id1066361132",
                     "parent_uid": "a8e8e026bdb498b05062ad2b5f671106",
@@ -423,23 +405,56 @@
                     "uid": "02bc58d2ccc34eeeb66351c9f18cb05e"
                 },
                 {
+                    "id": "MIT21G_107F14_Assessment_zh-hans-cmn.pdf",
+                    "parent_uid": "a8e8e026bdb498b05062ad2b5f671106",
+                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-assessing-chinese/MIT21G_107F14_Assessment_zh-hans-cmn.pdf",
+                    "title": "MIT21G_107F14_Assessment_zh-hans-cmn",
+                    "type": null,
+                    "uid": "08b2fd37a6ba66737e148c135e5b8721"
+                },
+                {
+                    "id": "MIT21G_107F14_Assessment_zh-hans-cmn.srt",
+                    "parent_uid": "a8e8e026bdb498b05062ad2b5f671106",
+                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-assessing-chinese/MIT21G_107F14_Assessment_zh-hans-cmn.srt",
+                    "title": "MIT21G_107F14_Assessment_zh-hans-cmn.srt",
+                    "type": null,
+                    "uid": "ab096491b95126dcd4f3085bf7ea7c87"
+                },
+                {
+                    "id": "Transcript-OCW-PDF",
+                    "parent_uid": "a8e8e026bdb498b05062ad2b5f671106",
+                    "title": "Transcript-OCW-PDF-Chinese - PRC",
+                    "type": "Transcript",
+                    "uid": "674afd2ff1b1909c98b75d493f999ad2"
+                },
+                {
+                    "id": "Caption-OCW-SRT",
+                    "parent_uid": "a8e8e026bdb498b05062ad2b5f671106",
+                    "title": "Caption-OCW-SRT-Chinese - PRC",
+                    "type": "Caption",
+                    "uid": "2d3962602b6c3bbb4cb3cf8379ad607b"
+                },
+                {
                     "id": "MIT21G_107F14_Assessment_zh-hans-cmn.vtt",
                     "parent_uid": "a8e8e026bdb498b05062ad2b5f671106",
                     "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-assessing-chinese/MIT21G_107F14_Assessment_zh-hans-cmn.vtt",
                     "title": "MIT21G_107F14_Assessment_zh-hans-cmn.srt",
                     "type": null,
-                    "uid": "vttab096491b95126dcd4f3085bf7ea7c87"
+                    "uid": "4f1f99bd28c6505ba209d2b90cbe6c81"
                 }
             ],
             "inline_embed_id": "31539751instructorinterview:assessingchinese95288610",
+            "optional_tab_title": "",
+            "optional_text": "",
             "order_index": 95,
             "parent_uid": "4ae1516c220679142383e2f4136cf2f6",
             "related_resources_text": "",
+            "resource_index_text": "",
             "short_url": "instructor-interview-assessing-chinese",
             "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-assessing-chinese",
             "template_type": "popup",
             "title": "\u8a55\u91cf\u5b78\u751f\u7684\u8a9e\u8a00\u5b78\u7fd2 / \u8bc4\u91cf\u5b66\u751f\u7684\u8bed\u8a00\u5b66\u4e60",
-            "transcript": "",
+            "transcript": "<p>1<br />00:00:00,000 --&gt; 00:00:07,175<br />\u2f84\u81f3\u4e8e\u8981\u600e\u4e48<br />2</p><p>00:00:07,175 --&gt; 00:00:14,350<br />\u8bc4\u4f30\u5b66\u2f63\u751f\u7684\u8fd9\u4e2a\u2f54\u6c34\u5e73\u5462\uff1f\u5c31\u5c31\u5b66\u4e60\u4e4b\u540e\u600e\u4e48\u8bc4\u4f30\u4ed6\u4eec\uff0c\u6211\u89c9\u5f97\u8fd9\u662f\u2f00\u4e00\u4e2a\u5f88\u2f24\u5927\u7684<br />3</p><p>00:00:14,350 --&gt; 00:00:20,790<br />\u5f88\u2f24\u5927\u7684\u2f00\u4e00\u4e2a\u96be\u9898\uff0c\u56e0\u4e3a\u5982\u679c\u662f\u2f00\u4e00\u822c\u7684\u666e\u901a\u73ed\u7684\u8bdd\u4f60\u6709\u529e\u6cd5\uff0c\u56e0\u4e3a\u4ed6\u4eec<br />4</p><p>00:00:20,790 --&gt; 00:00:28,360<br />\u8d77\u8d77\u2f9c\u8db3\u70b9\u662f\u2f00\u4e00\u6837\u7684\uff0c\u6240\u4ee5\u4ed6\u4eec\u5b66\u4e60\u591a\u5c11\uff0c\u7ecf\u8fc7\u8003\u8bd5\u3001 \u4e0a\u8bfe\u7684\u7ec3\u4e60\uff0c\u4f60\u53ef\u4ee5\u770b\u5230\u5b66\u2f63\u751f\u7684\u8fdb\u6b65<br />5</p><p>00:00:28,360 --&gt; 00:00:33,490<br />\u5bf9\u4e8e\u8fd9\u4e9b\u5feb\u73ed\u7684\u5b66\u2f63\u751f\u6765\u8bf4\uff0c\u4ed6\u4eec\u7684\u2f74\u7acb\u2f9c\u8db3\u70b9\u662f\u4e0d\u540c\u7684\uff0c\u6240\u4ee5\u5f88\u96be<br />6</p><p>00:00:33,490 --&gt; 00:00:40,990<br />\u4ed6\u4eec\uff0c\u6211\u4eec\u867d\u7136\u8003\u8bd5\uff0c\u6709\u5f88\u591a\u5f88\u591a\u2f29\u5c0f\u8003\uff0c\u6709\u542c\u5199\uff0c\u6709\u8fd9\u4e2a\u2f24\u5927\u7684\u8003\u8bd5\u4ec0\u4e48\uff0c\u8fd8\u6709\u8bfe\u5802\u7684\u4f5c\u4e1a<br />7</p><p>00:00:40,990 --&gt; 00:00:48,770<br />\u8fd9\u4e9b\u90fd\u6709\uff0c\u53ef\u662f\u5462\uff0c\u2f00\u4e00\u4e2a\u5b66\u2f63\u751f\u5230\u5e95\uff0c\u5230\u5e95\u8fdb\u6b65\u591a\u5c11\uff0c\u8fd9\u662f\u5f88\u96be\u53bb<br />8</p><p>00:00:48,770 --&gt; 00:00:56,550<br />\u53bb\u62ff\u62ff\u634f\u7684\uff0c\u5f53\u7136\u6211\u8fd9\u4e2a\u8bfe\u4ee5\u540e\uff0c\u6211\u5bf9\u4ed6\u4eec\u7684\u671f\u671b\u662f\u4ed6\u4eec\u7edd\u5bf9\u8981\u8fbe\u5230\u8fd9\u4e2a\u4e2d\u2fbc\u9ad8\u7ea7\u5230\u8fd9\u4e2a<br />9</p><p>00:00:56,550 --&gt; 00:01:00,720<br />\u2fbc\u9ad8\u7ea7\uff0c\u2fbc\u9ad8\u521d\u7684\uff0c\u2fbc\u9ad8\u7ea7\u521d\u7b49\u7684\u8fd9\u4e2a\u9636\u6bb5\u3002<br />10</p><p>00:01:00,720 --&gt; 00:01:02,855<br />\u8d77\u7801\u5c31\u662f\u5728\u8fd9\u4e2a\u9636\u6bb5\u3002<br />11</p><p>00:01:02,855 --&gt; 00:01:12,582<br />\u8fd9\u4e2a\u6211\u53ef\u4ee5\uff0c\u5c31\u662f\u8bf4\u8bbe\u5b9a \u53ef\u662f\u5462\uff0c\u4e2a\u2f08\u4eba\u7684\u8fd9\u4e2a\u8fdb\u6b65\u662f\u5f88\u96be\u62ff\u5b9a\u7684<br />\u56e0\u4e3a\u6bcf\u4e2a\u2f08\u4eba\u7684\u8fd9\u4e2a\u2f74\u7acb\u2f9c\u8db3\u70b9\u4e0d\u540c\u3002<br />12</p><p>00:01:12,582 --&gt; 00:01:18,900<br />\u6240\u4ee5\u6211\u80fd\u591f \u627e\u5230\u2f00\u4e00\u4e2a\uff0c\u6d4b\u8bd5\u2f00\u4e00\u4e2a\u8bc4\u4f30\u7684\u2f45\u65b9\u5f0f\u5c31\u662f\u8ba9\u4ed6\u4eec\u5728\u5199\u4f5c\u4e1a\uff0c\u56e0\u4e3a\u5199\u4f5c\u4e1a\u7684\u65f6\u5019\u5462<br />13</p><p>00:01:18,900 --&gt; 00:01:26,600<br />\u662f\u6ca1\u6709\u2f08\u4eba\u5728\u65c1\u8fb9\u770b\uff0c\u6240\u4ee5\u4ed6\u53ef\u4ee5\u2f50\u6bd4\u8f83\u4e13\u2f3c\u5fc3\uff0c\u4ed6\u613f\u4e0d\u613f\u610f\u2f64\u7528\u8fd9\u4e2a\u65b0\u7684\u2f63\u751f\u8bcd\uff0c\u8fd9\u662f\u5f88\u91cd\u8981\u7684<br />14<br />00:01:26,600 --&gt; 00:01:33,810<br />\u56e0\u4e3a\u8fd9\u4e9b\u5b66\u2f63\u751f\u4ed6\u4eec\u2f50\u6bd4\u8f83\u559c\u6b22\u5462\uff0c\u5c31\u7559\u5728\u4ed6\u4eec\u6240\u77e5\u9053\u7684\u8303\u56f4\u2fa5\u91cc\u5934<br />15</p><p>00:01:33,810 --&gt; 00:01:41,020<br />\u53ea\u8981\u8bf4\u51fa\u6765\u8fd9\u4e2a\u53e5\u2f26\u5b50\u6b63\u786e\u3001 \u8fd9\u4e2a\u610f\u601d\u6e05\u695a\uff0c\u4ed6\u5c31\u4e0d\u613f\u610f\u2f64\u7528\u8fd9\u4e2a\u65b0\u7684\u8bcd\u8bed<br />16</p><p>00:01:41,020 --&gt; 00:01:45,530<br />\u5728\u8fd9\u4e2a\u5b66\u65b0\u8bcd\u8bed\u7684\u65f6\u5019\uff0c\u6211\u4e0a\u8bfe\u65f6\u5019\u4f1a\u8ddf\u4ed6\u4eec\u89e3\u91ca\uff0c\u56e0\u4e3a<br />17</p><p>00:01:45,530 --&gt; 00:01:51,530<br />\u8fd9\u4e2a\u8bfe\u672c\u7ed9\u8fd9\u4e2a\u65b0\u7684\u2f63\u751f\u8bcd\uff0c\u5b83\u4f1a\u7ed9\u2f00\u4e00\u4e2a\u8fd9\u4e2a\u89e3\u91ca\uff0c\u89e3\u91ca\u7684\u65f6\u5019\u662f\u2f64\u7528\u82f1\u2f42\u6587\u7684<br />18</p><p>00:01:51,530 --&gt; 00:02:00,490<br />\u53ef\u662f\u5462\uff0c\u867d\u7136\u662f\u82f1\u2f42\u6587\u662f\u8fd9\u4e2a\u89e3\u91ca\uff0c\u8fd9\u4e2a\uff0c\u8fd9\u4e2a\u4e2d\u2f42\u6587\u5462\u4e0d\u80fd \u2f64\u7528\u7684\u65f6\u5019\u662f\u5f88\u4e0d\u540c\u7684\uff0c\u4e0d\u80fd\u8fd9\u4e48\u2f64\u7528<br />19</p><p>00:02:00,490 --&gt; 00:02:10,270<br />\u6240\u4ee5\u5462\uff0c\u5443\uff0c\u2f50\u6bd4\u5982\u8bf4\u50cf\u8fd9\u4e2a\u5c0a\u656c\u8fd9\u4e2a\u8bcd<br />\u6211\u8fd9\u4e2a\u7a81\u7136\u60f3\u8d77\u6765\uff0c\u5c31\u5c0a\u656c\u8fd9\u4e2a\u8bcd\uff0c\u5728\u4e2d\u2f42\u6587\u5462\u662f\u6709\u7b49\u7ea7\u7684\uff0c\u2f00\u4e00\u5b9a\u662f\u4e0b\u5bf9\u4e0a<br />20</p><p>00:02:10,270 --&gt; 00:02:15,820<br />\u4f60\u4e0d\u80fd\u4e0a\u5bf9\u4e0b\u5c0a\u656c\uff0c\u4e0d\u80fd\u8bf4\u2f7c\u8001\u5e08\u5c0a\u656c\u4f60\uff0c\u8fd9\u662f\u5f88\u5947\u602a\u7684\uff0c\u53ef\u662f\u5982\u679c\u4f60\u2f64\u7528\u4e2d\u2f42\u6587\uff0c\u82f1\u2f42\u6587<br />21<br />00:02:15,820 --&gt; 00:02:24,160<br />respect\uff0c\u662f\u4e24\u2f45\u65b9\u2faf\u9762\u90fd\u53ef\u4ee5\u7684\uff0c\u6240\u4ee5\u50cf\u8fd9\u4e2a\u5730\u2f45\u65b9\u6211<br />\u53ef\u4ee5\u8bf4\uff0c\u90a3\u5c31\u662f\u8bf4\uff0c\u5b66\u2f63\u751f\u5462\u5728\u5199\u2f42\u6587\u7ae0\u7684\u65f6\u5019\u613f\u4e0d\u613f\u610f<br />22</p><p>00:02:24,160 --&gt; 00:02:31,290<br />\u5c31\u662f\u5728\u4ed6\u4eec\u77e5\u9053\u7684\u8bcd\u5e93\u2fa5\u91cc\u5934\u52a0\u65b0\u8bcd\uff0c\u6211\u89c9\u5f97\u8fd9\u4e2a\u662f\uff0c\u5c31\u662f\uff0c\u53ef\u4ee5\u770b\u5230\u4e2a\u2f08\u4eba\u4ed6\u4eec\u613f\u4e0d\u613f\u610f<br />23</p><p>00:02:31,290 --&gt; 00:02:37,990<br />\u628a\u4ed6\u4eec\u7684\u8fd9\u4e2a\u8bed\u2f94\u8a00\u80fd\u2f12\u529b\u6269\u5c55\uff0c\u5c31\u5728\u8fd9\u2fa5\u91cc\uff0c\u6211\u89c9\u5f97\u5728\u8fd9\u2fa5\u91cc\uff0c\u6211\u53ef\u4ee5\u770b\u5230\u8fd9\u4e2a\u4e2a\u2f08\u4eba\u7684\u2f00\u4e00\u79cd\u8fdb\u6b65<br />24</p><p>00:02:37,990 --&gt; 00:02:44,108<br />\u53ef\u662f\u8fd9\u4e2a\uff0c\u2f1c\u53c8\uff0c\u8bdd\u2f1c\u53c8\u8bf4\u56de\u6765\u4e86\uff0c\u5c31\u662f\u8bf4 \u8fd9\u662f\u2f00\u4e00\u4e2a\u5f88\u2f24\u5927\u7684\u96be\u70b9\u3002<br />25</p><p>00:02:44,108 --&gt; 00:02:51,950<br />\u6211\u8fd8\u5728\u60f3\uff0c\u8981\u600e\u4e48\u6837\u6d4b\u8bd5\u5b66\u2f63\u751f \u5f53\u7136\u6211\u4ee5\u524d\u505a\u8fc7\u2f00\u4e00\u4e9b\u2f83\u81ea\u6211\u6d4b\u8bd5\uff0c\u2f50\u6bd4\u5982\u8bf4<br />26 <br />00:02:51,950 --&gt; 00:03:00,648<br />\u6211\u73b0\u5728\u60f3\u8d77\u6765\u90a3\u4e2a\u53eblingua folio<br />\u5c31\u662f\u4f60\u5efa\u2f74\u7acb\u2f00\u4e00\u4e2afolio\uff0c\u7136\u540e\u8bf4\u6211\u8fd9\u4e2a\u53ef\u4ee5\u505a\uff0c\u90a3\u4e2a\u4e0d\u80fd\u505a\uff0c\u6211\u73b0\u5728\u80fd \u505a\u4ec0\u4e48\u3002<br />27</p><p>00:03:00,648 --&gt; 00:03:07,670<br />\u53ef\u662f\u6211\u89c9\u5f97\uff0c\u91cd\u70b9\u662f\uff0c\u6211\u95ee\u7684\u95ee\u9898\u8981\u95ee\u5f97\u5f88 \u5f88\u9002\u5f53\uff0c\u8fd9\u6837\u4ed6\u4eec\u624d\u80fd\u591f\u56de\u7b54\u5f97\u5f88\u6e05\u695a<br />28</p><p>00:03:07,670 --&gt; 00:03:10,920<br />\u90a3\u8fd9\u4e2a\u6211\u8fd8\u5728\u7ee7\u7eed\u52aa\u2f12\u529b\uff0c\u7ee7\u7eed\u60f3</p>",
             "uid": "a8e8e026bdb498b05062ad2b5f671106"
         },
         "36070579instructorinterview:philosophical59173337": {
@@ -478,36 +493,6 @@
                     "uid": "5319c1eda2c5ec3f4acd0e536f1f5c2b"
                 },
                 {
-                    "id": "9RZa3zBruVA.srt",
-                    "parent_uid": "961ffe2b512058c285c6aac54adf9d3d",
-                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-philosophical/9RZa3zBruVA.srt",
-                    "title": "3play caption file",
-                    "type": null,
-                    "uid": "c6d2dcd3dcf63534726e526b9ef5c7c0"
-                },
-                {
-                    "id": "9RZa3zBruVA.pdf",
-                    "parent_uid": "961ffe2b512058c285c6aac54adf9d3d",
-                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-philosophical/9RZa3zBruVA.pdf",
-                    "title": "3play pdf file",
-                    "type": null,
-                    "uid": "4fa8f89c234ce05791fc546a20b2c21e"
-                },
-                {
-                    "id": "Subtitle-3Play YouTube id-SRT",
-                    "parent_uid": "961ffe2b512058c285c6aac54adf9d3d",
-                    "title": "Subtitle-3Play YouTube id-SRT-English - US",
-                    "type": "Subtitle",
-                    "uid": "d7f28e142329b04389ea59c8aa4a8901"
-                },
-                {
-                    "id": "Transcript-3Play YouTube id-PDF",
-                    "parent_uid": "961ffe2b512058c285c6aac54adf9d3d",
-                    "title": "Transcript-3Play YouTube id-PDF-English - US",
-                    "type": "Transcript",
-                    "uid": "317b5227bcc2ddc885425326391cc190"
-                },
-                {
                     "id": "Video-iTunesU-MP4",
                     "media_location": "https://itunes.apple.com/us/itunes-u/id1066361132",
                     "parent_uid": "961ffe2b512058c285c6aac54adf9d3d",
@@ -516,18 +501,51 @@
                     "uid": "d1f3ece5b3f3053b2fcf440ef2359ab8"
                 },
                 {
+                    "id": "9RZa3zBruVA.srt",
+                    "parent_uid": "961ffe2b512058c285c6aac54adf9d3d",
+                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-philosophical/9RZa3zBruVA.srt",
+                    "title": "3play caption file",
+                    "type": null,
+                    "uid": "6c45115a0a518bd625cb4ffb7f4d2bf9"
+                },
+                {
+                    "id": "9RZa3zBruVA.pdf",
+                    "parent_uid": "961ffe2b512058c285c6aac54adf9d3d",
+                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-philosophical/9RZa3zBruVA.pdf",
+                    "title": "3play pdf file",
+                    "type": null,
+                    "uid": "f10f486e29a59703a0acbeb5b35943bb"
+                },
+                {
+                    "id": "Caption-3Play YouTube id-SRT",
+                    "parent_uid": "961ffe2b512058c285c6aac54adf9d3d",
+                    "title": "Caption-3Play YouTube id-SRT-English - US",
+                    "type": "Caption",
+                    "uid": "582e886fed95c77722374a1ce149e315"
+                },
+                {
+                    "id": "Transcript-3Play YouTube id-PDF",
+                    "parent_uid": "961ffe2b512058c285c6aac54adf9d3d",
+                    "title": "Transcript-3Play YouTube id-PDF-English - US",
+                    "type": "Transcript",
+                    "uid": "fb7e40f6a8b5bb9ccd569529e699cffc"
+                },
+                {
                     "id": "9RZa3zBruVA.vtt",
                     "parent_uid": "961ffe2b512058c285c6aac54adf9d3d",
                     "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-philosophical/9RZa3zBruVA.vtt",
                     "title": "3play caption file",
                     "type": null,
-                    "uid": "vttc6d2dcd3dcf63534726e526b9ef5c7c0"
+                    "uid": "78ecf57fa0b7563bbe0bb566a70ff131"
                 }
             ],
             "inline_embed_id": "36070579instructorinterview:philosophical59173337",
+            "optional_tab_title": "",
+            "optional_text": "",
             "order_index": 18,
             "parent_uid": "4ae1516c220679142383e2f4136cf2f6",
             "related_resources_text": "",
+            "resource_index_text": "",
             "short_url": "instructor-interview-philosophical",
             "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-philosophical",
             "template_type": "popup",
@@ -571,82 +589,69 @@
                     "uid": "c97dde1cb9b33ed8044a360fb241d5cc"
                 },
                 {
-                    "id": "3Play-3PlayYouTubeid-MP4",
-                    "media_location": "M_gQolc3clM",
+                    "id": "3Play-3PlayVideoid-MP4",
+                    "media_location": "805687",
                     "parent_uid": "58a6c062c3801594c1010c9bacadde98",
-                    "title": "3Play-3Play YouTube id",
+                    "title": "3Play-3Play Video id",
                     "type": "3Play",
                     "uid": "41ccb69f084afd92ef10014f77e6c949"
                 },
                 {
-                    "id": "M_gQolc3clM.srt",
+                    "id": "805687.srt",
                     "parent_uid": "58a6c062c3801594c1010c9bacadde98",
-                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-meet-the-educator/M_gQolc3clM.srt",
+                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-meet-the-educator/805687.srt",
                     "title": "3play caption file",
                     "type": null,
-                    "uid": "a06a088a86aa9ef2b5d21f02a04109fa"
+                    "uid": "402ff3c752ebaa2f658b97c38f9ec267"
                 },
                 {
-                    "id": "M_gQolc3clM.pdf",
+                    "id": "805687.pdf",
                     "parent_uid": "58a6c062c3801594c1010c9bacadde98",
-                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-meet-the-educator/M_gQolc3clM.pdf",
+                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-meet-the-educator/805687.pdf",
                     "title": "3play pdf file",
                     "type": null,
-                    "uid": "acf8cbbcf3ada9e7b0d390c8b4f8b1e6"
+                    "uid": "12ce94b436f985c25f044f104fc4ca2e"
                 },
                 {
-                    "id": "Subtitle-3Play YouTube id-SRT",
+                    "id": "Caption-3Play Video id-SRT",
                     "parent_uid": "58a6c062c3801594c1010c9bacadde98",
-                    "title": "Subtitle-3Play YouTube id-SRT-English - US",
-                    "type": "Subtitle",
-                    "uid": "3250d13e3e181b75a6ba743dd2d4baac"
+                    "title": "Caption-3Play Video id-SRT-English - US",
+                    "type": "Caption",
+                    "uid": "ece8e6cee900c986224abd744c272aef"
                 },
                 {
-                    "id": "Transcript-3Play YouTube id-PDF",
+                    "id": "Transcript-3Play Video id-PDF",
                     "parent_uid": "58a6c062c3801594c1010c9bacadde98",
-                    "title": "Transcript-3Play YouTube id-PDF-English - US",
+                    "title": "Transcript-3Play Video id-PDF-English - US",
                     "type": "Transcript",
-                    "uid": "b4a09dbd528a8955448b1d4c3069f53b"
+                    "uid": "d12e843ca1f5944122a7988c04c72d65"
                 },
                 {
-                    "id": "M_gQolc3clM.vtt",
+                    "id": "805687.vtt",
                     "parent_uid": "58a6c062c3801594c1010c9bacadde98",
-                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-meet-the-educator/M_gQolc3clM.vtt",
+                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-meet-the-educator/805687.vtt",
                     "title": "3play caption file",
                     "type": null,
-                    "uid": "vtta06a088a86aa9ef2b5d21f02a04109fa"
+                    "uid": "4ca77582793d5924a710902f4f8a4961"
                 }
             ],
             "inline_embed_id": "47018919instructorinterview:meettheeducator3187420",
+            "optional_tab_title": "",
+            "optional_text": "",
             "order_index": 8,
             "parent_uid": "4ae1516c220679142383e2f4136cf2f6",
             "related_resources_text": "",
+            "resource_index_text": "",
             "short_url": "instructor-interview-meet-the-educator",
             "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-meet-the-educator",
             "template_type": "Tabbed",
             "title": "Instructor Interview: Meet the Educator",
-            "transcript": "<p><span m=\"5290\">MIN-MIN LIANG: My</span> <span m=\"5420\">name</span> <span m=\"5730\">is</span> <span m=\"5860\">Min-Min</span> <span m=\"6280\">Liang.</span> <span m=\"6730\">I'm</span> <span m=\"6850\">from</span> <span m=\"7080\">Taiwan.</span> <span m=\"8280\">And</span> <span m=\"8685\">I'm</span> <span m=\"9440\">a</span> <span m=\"9510\">Chinese</span> <span m=\"9930\">lecturer</span> <span m=\"10690\">at</span> <span m=\"10870\">MIT.</span> <span m=\"12190\">And</span> <span m=\"12710\">I</span> <span m=\"14020\">graduated</span> <span m=\"14450\">my</span> <span m=\"14630\">college</span> <span m=\"16300\">in</span> <span m=\"16540\">Taiwan.</span> <span m=\"17340\">And</span> <span m=\"17540\">I</span> <span m=\"17600\">came</span> <span m=\"17900\">here</span> <span m=\"18660\">to</span> <span m=\"18930\">the</span> <span m=\"19040\">United</span> <span m=\"19470\">States</span> <span m=\"19910\">to</span> <span m=\"19980\">get</span> <span m=\"20150\">my</span> <span m=\"20240\">master's</span> <span m=\"20670\">degree</span> <span m=\"21070\">at</span> <span m=\"21150\">Harvard.</span> <span m=\"22200\">And</span> <span m=\"22390\">after</span> <span m=\"22660\">the</span> <span m=\"23010\">master</span> <span m=\"23770\">program,</span> <span m=\"24125\">I</span> <span m=\"24480\">went</span> <span m=\"24660\">to</span> <span m=\"24810\">UPenn</span> <span m=\"25160\">for</span> <span m=\"25290\">the</span> <span m=\"25390\">Ph.D.</span> <span m=\"26370\">That's</span> <span m=\"26600\">where</span> <span m=\"26820\">I</span> <span m=\"26880\">started</span> <span m=\"28120\">teaching</span> <span m=\"28860\">Chinese,</span> <span m=\"29810\">because</span> <span m=\"30020\">I</span> <span m=\"30130\">have</span> <span m=\"30320\">a</span> <span m=\"30430\">scholarship</span> <span m=\"31180\">there.</span></p><p><span m=\"32009\">And</span> <span m=\"34520\">even</span> <span m=\"34970\">though</span> <span m=\"35400\">my</span> <span m=\"36350\">major</span> <span m=\"36650\">is</span> <span m=\"36950\">Chinese</span> <span m=\"37400\">literature,</span> <span m=\"38080\">but</span> <span m=\"38210\">I</span> <span m=\"38330\">find</span> <span m=\"39830\">teaching</span> <span m=\"40190\">Chinese</span> <span m=\"40690\">is</span> <span m=\"41000\">really</span> <span m=\"41360\">fun</span> <span m=\"41730\">and</span> <span m=\"41840\">stimulating.</span> <span m=\"43190\">And</span> <span m=\"43980\">my</span> <span m=\"44250\">total</span> <span m=\"45640\">years</span> <span m=\"46090\">of</span> <span m=\"46210\">teaching</span> <span m=\"46630\">is</span> <span m=\"46980\">21</span> <span m=\"47740\">years.</span> <span m=\"48230\">And</span> <span m=\"49340\">I</span> <span m=\"49470\">find</span> <span m=\"49940\">it</span> <span m=\"50190\">interesting,</span> <span m=\"50690\">because</span> <span m=\"51010\">every</span> <span m=\"51330\">school</span> <span m=\"52050\">is</span> <span m=\"52270\">different.</span></p><p><span m=\"53100\">And</span> <span m=\"53550\">so</span> <span m=\"53680\">I</span> <span m=\"54160\">constantly</span> <span m=\"54260\">have</span> <span m=\"54550\">to</span> <span m=\"55000\">adapt my</span> <span m=\"55110\">strategy</span> <span m=\"56570\">to</span> <span m=\"56900\">a</span> <span m=\"56980\">different</span> <span m=\"57550\">group</span> <span m=\"57760\">of</span> <span m=\"57890\">students.</span> <span m=\"58970\">And</span> <span m=\"59210\">I</span> <span m=\"59270\">find</span> <span m=\"59530\">that's</span> <span m=\"60660\">very</span> <span m=\"60910\">exciting.</span> <span m=\"61620\">It's</span> <span m=\"61760\">not</span> <span m=\"62860\">things</span> <span m=\"63380\">so</span> <span m=\"63510\">mundane.</span> <span m=\"63990\">It's</span> <span m=\"64470\">so</span> <span m=\"64720\">routine.</span> <span m=\"65230\">In</span> <span m=\"65390\">that</span> <span m=\"65510\">way,</span> <span m=\"65660\">there's</span> <span m=\"65980\">a</span> <span m=\"66100\">routine</span> <span m=\"66660\">there,</span> <span m=\"67150\">but</span> <span m=\"67710\">you</span> <span m=\"67810\">have</span> <span m=\"68020\">to</span> <span m=\"68150\">change</span> <span m=\"68425\">up</span> <span m=\"70790\">according</span> <span m=\"71180\">to</span> <span m=\"71380\">the</span> <span m=\"71760\">audience,</span> <span m=\"72546\">the</span> <span m=\"72940\">group.</span></p>",
+            "transcript": "<p><span m='5290'>MIN-MIN LIANG: My</span> <span m='5420'>name</span> <span m='5730'>is</span> <span m='5860'>Min-Min</span> <span m='6280'>Liang.</span> <span m='6730'>I'm</span> <span m='6850'>from</span> <span m='7080'>Taiwan.</span> <span m='8280'>And</span> <span m='8685'>I'm</span> <span m='9440'>a</span> <span m='9510'>Chinese</span> <span m='9930'>lecturer</span> <span m='10690'>at</span> <span m='10870'>MIT.</span> <span m='12190'>And</span> <span m='12710'>I</span> <span m='14020'>graduated</span> <span m='14450'>my</span> <span m='14630'>college</span> <span m='16300'>in</span> <span m='16540'>Taiwan.</span> <span m='17340'>And</span> <span m='17540'>I</span> <span m='17600'>came</span> <span m='17900'>here</span> <span m='18660'>to</span> <span m='18930'>the</span> <span m='19040'>United</span> <span m='19470'>States</span> <span m='19910'>to</span> <span m='19980'>get</span> <span m='20150'>my</span> <span m='20240'>master's</span> <span m='20670'>degree</span> <span m='21070'>at</span> <span m='21150'>Harvard.</span> <span m='22200'>And</span> <span m='22390'>after</span> <span m='22660'>the</span> <span m='23010'>master</span> <span m='23770'>program,</span> <span m='24125'>I</span> <span m='24480'>went</span> <span m='24660'>to</span> <span m='24810'>UPenn</span> <span m='25160'>for</span> <span m='25290'>the</span> <span m='25390'>Ph.D.</span> <span m='26370'>That's</span> <span m='26600'>where</span> <span m='26820'>I</span> <span m='26880'>started</span> <span m='28120'>teaching</span> <span m='28860'>Chinese,</span> <span m='29810'>because</span> <span m='30020'>I</span> <span m='30130'>have</span> <span m='30320'>a</span> <span m='30430'>scholarship</span> <span m='31180'>there.</span> </p><p><span m='32009'>And</span> <span m='34520'>even</span> <span m='34970'>though</span> <span m='35400'>my</span> <span m='36350'>major</span> <span m='36650'>is</span> <span m='36950'>Chinese</span> <span m='37400'>literature,</span> <span m='38080'>but</span> <span m='38210'>I</span> <span m='38330'>find</span> <span m='39830'>teaching</span> <span m='40190'>Chinese</span> <span m='40690'>is</span> <span m='41000'>really</span> <span m='41360'>fun</span> <span m='41730'>and</span> <span m='41840'>stimulating.</span> <span m='43190'>And</span> <span m='43980'>my</span> <span m='44250'>total</span> <span m='45640'>years</span> <span m='46090'>of</span> <span m='46210'>teaching</span> <span m='46630'>is</span> <span m='46980'>21</span> <span m='47740'>years.</span> <span m='48230'>And</span> <span m='49340'>I</span> <span m='49470'>find</span> <span m='49940'>it</span> <span m='50190'>interesting,</span> <span m='50690'>because</span> <span m='51010'>every</span> <span m='51330'>school</span> <span m='52050'>is</span> <span m='52270'>different.</span> </p><p><span m='53100'>And</span> <span m='53550'>so</span> <span m='53680'>I</span> <span m='54160'>constantly</span> <span m='54260'>have</span> <span m='54550'>to</span> <span m='55000'>adapt my</span> <span m='55110'>strategy</span> <span m='56570'>to</span> <span m='56900'>a</span> <span m='56980'>different</span> <span m='57550'>group</span> <span m='57760'>of</span> <span m='57890'>students.</span> <span m='58970'>And</span> <span m='59210'>I</span> <span m='59270'>find</span> <span m='59530'>that's</span> <span m='60660'>very</span> <span m='60910'>exciting.</span> <span m='61620'>It's</span> <span m='61760'>not</span> <span m='62860'>things</span> <span m='63380'>so</span> <span m='63510'>mundane.</span> <span m='63990'>It's</span> <span m='64470'>so</span> <span m='64720'>routine.</span> <span m='65230'>In</span> <span m='65390'>that</span> <span m='65510'>way,</span> <span m='65660'>there's</span> <span m='65980'>a</span> <span m='66100'>routine</span> <span m='66660'>there,</span> <span m='67150'>but</span> <span m='67710'>you</span> <span m='67810'>have</span> <span m='68020'>to</span> <span m='68150'>change</span> <span m='68425'>up</span> <span m='70790'>according</span> <span m='71180'>to</span> <span m='71380'>the</span> <span m='71760'>audience,</span> <span m='72546'>the</span> <span m='72940'>group.</span> </p>",
             "uid": "58a6c062c3801594c1010c9bacadde98"
         },
         "5867634instructorinterview:streamlinedchinese44884661": {
             "about_this_resource_text": "",
             "embedded_media": [
-                {
-                    "id": "MIT21G_107F14_Streamlined_zh-hans-cmn.pdf",
-                    "parent_uid": "b3692a761d8d1c880cb2771fc8b3b043",
-                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-streamlined-chinese/MIT21G_107F14_Streamlined_zh-hans-cmn.pdf",
-                    "title": "MIT21G_107F14_Streamlined_zh-hans-cmn",
-                    "type": null,
-                    "uid": "14ab524f934a0a733ae92ca084e362da"
-                },
-                {
-                    "id": "MIT21G_107F14_Streamlined_zh-hans-cmn.srt",
-                    "parent_uid": "b3692a761d8d1c880cb2771fc8b3b043",
-                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-streamlined-chinese/MIT21G_107F14_Streamlined_zh-hans-cmn.srt",
-                    "title": "MIT21G_107F14_Streamlined_zh-hans-cmn.srt",
-                    "type": null,
-                    "uid": "4c1b988d0bf13fed36b6be276264312d"
-                },
                 {
                     "id": "Video-YouTube-Stream",
                     "media_location": "NDclHOywqB4",
@@ -672,20 +677,6 @@
                     "uid": "c2a8854c10bc205ce50906d540580892"
                 },
                 {
-                    "id": "Subtitle-OCW-SRT",
-                    "parent_uid": "b3692a761d8d1c880cb2771fc8b3b043",
-                    "title": "Subtitle-OCW-SRT-Chinese - PRC",
-                    "type": "Subtitle",
-                    "uid": "0d04b643f59c87be8af0a1c2339742c5"
-                },
-                {
-                    "id": "Transcript-OCW-PDF",
-                    "parent_uid": "b3692a761d8d1c880cb2771fc8b3b043",
-                    "title": "Transcript-OCW-PDF-Chinese - PRC",
-                    "type": "Transcript",
-                    "uid": "c9e0d6845f37d655ae1a96975b1886c9"
-                },
-                {
                     "id": "Video-iTunesU-MP4",
                     "media_location": "https://itunes.apple.com/us/itunes-u/id1066361132",
                     "parent_uid": "b3692a761d8d1c880cb2771fc8b3b043",
@@ -694,23 +685,56 @@
                     "uid": "66c2f8f778d7c81c9aab92068bfb67c7"
                 },
                 {
+                    "id": "MIT21G_107F14_Streamlined_zh-hans-cmn.pdf",
+                    "parent_uid": "b3692a761d8d1c880cb2771fc8b3b043",
+                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-streamlined-chinese/MIT21G_107F14_Streamlined_zh-hans-cmn.pdf",
+                    "title": "MIT21G_107F14_Streamlined_zh-hans-cmn",
+                    "type": null,
+                    "uid": "14ab524f934a0a733ae92ca084e362da"
+                },
+                {
+                    "id": "MIT21G_107F14_Streamlined_zh-hans-cmn.srt",
+                    "parent_uid": "b3692a761d8d1c880cb2771fc8b3b043",
+                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-streamlined-chinese/MIT21G_107F14_Streamlined_zh-hans-cmn.srt",
+                    "title": "MIT21G_107F14_Streamlined_zh-hans-cmn.srt",
+                    "type": null,
+                    "uid": "4c1b988d0bf13fed36b6be276264312d"
+                },
+                {
+                    "id": "Transcript-OCW-PDF",
+                    "parent_uid": "b3692a761d8d1c880cb2771fc8b3b043",
+                    "title": "Transcript-OCW-PDF-Chinese - PRC",
+                    "type": "Transcript",
+                    "uid": "92fd4a07b13b59ca501f434c4721ad60"
+                },
+                {
+                    "id": "Caption-OCW-SRT",
+                    "parent_uid": "b3692a761d8d1c880cb2771fc8b3b043",
+                    "title": "Caption-OCW-SRT-Chinese - PRC",
+                    "type": "Caption",
+                    "uid": "4f2635b8d972678ee9d7ee3a785c0a7e"
+                },
+                {
                     "id": "MIT21G_107F14_Streamlined_zh-hans-cmn.vtt",
                     "parent_uid": "b3692a761d8d1c880cb2771fc8b3b043",
                     "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-streamlined-chinese/MIT21G_107F14_Streamlined_zh-hans-cmn.vtt",
                     "title": "MIT21G_107F14_Streamlined_zh-hans-cmn.srt",
                     "type": null,
-                    "uid": "vtt4c1b988d0bf13fed36b6be276264312d"
+                    "uid": "393b284d48dd5f76a8a7e154a1ddc687"
                 }
             ],
             "inline_embed_id": "5867634instructorinterview:streamlinedchinese44884661",
+            "optional_tab_title": "",
+            "optional_text": "",
             "order_index": 77,
             "parent_uid": "4ae1516c220679142383e2f4136cf2f6",
             "related_resources_text": "",
+            "resource_index_text": "",
             "short_url": "instructor-interview-streamlined-chinese",
             "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-streamlined-chinese",
             "template_type": "popup",
             "title": "\u6559\u5c0e\u5177\u83ef\u8a9e\u57fa\u790e\u7684\u5b78\u751f / \u6559\u5bfc\u5177\u534e\u8bed\u57fa\u7840\u7684\u5b66\u751f",
-            "transcript": "",
+            "transcript": "<p>1<br />00:00:00,000 --&gt; 00:00:02,744<br />\u5728\u8fd9\u4e2a\u2fc7\u9ebb\u7701\u7406\u2f2f\u5de5\u5b66\u9662\u5462\uff0c\u6211\u4eec<br />2<br />00:00:02,744 --&gt; 00:00:10,584<br />\u4e2d\u2f42\u6587\u7684\u8fd9\u4e2a\u8bfe\u7a0b\u5206\u4e24\u4e2a\uff0c\u4e24\u4e2a\u8fd9\u4e2atrack\uff0c\u2f00\u4e00\u4e2a\u662f\u8fd9\u4e2a\u5feb\u73ed\uff0c\u2f00\u4e00\u4e2a\u662f\u8fd9\u4e2a\u666e\u901a\u73ed<br />3</p><p>00:00:10,584 --&gt; 00:00:18,228<br />\u90a3\u4e24\u8005\u7684\u5dee\u522b\u5728\u54ea\u2fa5\u91cc\u5462\uff1f\u5443\uff0c\u8fd9\u4e3b\u8981\u7684\u5dee\u522b \u5c31\u662f\u8bf4\u8fd9\u4e2a\u5feb\u73ed\u7684\u5b66\u2f63\u751f\u5462\u6211\u4eec\u2f00\u4e00\u8d77\u5934\u5c31\u662f<br />4</p><p>00:00:18,228 --&gt; 00:00:23,128<br />\u5c31\u662f\u5df2\u7ecf\u4ed6\u4eec\u7684\u8fd9\u4e2a\u2f1d\u53e3\u8bed\u80fd\u2f12\u529b\u5df2\u7ecf\u662f\u5728\u8fd9\u4e2a\u4e2d\u4f4e\u7ea7\u7684\u90e8\u5206<br />5</p><p>00:00:23,128 --&gt; 00:00:29,204<br />\u6240\u4ee5\u5462\uff0c\u6211\u4eec\u4e0d\u9700\u8981\u4e0a\u8bfe\u7ec3\u4e60\uff0c\u8fd9\u4e2a\u600e\u4e48\u8bf4\uff0c\u8bf4\u8bdd\uff0c\u4ed6\u4eec\u5df2\u7ecf<br />6</p><p>00:00:29,204 --&gt; 00:00:34,104<br />\u80fd\u591f\u6709\u4ea4\u8c08\u7684\u80fd\u2f12\u529b\uff0c\u4ed6\u4eec\u6240\u7f3a\u4e4f\u7684\u5462\u662f\u8fd9\u4e2a\u8bfb\u5199\u7684\u80fd\u2f12\u529b<br />7</p><p>00:00:34,104 --&gt; 00:00:41,552<br />\u7279\u522b\u662f\u8fd9\u4e2a\u5199\u7684\u80fd\u2f12\u529b\u6ca1\u6709\uff0c\u5443\uff0c\u90a3\u2f00\u4e00\u822c\u7684\u8fd9\u4e2a\u666e\u901a\u73ed\u7684\u5b66\u2f63\u751f\u5462\uff0c\u5c31\u50cf\u6240\u6709\u7684\u5916\u8bed<br />8</p><p>00:00:41,552 --&gt; 00:00:48,412<br />\u4f60\u8981\u2f00\u4e00\u5f00\u59cb\u6559\u600e\u4e48\u53d1\u2fb3\u97f3\uff0c\u6559\u62fc\u2fb3\u97f3\u662f\u4ec0\u4e48\u4e1c\u2ec4\u897f\uff0c\u7136\u540e\u518d\u6162\u6162\u52a0\u8fd9\u4e2a\u6c49\u5b57\u5728\u2fa5\u91cc\u5934<br />9</p><p>00:00:48,412 --&gt; 00:00:57,428<br />\u6240\u4ee5\u5462\uff0c\u8fd9\u4e2a\u8fd9\u4e2a\u8fd9\u4e2a\uff0c\u8fdb\u2f8f\u884c\u7684\u2f45\u65b9\u5f0f\u2fae\u975e\u5e38\u4e0d\u2f00\u4e00\u6837 \u90a3\u6211\u89c9\u5f97\u6211\u4eec\u7684\u5b66\u6821\u5462\u2fae\u975e\u5e38\u5730\uff0c\u600e\u4e48\u8bf4\uff0c\u6211\u3001<br />10</p><p>00:00:57,428 --&gt; 00:01:04,876<br />\u6211\u2f83\u81ea\u2f30\u5df1 \u89c9\u5f97\u5c31\u662f\u6211\u5360\u5f88\u2f24\u5927\u7684\u4f18\u52bf\uff0c\u5c31\u662f\u6211\u6709\u8fd9\u6837\u7684\u5b66\u2f63\u751f\u7fa4\uff0c\u6211\u53ef\u4ee5\u2f64\u7528\u8fd9\u79cd\u2f45\u65b9\u6cd5\u53bb\u6559<br />11</p><p>00:01:04,876 --&gt; 00:01:13,892<br />\u90a3\u56e0\u4e3a\u4ed6\u4eec\u662f\u5df2\u7ecf\u5efa\u2f74\u7acb\u5728\u4ed6\u4eec\u6709\u2f1d\u53e3\u8bed\u7684\u80fd\u2f12\u529b\u5462\uff0c\u6240\u4ee5\u5462<br />\u6211\u4e0a\u8bfe\u7684\u65f6\u5019\u4f1a\u52a0\u5f3a\u5f88\u591a\u8fd9\u4e2a\u8bfb\u5199\uff0c\u2f00\u4e00\u5f00\u59cb\u5462<br />12</p><p>00:01:13,892 --&gt; 00:01:18,792<br />\u8bfb\u7684\u2f45\u65b9\u2faf\u9762\u3001 \u5199\u7684\u2f45\u65b9\u2faf\u9762\u2f50\u6bd4\u8f83\u56f0\u96be\u7684\u5730\u2f45\u65b9\u5c31\u662f\u6709\u4e9b\u5b66\u2f63\u751f\u4ed6\u4eec<br />13</p><p>00:01:18,792 --&gt; 00:01:26,044<br />\u5728\u50cf\u8fd9\u4e2a\uff0c\u5bb6\u2fa5\u91cc\u662f\u4e2d\u56fd\u2f57\u7236\u2e9f\u6bcd\u7684\u8bdd\uff0c\u6211\u73b0\u5728\u8bf4\u2f00\u4e00\u4e0b\uff0c\u5c31\u662f\u8bf4\uff0c\u8fd9\u4e2a\u5feb\u73ed\u7684\u5b66\u2f63\u751f<br />14<br />00:01:26,044 --&gt; 00:01:35,131<br />\u4e0d\u662f\u4f60\u2f00\u4e00\u5b9a\u662f\u534e\u88d4\u7684\u80cc\u666f\uff0c\u5c31\u662f\u521a\u521a\u597d\u6765\u4e0a\u8fd9\u4e2a\u73ed\u7684\u5b66\u2f63\u751f\uff0c99%\u90fd\u662f\u534e\u88d4\u7684\u5b66\u2f63\u751f\uff0c\u6709\u7684\uff0c-<br />15</p><p>00:01:35,131 --&gt; 00:01:40,940<br />\u6709\u7684\u65f6\u5019 \u6211\u4f1a\u6709\u2f00\u4e00\u4e2a\u6216\u8005\u662f\u4e24\u4e2a\u5b66\u2f63\u751f\u662f\u2fae\u975e\u534e\u88d4\u7684\uff0c\u90a3\u5c31\u662f\u4ed6\u4eec\u7684<br />16</p><p>00:01:40,940 --&gt; 00:01:47,604<br />\u4ed6\u4eec\u7684\u2f1d\u53e3\u8bed\uff0c\u8fd9\u4e2a\u2f1d\u53e3\u8bed\u7684\u8fd9\u4e2a\u2f54\u6c34\u5e73\u5df2\u7ecf\u5f88\u2fbc\u9ad8\u4e86\uff0c\u80fd\u591f\u6765\uff0c\u6765\u4e0a\u8fd9\u2ed4\u95e8\u8bfe\u4e86<br />17</p><p>00:01:47,604 --&gt; 00:01:54,268<br />\u90a3\u5bf9\u8fd9\u4e2a\u7b2c\u2f00\u4e00\u5e74\u7ea7\uff0c\u8fd9\u4e2a\uff0c\u8fd9\u4e2a\u534e\u88d4\u73ed\u7684\uff0c\u8fd9\u4e2a\u534e\u88d4\u7684\u5b69\u2f26\u5b50\u5462\uff0c\u4ed6\u4eec<br />18</p><p>00:01:54,268 --&gt; 00:02:00,932<br />\u6700\u2f24\u5927\u7684\u8fd9\u4e2a\u6311\u6218\u5c31\u662f\uff0c\u6709\u7684\u4e0a\u8fc7\u4e2d\u2f42\u6587\u5b66\u6821\uff0c\u6709\u7684\u6ca1\u4e0a\u8fc7\u4e2d\u2f42\u6587\u5b66\u6821\uff0c\u4e0a\u8fc7<br />19</p><p>00:02:00,932 --&gt; 00:02:07,204<br />\u4e2d\u2f42\u6587\u5b66\u6821\u7684\u5462\uff0c\u4ed6\u8ba4\u8bc6\u2f00\u4e00\u5b9a\u7684\u6c49\u5b57\uff0c\u6ca1\u4e0a\u8fc7\u5462\u5c31\u662f\u2f24\u5927\u5b57\u2f00\u4e00\u4e2a\u90fd\u4e0d\u8ba4\u5f97<br />20</p><p>00:02:07,204 --&gt; 00:02:12,698<br />\u6240\u4ee5\u5728\u7b2c\u2f00\u4e00\u4e2a\u2f49\u6708\u7684\u65f6\u5019\u5462\uff0c\u6211\u7684\u2f45\u65b9\u6cd5\u5c31\u662f\u5f3a\u903c\u4ed6\u4eec\u5b66 \u6c49\u5b57\u3002<br />21</p><p>00:02:12,698 --&gt; 00:02:22,295<br />\u8fd9\u6ca1\u6709\u4ec0\u4e48\u7279\u522b\u7684\uff0c\u5c31\u662f\u80cc\u6c49\u5b57\uff0c\u56e0\u4e3a\u6c49\u5b57\u53ea\u6709\u80cc<br />\u6ca1\uff0c\u4e0d\u662f\u2f00\u4e00\u4e2a\u62fc\u2fb3\u97f3\u7684\u2f00\u4e00\u4e2a\uff0c\u2f00\u4e00\u4e2a\u8fd9\u4e2a\uff0c\u867d\u7136\u6709\u2f00\u4e00\u4e9b\u89c4\u5219\uff0c\u2f50\u6bd4\u5982\u8bf4<br />22</p><p>00:02:22,295 --&gt; 00:02:28,781<br />\u90e8\u2fb8\u9996\u8fd9\u4e4b\u7c7b\u7684\u4e1c\u2ec4\u897f\uff0c\u53ef\u662f\u5462\uff0c\u8fd9\u662f\u8981\u5f3a\u5f3a\u80cc\u7684\uff0c\u2f7d\u800c\u4e14\u8981\u4e0d\u65ad\u7684\u7ec3\u4e60\u7684\u2f00\u4e00\u4e2a \u8fd9\u4e2a\u4e1c\u2ec4\u897f\u3002<br />23</p><p>00:02:28,781 --&gt; 00:02:34,230<br />\u6240\u4ee5\u5462\uff0c\u7ecf\u8fc7\u56db\u4e2a\u661f\u671f\u4e4b\u540e\u5462\uff0c\u5b66\u2f63\u751f\u5462\uff0c\u4e0d\u7ba1\u4f60\u7684\u80cc\u666f\u662f\u4ec0\u4e48\uff0c\u2f84\u81f3\u5c11<br />24<br />00:02:34,230 --&gt; 00:02:40,200<br />\u5df2\u7ecf\u80fd\u591f\u770b\u5f97\u61c2\uff0c\u4e5f\u77e5\u9053250\u4e2a\u57fa\u672c\u6c49\u5b57\uff0c\u2f24\u5927\u5bb6\u6240<br />25<br />00:02:40,200 --&gt; 00:02:47,660<br />\u5171\u540c\u77e5\u9053\u7684\u57fa\u672c\u6c49\u5b57\u6709250\u4e2a \u8fd9\u6837\u2f26\u5b50\uff0c\u6709\u8fd9\u6837\u7684\u8fd9\u4e2a\u57fa\u7840\u5462\uff0c\u6211\u4eec\u624d\u80fd\u591f\u8fdb\u2f8f\u884c\u9605\u8bfb<br />26 <br />00:02:47,660 --&gt; 00:02:53,710<br />\u6240\u4ee5\u5462\uff0c\u8fd9250\u4e2a\u6c49\u5b57\u4e4b\u540e\uff0c\u6211\u4eec\u8fdb\u2f0a\u5165\u7b2c\u2f00\u4e00\u8bfe\uff0c\u8bfe\u672c\u2fa5\u91cc\u5934\u2f64\u7528\u7684\u8fd9\u4e2a\u9605\u8bfb<br />27</p><p>00:02:53,710 --&gt; 00:02:58,640<br />\u7684\u8bdd\uff0c\u90a3\u4e2a\u65f6\u5019\u5b66\u2f63\u751f\u5c31\u4f1a\u2fae\u975e\u5e38\u5730\u5174\u594b\uff0c\u56e0\u4e3a\u4ed6\u4eec\u53d1\u73b0\u4ed6\u4eec\u53ef\u4ee5\u8bfb\u4e2d\u2f42\u6587<br />28</p><p>00:02:58,640 --&gt; 00:03:04,620<br />\u5728\u90a3\u56db\u4e2a\u661f\u671f\u662f\u76f8\u5f53\u2f9f\u8f9b\u82e6\u7684\uff0c\u56e0\u4e3a\u6211\u4eec\u2f00\u4e00\u4e2a\u661f\u671f\u6709\u4e09\u4e2a\u8bfe\u65f6<br />29<br />00:03:04,620 --&gt; 00:03:11,810<br />\u7136\u540e\uff0c\u6bcf\u6bcf\u8282\u8bfe\uff0c\u6211\u90fd\u6709\u4e2a\u542c\u5199\u7684\u2f29\u5c0f\u8003\uff0c\u6bcf\u6b21\u542c\u5199\u7684\u2f29\u5c0f\u8003\u5c31\u662f\u4e0a\u8bfe\u4e4b\u524d\u4ed6\u4eec\u8981\u80cc50\u4e2a\u6c49\u5b57<br />30<br />00:03:11,810 --&gt; 00:03:19,030<br />\u8fd9\u662f\u538b\u2f12\u529b\u662f\u76f8\u5f53\u2f24\u5927\uff0c\u5982\u679c\u4f60\u53bb\u95ee\u95ee\u8fd9\u4e2a\u522b\u7684\u5b66\u6821\uff0c\u2f00\u4e00\u4e2a\u661f\u671f\u8ba9\u4ed6\u4eec\u80cc50\u4e2a\u6c49\u5b57\uff0c\u5df2\u7ecf\u53eb\u4e86\uff0c\u6211\u662f<br />31<br />00:03:19,030 --&gt; 00:03:26,150<br />\u2f00\u4e00\u4e2a\u8bfe\u65f6\u5c31\u8981\u8ba9\u4ed6\u4eec\u80cc50\u4e2a\u6c49\u5b57 \u6211\uff0c\u2f00\u4e00\u6837\u7684\uff0c\u6211\u5c31\u662f\u8bf4\u6211\u662f\u5f88\u5e78\u8fd0\u6559\u5230<br />32</p><p>00:03:26,150 --&gt; 00:03:32,860<br />\u6211\u4eec\u2fc7\u9ebb\u7701\u7406\u2f2f\u5de5\u5b66\u9662\u7684\u5b66\u2f63\u751f\uff0c\u56e0\u4e3a\u4ed6\u4eec\u5929\u2f63\u751f\uff0c\u5c31\u662f\u5b66\u4e60\u662f\u4ed6\u4eec\u7684\u7b2c\u2f06\u4e8c\u5929\u6027<br />33</p><p>00:03:32,860 --&gt; 00:03:36,539<br />\u6240\u4ee5\u5462\uff0c\u867d\u7136\u53eb\u82e6\uff0c\u4ed6\u8fd8\u662f\u7ee7\u7eed\u5b66\u4e0b\u53bb\u3002<br />34</p><p>00:03:36,539 --&gt; 00:03:42,383<br />\u6240\u4ee5 \u5934\u7b2c\u2f00\u4e00\u4e2a\u661f\u671f\uff0c\u6211\u4e0d\u80fd\u2ee2\u9a6c\u4e0a\u8fdb\u2f0a\u5165\u9605\u8bfb\u2f42\u6587\u7ae0\uff0c\u56e0\u4e3a\u6bcf\u4e2a\u2f08\u4eba\u7684\u2f54\u6c34\u5e73\u4e0d\u540c\u3002<br />35</p><p>00:03:42,383 --&gt; 00:03:47,490<br />\u53ef\u662f\u5230\u4e86 \u56db\u4e2a\u661f\u671f\u4ee5\u540e\uff0c\u4e09\u5230\u56db\u4e2a\u661f\u671f\u4ee5\u540e\uff0c\u5c06\u8fd1\u2f00\u4e00\u4e2a\u2f49\u6708<br />36</p><p>00:03:47,490 --&gt; 00:03:54,290<br />\u2f24\u5927\u5bb6\u90fd\u80fd\u2f00\u4e00\u8d77\u5ff5\u540c\u2f00\u4e00\u7bc7\u2f42\u6587\u7ae0\uff0c\u8fd9\u4e2a\u662f\u2f00\u4e00\u4e2a\u5f88\u597d\u7684\u5f00\u59cb\u3002</p>",
             "uid": "b3692a761d8d1c880cb2771fc8b3b043"
         },
         "91123388instructorinterview:lingt199057": {
@@ -749,36 +773,6 @@
                     "uid": "a89550cfddeaa886d1a14c34a0d4ecb9"
                 },
                 {
-                    "id": "bH4L4Nv_PeA.srt",
-                    "parent_uid": "76957cb58095a8933b39fcdf5d2ff487",
-                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-lingt/bH4L4Nv_PeA.srt",
-                    "title": "3play caption file",
-                    "type": null,
-                    "uid": "6b8045083f833addfd70786897536e77"
-                },
-                {
-                    "id": "bH4L4Nv_PeA.pdf",
-                    "parent_uid": "76957cb58095a8933b39fcdf5d2ff487",
-                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-lingt/bH4L4Nv_PeA.pdf",
-                    "title": "3play pdf file",
-                    "type": null,
-                    "uid": "3ba72b1d97bd64bb58002477e675e71c"
-                },
-                {
-                    "id": "Subtitle-3Play YouTube id-SRT",
-                    "parent_uid": "76957cb58095a8933b39fcdf5d2ff487",
-                    "title": "Subtitle-3Play YouTube id-SRT-English - US",
-                    "type": "Subtitle",
-                    "uid": "0855127bcb0bc615119e00f27bdf1a7b"
-                },
-                {
-                    "id": "Transcript-3Play YouTube id-PDF",
-                    "parent_uid": "76957cb58095a8933b39fcdf5d2ff487",
-                    "title": "Transcript-3Play YouTube id-PDF-English - US",
-                    "type": "Transcript",
-                    "uid": "b5404c72f2b4bb70b3c8d9b158e2782f"
-                },
-                {
                     "id": "Video-InternetArchive-MP4",
                     "media_location": "https://archive.org/download/MIT21G.107F14/MIT21G_107F14_Lingt_300k.mp4",
                     "parent_uid": "76957cb58095a8933b39fcdf5d2ff487",
@@ -787,18 +781,51 @@
                     "uid": "9124de79c44885b3e6cb61c0737ba32f"
                 },
                 {
+                    "id": "bH4L4Nv_PeA.srt",
+                    "parent_uid": "76957cb58095a8933b39fcdf5d2ff487",
+                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-lingt/bH4L4Nv_PeA.srt",
+                    "title": "3play caption file",
+                    "type": null,
+                    "uid": "9f5a8445a01e674d447380abf3a41ac0"
+                },
+                {
+                    "id": "bH4L4Nv_PeA.pdf",
+                    "parent_uid": "76957cb58095a8933b39fcdf5d2ff487",
+                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-lingt/bH4L4Nv_PeA.pdf",
+                    "title": "3play pdf file",
+                    "type": null,
+                    "uid": "a6d8966bd38e7070a8895f610d12aae3"
+                },
+                {
+                    "id": "Caption-3Play YouTube id-SRT",
+                    "parent_uid": "76957cb58095a8933b39fcdf5d2ff487",
+                    "title": "Caption-3Play YouTube id-SRT-English - US",
+                    "type": "Caption",
+                    "uid": "980743155e3c76a02c6e65c64e323b83"
+                },
+                {
+                    "id": "Transcript-3Play YouTube id-PDF",
+                    "parent_uid": "76957cb58095a8933b39fcdf5d2ff487",
+                    "title": "Transcript-3Play YouTube id-PDF-English - US",
+                    "type": "Transcript",
+                    "uid": "b48000304266e050670df0630f4ffca0"
+                },
+                {
                     "id": "bH4L4Nv_PeA.vtt",
                     "parent_uid": "76957cb58095a8933b39fcdf5d2ff487",
                     "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-lingt/bH4L4Nv_PeA.vtt",
                     "title": "3play caption file",
                     "type": null,
-                    "uid": "vtt6b8045083f833addfd70786897536e77"
+                    "uid": "3e30ded691f7541194659bd675561edd"
                 }
             ],
             "inline_embed_id": "91123388instructorinterview:lingt199057",
+            "optional_tab_title": "",
+            "optional_text": "",
             "order_index": 38,
             "parent_uid": "4ae1516c220679142383e2f4136cf2f6",
             "related_resources_text": "",
+            "resource_index_text": "",
             "short_url": "instructor-interview-lingt",
             "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-lingt",
             "template_type": "popup",
@@ -834,36 +861,6 @@
                     "uid": "b7488debce85d261a15fcf169ca04319"
                 },
                 {
-                    "id": "-56G36H8BvY.srt",
-                    "parent_uid": "c2e1f1ad42679457198c71336e249851",
-                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-streamlined/-56G36H8BvY.srt",
-                    "title": "3play caption file",
-                    "type": null,
-                    "uid": "8b97fb9aed2b7d71d88b743f48c6425d"
-                },
-                {
-                    "id": "-56G36H8BvY.pdf",
-                    "parent_uid": "c2e1f1ad42679457198c71336e249851",
-                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-streamlined/-56G36H8BvY.pdf",
-                    "title": "3play pdf file",
-                    "type": null,
-                    "uid": "acaa0f259b019f270c2d79b09def7d8f"
-                },
-                {
-                    "id": "Subtitle-3Play YouTube id-SRT",
-                    "parent_uid": "c2e1f1ad42679457198c71336e249851",
-                    "title": "Subtitle-3Play YouTube id-SRT-English - US",
-                    "type": "Subtitle",
-                    "uid": "c9802a2b4ebeed8429667eb98790ab97"
-                },
-                {
-                    "id": "Transcript-3Play YouTube id-PDF",
-                    "parent_uid": "c2e1f1ad42679457198c71336e249851",
-                    "title": "Transcript-3Play YouTube id-PDF-English - US",
-                    "type": "Transcript",
-                    "uid": "ab85b4f1210c54f60a34d73bcac63354"
-                },
-                {
                     "id": "Video-InternetArchive-MP4",
                     "media_location": "https://archive.org/download/MIT21G.107F14/MIT21G_107F14_Streamlined_300k.mp4",
                     "parent_uid": "c2e1f1ad42679457198c71336e249851",
@@ -880,18 +877,51 @@
                     "uid": "5ec1638855d581c93959cbf2e16c0bc2"
                 },
                 {
+                    "id": "-56G36H8BvY.srt",
+                    "parent_uid": "c2e1f1ad42679457198c71336e249851",
+                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-streamlined/-56G36H8BvY.srt",
+                    "title": "3play caption file",
+                    "type": null,
+                    "uid": "e196a9f600d6c032754452a05bcee833"
+                },
+                {
+                    "id": "-56G36H8BvY.pdf",
+                    "parent_uid": "c2e1f1ad42679457198c71336e249851",
+                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-streamlined/-56G36H8BvY.pdf",
+                    "title": "3play pdf file",
+                    "type": null,
+                    "uid": "7487cdf785bf38c29defa284b28d1c8b"
+                },
+                {
+                    "id": "Caption-3Play YouTube id-SRT",
+                    "parent_uid": "c2e1f1ad42679457198c71336e249851",
+                    "title": "Caption-3Play YouTube id-SRT-English - US",
+                    "type": "Caption",
+                    "uid": "488feafb408fc79560ad312caec492d2"
+                },
+                {
+                    "id": "Transcript-3Play YouTube id-PDF",
+                    "parent_uid": "c2e1f1ad42679457198c71336e249851",
+                    "title": "Transcript-3Play YouTube id-PDF-English - US",
+                    "type": "Transcript",
+                    "uid": "b7b9df5f34db54b1ed3e62e051673cd7"
+                },
+                {
                     "id": "-56G36H8BvY.vtt",
                     "parent_uid": "c2e1f1ad42679457198c71336e249851",
                     "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-streamlined/-56G36H8BvY.vtt",
                     "title": "3play caption file",
                     "type": null,
-                    "uid": "vtt8b97fb9aed2b7d71d88b743f48c6425d"
+                    "uid": "1207210de11953aaba9e71df20916efa"
                 }
             ],
             "inline_embed_id": "91377212instructorinterview:streamlined32687975",
+            "optional_tab_title": "",
+            "optional_text": "",
             "order_index": 28,
             "parent_uid": "4ae1516c220679142383e2f4136cf2f6",
             "related_resources_text": "",
+            "resource_index_text": "",
             "short_url": "instructor-interview-streamlined",
             "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-streamlined",
             "template_type": "popup",
@@ -935,36 +965,6 @@
                     "uid": "de841e92f74521b0396fff7592c4323a"
                 },
                 {
-                    "id": "FtIdQUcZlWU.srt",
-                    "parent_uid": "9ffc1d74fd0d45845204fe769679b268",
-                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-assessing/FtIdQUcZlWU.srt",
-                    "title": "3play caption file",
-                    "type": null,
-                    "uid": "1c79896c77f0057e22b68531951758f2"
-                },
-                {
-                    "id": "FtIdQUcZlWU.pdf",
-                    "parent_uid": "9ffc1d74fd0d45845204fe769679b268",
-                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-assessing/FtIdQUcZlWU.pdf",
-                    "title": "3play pdf file",
-                    "type": null,
-                    "uid": "c6a0fc6500d082c3196579e71fa9db49"
-                },
-                {
-                    "id": "Subtitle-3Play YouTube id-SRT",
-                    "parent_uid": "9ffc1d74fd0d45845204fe769679b268",
-                    "title": "Subtitle-3Play YouTube id-SRT-English - US",
-                    "type": "Subtitle",
-                    "uid": "361b317e31439bbcf5196d8ae2e77d6e"
-                },
-                {
-                    "id": "Transcript-3Play YouTube id-PDF",
-                    "parent_uid": "9ffc1d74fd0d45845204fe769679b268",
-                    "title": "Transcript-3Play YouTube id-PDF-English - US",
-                    "type": "Transcript",
-                    "uid": "dc9e0f3b60f96adbbca44b3e478b64cd"
-                },
-                {
                     "id": "Video-iTunesU-MP4",
                     "media_location": "https://itunes.apple.com/us/itunes-u/id1066361132",
                     "parent_uid": "9ffc1d74fd0d45845204fe769679b268",
@@ -973,18 +973,51 @@
                     "uid": "7307709740ae7e2decb9ed7f6a03c625"
                 },
                 {
+                    "id": "FtIdQUcZlWU.srt",
+                    "parent_uid": "9ffc1d74fd0d45845204fe769679b268",
+                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-assessing/FtIdQUcZlWU.srt",
+                    "title": "3play caption file",
+                    "type": null,
+                    "uid": "f0c4f36a931719cfb2c540b90079a7ab"
+                },
+                {
+                    "id": "FtIdQUcZlWU.pdf",
+                    "parent_uid": "9ffc1d74fd0d45845204fe769679b268",
+                    "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-assessing/FtIdQUcZlWU.pdf",
+                    "title": "3play pdf file",
+                    "type": null,
+                    "uid": "d4743335067252f4fd06ccdd23c3ad01"
+                },
+                {
+                    "id": "Caption-3Play YouTube id-SRT",
+                    "parent_uid": "9ffc1d74fd0d45845204fe769679b268",
+                    "title": "Caption-3Play YouTube id-SRT-English - US",
+                    "type": "Caption",
+                    "uid": "ee8e66ac3e60576e24afd48856f0a31d"
+                },
+                {
+                    "id": "Transcript-3Play YouTube id-PDF",
+                    "parent_uid": "9ffc1d74fd0d45845204fe769679b268",
+                    "title": "Transcript-3Play YouTube id-PDF-English - US",
+                    "type": "Transcript",
+                    "uid": "64d6abc1d812ad5c2f410243cd5e0401"
+                },
+                {
                     "id": "FtIdQUcZlWU.vtt",
                     "parent_uid": "9ffc1d74fd0d45845204fe769679b268",
                     "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-assessing/FtIdQUcZlWU.vtt",
                     "title": "3play caption file",
                     "type": null,
-                    "uid": "vtt1c79896c77f0057e22b68531951758f2"
+                    "uid": "c7811206090e5557aab135f925bfd2e1"
                 }
             ],
             "inline_embed_id": "92548656instructorinterview:assessing8106860",
+            "optional_tab_title": "",
+            "optional_text": "",
             "order_index": 48,
             "parent_uid": "4ae1516c220679142383e2f4136cf2f6",
             "related_resources_text": "",
+            "resource_index_text": "",
             "short_url": "instructor-interview-assessing",
             "technical_location": "https://ocw.mit.edu/courses/global-languages/21g-107-chinese-i-streamlined-fall-2014/instructor-insights/instructor-interview-assessing",
             "template_type": "popup",
@@ -1091,157 +1124,157 @@
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/a06a088a86aa9ef2b5d21f02a04109fa_M_gQolc3clM.srt",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/402ff3c752ebaa2f658b97c38f9ec267_805687.srt",
             "file_type": "application/x-subrip",
-            "id": "M_gQolc3clM.srt",
+            "id": "805687.srt",
             "order_index": 14,
             "parent_uid": "58a6c062c3801594c1010c9bacadde98",
             "platform_requirements": "",
             "title": "3play caption file",
             "type": "OCWFile",
-            "uid": "a06a088a86aa9ef2b5d21f02a04109fa"
+            "uid": "402ff3c752ebaa2f658b97c38f9ec267"
         },
         {
             "alt_text": null,
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/acf8cbbcf3ada9e7b0d390c8b4f8b1e6_M_gQolc3clM.pdf",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/12ce94b436f985c25f044f104fc4ca2e_805687.pdf",
             "file_type": "application/pdf",
-            "id": "M_gQolc3clM.pdf",
+            "id": "805687.pdf",
             "order_index": 15,
             "parent_uid": "58a6c062c3801594c1010c9bacadde98",
             "platform_requirements": "",
             "title": "3play pdf file",
             "type": "OCWFile",
-            "uid": "acf8cbbcf3ada9e7b0d390c8b4f8b1e6"
+            "uid": "12ce94b436f985c25f044f104fc4ca2e"
         },
         {
             "alt_text": null,
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/c6d2dcd3dcf63534726e526b9ef5c7c0_9RZa3zBruVA.srt",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/6c45115a0a518bd625cb4ffb7f4d2bf9_9RZa3zBruVA.srt",
             "file_type": "application/x-subrip",
             "id": "9RZa3zBruVA.srt",
-            "order_index": 23,
-            "parent_uid": "961ffe2b512058c285c6aac54adf9d3d",
-            "platform_requirements": "",
-            "title": "3play caption file",
-            "type": "OCWFile",
-            "uid": "c6d2dcd3dcf63534726e526b9ef5c7c0"
-        },
-        {
-            "alt_text": null,
-            "caption": null,
-            "credit": null,
-            "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/4fa8f89c234ce05791fc546a20b2c21e_9RZa3zBruVA.pdf",
-            "file_type": "application/pdf",
-            "id": "9RZa3zBruVA.pdf",
             "order_index": 24,
             "parent_uid": "961ffe2b512058c285c6aac54adf9d3d",
             "platform_requirements": "",
-            "title": "3play pdf file",
+            "title": "3play caption file",
             "type": "OCWFile",
-            "uid": "4fa8f89c234ce05791fc546a20b2c21e"
+            "uid": "6c45115a0a518bd625cb4ffb7f4d2bf9"
         },
         {
             "alt_text": null,
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/8b97fb9aed2b7d71d88b743f48c6425d_-56G36H8BvY.srt",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/f10f486e29a59703a0acbeb5b35943bb_9RZa3zBruVA.pdf",
+            "file_type": "application/pdf",
+            "id": "9RZa3zBruVA.pdf",
+            "order_index": 25,
+            "parent_uid": "961ffe2b512058c285c6aac54adf9d3d",
+            "platform_requirements": "",
+            "title": "3play pdf file",
+            "type": "OCWFile",
+            "uid": "f10f486e29a59703a0acbeb5b35943bb"
+        },
+        {
+            "alt_text": null,
+            "caption": null,
+            "credit": null,
+            "description": "",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/e196a9f600d6c032754452a05bcee833_-56G36H8BvY.srt",
             "file_type": "application/x-subrip",
             "id": "-56G36H8BvY.srt",
-            "order_index": 32,
+            "order_index": 34,
             "parent_uid": "c2e1f1ad42679457198c71336e249851",
             "platform_requirements": "",
             "title": "3play caption file",
             "type": "OCWFile",
-            "uid": "8b97fb9aed2b7d71d88b743f48c6425d"
+            "uid": "e196a9f600d6c032754452a05bcee833"
         },
         {
             "alt_text": null,
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/acaa0f259b019f270c2d79b09def7d8f_-56G36H8BvY.pdf",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/7487cdf785bf38c29defa284b28d1c8b_-56G36H8BvY.pdf",
             "file_type": "application/pdf",
             "id": "-56G36H8BvY.pdf",
-            "order_index": 33,
+            "order_index": 35,
             "parent_uid": "c2e1f1ad42679457198c71336e249851",
             "platform_requirements": "",
             "title": "3play pdf file",
             "type": "OCWFile",
-            "uid": "acaa0f259b019f270c2d79b09def7d8f"
+            "uid": "7487cdf785bf38c29defa284b28d1c8b"
         },
         {
             "alt_text": null,
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/6b8045083f833addfd70786897536e77_bH4L4Nv_PeA.srt",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/9f5a8445a01e674d447380abf3a41ac0_bH4L4Nv_PeA.srt",
             "file_type": "application/x-subrip",
             "id": "bH4L4Nv_PeA.srt",
-            "order_index": 43,
-            "parent_uid": "76957cb58095a8933b39fcdf5d2ff487",
-            "platform_requirements": "",
-            "title": "3play caption file",
-            "type": "OCWFile",
-            "uid": "6b8045083f833addfd70786897536e77"
-        },
-        {
-            "alt_text": null,
-            "caption": null,
-            "credit": null,
-            "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/3ba72b1d97bd64bb58002477e675e71c_bH4L4Nv_PeA.pdf",
-            "file_type": "application/pdf",
-            "id": "bH4L4Nv_PeA.pdf",
             "order_index": 44,
             "parent_uid": "76957cb58095a8933b39fcdf5d2ff487",
             "platform_requirements": "",
-            "title": "3play pdf file",
+            "title": "3play caption file",
             "type": "OCWFile",
-            "uid": "3ba72b1d97bd64bb58002477e675e71c"
+            "uid": "9f5a8445a01e674d447380abf3a41ac0"
         },
         {
             "alt_text": null,
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/1c79896c77f0057e22b68531951758f2_FtIdQUcZlWU.srt",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/a6d8966bd38e7070a8895f610d12aae3_bH4L4Nv_PeA.pdf",
+            "file_type": "application/pdf",
+            "id": "bH4L4Nv_PeA.pdf",
+            "order_index": 45,
+            "parent_uid": "76957cb58095a8933b39fcdf5d2ff487",
+            "platform_requirements": "",
+            "title": "3play pdf file",
+            "type": "OCWFile",
+            "uid": "a6d8966bd38e7070a8895f610d12aae3"
+        },
+        {
+            "alt_text": null,
+            "caption": null,
+            "credit": null,
+            "description": "",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/f0c4f36a931719cfb2c540b90079a7ab_FtIdQUcZlWU.srt",
             "file_type": "application/x-subrip",
             "id": "FtIdQUcZlWU.srt",
-            "order_index": 53,
+            "order_index": 54,
             "parent_uid": "9ffc1d74fd0d45845204fe769679b268",
             "platform_requirements": "",
             "title": "3play caption file",
             "type": "OCWFile",
-            "uid": "1c79896c77f0057e22b68531951758f2"
+            "uid": "f0c4f36a931719cfb2c540b90079a7ab"
         },
         {
             "alt_text": null,
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/c6a0fc6500d082c3196579e71fa9db49_FtIdQUcZlWU.pdf",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/d4743335067252f4fd06ccdd23c3ad01_FtIdQUcZlWU.pdf",
             "file_type": "application/pdf",
             "id": "FtIdQUcZlWU.pdf",
-            "order_index": 54,
+            "order_index": 55,
             "parent_uid": "9ffc1d74fd0d45845204fe769679b268",
             "platform_requirements": "",
             "title": "3play pdf file",
             "type": "OCWFile",
-            "uid": "c6a0fc6500d082c3196579e71fa9db49"
+            "uid": "d4743335067252f4fd06ccdd23c3ad01"
         },
         {
             "alt_text": null,
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/9768369234653d66f4fa9006f2c8ba58_4afZKY-INNA.srt",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/f48e3dfed6be29ee91f1f1b0331efcef_4afZKY-INNA.srt",
             "file_type": "application/x-subrip",
             "id": "4afZKY-INNA.srt",
             "order_index": 64,
@@ -1249,14 +1282,14 @@
             "platform_requirements": "",
             "title": "3play caption file",
             "type": "OCWFile",
-            "uid": "9768369234653d66f4fa9006f2c8ba58"
+            "uid": "f48e3dfed6be29ee91f1f1b0331efcef"
         },
         {
             "alt_text": null,
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/dbc1d8158cd7b01299773a888630a83e_4afZKY-INNA.pdf",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/0d860b2f48ac3e605645f78b716cc09b_4afZKY-INNA.pdf",
             "file_type": "application/pdf",
             "id": "4afZKY-INNA.pdf",
             "order_index": 65,
@@ -1264,7 +1297,7 @@
             "platform_requirements": "",
             "title": "3play pdf file",
             "type": "OCWFile",
-            "uid": "dbc1d8158cd7b01299773a888630a83e"
+            "uid": "0d860b2f48ac3e605645f78b716cc09b"
         },
         {
             "alt_text": null,
@@ -1274,7 +1307,7 @@
             "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/b76188ba9ff71c16b939c34e1ae52d5a_MIT21G_107F14_Philosophy_zh-hans-cmn.pdf",
             "file_type": "application/pdf",
             "id": "MIT21G_107F14_Philosophy_zh-hans-cmn.pdf",
-            "order_index": 69,
+            "order_index": 73,
             "parent_uid": "5fdcb67f1a8ee3b60fe3006920955657",
             "platform_requirements": "",
             "title": "MIT21G_107F14_Philosophy_zh-hans-cmn",
@@ -1289,7 +1322,7 @@
             "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/2095733efedf570762b18d167399e80b_MIT21G_107F14_Philosophy_zh-hans-cmn.srt",
             "file_type": "application/x-subrip",
             "id": "MIT21G_107F14_Philosophy_zh-hans-cmn.srt",
-            "order_index": 70,
+            "order_index": 74,
             "parent_uid": "5fdcb67f1a8ee3b60fe3006920955657",
             "platform_requirements": "",
             "title": "MIT21G_107F14_Philosophy_zh-hans-cmn.srt",
@@ -1304,7 +1337,7 @@
             "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/14ab524f934a0a733ae92ca084e362da_MIT21G_107F14_Streamlined_zh-hans-cmn.pdf",
             "file_type": "application/pdf",
             "id": "MIT21G_107F14_Streamlined_zh-hans-cmn.pdf",
-            "order_index": 78,
+            "order_index": 82,
             "parent_uid": "b3692a761d8d1c880cb2771fc8b3b043",
             "platform_requirements": "",
             "title": "MIT21G_107F14_Streamlined_zh-hans-cmn",
@@ -1319,7 +1352,7 @@
             "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/4c1b988d0bf13fed36b6be276264312d_MIT21G_107F14_Streamlined_zh-hans-cmn.srt",
             "file_type": "application/x-subrip",
             "id": "MIT21G_107F14_Streamlined_zh-hans-cmn.srt",
-            "order_index": 79,
+            "order_index": 83,
             "parent_uid": "b3692a761d8d1c880cb2771fc8b3b043",
             "platform_requirements": "",
             "title": "MIT21G_107F14_Streamlined_zh-hans-cmn.srt",
@@ -1334,7 +1367,7 @@
             "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/38c50434559fb0561d58565b2a886836_MIT21G_107F14_Lingt_zh-hans-cmn.pdf",
             "file_type": "application/pdf",
             "id": "MIT21G_107F14_Lingt_zh-hans-cmn.pdf",
-            "order_index": 87,
+            "order_index": 91,
             "parent_uid": "a172f60ed9a68d33fe216f52b84a4295",
             "platform_requirements": "",
             "title": "MIT21G_107F14_Lingt_zh-hans-cmn",
@@ -1349,7 +1382,7 @@
             "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/718434b7c03b75511c47ed542aca6e15_MIT21G_107F14_Lingt_zh-hans-cmn.srt",
             "file_type": "application/x-subrip",
             "id": "MIT21G_107F14_Lingt_zh-hans-cmn.srt",
-            "order_index": 88,
+            "order_index": 92,
             "parent_uid": "a172f60ed9a68d33fe216f52b84a4295",
             "platform_requirements": "",
             "title": "MIT21G_107F14_Lingt_zh-hans-cmn.srt",
@@ -1364,7 +1397,7 @@
             "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/08b2fd37a6ba66737e148c135e5b8721_MIT21G_107F14_Assessment_zh-hans-cmn.pdf",
             "file_type": "application/pdf",
             "id": "MIT21G_107F14_Assessment_zh-hans-cmn.pdf",
-            "order_index": 96,
+            "order_index": 100,
             "parent_uid": "a8e8e026bdb498b05062ad2b5f671106",
             "platform_requirements": "",
             "title": "MIT21G_107F14_Assessment_zh-hans-cmn",
@@ -1379,7 +1412,7 @@
             "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/ab096491b95126dcd4f3085bf7ea7c87_MIT21G_107F14_Assessment_zh-hans-cmn.srt",
             "file_type": "application/x-subrip",
             "id": "MIT21G_107F14_Assessment_zh-hans-cmn.srt",
-            "order_index": 97,
+            "order_index": 101,
             "parent_uid": "a8e8e026bdb498b05062ad2b5f671106",
             "platform_requirements": "",
             "title": "MIT21G_107F14_Assessment_zh-hans-cmn.srt",
@@ -1391,30 +1424,30 @@
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/156ec4ccaecb623a0fb45c59347f3ded_MIT21G_107F14_CourseIteration_zh-hans-cmn.pdf",
-            "file_type": "application/pdf",
-            "id": "MIT21G_107F14_CourseIteration_zh-hans-cmn.pdf",
-            "order_index": 105,
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/a21b6923cc7d0120e62851d7305f9476_MIT21G_107F14_CourseIteration_zh-hans-cmn.srt",
+            "file_type": "application/x-subrip",
+            "id": "MIT21G_107F14_CourseIteration_zh-hans-cmn.srt",
+            "order_index": 109,
             "parent_uid": "751a9da0667ee22325e3dde67e65e4ce",
             "platform_requirements": "",
-            "title": "MIT21G_107F14_CourseIteration_zh-hans-cmn",
+            "title": "MIT21G_107F14_CourseIteration_zh-hans-cmn.srt",
             "type": "OCWFile",
-            "uid": "156ec4ccaecb623a0fb45c59347f3ded"
+            "uid": "a21b6923cc7d0120e62851d7305f9476"
         },
         {
             "alt_text": null,
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/a21b6923cc7d0120e62851d7305f9476_MIT21G_107F14_CourseIteration_zh-hans-cmn.srt",
-            "file_type": "application/x-subrip",
-            "id": "MIT21G_107F14_CourseIteration_zh-hans-cmn.srt",
-            "order_index": 106,
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/156ec4ccaecb623a0fb45c59347f3ded_MIT21G_107F14_CourseIteration_zh-hans-cmn.pdf",
+            "file_type": "application/pdf",
+            "id": "MIT21G_107F14_CourseIteration_zh-hans-cmn.pdf",
+            "order_index": 110,
             "parent_uid": "751a9da0667ee22325e3dde67e65e4ce",
             "platform_requirements": "",
-            "title": "MIT21G_107F14_CourseIteration_zh-hans-cmn.srt",
+            "title": "MIT21G_107F14_CourseIteration_zh-hans-cmn",
             "type": "OCWFile",
-            "uid": "a21b6923cc7d0120e62851d7305f9476"
+            "uid": "156ec4ccaecb623a0fb45c59347f3ded"
         },
         {
             "alt_text": "",
@@ -2276,82 +2309,82 @@
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/vtta06a088a86aa9ef2b5d21f02a04109fa_M_gQolc3clM.vtt",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/4ca77582793d5924a710902f4f8a4961_805687.vtt",
             "file_type": "application/x-subrip",
-            "id": "M_gQolc3clM.vtt",
+            "id": "805687.vtt",
             "order_index": 14,
             "parent_uid": "58a6c062c3801594c1010c9bacadde98",
             "platform_requirements": "",
             "title": "3play caption file",
             "type": "OCWFile",
-            "uid": "vtta06a088a86aa9ef2b5d21f02a04109fa"
+            "uid": "4ca77582793d5924a710902f4f8a4961"
         },
         {
             "alt_text": null,
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/vttc6d2dcd3dcf63534726e526b9ef5c7c0_9RZa3zBruVA.vtt",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/78ecf57fa0b7563bbe0bb566a70ff131_9RZa3zBruVA.vtt",
             "file_type": "application/x-subrip",
             "id": "9RZa3zBruVA.vtt",
-            "order_index": 23,
+            "order_index": 24,
             "parent_uid": "961ffe2b512058c285c6aac54adf9d3d",
             "platform_requirements": "",
             "title": "3play caption file",
             "type": "OCWFile",
-            "uid": "vttc6d2dcd3dcf63534726e526b9ef5c7c0"
+            "uid": "78ecf57fa0b7563bbe0bb566a70ff131"
         },
         {
             "alt_text": null,
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/vtt8b97fb9aed2b7d71d88b743f48c6425d_-56G36H8BvY.vtt",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/1207210de11953aaba9e71df20916efa_-56G36H8BvY.vtt",
             "file_type": "application/x-subrip",
             "id": "-56G36H8BvY.vtt",
-            "order_index": 32,
+            "order_index": 34,
             "parent_uid": "c2e1f1ad42679457198c71336e249851",
             "platform_requirements": "",
             "title": "3play caption file",
             "type": "OCWFile",
-            "uid": "vtt8b97fb9aed2b7d71d88b743f48c6425d"
+            "uid": "1207210de11953aaba9e71df20916efa"
         },
         {
             "alt_text": null,
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/vtt6b8045083f833addfd70786897536e77_bH4L4Nv_PeA.vtt",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/3e30ded691f7541194659bd675561edd_bH4L4Nv_PeA.vtt",
             "file_type": "application/x-subrip",
             "id": "bH4L4Nv_PeA.vtt",
-            "order_index": 43,
+            "order_index": 44,
             "parent_uid": "76957cb58095a8933b39fcdf5d2ff487",
             "platform_requirements": "",
             "title": "3play caption file",
             "type": "OCWFile",
-            "uid": "vtt6b8045083f833addfd70786897536e77"
+            "uid": "3e30ded691f7541194659bd675561edd"
         },
         {
             "alt_text": null,
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/vtt1c79896c77f0057e22b68531951758f2_FtIdQUcZlWU.vtt",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/c7811206090e5557aab135f925bfd2e1_FtIdQUcZlWU.vtt",
             "file_type": "application/x-subrip",
             "id": "FtIdQUcZlWU.vtt",
-            "order_index": 53,
+            "order_index": 54,
             "parent_uid": "9ffc1d74fd0d45845204fe769679b268",
             "platform_requirements": "",
             "title": "3play caption file",
             "type": "OCWFile",
-            "uid": "vtt1c79896c77f0057e22b68531951758f2"
+            "uid": "c7811206090e5557aab135f925bfd2e1"
         },
         {
             "alt_text": null,
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/vtt9768369234653d66f4fa9006f2c8ba58_4afZKY-INNA.vtt",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/d6305606348c523e83d32f850ec85455_4afZKY-INNA.vtt",
             "file_type": "application/x-subrip",
             "id": "4afZKY-INNA.vtt",
             "order_index": 64,
@@ -2359,82 +2392,82 @@
             "platform_requirements": "",
             "title": "3play caption file",
             "type": "OCWFile",
-            "uid": "vtt9768369234653d66f4fa9006f2c8ba58"
+            "uid": "d6305606348c523e83d32f850ec85455"
         },
         {
             "alt_text": null,
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/vtt2095733efedf570762b18d167399e80b_MIT21G_107F14_Philosophy_zh-hans-cmn.vtt",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/c6b2e69d6d905a58a781db80f2c53260_MIT21G_107F14_Philosophy_zh-hans-cmn.vtt",
             "file_type": "application/x-subrip",
             "id": "MIT21G_107F14_Philosophy_zh-hans-cmn.vtt",
-            "order_index": 70,
+            "order_index": 74,
             "parent_uid": "5fdcb67f1a8ee3b60fe3006920955657",
             "platform_requirements": "",
             "title": "MIT21G_107F14_Philosophy_zh-hans-cmn.srt",
             "type": "OCWFile",
-            "uid": "vtt2095733efedf570762b18d167399e80b"
+            "uid": "c6b2e69d6d905a58a781db80f2c53260"
         },
         {
             "alt_text": null,
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/vtt4c1b988d0bf13fed36b6be276264312d_MIT21G_107F14_Streamlined_zh-hans-cmn.vtt",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/393b284d48dd5f76a8a7e154a1ddc687_MIT21G_107F14_Streamlined_zh-hans-cmn.vtt",
             "file_type": "application/x-subrip",
             "id": "MIT21G_107F14_Streamlined_zh-hans-cmn.vtt",
-            "order_index": 79,
+            "order_index": 83,
             "parent_uid": "b3692a761d8d1c880cb2771fc8b3b043",
             "platform_requirements": "",
             "title": "MIT21G_107F14_Streamlined_zh-hans-cmn.srt",
             "type": "OCWFile",
-            "uid": "vtt4c1b988d0bf13fed36b6be276264312d"
+            "uid": "393b284d48dd5f76a8a7e154a1ddc687"
         },
         {
             "alt_text": null,
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/vtt718434b7c03b75511c47ed542aca6e15_MIT21G_107F14_Lingt_zh-hans-cmn.vtt",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/b2d4bb0946c557dca9e7d1a184e7d53e_MIT21G_107F14_Lingt_zh-hans-cmn.vtt",
             "file_type": "application/x-subrip",
             "id": "MIT21G_107F14_Lingt_zh-hans-cmn.vtt",
-            "order_index": 88,
+            "order_index": 92,
             "parent_uid": "a172f60ed9a68d33fe216f52b84a4295",
             "platform_requirements": "",
             "title": "MIT21G_107F14_Lingt_zh-hans-cmn.srt",
             "type": "OCWFile",
-            "uid": "vtt718434b7c03b75511c47ed542aca6e15"
+            "uid": "b2d4bb0946c557dca9e7d1a184e7d53e"
         },
         {
             "alt_text": null,
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/vttab096491b95126dcd4f3085bf7ea7c87_MIT21G_107F14_Assessment_zh-hans-cmn.vtt",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/4f1f99bd28c6505ba209d2b90cbe6c81_MIT21G_107F14_Assessment_zh-hans-cmn.vtt",
             "file_type": "application/x-subrip",
             "id": "MIT21G_107F14_Assessment_zh-hans-cmn.vtt",
-            "order_index": 97,
+            "order_index": 101,
             "parent_uid": "a8e8e026bdb498b05062ad2b5f671106",
             "platform_requirements": "",
             "title": "MIT21G_107F14_Assessment_zh-hans-cmn.srt",
             "type": "OCWFile",
-            "uid": "vttab096491b95126dcd4f3085bf7ea7c87"
+            "uid": "4f1f99bd28c6505ba209d2b90cbe6c81"
         },
         {
             "alt_text": null,
             "caption": null,
             "credit": null,
             "description": "",
-            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/vtta21b6923cc7d0120e62851d7305f9476_MIT21G_107F14_CourseIteration_zh-hans-cmn.vtt",
+            "file_location": "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/8172808fa9b159748f468da698660642_MIT21G_107F14_CourseIteration_zh-hans-cmn.vtt",
             "file_type": "application/x-subrip",
             "id": "MIT21G_107F14_CourseIteration_zh-hans-cmn.vtt",
-            "order_index": 106,
+            "order_index": 109,
             "parent_uid": "751a9da0667ee22325e3dde67e65e4ce",
             "platform_requirements": "",
             "title": "MIT21G_107F14_CourseIteration_zh-hans-cmn.srt",
             "type": "OCWFile",
-            "uid": "vtta21b6923cc7d0120e62851d7305f9476"
+            "uid": "8172808fa9b159748f468da698660642"
         }
     ],
     "course_foreign_files": [],
@@ -2730,6 +2763,7 @@
     "first_published_to_production": "2015/09/22 16:32:19.447 GMT-4",
     "from_semester": "Fall",
     "from_year": "2014",
+    "highlights_text": "<p>Min-Min Liang describes her approach to teaching in dual-language <a href=\"./resolveuid/4ae1516c220679142383e2f4136cf2f6#insights\">Instructor Insights</a> videos (English and Chinese).</p>",
     "image_alternate_text": "Three Chinese characters in four different calligraphy scripts written on calligraphy grid paper, with two brushes, a bottle of ink, and an inkstone at the side.",
     "image_caption_text": "<p>Three Chinese characters, <a href=\"https://28utscprojects.wordpress.com/2011/11/10/s028/\">&quot;Butterfly(\u8776),&quot; &quot;Love(\u6200),&quot; and &quot;Flower(\u82b1)</a>,&quot; of which consist the title of a classical Chinese lyric poetry in the Song Dynasty (960&ndash;1279), are written in four different calligraphy scripts, with the use of the &quot;Four Treasures of the Study (\u6587\u623f\u56db\u5bf6),&quot; including a brush, an ink, paper, and an inkstone. (Image courtesy of <a href=\"https://www.flickr.com/photos/cathy_cho/14795506723/\">Cathy Cho</a> on Flickr.)</p>",
     "image_description": "Three Chinese characters, \"Butterfly(\u8776),\" \"Love(\u6200),\" and \"Flower(\u82b1),\" which consist the title of a classical Chinese lyric poetry of the Song Dynasty, are written in four different calligraphy scripts, with the use of the \"Four Treasure of the Study (\u6587\u623f\u56db\u5bf6),\" including the brush, the ink, the paper, and the inkstone. Image courtesy of Cathy Cho on Flickr.",
@@ -2752,15 +2786,39 @@
         "d209af3f0b5f0287a467a9f92cec8400"
     ],
     "language": "en-US",
-    "last_published_to_production": "2021/08/31 14:30:24.179 Universal",
+    "last_published_to_production": "2022/01/10 05:35:56.187 Universal",
     "last_unpublishing_date": null,
     "master_course_number": "107",
+    "metadata_contributor_list": [
+        {
+            "md_contributor_entity": "Liang, Min-Min",
+            "md_contributor_hide": "N",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "c192c8bdd4444b30b9e47a79ede340d8"
+        },
+        {
+            "md_contributor_entity": "Todd Rautenberg",
+            "md_contributor_hide": "",
+            "md_contributor_role": "Validator",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": ""
+        },
+        {
+            "md_contributor_entity": "",
+            "md_contributor_hide": "",
+            "md_contributor_role": "Creator",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "dummy-contributor"
+        }
+    ],
     "new_course_numbers": [],
     "open_learning_library_related": [],
     "other_information_text": "",
     "other_version_parent_uids": [
         "193e2e12df849c9ac2dac99bdd5749ef"
     ],
+    "related_content": "<h2 class=\"subhead\">Course Sequences</h2> <p>This course is the first part of a six-course sequence. The sequence continues in <em><a href=\"./resolveuid/c7e96add06517870d3e9ca7503f714a1\">21G.108 Chinese II (Streamlined)</a></em>.</p>",
     "retirement_date": null,
     "short_url": "21g-107-chinese-i-streamlined-fall-2014",
     "sort_as": "21G.107",
