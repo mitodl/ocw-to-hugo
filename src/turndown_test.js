@@ -578,7 +578,58 @@ The section should live on.
 2.  b \\\\\\<
 3.  \`x < y\` code is not escaped
 `.trim()
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(markdown, expectedMarkdown)
+  })
 
+  it("converts sup tags to sup shortcodes", async () => {
+    const inputHTML = `
+    <div>
+    <p>The 25<sup>th</sup> annual Jabberwocky<sup>&reg;</sup></p>
+    
+    Some more
+      <ol>
+        <li>nesting won't work well cats<sup>me<sup>ow</sup></sup> </li>
+        <li>boldings <sup>normal text <strong>bold woof</strong> and <em>emph</em></sup> </li>
+        <li>and quotes although <sup>who puts "quotes" in</sup> superscripts though?</li>
+      </ol>
+    </div>
+    `
+    const expectedMarkdown = `
+The 25{{< sup "th" >}} annual Jabberwocky{{< sup "®" >}}
+
+Some more
+
+1.  nesting won't work well cats{{< sup "me{{< sup \\"ow\\" >}}" >}}
+2.  boldings {{< sup "normal text **bold woof** and _emph_" >}}
+3.  and quotes although {{< sup "who puts \\"quotes\\" in" >}} superscripts though?
+    `.trim()
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(markdown, expectedMarkdown)
+  })
+
+  it("converts sub tags to sub shortcodes", async () => {
+    const inputHTML = `
+    <div>
+    <p>The 25<sub>th</sub> annual Jabberwocky<sub>&reg;</sub></p>
+    
+    Some more
+      <ol>
+        <li>nesting won't work well cats<sub>me<sub>ow</sub></sub> </li>
+        <li>boldings <sub>normal text <strong>bold woof</strong> and <em>emph</em></sub> </li>
+        <li>and quotes although <sub>who puts "quotes" in</sub> subscripts though?</li>
+      </ol>
+    </div>
+    `
+    const expectedMarkdown = `
+The 25{{< sub "th" >}} annual Jabberwocky{{< sub "®" >}}
+
+Some more
+
+1.  nesting won't work well cats{{< sub "me{{< sub \\"ow\\" >}}" >}}
+2.  boldings {{< sub "normal text **bold woof** and _emph_" >}}
+3.  and quotes although {{< sub "who puts \\"quotes\\" in" >}} subscripts though?
+    `.trim()
     const markdown = await html2markdown(inputHTML)
     assert.equal(markdown, expectedMarkdown)
   })

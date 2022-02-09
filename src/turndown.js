@@ -646,6 +646,26 @@ turndownService.addRule("resource_shortcodes", {
   }
 })
 
+turndownService.addRule("subscript", {
+  filter: (node, options) => {
+    return node.nodeName === "SUB"
+  },
+  replacement: (content, node, options) => {
+    const quotesEscaped = JSON.stringify(content)
+    return `{{< sub ${quotesEscaped} >}}`
+  }
+})
+
+turndownService.addRule("superscript", {
+  filter: (node, options) => {
+    return node.nodeName === "SUP"
+  },
+  replacement: (content, node, options) => {
+    const quotesEscaped = JSON.stringify(content)
+    return `{{< sup ${quotesEscaped} >}}`
+  }
+})
+
 function html2markdown(text) {
   return turndownService.turndown(text)
 }
