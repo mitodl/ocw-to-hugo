@@ -368,14 +368,15 @@ describe("markdown generators", function() {
       )
       const frontmatter = yaml.safeLoad(file.data.split("---\n")[1])
       assert.deepEqual(frontmatter, {
-        title:              "0.1 Vectors vs. Scalars",
-        description:        "",
-        optional_text:      "",
-        optional_tab_title: "",
-        uid:                "5b89e3d0-ea34-5f02-540b-ac14b4acac9b",
-        resourcetype:       "Video",
-        video_metadata:     { youtube_id: "5ucfHd8FWKw" },
-        video_files:        {
+        title:               "0.1 Vectors vs. Scalars",
+        description:         "",
+        optional_text:       "",
+        optional_tab_title:  "",
+        resource_index_text: "",
+        uid:                 "5b89e3d0-ea34-5f02-540b-ac14b4acac9b",
+        resourcetype:        "Video",
+        video_metadata:      { youtube_id: "5ucfHd8FWKw" },
+        video_files:         {
           archive_url:
             "https://archive.org/download/MIT8.01F16/MIT8_01F16_L00v01_360p.mp4",
           video_thumbnail_file:
