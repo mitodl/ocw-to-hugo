@@ -299,6 +299,15 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
   const optionalText = html2markdown(
     fixLinks(media["optional_text"] || "", courseData, pathLookup, false, true)
   )
+  const relatedResourcesText = html2markdown(
+    fixLinks(
+      media["related_resources_text"] || "",
+      courseData,
+      pathLookup,
+      false,
+      true
+    )
+  )
 
   const videoThumbnailLocation = thumbnailFile
     ? thumbnailFile.media_location
@@ -327,9 +336,10 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
       video_transcript_file: transcriptFileLocation,
       archive_url:           archiveUrl
     },
-    optional_text:       optionalText,
-    optional_tab_title:  media["optional_tab_title"] || "",
-    resource_index_text: media["resource_index_text"] || ""
+    optional_text:          optionalText,
+    related_resources_text: relatedResourcesText,
+    optional_tab_title:     media["optional_tab_title"] || "",
+    resource_index_text:    media["resource_index_text"] || ""
   }
 
   const parents = courseData["course_pages"].filter(
