@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.40.0
+--------------
+
+- new fields for last import (#457)
+
 Version 1.39.0 (Released February 09, 2022)
 --------------
 
