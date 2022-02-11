@@ -5517,6 +5517,7 @@
     "first_published_to_production": "2008/01/25 00:04:44 US/Eastern",
     "from_semester": "Spring",
     "from_year": "2007",
+    "highlights_text": "",
     "image_alternate_text": "Vizualization of a magnet levitating above a superconducting ring.",
     "image_caption_text": "<p>Magnet Levitating Above A Superconducting Ring: The image shows a permanent magnet levitating above a conducting non-magnetic ring with zero resistance. The magnet is levitated by eddy currents induced in the ring by the approaching magnet. These currents are always such as to repel the magnet, by Lenz's Law. (Image by&nbsp;Mark Bessette.)</p>",
     "image_description": "Magnet Levitating Above A Superconducting Ring: The image shows a permanent magnet levitating above a conducting non-magnetic ring with zero resistance. The magnet is levitated by eddy currents induced in the ring by the approaching magnet. These currents are always such as to repel the magnet, by Lenz Law. (Image courtesy of Prof. John Belcher.)",
@@ -5640,6 +5641,106 @@
     "last_published_to_production": "2021/03/24 18:46:27.378 Universal",
     "last_unpublishing_date": null,
     "master_course_number": "02",
+    "metadata_contributor_list": [
+        {
+            "md_contributor_entity": "Faculty, Lecturers, and Technical Staff, Physics Department",
+            "md_contributor_hide": "N",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "de1a3f2c6cec7107a00ab69ca71460cd"
+        },
+        {
+            "md_contributor_entity": "Todd Rautenberg",
+            "md_contributor_hide": "",
+            "md_contributor_role": "Validator",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": ""
+        },
+        {
+            "md_contributor_entity": "Todd Rautenberg",
+            "md_contributor_hide": "",
+            "md_contributor_role": "Creator",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": ""
+        },
+        {
+            "md_contributor_entity": "Wyslouch, Boleslaw",
+            "md_contributor_hide": "Y",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "3bdac84badddb2346d1a2931048425c0"
+        },
+        {
+            "md_contributor_entity": "",
+            "md_contributor_hide": "",
+            "md_contributor_role": "Creator",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "dummy-contributor"
+        },
+        {
+            "md_contributor_entity": "Wecht, Brian",
+            "md_contributor_hide": "Y",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "0c9482ae2a3a7776721572fc1beac1d1"
+        },
+        {
+            "md_contributor_entity": "",
+            "md_contributor_hide": "",
+            "md_contributor_role": "Creator",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "dummy-contributor"
+        },
+        {
+            "md_contributor_entity": "Knuteson, Bruce",
+            "md_contributor_hide": "Y",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "a987aa51bf9c0c7dbbe92879829df022"
+        },
+        {
+            "md_contributor_entity": "Katsavounidis, Erik",
+            "md_contributor_hide": "Y",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "3e8e5abeb6a077a2b1b8e9c23872716d"
+        },
+        {
+            "md_contributor_entity": "Roland, Gunther M.",
+            "md_contributor_hide": "Y",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "ab4c246dac2e379bb7d30fbf45a6dfbd"
+        },
+        {
+            "md_contributor_entity": "Belcher, John",
+            "md_contributor_hide": "Y",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "0183f79da18b918146a036ba6464ab1b"
+        },
+        {
+            "md_contributor_entity": "Formaggio, Joseph A.",
+            "md_contributor_hide": "Y",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "152013a8f2762ee6ea2a6ec25ff691f2"
+        },
+        {
+            "md_contributor_entity": "Dourmashkin, Peter",
+            "md_contributor_hide": "Y",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "a32373bc8c78e37af79e1f15686d1a9b"
+        },
+        {
+            "md_contributor_entity": "Simcoe, Robert A.",
+            "md_contributor_hide": "Y",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "fb4108ab07784fe6114487ca06719123"
+        }
+    ],
     "new_course_numbers": [],
     "open_learning_library_related": [
         {
@@ -5659,6 +5760,7 @@
     "other_version_parent_uids": [
         "206222b741b31eab7b4b2771202c4bbd"
     ],
+    "related_content": "<h2 class=\"subhead\">Course Sequences</h2> <p>This course is the second part of a three-course sequence. The first course in the sequence is <em>8.01T Physics I</em>. The sequence continues in <a href=\"./resolveuid/c77633867592f56dd3c52b85e1380e4f\"><em>8.03 Physics III</em></a>.</p> <p>This course is the first in a series on Electromagnetism.  The next course in the series is <a href=\"./resolveuid/a13cb180def71b6751c67ce1c2c1e48e\"><em>8.07 Electromagnetism II</em></a>.</p>",
     "retirement_date": null,
     "short_url": "8-02-physics-ii-electricity-and-magnetism-spring-2007",
     "sort_as": "8.02",

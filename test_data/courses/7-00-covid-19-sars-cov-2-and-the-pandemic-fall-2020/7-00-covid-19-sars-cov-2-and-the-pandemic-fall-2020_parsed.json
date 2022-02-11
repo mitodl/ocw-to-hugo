@@ -135,6 +135,7 @@
     "first_published_to_production": "2020/09/10 15:53:03.517 Universal",
     "from_semester": "Fall",
     "from_year": "2020",
+    "highlights_text": "",
     "image_alternate_text": "Graphic of world map with COVID image overlay",
     "image_caption_text": "<p>COVID-19 is a worldwide pandemic. (Image courtesy MIT Department of Biology.)</p>",
     "image_description": "",
@@ -157,12 +158,22 @@
     "last_published_to_production": "2021/09/09 16:21:14.059 Universal",
     "last_unpublishing_date": null,
     "master_course_number": "00",
+    "metadata_contributor_list": [
+        {
+            "md_contributor_entity": "MIT Department of Biology",
+            "md_contributor_hide": "N",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "7fa1d13ac25c0bd0e70e901cbd3894ab"
+        }
+    ],
     "new_course_numbers": [],
     "open_learning_library_related": [],
     "other_information_text": "",
     "other_version_parent_uids": [
         "b8e5da0eb3f444d4a7949f039a75d675"
     ],
+    "related_content": "",
     "retirement_date": null,
     "short_url": "7-00-covid-19-sars-cov-2-and-the-pandemic-fall-2020",
     "sort_as": "7.00",

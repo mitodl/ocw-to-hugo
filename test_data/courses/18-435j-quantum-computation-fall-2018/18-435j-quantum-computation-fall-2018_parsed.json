@@ -258,6 +258,7 @@
     "first_published_to_production": "2020/10/22 17:58:29.016 Universal",
     "from_semester": "Fall",
     "from_year": "2018",
+    "highlights_text": "",
     "image_alternate_text": "A close-up image of an electronic component.",
     "image_caption_text": "<p>Photograph of a chip constructed by D-Wave Systems Inc. designed to operate as a 128-qubit superconducting adiabatic quantum optimization processor, mounted in a sample holder. (Photo courtesy of <a href=\"https://commons.wikimedia.org/wiki/File:DWave_128chip.jpg\">D-Wave Systems Inc. on Wikimedia</a>. License: CC BY.)</p>",
     "image_description": "",
@@ -293,12 +294,29 @@
     "last_published_to_production": "2020/10/22 17:58:29.016 Universal",
     "last_unpublishing_date": "2020/10/23 17:16:16.126 Universal",
     "master_course_number": "435J",
+    "metadata_contributor_list": [
+        {
+            "md_contributor_entity": "Harrow, Aram",
+            "md_contributor_hide": "N",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "1bed481185f7da5b2f9c1556911a4fc4"
+        },
+        {
+            "md_contributor_entity": "Lloyd, Seth",
+            "md_contributor_hide": "N",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "c9805ee21e4f310f1e1cb1519b9373ec"
+        }
+    ],
     "new_course_numbers": [],
     "open_learning_library_related": [],
     "other_information_text": "",
     "other_version_parent_uids": [
         "5134d52f8226b8012c9f956fcdd79c9c"
     ],
+    "related_content": "",
     "retirement_date": null,
     "short_url": "18-435j-quantum-computation-fall-2018",
     "sort_as": "18.435J",

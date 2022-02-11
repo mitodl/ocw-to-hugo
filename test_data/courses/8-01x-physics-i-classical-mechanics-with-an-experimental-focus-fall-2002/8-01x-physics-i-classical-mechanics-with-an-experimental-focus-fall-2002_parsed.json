@@ -1401,6 +1401,7 @@
     "first_published_to_production": "2006/11/07 14:06:55 US/Eastern",
     "from_semester": "Fall",
     "from_year": "2002",
+    "highlights_text": "",
     "image_alternate_text": "Intricate diagram showing how an experiment is set up.",
     "image_caption_text": "<p>Equipment set-up for the Falling Object Experiment. (Image by Prof. King and Dr. Dourmashkin.)</p>",
     "image_description": "Equipment set-up for the Falling Object Experiment. (Image by Prof. King and Dr. Dourmashkin.)",
@@ -1434,12 +1435,43 @@
     "last_published_to_production": "2017/07/13 10:08:24.552 GMT-4",
     "last_unpublishing_date": null,
     "master_course_number": "01X",
+    "metadata_contributor_list": [
+        {
+            "md_contributor_entity": "Scholberg, Kate",
+            "md_contributor_hide": "N",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "801f7e40e28393d31254dcb5a6c4d8e1"
+        },
+        {
+            "md_contributor_entity": "Todd Rautenberg",
+            "md_contributor_hide": "",
+            "md_contributor_role": "Validator",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": ""
+        },
+        {
+            "md_contributor_entity": "Dourmashkin, Peter",
+            "md_contributor_hide": "N",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "a32373bc8c78e37af79e1f15686d1a9b"
+        },
+        {
+            "md_contributor_entity": "Todd Rautenberg",
+            "md_contributor_hide": "",
+            "md_contributor_role": "Creator",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": ""
+        }
+    ],
     "new_course_numbers": [],
     "open_learning_library_related": [],
     "other_information_text": "",
     "other_version_parent_uids": [
         "977c90d0c4bb1443f1edd0cdc3ad25c3"
     ],
+    "related_content": "<h2 class=\"subhead\">Course Sequences</h2>\r\n<p>This course is the first part of a two-course sequence. The sequence continues in <a href=\"./resolveuid/0fae0f29d97babb408df164c0e853170\"><em>8.02X Physics II: Electricity &amp; Magnetism with an Experimental Focus</em></a>.</p>",
     "retirement_date": null,
     "short_url": "8-01x-physics-i-classical-mechanics-with-an-experimental-focus-fall-2002",
     "sort_as": "8.01X",

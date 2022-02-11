@@ -96,16 +96,23 @@ const generateLegacyDataTemplate = (courseData, pathLookup) => {
         : `${instructor["first_name"]} ${instructor["last_name"]}`
 
       return {
-        instructor:     name,
-        url:            helpers.makeCourseInfoUrl(name, "q"),
-        first_name:     instructor["first_name"],
-        last_name:      instructor["last_name"],
-        middle_initial: instructor["middle_initial"],
-        salutation:     instructor["salutation"],
-        uid:            helpers.addDashesToUid(instructor["uid"])
+        instructor:      name,
+        url:             helpers.makeCourseInfoUrl(name, "q"),
+        first_name:      instructor["first_name"],
+        last_name:       instructor["last_name"],
+        middle_initial:  instructor["middle_initial"],
+        salutation:      instructor["salutation"],
+        department:      instructor["department"],
+        directory_title: instructor["directory_title"],
+        title:           instructor["title"],
+        uid:             helpers.addDashesToUid(instructor["uid"])
       }
     }
   )
+  dataTemplate["metadata_contributor_list"] =
+    courseData["metadata_contributor_list"] || []
+  dataTemplate["highlights_text"] = courseData["highlights_text"] || ""
+  dataTemplate["related_content"] = courseData["related_content"] || ""
   return dataTemplate
 }
 

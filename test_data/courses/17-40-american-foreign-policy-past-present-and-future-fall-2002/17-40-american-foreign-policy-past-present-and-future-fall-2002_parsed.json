@@ -152,6 +152,7 @@
     "first_published_to_production": "2003/09/18 12:32:04 GMT-4",
     "from_semester": "Fall",
     "from_year": "2002",
+    "highlights_text": "",
     "image_alternate_text": "",
     "image_caption_text": "",
     "image_description": "",
@@ -174,10 +175,34 @@
     "last_published_to_production": "2003/09/18 12:32:04 GMT-4",
     "last_unpublishing_date": "2006/09/29 06:05:23 GMT-4",
     "master_course_number": "40",
+    "metadata_contributor_list": [
+        {
+            "md_contributor_entity": "Van Evera, Stephen",
+            "md_contributor_hide": "",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "555a4b0bfd37ef29e3644b6d9753b702"
+        },
+        {
+            "md_contributor_entity": "Todd Rautenberg",
+            "md_contributor_hide": "",
+            "md_contributor_role": "Validator",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": ""
+        },
+        {
+            "md_contributor_entity": "Todd Rautenberg",
+            "md_contributor_hide": "",
+            "md_contributor_role": "Creator",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": ""
+        }
+    ],
     "new_course_numbers": [],
     "open_learning_library_related": [],
     "other_information_text": "",
     "other_version_parent_uids": null,
+    "related_content": "",
     "retirement_date": "2007/01/24 23:22:55 US/Eastern",
     "short_url": "17-40-american-foreign-policy-past-present-and-future-fall-2002",
     "sort_as": "17.40",

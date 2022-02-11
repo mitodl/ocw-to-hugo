@@ -1248,6 +1248,7 @@
     "first_published_to_production": "2010/10/19 11:38:37.185 GMT-4",
     "from_semester": "Spring",
     "from_year": "2010",
+    "highlights_text": "",
     "image_alternate_text": "Diagram of a network with five nodes and ten paths.",
     "image_caption_text": "<p>Network equilibrium can be applied to transportation. See Lecture 18 for more information. (Figure by MIT OpenCourseWare.)</p>",
     "image_description": "Network equilibrium can be applied to transportation. See Lecture 18 for more information. (Figure by MIT OpenCourseWare.)",
@@ -1270,12 +1271,22 @@
     "last_published_to_production": "2020/10/28 13:24:27.042 Universal",
     "last_unpublishing_date": null,
     "master_course_number": "204",
+    "metadata_contributor_list": [
+        {
+            "md_contributor_entity": "Kocur, George",
+            "md_contributor_hide": "N",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "b99a1ae6d73f451de987c72883f0fefd"
+        }
+    ],
     "new_course_numbers": [],
     "open_learning_library_related": [],
     "other_information_text": "",
     "other_version_parent_uids": [
         "9a3084f326faa501f007f6aafe0e54a6"
     ],
+    "related_content": "",
     "retirement_date": null,
     "short_url": "1-204-computer-algorithms-in-systems-engineering-spring-2010",
     "sort_as": "1.204",

@@ -2059,6 +2059,7 @@
     "first_published_to_production": "2013/01/15 11:00:05.504 US/Eastern",
     "from_semester": "Spring",
     "from_year": "2012",
+    "highlights_text": "",
     "image_alternate_text": "One big and one small circuit board placed on a blue surface with attached wires",
     "image_caption_text": "<p>This phidget kit features one of the many tools taught in this course to model a logical system and solve an engineering problem. (Image by V. Judson Harward. Used with permission.)</p>",
     "image_description": "This phidget kit features one of the many tools taught in this course to model a logical system and solve an engineering problem. Image by V. Judson Harward. Used with permission.",
@@ -2105,12 +2106,43 @@
     "last_published_to_production": "2019/08/20 20:40:05.091 Universal",
     "last_unpublishing_date": null,
     "master_course_number": "00",
+    "metadata_contributor_list": [
+        {
+            "md_contributor_entity": "",
+            "md_contributor_hide": "",
+            "md_contributor_role": "Creator",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "dummy-contributor"
+        },
+        {
+            "md_contributor_entity": "Kocur, George",
+            "md_contributor_hide": "N",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "b99a1ae6d73f451de987c72883f0fefd"
+        },
+        {
+            "md_contributor_entity": "Cassa, Christopher",
+            "md_contributor_hide": "N",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "1528070ff69e8c4ce084109dec22f9c5"
+        },
+        {
+            "md_contributor_entity": "Gonzalez, Marta C.",
+            "md_contributor_hide": "N",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "3a0ae010dac6236560638040878923fb"
+        }
+    ],
     "new_course_numbers": [],
     "open_learning_library_related": [],
     "other_information_text": "",
     "other_version_parent_uids": [
         "d69b228efb636fa38a6f8771795c418e"
     ],
+    "related_content": "",
     "retirement_date": null,
     "short_url": "1-00-introduction-to-computers-and-engineering-problem-solving-spring-2012",
     "sort_as": "1.00",

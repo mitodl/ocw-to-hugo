@@ -229,21 +229,21 @@ describe("markdown generators", function() {
     ;[
       [
         true,
-        "https://example.com//21g-107-chinese-i-streamlined-fall-2014/acf8cbbcf3ada9e7b0d390c8b4f8b1e6_M_gQolc3clM.pdf"
+        "https://example.com/21g-107-chinese-i-streamlined-fall-2014/b5c611418952484a7e5914f9169b3b6e_MIT21G_107F14_Test_3.pdf"
       ],
       [
         false,
-        "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/acf8cbbcf3ada9e7b0d390c8b4f8b1e6_M_gQolc3clM.pdf"
+        "https://open-learning-course-data-production.s3.amazonaws.com/21g-107-chinese-i-streamlined-fall-2014/b5c611418952484a7e5914f9169b3b6e_MIT21G_107F14_Test_3.pdf"
       ]
     ].forEach(([useStripS3, expectedUrl]) => {
       it(`resolves urls inside embedded media urls when stripS3=${String(
         useStripS3
       )}`, () => {
         helpers.runOptions.strips3 = useStripS3
-        helpers.runOptions.staticPrefix = "https://example.com/"
+        helpers.runOptions.staticPrefix = "https://example.com"
         const markdownData = markdownGenerators
           .generateMarkdownFromJson(subtitlesCourseJsonData, pathLookup)
-          .find(file => file.name === "/resources/m_gqolc3clm-1.md")
+          .find(file => file.name === "/resources/mit21g_107f14_test_3.md")
 
         const embeddedMedia = yaml.safeLoad(markdownData.data.split("---\n")[1])
         assert.equal(embeddedMedia.file, expectedUrl)
@@ -368,18 +368,22 @@ describe("markdown generators", function() {
       )
       const frontmatter = yaml.safeLoad(file.data.split("---\n")[1])
       assert.deepEqual(frontmatter, {
-        title:          "0.1 Vectors vs. Scalars",
-        description:    "",
-        uid:            "5b89e3d0-ea34-5f02-540b-ac14b4acac9b",
-        resourcetype:   "Video",
-        video_metadata: { youtube_id: "5ucfHd8FWKw" },
-        video_files:    {
+        title:                  "0.1 Vectors vs. Scalars",
+        description:            "",
+        optional_text:          "",
+        related_resources_text: "",
+        optional_tab_title:     "",
+        resource_index_text:    "",
+        uid:                    "5b89e3d0-ea34-5f02-540b-ac14b4acac9b",
+        resourcetype:           "Video",
+        video_metadata:         { youtube_id: "5ucfHd8FWKw" },
+        video_files:            {
           archive_url:
             "https://archive.org/download/MIT8.01F16/MIT8_01F16_L00v01_360p.mp4",
           video_thumbnail_file:
             "https://img.youtube.com/vi/5ucfHd8FWKw/default.jpg",
           video_captions_file:
-            "https://open-learning-course-data-production.s3.amazonaws.com/8-01sc-classical-mechanics-fall-2016/vttb405e96bef2cc2b243e4e246b78fe292_5ucfHd8FWKw.vtt",
+            "https://open-learning-course-data-production.s3.amazonaws.com/8-01sc-classical-mechanics-fall-2016/635f774d3cd2507094b50297fe1fdc84_5ucfHd8FWKw.vtt",
           video_transcript_file:
             "https://open-learning-course-data-production.s3.amazonaws.com/8-01sc-classical-mechanics-fall-2016/f4cdef7d58bc4e84355cf7c58eeb7e15_5ucfHd8FWKw.pdf"
         },

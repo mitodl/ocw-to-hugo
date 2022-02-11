@@ -523,6 +523,7 @@
     "first_published_to_production": "2008/07/17 16:06:15 GMT-4",
     "from_semester": "Spring",
     "from_year": "2007",
+    "highlights_text": "",
     "image_alternate_text": "Artist's conception of astronauts setting up a lunar telescope array.",
     "image_caption_text": "<p>Astronauts setting up a lunar telescope array. (Image courtesy of <a href=\"http://www.nasa.gov/mission_pages/exploration/multimedia/jfa18844_prt.htm\">NASA</a>.)</p>",
     "image_description": "Astronauts setting up a lunar telescope array. (Image courtesy of NASA.)",
@@ -556,6 +557,43 @@
     "last_published_to_production": "2020/03/10 17:50:30.251 Universal",
     "last_unpublishing_date": null,
     "master_course_number": "89J",
+    "metadata_contributor_list": [
+        {
+            "md_contributor_entity": "Crawley, Edward",
+            "md_contributor_hide": "N",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "e042c8f9995fcc110a2a5aafa674c5e6"
+        },
+        {
+            "md_contributor_entity": "Todd Rautenberg",
+            "md_contributor_hide": "",
+            "md_contributor_role": "Validator",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": ""
+        },
+        {
+            "md_contributor_entity": "Todd Rautenberg",
+            "md_contributor_hide": "",
+            "md_contributor_role": "Creator",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": ""
+        },
+        {
+            "md_contributor_entity": "de Weck, Olivier",
+            "md_contributor_hide": "N",
+            "md_contributor_role": "Instructor",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "07d4f0555edfebf2c2477bbf2d19dd91"
+        },
+        {
+            "md_contributor_entity": "",
+            "md_contributor_hide": "",
+            "md_contributor_role": "Creator",
+            "md_contributor_special_title": "",
+            "md_contributor_uid": "dummy-contributor"
+        }
+    ],
     "new_course_numbers": [
         {
             "course_type_col": "Graduate",
@@ -569,6 +607,7 @@
     "other_version_parent_uids": [
         "ed7ad23f4e3788c9fa03e05c39f5ef1f"
     ],
+    "related_content": "",
     "retirement_date": null,
     "short_url": "16-89j-space-systems-engineering-spring-2007",
     "sort_as": "16.89",
