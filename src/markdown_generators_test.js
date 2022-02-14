@@ -55,7 +55,7 @@ describe("markdown generators", function() {
     )
     imageGalleryImages = imageGalleryCourseJsonData["course_files"].filter(
       file =>
-        file["type"] === "OCWImage" &&
+        file["ocw_type"] === "OCWImage" &&
         file["parent_uid"] === imageGalleryPages[0]["uid"]
     )
     videoGalleryPages = videoGalleryCourseJsonData["course_pages"].filter(
@@ -267,7 +267,7 @@ describe("markdown generators", function() {
         resourcetype: "Other",
         title:        "3play caption file",
         uid:          "96dd8de9-7968-37cf-b0e4-87cae01c2710",
-        type:         "OCWFile"
+        ocw_type:     "OCWFile"
       })
     })
 
@@ -319,7 +319,7 @@ describe("markdown generators", function() {
         parent_title:
           "7.2 Visualizing the World: An Introduction to Visualization",
         parent_type: "CourseSection",
-        type:        "OCWImage"
+        ocw_type:    "OCWImage"
       })
     })
 
@@ -442,7 +442,7 @@ describe("markdown generators", function() {
         file_type:    "application/pdf",
         file:
           "https://open-learning-course-data-production.s3.amazonaws.com/8-02-physics-ii-electricity-and-magnetism-spring-2007/d7d1fabcb57a6d4a9cc96f04348dedfd_acknowledgements.pdf",
-        type: "OCWFile"
+        ocw_type: "OCWFile"
       })
     })
 
@@ -464,7 +464,7 @@ describe("markdown generators", function() {
           "https://open-learning-course-data-production.s3.amazonaws.com/8-02-physics-ii-electricity-and-magnetism-spring-2007/a1bfc34ccf08ddf8474627b9a13d6ca8_summary_w12d2.pdf",
         parent_title: "Readings",
         parent_type:  "CourseSection",
-        type:         "OCWFile"
+        ocw_type:     "OCWFile"
       })
     })
   })

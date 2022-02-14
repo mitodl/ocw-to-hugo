@@ -187,7 +187,7 @@ const generateCourseSectionFrontMatter = (
     courseSectionFrontMatter["layout"] = layout
   }
   if (type) {
-    courseSectionFrontMatter["type"] = type
+    courseSectionFrontMatter["ocw_type"] = type
   }
   return `---\n${yaml.safeDump(courseSectionFrontMatter)}---\n`
 }
@@ -233,7 +233,7 @@ const generateResourceMarkdownForFile = (file, courseData, pathLookup) => {
     resourcetype: helpers.getResourceType(file["file_type"]),
     file_type:    file["file_type"],
     file:         helpers.stripS3(file["file_location"]),
-    type:         file["type"]
+    ocw_type:     file["type"]
   }
 
   const parents = courseData["course_pages"].filter(
