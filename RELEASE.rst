@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.41.0
+Version 1.41.0 (Released February 14, 2022)
 --------------
 
 - type -> ocw_type (#462)
