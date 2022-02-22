@@ -180,11 +180,29 @@ _italics wrapped in a div_
     })
   })
 
+  it("should properly convert 1 liner code snippet into its correct markdown", async () => {
+    const inputHTML = `<span style="font-family: Courier New,Courier;">sudo apt-get install -y python2.7 python-profiler</span>`
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(
+      markdown,
+      "`sudo apt-get install -y python2.7 python-profiler`"
+    )
+  })
+
+  it("should properly convert code block into its correct markdown", async () => {
+    const inputHTML = `<pre>import time<br>print('I am going to sleep :)')<br>time.sleep(1000)</pre>`
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(
+      markdown,
+      "```import time  \nprint('I am going to sleep :)')  \ntime.sleep(1000)```"
+    )
+  })
+
   it("should not get tripped up on problematic code blocks", async () => {
     const problematicHTML =
       "<pre><span><code>stuff\nin\nthe\nblock</span></pre>"
     const markdown = await html2markdown(problematicHTML)
-    assert.equal(markdown, "```\nstuff\nin\nthe\nblock\n```")
+    assert.equal(markdown, "````stuff\nin\nthe\nblock````")
   })
 
   it("should properly escape square brackets inside link text", async () => {

@@ -170,6 +170,29 @@ turndownService.addRule("inlinecodeblockfix", {
 })
 
 /**
+ * turn <pre> elements into code blocks
+ */
+turndownService.addRule("code_block", {
+  filter:      node => node.nodeName === "PRE",
+  replacement: (content, node, options) => {
+    return `\`\`\`${content}\`\`\`\n`
+  }
+})
+
+/**
+ * In legacy course, 1 liner code snippets are <span> elements having a particular inline style
+ * For details, see https://github.com/mitodl/ocw-to-hugo/issues/464
+ */
+turndownService.addRule("one_liner_code", {
+  filter: node =>
+    node.nodeName === "SPAN" &&
+    node.getAttribute("style") === "font-family: Courier New,Courier;",
+  replacement: (content, node, options) => {
+    return `\`${content}\`\n`
+  }
+})
+
+/**
  * Build anchor link shortcodes
  **/
 turndownService.addRule("anchorshortcode", {
