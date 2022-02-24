@@ -131,7 +131,7 @@ turndownService.addRule("codeblockfix", {
   filter:      node => node.nodeName === "PRE",
   replacement: (content, node, options) => {
     if (node.firstChild && node.firstChild.nodeName === "SPAN") {
-      if(content.match(/\r?\n/)){
+      if (content.match(/\r?\n/)) {
         return `\n\n\`\`\`\n${content.replace(/`/g, "")}\n\`\`\`\n\n`
       }
       return content
@@ -174,7 +174,7 @@ turndownService.addRule("inlinecodeblockfix", {
  * In legacy course, 1 liner code snippets are <span> elements having a particular inline style
  * For details, see https://github.com/mitodl/ocw-to-hugo/issues/464
  */
- turndownService.addRule("one_line_code", {
+turndownService.addRule("one_line_code", {
   filter: node =>
     node.nodeName === "SPAN" &&
     node.getAttribute("style") === "font-family: Courier New,Courier;",
