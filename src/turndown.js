@@ -136,7 +136,7 @@ turndownService.addRule("codeblockfix", {
       }
       return content
     }
-    return `\`\`\`${content}\`\`\`\n`
+    return `\n\n\`\`\`${content}\n\`\`\`\n\n`
   }
 })
 
