@@ -194,7 +194,7 @@ _italics wrapped in a div_
     const markdown = await html2markdown(inputHTML)
     assert.equal(
       markdown,
-      "```import time  \nprint(\'I am going to sleep :)\')  \ntime.sleep(1000)\n```"
+      "```import time  \nprint('I am going to sleep :)')  \ntime.sleep(1000)\n```"
     )
   })
 
