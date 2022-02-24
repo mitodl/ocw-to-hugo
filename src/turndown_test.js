@@ -202,7 +202,7 @@ _italics wrapped in a div_
     const problematicHTML =
       "<pre><span><code>stuff\nin\nthe\nblock</span></pre>"
     const markdown = await html2markdown(problematicHTML)
-    assert.equal(markdown, "````stuff\nin\nthe\nblock````")
+    assert.equal(markdown, "```\nstuff\nin\nthe\nblock\n```")
   })
 
   it("should properly escape square brackets inside link text", async () => {

@@ -124,18 +124,19 @@ turndownService.addRule("tfoot", {
  * fix some strangely formatted code blocks in OCW
  * see https://github.com/mitodl/hugo-course-publisher/issues/154
  * for discussion
+ * also turns <pre> elements into code blocks
  */
+
 turndownService.addRule("codeblockfix", {
-  filter: node =>
-    node.nodeName === "PRE" &&
-    node.firstChild &&
-    node.firstChild.nodeName === "SPAN",
+  filter:      node => node.nodeName === "PRE",
   replacement: (content, node, options) => {
-    if (content.match(/\r?\n/)) {
-      return `\n\n\`\`\`\n${content.replace(/`/g, "")}\n\`\`\`\n\n`
-    } else {
+    if (node.firstChild && node.firstChild.nodeName === "SPAN") {
+      if(content.match(/\r?\n/)){
+        return `\n\n\`\`\`\n${content.replace(/`/g, "")}\n\`\`\`\n\n`
+      }
       return content
     }
+    return `\`\`\`${content}\`\`\`\n`
   }
 })
 
@@ -170,20 +171,10 @@ turndownService.addRule("inlinecodeblockfix", {
 })
 
 /**
- * turn <pre> elements into code blocks
- */
-turndownService.addRule("code_block", {
-  filter:      node => node.nodeName === "PRE",
-  replacement: (content, node, options) => {
-    return `\`\`\`${content}\`\`\`\n`
-  }
-})
-
-/**
  * In legacy course, 1 liner code snippets are <span> elements having a particular inline style
  * For details, see https://github.com/mitodl/ocw-to-hugo/issues/464
  */
-turndownService.addRule("one_liner_code", {
+ turndownService.addRule("one_line_code", {
   filter: node =>
     node.nodeName === "SPAN" &&
     node.getAttribute("style") === "font-family: Courier New,Courier;",
