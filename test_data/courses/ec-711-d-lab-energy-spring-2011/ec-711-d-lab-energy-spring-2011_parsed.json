@@ -84,10 +84,10 @@
             "about_this_resource_text": "<p><strong>Description:</strong> In the developing world, widely used cooking technologies (especially biomass) pose mounting health risks, high expense, and enviromental damage. This lecture considers alternative fuels and stove designs, with a focus on the D-Lab charcoal project.</p> <p><strong>Speaker:</strong> Amy Banzaert</p>",
             "embedded_media": [
                 {
-                    "id": "Video-YouTube-Stream",
+                    "id": "Video-YouTube-MP4",
                     "media_location": "zzePDMT2-oc",
                     "parent_uid": "12b632ef12caaccb8031afd33f06de48",
-                    "title": "Video-YouTube-Stream",
+                    "title": "Video-YouTube-MP4",
                     "type": "Video",
                     "uid": "ce0714955557c70b5e12354783fbcf1c"
                 },
