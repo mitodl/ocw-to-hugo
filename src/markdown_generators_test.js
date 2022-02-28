@@ -279,6 +279,7 @@ describe("markdown generators", function() {
 
       const names = [
         "/resources/video-1-introduction-to-the-analytics-edge-0.md",
+        "/resources/video-8-predictive-coding-today-0.md",
         "/resources/welcome-to-unit-1-1.md"
       ]
 
