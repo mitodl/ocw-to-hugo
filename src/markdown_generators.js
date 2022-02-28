@@ -311,7 +311,9 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
 
   const videoThumbnailLocation = thumbnailFile
     ? thumbnailFile.media_location
-    : null
+    : youtubeId
+      ? `https://img.youtube.com/vi/${youtubeId}/default.jpg`
+      : null
   const captionsFileLocation = captionsFile
     ? helpers.stripS3(pathLookup.byUid[captionsFile.uid].fileLocation)
     : null
