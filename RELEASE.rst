@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.42.0
+Version 1.42.0 (Released March 02, 2022)
 --------------
 
 - Fix missing videos / thumbnails (#477)
