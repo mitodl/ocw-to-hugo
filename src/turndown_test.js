@@ -194,7 +194,16 @@ _italics wrapped in a div_
     const markdown = await html2markdown(inputHTML)
     assert.equal(
       markdown,
-      "```import time  \nprint('I am going to sleep :)')  \ntime.sleep(1000)\n```"
+      "```\nimport time  \nprint('I am going to sleep :)')  \ntime.sleep(1000)\n```"
+    )
+  })
+
+  it("code that starts with tab should not be converted into code block", async () => {
+    const inputHTML = `<pre>    L = L1 + L2</pre>`
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(
+      markdown,
+      "    L = L1 + L2"
     )
   })
 
