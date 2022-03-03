@@ -136,7 +136,12 @@ turndownService.addRule("codeblockfix", {
       }
       return content
     }
-    return `\n\n\`\`\`${content}\n\`\`\`\n\n`
+    // if string starts with a 'tab' then it is converted into a code block while MD to HTML 
+    // so no need to make it a code block here
+    if (content.startsWith("\t") || content.startsWith("    ")) {
+      return content
+    }
+    return `\n\n\`\`\`\n${helpers.removeLeadingBackslash(content)}\n\`\`\`\n\n`
   }
 })
 
