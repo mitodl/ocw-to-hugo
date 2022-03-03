@@ -201,10 +201,7 @@ _italics wrapped in a div_
   it("code that starts with tab should not be converted into code block", async () => {
     const inputHTML = `<pre>    L = L1 + L2</pre>`
     const markdown = await html2markdown(inputHTML)
-    assert.equal(
-      markdown,
-      "    L = L1 + L2"
-    )
+    assert.equal(markdown, "    L = L1 + L2")
   })
 
   it("should not get tripped up on problematic code blocks", async () => {
