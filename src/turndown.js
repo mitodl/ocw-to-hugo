@@ -124,18 +124,24 @@ turndownService.addRule("tfoot", {
  * fix some strangely formatted code blocks in OCW
  * see https://github.com/mitodl/hugo-course-publisher/issues/154
  * for discussion
+ * also turns <pre> elements into code blocks
  */
+
 turndownService.addRule("codeblockfix", {
-  filter: node =>
-    node.nodeName === "PRE" &&
-    node.firstChild &&
-    node.firstChild.nodeName === "SPAN",
+  filter:      node => node.nodeName === "PRE",
   replacement: (content, node, options) => {
-    if (content.match(/\r?\n/)) {
-      return `\n\n\`\`\`\n${content.replace(/`/g, "")}\n\`\`\`\n\n`
-    } else {
+    if (node.firstChild && node.firstChild.nodeName === "SPAN") {
+      if (content.match(/\r?\n/)) {
+        return `\n\n\`\`\`\n${content.replace(/`/g, "")}\n\`\`\`\n\n`
+      }
       return content
     }
+    // if string starts with a 'tab' then it is converted into a code block while MD to HTML
+    // so no need to make it a code block here
+    if (content.startsWith("\t") || content.startsWith("    ")) {
+      return content
+    }
+    return `\n\n\`\`\`\n${helpers.removeLeadingBackslash(content)}\n\`\`\`\n\n`
   }
 })
 
@@ -166,6 +172,19 @@ turndownService.addRule("inlinecodeblockfix", {
       loggers.fileLogger.error(err)
     }
     return `\`${content}\``
+  }
+})
+
+/**
+ * In legacy course, 1 liner code snippets are <span> elements having a particular inline style
+ * For details, see https://github.com/mitodl/ocw-to-hugo/issues/464
+ */
+turndownService.addRule("one_line_code", {
+  filter: node =>
+    node.nodeName === "SPAN" &&
+    node.getAttribute("style") === "font-family: Courier New,Courier;",
+  replacement: (content, node, options) => {
+    return `\`${content}\`\n`
   }
 })
 

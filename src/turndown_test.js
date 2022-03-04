@@ -180,6 +180,30 @@ _italics wrapped in a div_
     })
   })
 
+  it("should properly convert 1 liner code snippet into its correct markdown", async () => {
+    const inputHTML = `<span style="font-family: Courier New,Courier;">sudo apt-get install -y python2.7 python-profiler</span>`
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(
+      markdown,
+      "`sudo apt-get install -y python2.7 python-profiler`"
+    )
+  })
+
+  it("should properly convert code block into its correct markdown", async () => {
+    const inputHTML = `<pre>import time<br>print('I am going to sleep :)')<br>time.sleep(1000)</pre>`
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(
+      markdown,
+      "```\nimport time  \nprint('I am going to sleep :)')  \ntime.sleep(1000)\n```"
+    )
+  })
+
+  it("code that starts with tab should not be converted into code block", async () => {
+    const inputHTML = `<pre>    L = L1 + L2</pre>`
+    const markdown = await html2markdown(inputHTML)
+    assert.equal(markdown, "    L = L1 + L2")
+  })
+
   it("should not get tripped up on problematic code blocks", async () => {
     const problematicHTML =
       "<pre><span><code>stuff\nin\nthe\nblock</span></pre>"
