@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.43.0
+--------------
+
+- fix: turndown rules added for code snippets (#469)
+
 Version 1.42.0 (Released March 02, 2022)
 --------------
 
