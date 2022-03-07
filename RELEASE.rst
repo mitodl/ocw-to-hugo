@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.44.0
+--------------
+
+- include parent_uid on resources (#484)
+
 Version 1.43.0 (Released March 07, 2022)
 --------------
 
