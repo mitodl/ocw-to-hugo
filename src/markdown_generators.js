@@ -243,6 +243,7 @@ const generateResourceMarkdownForFile = (file, courseData, pathLookup) => {
   if (parents.length > 0) {
     frontMatter["parent_type"] = parents[0]["type"]
     frontMatter["parent_title"] = parents[0]["title"]
+    frontMatter["parent_uid"] = helpers.addDashesToUid(parents[0]["uid"])
   }
 
   if (frontMatter.resourcetype === RESOURCE_TYPE_IMAGE) {

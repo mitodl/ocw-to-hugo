@@ -320,6 +320,7 @@ describe("markdown generators", function() {
         parent_title:
           "7.2 Visualizing the World: An Introduction to Visualization",
         parent_type: "CourseSection",
+        parent_uid:  "bcd276c5-4387-e04d-4149-dfe97b763b3f",
         ocw_type:    "OCWImage"
       })
     })
@@ -465,6 +466,7 @@ describe("markdown generators", function() {
           "https://open-learning-course-data-production.s3.amazonaws.com/8-02-physics-ii-electricity-and-magnetism-spring-2007/a1bfc34ccf08ddf8474627b9a13d6ca8_summary_w12d2.pdf",
         parent_title: "Readings",
         parent_type:  "CourseSection",
+        parent_uid:   "0daf4987-1459-8983-aa85-5689f242c83b",
         ocw_type:     "OCWFile"
       })
     })
