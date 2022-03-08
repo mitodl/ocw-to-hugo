@@ -21,7 +21,7 @@ class TurndownService extends OriginalTurndownService {
    * https://github.com/mixmark-io/turndown#escaping-markdown-characters
    *
    * That's good. But it does NOT (usually) escape angle brackets in the output,
-   * e.g. "&lta dog&gt"" turns into "<a dog>", which can be erroneously
+   * e.g. "&lt;a dog&gt;"" turns into "<a dog>", which can be erroneously
    * interpretted as an anchor tag. [Aside: Turndown does escape angle brackets
    * at the beginning of a line, since those are markdown block quotes.]
    *
@@ -182,7 +182,7 @@ turndownService.addRule("inlinecodeblockfix", {
 turndownService.addRule("one_line_code", {
   filter: node =>
     node.nodeName === "SPAN" &&
-    node.getAttribute("style") === "font-family: Courier New,Courier",
+    node.getAttribute("style") === "font-family: Courier New,Courier;",
   replacement: (content, node, options) => {
     return `\`${content}\`\n`
   }
