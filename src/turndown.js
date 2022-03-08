@@ -575,7 +575,6 @@ turndownService.addRule("multiple_choice_questions_widget", {
         dataSubstring = dataSubstring.replace(
           RegExp(`${key}:`, "g"),
           `"${key}":`
-          
         )
 
         // some values are surrounded by single quotes, which isn't valid JSON
