@@ -544,76 +544,137 @@ turndownService.addRule("multiple_choice_questions_widget", {
     return false
   },
   replacement: (content, node, options) => {
-    const jsParser = require("acorn")
-    const walk = require("acorn-walk")
-    const nodeText = node.textContent.replace(
-      "// There was an extra comma at the end of multiList array.",
-      ""
-    )
-
-    const quizData = jsParser.parse(nodeText, { ecmaVersion: 11 })
-
-    const dataNode = walk.findNodeAt(quizData, null, null, function(
-      type,
-      node
-    ) {
-      return (
-        type === "VariableDeclarator" && node.id && node.id.name === "quizMulti"
+    try {
+      const jsParser = require("acorn")
+      const walk = require("acorn-walk")
+      const nodeText = node.textContent.replace(
+        "// There was an extra comma at the end of multiList array.",
+        ""
       )
-    })
 
-    let dataSubstring = String(
-      nodeText.substring(dataNode.node.init.start, dataNode.node.init.end)
-    )
+      const quizData = jsParser.parse(nodeText, { ecmaVersion: 11 })
 
-    for (const key of ["multiList", "ques", "ans", "ansSel", "ansInfo"]) {
-      dataSubstring = dataSubstring.replace(RegExp(`${key}:`, "g"), `"${key}":`)
+      const dataNode = walk.findNodeAt(quizData, null, null, function(
+        type,
+        node
+      ) {
+        return (
+          type === "VariableDeclarator" &&
+          node.id &&
+          node.id.name === "quizMulti"
+        )
+      })
+
+      let dataSubstring = String(
+        nodeText.substring(dataNode.node.init.start, dataNode.node.init.end)
+      )
+
+      // this block of code attempts to sanitize the quiz JSON data
+      for (const key of ["multiList", "ques", "ans", "ansSel", "ansInfo"]) {
+        // the keys aren't in double quotes, which isn't valid JSON
+        dataSubstring = dataSubstring.replace(
+          RegExp(`${key}:`, "g"),
+          `"${key}":`
+        )
+
+        // some values are surrounded by single quotes, which isn't valid JSON
+        // this is usually HTML, so pass it through turndown
+        const singleQuoteValueRegex = new RegExp(`"${key}": ('[^']*?')`, "g")
+        let valueHtmlMatch
+        while (
+          (valueHtmlMatch = singleQuoteValueRegex.exec(dataSubstring)) !== null
+        ) {
+          const originalMatch = valueHtmlMatch[1]
+          const htmlRegex = new RegExp("'([^']*?)'")
+          const valueHtml = valueHtmlMatch[1].match(htmlRegex)[1]
+          const valueMarkdown = turndownService.turndown(valueHtml)
+          dataSubstring = dataSubstring.replace(
+            `"${key}": ${originalMatch}`,
+            `"${key}": ${JSON.stringify(valueMarkdown)}`
+          )
+        }
+        // some values are arrays that contain all the same problems
+        if (key !== "multiList") {
+          const htmlArrayRegex = new RegExp(
+            `"${key}": (\\[['|"].*?['|"]\\])`,
+            "g"
+          )
+          let htmlArrayMatch
+          while (
+            (htmlArrayMatch = htmlArrayRegex.exec(dataSubstring)) !== null
+          ) {
+            let arrayMatch = htmlArrayMatch[1]
+            const singleQuoteItemRegex = new RegExp("('.*?')", "g")
+            let singleQuoteItemMatch
+            while (
+              (singleQuoteItemMatch = singleQuoteItemRegex.exec(arrayMatch)) !==
+              null
+            ) {
+              arrayMatch = arrayMatch.replace(
+                singleQuoteItemMatch[1],
+                singleQuoteItemMatch[1].replace(/"/g, '\\"').replace(/'/g, '"')
+              )
+            }
+            let quizArray = JSON.parse(arrayMatch)
+            quizArray = quizArray.map(quizArrayItem => {
+              return turndownService.turndown(quizArrayItem)
+            })
+            dataSubstring = dataSubstring.replace(
+              htmlArrayMatch[1],
+              JSON.stringify(quizArray)
+            )
+          }
+        }
+      }
+
+      const data = JSON.parse(dataSubstring)
+      let markdown = ""
+      data["multiList"].forEach((question, index) => {
+        markdown = markdown.concat(
+          "\n",
+          turndownService.turndown(`<h4>Question ${index + 1}</h4>`),
+          "\n"
+        )
+        markdown = markdown.concat(
+          " ",
+          `{{< quiz_multiple_choice questionId="MCQ${index + 1}" >}}`
+        )
+
+        markdown = markdown.concat(" ", question["ques"])
+
+        markdown = markdown.concat(" ", `{{< quiz_choices >}}`)
+
+        const options = question["ansSel"]
+        options.push(question["ans"])
+        options.sort()
+
+        for (const option of options) {
+          markdown = markdown.concat(
+            " ",
+            `{{< quiz_choice isCorrect="${option ===
+              question["ans"]}" >}}${option}{{< /quiz_choice >}}`
+          )
+        }
+
+        markdown = markdown.concat(" ", `{{< /quiz_choices >}}`)
+
+        if (question["ansInfo"]) {
+          markdown = markdown.concat(
+            " ",
+            `{{< quiz_solution >}}${question["ansInfo"]}{{< /quiz_solution >}}`
+          )
+        } else {
+          markdown = markdown.concat(" ", "{{< quiz_solution / >}}")
+        }
+
+        markdown = markdown.concat(" ", `{{< /quiz_multiple_choice >}}`)
+      })
+
+      return markdown
+    } catch (err) {
+      loggers.fileLogger.info(`error parsing multiple choice quiz json: ${err}`)
     }
-
-    const data = JSON.parse(dataSubstring)
-    let markdown = ""
-    data["multiList"].forEach((question, index) => {
-      markdown = markdown.concat(
-        "\n",
-        turndownService.turndown(`<h4>Question ${index + 1}</h4>`),
-        "\n"
-      )
-      markdown = markdown.concat(
-        " ",
-        `{{< quiz_multiple_choice questionId="MCQ${index + 1}" >}}`
-      )
-
-      markdown = markdown.concat(" ", question["ques"])
-
-      markdown = markdown.concat(" ", `{{< quiz_choices >}}`)
-
-      const options = question["ansSel"]
-      options.push(question["ans"])
-      options.sort()
-
-      for (const option of options) {
-        markdown = markdown.concat(
-          " ",
-          `{{< quiz_choice isCorrect="${option ===
-            question["ans"]}" >}}${option}{{< /quiz_choice >}}`
-        )
-      }
-
-      markdown = markdown.concat(" ", `{{< /quiz_choices >}}`)
-
-      if (question["ansInfo"]) {
-        markdown = markdown.concat(
-          " ",
-          `{{< quiz_solution >}}${question["ansInfo"]}{{< /quiz_solution >}}`
-        )
-      } else {
-        markdown = markdown.concat(" ", "{{< quiz_solution / >}}")
-      }
-
-      markdown = markdown.concat(" ", `{{< /quiz_multiple_choice >}}`)
-    })
-
-    return markdown
+    return content
   }
 })
 

@@ -518,8 +518,8 @@ The section should live on.
             multiList: [
               {
                 ques: "If you compare the elasticity of short-run supply in the markets for two different goods and one market has more firms than the other, which will have a more elastic supply curve?",
-                ans: "The market with more firms.",
-                ansSel: ["The market with fewer firms.", "There is no difference.", "It depends on the specific production function."],
+                ans: '<span class="test">The market with more firms.</span>',
+                ansSel: ["The market with fewer firms.", "There is no difference.", "It depends on the specific production function.", '<span>whoops this one is HTML</span>'],
                 ansInfo: "The supply curve becomes flatter (more elastic) with more firms in the market, because a given increase in price calls forth more production when there are many firms rather than one."
               },
               {
@@ -556,6 +556,7 @@ The section should live on.
         `{{< quiz_choice isCorrect="false" >}}The market with fewer firms.{{< /quiz_choice >}} ` +
         `{{< quiz_choice isCorrect="true" >}}The market with more firms.{{< /quiz_choice >}} ` +
         `{{< quiz_choice isCorrect="false" >}}There is no difference.{{< /quiz_choice >}} ` +
+        `{{< quiz_choice isCorrect="false" >}}whoops this one is HTML{{< /quiz_choice >}} ` +
         `{{< /quiz_choices >}} ` +
         `{{< quiz_solution >}}The supply curve becomes flatter (more elastic) with more firms` +
         ` in the market, because a given increase in price calls forth more production when` +
