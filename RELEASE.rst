@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.44.1
+--------------
+
+- fix HTML embedded in quizzes (#486)
+
 Version 1.44.0 (Released March 07, 2022)
 --------------
 
