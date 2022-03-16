@@ -69,7 +69,9 @@ const makeUidInfoLookup = courseData => {
 async function* iterateParsedJson(inputPath, courseList) {
   for (const course of courseList) {
     if (!(await directoryExists(path.join(inputPath, course)))) {
-      throw new Error(`Missing course directory for ${course}`)
+      // throw new Error(`Missing course directory for ${course}`)
+      console.log(`course not found: "${course}",`)
+      continue
     }
 
     const coursePath = path.join(inputPath, course)
@@ -294,10 +296,10 @@ const scanCourses = async (inputPath, outputPath) => {
   console.log(`Generated ${Object.values(pathLookup.byUid).length} paths.`)
 
   console.log(`Converting ${numCourses} courses to Hugo markdown...`)
-  progressBar.start(numCourses, 0)
+  // progressBar.start(numCourses, 0)
   for (const course of courseList) {
     await scanCourse(inputPath, outputPath, course, pathLookup)
-    progressBar.increment()
+    // progressBar.increment()
   }
 }
 
@@ -363,7 +365,8 @@ const getMasterJsonFileName = async coursePath => {
   const courseError = `${coursePath} - ${MISSING_COURSE_ERROR_MESSAGE}`
   if (helpers.runOptions.courses) {
     // if the script is filtering on courses, this should be a fatal error
-    throw new Error(courseError)
+    // throw new Error(courseError)
+    return null
   }
 
   // else, skip this one and go to the next course

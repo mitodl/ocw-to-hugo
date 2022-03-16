@@ -133,6 +133,7 @@ const generateMarkdownRecursive = (page, courseData, pathLookup) => {
     courseData,
     pathLookup
   )
+  checkCodeSnippet(page, courseData)
   const { path: childPath } = pathLookup.byUid[page["uid"]]
   const pathToChild = helpers.stripSlashPrefix(childPath)
   return {
@@ -142,6 +143,15 @@ const generateMarkdownRecursive = (page, courseData, pathLookup) => {
       child => generateMarkdownRecursive(child, courseData, pathLookup),
       this
     )
+  }
+}
+
+// temporary function
+const checkCodeSnippet = (page, courseData) =>{
+  if (page["text"].includes("<pre>") || page["text"].includes("font-family: Courier New,Courier;")) {
+    // we can also store this data in a separate file 
+    // but since the output is not too much so console.log can work here
+    console.log(`{"primary_course_number": "${courseData["sort_as"]}", "course_title": "${courseData["short_url"]}", "page": "${page["title"]}"}`)
   }
 }
 
