@@ -342,7 +342,9 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
     optional_text:          optionalText,
     related_resources_text: relatedResourcesText,
     optional_tab_title:     media["optional_tab_title"] || "",
-    resource_index_text:    media["resource_index_text"] || ""
+    resource_index_text:    media["resource_index_text"] || "",
+    start_time:             media["start_time"] || "",
+    end_time:               media["end_time"] || ""
   }
 
   const parents = courseData["course_pages"].filter(
