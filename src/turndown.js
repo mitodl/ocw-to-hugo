@@ -750,8 +750,7 @@ function html2markdown(text) {
   let markdown = ""
   try {
     markdown = turndownService.turndown(text)
-  }
-  catch (err) {
+  } catch (err) {
     loggers.fileLogger.error(`Error converting html to markdown: ${err}`)
   }
   return markdown
