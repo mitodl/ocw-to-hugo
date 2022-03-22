@@ -747,7 +747,14 @@ turndownService.addRule("superscript", {
 })
 
 function html2markdown(text) {
-  return turndownService.turndown(text)
+  let markdown = ""
+  try {
+    markdown = turndownService.turndown(text)
+  }
+  catch (err) {
+    loggers.fileLogger.error(`Error converting html to markdown: ${err}`)
+  }
+  return markdown
 }
 
 function hasParentNodeRecursive(node, parentNodeName) {
