@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.44.3
+--------------
+
+- fix overzealous turndown filter on quiz rule (#497)
+
 Version 1.44.2 (Released March 23, 2022)
 --------------
 
