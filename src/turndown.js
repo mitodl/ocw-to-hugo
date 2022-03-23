@@ -488,7 +488,7 @@ turndownService.addRule("multiple_choice_question", {
     if (node.nodeName === "DIV" && node.getAttribute("class")) {
       if (
         node.getAttribute("class") === "problem_question" &&
-        node.getElementsByClassName("problem_radio_input")
+        node.getElementsByClassName("problem_radio_input").length > 0
       ) {
         return true
       }
@@ -504,7 +504,7 @@ turndownService.addRule("multiple_choice_question", {
         if (
           child.nodeName === "DIV" &&
           child.getAttribute("class").includes("choice") &&
-          child.getElementsByClassName("problem_radio_input")
+          child.getElementsByClassName("problem_radio_input").length > 0
         ) {
           return true
         }
@@ -747,7 +747,13 @@ turndownService.addRule("superscript", {
 })
 
 function html2markdown(text) {
-  return turndownService.turndown(text)
+  let markdown = ""
+  try {
+    markdown = turndownService.turndown(text)
+  } catch (err) {
+    loggers.fileLogger.error(`Error converting html to markdown: ${err}`)
+  }
+  return markdown
 }
 
 function hasParentNodeRecursive(node, parentNodeName) {
