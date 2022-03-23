@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.44.2
+Version 1.44.2 (Released March 23, 2022)
 --------------
 
 - Added highlights_text and relevant_content fields in course.json (#491)
