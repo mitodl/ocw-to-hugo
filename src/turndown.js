@@ -504,7 +504,7 @@ turndownService.addRule("multiple_choice_question", {
         if (
           child.nodeName === "DIV" &&
           child.getAttribute("class").includes("choice") &&
-          child.getElementsByClassName("problem_radio_input") > 0
+          child.getElementsByClassName("problem_radio_input").length > 0
         ) {
           return true
         }
