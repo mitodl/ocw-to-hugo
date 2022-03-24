@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.44.4
+--------------
+
+- feat: start and end time added in frontmatter in video markdown (#496)
+
 Version 1.44.3 (Released March 23, 2022)
 --------------
 
