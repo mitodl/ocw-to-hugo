@@ -378,6 +378,8 @@ describe("markdown generators", function() {
         resource_index_text:    "",
         uid:                    "5b89e3d0-ea34-5f02-540b-ac14b4acac9b",
         resourcetype:           "Video",
+        start_time:             "",
+        end_time:               "",
         video_metadata:         { youtube_id: "5ucfHd8FWKw" },
         video_files:            {
           archive_url:
