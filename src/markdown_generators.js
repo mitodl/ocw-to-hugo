@@ -323,7 +323,10 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
     ? helpers.stripS3(pathLookup.byUid[transcriptFile.uid].fileLocation)
     : null
 
-  const archiveUrl = archiveRecord ? archiveRecord.media_location : null
+  const archiveUrl =
+    archiveRecord && archiveRecord.media_location
+      ? archiveRecord.media_location
+      : null
 
   const frontMatter = {
     title:          helpers.replaceIrregularWhitespace(media["title"]),
