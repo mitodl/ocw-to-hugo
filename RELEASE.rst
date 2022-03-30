@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.45.0
+Version 1.45.0 (Released March 30, 2022)
 --------------
 
 - Fix yanl error caused by missing archive video media_url (#501)
