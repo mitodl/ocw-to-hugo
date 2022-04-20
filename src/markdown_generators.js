@@ -359,11 +359,15 @@ const generateResourceMarkdownForVideo = (media, courseData, pathLookup) => {
     frontMatter["parent_title"] = parents[0]["title"]
   }
 
-  const body = formatHTMLMarkDown(
+  const body = `${formatHTMLMarkDown(
+    media["text"],
+    courseData,
+    pathLookup
+  )}\n\n${formatHTMLMarkDown(
     media["about_this_resource_text"],
     courseData,
     pathLookup
-  )
+  )}`
 
   return `---\n${yaml.safeDump(frontMatter)}---\n${body}`
 }
