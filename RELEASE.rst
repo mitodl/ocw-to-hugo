@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.46.0
+--------------
+
+- prefix markdown body on video resources with the text property from the source json (#505)
+
 Version 1.45.0 (Released March 30, 2022)
 --------------
 
