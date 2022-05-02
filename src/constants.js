@@ -47,6 +47,7 @@ module.exports = {
   // video embedded media id's
   VIDEO_EMBEDDED_MEDIA_IDS: new Set([
     "Video-YouTube-Stream",
+    "copy_of_Video-YouTube-Stream",
     "Video-YouTube-MP4",
     "3Play-3PlayYouTubeid-Stream"
   ])
