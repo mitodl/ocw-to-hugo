@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.47.0
+--------------
+
+- fix missing youtube videos with mislabled id (#509)
+
 Version 1.46.0 (Released April 29, 2022)
 --------------
 
