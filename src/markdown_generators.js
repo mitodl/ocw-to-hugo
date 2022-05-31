@@ -126,7 +126,8 @@ const generateMarkdownRecursive = (page, courseData, pathLookup) => {
     courseData["short_url"],
     page["is_media_gallery"],
     helpers.getVideoUidsFromPage(page, courseData),
-    page["type"]
+    page["type"],
+    page["description"]
   )
   courseSectionMarkdown += generateCourseSectionMarkdown(
     page,
@@ -155,14 +156,16 @@ const generateCourseSectionFrontMatter = (
   courseId,
   isMediaGallery,
   videoUids,
-  type
+  type,
+  description
 ) => {
   /**
     Generate the front matter metadata for a course section
     */
   const courseSectionFrontMatter = {
-    uid:   helpers.addDashesToUid(pageId),
-    title: helpers.replaceIrregularWhitespace(title)
+    uid:         helpers.addDashesToUid(pageId),
+    title:       helpers.replaceIrregularWhitespace(title),
+    description: description
   }
 
   if (parentUid) {
