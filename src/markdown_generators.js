@@ -165,7 +165,7 @@ const generateCourseSectionFrontMatter = (
   const courseSectionFrontMatter = {
     uid:         helpers.addDashesToUid(pageId),
     title:       helpers.replaceIrregularWhitespace(title),
-    description: description
+    description: helpers.replaceIrregularWhitespace(description)
   }
 
   if (parentUid) {
