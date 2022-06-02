@@ -492,7 +492,8 @@ describe("markdown generators", function() {
             singleCourseJsonData["short_url"],
             false,
             [],
-            "CourseSection"
+            "CourseSection",
+            "description"
           )
           .replace(/---\n/g, "")
       )
@@ -523,7 +524,8 @@ describe("markdown generators", function() {
             false,
             singleCourseJsonData["short_url"],
             [],
-            "CourseSection"
+            "CourseSection",
+            "description"
           )
           .replace(/---\n/g, "")
       )
@@ -550,7 +552,8 @@ describe("markdown generators", function() {
               "1b0190b9-ac07-7e74-7121-3af5ae8e895a",
               "b03952e4-bdfc-ea49-6227-1aeae1dedb3f"
             ],
-            "CourseSection"
+            "CourseSection",
+            "description"
           )
           .replace(/---\n/g, "")
       )
