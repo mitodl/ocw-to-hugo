@@ -163,9 +163,9 @@ const generateCourseSectionFrontMatter = (
     Generate the front matter metadata for a course section
     */
   const courseSectionFrontMatter = {
-    uid:                  helpers.addDashesToUid(pageId),
-    title:                helpers.replaceIrregularWhitespace(title),
-    metadata_description: helpers.replaceIrregularWhitespace(description)
+    uid:         helpers.addDashesToUid(pageId),
+    title:       helpers.replaceIrregularWhitespace(title),
+    description: helpers.replaceIrregularWhitespace(description)
   }
 
   if (parentUid) {
