@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.48.1
+--------------
+
+- Revert "call page description metadata_description (#515)" (#517)
+
 Version 1.48.0 (Released June 07, 2022)
 --------------
 
