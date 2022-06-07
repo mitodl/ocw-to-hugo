@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 1.48.0
+Version 1.48.0 (Released June 07, 2022)
 --------------
 
 - call page description metadata_description (#515)
