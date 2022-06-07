@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 1.48.0
+--------------
+
+- call page description metadata_description (#515)
+- pull in description property of course pages (#513)
+
 Version 1.47.0 (Released May 03, 2022)
 --------------
 
