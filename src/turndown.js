@@ -124,9 +124,10 @@ turndownService.addRule("tfoot", {
  * fix some strangely formatted code blocks in OCW
  * see https://github.com/mitodl/hugo-course-publisher/issues/154
  * for discussion
- * also turns <pre> elements into code blocks
+ * 
+ * also turns <pre> elements into code blocks and makes sure
+ * that there are no backticks inside
  */
-
 turndownService.addRule("codeblockfix", {
   filter:      node => node.nodeName === "PRE",
   replacement: (content, node, options) => {
@@ -141,7 +142,7 @@ turndownService.addRule("codeblockfix", {
     if (content.startsWith("\t") || content.startsWith("    ")) {
       return content
     }
-    return `\n\n\`\`\`\n${helpers.removeLeadingBackslash(content)}\n\`\`\`\n\n`
+    return `\n\n\`\`\`\n${helpers.removeLeadingBackslash(content).replaceAll("`", "")}\n\`\`\`\n\n`
   }
 })
 
