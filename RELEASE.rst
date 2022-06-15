@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 1.49.0
+--------------
+
+- replace all backticks inside code blocks with nothing (#519)
+
 Version 1.48.1 (Released June 08, 2022)
 --------------
 
