@@ -36,6 +36,6 @@ jobs:
         run: npm run fmt:check
 
       - name: Upload test coverage to CodeCov
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@84508663e988701840491b86de86b666e8a86bed # v4
         with:
           fail_ci_if_error: true
